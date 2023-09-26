@@ -110,13 +110,32 @@
             <th>No. Registrasi</th>
             <th>Nama Driver</th>
             <th>Tujuan</th>
+            <th>Waktu Berangkat</th>
+            <th>Waktu Sampai</th>
+            <th>Waktu</th>
         </tr>
         @foreach ($inquery as $kendaraan)
+            <?php
+            $tanggalAwal = new DateTime($kendaraan->tanggal_awalwaktuperjalanan);
+            $tanggalAkhir = new DateTime($kendaraan->tanggal_akhirwaktuperjalanan);
+            
+            // Menghitung selisih waktu antara tanggal awal dan tanggal akhir
+            $interval = $tanggalAwal->diff($tanggalAkhir);
+            
+            // Mengambil selisih hari dan jam
+            $selisihHari = $interval->days;
+            $selisihJam = $interval->h;
+            ?>
+
             <tr>
                 <td>{{ $kendaraan->no_kabin }}</td>
                 <td> {{ $kendaraan->no_pol }}</td>
                 <td> {{ $kendaraan->user->karyawan->nama_lengkap }}</td>
                 <td> {{ $kendaraan->tujuan }}</td>
+                <td>{{ $kendaraan->tanggal_awalwaktuperjalanan }}</td>
+                <td>{{ $kendaraan->tanggal_akhirwaktuperjalanan }}</td>
+                <td>{{ $selisihHari }} hari {{ $selisihJam }} jam</td>
+
             </tr>
         @endforeach
     </table>

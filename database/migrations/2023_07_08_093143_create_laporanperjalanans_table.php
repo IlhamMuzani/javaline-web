@@ -48,6 +48,7 @@ return new class extends Migration
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
             $table->string('tanggal_awalperjalanan')->nullable();
+            $table->string('tanggal_akhirperjalanan')->nullable();
             $table->string('status_post')->nullable();
             $table->string('status_notif')->nullable();
             $table->string('status_notifkm')->nullable();

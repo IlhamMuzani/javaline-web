@@ -117,30 +117,41 @@
                                 <th>No. Registrasi</th>
                                 <th>Nama Driver</th>
                                 <th>Tujuan</th>
+                                <th>Waktu Berangkat</th>
+                                <th>Waktu Sampai</th>
+                                <th>Waktu</th>
                                 {{-- <th>Status Kendaraan</th> --}}
                                 {{-- <th>Timer</th> --}}
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($inquery as $kendaraan)
+                                <?php
+                                $tanggalAwal = new DateTime($kendaraan->tanggal_awalwaktuperjalanan);
+                                $tanggalAkhir = new DateTime($kendaraan->tanggal_akhirwaktuperjalanan);
+                                
+                                // Menghitung selisih waktu antara tanggal awal dan tanggal akhir
+                                $interval = $tanggalAwal->diff($tanggalAkhir);
+                                
+                                // Mengambil selisih hari dan jam
+                                $selisihHari = $interval->days;
+                                $selisihJam = $interval->h;
+                                ?>
+
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $kendaraan->no_kabin }}</td>
                                     <td>{{ $kendaraan->no_pol }}</td>
                                     <td>
-
                                         {{ $kendaraan->user->karyawan->nama_lengkap }}
-
                                     </td>
                                     <td>{{ $kendaraan->tujuan }}</td>
-                                    {{-- <td>
-                                        {{ $kendaraan->status_perjalanan }}
-                                    </td> --}}
-                                    {{-- <td>
-                                        {{ $kendaraan->timer }}
-                                    </td> --}}
+                                    <td>{{ $kendaraan->tanggal_awalwaktuperjalanan }}</td>
+                                    <td>{{ $kendaraan->tanggal_akhirwaktuperjalanan }}</td>
+                                    <td>{{ $selisihHari }} hari {{ $selisihJam }} jam</td>
                                 </tr>
                             @endforeach
+
                         </tbody>
                     </table>
                 </div>
@@ -175,12 +186,13 @@
             form.submit();
         }
 
-          function printReport() {
+        function printReport() {
             var startDate = tanggalAwal.value;
             var endDate = tanggalAkhir.value;
 
             if (startDate && endDate) {
-                form.action = "{{ url('admin/print_laporanstatusperjalanan') }}" + "?start_date=" + startDate + "&end_date=" +
+                form.action = "{{ url('admin/print_laporanstatusperjalanan') }}" + "?start_date=" + startDate +
+                    "&end_date=" +
                     endDate;
                 form.submit();
             } else {
