@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Jenis_kendaraan;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use App\Models\Kota;
 use App\Models\Laporanperjalanan;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -66,7 +67,10 @@ class StatusPerjalananController extends Controller
                 ]);
             }
 
-            return view('admin/status_perjalanan.index', compact('kendaraans'));
+            $kotas = Kota::all();
+
+
+            return view('admin/status_perjalanan.index', compact('kendaraans', 'kotas'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -79,11 +83,11 @@ class StatusPerjalananController extends Controller
             $request->all(),
             [
                 'status_perjalanan' => 'required',
-                'tujuan' => 'required',
+                'kota_id' => 'required',
             ],
             [
                 'status_perjalanan.required' => 'Pilih Status',
-                'tujuan.required' => 'Masukkan tujuan',
+                'kota_id.required' => 'Pilih tujuan',
             ]
         );
 
@@ -96,7 +100,7 @@ class StatusPerjalananController extends Controller
 
         Kendaraan::where('id', $kendaraan->id)->update(
             [
-                'tujuan' => $request->tujuan,
+                'kota_id' => $request->kota_id,
                 'status_perjalanan' => $request->status_perjalanan,
             ]
         );
@@ -143,13 +147,13 @@ class StatusPerjalananController extends Controller
                 'status_perjalanan' => $kendaraan->status_perjalanan,
                 'tanggal_awalperjalanan' => $kendaraan->tanggal_awalperjalanan,
                 'timer' => $kendaraan->timer,
-                'tujuan' => $kendaraan->tujuan,
+                'kota_id' => $kendaraan->kota_id,
                 // Anda dapat menambahkan kolom-kolom lain yang perlu diisi sesuai dengan tabel Laporanperjalanan
             ]);
 
             $kendaraan->update([
                 'status_perjalanan' => null,
-                'tujuan' => null,
+                'kota_id' => null,
                 'user_id' => null,
             ]);
 

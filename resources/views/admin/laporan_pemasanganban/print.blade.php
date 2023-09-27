@@ -10,7 +10,8 @@
         body {
             margin: 0;
             padding: 20px;
-            font-family: Arial, sans-serif;
+             font-family: 'DOSVGA', monospace;
+            color: black;
         }
 
         .container {

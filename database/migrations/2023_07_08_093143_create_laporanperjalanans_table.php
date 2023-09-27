@@ -32,6 +32,8 @@ return new class extends Migration
             $table->unsignedBigInteger('jenis_kendaraan_id')->nullable();
             $table->foreign('jenis_kendaraan_id')->references('id')->on('jenis_kendaraans')->onDelete('set null');
             $table->unsignedBigInteger('golongan_id')->nullable();
+            $table->unsignedBigInteger('kota_id')->nullable();
+            $table->foreign('kota_id')->references('id')->on('kotas')->onDelete('set null');
             $table->foreign('golongan_id')->references('id')->on('golongans')->onDelete('set null');
             $table->unsignedBigInteger('divisi_id')->nullable();
             $table->foreign('divisi_id')->references('id')->on('divisis')->onDelete('set null');

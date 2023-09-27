@@ -27,10 +27,11 @@ class AuthController extends Controller
         $kode_user = $request->kode_user;
         $password = $request->password;
 
-        $user = User::where([
-            ['kode_user', $kode_user],
-            // ['role', 'driver']
-        ])->first();
+        $user = User::where('kode_user', $kode_user)
+            ->whereHas('karyawan', function ($query) {
+                $query->where('departemen_id', 2);
+            })
+            ->first();
         if ($user) {
             if (password_verify($password, $user->password)) {
                 return $this->response(TRUE, array('Berhasil login, Selamat Datang ' . $user->name), array($user));

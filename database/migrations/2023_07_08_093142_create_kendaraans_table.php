@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->unsignedBigInteger('pelanggan_id')->nullable();
             $table->foreign('pelanggan_id')->references('id')->on('pelanggans')->onDelete('set null');
+            $table->unsignedBigInteger('kota_id')->nullable();
+            $table->foreign('kota_id')->references('id')->on('kotas')->onDelete('set null');
             $table->string('nama_security')->nullable();
             $table->string('no_kabin')->unique();
             $table->string('no_pol')->nullable();
@@ -58,7 +60,6 @@ return new class extends Migration
             $table->string('status_olitransmisi')->nullable();
             $table->string('status_perjalanan')->nullable();
             $table->string('timer')->nullable();
-            $table->string('tujuan')->nullable();
 
             $table->timestamps();
         });

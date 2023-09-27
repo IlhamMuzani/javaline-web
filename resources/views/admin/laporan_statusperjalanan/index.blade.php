@@ -117,6 +117,7 @@
                                 <th>No. Registrasi</th>
                                 <th>Nama Driver</th>
                                 <th>Tujuan</th>
+                                <th>Pelanggan</th>
                                 <th>Waktu Berangkat</th>
                                 <th>Waktu Sampai</th>
                                 <th>Waktu</th>
@@ -145,7 +146,14 @@
                                     <td>
                                         {{ $kendaraan->user->karyawan->nama_lengkap }}
                                     </td>
-                                    <td>{{ $kendaraan->tujuan }}</td>
+                                    <td>
+                                        @if ($kendaraan->kota)
+                                            {{ $kendaraan->kota->nama }}
+                                        @else
+                                            tujuan tidak ada
+                                        @endif
+                                    </td>
+                                    <td>{{ $kendaraan->pelanggan->nama_pell }}</td>
                                     <td>{{ $kendaraan->tanggal_awalwaktuperjalanan }}</td>
                                     <td>{{ $kendaraan->tanggal_akhirwaktuperjalanan }}</td>
                                     <td>{{ $selisihHari }} hari {{ $selisihJam }} jam</td>

@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
             color: black;
         }
 
@@ -117,9 +117,10 @@
                 </td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
                     {{ $item->jumlah }}</td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->km_penggantian }}
+                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                    {{ $item->km_penggantian }}
                 </td>
-                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->km_berikutnya }}
+                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->km_berikutnya }}
                 </td>
             </tr>
         @endforeach

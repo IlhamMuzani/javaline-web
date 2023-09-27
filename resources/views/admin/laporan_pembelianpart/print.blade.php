@@ -10,7 +10,8 @@
         body {
             margin: 0;
             padding: 20px;
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
+            color: black;
         }
 
         .container {
@@ -94,7 +95,7 @@
 
     <div class="text">
         @php
-            $startDate = request()->query('tanggal_awal'); 
+            $startDate = request()->query('tanggal_awal');
             $endDate = request()->query('tanggal_akhir');
         @endphp
         @if ($startDate && $endDate)

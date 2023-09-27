@@ -254,7 +254,7 @@
             <td>
                 <table>
                     <tr>
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label">.</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
@@ -280,7 +280,7 @@
             <td>
                 <table>
                     <tr>
-                        <td class="label">.</td>
+                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>

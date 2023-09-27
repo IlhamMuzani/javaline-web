@@ -296,5 +296,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('laporan_penggantianoli', \App\Http\Controllers\Admin\LaporanPenggantianoliController::class);
     Route::resource('status_perjalanan', \App\Http\Controllers\Admin\StatusPerjalananController::class);
     Route::resource('laporan_statusperjalanan', \App\Http\Controllers\Admin\LaporanStatusPerjalananController::class);
+    Route::resource('kota', \App\Http\Controllers\Admin\KotaController::class);
 
 });

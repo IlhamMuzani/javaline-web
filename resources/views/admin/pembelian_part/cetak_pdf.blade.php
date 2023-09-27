@@ -23,7 +23,7 @@
 
         html,
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
             color: black;
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
             /* margin: 40px;
@@ -187,40 +187,65 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
-    <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 20px;">FAKTUR PEMBELIAN PART</span>
-        <br>
-    </div>
     <table width="100%">
         <tr>
-            <td>
+            <!-- First column (Nama PT) -->
+            <td style="width: 50%;">
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Nama Supplier</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">PT. JAVALINE LOGISTICS</td>
+                            {{-- <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">Company Name</td> --}}
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px;">JL. HOS COKRO AMINOTO NO. 5</td>
+                            {{-- <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">Company Address</td> --}}
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px;">SLAWI TEGAL</td>
+                            {{-- <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">123-456-7890</td> --}}
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px;">Telp/ Fax 02836195326 02836195187
+                            </td>
+                            {{-- <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">123-456-7890</td> --}}
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <!-- Second column (Nama Supplier) -->
+            <td style="width: 70%;" style="max-width: 230px;">
+                <div class="info-catatan">
+                    <table>
+                        <tr>
+                            <td class="info-catatan2" style="font-size: 13px;">Nama Supplier</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->nama_supp }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Alamat</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Alamat</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->alamat }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Telp / HP</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">{{ $pembelians->supplier->telp }} /
+                            <td class="info-catatan2" style="font-size: 13px;">Telp / HP</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">{{ $pembelians->supplier->telp }} /
                                 {{ $pembelians->supplier->hp }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">ID Supplier</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">ID Supplier</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->kode_supplier }}
                             </td>
                         </tr>
@@ -229,6 +254,11 @@
             </td>
         </tr>
     </table>
+
+    <div style="font-weight: bold; text-align: center;">
+        <span style="font-weight: bold; font-size: 20px;">FAKTUR PEMBELIAN PART</span>
+        <br>
+    </div>
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black; margin-bottom:5px">
         <tr>

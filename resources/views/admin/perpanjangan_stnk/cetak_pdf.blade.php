@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
             color: black;
         }
 
@@ -176,7 +176,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
@@ -202,7 +202,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>

@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: Arial, sans-serif;
+           font-family: 'DOSVGA', monospace;
             color: black;
         }
 
@@ -80,13 +80,13 @@
 
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">No.
                 Kabin:{{ $kendaraan->no_kabin }}</td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">Jenis
                 Kendaraan:{{ $kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Total
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">Total
                 Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">
                 Tanggal:{{ Carbon\Carbon::now()->translatedFormat('d M Y') }}</td>
         </tr>
     </table>

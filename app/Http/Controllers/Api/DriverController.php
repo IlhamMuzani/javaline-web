@@ -136,13 +136,13 @@ class DriverController extends Controller
             $request->all(),
             [
                 'km' => 'required|numeric|min:' . ($km->km + 1),
-                'tujuan' => 'required',
+                'kota_id' => 'required',
             ],
             [
                 'km.required' => 'Masukkan nilai km',
                 'km.numeric' => 'Nilai Km harus berupa angka',
                 'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-                'tujuan.required' => 'Pilih tujuan',
+                'kota_id.required' => 'Pilih tujuan',
             ]
         );
 
@@ -166,7 +166,7 @@ class DriverController extends Controller
             'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Isi',
             'timer' => $jarakWaktu,
-            'tujuan' => $request->tujuan,
+            'kota_id' => $request->kota_id,
             'tanggal_awalperjalanan' => $tanggal,
             'tanggal_awalwaktuperjalanan' => Carbon::now('Asia/Jakarta'), // Menggunakan zona waktu Asia/Jakarta (WIB)
 
@@ -277,7 +277,7 @@ class DriverController extends Controller
                 'tanggal_awalwaktuperjalanan' => $kendaraan->tanggal_awalwaktuperjalanan,
                 'tanggal_akhirwaktuperjalanan' => Carbon::now('Asia/Jakarta'), // Menggunakan zona waktu Asia/Jakarta (WIB)
                 'timer' => $kendaraan->timer,
-                'tujuan' => $kendaraan->tujuan,
+                'kota_id' => $kendaraan->kota_id,
                 'pelanggan_id' => $kendaraan->pelanggan_id,
             ]);
         }
@@ -311,13 +311,13 @@ class DriverController extends Controller
             $request->all(),
             [
                 'km' => 'required|numeric|min:' . ($km->km + 1),
-                'tujuan' => 'required',
+                'kota_id' => 'required',
             ],
             [
                 'km.required' => 'Masukkan nilai km',
                 'km.numeric' => 'Nilai Km harus berupa angka',
                 'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-                'tujuan.required' => 'Pilih tujuan',
+                'kota_id.required' => 'Pilih tujuan',
             ]
         );
 
@@ -340,7 +340,7 @@ class DriverController extends Controller
             'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu,
-            'tujuan' => $request->tujuan
+            'kota_id' => $request->kota_id
         ]);
 
         if ($proses) {

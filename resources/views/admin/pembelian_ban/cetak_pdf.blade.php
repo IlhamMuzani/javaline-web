@@ -23,11 +23,8 @@
 
         html,
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
             color: black;
-            /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
-            /* margin: 40px;
-            padding: 10px; */
         }
 
         span.h2 {
@@ -209,7 +206,8 @@
                             <td class="info-text info-left" style="font-size: 13px;">123-456-7890</td> --}}
                         </tr>
                         <tr>
-                            <td class="info-text info-left" style="font-size: 13px;">Telp/ Fax 02836195326 02836195187</td>
+                            <td class="info-text info-left" style="font-size: 13px;">Telp/ Fax 02836195326 02836195187
+                            </td>
                             {{-- <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">123-456-7890</td> --}}
                         </tr>

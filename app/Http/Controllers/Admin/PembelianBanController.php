@@ -61,7 +61,7 @@ class PembelianBanController extends Controller
             [
                 'nama_supp' => 'required',
                 'alamat' => 'required',
-                'nama_person' => 'required',
+                // 'nama_person' => 'required',
                 // 'jabatan' => 'required',
                 // 'fax' => 'required',
                 'telp' => 'required',
@@ -75,7 +75,7 @@ class PembelianBanController extends Controller
             [
                 'nama_supp.required' => 'Masukkan nama supplier',
                 'alamat.required' => 'Masukkan Alamat',
-                'nama_person.required' => 'Masukkan nama',
+                // 'nama_person.required' => 'Masukkan nama',
                 // 'jabatan.required' => 'Masukkan jabatan',
                 'telp.required' => 'Masukkan no telepon',
                 // 'fax.required' => 'Masukkan no fax',

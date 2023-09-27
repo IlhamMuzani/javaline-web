@@ -48,7 +48,7 @@ class Laporanperjalanan extends Model
         'status_olitransmisi',
         'status_notifkm',
         'timer',
-        'tujuan',
+        'kota_id',
     ];
 
     public function ban()
@@ -74,6 +74,11 @@ class Laporanperjalanan extends Model
     public function jenis_kendaraan()
     {
         return $this->belongsTo(Jenis_kendaraan::class);
+    }
+
+    public function kota()
+    {
+        return $this->belongsTo(Kota::class);
     }
 
     public function pelanggan()

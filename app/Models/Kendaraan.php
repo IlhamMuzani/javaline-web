@@ -49,7 +49,7 @@ class Kendaraan extends Model
         'status_perjalanan',
         'nama_security',
         'timer',
-        'tujuan',
+        'kota_id',
     ];
 
     public function ban()
@@ -75,6 +75,11 @@ class Kendaraan extends Model
     public function jenis_kendaraan()
     {
         return $this->belongsTo(Jenis_kendaraan::class);
+    }
+
+    public function kota()
+    {
+        return $this->belongsTo(Kota::class);
     }
 
     public function pelanggan()

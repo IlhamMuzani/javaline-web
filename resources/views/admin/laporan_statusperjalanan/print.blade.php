@@ -10,7 +10,8 @@
         body {
             margin: 0;
             padding: 20px;
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
+            color: black;
         }
 
         .container {
@@ -110,6 +111,7 @@
             <th>No. Registrasi</th>
             <th>Nama Driver</th>
             <th>Tujuan</th>
+            <th>Pelanggan</th>
             <th>Waktu Berangkat</th>
             <th>Waktu Sampai</th>
             <th>Waktu</th>
@@ -132,6 +134,7 @@
                 <td> {{ $kendaraan->no_pol }}</td>
                 <td> {{ $kendaraan->user->karyawan->nama_lengkap }}</td>
                 <td> {{ $kendaraan->tujuan }}</td>
+                <td> {{ $kendaraan->pelanggan->nama_pell }}</td>
                 <td>{{ $kendaraan->tanggal_awalwaktuperjalanan }}</td>
                 <td>{{ $kendaraan->tanggal_akhirwaktuperjalanan }}</td>
                 <td>{{ $selisihHari }} hari {{ $selisihJam }} jam</td>
