@@ -23,6 +23,7 @@ class Nokir extends Model
         'nopol',
         'no_rangka',
         'no_mesin',
+        // 'gambar_logo',
         'gambar_depan',
         'gambar_belakang',
         'gambar_kanan',

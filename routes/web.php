@@ -216,6 +216,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('pemasangan_part/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemasanganpartController::class, 'cetakpdf']);
     Route::get('penggantian_oli/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenggantianOliController::class, 'cetakpdf']);
     Route::get('penggantian_oli/checkpostoli/{id}', [\App\Http\Controllers\Admin\PenggantianOliController::class, 'checkpostoli']);
+    Route::get('nokir/cetak-pdfnokir/{id}', [\App\Http\Controllers\Admin\NokirController::class, 'cetakpdfnokir']);
 
     // Route::middleware('admin')->prefix('admin')->group(function () {
         Route::delete('inquery_pembelianpart/deletepart/{id}', [\App\Http\Controllers\Admin\InqueryPembelianPartController::class, 'deletepart']);

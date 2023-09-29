@@ -51,7 +51,7 @@
                                 <th>Nama Pemilik</th>
                                 <th>Tanggal Expired</th>
                                 <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="80">Opsi</th>
+                                <th class="text-center" width="100">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,6 +68,9 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
+                                        <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-print"></i>
+                                        </a>
                                         <a href="{{ url('admin/nokir/' . $nokir->id) }}" class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i>
                                         </a>

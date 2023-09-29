@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Nokir;
 use App\Models\Ukuran;
 use App\Models\Kendaraan;
@@ -210,6 +211,7 @@ class NokirController extends Controller
                 'gambar_belakang' => $namaGambar2,
                 'gambar_kanan' => $namaGambar3,
                 'gambar_kiri' => $namaGambar4,
+                // 'gambar_logo' => 'gambar_logo/dinas_perhubungan.png',
                 'kode_kir' => $this->kode(),
                 'qrcode_kir' => 'https://javaline.id/nokir/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
@@ -458,18 +460,29 @@ class NokirController extends Controller
         return redirect('admin/nokir')->with('success', 'Berhasil memperbarui No. Kir');
     }
 
-    public function cetakpdf($id)
+    // public function cetakpdf($id)
+    // {
+    //     $cetakpdf = Nokir::where('id', $id)->first();
+    //     $html = view('admin/nokir.cetak_pdf', compact('cetakpdf'));
+
+    //     $dompdf = new Dompdf();
+    //     $dompdf->loadHtml($html);
+    //     $dompdf->setPaper('A4', 'landscape');
+
+    //     $dompdf->render();
+
+    //     $dompdf->stream();
+    // }
+
+    public function cetakpdfnokir($id)
     {
-        $cetakpdf = Nokir::where('id', $id)->first();
-        $html = view('admin/nokir.cetak_pdf', compact('cetakpdf'));
 
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape');
+        $nokir = Nokir::where('id', $id)->first();
 
-        $dompdf->render();
+        $pdf = PDF::loadView('admin/nokir.cetak_pdfnokir', compact('nokir'));
+        $pdf->setPaper('letter', 'portrait');
 
-        $dompdf->stream();
+        return $pdf->stream();
     }
 
 

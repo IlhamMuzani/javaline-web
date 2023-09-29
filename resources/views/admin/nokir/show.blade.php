@@ -24,6 +24,11 @@
         --abu-abu: #ece6e6;
     }
 
+    .container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 7rem;
+    }
 
     * {
         margin: 0;
@@ -80,25 +85,29 @@
     }
 
     .judul3 {
-        margin-top: 40px;
-        text-align: center;
+        text-align: start;
         margin-left: 5px;
         margin-bottom: 10px;
         font-size: 20px;
         color: #413d3d
     }
 
-    /* .container {
+    .container {
         display: flex;
         margin-top: 15px;
         margin-left: 10px
-    } */
+    }
 
-    /* .container2 {
+    .container11 {
+        margin-top: 15px;
+        margin-left: 10px
+    }
+
+    .container2 {
         display: flex;
         margin-top: 3rem;
         margin-left: 10px
-    } */
+    }
 
     .container3 {
         display: flex;
@@ -110,6 +119,8 @@
         margin-top: 0.5rem;
         padding-left: 10px;
         padding-left: 10px;
+        text-align: center;
+
     }
 
     /* .table-container {
@@ -142,6 +153,11 @@
 
     .tablee {
         border: 1px solid #ddd;
+    }
+
+    .tablee1 {
+        border: 1px solid #ddd;
+        /* margin-left: 45px */
     }
 
     table {
@@ -181,7 +197,7 @@
         }
 
         .judul3 {
-            text-align: start;
+            text-align: center;
         }
 
         .container4 {
@@ -200,7 +216,7 @@
     }
 
     @media (max-width: 768px) {
-        
+
         .gambardepan img {
             width: 100%;
             /* Mengisi lebar container */
@@ -236,6 +252,16 @@
         }
     }
 
+    .tabelfoto {
+        display: flex;
+        justify-content: center;
+        /* Mengatur perataan horizontal ke tengah */
+        align-items: center;
+        /* Mengatur perataan vertikal ke tengah */
+        margin-top: 15px;
+        margin-left: 10px;
+    }
+
     .container {
         display: flex;
         flex-wrap: wrap;
@@ -243,7 +269,7 @@
     }
 
     .table-container {
-        width: 48%;
+        /* width: 48%; */
         /* Menyesuaikan lebar container */
         margin-bottom: 20px;
     }
@@ -257,10 +283,20 @@
             /* Pusatkan elemen secara horizontal */
         }
 
+        .textt {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
         .table-container {
             width: 100%;
             /* Memenuhi lebar layar */
         }
+    }
+
+    .responsive-img {
+        max-width: 100%;
+        height: auto;
     }
 </style>
 
@@ -422,14 +458,12 @@
     {{-- Baris Ke Dua  --}}
 
     <div class="container4">
-        <div class="table-container2">
-            <tr>
-                <div class="judul3">
-                    <h4>Foto Berwarna 4 Sisi Kendaraan</h4>
-                </div>
-                <hr>
-            </tr>
-            <table width="100%" border="0">
+        <div class="container11">
+            <div class="judul3">
+                <h4>Foto Berwarna 4 Sisi Kendaraan</h4>
+            </div>
+            <hr>
+            <table class="tabelfoto" width="100%" border="0">
                 <tbody>
                     <tr>
                         <td valign="top">
@@ -442,23 +476,20 @@
                                         <th class="nama">FOTO KIRI</th>
                                     </tr>
                                     <tr>
-                                        <th class="gambardepan">
+                                        <td class="gambardepan">
                                             <img src="{{ asset('storage/uploads/' . $nokir->gambar_depan) }}"
                                                 height="150" width="300">
-                                        </th>
+                                        </td>
                                         <td class="gambardepan">
-                                            <img class=""
-                                                src="{{ asset('storage/uploads/' . $nokir->gambar_belakang) }}"
+                                            <img src="{{ asset('storage/uploads/' . $nokir->gambar_belakang) }}"
                                                 height="150" width="300">
                                         </td>
                                         <td class="gambardepan">
-                                            <img class=""
-                                                src="{{ asset('storage/uploads/' . $nokir->gambar_kanan) }}"
+                                            <img src="{{ asset('storage/uploads/' . $nokir->gambar_kanan) }}"
                                                 height="150" width="300">
                                         </td>
                                         <td class="gambardepan">
-                                            <img class=""
-                                                src="{{ asset('storage/uploads/' . $nokir->gambar_kiri) }}"
+                                            <img src="{{ asset('storage/uploads/' . $nokir->gambar_kiri) }}"
                                                 height="150" width="300">
                                         </td>
                                     </tr>
@@ -470,7 +501,6 @@
             </table>
         </div>
     </div>
-
 
     {{-- Baris Ke 3  --}}
 
@@ -704,7 +734,7 @@
             </table>
         </div>
         <div class="table-container">
-            <table class="tablee" width="100%" border="0">
+            <table class="tablee1" width="100%" border="0">
                 <tbody>
                     <tr>
                         <td valign="top">
@@ -911,10 +941,12 @@
 
         </div>
     </div>
-
-
 </body>
 
+{{-- <div class="container">
+    <a href="#" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}" class="blue-button">Cetak</a>
+</div> --}}
 <script>
     feather.replace()
 </script>
