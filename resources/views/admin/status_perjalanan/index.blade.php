@@ -104,6 +104,7 @@
                                 <th>No. Registrasi</th>
                                 <th>Nama Driver</th>
                                 <th>Tujuan</th>
+                                <th>Pelanggan</th>
                                 <th>Status Kendaraan</th>
                                 <th>Timer</th>
                                 <th class="text-center" width="40">Opsi</th>
@@ -127,6 +128,13 @@
                                             {{ $kendaraan->kota->nama }}
                                         @else
                                             tujuan tidak ada
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($kendaraan->pelanggan)
+                                            {{ $kendaraan->pelanggan->nama_pell }}
+                                        @else
+                                            pelanggan tidak ada
                                         @endif
                                     </td>
                                     <td>
