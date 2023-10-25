@@ -191,6 +191,9 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 20px;">SURAT PERPANJANGAN KIR</span>
@@ -200,12 +203,8 @@
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            {{-- <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">No.
-                Kabin:{{ $kendaraan->no_kabin }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Jenis
-                Kendaraan:{{ $kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Total
-                Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td> --}}
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                Kode Perpanjangan:{{ $laporan->kode_perpanjangan }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>

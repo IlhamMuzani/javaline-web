@@ -137,14 +137,14 @@
                                 {{ $karyawan->tanggal_gabung }}
                             </div>
                         </div>
-                        <div class="row mb-3">
+                        {{-- <div class="row mb-3">
                             <div class="col-md-4">
                                 <strong>Jabatan</strong>
                             </div>
                             <div class="col-md-4">
                                 {{ $karyawan->jabatan }}
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

@@ -1073,7 +1073,7 @@
                                                         </span>
                                                     </td>
                                                     <td class="info-catatan2" style="font-size: 7px;">
-                                                        :{{ $nokir->masa_berlaku }}
+                                                        :{{ \Carbon\Carbon::parse($nokir->masa_berlaku)->format('d M Y') }}
                                                     </td>
                                                     <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>

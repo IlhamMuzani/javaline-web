@@ -176,6 +176,11 @@
             /* Sesuaikan posisi vertikal garis tengah */
         }
 
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
         @page {
             /* size: A4; */
             margin: 1cm;
@@ -184,6 +189,10 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    {{-- <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+    </div> --}}
+    <br>
     <table width="100%">
         <tr>
             <!-- First column (Nama PT) -->
@@ -191,7 +200,7 @@
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 13px;">PT. JAVALINE LOGISTICS</td>
+                            <td class="info-catatan2" style="font-size: 13px;">PT. JAVA LINE LOGISTICS</td>
                             {{-- <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">Company Name</td> --}}
                         </tr>
@@ -211,11 +220,18 @@
                             {{-- <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">123-456-7890</td> --}}
                         </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px; color: white;">ini</td>
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px; color: white;">ini</td>
+                        </tr>
+
                     </table>
                 </div>
             </td>
             <!-- Second column (Nama Supplier) -->
-            <td style="width: 70%;" style="max-width: 230px;">
+            <td style="width: 50%;">
                 <div class="info-catatan">
                     <table>
                         <tr>
@@ -228,10 +244,23 @@
                         <tr>
                             <td class="info-catatan2" style="font-size: 13px;">Alamat</td>
                             <td class="info-item" style="font-size: 13px;">:</td>
-                            <td class="info-text info-left" style="font-size: 13px;">
+                            {{-- <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->alamat }}
-                            </td>
+                            </td> --}}
+                            <div class="info" style="max-width: 300px;">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td style="text-align: left; font-size: 13px;">
+                                            <span class="content2">
+                                                {{ $pembelians->supplier->alamat }}
+                                            </span>
+                                            <br>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </tr>
+
                         <tr>
                             <td class="info-catatan2" style="font-size: 13px;">Telp / HP</td>
                             <td class="info-item" style="font-size: 13px;">:</td>
@@ -256,46 +285,6 @@
         <span style="font-weight: bold; font-size: 20px;">FAKTUR PEMBELIAN BAN</span>
         <br>
     </div>
-
-    {{-- <table width="100%">
-        <tr>
-            <td>
-                <div class="info-catatan" style="max-width: 230px;">
-                    <table>
-                        <tr>
-                            <td class="info-catatan2" style="font-size: 13px;">Nama Supplier</td>
-                            <td class="info-item" style="font-size: 13px;">:</td>
-                            <td class="info-text info-left" style="font-size: 13px;">
-                                {{ $pembelians->supplier->nama_supp }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-catatan2" style="font-size: 13px;">Alamat</td>
-                            <td class="info-item" style="font-size: 13px;">:</td>
-                            <td class="info-text info-left" style="font-size: 13px;">
-                                {{ $pembelians->supplier->alamat }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-catatan2" style="font-size: 13px;">Telp / HP</td>
-                            <td class="info-item" style="font-size: 13px;">:</td>
-                            <td class="info-text info-left" style="font-size: 13px;">{{ $pembelians->supplier->telp }} /
-                                {{ $pembelians->supplier->hp }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-catatan2" style="font-size: 13px;">ID Supplier</td>
-                            <td class="info-item" style="font-size: 13px;">:</td>
-                            <td class="info-text info-left" style="font-size: 13px;">
-                                {{ $pembelians->supplier->kode_supplier }}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </td>
-        </tr>
-    </table> --}}
-    {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
     <table style="width: 100%;
                     border-top: 1px solid black; margin-bottom:5px">
         <tr>

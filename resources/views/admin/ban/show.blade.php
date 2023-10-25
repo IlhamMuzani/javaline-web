@@ -61,7 +61,7 @@
                                 <strong>Type Ban</strong>
                             </div>
                             <div class="col-md-6">
-                                {{ $ban->type_ban }}
+                                {{ $ban->typeban->nama_type }}
                             </div>
                         </div>
                         <div class="row mb-3">

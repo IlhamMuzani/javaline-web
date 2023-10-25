@@ -182,7 +182,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Unpost pembelian pembelians
+                                                <p>Unpost pembelian pembelian
                                                     <strong>{{ $pembelians->kode_pembelian_ban }}</strong>?
                                                 </p>
                                             </div>

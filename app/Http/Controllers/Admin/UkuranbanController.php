@@ -130,11 +130,13 @@ class UkuranbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Ukuran::where('id', $id)->update([
-            'ukuran' => $request->ukuran,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-        ]);
-        
+        $ukuran = Ukuran::findOrFail($id);
+
+        $ukuran->ukuran = $request->ukuran;
+        $ukuran->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $ukuran->save();
+
         return redirect('admin/ukuran_ban')->with('success', 'Berhasil memperbarui Ukuran ban');
     }
 

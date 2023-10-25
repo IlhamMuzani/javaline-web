@@ -75,6 +75,15 @@
                             <label for="alamat">Alamat</label>
                             <textarea class="form-control" id="alamat" name="alamat" readonly rows="3" placeholder="Masukan alamat">{{ old('alamat', $user->karyawan->alamat) }}</textarea>
                         </div>
+                        {{-- <div class="form-group">
+                            @if ($user->karyawan->gambar)
+                                <img src="{{ asset('storage/uploads/' . $user->karyawan->gambar) }}"
+                                    alt="{{ $user->karyawan->nama_lengkap }}" height="100" width="100">
+                            @else
+                                <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                    alt="AdminLTELogo" height="100" width="100">
+                            @endif
+                        </div> --}}
                         <div class="form-group">
                             <label for="foto">Foto</label>
                             <div class="custom-file">

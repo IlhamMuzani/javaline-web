@@ -108,14 +108,14 @@
                                     data-target="#reservationdatetime">
                             </div>
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="jabatan">Jabatan</label>
                             <select class="form-control" id="jabatan" name="jabatan">
                                 <option value="">- Pilih Jabatan -</option>
                                 <option value="STAFF" {{ old('jabatan') == 'STAFF' ? 'selected' : null }}>
                                     STAFF</option>
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="telp">No. Telepon</label>
                             <div class="input-group mb-3">

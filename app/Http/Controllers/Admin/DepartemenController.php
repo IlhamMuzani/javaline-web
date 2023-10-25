@@ -17,7 +17,6 @@ class DepartemenController extends Controller
 
             $departemens = Departemen::all();
             return view('admin/departemen.index', compact('departemens'));
-            
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -61,7 +60,7 @@ class DepartemenController extends Controller
             $request->all(),
             [
                 'qrcode_departemen' => $number,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
+                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ]
         ));
 
@@ -93,7 +92,6 @@ class DepartemenController extends Controller
 
             $departemen = Departemen::where('id', $id)->first();
             return view('admin/departemen.update', compact('departemen'));
-            
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -113,10 +111,12 @@ class DepartemenController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Departemen::where('id', $id)->update([
-            'nama' => $request->nama,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-        ]);
+        $departemen = Departemen::find($id);
+
+        $departemen->nama = $request->nama;
+        $departemen->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $departemen->save();
 
         return redirect('admin/departemen')->with('success', 'Berhasil memperbarui Departemen');
     }

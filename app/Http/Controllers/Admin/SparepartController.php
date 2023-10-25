@@ -204,17 +204,16 @@ class SparepartController extends Controller
 
         $part = Sparepart::findOrFail($id);
 
-        Sparepart::where('id', $part->id)->update(
-            [
-                'kategori' => $request->kategori,
-                'nama_barang' => $request->nama_barang,
-                'keterangan' => $request->keterangan,
-                'harga' => $request->harga,
-                'jumlah' => $request->jumlah,
-                'satuan' => $request->satuan,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-            ]
-        );
+        $part->kategori = $request->kategori;
+        $part->nama_barang = $request->nama_barang;
+        $part->keterangan = $request->keterangan;
+        $part->harga = $request->harga;
+        $part->jumlah = $request->jumlah;
+        $part->satuan = $request->satuan;
+        $part->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $part->save();
+
         return redirect('admin/sparepart')->with('success', 'Berhasil memperbarui part');
     }
 

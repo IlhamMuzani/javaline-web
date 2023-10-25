@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
 
-                                    <div class="modal fade" id="modal-qrcode-{{ $merek_ban->id }}">
+                                <div class="modal fade" id="modal-qrcode-{{ $merek_ban->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -115,9 +115,13 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $merek_ban->kode_merek }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$merek_ban->qrcode_merek", 'QRCODE', 15, 15) !!}
                                                     </div>
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $merek_ban->nama_merek }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"

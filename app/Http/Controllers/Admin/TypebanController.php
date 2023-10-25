@@ -136,13 +136,16 @@ class TypebanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Typeban::where('id', $id)->update([
-            'nama_type' => $request->nama_type,
-            'kendaraan_id' => $request->kendaraan_id,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-        ]);
+        $typeban = Typeban::findOrFail($id);
+
+        $typeban->nama_type = $request->nama_type;
+        $typeban->kendaraan_id = $request->kendaraan_id;
+        $typeban->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $typeban->save();
 
         return redirect('admin/type_ban')->with('success', 'Berhasil memperbarui Type ban');
+
     }
 
     public function destroy($id)

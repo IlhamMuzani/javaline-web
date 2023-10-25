@@ -74,32 +74,6 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['kendaraan'])
-            <li class="nav-item">
-                <a href="{{ url('admin/kendaraan') }}"
-                    class="nav-link {{ request()->is('admin/kendaraan*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Kendaraan</p>
-                </a>
-            </li>
-        @endif
-        @if (auth()->check() && auth()->user()->menu['ban'])
-            <li class="nav-item">
-                <a href="{{ url('admin/ban') }}" class="nav-link {{ request()->is('admin/ban*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Ban</p>
-                </a>
-            </li>
-        @endif
-        @if (auth()->check() && auth()->user()->menu['golongan'])
-            <li class="nav-item">
-                <a href="{{ url('admin/golongan') }}"
-                    class="nav-link {{ request()->is('admin/golongan*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Golongan</p>
-                </a>
-            </li>
-        @endif
         @if (auth()->check() && auth()->user()->menu['divisi mobil'])
             <li class="nav-item">
                 <a href="{{ url('admin/divisi') }}"
@@ -115,6 +89,24 @@
                     class="nav-link {{ request()->is('admin/jenis_kendaraan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Jenis Kendaraan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['golongan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/golongan') }}"
+                    class="nav-link {{ request()->is('admin/golongan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Golongan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['kendaraan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/kendaraan') }}"
+                    class="nav-link {{ request()->is('admin/kendaraan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Kendaraan</p>
                 </a>
             </li>
         @endif
@@ -142,6 +134,14 @@
                     class="nav-link {{ request()->is('admin/type_ban*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Type Ban</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/ban') }}" class="nav-link {{ request()->is('admin/ban*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Ban</p>
                 </a>
             </li>
         @endif
@@ -178,24 +178,24 @@
     $stnk = \App\Models\Stnk::where([['status_notif', false]])->get();
     $nokir = \App\Models\Nokir::where([['status_notif', false]])->get();
     $penggantianoli1 = \App\Models\Kendaraan::where([['status_notifkm', false]])->get();
-    
+
     $currentDate = now(); // Menggunakan Carbon untuk mendapatkan tanggal saat ini
     $twoWeeksLater = $currentDate->copy()->addWeeks(2); // Menambahkan 1 bulan ke tanggal saat ini
-    
+
     $peringatan = \App\Models\Stnk::where('status_stnk', 'belum perpanjang')
         ->whereDate('expired_stnk', '<', $twoWeeksLater)
         ->get();
     $peringatankir = \App\Models\Nokir::where('status_kir', 'belum perpanjang')
         ->whereDate('masa_berlaku', '<', $twoWeeksLater)
         ->get();
-    
+
     $peringatan_oli = \App\Models\Kendaraan::where(function ($query) {
         $query
             ->where('status_olimesin', 'belum penggantian')
             ->orWhere('status_oligardan', 'belum penggantian')
             ->orWhere('status_olitransmisi', 'belum penggantian');
     })->get();
-    
+
 @endphp
 
 
@@ -323,9 +323,9 @@
     $kendaraan = \App\Models\Kendaraan::where([['status_post', 'posting'], ['status_notif', false]])->get();
 @endphp
 <li
-    class="nav-item {{ request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*')|| request()->is('admin/inquery_perpanjanganstnk*') || request()->is('admin/inquery_perpanjangankir*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*')|| request()->is('admin/inquery_perpanjanganstnk*') || request()->is('admin/inquery_perpanjangankir*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-exchange-alt"></i>
         <p>
             <strong style="color: rgb(255, 255, 255);">TRANSAKSI</strong>
@@ -435,6 +435,26 @@
                 </a>
             </li>
         @endif
+        {{-- @if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) --}}
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery_perpanjanganstnk') }}"
+                class="nav-link {{ request()->is('admin/inquery_perpanjanganstnk*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Inquery Perpanjangan Stnk
+                </p>
+            </a>
+        </li>
+        {{-- @endif --}}
+        {{-- @if (auth()->check() && auth()->user()->menu['inquery perpanjangan kir']) --}}
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery_perpanjangankir') }}"
+                class="nav-link {{ request()->is('admin/inquery_perpanjangankir*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Inquery Perpanjangan Kir
+                </p>
+            </a>
+        </li>
+        {{-- @endif --}}
     </ul>
 </li>
 <li

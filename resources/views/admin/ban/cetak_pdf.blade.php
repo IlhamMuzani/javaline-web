@@ -9,96 +9,114 @@
     <title>Invoice</title>
 
     <style type="text/css">
-        .invoice-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: Arial, sans-serif;
+        /* Reset all margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box1 {
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+
+        .box {
+            margin-left: 10px;
+            margin-top: 1px;
+        }
+
+        .box3 {
+            /* margin-left: 6px; */
+            margin-top: 4px;
         }
 
 
-        .invoice-box table {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: Arial, sans-serif;
+        .text-container {
+            position: relative;
+            width: 200px;
+            /* Set an appropriate width */
+            height: 68px;
+            /* Set an appropriate height */
+            transform: rotate(90deg);
         }
 
-        /*
-        .invoice-box table td {
-            padding: 5px;
-            vertical-align: top;
+        .text {
+            white-space: nowrap;
+            position: absolute;
+            margin-left: 62px;
+            margin-top: 80px;
+            font-size: 9px;
+            top: 0;
+            /* Adjust the top position as needed */
+            left: 0;
+            /* Adjust the left position as needed */
         }
 
-        .invoice-box table tr td:nth-child(2) {
-            text-align: right;
-        }
-
-        .invoice-box table tr.top table td {
-            padding-bottom: 20px;
-        }
-
-        .invoice-box table tr.information table td {
-            padding-bottom: 40px;
-        }
-
-        .invoice-box table tr.heading td {
-            background: #eee;
-            border-bottom: 1px solid #ddd;
+        .bold-text {
             font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif
         }
-
-        .invoice-box table tr.details td {
-            padding-bottom: 20px;
-        }
-
-        .invoice-box table tr.item td {
-            border-bottom: 1px solid #eee;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .invoice-box table tr.top table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
-
-            .invoice-box table tr.information table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
-        }
-
-        */
     </style>
 
 </head>
 
 <body>
-
-    <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-            {{-- @foreach ($cetakpdf as $item) --}}
-            <td>
-                    <div style="display: inline-block;">
-                        {!! DNS2D::getBarcodeHTML("$cetakpdf->qrcode_ban", 'QRCODE', 10, 10) !!}
-                    </div>
-                </td>
-            {{-- @endforeach --}}
-            <div class="col-md-6">
+    <div>
+        <div class="box1">
+            <?php
+            use BaconQrCode\Renderer\ImageRenderer;
+            use BaconQrCode\Writer;
+            
+            // Ubah tautan menjadi QR code
+            $qrcode = new Writer(new ImageRenderer(new \BaconQrCode\Renderer\RendererStyle\RendererStyle(50), new \BaconQrCode\Renderer\Image\SvgImageBackEnd()));
+            $qrcodeData = $qrcode->writeString($bans->qrcode_ban);
+            
+            // Tampilkan gambar QR code
+            echo '<img src="data:image/png;base64,' . base64_encode($qrcodeData) . '" />';
+            ?>
+        </div>
+        <div class="text-container">
+            <div class="text">
+                <p class="bold-text">{{ $bans->kode_ban }}</p>
+                <p class="bold-text">{{ $bans->typeban->nama_type }}</p>
+                <p class="bold-text">{{ $bans->ukuran->ukuran }}</p>
             </div>
-        </table>
+        </div>
+        <div class="box">
+            <?php
+            
+            // Ubah tautan menjadi QR code
+            $qrcode = new Writer(new ImageRenderer(new \BaconQrCode\Renderer\RendererStyle\RendererStyle(50), new \BaconQrCode\Renderer\Image\SvgImageBackEnd()));
+            $qrcodeData = $qrcode->writeString($bans->qrcode_ban);
+            
+            // Tampilkan gambar QR code
+            echo '<img src="data:image/png;base64,' . base64_encode($qrcodeData) . '" />';
+            ?>
+        </div>
+        <div class="text-container">
+            <div class="text">
+                <p class="bold-text">{{ $bans->kode_ban }}</p>
+                <p class="bold-text">{{ $bans->typeban->nama_type }}</p>
+                <p class="bold-text">{{ $bans->ukuran->ukuran }}</p>
+            </div>
+        </div>
+        {{-- <div class="box3">
+            <?php
+            
+            $qrcode = new Writer(new ImageRenderer(new \BaconQrCode\Renderer\RendererStyle\RendererStyle(50), new \BaconQrCode\Renderer\Image\SvgImageBackEnd()));
+            $qrcodeData = $qrcode->writeString($bans->qrcode_ban);
+            
+            echo '<img src="data:image/png;base64,' . base64_encode($qrcodeData) . '" />';
+            ?>
+        </div>
+        <div class="text-container">
+            <div class="text">
+                <p class="bold-text">{{ $bans->kode_ban }}</p>
+                <p class="bold-text">{{ $bans->typeban->nama_type }}</p>
+                <p class="bold-text">{{ $bans->ukuran->ukuran }}</p>
+            </div>
+        </div> --}}
     </div>
-
 </body>
 
 </html>

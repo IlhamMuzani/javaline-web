@@ -340,14 +340,14 @@
                                         <td width="2%">:</td>
                                         <td>{{ $karyawan->tanggal_gabung }}</td>
                                     </tr>
-                                    <tr>
+                                    {{-- <tr>
                                         <td width="25%" valign="top" class="textt">
                                             <i data-feather="chevrons-right" height="13" width="13"></i>
                                             Jabatan
                                         </td>
                                         <td width="2%">:</td>
                                         <td>{{ $karyawan->jabatan }}</td>
-                                    </tr>
+                                    </tr> --}}
                                 </tbody>
                             </table>
                         </td>

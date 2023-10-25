@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-           font-family: 'DOSVGA', monospace;
+            font-family: 'DOSVGA', monospace;
             color: black;
         }
 
@@ -44,6 +44,14 @@
             text-overflow: ellipsis;
         }
 
+
+        .info-catatan2 {
+            font-weight: bold;
+            margin-right: 5px;
+            min-width: 120px;
+            /* Menetapkan lebar minimum untuk kolom pertama */
+        }
+
         .alamat,
         .nama-pt {
             color: black;
@@ -70,6 +78,34 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    {{-- <table width="100%">
+        <tr>
+            <!-- First column (Nama PT) -->
+            <td style="width: 50%;">
+                <div class="info-catatan" style="max-width: 230px;">
+                    <table>
+                        <tr>
+                            <td class="info-catatan2" style="font-size: 13px;">PT. JAVA LINE LOGISTICS</td>
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px;">JL. HOS COKRO AMINOTO NO. 5</td>
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px;">SLAWI TEGAL</td>
+                        </tr>
+                        <tr>
+                            <td class="info-text info-left" style="font-size: 13px;">Telp/ Fax 02836195326 02836195187
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+          
+        </tr>
+    </table> --}}
+    <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT PEMASANGAN BAN</span>
@@ -87,7 +123,7 @@
             <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">Total
                 Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">
-                Tanggal:{{ Carbon\Carbon::now()->translatedFormat('d M Y') }}</td>
+                Tanggal:{{ $pasang_ban->tanggal }}</td>
         </tr>
     </table>
     </div>

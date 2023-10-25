@@ -115,18 +115,30 @@
                 url: "{{ url('admin/user/karyawan') }}" + "/" + kode_karyawan.value,
                 type: "GET",
                 dataType: "json",
-                success: function(kode_karyawan) {
+                success: function(response) {
+                    console.log('Respons dari server:', response);
+
                     var nama_lengkap = document.getElementById('nama_lengkap');
-                    nama_lengkap.value = kode_karyawan.nama_lengkap;
-
                     var no_ktp = document.getElementById('no_ktp');
-                    no_ktp.value = kode_karyawan.no_ktp;
-
                     var alamat = document.getElementById('alamat');
-                    alamat.value = kode_karyawan.alamat;
+
+                    // Periksa apakah properti yang diharapkan ada dalam respons JSON
+                    if (response && response.nama_lengkap) {
+                        nama_lengkap.value = response.nama_lengkap;
+                    }
+                    if (response && response.no_ktp) {
+                        no_ktp.value = response.no_ktp;
+                    }
+                    if (response && response.alamat) {
+                        alamat.value = response.alamat;
+                    }
                 },
+                error: function(xhr, status, error) {
+                    console.error('Terjadi kesalahan dalam permintaan AJAX:', error);
+                }
             });
         }
+
 
         function getCari(id) {
             var kode_karyawan = document.getElementById('kode_karyawan');

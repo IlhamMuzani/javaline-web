@@ -410,54 +410,57 @@ class NokirController extends Controller
             $namaGambar4 = $nokir->gambar_kiri;
         }
 
-        Nokir::where('id', $id)->update([
-            'gambar_depan' => $namaGambar,
-            'gambar_belakang' => $namaGambar2,
-            'gambar_kanan' => $namaGambar3,
-            'gambar_kiri' => $namaGambar4,
-            'kendaraan_id' => $request->kendaraan_id,
-            'jenis_kendaraan' => $request->jenis_kendaraan,
-            'ukuran_ban' => $request->ukuran_ban,
-            'nama_pemilik' => $request->nama_pemilik,
-            'alamat' => $request->alamat,
-            'nomor_uji_kendaraan' => $request->nomor_uji_kendaraan,
-            'nomor_sertifikat_kendaraan' => $request->nomor_sertifikat_kendaraan,
-            'tanggal_sertifikat' => $request->tanggal_sertifikat,
-            'merek_kendaraan' => $request->merek_kendaraan,
-            'tahun_kendaraan' => $request->tahun_kendaraan,
-            'bahan_bakar' => $request->bahan_bakar,
-            'isi_silinder' => $request->isi_silinder,
-            'daya_motor' => $request->daya_motor,
-            'konfigurasi_sumbu' => $request->konfigurasi_sumbu,
-            'berat_kosongkendaraan' => $request->berat_kosongkendaraan,
-            'lebar' => $request->lebar,
-            'tinggi' => $request->tinggi,
-            'panjang' => $request->panjang,
-            'julur_depan' => $request->julur_depan,
-            'julur_belakang' => $request->julur_belakang,
-            'dimensi_bakmuatan' => $request->dimensi_bakmuatan,
-            'jbb' => $request->jbb,
-            'jbi' => $request->jbi,
-            'sumbu_1_2' => $request->sumbu_1_2,
-            'sumbu_2_3' => $request->sumbu_2_3,
-            'sumbu_3_4' => $request->sumbu_3_4,
-            'daya_angkutorang' => $request->daya_angkutorang,
-            'kelas_jalan' => $request->kelas_jalan,
-            'keterangan' => $request->keterangan,
-            'masa_berlaku' => $request->masa_berlaku,
-            'nama_petugas_penguji' => $request->nama_petugas_penguji,
-            'nrp_petugas_penguji' => $request->nrp_petugas_penguji,
-            'nama_kepala_dinas' => $request->nama_kepala_dinas,
-            'pangkat_kepala_dinas' => $request->pangkat_kepala_dinas,
-            'nip_kepala_dinas' => $request->nip_kepala_dinas,
-            'unit_pelaksanaan_teknis' => $request->unit_pelaksanaan_teknis,
-            'nama_direktur' => $request->nama_direktur,
-            'pangkat_direktur' => $request->pangkat_direktur,
-            'nip_direktur' => $request->nip_direktur,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-        ]);
+        // $nokir = Nokir::find($id);
+
+        $nokir->gambar_depan = $namaGambar;
+        $nokir->gambar_belakang = $namaGambar2;
+        $nokir->gambar_kanan = $namaGambar3;
+        $nokir->gambar_kiri = $namaGambar4;
+        $nokir->kendaraan_id = $request->kendaraan_id;
+        $nokir->jenis_kendaraan = $request->jenis_kendaraan;
+        $nokir->ukuran_ban = $request->ukuran_ban;
+        $nokir->nama_pemilik = $request->nama_pemilik;
+        $nokir->alamat = $request->alamat;
+        $nokir->nomor_uji_kendaraan = $request->nomor_uji_kendaraan;
+        $nokir->nomor_sertifikat_kendaraan = $request->nomor_sertifikat_kendaraan;
+        $nokir->tanggal_sertifikat = $request->tanggal_sertifikat;
+        $nokir->merek_kendaraan = $request->merek_kendaraan;
+        $nokir->tahun_kendaraan = $request->tahun_kendaraan;
+        $nokir->bahan_bakar = $request->bahan_bakar;
+        $nokir->isi_silinder = $request->isi_silinder;
+        $nokir->daya_motor = $request->daya_motor;
+        $nokir->konfigurasi_sumbu = $request->konfigurasi_sumbu;
+        $nokir->berat_kosongkendaraan = $request->berat_kosongkendaraan;
+        $nokir->lebar = $request->lebar;
+        $nokir->tinggi = $request->tinggi;
+        $nokir->panjang = $request->panjang;
+        $nokir->julur_depan = $request->julur_depan;
+        $nokir->julur_belakang = $request->julur_belakang;
+        $nokir->dimensi_bakmuatan = $request->dimensi_bakmuatan;
+        $nokir->jbb = $request->jbb;
+        $nokir->jbi = $request->jbi;
+        $nokir->sumbu_1_2 = $request->sumbu_1_2;
+        $nokir->sumbu_2_3 = $request->sumbu_2_3;
+        $nokir->sumbu_3_4 = $request->sumbu_3_4;
+        $nokir->daya_angkutorang = $request->daya_angkutorang;
+        $nokir->kelas_jalan = $request->kelas_jalan;
+        $nokir->keterangan = $request->keterangan;
+        $nokir->masa_berlaku = $request->masa_berlaku;
+        $nokir->nama_petugas_penguji = $request->nama_petugas_penguji;
+        $nokir->nrp_petugas_penguji = $request->nrp_petugas_penguji;
+        $nokir->nama_kepala_dinas = $request->nama_kepala_dinas;
+        $nokir->pangkat_kepala_dinas = $request->pangkat_kepala_dinas;
+        $nokir->nip_kepala_dinas = $request->nip_kepala_dinas;
+        $nokir->unit_pelaksanaan_teknis = $request->unit_pelaksanaan_teknis;
+        $nokir->nama_direktur = $request->nama_direktur;
+        $nokir->pangkat_direktur = $request->pangkat_direktur;
+        $nokir->nip_direktur = $request->nip_direktur;
+        $nokir->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $nokir->save();
 
         return redirect('admin/nokir')->with('success', 'Berhasil memperbarui No. Kir');
+
     }
 
     // public function cetakpdf($id)

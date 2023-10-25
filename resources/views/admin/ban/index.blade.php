@@ -135,7 +135,8 @@
                                                     height="17" width="17" alt="Roda Mobil">
                                             </button>
                                         @elseif($ban->status == 'stok')
-                                            <button type="submit" class="btn btn-primary btn-sm mr-3">
+                                            <button type="submit" class="btn btn-primary btn-sm mr-3" data-toggle="modal"
+                                                data-target="#modal-detailstok-{{ $ban->id }}">
                                                 <img src="{{ asset('storage/uploads/indikator/wheel2.png') }}"
                                                     height="17" width="17" alt="Roda Mobil">
                                             </button>
@@ -242,6 +243,99 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Detail Supplier</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-md">
+                                                    <div class="row mb-3">
+                                                        <div class="col-md">
+                                                            <strong>Kode Supplier</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pembelian_ban)
+                                                                {{ $ban->pembelian_ban->supplier->kode_supplier }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <strong>Nama Supplier</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pembelian_ban)
+                                                                {{ $ban->pembelian_ban->supplier->nama_supp }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <strong>Tanggal Pembelian</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pembelian_ban)
+                                                                {{ $ban->pembelian_ban->tanggal }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="modal-detailstok-{{ $ban->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Detail Supplier</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="col-md">
+                                                    <div class="row mb-3">
+                                                        <div class="col-md">
+                                                            <strong>Kode Supplier</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pembelian_ban)
+                                                                {{ $ban->pembelian_ban->supplier->kode_supplier }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <strong>Nama Supplier</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pembelian_ban)
+                                                                {{ $ban->pembelian_ban->supplier->nama_supp }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <strong>Tanggal Pembelian</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pembelian_ban)
+                                                                {{ $ban->pembelian_ban->tanggal }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -256,13 +350,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                {{-- <p>Yakin hapus kendaraan
-                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
-                                                </p> --}}
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $ban->kode_ban }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$ban->qrcode_ban", 'QRCODE', 15, 15) !!}
                                                     </div>
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $ban->typeban->nama_type }} / {{ $ban->ukuran->ukuran }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"

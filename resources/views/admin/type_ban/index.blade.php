@@ -92,8 +92,7 @@
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/type_ban/' . $type_ban->id) }}"
-                                                    method="POST">
+                                                <form action="{{ url('admin/type_ban/' . $type_ban->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -103,7 +102,7 @@
                                     </div>
                                 </div>
 
-                                    <div class="modal fade" id="modal-qrcode-{{ $type_ban->id }}">
+                                <div class="modal fade" id="modal-qrcode-{{ $type_ban->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -115,9 +114,13 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $type_ban->kode_type }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$type_ban->qrcode_type", 'QRCODE', 15, 15) !!}
                                                     </div>
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $type_ban->nama_type }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"

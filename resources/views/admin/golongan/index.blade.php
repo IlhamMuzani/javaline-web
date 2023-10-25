@@ -118,11 +118,13 @@
                                                     <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
                                                 </p> --}}
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $golongan->kode_golongan }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$golongan->qrcode_golongan", 'QRCODE', 15, 15) !!}
                                                     </div>
-                                                    {{-- <br>
-                                                    AE - {{ $golongan->qrcode_golongan }} --}}
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $golongan->nama_golongan }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"

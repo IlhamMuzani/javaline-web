@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Laporanperjalanan extends Model
 {
     use HasFactory;
+    use LogsActivity;
+
     protected $fillable = [
         'kode_kendaraan',
         'kendaraan_id',
@@ -50,6 +54,13 @@ class Laporanperjalanan extends Model
         'timer',
         'kota_id',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable('*');
+    }
+
 
     public function ban()
     {

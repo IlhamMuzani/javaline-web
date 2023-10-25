@@ -61,7 +61,7 @@ class KendaraanController extends Controller
                 'jenis_kendaraan_id' => 'required',
                 'golongan_id' => 'required',
                 'divisi_id' => 'required',
-                'user_id' => 'required',
+                // 'user_id' => 'required',
             ],
             [
                 'no_kabin.required' => 'Masukkan no kabin',
@@ -75,7 +75,7 @@ class KendaraanController extends Controller
                 'jenis_kendaraan_id.required' => 'Pilih jenis kendaraan',
                 'golongan_id.required' => 'Pilih Golongan',
                 'divisi_id_mobil.required' => 'Pilih devisi mobil',
-                'user_id.required' => 'Pilih driver',
+                // 'user_id.required' => 'Pilih driver',
             ]
         );
 
@@ -180,7 +180,7 @@ class KendaraanController extends Controller
                 'jenis_kendaraan_id' => 'required',
                 'golongan_id' => 'required',
                 'divisi_id' => 'required',
-                'user_id' => 'required',
+                // 'user_id' => 'required',
             ],
             [
                 'no_kabin.required' => 'Masukkan no kabin',
@@ -192,7 +192,7 @@ class KendaraanController extends Controller
                 'expired_stnk.required' => 'Pilih expired no stnk',
                 'jenis_kendaraan_id.required' => 'Pilih jenis kendaraan',
                 'golongan_id.required' => 'Pilih Golongan',
-                'user_id.required' => 'Pilih Driver',
+                // 'user_id.required' => 'Pilih Driver',
             ]
         );
 
@@ -203,26 +203,25 @@ class KendaraanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
 
-        $tanggal = Carbon::now()->format('Y-m-d');
-        Kendaraan::where('id', $kendaraan->id)->update(
-            [
-                'no_kabin' => $request->no_kabin,
-                'no_pol' => $request->no_pol,
-                'no_rangka' => $request->no_rangka,
-                'warna' => $request->warna,
-                'no_mesin' => $request->no_mesin,
-                'expired_kir' => $request->expired_kir,
-                'expired_stnk' => $request->expired_stnk,
-                'jenis_kendaraan_id' => $request->jenis_kendaraan_id,
-                'golongan_id' => $request->golongan_id,
-                'divisi_id' => $request->divisi_id,
-                'user_id' => $request->user_id,
-                'km' => $request->km,
-                'tanggal' => Carbon::now('Asia/Jakarta'), 
-                'tanggal_awal' => $tanggal
-            ]
-        );
+        $kendaraan->no_kabin = $request->no_kabin;
+        $kendaraan->no_pol = $request->no_pol;
+        $kendaraan->no_rangka = $request->no_rangka;
+        $kendaraan->warna = $request->warna;
+        $kendaraan->no_mesin = $request->no_mesin;
+        $kendaraan->expired_kir = $request->expired_kir;
+        $kendaraan->expired_stnk = $request->expired_stnk;
+        $kendaraan->jenis_kendaraan_id = $request->jenis_kendaraan_id;
+        $kendaraan->golongan_id = $request->golongan_id;
+        $kendaraan->divisi_id = $request->divisi_id;
+        $kendaraan->user_id = $request->user_id;
+        $kendaraan->km = $request->km;
+        $kendaraan->tanggal = Carbon::now('Asia/Jakarta');
+        $kendaraan->tanggal_awal = Carbon::now()->format('Y-m-d');
+
+        $kendaraan->save();
+
         return redirect('admin/kendaraan')->with('success', 'Berhasil memperbarui kendaraan');
+
     }
 
     public function destroy($id)

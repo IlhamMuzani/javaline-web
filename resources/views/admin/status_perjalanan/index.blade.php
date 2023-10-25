@@ -134,7 +134,7 @@
                                         @if ($kendaraan->pelanggan)
                                             {{ $kendaraan->pelanggan->nama_pell }}
                                         @else
-                                            pelanggan tidak ada
+                                            tidak ada
                                         @endif
                                     </td>
                                     <td>

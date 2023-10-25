@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Perpanjangan Stnk</title>
+    <title>Surat Perpanjangan Kir</title>
     <style>
         /* * {
             border: 1px solid black;
@@ -28,8 +28,6 @@
         body {
             margin: 40px;
             padding: 10px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12pt;
         }
 
         span.h2 {
@@ -45,18 +43,43 @@
 
         .tdd td {
             border: none;
-            font-family: Arial, Helvetica, sans-serif;
         }
 
         .container {
-            position: relative;
+            display: flex;
+            justify-content: space-between;
             margin-top: 7rem;
+        }
+
+        .blue-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            top: 50%;
+            border-radius: 5px;
+            transform: translateY(-50%);
+
         }
 
         .faktur {
             text-align: center
         }
 
+        /* .blue-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+        } */
 
         .info-container {
             display: flex;
@@ -142,7 +165,7 @@
         .info-1 {}
 
         .label {
-            font-size: 14px;
+            font-size: 13px;
             text-align: center;
             /* Teks menjadi berada di tengah */
 
@@ -168,21 +191,20 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 20px;">SURAT PERPANJANGAN STNK</span>
+        <span style="font-weight: bold; font-size: 20px;">SURAT PERPANJANGAN KIR</span>
         <br>
         <br>
     </div>
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            {{-- <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">No.
-                Kabin:{{ $kendaraan->no_kabin }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Jenis
-                Kendaraan:{{ $kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Total
-                Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td> --}}
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                Kode Perpanjangan:{{ $cetakpdf->kode_perpanjangan }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
@@ -206,12 +228,12 @@
             {{-- <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $loop->iteration }}
                 </td> --}}
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                {{ $cetakpdf->kendaraan->no_kabin }}
+                {{ $cetakpdf->nokir->kendaraan->no_kabin }}
             </td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                {{ $cetakpdf->kendaraan->no_pol }}
+                {{ $cetakpdf->nokir->kendaraan->no_pol }}
             </td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $cetakpdf->expired_stnk }}
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $cetakpdf->masa_berlaku }}
             </td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                 Rp.{{ number_format($cetakpdf->jumlah, 0, ',', '.') }}
@@ -233,6 +255,7 @@
                     <tr>
                         <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
+
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
@@ -270,5 +293,11 @@
         </tr>
     </table>
 </body>
+
+
+<div class="container">
+    <a href="{{ url('admin/inquery_perpanjangankir') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/inquery_perpanjangankir/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
+</div>
 
 </html>

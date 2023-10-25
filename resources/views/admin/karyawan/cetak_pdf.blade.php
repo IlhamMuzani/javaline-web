@@ -9,96 +9,76 @@
     <title>Invoice</title>
 
     <style type="text/css">
-        .invoice-box {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: Arial, sans-serif;
+        /* Reset all margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box1 {
+            margin-left: 20px;
+            margin-top: 130px
+        }
+
+        .box {
+            margin-left: 27px;
+            margin-top: 1px;
+        }
+
+        .box3 {
+            margin-left: 27px;
+            margin-top: 4px;
         }
 
 
-        .invoice-box table {
-            max-width: 800px;
-            margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 16px;
-            line-height: 24px;
-            font-family: Arial, sans-serif;
+        .text-container {
+            position: relative;
+            width: 200px;
+            /* Set an appropriate width */
+            height: 68px;
+            /* Set an appropriate height */
+            transform: rotate(90deg);
         }
 
-        /*
-        .invoice-box table td {
-            padding: 5px;
-            vertical-align: top;
+        .text {
+            white-space: nowrap;
+            position: absolute;
+            margin-left: 60px;
+            margin-top: 56px;
+            font-size: 10px;
+            top: 0;
+            /* Adjust the top position as needed */
+            left: 0;
+            /* Adjust the left position as needed */
         }
-
-        .invoice-box table tr td:nth-child(2) {
-            text-align: right;
-        }
-
-        .invoice-box table tr.top table td {
-            padding-bottom: 20px;
-        }
-
-        .invoice-box table tr.information table td {
-            padding-bottom: 40px;
-        }
-
-        .invoice-box table tr.heading td {
-            background: #eee;
-            border-bottom: 1px solid #ddd;
-            font-weight: bold;
-        }
-
-        .invoice-box table tr.details td {
-            padding-bottom: 20px;
-        }
-
-        .invoice-box table tr.item td {
-            border-bottom: 1px solid #eee;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .invoice-box table tr.top table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
-
-            .invoice-box table tr.information table td {
-                width: 100%;
-                display: block;
-                text-align: center;
-            }
-        }
-
-        */
     </style>
 
 </head>
 
 <body>
+    <div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="box1">
+            <img src="{{ asset('storage/uploads/' . $karyawans->gambar) }}" width="150" height="150"
+                class="w-100 rounded border">
+        </div>
+        {{-- <div class="box1">
+            {!! DNS2D::getBarcodeHTML("$karyawans->qrcode_karyawan", 'QRCODE', 10, 10) !!}
 
-    <div class="invoice-box">
-        <table cellpadding="0" cellspacing="0">
-            {{-- @foreach ($cetakpdf as $item) --}}
-            <td>
-                    <div style="display: inline-block;">
-                        {!! DNS2D::getBarcodeHTML("$cetakpdf->qrcode_karyawan", 'QRCODE', 10, 10) !!}
-                    </div>
-                </td>
-            {{-- @endforeach --}}
-            <div class="col-md-6">
-            </div>
-        </table>
+        </div> --}}
+
+
     </div>
-
 </body>
 
 </html>

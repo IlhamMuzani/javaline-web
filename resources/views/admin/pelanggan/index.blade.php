@@ -130,27 +130,21 @@
                                                     <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
                                                 </p> --}}
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $pelanggan->kode_pelanggan }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$pelanggan->qrcode_pelanggan", 'QRCODE', 15, 15) !!}
                                                     </div>
-                                                    {{-- <br>
-                                                    AE - {{ $user->qrcode_user }} --}}
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $pelanggan->nama_pell }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    {{-- <form action="{{ url('admin/ban/' . $golongan->id) }}" method="POST">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-primary">Cetak</button>
-                                                    </form> --}}
                                                     <a href="{{ url('admin/pelanggan/cetak-pdf/' . $pelanggan->id) }}"
                                                         class="btn btn-primary btn-sm">
                                                         <i class=""></i> Cetak
                                                     </a>
-                                                    {{-- <a href="{{ url('admin/cetak-pdf/' . $golongan->id) }}" target="_blank"
-                                                        class="btn btn-outline-primary btn-sm float-end">
-                                                        <i class="fa-solid fa-print"></i> Cetak PDV
-                                                    </a> --}}
                                                 </div>
                                             </div>
                                         </div>

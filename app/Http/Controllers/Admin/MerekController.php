@@ -140,11 +140,13 @@ class MerekController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Merek::where('id', $id)->update([
-            'nama_merek' => $request->nama_merek,
-            'kendaraan_id' => $request->kendaraan_id,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-        ]);
+        $merek = Merek::find($id);
+
+        $merek->nama_merek = $request->nama_merek;
+        $merek->kendaraan_id = $request->kendaraan_id;
+        $merek->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $merek->save();
 
         return redirect('admin/merek_ban')->with('success', 'Berhasil memperbarui Merek ban');
     }

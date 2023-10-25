@@ -70,6 +70,9 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT PERPANJANGAN STNK</span>
@@ -80,12 +83,8 @@
 
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin:{{ $kendaraan->no_kabin }}</td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
-                Kendaraan:{{ $kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Total
-                Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td> --}}
+            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
+                Kode Perpanjangan:{{ $laporan->kode_perpanjangan }}</td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
@@ -176,8 +175,9 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
+
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
@@ -202,7 +202,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>

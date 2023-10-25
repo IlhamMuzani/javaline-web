@@ -109,7 +109,7 @@
                                     </div>
                                 </div>
 
-                                 <div class="modal fade" id="modal-qrcode-{{ $supplier->id }}">
+                                <div class="modal fade" id="modal-qrcode-{{ $supplier->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -120,15 +120,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                {{-- <p>Yakin hapus kendaraan
-                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
-                                                </p> --}}
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $supplier->kode_supplier }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$supplier->qrcode_supplier", 'QRCODE', 15, 15) !!}
                                                     </div>
-                                                    {{-- <br>
-                                                    AE - {{ $supplier->qrcode_supplier }} --}}
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $supplier->nama_supp }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"

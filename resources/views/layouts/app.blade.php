@@ -51,7 +51,7 @@
     <div class="wrapper">
 
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="" src="{{ asset('storage/uploads/user/logo.png') }}" alt="AdminLTELogo" height="50"
+            <img class="" src="{{ asset('storage/uploads/user/logo.png') }}" alt="javaline" height="50"
                 width="100">
         </div>
 
@@ -82,26 +82,14 @@
             <!-- Brand Logo -->
             <a href="" class="brand-link">
                 <img src="{{ asset('storage/uploads/karyawan/user.png') }}" alt="javaline" class="brand-image">
-                <span class="brand-text font-wight-bold">{{ auth()->user()->karyawan->nama_lengkap }}</span>
+                <span style="font-size: 18px"
+                    class="brand-text font-wight-bold">{{ auth()->user()->karyawan->nama_lengkap }}</span>
             </a>
 
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    {{-- <div class="image">
-            @if (auth()->user()->foto)
-              <img src="{{ asset('storage/uploads/' . auth()->user()->foto) }}" class="img-circle elevation-2"
-                alt="{{ auth()->user()->nama }}">
-            @else
-              <img src="{{ asset('storage/uploads/image-placeholder.jpg') }}" class="img-circle elevation-2"
-                alt="{{ auth()->user()->nama }}">
-            @endif
-          </div> --}}
-                    <div class="info">
-                        {{-- <span class="text-white">{{ ucfirst(auth()->user()->nama) }}</span> --}}
-                    </div>
-                </div>
+              
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">

@@ -29,7 +29,7 @@ class BanController extends Controller
 
             $inquery->orderBy('id', 'DESC');
             $bans = $inquery->get();
-            
+
             return view('admin/ban.index', compact('bans'));
         } else {
             // tidak memiliki akses
@@ -91,7 +91,7 @@ class BanController extends Controller
                 'qrcode_ban' => 'https://javaline.id/ban/' . $kode,
                 // 'qrcode_ban' => 'http://192.168.1.46/javaline/ban/' . $kode
                 'status' => 'stok',
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
+                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
 
             ]
         ));
@@ -100,16 +100,11 @@ class BanController extends Controller
 
     public function cetakpdf($id)
     {
-        $cetakpdf = Ban::where('id', $id)->first();
-        $html = view('admin/ban.cetak_pdf', compact('cetakpdf'));
-
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'landscape');
-
-        $dompdf->render();
-
-        $dompdf->stream();
+        $bans = Ban::find($id);
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.ban.cetak_pdf', compact('bans'));
+        $pdf->setPaper('letter', 'potrait');
+        return $pdf->stream('QrCodeBan.pdf');
     }
 
 
@@ -191,19 +186,18 @@ class BanController extends Controller
 
         $ban = Ban::findOrFail($id);
 
-        Ban::where('id', $ban->id)->update(
-            [
-                'no_seri' => $request->no_seri,
-                'merek_id' => $request->merek_id,
-                'typeban_id' => $request->typeban_id,
-                'ukuran_id' => $request->ukuran_id,
-                'kondisi_ban' => $request->kondisi_ban,
-                'harga' => $request->harga,
-                'umur_ban' => $request->umur_ban,
-                'target_km_ban' => $request->target_km_ban,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-            ]
-        );
+        $ban->no_seri = $request->no_seri;
+        $ban->merek_id = $request->merek_id;
+        $ban->typeban_id = $request->typeban_id;
+        $ban->ukuran_id = $request->ukuran_id;
+        $ban->kondisi_ban = $request->kondisi_ban;
+        $ban->harga = $request->harga;
+        $ban->umur_ban = $request->umur_ban;
+        $ban->target_km_ban = $request->target_km_ban;
+        $ban->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $ban->save();
+
         return redirect('admin/ban')->with('success', 'Berhasil memperbarui ban');
     }
 

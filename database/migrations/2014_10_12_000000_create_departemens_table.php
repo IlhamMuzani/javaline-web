@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('departemens', function (Blueprint $table) {
-            $table->bigIncrements('id')->nullable();
+            $table->id();
             $table->string('nama')->nullable();
             $table->string('qrcode_departemen')->nullable();
             $table->string('tanggal_awal')->nullable();

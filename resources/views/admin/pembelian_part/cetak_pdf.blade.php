@@ -194,7 +194,7 @@
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 13px;">PT. JAVALINE LOGISTICS</td>
+                            <td class="info-catatan2" style="font-size: 13px;">PT. JAVA LINE LOGISTICS</td>
                             {{-- <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">Company Name</td> --}}
                         </tr>

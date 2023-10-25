@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\ServerBag;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Pemasangan_ban extends Model
 {
     use HasFactory;
+    use LogsActivity;
+
     protected $fillable = [
         'kendaraan_id',
         'status',
@@ -19,6 +23,14 @@ class Pemasangan_ban extends Model
         'kode_pemasangan',
         'status_notif',
     ];
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable('*');
+    }
+
 
     public function kendaraan()
     {

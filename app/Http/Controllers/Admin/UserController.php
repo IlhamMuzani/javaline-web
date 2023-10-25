@@ -146,14 +146,14 @@ class UserController extends Controller
                     'laporan pemasangan part' => false,
                     'laporan penggantian oli' => false,
                     'laporan update km' => false,
-                    'laporan status perjalanan kendaraaan' => false,
+                    'laporan status perjalanan kendaraan' => false,
                 ]
             ]
         ));
 
-        Karyawan::where('id', $request->karyawan_id)->update([
-            'status' => 'user',
-        ]);
+        $karyawan = Karyawan::findOrFail($request->karyawan_id);
+        $karyawan->status = 'user';
+        $karyawan->save();
 
         return redirect('admin/user')->with('success', 'Berhasil mengubah User');
     }
@@ -167,13 +167,10 @@ class UserController extends Controller
     {
         $cetakpdf = User::where('id', $id)->first();
         $html = view('admin/user.cetak_pdf', compact('cetakpdf'));
-
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
-
         $dompdf->render();
-
         $dompdf->stream();
     }
 

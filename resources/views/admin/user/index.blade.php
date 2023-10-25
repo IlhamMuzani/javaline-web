@@ -47,7 +47,7 @@
                                 <th>Nama</th>
                                 <th>Telepon</th>
                                 <th>Departemen</th>
-                                <th class="text-center">Qr Code</th>
+                                {{-- <th class="text-center">Qr Code</th> --}}
                                 <th class="text-center" width="20">Opsi</th>
                             </tr>
                         </thead>
@@ -59,12 +59,12 @@
                                     <td>{{ $user->karyawan->nama_lengkap }}</td>
                                     <td>{{ $user->karyawan->telp }}</td>
                                     <td>{{ $user->karyawan->departemen->nama }}</td>
-                                    <td data-toggle="modal" data-target="#modal-qrcode-{{ $user->id }}"
+                                    {{-- <td data-toggle="modal" data-target="#modal-qrcode-{{ $user->id }}"
                                         style="text-align: center;">
                                         <div style="display: inline-block;">
                                             {!! DNS2D::getBarcodeHTML("$user->qrcode_user", 'QRCODE', 2, 2) !!}
                                         </div>
-                                    </td>
+                                    </td> --}}
                                     <td class="text-center">
                                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#modal-hapus-{{ $user->id }}">

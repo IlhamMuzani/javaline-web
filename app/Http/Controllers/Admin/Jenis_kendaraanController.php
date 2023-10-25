@@ -149,16 +149,19 @@ class Jenis_kendaraanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Jenis_kendaraan::where('id', $id)->update([
-            'nama_jenis_kendaraan' => $request->nama_jenis_kendaraan,
-            'panjang' => $request->panjang,
-            'lebar' => $request->lebar,
-            'tinggi' => $request->tinggi,
-            'total_ban' => $request->total_ban,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-        ]);
+        $jenisKendaraan = Jenis_kendaraan::find($id);
+
+        $jenisKendaraan->nama_jenis_kendaraan = $request->nama_jenis_kendaraan;
+        $jenisKendaraan->panjang = $request->panjang;
+        $jenisKendaraan->lebar = $request->lebar;
+        $jenisKendaraan->tinggi = $request->tinggi;
+        $jenisKendaraan->total_ban = $request->total_ban;
+        $jenisKendaraan->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $jenisKendaraan->save();
 
         return redirect('admin/jenis_kendaraan')->with('success', 'Berhasil memperbarui jenis kendaraan');
+
     }
 
     public function destroy($id)

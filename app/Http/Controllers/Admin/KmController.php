@@ -99,14 +99,16 @@ class KmController extends Controller
         ]);
 
         $tanggal = Carbon::now()->format('Y-m-d');
-        Kendaraan::where('id', $km->id)->update(
-            [
-                'km' => $request->km,
-                'tanggal' => Carbon::now('Asia/Jakarta'),
-                'tanggal_awal' => $tanggal
-            ]
-        );
-        return redirect('admin/km')->with('success', 'Kilo meter berhasil terupdate');
+        $kendaraan = Kendaraan::findOrFail($km->id);
+
+        $kendaraan->km = $request->km;
+        $kendaraan->tanggal = Carbon::now('Asia/Jakarta');
+        $kendaraan->tanggal_awal = $tanggal;
+
+        $kendaraan->save();
+
+        return redirect('admin/km')->with('success', 'Kilometer berhasil terupdate');
+
     }
 
     public function updateKM(Request $request, $id)

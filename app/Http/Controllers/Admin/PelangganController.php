@@ -181,23 +181,22 @@ class PelangganController extends Controller
 
         $pelanggan = Pelanggan::findOrfail($id);
 
+        $pelanggan->nama_pell = $request->nama_pell;
+        $pelanggan->nama_alias = $request->nama_alias;
+        $pelanggan->npwp = $request->npwp;
+        $pelanggan->alamat = $request->alamat;
+        $pelanggan->nama_person = $request->nama_person;
+        $pelanggan->jabatan = $request->jabatan;
+        $pelanggan->telp = $request->telp;
+        $pelanggan->fax = $request->fax;
+        $pelanggan->hp = $request->hp;
+        $pelanggan->email = $request->email;
+        $pelanggan->tanggal_awal = Carbon::now('Asia/Jakarta');
 
-        Pelanggan::where('id', $pelanggan->id)
-            ->update([
-                'nama_pell' => $request->nama_pell,
-                'nama_alias' => $request->nama_alias,
-                'npwp' => $request->npwp,
-                'alamat' => $request->alamat,
-                'nama_person' => $request->nama_person,
-                'jabatan' => $request->jabatan,
-                'telp' => $request->telp,
-                'fax' => $request->fax,
-                'hp' => $request->hp,
-                'email' => $request->email,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-            ]);
+        $pelanggan->save();
 
         return redirect('admin/pelanggan')->with('success', 'Berhasil memperbarui pelanggan');
+
     }
 
     public function destroy($id)

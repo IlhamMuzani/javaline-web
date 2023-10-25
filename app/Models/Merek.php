@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Merek extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'kode_merek',
@@ -18,6 +21,14 @@ class Merek extends Model
         'tanggal_awal',
         'tanggal_akhir',
     ];
+
+    
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable('*');
+    }
+
 
     public function ban()
     {

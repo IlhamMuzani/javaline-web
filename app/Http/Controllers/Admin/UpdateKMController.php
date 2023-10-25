@@ -67,16 +67,17 @@ class UpdateKMController extends Controller
         ]);
 
         $tanggal = Carbon::now()->format('Y-m-d');
-        Kendaraan::where('id', $kendaraan->id)->update(
-            [
-                'nama_security' => auth()->user()->karyawan->nama_lengkap,
-                'km' => $request->km,
-                'tanggal' => Carbon::now('Asia/Jakarta'),
-                'tanggal_awal' => $tanggal,
-                'status_post' => 'posting',
-                'status_notif' => false
-            ]
-        );
+        $kendaraan = Kendaraan::findOrFail($kendaraan->id);
+
+        $kendaraan->nama_security = auth()->user()->karyawan->nama_lengkap;
+        $kendaraan->km = $request->km;
+        $kendaraan->tanggal = Carbon::now('Asia/Jakarta');
+        $kendaraan->tanggal_awal = $tanggal;
+        $kendaraan->status_post = 'posting';
+        $kendaraan->status_notif = false;
+
+        $kendaraan->save();
+
         return back()->with('success', 'Kilo meter berhasil terupdate');
     }
 }

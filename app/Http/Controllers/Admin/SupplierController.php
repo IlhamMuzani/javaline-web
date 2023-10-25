@@ -46,27 +46,27 @@ class SupplierController extends Controller
                 // 'nama_person' => 'required',
                 // 'jabatan' => 'required',
                 // 'fax' => 'required',
-                'telp' => 'required',
-                'hp' => 'required',
+                // 'telp' => 'required',
+                // 'hp' => 'required',
                 // 'email' => 'required',
                 // 'npwp' => 'required',
-                'nama_bank' => 'required',
-                'atas_nama' => 'required',
-                'norek' => 'required',
+                // 'nama_bank' => 'required',
+                // 'atas_nama' => 'required',
+                // 'norek' => 'required',
             ],
             [
                 'nama_supp.required' => 'Masukkan nama supplier',
                 'alamat.required' => 'Masukkan Alamat',
                 // 'nama_person.required' => 'Masukkan nama',
                 // 'jabatan.required' => 'Masukkan jabatan',
-                'telp.required' => 'Masukkan no telepon',
+                // 'telp.required' => 'Masukkan no telepon',
                 // 'fax.required' => 'Masukkan no fax',
-                'hp.required' => 'Masukkan no hp',
+                // 'hp.required' => 'Masukkan no hp',
                 // 'email.required' => 'Masukkan email',
                 // 'npwp.required' => 'Masukkan no npwp',
-                'nama_bank.required' => 'Masukkan nama bank',
-                'atas_nama.required' => 'Masukkan atas nama',
-                'norek.required' => 'Masukkan no rekening',
+                // 'nama_bank.required' => 'Masukkan nama bank',
+                // 'atas_nama.required' => 'Masukkan atas nama',
+                // 'norek.required' => 'Masukkan no rekening',
             ]
         );
 
@@ -135,30 +135,30 @@ class SupplierController extends Controller
             [
                 'nama_supp' => 'required',
                 'alamat' => 'required',
-                'nama_person' => 'required',
+                // 'nama_person' => 'required',
                 // 'jabatan' => 'required',
                 // 'fax' => 'required',
-                'telp' => 'required',
-                'hp' => 'required',
+                // 'telp' => 'required',
+                // 'hp' => 'required',
                 // 'email' => 'required',
                 // 'npwp' => 'required',
-                'nama_bank' => 'required',
-                'atas_nama' => 'required',
-                'norek' => 'required',
+                // 'nama_bank' => 'required',
+                // 'atas_nama' => 'required',
+                // 'norek' => 'required',
             ],
             [
                 'nama_supp.required' => 'Masukkan nama supplier',
                 'alamat.required' => 'Masukkan Alamat',
-                'nama_person.required' => 'Masukkan nama',
+                // 'nama_person.required' => 'Masukkan nama',
                 // 'jabatan.required' => 'Masukkan jabatan',
                 // 'telp.required' => 'Masukkan no telepon',
-                'fax.required' => 'Masukkan no fax',
-                'hp.required' => 'Masukkan no hp',
+                // 'fax.required' => 'Masukkan no fax',
+                // 'hp.required' => 'Masukkan no hp',
                 // 'email.required' => 'Masukkan email',
                 // 'npwp.required' => 'Pilih no npwp',
-                'nama_bank.required' => 'Masukkan nama bank',
-                'atas_nama.required' => 'Masukkan atas nama',
-                'norek.required' => 'Masukkan no rekening',
+                // 'nama_bank.required' => 'Masukkan nama bank',
+                // 'atas_nama.required' => 'Masukkan atas nama',
+                // 'norek.required' => 'Masukkan no rekening',
             ]
         );
 
@@ -169,24 +169,24 @@ class SupplierController extends Controller
 
         $supplier = Supplier::findOrFail($id);
 
-        Supplier::where('id', $supplier->id)
-            ->update([
-                'nama_supp' => $request->nama_supp,
-                'alamat' => $request->alamat,
-                'nama_person' => $request->nama_person,
-                'jabatan' => $request->jabatan,
-                'telp' => $request->telp,
-                'fax' => $request->fax,
-                'hp' => $request->hp,
-                'email' => $request->email,
-                'npwp' => $request->npwp,
-                'nama_bank' => $request->nama_bank,
-                'atas_nama' => $request->atas_nama,
-                'norek' => $request->norek,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-            ]);
+        $supplier->nama_supp = $request->nama_supp;
+        $supplier->alamat = $request->alamat;
+        $supplier->nama_person = $request->nama_person;
+        $supplier->jabatan = $request->jabatan;
+        $supplier->telp = $request->telp;
+        $supplier->fax = $request->fax;
+        $supplier->hp = $request->hp;
+        $supplier->email = $request->email;
+        $supplier->npwp = $request->npwp;
+        $supplier->nama_bank = $request->nama_bank;
+        $supplier->atas_nama = $request->atas_nama;
+        $supplier->norek = $request->norek;
+        $supplier->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $supplier->save();
 
         return redirect('admin/supplier')->with('success', 'Berhasil memperbarui supplier');
+
     }
 
     public function kode()

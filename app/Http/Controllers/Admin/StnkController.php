@@ -195,25 +195,28 @@ class StnkController extends Controller
             return back()->withInput()->with('error', $error);
         }
         $stnk = Stnk::findOrFail($id);
-        Stnk::where('id', $id)->update([
-            'kendaraan_id' => $request->kendaraan_id,
-            'nama_pemilik' => $request->nama_pemilik,
-            'alamat' => $request->alamat,
-            'merek' => $request->merek,
-            'type' => $request->type,
-            'jenis_kendaraan_id' => $request->jenis_kendaraan_id,
-            'model' => $request->model,
-            'tahun_pembuatan' => $request->tahun_pembuatan,
-            'no_rangka' => $request->no_rangka,
-            'no_mesin' => $request->no_mesin,
-            'warna' => $request->warna,
-            'warna_tnkb' => $request->warna_tnkb,
-            'tahun_registrasi' => $request->tahun_registrasi,
-            'nomor_bpkb' => $request->nomor_bpkb,
-            'expired_stnk' => $request->expired_stnk,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-        ]);
+
+        $stnk->kendaraan_id = $request->kendaraan_id;
+        $stnk->nama_pemilik = $request->nama_pemilik;
+        $stnk->alamat = $request->alamat;
+        $stnk->merek = $request->merek;
+        $stnk->type = $request->type;
+        $stnk->jenis_kendaraan_id = $request->jenis_kendaraan_id;
+        $stnk->model = $request->model;
+        $stnk->tahun_pembuatan = $request->tahun_pembuatan;
+        $stnk->no_rangka = $request->no_rangka;
+        $stnk->no_mesin = $request->no_mesin;
+        $stnk->warna = $request->warna;
+        $stnk->warna_tnkb = $request->warna_tnkb;
+        $stnk->tahun_registrasi = $request->tahun_registrasi;
+        $stnk->nomor_bpkb = $request->nomor_bpkb;
+        $stnk->expired_stnk = $request->expired_stnk;
+        $stnk->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $stnk->save();
+
         return redirect('admin/stnk')->with('success', 'Berhasil memperbarui No. Stnk');
+
     }
     public function cetakpdf($id)
     {

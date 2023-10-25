@@ -5,10 +5,14 @@ namespace App\Models;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Sparepart extends Model
 {
     use HasFactory;
+    use LogsActivity;
+
     protected $fillable = [
         'kode_partdetail',
         'pembelian_part_id',
@@ -23,6 +27,13 @@ class Sparepart extends Model
         'tanggal_awal',
         'tanggal_akhir',
     ];
+    
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logFillable('*');
+    }
+
 
     public function pembelian_part()
     {

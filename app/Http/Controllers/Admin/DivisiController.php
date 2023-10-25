@@ -134,13 +134,15 @@ class DivisiController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        Divisi::where('id', $id)->update([
-            'nama_divisi' => $request->nama_divisi,
-            'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
+        $divisi = Divisi::find($id);
 
-        ]);
+        $divisi->nama_divisi = $request->nama_divisi;
+        $divisi->tanggal_awal = Carbon::now('Asia/Jakarta');
+
+        $divisi->save();
 
         return redirect('admin/divisi')->with('success', 'Berhasil memperbarui divisi');
+
     }
 
     public function destroy($id)

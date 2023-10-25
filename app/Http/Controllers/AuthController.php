@@ -57,6 +57,11 @@ class AuthController extends Controller
         ]);
 
         if ($auth) {
+
+            activity()
+                ->performedOn($user)
+                ->log('Login');
+
             return redirect('check-user');
         } else {
             return back()->with('error', array('Kode dan password tidak cocok'));
@@ -103,7 +108,20 @@ class AuthController extends Controller
     }
     public function logout()
     {
+        // Mendapatkan pengguna yang sedang login (jika masih ada sesi)
+        $user = Auth::user();
+
+        // Melakukan logout
         Auth::logout();
+
+        // Jika ada pengguna yang sedang login, tambahkan log activity dengan mengidentifikasi pengguna yang melakukan logout sebagai causer
+        if ($user) {
+            activity()
+                ->performedOn($user)
+                ->causedBy($user) // Menentukan pengguna yang logout sebagai causer
+                ->log('Logout');
+        }
+
         return redirect('login')->with('success', 'Berhasil logout');
     }
 }

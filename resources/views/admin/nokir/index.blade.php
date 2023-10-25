@@ -61,6 +61,9 @@
                                     <td>{{ $nokir->kode_kir }}</td>
                                     <td>{{ $nokir->nama_pemilik }}</td>
                                     <td>{{ $nokir->masa_berlaku }}</td>
+
+                                    {{-- <td>{{ \Carbon\Carbon::parse($nokir->masa_berlaku)->format('d M Y') }}</td> --}}
+
                                     <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}"
                                         style="text-align: center;">
                                         <div style="display: inline-block;">
@@ -68,7 +71,8 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}"
+                                            class="btn btn-primary btn-sm">
                                             <i class="fas fa-print"></i>
                                         </a>
                                         <a href="{{ url('admin/nokir/' . $nokir->id) }}" class="btn btn-info btn-sm">
@@ -117,14 +121,14 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                {{-- <p>Yakin hapus kendaraan
-                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
-                                                </p> --}}
                                                 <div style="text-align: center;">
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $nokir->kode_kir }}</p>
                                                     <div style="display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 15, 15) !!}
                                                     </div>
-
+                                                    <p style="font-size:20px; font-weight: bold;">
+                                                        {{ $nokir->masa_berlaku }}</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"

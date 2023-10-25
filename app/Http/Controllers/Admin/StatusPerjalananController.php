@@ -98,13 +98,13 @@ class StatusPerjalananController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
 
-        Kendaraan::where('id', $kendaraan->id)->update(
-            [
-                'kota_id' => $request->kota_id,
-                'status_perjalanan' => $request->status_perjalanan,
-            ]
-        );
+        $kendaraan->kota_id = $request->kota_id;
+        $kendaraan->status_perjalanan = $request->status_perjalanan;
+
+        $kendaraan->save();
+
         return redirect('admin/status_perjalanan')->with('success', 'Berhasil merubah');
+
     }
 
     public function konfirmasiselesai($id)
