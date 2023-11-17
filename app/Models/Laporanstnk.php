@@ -36,7 +36,7 @@ class Laporanstnk extends Model
 
     public static function getId()
     {
-        return $getId = DB::table('Laporanstnks')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('laporanstnks')->orderBy('id', 'DESC')->take(1)->get();
     }
 
 

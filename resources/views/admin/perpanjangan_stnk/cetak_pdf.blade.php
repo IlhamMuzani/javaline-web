@@ -71,8 +71,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
-    </div>
+  <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="60">    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT PERPANJANGAN STNK</span>

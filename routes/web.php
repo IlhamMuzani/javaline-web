@@ -145,6 +145,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print_ban', [\App\Http\Controllers\Admin\LaporanPembelianBan::class, 'print_ban']);
     Route::get('laporan_pemasanganban', [\App\Http\Controllers\Admin\LaporanpemasanganbanController::class, 'index']);
     Route::get('print_pemasanganban', [\App\Http\Controllers\Admin\LaporanpemasanganbanController::class, 'print_pemasanganban']);
+    Route::get('cetak_pdffilter', [\App\Http\Controllers\Admin\BanController::class, 'cetak_pdffilter']);
 
 
     Route::get('laporan_pelepasanban', [\App\Http\Controllers\Admin\LaporanpelepasanbanController::class, 'index']);
@@ -252,7 +253,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('edit_penggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'edit_penggantianoli'])->name('edit_penggantianoli');
     Route::delete('inquery_penggantianoli/deleteoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'delete']);
     Route::delete('inquery_penggantianoli/deleteolidetail/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'deleteoli']);
-    
+    Route::delete('inquery_penggantianoli/deletefilterdetail/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'deletefilter']);
+
     Route::get('laporan_penggantianoli', [\App\Http\Controllers\Admin\LaporanPenggantianoliController::class, 'index']);
     Route::get('print_penggantianoli', [\App\Http\Controllers\Admin\LaporanPenggantianoliController::class, 'print_penggantianoli']);
     Route::get('status_perjalanan', [\App\Http\Controllers\Admin\StatusPerjalananController::class, 'index']);

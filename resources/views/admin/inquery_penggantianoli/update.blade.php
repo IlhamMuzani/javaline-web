@@ -106,7 +106,6 @@
                             </button>
                         </div>
                     </div>
-                    <!-- /.card-header -->
                     <div class="card-body">
                         <table class="table table-bordered table-striped">
                             <thead>
@@ -115,7 +114,6 @@
                                     <th>Kategori</th>
                                     <th>Nama Part</th>
                                     <th>Kode Part</th>
-                                    {{-- <th>Keterangan</th> --}}
                                     <th>Jumlah Liter</th>
                                     <th>Opsi</th>
                                 </tr>
@@ -168,19 +166,7 @@
                                                     value="{{ $sparepart ? $sparepart->kode_partdetail : '' }}">
                                             </div>
                                         </td>
-                                        {{-- <td>
-                                            <div class="form-group">
-                                                <select class="form-control" id="keterangan-0" name="keterangan[]">
-                                                    <option value="">- Pilih -</option>
-                                                    <option value="Pergantian Baru"
-                                                        {{ old('Pergantian Baru', $detail['keterangan']) == 'Pergantian Baru' ? 'selected' : null }}>
-                                                        Pergantian Baru</option>
-                                                    <option value="Pergantian -"
-                                                        {{ old('Pergantian -', $detail['keterangan']) == 'Pergantian -' ? 'selected' : null }}>
-                                                        Pergantian -</option>
-                                                </select>
-                                            </div>
-                                        </td> --}}
+
                                         <td>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="jumlah-0"
@@ -197,6 +183,102 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+
+                    <div style="margin-top: 20px;" class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Tambah Filter</h3>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan2()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kategori</th>
+                                        <th>Nama Part</th>
+                                        <th>Kode Part</th>
+                                        <th>Jumlah Pcs</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-pembelian2">
+                                    @foreach ($detailparts as $detail)
+                                        <tr id="pembelian2-{{ $loop->index }}">
+                                            <td class="text-center" id="urutan2">{{ $loop->index + 1 }}</td>
+                                            <td style="width: 240px">
+                                                <div class="form-group" hidden>
+                                                    <input type="text" class="form-control" name="details_ids[]"
+                                                        value="{{ $detail['id'] }}">
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-control" id="kategori2-0" name="kategori2[]">
+                                                        <option value="">Pilih</option>
+                                                        <option value="Filter Oli"
+                                                            {{ old('Filter Oli', $detail['kategori2']) == 'Filter Oli' ? 'selected' : null }}>
+                                                            Filter Oli</option>
+                                                        <option value="Filter Solar Atas"
+                                                            {{ old('Filter Solar Atas', $detail['kategori2']) == 'Filter Solar Atas' ? 'selected' : null }}>
+                                                            Filter Solar Atas</option>
+                                                        <option value="Filter Solar Bawah"
+                                                            {{ old('Filter Solar Bawah', $detail['kategori2']) == 'Filter Solar Bawah' ? 'selected' : null }}>
+                                                            Filter Solar Bawah</option>
+                                                        <option value="Filter Angin"
+                                                            {{ old('Filter Angin', $detail['kategori2']) == 'Filter Angin' ? 'selected' : null }}>
+                                                            Filter Angin</option>
+                                                        <option value="Gemuk"
+                                                            {{ old('Gemuk', $detail['kategori2']) == 'Gemuk' ? 'selected' : null }}>
+                                                            Gemuk</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td style="width: 240px">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="spareparts_id-{{ $loop->index }}"
+                                                        name="spareparts_id[]">
+                                                        <option value="">- Pilih Part -</option>
+                                                        @foreach ($spareparts as $sparepart_id)
+                                                            <option value="{{ $sparepart_id->id }}"
+                                                                {{ old('spareparts_id.' . $loop->parent->index, $detail['spareparts_id']) == $sparepart_id->id ? 'selected' : '' }}>
+                                                                {{ $sparepart_id->nama_barang }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <?php
+                                            $sparepart = \App\Models\Sparepart::find($detail['spareparts_id']);
+                                            ?>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" readonly class="form-control"
+                                                        id="nama_barang2-0" name="nama_barang2[]"
+                                                        value="{{ $sparepart ? $sparepart->kode_partdetail : '' }}">
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="jumlah2-0"
+                                                        name="jumlah2[]" value="{{ $detail['jumlah2'] }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="removeBan2({{ $loop->index }}, {{ $detail['id'] }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -351,21 +433,7 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // keterangan
-            // item_pembelian += '<td>';
-            // item_pembelian += '<div class="form-group">';
-            // item_pembelian += '<select class="form-control" id="keterangan-' + key +
-            //     '" name="keterangan[]">';
-            // item_pembelian += '<option value="">Pilih</option>';
-            // item_pembelian += '<option value="Pergantian Baru"' + (keterangan === 'Pergantian Baru' ? ' selected' : '') +
-            //     '>Pergantian Baru</option>';
-            // item_pembelian += '<option value="Pergantian -"' + (keterangan === 'Pergantian -' ? ' selected' : '') +
-            //     '>Pergantian -</option>';
-            // item_pembelian += '</select>';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
-
-            // harga
+            // jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<input type="number" class="form-control" id="jumlah-' + key +
@@ -391,6 +459,171 @@
                 $('#nama_barang-' + key).val(value.nama_barang);
                 // $('#keterangan-' + key).val(value.keterangan);
                 $('#jumlah-' + key).val(value.jumlah);
+            }
+        }
+
+
+
+        function getDataarray2(key) {
+            var sparepart_id = document.getElementById('spareparts_id-' + key);
+            $.ajax({
+                url: "{{ url('admin/pembelian_part/sparepart') }}" + "/" + sparepart_id.value,
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    var kode_partdetail = document.getElementById('nama_barang2-' + key);
+                    kode_partdetail.value = response.kode_partdetail;
+                },
+            });
+        }
+
+        var data_pembelian = @json(session('data_pembelians2'));
+        var jumlah_ban2 = 1;
+
+        if (data_pembelian != null) {
+            jumlah_ban2 = data_pembelian.length;
+            $('#tabel-pembelian2').empty();
+            var urutan = 0;
+            $.each(data_pembelian, function(key, value) {
+                urutan = urutan + 1;
+                itemPembelian2(urutan, key, value);
+            });
+        }
+
+        function updateUrutan2() {
+            var urutan = document.querySelectorAll('#urutan2');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+        var counters = 0;
+
+        function addPesanan2() {
+            if (jumlah_ban2 < 8) {
+                counters++;
+                jumlah_ban2 = jumlah_ban2 + 1;
+
+                if (jumlah_ban2 === 1) {
+                    $('#tabel-pembelian2').empty();
+                }
+
+                itemPembelian2(jumlah_ban2, jumlah_ban2 - 1);
+
+                updateUrutan2();
+            } else {
+                alert('Anda telah mencapai batas maksimum (3) penambahan.');
+            }
+        }
+
+
+        function removeBan2(identifier, detailId) {
+            var row = document.getElementById('pembelian2-' + identifier);
+            row.remove();
+
+            $.ajax({
+                url: "{{ url('admin/inquery_penggantianoli/deletefilterdetail/') }}/" + detailId,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Data deleted successfully');
+                },
+                error: function(error) {
+                    console.error('Failed to delete data:', error);
+                }
+            });
+
+            updateUrutan2();
+        }
+
+        function itemPembelian2(urutan, key, value = null) {
+            var kategori2 = '';
+            var spareparts_id = '';
+            var nama_barang2 = '';
+            var jumlah2 = '';
+
+            if (value !== null) {
+                kategori2 = value.kategori2;
+                spareparts_id = value.spareparts_id;
+                nama_barang2 = value.nama_barang2;
+                jumlah2 = value.jumlah2;
+            }
+
+            console.log(kategori2);
+            // urutan 
+            var item_pembelian = '<tr id="pembelian2-' + urutan + '">';
+            item_pembelian += '<td class="text-center" id="urutan2">' + urutan + '</td>';
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select class="form-control" id="kategori2-' + key +
+                '" name="kategori2[]">';
+            item_pembelian += '<option value="">Pilih</option>';
+            item_pembelian += '<option value="Filter Oli"' + (kategori2 === 'Filter Oli' ? ' selected' : '') +
+                '>Filter Oli</option>';
+            item_pembelian += '<option value="Filter Solar Atas"' + (kategori2 === 'Filter Solar Atas' ? ' selected' : '') +
+                '>Filter Solar Atas</option>';
+            item_pembelian += '<option value="Filter Solar Bawah"' + (kategori2 === 'Filter Solar Bawah' ? ' selected' :
+                    '') +
+                '>Filter Solar Bawah</option>';
+            item_pembelian += '<option value="Filter Angin"' + (kategori2 === 'Filter Angin' ? ' selected' : '') +
+                '>Filter Angin</option>';
+            item_pembelian += '<option value="Gemuk"' + (kategori2 === 'Gemuk' ? ' selected' : '') +
+                '>Gemuk</option>';
+            item_pembelian += '</select>';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+            item_pembelian += '<td style="width: 240px">';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select class="form-control select2bs4" id="spareparts_id-' + key +
+                '" name="spareparts_id[]"onchange="getDataarray2(' + key + ')">';
+            item_pembelian += '<option value="">Cari Part..</option>';
+            item_pembelian += '@foreach ($spareparts as $spareparts_id)';
+            item_pembelian +=
+                '<option value="{{ $spareparts_id->id }}" {{ $spareparts_id->id == ' + spareparts_id + ' ? 'selected' : '' }}>{{ $spareparts_id->nama_barang }}</option>';
+            item_pembelian += '@endforeach';
+            item_pembelian += '</select>';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // Nama Barang 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<input type="text" readonly class="form-control" id="nama_barang2-' + key +
+                '" name="nama_barang2[]" value="' +
+                nama_barang2 +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // jumlah
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<input type="number" class="form-control" id="jumlah2-' + key +
+                '" name="jumlah2[]" value="' +
+                jumlah2 +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // delete
+            item_pembelian += '<td>';
+            item_pembelian += '<button type="button" class="btn btn-danger" onclick="removeBan2(' + urutan + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
+
+            $('#tabel-pembelian2').append(item_pembelian);
+
+            if (value !== null) {
+                $('#kategori2-' + key).val(value.kategori2);
+                $('#spareparts_id-' + key).val(value.spareparts_id);
+                $('#nama_barang2-' + key).val(value.nama_barang2);
+                // $('#keterangan-' + key).val(value.keterangan);
+                $('#jumlah2-' + key).val(value.jumlah2);
             }
         }
     </script>

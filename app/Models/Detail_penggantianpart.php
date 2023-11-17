@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Detail_penggantianoli extends Model
+class Detail_penggantianpart extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
-        'penggantian_oli_id',
-        'kategori',
-        'sparepart_id',
-        'km_penggantian',
-        'km_berikutnya',
-        'jumlah',
+        'penggantians_oli_id',
+        'kategori2',
+        'spareparts_id',
+        'km_penggantian2',
+        'km_berikutnya2',
+        'jumlah2',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -39,7 +39,7 @@ class Detail_penggantianoli extends Model
         return $this->belongsTo(Kendaraan::class);
     }
 
-    public function sparepart()
+    public function spareparts()
     {
         return $this->belongsTo(Sparepart::class);
     }

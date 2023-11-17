@@ -9,53 +9,53 @@
     <title>Invoice</title>
 
     <style type="text/css">
-        /* Reset all margins and padding */
-        * {
-            margin: 0;
-            padding: 0;
-        }
+    /* Reset all margins and padding */
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
-        .box1 {
-            margin-left: 10px;
-            margin-top: 5px;
-        }
+    .box1 {
+        margin-left: 10px;
+        margin-top: 5px;
+    }
 
-        .box {
-            margin-left: 10px;
-            margin-top: 1px;
-        }
+    .box {
+        margin-left: 10px;
+        margin-top: 1px;
+    }
 
-        .box3 {
-            /* margin-left: 6px; */
-            margin-top: 4px;
-        }
+    .box3 {
+        /* margin-left: 6px; */
+        margin-top: 4px;
+    }
 
 
-        .text-container {
-            position: relative;
-            width: 200px;
-            /* Set an appropriate width */
-            height: 68px;
-            /* Set an appropriate height */
-            transform: rotate(90deg);
-        }
+    .text-container {
+        position: relative;
+        width: 200px;
+        /* Set an appropriate width */
+        height: 68px;
+        /* Set an appropriate height */
+        transform: rotate(90deg);
+    }
 
-        .text {
-            white-space: nowrap;
-            position: absolute;
-            margin-left: 62px;
-            margin-top: 80px;
-            font-size: 9px;
-            top: 0;
-            /* Adjust the top position as needed */
-            left: 0;
-            /* Adjust the left position as needed */
-        }
+    .text {
+        white-space: nowrap;
+        position: absolute;
+        margin-left: 62px;
+        margin-top: 80px;
+        font-size: 9px;
+        top: 0;
+        /* Adjust the top position as needed */
+        left: 0;
+        /* Adjust the left position as needed */
+    }
 
-        .bold-text {
-            font-weight: bold;
-            font-family: Arial, Helvetica, sans-serif
-        }
+    .bold-text {
+        font-weight: bold;
+        font-family: Arial, Helvetica, sans-serif
+    }
     </style>
 
 </head>
@@ -112,10 +112,10 @@
         <div class="text-container">
             <div class="text">
                 <p class="bold-text">{{ $bans->kode_ban }}</p>
-                <p class="bold-text">{{ $bans->typeban->nama_type }}</p>
-                <p class="bold-text">{{ $bans->ukuran->ukuran }}</p>
-            </div>
-        </div> --}}
+        <p class="bold-text">{{ $bans->typeban->nama_type }}</p>
+        <p class="bold-text">{{ $bans->ukuran->ukuran }}</p>
+    </div>
+    </div> --}}
     </div>
 </body>
 

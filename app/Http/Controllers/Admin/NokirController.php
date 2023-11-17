@@ -62,7 +62,7 @@ class NokirController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'kendaraan_id' => 'required',
+                'kendaraan_id' => 'required|unique:nokirs,kendaraan_id',
                 'jenis_kendaraan' => 'required',
                 'ukuran_ban' => 'required',
                 'nama_pemilik' => 'required',
@@ -70,6 +70,7 @@ class NokirController extends Controller
                 'nomor_uji_kendaraan' => 'required',
                 'nomor_sertifikat_kendaraan' => 'required',
                 'tanggal_sertifikat' => 'required',
+                'kategori' => 'required',
                 // 'nopol' => 'required',
                 // 'no_rangka' => 'required',
                 // 'no_mesin' => 'required',
@@ -117,6 +118,7 @@ class NokirController extends Controller
                 'kendaraan_id.required' => 'Pilih no kabin',
                 'tanggal_sertifikat.required' => 'Masukkan tanggal sertifikat registrasi',
                 'nomor_sertifikat_kendaraan.required' => 'Masukkan no sertifikat kendaraan',
+                'kategori.required' => 'Pilih kategori perpanjangan',
                 // 'nopol.required' => 'Masukkan no registrasi kendaraan',
                 // 'no_rangka.required' => 'Masukkan no rangka kendaraan',
                 // 'no_mesin.required' => 'Masukkan no motor penggerak',
@@ -157,6 +159,8 @@ class NokirController extends Controller
                 'nama_direktur.required' => 'Masukkan nama direktur',
                 'pangkat_direktur.required' => 'Masukkan pangkat direktur',
                 'nip_direktur.required' => 'Masukkan nip direktur',
+                'kendaraan_id.unique' => 'Nomor Registrasi sudah terdaftar.', // Pesan untuk validasi unique
+
             ]
         );
 
@@ -277,6 +281,7 @@ class NokirController extends Controller
                 'nomor_uji_kendaraan' => 'required',
                 'nomor_sertifikat_kendaraan' => 'required',
                 'tanggal_sertifikat' => 'required',
+                'kategori' => 'required',
                 // 'nopol' => 'required',
                 // 'no_rangka' => 'required',
                 // 'no_mesin' => 'required',
@@ -324,6 +329,7 @@ class NokirController extends Controller
                 'nomor_sertifikat_kendaraan.required' => 'Masukkan no sertifikat kendaraan',
                 'kendaraan_id.required' => 'Pilih no kabin',
                 'tanggal_sertifikat.required' => 'Masukkan tanggal sertifikat registrasi',
+                'kategori.required' => 'Pilih kategori perpanjangan',
                 // 'nopol.required' => 'Masukkan no registrasi kendaraan',
                 // 'no_rangka.required' => 'Masukkan no rangka kendaraan',
                 // 'no_mesin.required' => 'Masukkan no motor penggerak',
@@ -445,6 +451,7 @@ class NokirController extends Controller
         $nokir->daya_angkutorang = $request->daya_angkutorang;
         $nokir->kelas_jalan = $request->kelas_jalan;
         $nokir->keterangan = $request->keterangan;
+        $nokir->kategori = $request->kategori;
         $nokir->masa_berlaku = $request->masa_berlaku;
         $nokir->nama_petugas_penguji = $request->nama_petugas_penguji;
         $nokir->nrp_petugas_penguji = $request->nrp_petugas_penguji;
@@ -492,7 +499,6 @@ class NokirController extends Controller
     public function destroy($id)
     {
         $nokir = Nokir::find($id);
-        $nokir->kendaraan()->delete();
         $nokir->delete();
 
         return redirect('admin/nokir')->with('success', 'Berhasil menghapus No. Kir');

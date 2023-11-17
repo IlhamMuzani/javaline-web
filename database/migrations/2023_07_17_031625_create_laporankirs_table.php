@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreign('nokir_id')->references('id')->on('nokirs')->onDelete('set null');
             $table->string('kode_perpanjangan')->nullable();
             $table->string('masa_berlaku')->nullable();
+            $table->string('kategori')->nullable();
             $table->string('jumlah')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
 @section('title', 'Pembelian Part')
 
@@ -358,7 +358,7 @@
                                             <label for="keterangan">Keterangan</label>
                                             <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="nama">Harga Jual</label>
                                             <input type="text" class="form-control" id="harga_jual" name="harga_jual"
                                                 placeholder="Masukan harga jual" value="">
@@ -368,7 +368,7 @@
                                             <input type="text" class="form-control" id="tersedia" name="tersedia"
                                                 placeholder="Tersedia" value="">
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group"> --}}
                                             <label for="nama">Satuan</label>
                                             <input type="text" class="form-control" id="satuan" name="satuan"
                                                 placeholder="Masukan satuan" value="">
@@ -570,4 +570,4 @@
             });
         }
     </script>
-@endsection
+@endsection --}}

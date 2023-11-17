@@ -29,7 +29,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Tambahkan</h3>
                     <div class="float-right">
-                        <a href="#" class="btn btn-primary btn-sm">
+                        <a href="{{ url('admin/ban/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Akses Menu
                         </a>
                     </div>

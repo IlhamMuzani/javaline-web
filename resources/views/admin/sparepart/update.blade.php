@@ -61,13 +61,13 @@
                             </div>
                             <label for="nama">Nama Barang</label>
                             <input type="text" class="form-control" id="nama_barang" name="nama_barang"
-                                placeholder="Masukan nama pemilik" value="{{ old('nama_barang', $part->nama_barang) }}">
+                                placeholder="Masukan barang" value="{{ old('nama_barang', $part->nama_barang) }}">
                         </div>
                         <div class="form-group">
                             <label for="keterangan">Keterangan</label>
                             <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan', $part->keterangan) }}</textarea>
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama">Harga</label>
                             <input type="number" class="form-control" id="harga" name="harga"
                                 placeholder="Masukan harga" value="{{ old('harga', $part->harga) }}">
@@ -76,7 +76,7 @@
                             <label for="nama">Stok</label>
                             <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="jumlah"
                                 value="{{ old('jumlah', $part->jumlah) }}">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label class="form-label" for="satuan">Satuan</label>
                             <select class="form-control" id="satuan" name="satuan">
@@ -85,7 +85,7 @@
                                     pcs</option>
                                 <option value="ltr" {{ old('satuan', $part->satuan) == 'ltr' ? 'selected' : null }}>
                                     ltr</option>
-                                {{-- <option value="btl" {{ old('satuan', $part->satuan) == 'btl' ? 'selected' : null }}>
+                                <option value="btl" {{ old('satuan', $part->satuan) == 'btl' ? 'selected' : null }}>
                                     btl</option>
                                 <option value="klng" {{ old('satuan', $part->satuan) == 'klng' ? 'selected' : null }}>
                                     klng</option>
@@ -104,7 +104,7 @@
                                 <option value="pail" {{ old('satuan', $part->satuan) == 'pail' ? 'selected' : null }}>
                                     pail</option>
                                 <option value="kg" {{ old('satuan', $part->satuan) == 'kg' ? 'selected' : null }}>
-                                    kg</option> --}}
+                                    kg</option>
                             </select>
                         </div>
                     </div>

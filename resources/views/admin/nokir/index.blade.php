@@ -48,10 +48,11 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
+                                <th>No Kabin</th>
                                 <th>Nama Pemilik</th>
                                 <th>Tanggal Expired</th>
                                 <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="100">Opsi</th>
+                                <th class="text-center" width="130">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +60,13 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $nokir->kode_kir }}</td>
+                                    <td>
+                                        @if ($nokir->kendaraan)
+                                            {{ $nokir->kendaraan->no_kabin }}
+                                        @else
+                                            kabin tidak ada
+                                        @endif
+                                    </td>
                                     <td>{{ $nokir->nama_pemilik }}</td>
                                     <td>{{ $nokir->masa_berlaku }}</td>
 
@@ -82,6 +90,10 @@
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-pen"></i>
                                         </a>
+                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                            data-target="#modal-hapus-{{ $nokir->id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modal-hapus-{{ $nokir->id }}">

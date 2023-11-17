@@ -66,6 +66,7 @@ class Nokir extends Model
         'nama_direktur',
         'pangkat_direktur',
         'nip_direktur',
+        'kategori',
         'jumlah',
         'status_kir',
         'status_notif',

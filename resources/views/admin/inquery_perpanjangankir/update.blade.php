@@ -12,7 +12,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/inquery_perpanjangankir') }}">Perpanjangan No. Kir</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/inquery_perpanjangankir') }}">Perpanjangan No.
+                                Kir</a></li>
                         <li class="breadcrumb-item active">Perbarui</li>
                     </ol>
                 </div><!-- /.col -->
@@ -35,8 +36,8 @@
                 </div>
             @endif
 
-            <form action="{{ url('admin/inquery_perpanjangankir/' . $inquery->id) }}" method="POST" enctype="multipart/form-data"
-                autocomplete="off">
+            <form action="{{ url('admin/inquery_perpanjangankir/' . $inquery->id) }}" method="POST"
+                enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 @method('put')
                 <div class="card">
@@ -47,7 +48,8 @@
                         <div class="form-group">
                             <label for="nopol">No. Kabin</label>
                             <input type="text" class="form-control" id="no_kabin" name="no_kabin" readonly
-                                placeholder="Masukan no kabin" value="{{ old('no_pol', $inquery->nokir->kendaraan->no_kabin) }}">
+                                placeholder="Masukan no kabin"
+                                value="{{ old('no_pol', $inquery->nokir->kendaraan->no_kabin) }}">
                         </div>
                         <div class="form-group">
                             <label for="nopol">No. Registrasi Kendaraan</label>
@@ -58,7 +60,8 @@
                         <div class="form-group">
                             <label for="nama">Nama Pemilik</label>
                             <input type="text" class="form-control" id="nama_pemilik" readonly name="nama_pemilik"
-                                placeholder="Masukan nama pemilik" value="{{ old('nama_pemilik', $inquery->nokir->nama_pemilik) }}">
+                                placeholder="Masukan nama pemilik"
+                                value="{{ old('nama_pemilik', $inquery->nokir->nama_pemilik) }}">
                         </div>
                         <div class="form-group">
                             <label for="no_rangka">Nomor Rangka</label>
@@ -68,8 +71,22 @@
                         <div class="form-group">
                             <label for="nama">Nomor Mesin</label>
                             <input type="text" class="form-control" id="no_mesin" name="no_mesin" readonly
-                                placeholder="Masukan no motor penggerak" value="{{ old('no_mesin', $inquery->nokir->no_mesin) }}">
+                                placeholder="Masukan no motor penggerak"
+                                value="{{ old('no_mesin', $inquery->nokir->no_mesin) }}">
                         </div>
+                        <div class="form-group">
+                            <label class="form-label" for="kategori">Kategori</label>
+                            <select class="form-control" id="kategori" name="kategori">
+                                <option value="">- Pilih -</option>
+                                <option value="Perpanjangan JAVA LINE LOGISTICS"
+                                    {{ old('kategori', $inquery->nokir->kategori) == 'Perpanjangan JAVA LINE LOGISTICS' ? 'selected' : null }}>
+                                    Perpanjangan JAVA LINE LOGISTICS</option>
+                                <option value="Perpanjangan DISHUB"
+                                    {{ old('kategori', $inquery->nokir->kategori) == 'Perpanjangan DISHUB' ? 'selected' : null }}>
+                                    Perpanjangan DISHUB</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card">

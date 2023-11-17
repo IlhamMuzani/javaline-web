@@ -157,6 +157,7 @@ class PembelianpartController extends Controller
                     'nama_barang.' . $i => 'required',
                     'satuan.' . $i => 'required',
                     'jumlah.' . $i => 'required',
+                    'hargasatuan.' . $i => 'required',
                     'harga.' . $i => 'required',
                 ]);
 
@@ -170,9 +171,18 @@ class PembelianpartController extends Controller
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
                 $jumlah = is_null($request->kategori[$i]) ? '' : $request->jumlah[$i];
+                $hargasatuan = is_null($request->hargasatuan[$i]) ? '' : $request->hargasatuan[$i];
                 $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
 
-                $data_pembelians->push(['kategori' => $kategori, 'kode_partdetail' => $kode_partdetail, 'nama_barang' => $nama_barang, 'satuan' => $satuan, 'jumlah' => $jumlah, 'harga' => $harga]);
+                $data_pembelians->push([
+                    'kategori' => $kategori,
+                    'kode_partdetail' => $kode_partdetail,
+                    'nama_barang' => $nama_barang,
+                    'satuan' => $satuan,
+                    'jumlah' => $jumlah,
+                    'hargasatuan' => $hargasatuan,
+                    'harga' => $harga,
+                ]);
             }
         } else {
         }
@@ -247,6 +257,7 @@ class PembelianpartController extends Controller
                             'nama_barang' => $data_pesanan['nama_barang'],
                             'jumlah' => $data_pesanan['jumlah'],
                             'satuan' => $data_pesanan['satuan'],
+                            'hargasatuan' => $data_pesanan['hargasatuan'],
                             'harga' => $data_pesanan['harga'],
                         ]);
                     }
@@ -287,16 +298,16 @@ class PembelianpartController extends Controller
                 'kategori' => 'required',
                 'nama_barang' => 'required',
                 'keterangan' => 'required',
-                'harga' => 'required',
-                'jumlah' => 'required',
+                // 'harga' => 'required',
+                // 'jumlah' => 'required',
                 'satuan' => 'required',
             ],
             [
                 'kategori.required' => 'Pilih kategori',
                 'nama_barang.required' => 'Masukkan nama barang',
                 'keterangan.required' => 'Masukkan keterangan',
-                'harga.required' => 'Masukkan harga',
-                'jumlah.required' => 'Masukkan stok',
+                // 'harga.required' => 'Masukkan harga',
+                // 'jumlah.required' => 'Masukkan stok',
                 'satuan.required' => 'Masukkan satuan',
             ]
         );
@@ -321,6 +332,7 @@ class PembelianpartController extends Controller
             $request->all(),
             [
                 'kode_partdetail' => $kode,
+                'jumlah' => '0',
                 'qrcode_barang' => 'https:///javaline.id/barang/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ]

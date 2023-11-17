@@ -207,14 +207,14 @@
                                         {{ $ban->posisi_ban }}
                                     </div>
                                 </div>
-                                <div class="row mb-3">
+                                {{-- <div class="row mb-3">
                                     <div class="col-md-6">
                                         <strong>Umur Ban</strong>
                                     </div>
                                     <div class="col-md-6">
                                         {{ $ban->umur_ban }}
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <strong>Target Km</strong>

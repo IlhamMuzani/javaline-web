@@ -155,6 +155,9 @@
                                                 <option value="AFKIR"
                                                     {{ old('kondisi_ban') == 'AFKIR' ? 'selected' : null }}>
                                                     AFKIR</option>
+                                                <option value="PROFIT"
+                                                    {{ old('kondisi_ban') == 'PROFIT' ? 'selected' : null }}>
+                                                    PROFIT</option>
                                             </select>
                                         </div>
                                     </td>
@@ -175,7 +178,8 @@
                                         <div class="form-group">
                                             <select class="select2bs4 select21-hidden-accessible" name="typeban_id[]"
                                                 data-placeholder="Pilih Type.." style="width: 100%;"
-                                                data-select21-id="23" tabindex="-1" aria-hidden="true" id="typeban_id-0">
+                                                data-select21-id="23" tabindex="-1" aria-hidden="true"
+                                                id="typeban_id-0">
                                                 <option value="">- Pilih -</option>
                                                 @foreach ($typebans as $typeban_id)
                                                     <option value="{{ $typeban_id->id }}">
@@ -448,9 +452,9 @@
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-            item_pembelian += '<td>';
 
             // no_seri 
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" id="nomor_seri-' + key +
                 '" name="no_seri[]" value="' +
@@ -463,7 +467,7 @@
             item_pembelian += '<td style="width: 150px">';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control select2bs4" id="ukuran_id-' + key +
-                '" name="ukuran_id[]" onchange="getHarga(' + key + ')">';
+                '" name="ukuran_id[]">';
             item_pembelian += '<option value="">- Pilih Ukuran -</option>';
             item_pembelian += '@foreach ($ukurans as $ukuran_id)';
             item_pembelian +=
@@ -485,6 +489,8 @@
                 '>KANISIR</option>';
             item_pembelian += '<option value="AFKIR"' + (kondisi_ban === 'AFKIR' ? ' selected' : '') +
                 '>AFKIR</option>';
+            item_pembelian += '<option value="PROFIT"' + (kondisi_ban === 'PROFIT' ? ' selected' : '') +
+                '>PROFIT</option>';
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -502,13 +508,12 @@
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
-            item_pembelian += '</td>'
 
             // type
             item_pembelian += '<td style="width: 200px">';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control select2bs4" id="typeban_id-' + key +
-                '" name="typeban_id[]" onchange="getHarga(' + key + ')">';
+                '" name="typeban_id[]">';
             item_pembelian += '<option value="">- Pilih Type -</option>';
             item_pembelian += '@foreach ($typebans as $typeban_id)';
             item_pembelian +=
@@ -552,8 +557,8 @@
 
             $('#tabel-pembelian').append(item_pembelian);
 
-            $('#ukuran_id-' + key + '').val(ukuran_id).attr('selected', true);
             $('#merek_id-' + key + '').val(merek_id).attr('selected', true);
+            $('#ukuran_id-' + key + '').val(ukuran_id).attr('selected', true);
             $('#typeban_id-' + key + '').val(typeban_id).attr('selected', true);
         }
 

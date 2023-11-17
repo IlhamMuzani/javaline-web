@@ -67,6 +67,7 @@ return new class extends Migration
             $table->string('nama_direktur')->nullable();
             $table->string('pangkat_direktur')->nullable();
             $table->string('nip_direktur')->nullable();
+            $table->string('kategori')->nullable();
             $table->string('jumlah')->nullable();
             $table->string('status_kir')->nullable();
             $table->string('status_notif')->nullable();

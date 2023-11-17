@@ -16,6 +16,7 @@ class Laporankir extends Model
     protected $fillable = [
         'nokir_id',
         'kode_perpanjangan',
+        'kategori',
         'masa_berlaku',
         'jumlah',
         'tanggal',
@@ -36,7 +37,7 @@ class Laporankir extends Model
 
     public static function getId()
     {
-        return $getId = DB::table('Laporankirs')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('laporankirs')->orderBy('id', 'DESC')->take(1)->get();
     }
 
 

@@ -119,8 +119,8 @@ class PerpanjanganstnkController extends Controller
         $laporan = Laporanstnk::create([
             'kode_perpanjangan' => $this->kode(),
             'stnk_id' => $stnk->id,
-            'expired_stnk' => $expired_stnk,
-            'jumlah' => $jumlah,
+            'expired_stnk' => $request->expired_stnk,
+            'jumlah' => $request->jumlah,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
             'status' => 'posting',

@@ -66,10 +66,12 @@ class PerpanjanganKirController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'kategori' => 'required',
                 'masa_berlaku' => 'required',
                 'jumlah' => 'required'
             ],
             [
+                'kategori' => 'pilih kategori perpanjangan',
                 'masa_berlaku' => 'masukkan masa berlaku kir',
                 'jumlah' => 'masukkan jumlah',
             ]
@@ -85,6 +87,7 @@ class PerpanjanganKirController extends Controller
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
         Nokir::where('id', $id)->update([
+            'kategori' => $request->kategori,
             'masa_berlaku' => $request->masa_berlaku,
             'jumlah' => $request->jumlah,
             'tanggal' => $format_tanggal,
@@ -116,8 +119,9 @@ class PerpanjanganKirController extends Controller
         $laporan = Laporankir::create([
             'kode_perpanjangan' => $this->kode(),
             'nokir_id' => $nokir->id,
-            'masa_berlaku' => $masa_berlaku,
-            'jumlah' => $jumlah,
+            'kategori' => $request->kategori,
+            'masa_berlaku' => $request->masa_berlaku,
+            'jumlah' => $request->jumlah,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
             'status' => 'posting',

@@ -115,7 +115,6 @@
                                     <th>Kategori</th>
                                     <th>Nama Part</th>
                                     <th>Kode Part</th>
-                                    {{-- <th>Keterangan</th> --}}
                                     <th>Jumlah Liter</th>
                                     <th>Opsi</th>
                                 </tr>
@@ -160,20 +159,6 @@
                                                 name="nama_barang[]">
                                         </div>
                                     </td>
-                                    {{-- <td>
-                                        <div class="form-group">
-                                            <select class="form-control" id="keterangan-0" name="keterangan[]"
-                                                onchange="showCategoryModal(this.value)">
-                                                <option value="">Pilih</option>
-                                                <option value="Pergantian Baru"
-                                                    {{ old('keterangan') == 'Pergantian Baru' ? 'selected' : null }}>
-                                                    Pergantian Baru</option>
-                                                <option value="Pergantian -"
-                                                    {{ old('keterangan') == 'Pergantian -' ? 'selected' : null }}>
-                                                    Pergantian - </option>
-                                            </select>
-                                        </div>
-                                    </td> --}}
                                     <td>
                                         <div class="form-group">
                                             <input type="number" class="form-control" id="jumlah-0" name="jumlah[]">
@@ -181,6 +166,90 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-danger" onclick="removeBan(0)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;" class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tambah Filter</h3>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan2()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kategori</th>
+                                    <th>Nama Part</th>
+                                    <th>Kode Part</th>
+                                    <th>Jumlah Pcs</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-pembelian2">
+                                <tr id="pembelian2-0">
+                                    <td class="text-center" id="urutan2">1</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control" id="kategori2-0" name="kategori2[]">
+                                                <option value="">Pilih</option>
+                                                <option value="Filter Oli"
+                                                    {{ old('kategori2') == 'Filter Oli' ? 'selected' : null }}>
+                                                    Filter Oli</option>
+                                                <option value="Filter Solar Atas"
+                                                    {{ old('kategori2') == 'Filter Solar Atas' ? 'selected' : null }}>
+                                                    Filter Solar Atas</option>
+                                                <option value="Filter Solar Bawah"
+                                                    {{ old('kategori2') == 'Filter Solar Bawah' ? 'selected' : null }}>
+                                                    Filter Solar Bawah</option>
+                                                <option value="Filter Angin"
+                                                    {{ old('kategori2') == 'Filter Angin' ? 'selected' : null }}>
+                                                    Filter Angin</option>
+                                                <option value="Gemuk"
+                                                    {{ old('kategori2') == 'Gemuk' ? 'selected' : null }}>
+                                                    Gemuk</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td style="width: 240px">
+                                        <div class="form-group">
+                                            <select class="select2bs4 select2-hidden-accessible" name="spareparts_id[]"
+                                                data-placeholder="Cari Filter.." style="width: 100%;"
+                                                data-select2-id="23" tabindex="-1" aria-hidden="true"
+                                                onchange="getData2(0)" id="spareparts_id-0">
+                                                <option value="">- Cari -</option>
+                                                @foreach ($spareparts as $sparepart_id)
+                                                    <option value="{{ $sparepart_id->id }}">
+                                                        {{ $sparepart_id->nama_barang }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" readonly class="form-control" id="nama_barang2-0"
+                                                name="nama_barang2[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="number" class="form-control" id="jumlah2-0" name="jumlah2[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger" onclick="removeBan2(0)">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -232,7 +301,7 @@
             var urutan = 0;
             $.each(data_pembelian, function(key, value) {
                 urutan = urutan + 1;
-                itemPembelian(urutan, key, value);
+                itemPembelian(urutan, key, false, value);
             });
         }
 
@@ -242,7 +311,7 @@
                 if (jumlah_ban === 1) {
                     $('#tabel-pembelian').empty();
                 }
-                itemPembelian(jumlah_ban, jumlah_ban - 1);
+                itemPembelian(jumlah_ban, jumlah_ban - 1, true);
             } else {
                 // Jumlah penambahan mencapai batas maksimum (3), tindakan lain dapat diambil di sini jika diperlukan.
                 alert('Anda telah mencapai batas maksimum (3) penambahan.');
@@ -273,7 +342,7 @@
             }
         }
 
-        function itemPembelian(urutan, key, value = null) {
+        function itemPembelian(urutan, key, style, value = null) {
             var kategori = '';
             var sparepart_id = '';
             var nama_barang = '';
@@ -329,20 +398,6 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // keterangan
-            // item_pembelian += '<td>';
-            // item_pembelian += '<div class="form-group">';
-            // item_pembelian += '<select class="form-control" id="keterangan-' + key +
-            //     '" name="keterangan[]">';
-            // item_pembelian += '<option value="">Pilih</option>';
-            // item_pembelian += '<option value="Pergantian Baru"' + (keterangan === 'Pergantian Baru' ? ' selected' : '') +
-            //     '>Pergantian Baru</option>';
-            // item_pembelian += '<option value="Pergantian -"' + (keterangan === 'Pergantian -' ? ' selected' : '') +
-            //     '>Pergantian -</option>';
-            // item_pembelian += '</select>';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
-
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
@@ -361,15 +416,219 @@
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
+            //     $('#tabel-pembelian').append(item_pembelian);
+
+            //     if (value !== null) {
+            //         $('#kategori-' + key).val(value.kategori);
+            //         $('#sparepart_id-' + key).val(value.sparepart_id);
+            //         $('#nama_barang-' + key).val(value.nama_barang);
+            //         // $('#keterangan-' + key).val(value.keterangan);
+            //         $('#jumlah-' + key).val(value.jumlah);
+            //     }
+            // }
+            if (style) {
+                select2(key);
+            }
+
             $('#tabel-pembelian').append(item_pembelian);
 
-            if (value !== null) {
-                $('#kategori-' + key).val(value.kategori);
-                $('#sparepart_id-' + key).val(value.sparepart_id);
-                $('#nama_barang-' + key).val(value.nama_barang);
-                // $('#keterangan-' + key).val(value.keterangan);
-                $('#jumlah-' + key).val(value.jumlah);
+            $('#sparepart_id-' + key + '').val(sparepart_id).attr('selected', true);
+        }
+
+        function select2(id) {
+            $(function() {
+                $('#sparepart_id-' + id).select2({
+                    theme: 'bootstrap4'
+                });
+            });
+        }
+
+
+
+
+
+        function getData2(id) {
+            var sparepart_id = document.getElementById('spareparts_id-0');
+            $.ajax({
+                url: "{{ url('admin/pembelian_part/sparepart') }}" + "/" + sparepart_id.value,
+                type: "GET",
+                dataType: "json",
+                success: function(sparepart_id) {
+                    var kode_partdetail = document.getElementById('nama_barang2-0');
+                    kode_partdetail.value = sparepart_id.kode_partdetail;
+                },
+            });
+        }
+
+        function getDataarray2(key) {
+            var sparepart_id = document.getElementById('spareparts_id-' + key);
+            $.ajax({
+                url: "{{ url('admin/pembelian_part/sparepart') }}" + "/" + sparepart_id.value,
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    var kode_partdetail = document.getElementById('nama_barang2-' + key);
+                    kode_partdetail.value = response.kode_partdetail;
+                },
+            });
+        }
+
+        var data_pembelian = @json(session('data_pembelians2'));
+        var jumlah_ban2 = 1;
+
+        if (data_pembelian != null) {
+            jumlah_ban2 = data_pembelian.length;
+            $('#tabel-pembelian2').empty();
+            var urutan = 0;
+            $.each(data_pembelian, function(key, value) {
+                urutan = urutan + 1;
+                itemPembelian2(urutan, key, false, value);
+            });
+        }
+
+        function addPesanan2() {
+            if (jumlah_ban2 < 4) { // Cek apakah jumlah_ban kurang dari 3
+                jumlah_ban2++; // Tambahkan 1 ke jumlah_ban
+                if (jumlah_ban2 === 1) {
+                    $('#tabel-pembelian2').empty();
+                }
+                itemPembelian2(jumlah_ban2, jumlah_ban2 - 1, true);
+            } else {
+                // Jumlah penambahan mencapai batas maksimum (3), tindakan lain dapat diambil di sini jika diperlukan.
+                alert('Anda telah mencapai batas maksimum (4) penambahan.');
             }
+        }
+
+
+        function removeBan2(params) {
+            jumlah_ban2 = jumlah_ban2 - 1;
+
+            console.log(jumlah_ban2);
+
+            var tabel_pesanan = document.getElementById('tabel-pembelian2');
+            var pembelian = document.getElementById('pembelian2-' + params);
+
+            tabel_pesanan.removeChild(pembelian);
+
+            if (jumlah_ban2 === 0) {
+                var item_pembelian = '<tr>';
+                item_pembelian += '<td class="text-center" colspan="8">- Part belum ditambahkan -</td>';
+                item_pembelian += '</tr>';
+                $('#tabel-pembelian2').html(item_pembelian);
+            } else {
+                var urutan = document.querySelectorAll('#urutan2');
+                for (let i = 0; i < urutan.length; i++) {
+                    urutan[i].innerText = i + 1;
+                }
+            }
+        }
+
+        function itemPembelian2(urutan, key, style, value = null) {
+            var kategori2 = '';
+            var spareparts_id = '';
+            var nama_barang2 = '';
+            // var keterangan = '';
+            var jumlah2 = '';
+
+            if (value !== null) {
+                kategori2 = value.kategori2;
+                spareparts_id = value.spareparts_id;
+                nama_barang2 = value.nama_barang2;
+                // keterangan = value.keterangan;
+                jumlah2 = value.jumlah2;
+            }
+
+            console.log(kategori2);
+            // urutan 
+            var item_pembelian = '<tr id="pembelian2-' + urutan + '">';
+            item_pembelian += '<td class="text-center" id="urutan2">' + urutan + '</td>';
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select class="form-control" id="kategori2-' + key +
+                '" name="kategori2[]">';
+            item_pembelian += '<option value="">Pilih</option>';
+            item_pembelian += '<option value="Filter Oli"' + (kategori2 === 'Filter Oli' ? ' selected' : '') +
+                '>Filter Oli</option>';
+            item_pembelian += '<option value="Filter Solar Atas"' + (kategori2 === 'Filter Solar Atas' ? ' selected' : '') +
+                '>Filter Solar Atas</option>';
+            item_pembelian += '<option value="Filter Solar Bawah"' + (kategori2 === 'Filter Solar Bawah' ? ' selected' :
+                    '') +
+                '>Filter Solar Bawah</option>';
+            item_pembelian += '<option value="Filter Angin"' + (kategori2 === 'Filter Angin' ? ' selected' :
+                    '') +
+                '>Filter Angin</option>';
+            item_pembelian += '<option value="Gemuk"' + (kategori2 === 'Gemuk' ? ' selected' :
+                    '') +
+                '>Gemuk</option>';
+            item_pembelian += '</select>';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+            item_pembelian += '<td style="width: 240px">';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select class="form-control select2bs4" id="spareparts_id-' + key +
+                '" name="spareparts_id[]"onchange="getDataarray2(' + key + ')">';
+            item_pembelian += '<option value="">Cari Filter..</option>';
+            item_pembelian += '@foreach ($spareparts as $spareparts_id)';
+            item_pembelian +=
+                '<option value="{{ $spareparts_id->id }}" {{ $spareparts_id->id == ' + spareparts_id + ' ? 'selected' : '' }}>{{ $spareparts_id->nama_barang }}</option>';
+            item_pembelian += '@endforeach';
+            item_pembelian += '</select>';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // Nama Barang 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<input type="text" readonly class="form-control" id="nama_barang2-' + key +
+                '" name="nama_barang2[]" value="' +
+                nama_barang2 +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // harga
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<input type="number" class="form-control" id="jumlah2-' + key +
+                '" name="jumlah2[]" value="' +
+                jumlah2 +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // delete
+            item_pembelian += '<td>';
+            item_pembelian += '<button type="button" class="btn btn-danger" onclick="removeBan2(' + urutan + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
+
+            //     $('#tabel-pembelian').append(item_pembelian);
+
+            //     if (value !== null) {
+            //         $('#kategori-' + key).val(value.kategori);
+            //         $('#sparepart_id-' + key).val(value.sparepart_id);
+            //         $('#nama_barang-' + key).val(value.nama_barang);
+            //         // $('#keterangan-' + key).val(value.keterangan);
+            //         $('#jumlah-' + key).val(value.jumlah);
+            //     }
+            // }
+            if (style) {
+                select22(key);
+            }
+
+            $('#tabel-pembelian2').append(item_pembelian);
+
+            $('#spareparts_id-' + key + '').val(spareparts_id).attr('selected', true);
+        }
+
+        function select22(id) {
+            $(function() {
+                $('#spareparts_id-' + id).select2({
+                    theme: 'bootstrap4'
+                });
+            });
         }
     </script>
 @endsection

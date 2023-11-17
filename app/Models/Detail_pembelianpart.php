@@ -22,6 +22,7 @@ class Detail_pembelianpart extends Model
         'nama_barang',
         'jumlah',
         'satuan',
+        'hargasatuan',
         'harga',
         'keterangan',
         'tanggal_awal',

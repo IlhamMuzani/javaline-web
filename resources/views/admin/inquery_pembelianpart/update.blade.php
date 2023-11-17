@@ -114,8 +114,9 @@
                                     <th>Kode Barang</th>
                                     <th>Nama Barang</th>
                                     <th>Satuan</th>
+                                    <th>Harga Satuan</th>
                                     <th>Jumlah</th>
-                                    <th>Harga</th>
+                                    <th>Total</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
@@ -123,7 +124,7 @@
                                 @foreach ($details as $detail)
                                     <tr id="pembelian-{{ $loop->index }}">
                                         <td class="text-center" id="urutan">{{ $loop->index + 1 }}</td>
-                                        <td style="width: 240px">
+                                        <td>
                                             <div class="form-group" hidden>
                                                 <input type="text" class="form-control" id="nomor_seri-0"
                                                     name="detail_ids[]" value="{{ $detail['id'] }}">
@@ -167,13 +168,20 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="jumlah-0"
-                                                    name="jumlah[]" value="{{ $detail['jumlah'] }}">
+                                                <input type="number" class="form-control hargasatuan" id="hargasatuan-0"
+                                                    name="hargasatuan[]" data-row-id="0"
+                                                    value="{{ $detail['hargasatuan'] }}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="harga-0" name="harga[]"
+                                                <input type="number" class="form-control jumlah" id="jumlah-0"
+                                                    name="jumlah[]" data-row-id="0" value="{{ $detail['jumlah'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control harga" id="harga-0" name="harga[]"
                                                     value="{{ $detail['harga'] }}">
                                             </div>
                                         </td>
@@ -401,7 +409,7 @@
                                             <label for="keterangan">Keterangan</label>
                                             <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="nama">Harga</label>
                                             <input type="number" class="form-control" id="harga" name="harga"
                                                 placeholder="Masukan harga" value="">
@@ -410,7 +418,7 @@
                                             <label for="nama">Stok</label>
                                             <input type="number" class="form-control" id="jumlah" name="jumlah"
                                                 placeholder="Tersedia" value="">
-                                        </div>
+                                        </div> --}}
                                         <div class="form-group">
                                             <label class="form-label" for="satuan">Satuan</label>
                                             <select class="form-control" id="satuan" name="satuan">
@@ -498,6 +506,14 @@
             });
         }
 
+        $(document).on("input", ".hargasatuan, .jumlah", function() {
+            var currentRow = $(this).closest('tr');
+            var hargasatuan = parseFloat(currentRow.find(".hargasatuan").val()) || 0;
+            var jumlah = parseFloat(currentRow.find(".jumlah").val()) || 0;
+            var harga = hargasatuan * jumlah;
+            currentRow.find(".harga").val(harga);
+        });
+
         var data_pembelian = @json(session('data_pembelians'));
         var jumlah_part = 1;
 
@@ -531,28 +547,6 @@
 
             updateUrutan();
         }
-
-        // function removeBan(identifier, detailId) {
-        //     var row = document.getElementById('pembelian-' + identifier);
-        //     row.remove();
-
-        //     $.ajax({
-        //         url: "{{ url('admin/inquery_pembelianpart/deletepart/') }}/" + detailId,
-        //         type: "POST",
-        //         data: {
-        //             _method: 'DELETE',
-        //             _token: '{{ csrf_token() }}'
-        //         },
-        //         success: function(response) {
-        //             console.log('Data deleted successfully');
-        //         },
-        //         error: function(error) {
-        //             console.error('Failed to delete data:', error);
-        //         }
-        //     });
-
-        //     updateUrutan();
-        // }
 
         function removeBan(identifier, detailId) {
             var pembelian = document.getElementById('pembelian-' + identifier);
@@ -603,6 +597,7 @@
             var satuan = '';
             var jumlah = '';
             var type_ban = '';
+            var hargasatuan = '';
             var harga = '';
             var kondisi_ban = '';
 
@@ -613,6 +608,7 @@
                 satuan = value.satuan;
                 jumlah = value.jumlah;
                 type_ban = value.type_ban;
+                hargasatuan = value.hargasatuan;
                 harga = value.harga;
                 kondisi_ban = value.kondisi_ban;
             }
@@ -621,7 +617,7 @@
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-            item_pembelian += '<td style="width: 240px">';
+            item_pembelian += '<td>';
 
             // kategori 
             item_pembelian += '<div class="form-group">';
@@ -669,10 +665,21 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+
             //jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control" id="jumlah-' + key +
+            item_pembelian += '<input type="number" class="form-control hargasatuan" id="hargasatuan-' + key +
+                '" name="hargasatuan[]" value="' +
+                hargasatuan +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            //jumlah
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control jumlah" id="jumlah-' + key +
                 '" name="jumlah[]" value="' +
                 jumlah +
                 '" ';
@@ -682,7 +689,8 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control" id="harga-' + key + '" name="harga[]" value="' +
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
+                '" name="harga[]" value="' +
                 harga +
                 '" ';
             item_pembelian += '</div>';

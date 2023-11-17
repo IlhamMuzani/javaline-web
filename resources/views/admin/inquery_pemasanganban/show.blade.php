@@ -178,6 +178,9 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo1.png') }}" alt="Java Line" width="150" height="60">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 20px;">SURAT PEMASANGAN BAN</span>
@@ -185,28 +188,7 @@
         <br>
     </div>
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
-    {{-- <table width="100%">
-                <tr>
-                    <td>
-                        <span class="info-item" style="font-size: 13px;">No. Kabin:{{ $kendaraan->no_kabin }}</span>
-                        <br>
-                    </td>
-                    <td>
-                        <span class="info-item" style="font-size: 13px;">Jenis
-                            Kendaraan:{{ $kendaraan->no_kabin }}</span>
-                        <br>
-                    </td>
-                    <td>
-                        <span class="info-item" style="font-size: 13px;">Total Ban:{{ $kendaraan->no_kabin }}</span>
-                        <br>
-                    </td>
-                    <td>
-                        <span class="info-item"
-                            style="font-size: 13px;">Tanggal:{{ $pasang_ban->tanggal }}</span>
-                        <br>
-                    </td>
-                </tr>
-            </table> --}}
+
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">No.

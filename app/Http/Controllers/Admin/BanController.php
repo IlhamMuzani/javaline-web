@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
-use Dompdf\Dompdf;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Ban;
 use App\Models\Merek;
 use App\Models\Ukuran;
@@ -107,6 +107,35 @@ class BanController extends Controller
         return $pdf->stream('QrCodeBan.pdf');
     }
 
+    // public function cetak_pdffilter(Request $request)
+    // {
+    //     $selectedIds = explode(',', $request->input('ids'));
+
+    //     // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
+
+    //     $bans = Ban::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+    //     $pdf = app('dompdf.wrapper');
+    //     $pdf->loadView('admin.ban.cetak_pdffilter', compact('bans'));
+    //     $pdf->setPaper([0, 0, 612, 176], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
+
+    //     return $pdf->stream('SelectedBans.pdf');
+    // }
+
+    public function cetak_pdffilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
+
+        $bans = Ban::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.ban.cetak_pdffilter', compact('bans'));
+        $pdf->setPaper([0, 0, 612, 48], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
+
+        return $pdf->stream('SelectedBans.pdf');
+    }
 
     public function kode()
     {

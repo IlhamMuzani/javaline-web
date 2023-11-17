@@ -69,6 +69,18 @@
                             <input type="text" class="form-control" id="no_mesin" name="no_mesin" readonly
                                 placeholder="Masukan no motor penggerak" value="{{ old('no_mesin', $nokir->no_mesin) }}">
                         </div>
+                        <div class="form-group">
+                            <label class="form-label" for="kategori">Pilih Kategori</label>
+                            <select class="form-control" id="kategori" name="kategori">
+                                <option value="">- Pilih -</option>
+                                <option value="Perpanjangan JAVA LINE LOGISTICS"
+                                    {{ old('kategori') == 'Perpanjangan JAVA LINE LOGISTICS' ? 'selected' : null }}>
+                                    Perpanjangan JAVA LINE LOGISTICS</option>
+                                <option value="Perpanjangan DISHUB"
+                                    {{ old('kategori') == 'Perpanjangan DISHUB' ? 'selected' : null }}>
+                                    Perpanjangan DISHUB</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="card">

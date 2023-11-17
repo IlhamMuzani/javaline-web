@@ -51,7 +51,7 @@
     <div class="wrapper">
 
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="" src="{{ asset('storage/uploads/user/logo.png') }}" alt="javaline" height="50"
+            <img class="" src="{{ asset('storage/uploads/user/logo1.png') }}" alt="javaline" height="50"
                 width="100">
         </div>
 
@@ -69,8 +69,8 @@
           </h4>
         </li> --}}
                 <li class="nav-item d-none d-sm-inline-block">
-                    <img class="animation__wobble" src="{{ asset('storage/uploads/user/logo.png') }}"
-                        alt="AdminLTELogo" height="40" width="100">
+                    <img class="animation__wobble" src="{{ asset('storage/uploads/user/logo1.png') }}"
+                        alt="AdminLTELogo" height="60" width="200">
                     {{-- <a href="#" class="nav-link">Sistem - Javaline</a> --}}
                 </li>
             </ul>
@@ -81,7 +81,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="" class="brand-link">
-                <img src="{{ asset('storage/uploads/karyawan/user.png') }}" alt="javaline" class="brand-image">
+                <img src="{{ asset('storage/uploads/user/user.png') }}" alt="javaline" class="brand-image">
                 <span style="font-size: 18px"
                     class="brand-text font-wight-bold">{{ auth()->user()->karyawan->nama_lengkap }}</span>
             </a>

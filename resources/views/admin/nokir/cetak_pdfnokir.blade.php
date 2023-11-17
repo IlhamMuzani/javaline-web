@@ -245,6 +245,13 @@
                     </table>
                 </div>
             </td>
+            {{-- <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}" style="display: inline-block;">
+                <div style="position: relative;">
+                    <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40"
+                        width="35" style="position: absolute; top: 13; left: 13;">
+                    {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2.5, 2.5) !!}
+                </div>
+            </td> --}}
         </tr>
     </table>
 
@@ -313,7 +320,7 @@
                             </td>
                             <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
                             <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
-                                PT JAVALINE LOGISTICS
+                                {{ $nokir->nama_pemilik }}
                             </td>
                         </tr>
                         <tr>
@@ -326,8 +333,7 @@
                             <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
                             <td class="info-text info-left"
                                 style="font-size: 8px; font-weight: bold; margin-bottom: 8px;">
-                                JL HOS COKROAMINOTO NO 5 06/03 <br>
-                                SLAWI WETAN KAB. TEGAL
+                                {{ $nokir->alamat }}
                             </td>
                         </tr>
                         <tr>

@@ -143,6 +143,9 @@
                                                     <option value="AFKIR"
                                                         {{ old('kondisi_ban', $detail['kondisi_ban']) == 'AFKIR' ? 'selected' : null }}>
                                                         AFKIR</option>
+                                                    <option value="PROFIT"
+                                                        {{ old('kondisi_ban', $detail['kondisi_ban']) == 'PROFIT' ? 'selected' : null }}>
+                                                        PROFIT</option>
                                                 </select>
                                             </div>
                                         </td>
@@ -496,6 +499,8 @@
                 '>KANISIR</option>';
             item_pembelian += '<option value="AFKIR"' + (kondisi_ban === 'AFKIR' ? ' selected' : '') +
                 '>AFKIR</option>';
+            item_pembelian += '<option value="PROFIT"' + (kondisi_ban === 'PROFIT' ? ' selected' : '') +
+                '>PROFIT</option>';
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -515,7 +520,7 @@
             item_pembelian += '</td>';
             item_pembelian += '</td>'
 
-             // type
+            // type
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control select2bs4" id="typeban_id-' + key +

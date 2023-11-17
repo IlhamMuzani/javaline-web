@@ -114,15 +114,16 @@
                                     <th>Kode Barang</th>
                                     <th>Nama Barang</th>
                                     <th>Satuan</th>
+                                    <th>Harga Satuan</th>
                                     <th>Jumlah</th>
-                                    <th>Harga</th>
+                                    <th>Total</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody id="tabel-pembelian">
                                 <tr id="pembelian-0">
                                     <td class="text-center" id="urutan">1</td>
-                                    <td style="width: 240px">
+                                    <td>
                                         <div class="form-group">
                                             <select class="form-control" id="kategori-0" name="kategori[]"
                                                 onchange="getModalKategori(0)">
@@ -160,12 +161,20 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control" id="jumlah-0" name="jumlah[]">
+                                            <input type="number" class="form-control hargasatuan" id="hargasatuan-0"
+                                                name="hargasatuan[]" data-row-id="0">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control" id="harga-0" name="harga[]">
+                                            <input type="number" class="form-control jumlah" id="jumlah-0"
+                                                name="jumlah[]" data-row-id="0">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control harga" id="harga-0"
+                                                name="harga[]">
                                         </div>
                                     </td>
                                     <td>
@@ -411,26 +420,6 @@
                                                     pcs</option>
                                                 <option value="ltr" {{ old('satuan') == 'ltr' ? 'selected' : null }}>
                                                     ltr</option>
-                                                {{-- <option value="btl" {{ old('satuan') == 'btl' ? 'selected' : null }}>
-                                    btl</option>
-                                <option value="klng" {{ old('satuan') == 'klng' ? 'selected' : null }}>
-                                    klng</option>
-                                <option value="gln" {{ old('satuan') == 'gln' ? 'selected' : null }}>
-                                    gln</option>
-                                <option value="pack" {{ old('satuan') == 'pack' ? 'selected' : null }}>
-                                    pack</option>
-                                <option value="tgg" {{ old('satuan') == 'tgg' ? 'selected' : null }}>
-                                    tgg</option>
-                                <option value="set" {{ old('satuan') == 'set' ? 'selected' : null }}>
-                                    set</option>
-                                <option value="dus" {{ old('satuan') == 'dus' ? 'selected' : null }}>
-                                    dus</option>
-                                <option value="role" {{ old('satuan') == 'role' ? 'selected' : null }}>
-                                    role</option>
-                                <option value="pail" {{ old('satuan') == 'pail' ? 'selected' : null }}>
-                                    pail</option>
-                                <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : null }}>
-                                    kg</option> --}}
                                             </select>
                                         </div>
                                     </div>
@@ -517,6 +506,15 @@
             });
         }
 
+
+        $(document).on("input", ".hargasatuan, .jumlah", function() {
+            var currentRow = $(this).closest('tr');
+            var hargasatuan = parseFloat(currentRow.find(".hargasatuan").val()) || 0;
+            var jumlah = parseFloat(currentRow.find(".jumlah").val()) || 0;
+            var harga = hargasatuan * jumlah;
+            currentRow.find(".harga").val(harga);
+        });
+
         var data_pembelian = @json(session('data_pembelians'));
         var jumlah_part = 1;
 
@@ -569,6 +567,7 @@
             var satuan = '';
             var jumlah = '';
             var type_ban = '';
+            var hargasatuan = '';
             var harga = '';
             var kondisi_ban = '';
 
@@ -579,6 +578,7 @@
                 satuan = value.satuan;
                 jumlah = value.jumlah;
                 type_ban = value.type_ban;
+                hargasatuan = value.hargasatuan;
                 harga = value.harga;
                 kondisi_ban = value.kondisi_ban;
             }
@@ -587,7 +587,7 @@
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-            item_pembelian += '<td style="width: 240px">';
+            item_pembelian += '<td>';
 
             // kategori 
             item_pembelian += '<div class="form-group">';
@@ -635,22 +635,28 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            //jumlah
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control" id="jumlah-' + key +
-                '" name="jumlah[]" value="' +
-                jumlah +
-                '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control" id="harga-' + key + '" name="harga[]" value="' +
-                harga +
-                '" ';
+            item_pembelian += '<input type="number" class="form-control hargasatuan" id="hargasatuan-' + key +
+                '" name="hargasatuan[]" value="' + hargasatuan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // jumlah
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control jumlah" id="jumlah-' + key +
+                '" name="jumlah[]" value="' + jumlah + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+
+            // total
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
+                '" name="harga[]" value="' + harga + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -664,14 +670,6 @@
 
             $('#tabel-pembelian').append(item_pembelian);
 
-            if (value !== null) {
-                $('#kategori-' + key).val(value.kategori);
-                $('#kode_partdetail-' + key).val(value.kode_partdetail);
-                $('#nama_barang-' + key).val(value.nama_barang);
-                $('#satuan-' + key).val(value.satuan);
-                $('#jumlah-' + key).val(value.jumlah);
-                $('#harga-' + key).val(value.harga);
-            }
         }
 
 

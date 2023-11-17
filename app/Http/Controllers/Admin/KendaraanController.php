@@ -51,7 +51,7 @@ class KendaraanController extends Controller
             $request->all(),
             [
                 'no_kabin' => 'required',
-                'no_pol' => 'required',
+                'no_pol' => 'required|unique:kendaraans,no_pol', // Menambahkan aturan unique
                 'no_rangka' => 'required',
                 'no_mesin' => 'required',
                 'warna' => 'required',
@@ -76,6 +76,7 @@ class KendaraanController extends Controller
                 'golongan_id.required' => 'Pilih Golongan',
                 'divisi_id_mobil.required' => 'Pilih devisi mobil',
                 // 'user_id.required' => 'Pilih driver',
+                'no_pol.unique' => 'Nomor polisi sudah terdaftar.', // Pesan untuk validasi unique
             ]
         );
 
@@ -84,8 +85,8 @@ class KendaraanController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
+        // Sisanya tetap sama
         $kode = $this->kode();
-
         $tanggal = Carbon::now()->format('Y-m-d');
         Kendaraan::create(array_merge(
             $request->all(),
@@ -93,14 +94,17 @@ class KendaraanController extends Controller
                 'kode_kendaraan' => $this->kode(),
                 'status' => 'truk',
                 'timer' => '0 00:00',
+                'status_olimesin' => 'belum penggantian',
+                'status_oligardan' => 'belum penggantian',
+                'status_olitransmisi' => 'belum penggantian',
                 'qrcode_kendaraan' => 'https:///javaline.id/kendaraan/' . $kode,
                 'tanggal' => Carbon::now('Asia/Jakarta'),
-                'tanggal_awal' => $tanggal, 
-                // 'qrcode_kendaraan' => 'http://192.168.1.46/javaline/kendaraan/' . $kode
+                'tanggal_awal' => $tanggal,
             ]
         ));
         return redirect('admin/kendaraan')->with('success', 'Berhasil menambahkan kendaraan');
     }
+
 
     public function cetakpdf($id)
     {
@@ -158,7 +162,7 @@ class KendaraanController extends Controller
             $drivers = User::whereHas('karyawan', function ($query) {
                 $query->where('departemen_id', '2');
             })->get();
-            return view('admin/kendaraan.update', compact('drivers','kendaraan', 'jenis_kendaraans', 'golongans', 'divisis'));
+            return view('admin/kendaraan.update', compact('drivers', 'kendaraan', 'jenis_kendaraans', 'golongans', 'divisis'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -221,7 +225,6 @@ class KendaraanController extends Controller
         $kendaraan->save();
 
         return redirect('admin/kendaraan')->with('success', 'Berhasil memperbarui kendaraan');
-
     }
 
     public function destroy($id)

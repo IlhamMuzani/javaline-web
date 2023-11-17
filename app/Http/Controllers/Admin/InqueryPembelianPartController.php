@@ -97,6 +97,7 @@ class InqueryPembelianPartController extends Controller
                     'kode_partdetail.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
                     'satuan.' . $i => 'required',
+                    'hargasatuan.' . $i => 'required',
                     'jumlah.' . $i => 'required',
                     'harga.' . $i => 'required',
                 ]);
@@ -110,6 +111,7 @@ class InqueryPembelianPartController extends Controller
                 $kode_partdetail = is_null($request->kode_partdetail[$i]) ? '' : $request->kode_partdetail[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
+                $hargasatuan = is_null($request->hargasatuan[$i]) ? '' : $request->hargasatuan[$i];
                 $jumlah = is_null($request->kategori[$i]) ? '' : $request->jumlah[$i];
                 $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
 
@@ -119,6 +121,7 @@ class InqueryPembelianPartController extends Controller
                     'kode_partdetail' => $kode_partdetail,
                     'nama_barang' => $nama_barang,
                     'satuan' => $satuan,
+                    'hargasatuan' => $hargasatuan,
                     'jumlah' => $jumlah,
                     'harga' => $harga
                 ]);
@@ -171,6 +174,7 @@ class InqueryPembelianPartController extends Controller
                         'kategori' => $data_pesanan['kategori'],
                         'kode_partdetail' => $data_pesanan['kode_partdetail'],
                         'nama_barang' => $data_pesanan['nama_barang'],
+                        'hargasatuan' => $data_pesanan['hargasatuan'],
                         'jumlah' => $jumlahBaruDetail,
                         'satuan' => $data_pesanan['satuan'],
                         'harga' => $data_pesanan['harga'],
@@ -204,6 +208,7 @@ class InqueryPembelianPartController extends Controller
                     'kategori' => $data_pesanan['kategori'],
                     'kode_partdetail' => $data_pesanan['kode_partdetail'],
                     'nama_barang' => $data_pesanan['nama_barang'],
+                    'hargasatuan' => $data_pesanan['hargasatuan'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
                     'harga' => $data_pesanan['harga'],
