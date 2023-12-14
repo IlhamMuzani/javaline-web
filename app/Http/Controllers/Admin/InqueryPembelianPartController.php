@@ -84,6 +84,16 @@ class InqueryPembelianPartController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
 
+        $transaksi = Pembelian_part::findOrFail($id);
+        $tanggal_awal = Carbon::parse($transaksi->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
+
 
         if ($validasi_pelanggan->fails()) {
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
@@ -140,12 +150,14 @@ class InqueryPembelianPartController extends Controller
         // format tanggal indo
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
+
+        $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pembelian_part::findOrFail($id);
 
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,
-            'tanggal_awal' => $tanggal1,
+            // 'tanggal_awal' => $tanggal,
             'status' => 'posting',
         ]);
 

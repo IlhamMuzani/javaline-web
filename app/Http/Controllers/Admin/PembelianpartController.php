@@ -162,7 +162,7 @@ class PembelianpartController extends Controller
                 ]);
 
                 if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Pembelian ban nomor " . $i + 1 . " belum dilengkapi!");
+                    array_push($error_pesanans, "Pembelian Part nomor " . $i + 1 . " belum dilengkapi!");
                 }
 
 
@@ -201,6 +201,7 @@ class PembelianpartController extends Controller
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pembelian_part::create([
+            'user_id' => auth()->user()->id,
             'kode_pembelianpart' => $this->kode(),
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,

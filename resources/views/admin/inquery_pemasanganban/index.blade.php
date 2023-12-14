@@ -118,32 +118,46 @@
                                         </td>
                                         <td class="text-center">
                                             @if ($pemasangan_ban->status == 'unpost')
-                                                <a href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ url('admin/inquery_pemasanganban/' . $pemasangan_ban->id . '/edit') }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                    data-target="#modal-hapus-{{ $pemasangan_ban->id }}">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modal-posting-{{ $pemasangan_ban->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                    <a href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban update'])
+                                                    <a href="{{ url('admin/inquery_pemasanganban/' . $pemasangan_ban->id . '/edit') }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban delete'])
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                        data-target="#modal-hapus-{{ $pemasangan_ban->id }}">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban posting'])
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#modal-posting-{{ $pemasangan_ban->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
                                             @endif
                                             @if ($pemasangan_ban->status == 'posting')
-                                                <a href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                    data-target="#modal-unpost-{{ $pemasangan_ban->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                    <a href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban unpost'])
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#modal-unpost-{{ $pemasangan_ban->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>

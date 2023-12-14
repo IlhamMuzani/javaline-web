@@ -7,6 +7,8 @@ use App\Models\Kendaraan;
 use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Ban;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class UpdateKMController extends Controller
@@ -26,7 +28,7 @@ class UpdateKMController extends Controller
     {
 
         $nomorKabin = $request->input('kendaraan_id');
-        
+
         $kendaraan = Kendaraan::where('id', $nomorKabin)->first();
 
         // if (!$kendaraan) {
@@ -58,16 +60,19 @@ class UpdateKMController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
+        $tanggal = Carbon::now()->format('Y-m-d');
+        $kendaraan = Kendaraan::findOrFail($kendaraan->id);
+
         LogAktivitas::create([
             'user_id' => auth()->user()->id,
             'kendaraan_id' => $kendaraan->id,
             'km_update' => $request->km,
             'tanggal' => Carbon::now('Asia/Jakarta'), // Menggunakan zona waktu Asia/Jakarta (WIB)
             'action' => 'update_km',
+            'tanggal_awal' => $tanggal,
+            'status_notif' => false,
+            'status' => 'posting'
         ]);
-
-        $tanggal = Carbon::now()->format('Y-m-d');
-        $kendaraan = Kendaraan::findOrFail($kendaraan->id);
 
         $kendaraan->nama_security = auth()->user()->karyawan->nama_lengkap;
         $kendaraan->km = $request->km;
@@ -76,7 +81,14 @@ class UpdateKMController extends Controller
         $kendaraan->status_post = 'posting';
         $kendaraan->status_notif = false;
 
+        $kendaraan->ban()->update([
+            'umur_ban' => DB::raw('CAST(' . $kendaraan->km . ' AS SIGNED) - CAST(km_pemasangan AS SIGNED)')
+        ]);
+
         $kendaraan->save();
+
+
+
 
         return back()->with('success', 'Kilo meter berhasil terupdate');
     }

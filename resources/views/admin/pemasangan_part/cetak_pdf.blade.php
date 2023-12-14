@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'DOSVGA', monospace;
             color: black;
         }
 
@@ -70,6 +70,9 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT PEMASANGAN PART</span>
@@ -133,7 +136,13 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label">
+                            @if ($pemasangans->user)
+                                {{ $pemasangans->user->karyawan->nama_lengkap }}
+                            @else
+                                user tidak ada
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>

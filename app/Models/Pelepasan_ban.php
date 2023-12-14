@@ -15,6 +15,7 @@ class Pelepasan_ban extends Model
 
     protected $fillable = [
         'kendaraan_id',
+        'user_id',
         'status',
         'tanggal',
         'tanggal_awal',
@@ -29,6 +30,10 @@ class Pelepasan_ban extends Model
             ->logFillable('*');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function kendaraan()
     {

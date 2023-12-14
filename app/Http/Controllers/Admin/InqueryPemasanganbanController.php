@@ -175,10 +175,26 @@ class InqueryPemasanganbanController extends Controller
     {
 
         $inquerypemasanganban = Pemasangan_ban::findOrFail($id);
+
+        $tanggal_awal = Carbon::parse($inquerypemasanganban->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
+
+
         $inquerypemasanganban->update([
             'status' => 'posting',
         ]);
-        return redirect('admin/inquery_pemasanganban')->with('success', 'Berhasil memperbarui');
+
+        $pemasangan_ban = Pemasangan_ban::find($inquerypemasanganban->id);
+        $kendaraan = Kendaraan::where('id', $inquerypemasanganban->kendaraan_id)->first();        
+        $bans = Ban::where('pemasangan_ban_id', $id)->get();
+
+        return view('admin.inquery_pemasanganban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));
     }
 
     public function inquerypemasangan1(Request $request, $id)

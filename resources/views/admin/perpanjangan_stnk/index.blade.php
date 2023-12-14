@@ -85,19 +85,23 @@
                                                 <i class="fas fa-eye">
                                                 </i>
                                             </a>
-                                            <a href="{{ url('admin/perpanjangan_stnk/' . $stnk->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                            @if (auth()->check() && auth()->user()->fitur['perpanjangan stnk create'])
+                                                <a href="{{ url('admin/perpanjangan_stnk/' . $stnk->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
                                             <a href="{{ url('admin/perpanjangan_stnk/checkpost/' . $stnk->id) }}"
                                                 class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </a>
                                         @else
-                                            <a href="{{ url('admin/perpanjangan_stnk/' . $stnk->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                            @if (auth()->check() && auth()->user()->fitur['perpanjangan stnk create'])
+                                                <a href="{{ url('admin/perpanjangan_stnk/' . $stnk->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

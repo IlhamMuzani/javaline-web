@@ -197,6 +197,17 @@ class InqueryPelepasanbanController extends Controller
     {
 
         $inquerypemasanganban = Pelepasan_ban::findOrFail($id);
+
+        $tanggal_awal = Carbon::parse($inquerypemasanganban->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
+
+
         $inquerypemasanganban->update([
             'status' => 'posting',
         ]);

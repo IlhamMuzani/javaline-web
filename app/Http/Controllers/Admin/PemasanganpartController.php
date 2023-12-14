@@ -75,16 +75,16 @@ class PemasanganpartController extends Controller
                 $data_pembelians->push(['sparepart_id' => $sparepart_id, 'nama_barang' => $nama_barang, 'keterangan' => $keterangan, 'jumlah' => $jumlah]);
             }
 
-            if (!$error_pelanggans && !$error_pesanans) {
-                foreach ($request->sparepart_id as $index => $sparepartId) {
-                    $jumlahDiminta = $request->jumlah[$index];
-                    $sparepart = Sparepart::find($sparepartId);
+            // if (!$error_pelanggans && !$error_pesanans) {
+            //     foreach ($request->sparepart_id as $index => $sparepartId) {
+            //         $jumlahDiminta = $request->jumlah[$index];
+            //         $sparepart = Sparepart::find($sparepartId);
 
-                    if ($sparepart && $jumlahDiminta > $sparepart->jumlah) {
-                        array_push($error_pesanans, "Stok Sparepart nomor " . ($index + 1) . " tidak mencukupi!");
-                    }
-                }
-            }
+            //         if ($sparepart && $jumlahDiminta > $sparepart->jumlah) {
+            //             array_push($error_pesanans, "Stok Sparepart nomor " . ($index + 1) . " tidak mencukupi!");
+            //         }
+            //     }
+            // }
         } else {
         }
 
@@ -102,6 +102,7 @@ class PemasanganpartController extends Controller
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pemasangan_part::create([
+            'user_id' => auth()->user()->id,
             'kode_pemasanganpart' => $this->kode(),
             'kendaraan_id' => $request->kendaraan_id,
             'tanggal_pemasangan' => $format_tanggal,
@@ -120,7 +121,7 @@ class PemasanganpartController extends Controller
                     $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
 
                     // Pastikan jumlah sparepart tidak kurang dari nol
-                    $jumlah_sparepart = max(0, $jumlah_sparepart);
+                    // $jumlah_sparepart = max(0, $jumlah_sparepart);
 
                     // Memperbarui jumlah sparepart
                     $sparepart->update(['jumlah' => $jumlah_sparepart]);

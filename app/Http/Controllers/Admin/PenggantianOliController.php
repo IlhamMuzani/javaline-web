@@ -176,6 +176,7 @@ END")->get();
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Penggantian_oli::create([
+            'user_id' => auth()->user()->id,
             'kode_penggantianoli' => $this->kode(),
             'kendaraan_id' => $request->kendaraan_id,
             'tanggal_penggantian' => $format_tanggal,
@@ -200,7 +201,7 @@ END")->get();
                     $km_berikutnya = $request->km; // Nilai default
 
                     if ($data_pesanan['kategori'] == 'Oli Mesin') {
-                        $km_berikutnya += 10000;
+                        $km_berikutnya += 13000;
                     } elseif ($data_pesanan['kategori'] == 'Oli Gardan') {
                         $km_berikutnya += 50000;
                     } elseif ($data_pesanan['kategori'] == 'Oli Transmisi') {
@@ -255,7 +256,7 @@ END")->get();
 
         if ($request->has('kategori')) {
             if (in_array('Oli Mesin', $request->kategori)) {
-                $dataToUpdate['km_olimesin'] = $request->km + 10000;
+                $dataToUpdate['km_olimesin'] = $request->km + 13000;
                 $dataToUpdate['status_olimesin'] = 'konfirmasi';
             }
 
@@ -290,6 +291,7 @@ END")->get();
 
         return view('admin.penggantian_oli.show', compact('parts', 'parts2', 'pembelians'));
     }
+
 
 
     public function show($id)

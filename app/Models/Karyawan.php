@@ -30,6 +30,7 @@ class Karyawan extends Model
         'gambar',
         'pembayaran',
         'gaji',
+        'tabungan',
         'status',
         'tanggal_awal',
         'tanggal_akhir',

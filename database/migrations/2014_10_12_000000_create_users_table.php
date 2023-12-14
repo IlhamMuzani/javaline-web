@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('level', ['admin','owner','staff']);
             $table->string('cek_hapus')->nullable();
             $table->json('menu')->nullable();
+            $table->json('fitur')->nullable();
             $table->string('password')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();

@@ -148,7 +148,6 @@ class DivisiController extends Controller
     public function destroy($id)
     {
         $divisi = Divisi::find($id);
-        $divisi->kendaraan()->delete();
         $divisi->delete();
 
         return redirect('admin/divisi')->with('success', 'Berhasil menghapus divisi');

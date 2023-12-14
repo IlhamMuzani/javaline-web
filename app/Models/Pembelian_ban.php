@@ -16,6 +16,7 @@ class Pembelian_ban extends Model
     protected $fillable =
     [
         'kode_pembelian_ban',
+        'user_id',
         'qr_pembelian_ban',
         'supplier_id',
         'no_seri',
@@ -33,6 +34,12 @@ class Pembelian_ban extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
 
     public static function getId()

@@ -87,32 +87,44 @@
                                     <td>{{ $inquerys->expired_stnk }}</td>
                                     <td class="text-center">
                                         @if ($inquerys->status == 'unpost')
-                                            <a href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id . '/edit') }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $inquerys->id }}">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#modal-posting-{{ $inquerys->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
+                                                <a href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk update'])
+                                                <a href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id . '/edit') }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk delete'])
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $inquerys->id }}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk posting'])
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#modal-posting-{{ $inquerys->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
                                         @endif
                                         @if ($inquerys->status == 'posting')
-                                            <a href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                data-target="#modal-unpost-{{ $inquerys->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
+                                                <a href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk unpost'])
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                                    data-target="#modal-unpost-{{ $inquerys->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

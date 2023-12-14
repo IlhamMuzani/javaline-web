@@ -151,7 +151,6 @@ class TypebanController extends Controller
     public function destroy($id)
     {
         $type_ban = Typeban::find($id);
-        $type_ban->ban()->delete();
         $type_ban->delete();
 
         return redirect('admin/type_ban')->with('success', 'Berhasil menghapus Type ban');

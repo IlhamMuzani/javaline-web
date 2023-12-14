@@ -110,32 +110,46 @@
                                         </td>
                                         <td class="text-center">
                                             @if ($penggantianoli->status == 'unpost')
-                                                <a href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a href="{{ url('admin/inquery_penggantianoli/' . $penggantianoli->id . '/edit') }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                    data-target="#modal-hapus-{{ $penggantianoli->id }}">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modal-posting-{{ $penggantianoli->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery penggantian oli show'])
+                                                    <a href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery penggantian oli update'])
+                                                    <a href="{{ url('admin/inquery_penggantianoli/' . $penggantianoli->id . '/edit') }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery penggantian oli delete'])
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                        data-target="#modal-hapus-{{ $penggantianoli->id }}">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery penggantian oli posting'])
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#modal-posting-{{ $penggantianoli->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
                                             @endif
                                             @if ($penggantianoli->status == 'posting')
-                                                <a href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                    data-target="#modal-unpost-{{ $penggantianoli->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery penggantian oli show'])
+                                                    <a href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="fas fa-eye"></i>
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery penggantian oli unpost'])
+                                                    <button type="button" class="btn btn-success btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#modal-unpost-{{ $penggantianoli->id }}">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>

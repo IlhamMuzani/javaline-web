@@ -83,6 +83,17 @@ class KaryawanController extends Controller
         }
 
         $kode = $this->kode();
+        $kodedriver = $this->kodedriver();
+        $departemen = $request->departemen_id;
+
+        if ($departemen == 1) {
+            $kode_karyawan = $kode;
+        } elseif ($departemen == 2) {
+            $kode_karyawan = $kodedriver;
+        } else {
+            // Handle other cases if needed
+            $kode_karyawan = null; // or set a default value
+        }
 
         Karyawan::create(array_merge(
             $request->all(),
@@ -92,13 +103,12 @@ class KaryawanController extends Controller
                 'gaji' => '-',
                 'pembayaran' => '-',
                 'status' => 'null',
-                'kode_karyawan' => $this->kode(),
-                'qrcode_karyawan' => 'https://javaline.id/karyawan/' . $kode,
-                // 'qrcode_karyawan' => 'http://192.168.1.46/javaline/karyawan/' . $kode
+                'kode_karyawan' => $kode_karyawan,
+                'qrcode_karyawan' => 'https://javaline.id/karyawan/' . $kode_karyawan,
                 'tanggal' => Carbon::now('Asia/Jakarta'),
-
             ]
         ));
+
 
         return redirect('admin/karyawan')->with('success', 'Berhasil menambahkan karyawan');
     }
@@ -111,6 +121,19 @@ class KaryawanController extends Controller
         $idbr = $idlm + 1;
         $num = sprintf("%06s", $idbr);
         $data = 'AA';
+        $kode_karyawan = $data . $num;
+
+        return $kode_karyawan;
+    }
+
+    public function kodedriver()
+    {
+        $id = Karyawan::getId();
+        foreach ($id as $value);
+        $idlm = $value->id;
+        $idbr = $idlm + 1;
+        $num = sprintf("%06s", $idbr);
+        $data = 'AD';
         $kode_karyawan = $data . $num;
 
         return $kode_karyawan;

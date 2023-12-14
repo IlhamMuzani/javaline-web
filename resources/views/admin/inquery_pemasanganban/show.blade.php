@@ -250,7 +250,13 @@
             <td>
                 <table>
                     <tr>
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label">
+                            @if ($pemasangan_ban->user)
+                                {{ $pemasangan_ban->user->karyawan->nama_lengkap }}
+                            @else
+                                user tidak ada
+                            @endif
+                        </td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>

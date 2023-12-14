@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('laporanstnks', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->unsignedBigInteger('stnk_id')->nullable();
             $table->foreign('stnk_id')->references('id')->on('stnks')->onDelete('set null');
             $table->string('kode_perpanjangan')->nullable();

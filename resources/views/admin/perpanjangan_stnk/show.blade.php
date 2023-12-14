@@ -253,7 +253,13 @@
             <td>
                 <table>
                     <tr>
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label">
+                            @if ($laporan->user)
+                                {{ $laporan->user->karyawan->nama_lengkap }}
+                            @else
+                                user tidak ada
+                            @endif
+                        </td>
                     </tr>
 
                     <tr>

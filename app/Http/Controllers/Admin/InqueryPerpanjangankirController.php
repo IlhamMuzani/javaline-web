@@ -90,6 +90,16 @@ class InqueryPerpanjangankirController extends Controller
 
         $nokir = Laporankir::findOrFail($id);
 
+        $tanggal_awal = Carbon::parse($nokir->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
+
+        
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
         Laporankir::where('id', $id)->update([

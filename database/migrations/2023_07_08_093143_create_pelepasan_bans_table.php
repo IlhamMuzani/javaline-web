@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('pelepasan_bans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->unsignedBigInteger('kendaraan_id')->nullable();
             $table->foreign('kendaraan_id')->references('id')->on('kendaraans')->onDelete('set null');
             // $table->unsignedBigInteger('pemasangan_ban_id')->nullable();

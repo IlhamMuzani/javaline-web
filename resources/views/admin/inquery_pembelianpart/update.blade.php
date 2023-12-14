@@ -23,6 +23,15 @@
 
     <section class="content">
         <div class="container-fluid">
+             @if (session('errormax'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-check"></i> Error!
+                    </h5>
+                    {{ session('errormax') }}
+                </div>
+            @endif
             @if (session('error_pelanggans') || session('error_pesanans'))
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -130,40 +139,30 @@
                                                     name="detail_ids[]" value="{{ $detail['id'] }}">
                                             </div>
                                             <div class="form-group">
-                                                <select class="form-control" id="kategori-0" name="kategori[]"
-                                                    onchange="getModalKategori(0)">
-                                                    <option value="">- Kategori -</option>
-                                                    <option value="oli"
-                                                        {{ old('kategori', $detail['kategori']) == 'oli' ? 'selected' : null }}>
-                                                        oli</option>
-                                                    <option value="mesin"
-                                                        {{ old('kategori', $detail['kategori']) == 'mesin' ? 'selected' : null }}>
-                                                        mesin</option>
-                                                    <option value="body"
-                                                        {{ old('body', $detail['kategori']) == 'body' ? 'selected' : null }}>
-                                                        body</option>
-                                                    <option value="sasis"
-                                                        {{ old('kategori', $detail['kategori']) == 'sasis' ? 'selected' : null }}>
-                                                        sasis</option>
-                                                </select>
+                                                <input type="text" readonly class="form-control"
+                                                    id="kategori-{{ $loop->index }}" name="kategori[]"
+                                                    value="{{ $detail['kategori'] }}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" readonly class="form-control" id="kode_partdetail-0"
-                                                    name="kode_partdetail[]" value="{{ $detail['kode_partdetail'] }}">
+                                                <input type="text" readonly class="form-control"
+                                                    id="kode_partdetail-{{ $loop->index }}" name="kode_partdetail[]"
+                                                    value="{{ $detail['kode_partdetail'] }}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" readonly class="form-control" id="nama_barang-0"
-                                                    name="nama_barang[]" value="{{ $detail['nama_barang'] }}">
+                                                <input type="text" readonly class="form-control"
+                                                    id="nama_barang-{{ $loop->index }}" name="nama_barang[]"
+                                                    value="{{ $detail['nama_barang'] }}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" readonly class="form-control" id="satuan-0"
-                                                    name="satuan[]" value="{{ $detail['satuan'] }}">
+                                                <input type="text" readonly class="form-control"
+                                                    id="satuan-{{ $loop->index }}" name="satuan[]"
+                                                    value="{{ $detail['satuan'] }}">
                                             </div>
                                         </td>
                                         <td>
@@ -181,13 +180,17 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control harga" id="harga-0" name="harga[]"
-                                                    value="{{ $detail['harga'] }}">
+                                                <input type="number" class="form-control harga" id="harga-0"
+                                                    name="harga[]" value="{{ $detail['harga'] }}">
                                             </div>
                                         </td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger"
-                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                        <td style="width: 120px">
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="barang({{ $loop->index }})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <button style="margin-left:5px" type="button" class="btn btn-danger"
+                                                onclick="removeBan({{ $loop->index }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -452,11 +455,17 @@
                         </button>
                     </div>
                     <div class="modal-body">
+                        {{-- <div class="float-right">
+                            <button type="button" data-toggle="modal" data-target="#modal-part"
+                                class="btn btn-primary btn-sm mb-3" data-dismiss="modal">
+                                Tambah
+                            </button>
+                        </div> --}}
                         <button type="button" data-toggle="modal" data-target="#modal-part"
-                            class="btn btn-primary btn-sm" data-dismiss="modal">
+                            class="btn btn-primary btn-sm mb-2" data-dismiss="modal">
                             Tambah
                         </button>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="datatables66" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -469,16 +478,18 @@
                             </thead>
                             <tbody>
                                 @foreach ($spareparts as $part)
-                                    <tr data-kategori="{{ $part->kategori }}" data-kode="{{ $part->kode_partdetail }}"
-                                        data-nama="{{ $part->nama_barang }}" data-satuan="{{ $part->satuan }}">
+                                    <tr data-kategori="{{ $part->kategori }}"
+                                        data-kode_partdetail="{{ $part->kode_partdetail }}"
+                                        data-nama_barang="{{ $part->nama_barang }}" data-satuan="{{ $part->satuan }}"
+                                        data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $part->kode_partdetail }}</td>
                                         <td>{{ $part->nama_barang }}</td>
-                                        <td>{{ $part->stok }}</td>
+                                        <td>{{ $part->jumlah }}</td>
                                         <td>{{ $part->satuan }}</td>
                                         <td class="text-center">
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                onclick="getSelectedData({{ $loop->iteration - 1 }})">
+                                                onclick="getBarang({{ $loop->index }})">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
@@ -506,6 +517,30 @@
             });
         }
 
+        var activeSpecificationIndex = 0;
+
+        function barang(param) {
+            activeSpecificationIndex = param;
+            // Show the modal and filter rows if necessary
+            $('#tableKategori').modal('show');
+        }
+
+        function getBarang(rowIndex) {
+            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var kategori = selectedRow.data('kategori');
+            var kode_partdetail = selectedRow.data('kode_partdetail');
+            var nama_barang = selectedRow.data('nama_barang');
+            var satuan = selectedRow.data('satuan');
+
+            // Update the form fields for the active specification
+            $('#kategori-' + activeSpecificationIndex).val(kategori);
+            $('#kode_partdetail-' + activeSpecificationIndex).val(kode_partdetail);
+            $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
+            $('#satuan-' + activeSpecificationIndex).val(satuan);
+
+            $('#tableKategori').modal('hide');
+        }
+
         $(document).on("input", ".hargasatuan, .jumlah", function() {
             var currentRow = $(this).closest('tr');
             var hargasatuan = parseFloat(currentRow.find(".hargasatuan").val()) || 0;
@@ -515,10 +550,10 @@
         });
 
         var data_pembelian = @json(session('data_pembelians'));
-        var jumlah_part = 1;
+        var jumlah_ban = 1;
 
         if (data_pembelian != null) {
-            jumlah_part = data_pembelian.length;
+            jumlah_ban = data_pembelian.length;
             $('#tabel-pembelian').empty();
             var urutan = 0;
             $.each(data_pembelian, function(key, value) {
@@ -534,63 +569,53 @@
             }
         }
 
+        var counter = 0;
 
         function addPesanan() {
-            console.log();
-            jumlah_part = jumlah_part + 1;
+            counter++;
+            jumlah_ban = jumlah_ban + 1;
 
-            if (jumlah_part === 1) {
+            if (jumlah_ban === 1) {
                 $('#tabel-pembelian').empty();
+            } else {
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-pembelian tr:last');
+                var lastRowIndex = lastRow.find('#urutan').text();
+                jumlah_ban = parseInt(lastRowIndex) + 1;
             }
 
-            itemPembelian(jumlah_part, jumlah_part - 1);
+            console.log('Current jumlah_ban:', jumlah_ban);
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+            updateUrutan();
+        }
+
+        function removeBan(identifier) {
+            var row = $('#pembelian-' + identifier);
+            var detailId = row.find("input[name='detail_ids[]']").val();
+
+            row.remove();
+
+            if (detailId) {
+                $.ajax({
+                    url: "{{ url('admin/inquery_pembelianpart/deletepart/') }}/" + detailId,
+                    type: "POST",
+                    data: {
+                        _method: 'DELETE',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log('Data deleted successfully');
+                    },
+                    error: function(error) {
+                        console.error('Failed to delete data:', error);
+                    }
+                });
+            }
 
             updateUrutan();
         }
 
-        function removeBan(identifier, detailId) {
-            var pembelian = document.getElementById('pembelian-' + identifier);
-            pembelian.remove();
-
-            // Melakukan permintaan AJAX untuk menghapus data berdasarkan detailId
-            $.ajax({
-                url: "{{ url('admin/inquery_pembelianpart/deletepart/') }}/" + detailId,
-                type: "POST",
-                data: {
-                    _method: 'DELETE',
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log('Data deleted successfully');
-                },
-                error: function(error) {
-                    console.error('Failed to delete data:', error);
-                }
-            });
-
-            // Mengurangi jumlah_part
-            jumlah_part = jumlah_part - 1;
-
-            // Menghapus elemen 'pembelian' dari tabel_pesanan
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            tabel_pesanan.removeChild(pembelian);
-
-            // Memperbarui urutan jika jumlah_part lebih besar dari 0
-            if (jumlah_part === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="8">- Part belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
-            } else {
-                // Memperbarui urutan jika masih ada elemen
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
-        }
-
-        function itemPembelian(urutan, key, value = null) {
+        function itemPembelian(identifier, key, value = null) {
             var kategori = '';
             var kode_partdetail = '';
             var nama_barang = '';
@@ -615,25 +640,19 @@
 
             console.log(kategori);
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-            item_pembelian += '<td>';
+            var item_pembelian = '<tr id="pembelian-' + key + '">';
+            item_pembelian += '<td class="text-center" id="urutan">' + key + '</td>';
 
             // kategori 
-            item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control" id="kategori-' + key +
-                '" name="kategori[]"onchange="getModalKategori(' + key + ')">';
-            item_pembelian += '<option value="">-Kategori-</option>';
-            item_pembelian += '<option value="oli"' + (kategori === 'oli' ? ' selected' : '') + '>oli</option>';
-            item_pembelian += '<option value="body"' + (kategori === 'body' ? ' selected' : '') +
-                '>body</option>';
-            item_pembelian += '<option value="mesin"' + (kategori === 'mesin' ? ' selected' : '') +
-                '>mesin</option>';
-            item_pembelian += '<option value="sasis"' + (kategori === 'sasis' ? ' selected' : '') +
-                '>sasis</option>';
-            item_pembelian += '</select>';
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" readonly id="kategori-' + key +
+                '" name="kategori[]" value="' +
+                kategori +
+                '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
+
 
             //kode barang
             item_pembelian += '<td>';
@@ -697,110 +716,20 @@
             item_pembelian += '</td>';
 
             // delete
-            item_pembelian += '<td>';
-            item_pembelian += '<button type="button" class="btn btn-danger" onclick="removeBan(' + urutan + ')">';
+            item_pembelian += '<td style="width: 120px">';
+            item_pembelian += '<button type="button" class="btn btn-primary" onclick="barang(' + key + ')">';
+            item_pembelian += '<i class="fas fa-plus"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '<button style="margin-left:5px" type="button" class="btn btn-danger" onclick="removeBan(' +
+                key + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
             $('#tabel-pembelian').append(item_pembelian);
-
-            if (value !== null) {
-                $('#kategori-' + key).val(value.kategori);
-                $('#kode_partdetail-' + key).val(value.kode_partdetail);
-                $('#nama_barang-' + key).val(value.nama_barang);
-                $('#satuan-' + key).val(value.satuan);
-                $('#jumlah-' + key).val(value.jumlah);
-                $('#harga-' + key).val(value.harga);
-            }
         }
 
-        function getModalKategori(param) {
-            var selectedValue = $('#kategori-' + param).val();
-            $('#tableKategori').modal('show');
-            $('#example1 tbody tr').each(function() {
-                var rowKategori = $(this).data('kategori');
-                $(this).attr('data-param', param);
-                if (rowKategori !== selectedValue) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
-        }
-
-        function showCategoryModal(selectedCategory) {
-            $('#tableKategori').modal('show');
-
-            $('#example1 tbody tr').each(function() {
-                var rowKategori = $(this).data('kategori');
-                if (selectedCategory === rowKategori) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-
-        function getSelectedData(rowIndex) {
-            console.log(rowIndex);
-            var selectedRow = $('#example1 tbody tr:eq(' + rowIndex + ')');
-
-            var kategori = selectedRow.data('kategori');
-            var kode_partdetail = selectedRow.data('kode');
-            var nama_barang = selectedRow.data('nama');
-            var satuan = selectedRow.data('satuan');
-            var param = selectedRow.data('param');
-
-            // bagian Isi nilai-nilai input pada form Anda dengan nilai dari modal
-            $('#kategori-' + param).val(kategori);
-            $('#kode_partdetail-' + param).val(kode_partdetail);
-            $('#nama_barang-' + param).val(nama_barang);
-            $('#satuan-' + param).val(satuan);
-
-            $('#tableKategori').modal('hide');
-        }
-
-
-        function refreshTable() {
-            $.ajax({
-                type: 'GET',
-                url: "{{ url('admin/pembelian_part/tabelpart') }}",
-                // url: "{{ url('admin/pembelian_part/tabelpartmesin') }}", 
-                dataType: 'json',
-                success: function(data) {
-                    // Menghapus semua baris dalam tabel
-                    $('#example1 tbody').empty();
-
-                    // Menambahkan data baru ke dalam tabel
-                    $.each(data, function(index, part) {
-                        var newRow = '<tr data-kategori="' + part.kategori + '" data-kode="' + part
-                            .kode_partdetail + '" data-nama="' + part.nama_barang + '" data-jumlah="' +
-                            part.jumlah + '" data-satuan="' +
-                            part.satuan + '">';
-                        newRow += '<td class="text-center">' + (index + 1) + '</td>';
-                        newRow += '<td>' + part.kode_partdetail + '</td>';
-                        newRow += '<td>' + part.nama_barang + '</td>';
-                        newRow += '<td>' + part.jumlah + '</td>';
-                        newRow += '<td>' + part.satuan + '</td>';
-                        newRow += '<td class="text-center">';
-                        newRow +=
-                            '<button type="button" id="btnTambah" class="btn btn-primary btn-sm" onclick="getSelectedData(' +
-                            index + ')">';
-                        newRow += '<i class="fas fa-plus"></i>';
-                        newRow += '</button>';
-                        newRow += '</td>';
-                        newRow += '</tr>';
-
-                        $('#example1 tbody').append(newRow);
-                    });
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
-        }
 
         // Panggil fungsi refreshTable saat dokumen siap
         $(document).ready(function() {
@@ -831,9 +760,6 @@
                     }
                 });
             });
-
-            // Panggil fungsi refreshTable saat dokumen siap
-            refreshTable();
         });
     </script>
 @endsection

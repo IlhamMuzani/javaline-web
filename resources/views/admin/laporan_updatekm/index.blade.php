@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Pembelian Ban')
+@section('title', 'Laporan Update Km')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Laporan Pembelian Ban</h1>
+                    <h1 class="m-0">Laporan Update Km</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Pembelian Ban</li>
+                        <li class="breadcrumb-item active">Laporan Update Km</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,7 +34,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Pembelian Ban</h3>
+                    <h3 class="card-title">Data Laporan Update Km</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -51,13 +51,17 @@
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
                             <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                                <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
-                                    target="_blank">
-                                    <i class="fas fa-print"></i> Cetak
-                                </button>
+                                @if (auth()->check() && auth()->user()->fitur['laporan update km cari'])
+                                    <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                        <i class="fas fa-search"></i> Cari
+                                    </button>
+                                @endif
+                                @if (auth()->check() && auth()->user()->fitur['laporan update km cetak'])
+                                    <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
+                                        target="_blank">
+                                        <i class="fas fa-print"></i> Cetak
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </form>

@@ -26,6 +26,15 @@
 
     <section class="content">
         <div class="container-fluid">
+            @if (session('errormax'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-check"></i> Error!
+                    </h5>
+                    {{ session('errormax') }}
+                </div>
+            @endif
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -51,29 +60,32 @@
                     <h3 class="card-title">Update Kilo Meter</h3>
                 </div>
                 <!-- /.card-header -->
-                <form action="{{ url('admin/inquery_updatekm/' . $kendaraan->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
-                @csrf
-                @method('put')
+                <form action="{{ url('admin/inquery_updatekm/' . $kendaraan->id) }}" method="POST"
+                    enctype="multipart/form-data" autocomplete="off">
+                    @csrf
+                    @method('put')
                     <div class="card-body">
                         <div class="form-group">
                             <label for="nopol">No Kabin</label>
                             <input type="text" class="form-control" id="id" name="" readonly
-                                placeholder="Masukan id" value="{{ old('no_kabin', $kendaraan->no_kabin) }}">
+                                placeholder="Masukan id" value="{{ old('no_kabin', $kendaraan->kendaraan->no_kabin) }}">
                         </div>
                         <div class="form-group">
                             <label for="nopol">No. Registrasi Kendaraan</label>
                             <input type="text" class="form-control" id="no_pol" name="no_pol" readonly
-                                placeholder="Masukan no registrasi kendaraan" value="{{ old('no_pol', $kendaraan->no_pol) }}">
+                                placeholder="Masukan no registrasi kendaraan"
+                                value="{{ old('no_pol', $kendaraan->kendaraan->no_pol) }}">
                         </div>
                         <div class="form-group">
                             <label for="jenis_kendaraan">Jenis Kendaraan</label>
                             <input type="text" class="form-control" id="jenis_kendaraan" name="jenis_kendaraan" readonly
-                                placeholder="Masukan jenis kendaraan" value="{{ old('jenis_kendaraan', $kendaraan->jenis_kendaraan->nama_jenis_kendaraan) }}">
+                                placeholder="Masukan jenis kendaraan"
+                                value="{{ old('jenis_kendaraan', $kendaraan->kendaraan->jenis_kendaraan->nama_jenis_kendaraan) }}">
                         </div>
                         <div class="form-group">
                             <label for="km">KM Awal</label>
                             <input type="text" class="form-control" id="km_awal" readonly placeholder="0"
-                                value="{{ old('km', $kendaraan->km) }}">
+                                value="{{ old('km', $kendaraan->km_update) }}">
                             </select>
                         </div>
                         <div class="form-group">

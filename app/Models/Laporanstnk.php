@@ -15,6 +15,7 @@ class Laporanstnk extends Model
 
     protected $fillable = [
         'stnk_id',
+        'user_id',
         'kode_perpanjangan',
         'expired_stnk',
         'jumlah',
@@ -26,13 +27,17 @@ class Laporanstnk extends Model
         'status_notif',
     ];
 
-    
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logFillable('*');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public static function getId()
     {
@@ -44,5 +49,4 @@ class Laporanstnk extends Model
     {
         return $this->belongsTo(Stnk::class);
     }
-
 }

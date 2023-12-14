@@ -143,7 +143,6 @@ class GolonganController extends Controller
     public function destroy($id)
     {
         $golongan = Golongan::find($id);
-        $golongan->kendaraan()->delete();
         $golongan->delete();
 
         return redirect('admin/golongan')->with('success', 'Berhasil menghapus Golongan');

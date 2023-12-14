@@ -36,9 +36,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Supplier</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/supplier/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        @if (auth()->check() && auth()->user()->fitur['supplier create'])
+                            <a href="{{ url('admin/supplier/create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -70,17 +72,24 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ url('admin/supplier/' . $supplier->id) }}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ url('admin/supplier/' . $supplier->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $supplier->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        @if (auth()->check() && auth()->user()->fitur['supplier show'])
+                                            <a href="{{ url('admin/supplier/' . $supplier->id) }}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['supplier update'])
+                                            <a href="{{ url('admin/supplier/' . $supplier->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['supplier delete'])
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $supplier->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modal-hapus-{{ $supplier->id }}">

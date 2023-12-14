@@ -14,6 +14,9 @@ class LogAktivitas extends Model
         'kendaraan_id',
         'km_update',
         'tanggal',
+        'tanggal_awal',
+        'status',
+        'status_notif',
         'action',
     ];
 

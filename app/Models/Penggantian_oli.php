@@ -15,6 +15,7 @@ class Penggantian_oli extends Model
 
 
     protected $fillable = [
+        'user_id',
         'kode_penggantianoli',
         'kendaraan_id',
         'tanggal_penggantian',
@@ -29,6 +30,12 @@ class Penggantian_oli extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
     public function kendaraan()
     {

@@ -186,6 +186,7 @@ class PembelianBanController extends Controller
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pembelian_ban::create([
+            'user_id' => auth()->user()->id,
             'kode_pembelian_ban' => $this->kode(),
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,
@@ -206,7 +207,7 @@ class PembelianBanController extends Controller
                     'pembelian_ban_id' => $transaksi->id,
                     'qrcode_ban' => 'https://javaline.id/ban/' . $this->kodeban(),
                     'status' => 'stok',
-                    'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                    'tanggal_awal' => Carbon::now()->format('Y-m-d'),
                     'no_seri' => $data_pesanan['no_seri'],
                     'ukuran_id' => $data_pesanan['ukuran_id'],
                     'kondisi_ban' => $data_pesanan['kondisi_ban'],

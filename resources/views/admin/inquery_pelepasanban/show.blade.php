@@ -215,7 +215,7 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Total
                 Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
-                Tanggal:{{ Carbon\Carbon::now()->translatedFormat('d M Y') }}</td>
+                Tanggal:{{ $pelepasan_ban->tanggal }}</td>
         </tr>
     </table>
     </div>

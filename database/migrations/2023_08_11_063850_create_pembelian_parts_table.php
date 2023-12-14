@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('pembelian_parts', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->string('kode_pembelianpart')->nullable();
             $table->string('qrcode_pembelianpart')->nullable();
             $table->string('tanggal')->nullable();

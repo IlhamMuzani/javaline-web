@@ -94,6 +94,16 @@ class InqueryPerpanjanganstnkController extends Controller
 
         $stnk = Laporanstnk::findOrFail($id);
 
+        $tanggal_awal = Carbon::parse($stnk->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
+
+
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
         Laporanstnk::where('id', $id)->update([

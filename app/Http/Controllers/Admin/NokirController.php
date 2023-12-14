@@ -19,12 +19,13 @@ class NokirController extends Controller
     public function index()
     {
         if (auth()->check() && auth()->user()->menu['nokir']) {
-            
-            $currentDate = now(); // Menggunakan Carbon untuk mendapatkan tanggal saat ini
-            $oneMonthLater = $currentDate->copy()->addMonth(); // Menambahkan 1 bulan ke tanggal saat ini
+            $currentDate = now();
+            $oneMonthLater = $currentDate->copy()->addMonth();
 
+            // Update nokirs that need to be set as 'belum perpanjang'
             $nokirs1 = Nokir::where('status_kir', 'sudah perpanjang')
                 ->whereDate('masa_berlaku', '<', $oneMonthLater)
+                ->orderBy('created_at', 'desc') // Order by the latest creation
                 ->get();
 
             foreach ($nokirs1 as $nokir) {
@@ -34,12 +35,15 @@ class NokirController extends Controller
                 ]);
             }
 
-            $nokirs = Nokir::where(['status_kir' => 'sudah perpanjang'])->get();
-            
+            // Retrieve nokirs ordered by the latest creation
+            $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
+                ->orderBy('created_at', 'desc') // Order by the latest creation
+                ->get();
+
             return view('admin/nokir.index', compact('nokirs'));
         } else {
             // tidak memiliki akses
-            return back()->with('error', array('Anda tidak memiliki akses'));
+            return back()->with('error', ['Anda tidak memiliki akses']);
         }
     }
 
@@ -467,7 +471,6 @@ class NokirController extends Controller
         $nokir->save();
 
         return redirect('admin/nokir')->with('success', 'Berhasil memperbarui No. Kir');
-
     }
 
     // public function cetakpdf($id)

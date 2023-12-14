@@ -133,7 +133,8 @@ class PemasanganbanController extends Controller
 
         // tgl filter
         $tanggal = Carbon::now()->format('Y-m-d');
-        $pemasangan = Pemasangan_ban::create([
+        $pemasangan_ban = Pemasangan_ban::create([
+            'user_id' => auth()->user()->id,
             'kode_pemasangan' => $this->kode(),
             'kendaraan_id' => $kendaraans->id,
             'tanggal' => $format_tanggal,
@@ -142,7 +143,7 @@ class PemasanganbanController extends Controller
             'status_notif' => false,
 
         ]);
-        $pemasanganId = $pemasangan->id;
+        $pemasanganId = $pemasangan_ban->id;
 
         Ban::where([
             ['kendaraan_id', $id],
@@ -152,7 +153,12 @@ class PemasanganbanController extends Controller
             'pemasangan_ban_id' => $pemasanganId
         ]);
 
-        return redirect('admin/pemasangan_ban')->with('success', 'Pemasangan ban selesai, silakan cetak');
+
+        $kendaraan = Kendaraan::findOrFail($id);
+
+        $bans = Ban::where('pemasangan_ban_id', $pemasanganId)->get();
+
+        return view('admin.pemasangan_ban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));
     }
 
     public function update_1a(Request $request, $id)

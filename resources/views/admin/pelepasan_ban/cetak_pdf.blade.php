@@ -70,6 +70,9 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+   <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT PELEPASAN BAN</span>
@@ -86,23 +89,23 @@
             <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">Total
                 Ban:{{ $kendaraan->jenis_kendaraan->total_ban }}</td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">
-                Tanggal:{{ Carbon\Carbon::now()->translatedFormat('d M Y') }}</td>
+                Tanggal:{{ $pelepasan_ban->tanggal }}</td>
         </tr>
     </table>
     </div>
 
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Posisi</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No. Seri</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Ukuran</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Merek</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Ket</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Km Pasang</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Km Lepas</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Selisih</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No.</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Posisi</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No. Seri</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Ukuran</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Merek</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Ket</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Km Pasang</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Km Lepas</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Selisih</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -110,29 +113,29 @@
         </tr>
         @foreach ($bans as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->posisi_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->kode_ban }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->kode_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->no_seri }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->no_seri }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->ukuran->ukuran }}</td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->merek->nama_merek }}</td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->keterangan }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ number_format($item->km_pemasangan, 0, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ number_format($item->km_pelepasan, 0, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ number_format($item->km_pelepasan - $item->km_pemasangan, 0, ',', '.') }}
                 </td>
             </tr>

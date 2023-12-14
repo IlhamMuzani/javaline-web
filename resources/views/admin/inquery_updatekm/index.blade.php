@@ -41,13 +41,13 @@
                     <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <select class="custom-select form-control" id="status" name="status_post">
+                                <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
                                     <option value="posting"
-                                        {{ Request::get('status_post') == 'posting' ? 'selected' : '' }}>
+                                        {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
                                         Posting
                                     </option>
-                                    <option value="unpost" {{ Request::get('status_post') == 'unpost' ? 'selected' : '' }}>
+                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
                                         Unpost</option>
                                 </select>
                                 <label for="status">(Pilih Status)</label>
@@ -85,18 +85,18 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $kendaraan->nama_security }}
+                                        {{ $kendaraan->user->karyawan->nama_lengkap }}
                                     </td>
                                     <td>
                                         <a href="#" style="color: #000000;" data-toggle="modal"
                                             data-target="#modal-pilih-{{ $kendaraan->id }}">
-                                            {{ $kendaraan->no_kabin }}
+                                            {{ $kendaraan->kendaraan->no_kabin }}
                                         </a>
                                     </td>
                                     <td>
                                         <a href="#" style="color: #000000;" data-toggle="modal"
                                             data-target="#modal-pilih-{{ $kendaraan->id }}">
-                                            {{ $kendaraan->km }}
+                                            {{ $kendaraan->kendaraan->km }}
                                         </a>
                                     </td>
                                     <td>
@@ -106,33 +106,45 @@
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        @if ($kendaraan->status_post == 'unpost')
-                                            <a href="{{ url('admin/lihat_kendaraan/' . $kendaraan->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="{{ url('admin/edit_kendaraan/' . $kendaraan->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $kendaraan->id }}">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#modal-posting-{{ $kendaraan->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                        @if ($kendaraan->status == 'unpost')
+                                            @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
+                                                <a href="{{ url('admin/lihat_kendaraan/' . $kendaraan->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery update km update'])
+                                                <a href="{{ url('admin/edit_kendaraan/' . $kendaraan->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery update km delete'])
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $kendaraan->id }}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery update km posting'])
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#modal-posting-{{ $kendaraan->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
                                         @endif
-                                        @if ($kendaraan->status_post == 'posting')
-                                            <a href="{{ url('admin/lihat_kendaraan/' . $kendaraan->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                data-target="#modal-unpost-{{ $kendaraan->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                        @if ($kendaraan->status == 'posting')
+                                            @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
+                                                <a href="{{ url('admin/lihat_kendaraan/' . $kendaraan->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery update km unpost'])
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                                    data-target="#modal-unpost-{{ $kendaraan->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

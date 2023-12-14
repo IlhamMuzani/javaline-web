@@ -36,9 +36,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Departemen</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/departemen/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        @if (auth()->check() && auth()->user()->fitur['departemen create'])
+                            <a href="{{ url('admin/departemen/create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -64,10 +66,12 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ url('admin/departemen/' . $departemen->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                        @if (auth()->check() && auth()->user()->fitur['departemen update'])
+                                            <a href="{{ url('admin/departemen/' . $departemen->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
                                         {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#modal-hapus-{{ $departemen->id }}">
                                             <i class="fas fa-trash"></i> Hapus

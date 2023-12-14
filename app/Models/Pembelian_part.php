@@ -17,6 +17,7 @@ class Pembelian_part extends Model
     [
         'kode_pembelianpart',
         'qrcode_pembelianpart',
+        'user_id',
         'supplier_id',
         'tanggal',
         'tanggal_awal',
@@ -31,6 +32,12 @@ class Pembelian_part extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 
 
     public static function getId()

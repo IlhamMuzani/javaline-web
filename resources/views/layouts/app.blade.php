@@ -47,9 +47,9 @@
     <script src="{{ asset('js/pusher.js') }}"></script>
 </head>
 
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
 
+<body class="hold-transition sidebar-mini @if (request()->is('admin/faktur_ekspedisi*') || request()->is('admin/inquery_fakturekspedisi*')) sidebar-open sidebar-collapse @endif">
+    <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="" src="{{ asset('storage/uploads/user/logo1.png') }}" alt="javaline" height="50"
                 width="100">
@@ -63,11 +63,6 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
                             class="fas fa-bars"></i></a>
                 </li>
-                {{-- <li class="nav-item d-none d-sm-inline-block">
-          <h4 class="nav-link">
-            <span class="font-weight-bold">Selamat Datang di Sistem Java Snack</span>
-          </h4>
-        </li> --}}
                 <li class="nav-item d-none d-sm-inline-block">
                     <img class="animation__wobble" src="{{ asset('storage/uploads/user/logo1.png') }}"
                         alt="AdminLTELogo" height="60" width="200">
@@ -89,7 +84,7 @@
             <!-- Sidebar -->
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
-              
+
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
@@ -142,11 +137,10 @@
         </div>
 
         <footer class="main-footer">
-            {{-- <strong>Copyright © 2021. All right reserved. <a href="">Sistem
-                    Java Snack
-                    .</a>.</strong> --}}
+            <strong>Copyright © 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
+            All rights reserved.
             <div class="float-right d-none d-sm-inline-block">
-                <b></b>
+                <b>Version</b> 3.2.0
             </div>
         </footer>
 
@@ -210,6 +204,43 @@
 
     <!-- Select2 -->
     <script src="{{ asset('adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
+
+
+    <script>
+        $(document).ready(function() {
+            $('#datatables66').DataTable({
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ] // Use -1 to display all rows, and "All" as the label
+            });
+        });
+
+        $(document).ready(function() {
+            $('#datatables').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables1').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables2').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables3').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables4').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables5').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables6').DataTable();
+        });
+        $(document).ready(function() {
+            $('#datatables7').DataTable();
+        });
+    </script>
 
     <script>
         $(function() {

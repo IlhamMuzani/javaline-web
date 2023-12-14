@@ -143,7 +143,6 @@ class UkuranbanController extends Controller
     public function destroy($id)
     {
         $ukuran = Ukuran::find($id);
-        $ukuran->ban()->delete();
         $ukuran->delete();
 
         return redirect('admin/ukuran_ban')->with('success', 'Berhasil menghapus Ukuran');

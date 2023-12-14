@@ -192,43 +192,50 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
-                    </tr>
-                    <tr>
-                        <td class="separator" colspan="2"><span></span></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td class="label">Operasional</td>
-                    </tr>
-                </table>
-            </td>
-            <td style="text-align: center;">
-                <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="separator" colspan="2"><span></span></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td class="label">SPV Sparepart</td>
-                    </tr>
-                </table>
-            </td>
-            <td style="text-align: center;">
-                <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="separator" colspan="2"><span></span></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td class="label">Gudang</td>
-                    </tr>
-                </table>
+                        <td class="label">
+                            @if ($pemasangan_part->user)
+                                {{ $pemasangan_part->user->karyawan->nama_lengkap }}
+                            @else
+                                user tidak ada
+                            @endif
+                        </td>
             </td>
         </tr>
+        <tr>
+            <td class="separator" colspan="2"><span></span></td>
+        </tr>
+        <tr style="text-align: center;">
+            <td class="label">Operasional</td>
+        </tr>
+    </table>
+    </td>
+    <td style="text-align: center;">
+        <table style="margin: 0 auto;">
+            <tr style="text-align: center;">
+                <td class="label" style="min-height: 16px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="separator" colspan="2"><span></span></td>
+            </tr>
+            <tr style="text-align: center;">
+                <td class="label">SPV Sparepart</td>
+            </tr>
+        </table>
+    </td>
+    <td style="text-align: center;">
+        <table style="margin: 0 auto;">
+            <tr style="text-align: center;">
+                <td class="label" style="min-height: 16px;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="separator" colspan="2"><span></span></td>
+            </tr>
+            <tr style="text-align: center;">
+                <td class="label">Gudang</td>
+            </tr>
+        </table>
+    </td>
+    </tr>
     </table>
 </body>
 

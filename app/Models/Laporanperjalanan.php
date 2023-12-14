@@ -14,9 +14,9 @@ class Laporanperjalanan extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'user_id',
         'kode_kendaraan',
         'kendaraan_id',
-        'user_id',
         'pelanggan_id',
         'no_kabin',
         'no_pol',
@@ -60,7 +60,6 @@ class Laporanperjalanan extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
-
 
     public function ban()
     {

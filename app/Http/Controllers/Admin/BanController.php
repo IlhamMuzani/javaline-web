@@ -20,6 +20,8 @@ class BanController extends Controller
 
 
             $status = $request->status;
+            $tanggal_awal = $request->tanggal_awal;
+            $tanggal_akhir = $request->tanggal_akhir;
 
             $inquery = Ban::query();
 
@@ -27,10 +29,21 @@ class BanController extends Controller
                 $inquery->where('status', $status);
             }
 
+            if ($tanggal_awal && $tanggal_akhir) {
+                $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
+            } elseif ($tanggal_awal) {
+                $inquery->where('tanggal_awal', '>=', $tanggal_awal);
+            } elseif ($tanggal_akhir) {
+                $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+            } else {
+                // Jika tidak ada filter tanggal hari ini
+                $inquery->whereDate('tanggal_awal', Carbon::today());
+            }
+
             $inquery->orderBy('id', 'DESC');
             $bans = $inquery->get();
 
-            return view('admin/ban.index', compact('bans'));
+            return view('admin.ban.index', compact('bans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -214,6 +227,13 @@ class BanController extends Controller
         }
 
         $ban = Ban::findOrFail($id);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $ban->updated_at->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errors', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
 
         $ban->no_seri = $request->no_seri;
         $ban->merek_id = $request->merek_id;

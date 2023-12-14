@@ -233,7 +233,6 @@ class StnkController extends Controller
     public function destroy($id)
     {
         $stnk = Stnk::find($id);
-        $stnk->kendaraan()->delete();
         $stnk->delete();
         return redirect('admin/stnk')->with('success', 'Berhasil menghapus No. Stnk');
     }

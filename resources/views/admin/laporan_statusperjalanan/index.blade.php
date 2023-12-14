@@ -99,13 +99,17 @@
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
                             <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                                <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
-                                    target="_blank">
-                                    <i class="fas fa-print"></i> Cetak
-                                </button>
+                                @if (auth()->check() && auth()->user()->fitur['laporan status perjalanan cari'])
+                                    <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                        <i class="fas fa-search"></i> Cari
+                                    </button>
+                                @endif
+                                @if (auth()->check() && auth()->user()->fitur['laporan status perjalanan cetak'])
+                                    <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
+                                        target="_blank">
+                                        <i class="fas fa-print"></i> Cetak
+                                    </button>
+                                @endif
                             </div>
                         </div>
                     </form>

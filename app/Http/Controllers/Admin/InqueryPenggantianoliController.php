@@ -86,6 +86,17 @@ class InqueryPenggantianoliController extends Controller
         $data_pembelians = collect();
         $data_pembelians2 = collect();
 
+        $item = Penggantian_oli::findOrFail($id);
+
+        // Pastikan $item->tanggal_awal adalah objek Carbon
+        $tanggal_awal = Carbon::parse($item->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
 
         if ($validasi_pelanggan->fails()) {
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
@@ -259,7 +270,7 @@ class InqueryPenggantianoliController extends Controller
                     $km_berikutnya = $kendaraan->km; // Nilai default
 
                     if ($data_pesanan['kategori'] == 'Oli Mesin') {
-                        $km_berikutnya += 10000;
+                        $km_berikutnya += 13000;
                     } elseif ($data_pesanan['kategori'] == 'Oli Gardan') {
                         $km_berikutnya += 50000;
                     } elseif ($data_pesanan['kategori'] == 'Oli Transmisi') {

@@ -193,7 +193,7 @@
                                         @foreach ($drivers as $driver)
                                             <option value="{{ $driver->id }}"
                                                 {{ old('user_id', $kendaraan->user_id) == $driver->id ? 'selected' : '' }}>
-                                                {{ $driver->kode_user }}</option>
+                                                {{ $driver->karyawan->nama_lengkap }}</option>
                                         @endforeach
                                     </select>
                                 </div>

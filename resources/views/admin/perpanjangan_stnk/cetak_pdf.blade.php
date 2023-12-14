@@ -71,7 +71,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-  <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="60">    </div>
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="60">
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT PERPANJANGAN STNK</span>
@@ -174,7 +175,13 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td class="label">
+                            @if ($laporan->user)
+                                {{ $laporan->user->karyawan->nama_lengkap }}
+                            @else
+                                user tidak ada
+                            @endif
+                        </td>
                     </tr>
 
                     <tr>

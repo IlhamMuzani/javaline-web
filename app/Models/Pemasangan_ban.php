@@ -15,6 +15,7 @@ class Pemasangan_ban extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'user_id',
         'kendaraan_id',
         'status',
         'tanggal',
@@ -31,6 +32,10 @@ class Pemasangan_ban extends Model
             ->logFillable('*');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function kendaraan()
     {

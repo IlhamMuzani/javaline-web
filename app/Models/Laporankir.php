@@ -14,6 +14,7 @@ class Laporankir extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'user_id',
         'nokir_id',
         'kode_perpanjangan',
         'kategori',
@@ -34,6 +35,10 @@ class Laporankir extends Model
             ->logFillable('*');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public static function getId()
     {

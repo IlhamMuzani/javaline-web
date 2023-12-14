@@ -93,6 +93,19 @@ class InqueryPembelianBanController extends Controller
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
         }
 
+        $transaksi = Pembelian_ban::findOrFail($id);
+
+
+        $tanggal_awal = Carbon::parse($transaksi->tanggal_awal);
+
+        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
+        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
+
+        if ($lastUpdatedDate < $today) {
+            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        }
+
+        
         if ($request->has('no_seri')) {
             for ($i = 0; $i < count($request->no_seri); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
@@ -147,7 +160,7 @@ class InqueryPembelianBanController extends Controller
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,
-            'tanggal_awal' => $tanggal,
+            // 'tanggal_awal' => $tanggal,
             'status' => 'posting',
         ]);
 
@@ -182,7 +195,7 @@ class InqueryPembelianBanController extends Controller
                         'pembelian_ban_id' => $transaksi->id,
                         'qrcode_ban' => 'https://javaline.id/ban/' . $this->kodeban(),
                         'status' => 'stok',
-                        'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                        'tanggal_awal' => Carbon::now()->format('Y-m-d'),
                         'no_seri' => $data_pesanan['no_seri'],
                         'ukuran_id' => $data_pesanan['ukuran_id'],
                         'kondisi_ban' => $data_pesanan['kondisi_ban'],

@@ -14,6 +14,7 @@ class Pemasangan_part extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'user_id',
         'kode_pemasanganpart',
         'kendaraan_id',
         'tanggal_pemasangan',
@@ -30,6 +31,10 @@ class Pemasangan_part extends Model
             ->logFillable('*');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function kendaraan()
     {

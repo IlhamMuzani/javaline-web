@@ -29,6 +29,7 @@ class User extends Authenticatable
         'password',
         'cek_hapus',
         'menu',
+        'fitur',
         'level',
         'tanggal_awal',
         'tanggal_akhir',
@@ -66,6 +67,14 @@ class User extends Authenticatable
 
 
     protected function menu(): Attribute{
+        return Attribute::make(
+            get: fn ($value) => json_decode($value, true),
+            set: fn ($value) => json_encode($value),
+        );
+    }
+
+    protected function fitur(): Attribute
+    {
         return Attribute::make(
             get: fn ($value) => json_decode($value, true),
             set: fn ($value) => json_encode($value),

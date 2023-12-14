@@ -29,16 +29,29 @@
                 <div class="card-header">
                     <h3 class="card-title">Tambahkan</h3>
                     <div class="float-right">
-                        <a href="#" class="btn btn-primary btn-sm">
+                        {{-- <a href="#" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Akses Menu
+                        </a> --}}
+                        <a href="{{ url('admin/akses/accessdetail/' . $akses->id) }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Akses Menu
                         </a>
                     </div>
                 </div>
                 <!-- /.card-header -->
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5>
+                            <i class="icon fas fa-check"></i> Success!
+                        </h5>
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <form action="{{ url('admin/akses-access/' . $akses->id) }}" method="post" enctype="multipart/form-data"
                     autocomplete="off">
                     @csrf
-                    <label style="margin-left: 22px; margin-top: 15px" for="option-all">{{ $akses->karyawan->nama_lengkap }}</label>
+                    <label style="margin-left: 22px; margin-top: 15px"
+                        for="option-all">{{ $akses->karyawan->nama_lengkap }}</label>
                     <div class="card-body">
                         <input type="checkbox" id="option-all" onchange="checkAll(this)">
                         <label for="option-all">Select All</label>

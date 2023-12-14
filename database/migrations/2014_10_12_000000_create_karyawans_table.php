@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('alamat')->nullable();
             $table->string('gambar')->nullable();
             $table->string('gaji')->nullable();
+            $table->string('tabungan')->nullable();
             $table->string('pembayaran')->nullable();
             $table->string('status')->nullable();
             $table->string('tanggal_awal')->nullable();

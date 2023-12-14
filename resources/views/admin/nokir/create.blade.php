@@ -42,10 +42,22 @@
                         <h3 class="card-title">Identitas Pemilik Kendaraan</h3>
                     </div>
                     <div class="card-body">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="nama">Nama Pemilik</label>
                             <input type="text" class="form-control" id="nama_pemilik" name="nama_pemilik"
                                 placeholder="Masukan nama pemilik" value="{{ old('nama_pemilik') }}">
+                        </div> --}}
+                        <div class="form-group">
+                            <label class="form-label" for="nama_pemilik">Nama Pemilik</label>
+                            <select class="form-control" id="nama_pemilik" name="nama_pemilik">
+                                <option value="">- Pilih -</option>
+                                <option value="PT JAVA LINE LOGISTICS"
+                                    {{ old('nama_pemilik') == 'PT JAVA LINE LOGISTICS' ? 'selected' : null }}>
+                                    PT JAVA LINE LOGISTICS</option>
+                                <option value="PT. BINTANG KENCANA TRASINDO"
+                                    {{ old('nama_pemilik') == 'PT. BINTANG KENCANA TRASINDO' ? 'selected' : null }}>
+                                    PT. BINTANG KENCANA TRASINDO</option>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>

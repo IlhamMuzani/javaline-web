@@ -174,6 +174,7 @@ class PelepasanbanController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
 
         $pelepasan = Pelepasan_ban::create([
+            'user_id' => auth()->user()->id,
             'kode_pelepasan' => $this->kode(),
             'kendaraan_id' => $kendaraans->id,
             'tanggal' => $format_tanggal,

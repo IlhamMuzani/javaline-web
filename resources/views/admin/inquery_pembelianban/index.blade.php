@@ -113,32 +113,44 @@
                                     </td>
                                     <td class="text-center">
                                         @if ($pembelians->status == 'unpost')
-                                            <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="{{ url('admin/inquery_pembelianban/' . $pembelians->id . '/edit') }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $pembelians->id }}">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#modal-posting-{{ $pembelians->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban update'])
+                                                <a href="{{ url('admin/inquery_pembelianban/' . $pembelians->id . '/edit') }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $pembelians->id }}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                    data-target="#modal-posting-{{ $pembelians->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
                                         @endif
                                         @if ($pembelians->status == 'posting')
-                                            <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                data-target="#modal-unpost-{{ $pembelians->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
+                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban unpost'])
+                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                                    data-target="#modal-unpost-{{ $pembelians->id }}">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
                                         @endif
                                     </td>
                                 </tr>

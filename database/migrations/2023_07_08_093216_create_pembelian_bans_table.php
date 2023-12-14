@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('pembelian_bans', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->string('kode_pembelian_ban')->nullable();
             $table->string('qr_code_pembelian_ban')->nullable();
             // $table->string('faktur_pembelian_ban')->nullable();

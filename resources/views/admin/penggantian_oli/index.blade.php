@@ -95,33 +95,32 @@
                                         @else
                                             Konfirmasi
                                         @endif
-
                                     </td>
-
                                     <td class="text-center">
-                                        @if (
-                                            $kendaraan->status_olimesin == 'konfirmasi' ||
-                                                $kendaraan->status_oligardan == 'konfirmasi' ||
-                                                $kendaraan->status_olitransmisi == 'konfirmasi')
-                                            {{-- <a href="{{ url('admin/penggantian_oli/' . $kendaraan->id) }}"
+                                        @if (auth()->check() && auth()->user()->fitur['penggantian oli create'])
+                                            @if (
+                                                $kendaraan->status_olimesin == 'konfirmasi' ||
+                                                    $kendaraan->status_oligardan == 'konfirmasi' ||
+                                                    $kendaraan->status_olitransmisi == 'konfirmasi')
+                                                {{-- <a href="{{ url('admin/penggantian_oli/' . $kendaraan->id) }}"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fas fa-eye"></i>
                                             </a> --}}
-                                            <a href="{{ url('admin/penggantian_oli/' . $kendaraan->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <a href="{{ url('admin/penggantian_oli/checkpostoli/' . $kendaraan->id) }}"
-                                                class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </a>
-                                        @else
-                                            <a href="{{ url('admin/penggantian_oli/' . $kendaraan->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                                <a href="{{ url('admin/penggantian_oli/' . $kendaraan->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ url('admin/penggantian_oli/checkpostoli/' . $kendaraan->id) }}"
+                                                    class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </a>
+                                            @else
+                                                <a href="{{ url('admin/penggantian_oli/' . $kendaraan->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
                                         @endif
-
                                     </td>
                                 </tr>
                             @endforeach

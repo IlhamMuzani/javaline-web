@@ -154,7 +154,6 @@ class MerekController extends Controller
     public function destroy($id)
     {
         $merek_ban = Merek::find($id);
-        $merek_ban->ban()->delete();
         $merek_ban->delete();
 
         return redirect('admin/merek_ban')->with('success', 'Berhasil menghapus Merek ban');

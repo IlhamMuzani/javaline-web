@@ -18,12 +18,13 @@ class KendaraanController extends Controller
     public function index()
     {
         if (auth()->check() && auth()->user()->menu['kendaraan']) {
+            // Retrieve the vehicles ordered by the latest input
+            $kendaraans = Kendaraan::orderBy('created_at', 'desc')->get();
 
-            $kendaraans = Kendaraan::all();
             return view('admin/kendaraan.index', compact('kendaraans'));
         } else {
             // tidak memiliki akses
-            return back()->with('error', array('Anda tidak memiliki akses'));
+            return back()->with('error', ['Anda tidak memiliki akses']);
         }
     }
 

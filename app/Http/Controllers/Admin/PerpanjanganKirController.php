@@ -117,6 +117,7 @@ class PerpanjanganKirController extends Controller
         $kode = $this->kode();
 
         $laporan = Laporankir::create([
+            'user_id' => auth()->user()->id,
             'kode_perpanjangan' => $this->kode(),
             'nokir_id' => $nokir->id,
             'kategori' => $request->kategori,
@@ -132,7 +133,7 @@ class PerpanjanganKirController extends Controller
         $cetakpdf = Nokir::where('id', $id)->first();
         $laporan = Laporankir::where('nokir_id', $id)->first();
 
-        return view('admin.perpanjangan_kir.show', compact('cetakpdf','laporan'));
+        return view('admin.perpanjangan_kir.show', compact('cetakpdf', 'laporan'));
     }
 
 

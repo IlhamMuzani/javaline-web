@@ -36,9 +36,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Kendaraan</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/kendaraan/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        @if (auth()->check() && auth()->user()->fitur['kendaraan create'])
+                            <a href="{{ url('admin/kendaraan/create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -49,6 +51,7 @@
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
                                 <th>No. Kabin</th>
+                                <th>No. Registrasi</th>
                                 <th>Jenis Kendaraan</th>
                                 <th>Driver</th>
                                 <th class="text-center">Qr Code</th>
@@ -61,6 +64,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $kendaraan->kode_kendaraan }}</td>
                                     <td>{{ $kendaraan->no_kabin }}</td>
+                                    <td>{{ $kendaraan->no_pol }}</td>
                                     <td>
                                         @if ($kendaraan->jenis_kendaraan)
                                             {{ $kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
@@ -82,18 +86,24 @@
                                         </div>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ url('admin/kendaraan/' . $kendaraan->id) }}"
-                                            class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        <a href="{{ url('admin/kendaraan/' . $kendaraan->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $kendaraan->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                        @if (auth()->check() && auth()->user()->fitur['kendaraan show'])
+                                            <a href="{{ url('admin/kendaraan/' . $kendaraan->id) }}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['kendaraan update'])
+                                            <a href="{{ url('admin/kendaraan/' . $kendaraan->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['kendaraan delete'])
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $kendaraan->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modal-hapus-{{ $kendaraan->id }}">

@@ -125,20 +125,8 @@
                                     <td class="text-center" id="urutan">1</td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control" id="kategori-0" name="kategori[]"
-                                                onchange="getModalKategori(0)">
-                                                <option value="">- Kategori -</option>
-                                                <option value="oli" {{ old('kategori') == 'oli' ? 'selected' : null }}>
-                                                    oli</option>
-                                                <option value="mesin"
-                                                    {{ old('kategori') == 'mesin' ? 'selected' : null }}>
-                                                    mesin</option>
-                                                <option value="body" {{ old('body') == 'body' ? 'selected' : null }}>
-                                                    body</option>
-                                                <option value="sasis"
-                                                    {{ old('kategori') == 'sasis' ? 'selected' : null }}>
-                                                    sasis</option>
-                                            </select>
+                                            <input type="text" class="form-control" readonly id="kategori-0"
+                                                name="kategori[]">
                                         </div>
                                     </td>
                                     <td>
@@ -177,7 +165,10 @@
                                                 name="harga[]">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td style="width: 120px">
+                                        <button type="button" class="btn btn-primary" onclick="barang(0)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
                                         <button type="button" class="btn btn-danger" onclick="removeBan(0)">
                                             <i class="fas fa-trash"></i>
                                         </button>
@@ -446,17 +437,17 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="float-right">
+                        {{-- <div class="float-right">
                             <button type="button" data-toggle="modal" data-target="#modal-part"
                                 class="btn btn-primary btn-sm mb-3" data-dismiss="modal">
                                 Tambah
                             </button>
-                        </div>
-                        {{-- <button type="button" data-toggle="modal" data-target="#modal-part"
+                        </div> --}}
+                        <button type="button" data-toggle="modal" data-target="#modal-part"
                             class="btn btn-primary btn-sm mb-2" data-dismiss="modal">
                             Tambah
-                        </button> --}}
-                        <table id="example" class="table table-bordered table-striped">
+                        </button>
+                        <table id="datatables66" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -469,8 +460,10 @@
                             </thead>
                             <tbody>
                                 @foreach ($spareparts as $part)
-                                    <tr data-kategori="{{ $part->kategori }}" data-kode="{{ $part->kode_partdetail }}"
-                                        data-nama="{{ $part->nama_barang }}" data-satuan="{{ $part->satuan }}">
+                                    <tr data-kategori="{{ $part->kategori }}"
+                                        data-kode_partdetail="{{ $part->kode_partdetail }}"
+                                        data-nama_barang="{{ $part->nama_barang }}" data-satuan="{{ $part->satuan }}"
+                                        data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $part->kode_partdetail }}</td>
                                         <td>{{ $part->nama_barang }}</td>
@@ -478,7 +471,7 @@
                                         <td>{{ $part->satuan }}</td>
                                         <td class="text-center">
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                onclick="getSelectedData({{ $loop->iteration - 1 }})">
+                                                onclick="getBarang({{ $loop->index }})">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
@@ -504,6 +497,30 @@
                     alamat.value = supplier_id.alamat;
                 },
             });
+        }
+
+        var activeSpecificationIndex = 0;
+
+        function barang(param) {
+            activeSpecificationIndex = param;
+            // Show the modal and filter rows if necessary
+            $('#tableKategori').modal('show');
+        }
+
+        function getBarang(rowIndex) {
+            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var kategori = selectedRow.data('kategori');
+            var kode_partdetail = selectedRow.data('kode_partdetail');
+            var nama_barang = selectedRow.data('nama_barang');
+            var satuan = selectedRow.data('satuan');
+
+            // Update the form fields for the active specification
+            $('#kategori-' + activeSpecificationIndex).val(kategori);
+            $('#kode_partdetail-' + activeSpecificationIndex).val(kode_partdetail);
+            $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
+            $('#satuan-' + activeSpecificationIndex).val(satuan);
+
+            $('#tableKategori').modal('hide');
         }
 
 
@@ -549,7 +566,7 @@
 
             if (jumlah_part === 0) {
                 var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="8">- Ban belum ditambahkan -</td>';
+                item_pembelian += '<td class="text-center" colspan="8">- Part belum ditambahkan -</td>';
                 item_pembelian += '</tr>';
                 $('#tabel-pembelian').html(item_pembelian);
             } else {
@@ -587,28 +604,21 @@
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-            item_pembelian += '<td>';
 
             // kategori 
-            item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control" id="kategori-' + key +
-                '" name="kategori[]"onchange="getModalKategori(' + key + ')">';
-            item_pembelian += '<option value="">-Kategori-</option>';
-            item_pembelian += '<option value="oli"' + (kategori === 'oli' ? ' selected' : '') + '>oli</option>';
-            item_pembelian += '<option value="body"' + (kategori === 'body' ? ' selected' : '') +
-                '>body</option>';
-            item_pembelian += '<option value="mesin"' + (kategori === 'mesin' ? ' selected' : '') +
-                '>mesin</option>';
-            item_pembelian += '<option value="sasis"' + (kategori === 'sasis' ? ' selected' : '') +
-                '>sasis</option>';
-            item_pembelian += '</select>';
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" readonly id="kategori-' + urutan +
+                '" name="kategori[]" value="' +
+                kategori +
+                '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             //kode barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + urutan +
                 '" name="kode_partdetail[]" value="' +
                 kode_partdetail +
                 '" ';
@@ -618,7 +628,7 @@
             //nama barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + urutan +
                 '" name="nama_barang[]" value="' +
                 nama_barang +
                 '" ';
@@ -628,7 +638,7 @@
             //satuan
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="satuan-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="satuan-' + urutan +
                 '" name="satuan[]" value="' +
                 satuan +
                 '" ';
@@ -638,7 +648,7 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control hargasatuan" id="hargasatuan-' + key +
+            item_pembelian += '<input type="number" class="form-control hargasatuan" id="hargasatuan-' + urutan +
                 '" name="hargasatuan[]" value="' + hargasatuan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -646,7 +656,7 @@
             // jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control jumlah" id="jumlah-' + key +
+            item_pembelian += '<input type="text" class="form-control jumlah" id="jumlah-' + urutan +
                 '" name="jumlah[]" value="' + jumlah + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -655,14 +665,18 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + urutan +
                 '" name="harga[]" value="' + harga + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // delete
-            item_pembelian += '<td>';
-            item_pembelian += '<button type="button" class="btn btn-danger" onclick="removeBan(' + urutan + ')">';
+            // opsi
+            item_pembelian += '<td style="width: 120px">';
+            item_pembelian += '<button type="button" class="btn btn-primary" onclick="barang(' + urutan + ')">';
+            item_pembelian += '<i class="fas fa-plus"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '<button style="margin-left:5px" type="button" class="btn btn-danger" onclick="removeBan(' +
+                urutan + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';
@@ -670,129 +684,6 @@
 
             $('#tabel-pembelian').append(item_pembelian);
 
-        }
-
-
-        // $(document).ready(function() {
-        //     $('#tableKategori').on('hidden.bs.modal', function() {
-        //         $('#kategori-0').val('');
-        //     });
-        // });
-
-        function getModalKategori(param) {
-            var selectedValue = $('#kategori-' + param).val();
-            $('#tableKategori').modal('show');
-            $('#example tbody tr').each(function() {
-                var rowKategori = $(this).data('kategori');
-                $(this).attr('data-param', param);
-                if (rowKategori !== selectedValue) {
-                    $(this).hide();
-                } else {
-                    $(this).show();
-                }
-            });
-        }
-
-        function showCategoryModal(selectedCategory) {
-            $('#tableKategori').modal('show');
-
-            $('#example tbody tr').each(function() {
-                var rowKategori = $(this).data('kategori');
-                if (selectedCategory === rowKategori) {
-                    $(this).show();
-                } else {
-                    $(this).hide();
-                }
-            });
-        }
-
-        function getSelectedData(rowIndex) {
-            console.log(rowIndex);
-            var selectedRow = $('#example tbody tr:eq(' + rowIndex + ')');
-
-            var kategori = selectedRow.data('kategori');
-            var kode_partdetail = selectedRow.data('kode');
-            var nama_barang = selectedRow.data('nama');
-            var satuan = selectedRow.data('satuan');
-            var param = selectedRow.data('param');
-
-            // bagian Isi nilai-nilai input pada form Anda dengan nilai dari modal
-            $('#kategori-' + param).val(kategori);
-            $('#kode_partdetail-' + param).val(kode_partdetail);
-            $('#nama_barang-' + param).val(nama_barang);
-            $('#satuan-' + param).val(satuan);
-
-            $('#tableKategori').modal('hide');
-        }
-
-
-
-        //tambah part 
-        // $(document).ready(function() {
-        //     $('#form-sparepart').on('submit', function(e) {
-        //         e.preventDefault();
-
-        //         var formData = new FormData(this);
-
-        //         // mengirim permintaan Ajax
-        //         $.ajax({
-        //             type: 'POST',
-        //             url: "{{ url('admin/tambah_sparepart') }}",
-        //             data: formData,
-        //             processData: false,
-        //             contentType: false,
-        //             success: function(response) {
-        //                 if (response.success) {
-        //                     alert('Sparepart berhasil ditambahkan');
-        //                 } else {
-        //                     alert('Gagal menambahkan sparepart. Silakan coba lagi.');
-        //                 }
-        //             },
-        //             error: function(error) {
-        //                 alert('Terjadi kesalahan saat mengirim permintaan. Silakan coba lagi.');
-        //             }
-        //         });
-        //     });
-        // });
-
-
-        function refreshTable() {
-            $.ajax({
-                type: 'GET',
-                url: "{{ url('admin/pembelian_part/tabelpart') }}",
-                // url: "{{ url('admin/pembelian_part/tabelpartmesin') }}", 
-                dataType: 'json',
-                success: function(data) {
-                    // Menghapus semua baris dalam tabel
-                    $('#example tbody').empty();
-
-                    // Menambahkan data baru ke dalam tabel
-                    $.each(data, function(index, part) {
-                        var newRow = '<tr data-kategori="' + part.kategori + '" data-kode="' + part
-                            .kode_partdetail + '" data-nama="' + part.nama_barang + '" data-jumlah="' +
-                            part.jumlah + '" data-satuan="' +
-                            part.satuan + '">';
-                        newRow += '<td class="text-center">' + (index + 1) + '</td>';
-                        newRow += '<td>' + part.kode_partdetail + '</td>';
-                        newRow += '<td>' + part.nama_barang + '</td>';
-                        newRow += '<td>' + part.jumlah + '</td>';
-                        newRow += '<td>' + part.satuan + '</td>';
-                        newRow += '<td class="text-center">';
-                        newRow +=
-                            '<button type="button" id="btnTambah" class="btn btn-primary btn-sm" onclick="getSelectedData(' +
-                            index + ')">';
-                        newRow += '<i class="fas fa-plus"></i>';
-                        newRow += '</button>';
-                        newRow += '</td>';
-                        newRow += '</tr>';
-
-                        $('#example tbody').append(newRow);
-                    });
-                },
-                error: function(error) {
-                    console.error('Error:', error);
-                }
-            });
         }
 
         // Panggil fungsi refreshTable saat dokumen siap
