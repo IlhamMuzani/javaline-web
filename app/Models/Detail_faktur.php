@@ -15,11 +15,13 @@ class Detail_faktur extends Model
 
     protected $fillable = [
         'faktur_ekspedisi_id',
-        'memo_id',
+        'memo_ekspedisi_id',
+        'kendaraan_id',
+        'no_kabin',
         'kode_memo',
         'kode_driver',
         'nama_driver',
-        'no_kabin',
+        'telp_driver',
         'nama_rute',
         'kategori_memo',
         'tanggal_awal',

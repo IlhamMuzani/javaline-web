@@ -494,30 +494,30 @@
             @php
                 $totalRuteSum = 0;
             @endphp
-            @foreach ($detail_memo as $item)
-                <tr>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                        {{ $loop->iteration }}
-                    </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                        {{ $item->kode_rutes }}
-                    </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                        {{ $item->nama_rutes }}</td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                        {{ number_format($item->harga_rute, 0, ',', '.') }}
-                    </td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                        {{ $item->jumlah }}
-                    </td>
-                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                        {{ number_format($item->totalrute, 0, ',', '.') }}
-                    </td>
-                </tr>
-                @php
+            {{-- @foreach ($detail_memo as $item) --}}
+            <tr>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    1
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ $cetakpdf->kode_rute }}
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ $cetakpdf->nama_rute }}</td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ number_format($cetakpdf->harga_rute, 0, ',', '.') }}
+                </td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                    {{ $cetakpdf->jumlah }}
+                </td>
+                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                    {{ number_format($cetakpdf->totalrute, 0, ',', '.') }}
+                </td>
+            </tr>
+            {{-- @php
                     $totalRuteSum += $item->totalrute;
-                @endphp
-            @endforeach
+                @endphp --}}
+            {{-- @endforeach --}}
             <tr>
             </tr>
         </table>
@@ -536,7 +536,7 @@
                 </td>
                 <td style="text-align: right; padding: 0px;">
                     <span class="info-item" style="font-size: 15px; padding-right:20px">
-                        {{ number_format($totalRuteSum, 0, ',', '.') }}
+                        {{ number_format($cetakpdf->totalrute, 0, ',', '.') }}
                     </span>
                 </td>
             </tr>
@@ -564,14 +564,14 @@
             <tr>
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;"></td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format($totalRuteSum - $cetakpdf->pphs, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->totalrute - $cetakpdf->pphs, 0, ',', '.') }}
 
                 </td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Borong 50 %</td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format(($totalRuteSum - $cetakpdf->pphs) / 2, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 0, ',', '.') }}
 
                 </td>
             </tr>
@@ -589,7 +589,7 @@
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px; color:white">Sub Total
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format(($totalRuteSum - $cetakpdf->pphs) / 2, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 0, ',', '.') }}
 
                 </td>
             </tr>
@@ -626,12 +626,10 @@
                     Grand Total
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format(($totalRuteSum - $cetakpdf->pphs) / 2 - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
                 </td>
             </tr>
         </table>
-
-
     @endif
     @if ($cetakpdf->kategori == 'Memo Tambahan')
         <div style="text-align: center;">

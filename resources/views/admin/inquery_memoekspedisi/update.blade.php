@@ -64,31 +64,22 @@
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="form-group">
-                            <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
-                            <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
-                                <option value="">- Pilih -</option>
-                                <option value="Memo Perjalanan"
-                                    {{ old('kategori', $inquery->kategori) == 'Memo Perjalanan' ? 'selected' : null }}>
-                                    Memo Perjalanan</option>
-                                <option value="Memo Borong"
-                                    {{ old('kategori', $inquery->kategori) == 'Memo Borong' ? 'selected' : null }}>
-                                    Memo Borong</option>
-                                <option value="Memo Tambahan"
-                                    {{ old('kategori', $inquery->kategori) == 'Memo Tambahan' ? 'selected' : null }}>
-                                    Memo Tambahan</option>
-                            </select>
+                            <label style="font-size:14px" for="kategori">Kategori</label>
+                            <input style="font-size:14px" type="text" class="form-control" id="kategori" readonly
+                                name="kategori" placeholder="" value="{{ old('kategori', $inquery->kategori) }}">
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Kendaraan</h3>
-                            </div>
-                            <div class="card-body">
-                                {{-- <div class="mb-3">
+                <div>
+                    <div id="memoperjalananborong">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Kendaraan</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        {{-- <div class="mb-3">
 
                                     <div class="float-right">
                                         <button class="btn btn-primary btn-sm" type="button"
@@ -97,552 +88,463 @@
                                         </button>
                                     </div>
                                 </div> --}}
-                                <div class="form-group" hidden>
-                                    <label for="kendaraan_id">Kendaraan Id</label>
-                                    <input type="text" class="form-control" id="kendaraan_id" readonly
-                                        name="kendaraan_id" placeholder=""
-                                        value="{{ old('kendaraan_id', $inquery->kendaraan_id) }}">
-                                </div>
-                                {{-- <div class="form-group">
+                                        <div class="form-group" hidden>
+                                            <label for="kendaraan_id">Kendaraan Id</label>
+                                            <input type="text" class="form-control" id="kendaraan_id" readonly
+                                                name="kendaraan_id" placeholder="" value="{{ old('kendaraan_id') }}">
+                                        </div>
+                                        {{-- <div class="form-group">
                                     <label for="no_kabin">No. Kabin</label>
                                     <input type="text" class="form-control" id="no_kabin" readonly name="no_kabin"
                                         placeholder="" value="{{ old('no_kabin') }}">
                                 </div> --}}
-                                <label style="font-size:14px" class="form-label" for="no_kabin">No. Kabin</label>
-                                <div class="form-group d-flex">
-                                    <input class="form-control" id="no_kabin" name="no_kabin" type="text" placeholder=""
-                                        value="{{ old('no_kabin', $inquery->no_kabin) }}" readonly
-                                        style="margin-right: 10px; font-size:14px" />
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="showCategoryModalkendaraan(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="golongan">Gol. Kendaraan</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="golongan"
-                                        readonly name="golongan" placeholder=""
-                                        value="{{ old('golongan', $inquery->golongan) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="km">KM Awal</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="km"
-                                        readonly name="km_awal" placeholder=""
-                                        value="{{ old('km_awal', $inquery->km_awal) }}">
-                                </div>
-                                <div class="form-check" style="color:white">
-                                    <label class="form-check-label">
-                                        .
-                                    </label>
+                                        <label style="font-size:14px" class="form-label" for="no_kabin">No. Kabin</label>
+                                        <div class="form-group d-flex">
+                                            <input class="form-control" id="no_kabin" name="no_kabin" type="text"
+                                                placeholder="" value="{{ old('no_kabin') }}" readonly
+                                                style="margin-right: 10px; font-size:14px" />
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showCategoryModalkendaraan(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="golongan">Gol. Kendaraan</label>
+                                            <input style="font-size:14px" type="text" class="form-control" id="golongan"
+                                                readonly name="golongan" placeholder="" value="{{ old('golongan') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="km">KM Awal</label>
+                                            <input style="font-size:14px" type="text" class="form-control" id="km"
+                                                readonly name="km_awal" placeholder="" value="{{ old('km_awal') }}">
+                                        </div>
+                                        <div class="form-check" style="color:white">
+                                            <label class="form-check-label">
+                                                .
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Sopir</h3>
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Sopir</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group" hidden>
+                                            <label for="user_id">User Id</label>
+                                            <input type="text" class="form-control" id="user_id" readonly
+                                                name="user_id" placeholder="" value="{{ old('user_id') }}">
+                                        </div>
+                                        <div class="form-group" hidden>
+                                            <label for="kode_driver">kode Sopir</label>
+                                            <input type="text" class="form-control" id="kode_driver" readonly
+                                                name="kode_driver" placeholder="" value="{{ old('kode_driver') }}">
+                                        </div>
+                                        <label style="font-size:14px" class="form-label" for="nama_driver">Nama
+                                            Sopir</label>
+                                        <div class="form-group d-flex">
+                                            <input class="form-control" id="nama_driver" name="nama_driver"
+                                                type="text" placeholder="" value="{{ old('nama_driver') }}" readonly
+                                                style="margin-right: 10px;font-size:14px" />
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showCategoryModaldriver(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="telp">No. Telp</label>
+                                            <input style="font-size:14px" type="tex" class="form-control"
+                                                id="telp" readonly name="telp" placeholder=""
+                                                value="{{ old('telp') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="saldo_deposit">Saldo Deposit</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="saldo_deposit" readonly name="saldo_deposit" placeholder=""
+                                                value="{{ old('saldo_deposit') }}">
+                                        </div>
+                                        <div class="form-check" style="color:white">
+                                            <label class="form-check-label">
+                                                .
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group" hidden>
-                                    <label for="user_id">User Id</label>
-                                    <input type="text" class="form-control" id="user_id" readonly name="user_id"
-                                        placeholder="" value="{{ old('user_id', $inquery->user_id) }}">
-                                </div>
-                                <div class="form-group" hidden>
-                                    <label for="kode_driver">kode Sopir</label>
-                                    <input type="text" class="form-control" id="kode_driver" readonly
-                                        name="kode_driver" placeholder=""
-                                        value="{{ old('kode_driver', $inquery->kode_driver) }}">
-                                </div>
-                                <label style="font-size:14px" class="form-label" for="nama_driver">Nama Sopir</label>
-                                <div class="form-group d-flex">
-                                    <input class="form-control" id="nama_driver" name="nama_driver" type="text"
-                                        placeholder="" value="{{ old('nama_driver', $inquery->nama_driver) }}" readonly
-                                        style="margin-right: 10px;font-size:14px" />
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="showCategoryModaldriver(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="telp">No. Telp</label>
-                                    <input style="font-size:14px" type="tex" class="form-control" id="telp"
-                                        readonly name="telp" placeholder=""
-                                        value="{{ old('telp', $inquery->telp) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="saldo_deposit">Saldo Deposit</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="saldo_deposit"
-                                        readonly name="saldo_deposit" placeholder=""
-                                        value="{{ old('saldo_deposit', $inquery->saldo_deposit) }}">
-                                </div>
-                                <div class="form-check" style="color:white">
-                                    <label class="form-check-label">
-                                        .
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div class="col-md-3" id="form_rute">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Rute Perjalanan</h3>
+                            <div class="col-md-4" id="form_rute">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Rute Perjalanan</h3>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div class="form-group" hidden>
+                                            <label for="rute_perjalanan_id">rute Id</label>
+                                            <input type="text" class="form-control" id="rute_perjalanan_id" readonly
+                                                name="rute_perjalanan_id" placeholder=""
+                                                value="{{ old('rute_perjalanan_id') }}">
+                                        </div>
+
+                                        <label style="font-size:14px" class="form-label" for="kode_rute">Kode
+                                            Rute</label>
+                                        <div class="form-group d-flex">
+                                            <input class="form-control" id="kode_rute" name="kode_rute" type="text"
+                                                placeholder="" value="{{ old('kode_rute') }}" readonly
+                                                style="margin-right: 10px; font-size:14px" />
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showCategoryModalrute(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="rute_perjalanan">Rute Perjalanan</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="rute_perjalanan" readonly name="nama_rute" placeholder=""
+                                                value="{{ old('nama_rute') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="biaya">Uang Jalan</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="biaya" readonly name="uang_jalan" placeholder=""
+                                                value="{{ old('uang_jalan') }}" onclick="calculateHasilUangjaminan()">
+                                        </div>
+                                        <div class="form-check" style="color:white">
+                                            <label class="form-check-label">
+                                                .
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="card-body">
-                                {{-- <div class="mb-3">
+
+                            <div class="col-md-4" id="form_pelanggan" style="display: none;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Pelanggan</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        {{-- <div class="mb-3">
                                     <button class="btn btn-primary btn-sm" type="button"
                                         onclick="showCategoryModalrute(this.value)">
                                         <i class="fas fa-search mr-1"></i> Search Rute
                                     </button>
                                 </div> --}}
-                                <div class="form-group" hidden>
-                                    <label for="rute_perjalanan_id">rute Id</label>
-                                    <input type="text" class="form-control" id="rute_perjalanan_id" readonly
-                                        name="rute_perjalanan_id" placeholder=""
-                                        value="{{ old('rute_perjalanan_id', $inquery->rute_perjalanan_id) }}">
+                                        <div class="form-group" hidden>
+                                            <label for="pelanggan_id">pelanggan Id</label>
+                                            <input type="text" class="form-control" id="pelanggan_id" readonly
+                                                name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
+                                        </div>
+                                        <div class="form-group" hidden>
+                                            <label for="kode_pelanggan">kode Pelanggan</label>
+                                            <input type="text" class="form-control" id="kode_pelanggan" readonly
+                                                name="kode_pelanggan" placeholder=""
+                                                value="{{ old('kode_pelanggan') }}">
+                                        </div>
+                                        <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
+                                            Pelanggan</label>
+                                        <div class="form-group d-flex">
+                                            <input class="form-control" id="nama_pell" name="nama_pelanggan"
+                                                type="text" placeholder="" value="{{ old('nama_pelanggan') }}"
+                                                readonly style="margin-right: 10px; font-size:14px" />
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showCategoryModalPelanggan(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="alamat_pelanggan">Alamat</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
+                                                value="{{ old('alamat_pelanggan') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
+                                                value="{{ old('telp_pelanggan') }}">
+                                        </div>
+                                        <div class="form-check" style="color:white">
+                                            <label class="form-check-label">
+                                                .
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
-                                {{-- <div class="form-group">
-                                    <label for="kode_rute">Kode Rute</label>
-                                    <input type="text" class="form-control" id="kode_rute" readonly name="kode_rute"
-                                        placeholder="" value="{{ old('kode_rute') }}">
-                                </div> --}}
-                                <label style="font-size:14px" class="form-label" for="kode_rute">Kode Rute</label>
-                                <div class="form-group d-flex">
-                                    <input class="form-control" id="kode_rute" name="kode_rute" type="text"
-                                        placeholder="" value="{{ old('kode_rute', $inquery->kode_rute) }}" readonly
-                                        style="margin-right: 10px; font-size:14px" />
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="showCategoryModalrute(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="rute_perjalanan">Rute Perjalanan</label>
-                                    <input style="font-size:14px" type="text" class="form-control"
-                                        id="rute_perjalanan" readonly name="nama_rute" placeholder=""
-                                        value="{{ old('nama_rute', $inquery->nama_rute) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="biaya">Uang Jalan</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="biaya"
-                                        readonly name="uang_jalan" placeholder=""
-                                        value="{{ old('uang_jalan', $inquery->uang_jalan) }}"
-                                        onclick="calculateHasilUangjaminan()">
-                                </div>
-                                <div class="form-check" style="color:white">
-                                    <label class="form-check-label">
-                                        .
-                                    </label>
+                            </div>
+
+                            <div class="col-md-3" hidden>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Biaya</h3>
+                                    </div>
+                                    <div class="card-body">
+
+                                        <div id="memoperjalanan">
+                                            <label style="font-size:14px" for="harga_tambahan">Biaya Tambahan</label>
+                                            <div class="form-group d-flex">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3" id="form_pelanggan" style="display: none;">
-                        <div class="card">
+                        <div class="card" id="form_biayatambahan">
                             <div class="card-header">
-                                <h3 class="card-title">Pelanggan</h3>
+                                <h3 class="card-title">Biaya Tambahan <span>
+                                    </span></h3>
+                                <div class="float-right">
+                                </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:14px" class="text-center">No</th>
+                                            <th style="font-size:14px">Kode Biaya Tambahan</th>
+                                            <th style="font-size:14px">Keterangan</th>
+                                            <th style="font-size:14px">Nominal</th>
+                                            <th style="font-size:14px">Opsi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-pembelian">
+                                        <tr id="pembelian-0">
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
+                                            </td>
+                                            <td hidden>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="biaya_id-0"
+                                                        name="biaya_id[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        readonly id="kode_biaya-0" name="kode_biaya[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        readonly id="nama_biaya-0" name="nama_biaya[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        id="nominal-0" readonly name="nominal[]">
+                                                </div>
+                                            </td>
+                                            <td style="width: 50px">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="biayatambah(0)">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                                {{-- <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
+                                            onclick="removeBan(0)">
+                                            <i class="fas fa-trash"></i>
+                                        </button> --}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card" id="form_potonganmemo">
+                            <div class="card-header">
+                                <h3 class="card-title">Potongan Memo <span>
+                                    </span></h3>
+                                <div class="float-right">
+                                </div>
                             </div>
                             <div class="card-body">
-                                {{-- <div class="mb-3">
-                                    <button class="btn btn-primary btn-sm" type="button"
-                                        onclick="showCategoryModalrute(this.value)">
-                                        <i class="fas fa-search mr-1"></i> Search Rute
-                                    </button>
-                                </div> --}}
-                                <div class="form-group" hidden>
-                                    <label for="pelanggan_id">pelanggan Id</label>
-                                    <input type="text" class="form-control" id="pelanggan_id" readonly
-                                        name="pelanggan_id" placeholder=""
-                                        value="{{ old('pelanggan_id', $inquery->pelanggan_id) }}">
-                                </div>
-                                <div class="form-group" hidden>
-                                    <label for="kode_pelanggan">kode Pelanggan</label>
-                                    <input type="text" class="form-control" id="kode_pelanggan" readonly
-                                        name="kode_pelanggan" placeholder=""
-                                        value="{{ old('kode_pelanggan', $inquery->kode_pelanggan) }}">
-                                </div>
-                                <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
-                                    Pelanggan</label>
-                                <div class="form-group d-flex">
-                                    <input class="form-control" id="nama_pell" name="nama_pelanggan" type="text"
-                                        placeholder="" value="{{ old('nama_pelanggan', $inquery->nama_pelanggan) }}"
-                                        readonly style="margin-right: 10px; font-size:14px" />
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="showCategoryModalPelanggan(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="alamat_pelanggan">Alamat</label>
-                                    <input style="font-size:14px" type="text" class="form-control"
-                                        id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
-                                        value="{{ old('alamat_pelanggan', $inquery->alamat_pelanggan) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
-                                    <input style="font-size:14px" type="text" class="form-control"
-                                        id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
-                                        value="{{ old('telp_pelanggan', $inquery->telp_pelanggan) }}">
-                                </div>
-                                <div class="form-check" style="color:white">
-                                    <label class="form-check-label">
-                                        .
-                                    </label>
-                                </div>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:14px" class="text-center">No</th>
+                                            <th style="font-size:14px">Kode Potongan Memo</th>
+                                            <th style="font-size:14px">Keterangan</th>
+                                            <th style="font-size:14px">Nominal</th>
+                                            <th style="font-size:14px">Opsi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-potongan">
+                                        <tr id="potongan-0">
+                                            <td style="width: 70px; font-size:14px" class="text-center"
+                                                id="urutanpotongan">1
+                                            </td>
+                                            <td hidden>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="potongan_id-0"
+                                                        name="potongan_id[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        readonly id="kode_potongan-0" name="kode_potongan[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        readonly id="keteranganpotongan-0" name="keterangan_potongan[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        id="nominalpotongan-0" readonly name="nominal_potongan[]">
+                                                </div>
+                                            </td>
+                                            <td style="width: 50px">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="potonganmemo(0)">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-md-3">
                         <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Biaya</h3>
-                            </div>
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="uang_jaminan">Uang Jaminan</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="uang_jaminan"
-                                        readonly name="uang_jaminan" placeholder=""
-                                        value="{{ old('uang_jaminan', $inquery->uang_jaminan) }}">
-                                </div>
+                                <table class="table table-bordered table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="display: flex; align-items: center;">
+                                                    <label style="font-size: 14px; margin-right: 50px;"
+                                                        for="uangjalan">Uang Jalan</label>
+                                                    <input style="width: 300px; font-size: 14px;" type="text"
+                                                        class="form-control text-right" id="uangjalans" readonly
+                                                        name="uangjalans" placeholder=""
+                                                        value="{{ old('uangjalans') }}">
+                                                    <label style="font-size: 14px; margin-right: 22px; margin-left:46px"
+                                                        for="rute_perjalanan">Administrasi</label>
+                                                    <input style="width: 300px; font-size: 14px;" type="text"
+                                                        class="form-control" readonly placeholder="" value="1 %">
+                                                </div>
+                                                <div class="form-group" style="display: flex; align-items: center;">
+                                                    <label style="font-size: 14px; margin-right: 18px;"
+                                                        for="rute_perjalanan">Biaya Tambahan</label>
+                                                    <input style="width: 300px; font-size: 14px;" type="text"
+                                                        class="form-control text-right" id="harga_tambahan" readonly
+                                                        name="biaya_tambahan" value="{{ old('biaya_tambahan') }}">
+                                                    <label style="font-size: 14px; margin-right: 10px; margin-left:45px"
+                                                        for="rute_perjalanan">Deposit Sopir</label>
+                                                    <input style="width: 300px; font-size: 14px; margin-left:6px"
+                                                        type="text" class="form-control" id="deposit_driver"
+                                                        name="deposit_driver" value="{{ old('deposit_driver') }}"
+                                                        placeholder="" oninput="limitInput()">
+                                                </div>
+                                                <div class="form-group" style="display: flex; align-items: center;">
+                                                    <label style="font-size: 14px; margin-right: 20px;"
+                                                        for="rute_perjalanan">Potongan Memo</label>
+                                                    <input style="width: 300px; font-size: 14px;" type="text"
+                                                        class="form-control text-right" id="potongan_memo" readonly
+                                                        name="potongan_memo" placeholder=""
+                                                        value="{{ old('potongan_memo') }}">
+                                                    <input style="margin-left: 565px" class="form-check-input"
+                                                        type="checkbox" id="additional_checkbox"
+                                                        name="additional_checkbox" onchange="limitInput()">
+                                                    <label style="margin-left: 170px" class="form-check-label"
+                                                        for="additional_checkbox">
+                                                        Min Deposit 50.000
+                                                    </label>
+                                                    {{-- <label style="font-size: 14px; margin-right: 78px;"
+                                                        for="rute_perjalanan">Min Deposit 50.000</label> --}}
 
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="harga_tambahan">Biaya Tambahan</label>
-                                    <input style="font-size:14px" type="text" class="form-control"
-                                        id="harga_tambahan" name="biaya_tambahan" placeholder=""
-                                        value="{{ old('biaya_tambahan', $inquery->biaya_tambahan) }}"
-                                        onclick="calculateAndDisplayTotal()">
-                                </div>
+                                                </div>
+                                                <div class="form-group" style="display: flex; align-items: center;">
+                                                    <label style="font-size: 14px; margin-right: 42px;"
+                                                        for="rute_perjalanan">Administrasi</label>
+                                                    <input style="width: 300px; font-size: 14px;" id="uang_jaminan"
+                                                        type="text" class="form-control text-right" readonly
+                                                        name="uang_jaminan" placeholder=""
+                                                        value="{{ old('uang_jaminan') }}">
 
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="deposit_driver">Deposit Sopir</label>
-                                    <input style="font-size:14px" type="text" class="form-control"
-                                        id="deposit_driver" name="deposit_driver"
-                                        value="{{ old('deposit_driver', $inquery->deposit_driver) }}" placeholder=""
-                                        oninput="limitInput()" onclick="calculateAndDeposit()">
-                                </div>
-                                <!-- Add checkbox below the form -->
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="additional_checkbox"
-                                        name="additional_checkbox" onchange="limitInput()">
-                                    <label class="form-check-label" for="additional_checkbox">
-                                        Min Deposit 50.000
-                                    </label>
-                                </div>
+                                                </div>
+                                                <div class="form-group" style="display: flex; align-items: center;">
+                                                    <label style="font-size: 14px; margin-right: 37px;"
+                                                        for="rute_perjalanan">Deposit
+                                                        Sopir</label>
+                                                    <input style="width: 300px; font-size: 14px;" type="text"
+                                                        class="form-control text-right" id="depositsdriverss" readonly
+                                                        name="deposit_drivers" placeholder=""
+                                                        value="{{ old('deposit_drivers') }}">
+                                                    <label
+                                                        style="color:white; font-size: 14px; margin-right: 65px; margin-left: 584px"
+                                                        for="rute_perjalanan">.</label>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="card" id="form_biayatambahan">
-                    <div class="card-header">
-                        <h3 class="card-title">Biaya Tambahan <span>
-                                <p style="font-size: 13px">(Tambahkan biaya jika ada tambahan biaya)</p>
-                            </span></h3>
-                        <div class="float-right">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="font-size:14px" class="text-center">No</th>
-                                    <th style="font-size:14px">Kode Akun</th>
-                                    <th style="font-size:14px">Nama Akun</th>
-                                    <th style="font-size:14px">Nominal</th>
-                                    <th style="font-size:14px">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabel-pembelian">
-                                @foreach ($details as $detail)
-                                    <tr id="pembelian-{{ $loop->index }}">
-                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">
-                                            {{ $loop->index + 1 }}</td>
-                                        <td hidden>
-                                            <div class="form-group" hidden>
-                                                <input type="text" class="form-control" name="detail_ids[]"
-                                                    value="{{ $detail['id'] }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="biaya_id-0"
-                                                    name="biaya_id[]" value="{{ $detail['biaya_id'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    readonly id="kode_biaya-0" name="kode_biaya[]"
-                                                    value="{{ $detail['kode_biaya'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    readonly id="nama_biaya-0" name="nama_biaya[]"
-                                                    value="{{ $detail['nama_biaya'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    id="nominal-0" readonly name="nominal[]"
-                                                    value="{{ $detail['nominal'] }}">
-                                            </div>
-                                        </td>
-                                        <td style="width: 100px">
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="biayatambah(0)">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                                onclick="removeBan(0)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="card" id="form_borongan">
-                    <div class="card-header">
-                        <h3 class="card-title">Rute Perjalanan <span>
-                                <p style="font-size: 13px">(Tambahkan rute perjalanan)</p>
-                            </span></h3>
-                        <div class="float-right">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="addRute()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="font-size:14px" class="text-center">No</th>
-                                    <th style="font-size:14px">Kode Rute</th>
-                                    <th style="font-size:14px">Nama Rute</th>
-                                    <th style="font-size:14px">Harga</th>
-                                    <th style="font-size:14px">Qty</th>
-                                    <th style="font-size:14px">Satuan</th>
-                                    <th style="font-size:14px">Total</th>
-                                    <th style="font-size:14px">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabel-rute">
-                                @foreach ($details as $detail)
-                                    <tr id="rute-{{ $loop->index }}">
-                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutanrute">
-                                            {{ $loop->index + 1 }}</td>
-                                        <td hidden>
-                                            <div class="form-group" hidden>
-                                                <input type="text" class="form-control" name="detail_ids[]"
-                                                    value="{{ $detail['id'] }}">
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="rute_id-0"
-                                                    name="rute_id[]" value="{{ $detail['rute_id'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    readonly id="kode_rutes-0" name="kode_rutes[]"
-                                                    value="{{ $detail['kode_rutes'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    readonly id="nama_rutes-0" name="nama_rutes[]"
-                                                    value="{{ $detail['nama_rutes'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="number"
-                                                    class="form-control harga_rute" readonly id="harga_rute-0"
-                                                    name="harga_rute[]" data-row-id="0"
-                                                    value="{{ $detail['harga_rute'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="number" class="form-control jumlah"
-                                                    id="jumlah-0" name="jumlah[]" data-row-id="0"
-                                                    value="{{ $detail['jumlah'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <select style="font-size:14px" class="form-control" id="satuan"
-                                                    name="satuan[]">
-                                                    <option value="">- Pilih -</option>
-                                                    <option value="pcs"
-                                                        {{ old('satuan', $detail['satuan']) == 'pcs' ? 'selected' : null }}>
-                                                        pcs</option>
-                                                    <option value="ltr"
-                                                        {{ old('satuan', $detail['satuan']) == 'ltr' ? 'selected' : null }}>
-                                                        ltr</option>
-                                                    <option value="ton"
-                                                        {{ old('satuan', $detail['satuan']) == 'ton' ? 'selected' : null }}>
-                                                        ton</option>
-                                                    <option value="dus"
-                                                        {{ old('satuan', $detail['satuan']) == 'dus' ? 'selected' : null }}>
-                                                        dus</option>
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text"
-                                                    class="form-control totalrute" id="totalrute-0" name="totalrute[]"
-                                                    value="{{ $detail['totalrute'] }}" readonly>
-                                            </div>
-                                        </td>
-                                        <td style="width: 100px">
-                                            <button type="button" class="btn btn-primary btn-sm" onclick="rutebaru(0)">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                                onclick="removerute(0)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card">
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped" id="borongpph" style="display: none">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-group" style="display: flex; align-items: center;">
-                                            <label style="font-size: 14px; margin-right: 30px;"
-                                                for="rute_perjalanan">Total Borong</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control text-right" id="totalborong" readonly
-                                                name="total_borongs" placeholder=""
-                                                value="{{ old('total_borongs', $inquery->total_borongs) }}">
-                                            <label style="font-size: 14px; margin-right: 70px; margin-left:48px"
-                                                for="rute_perjalanan">PPH</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control" readonly placeholder="" value="2 %">
-                                        </div>
-                                        <div class="form-group" style="display: flex; align-items: center;">
-                                            <label style="font-size: 14px; margin-right: 82px;"
-                                                for="rute_perjalanan">PPH</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control text-right" id="pph2" readonly name="pphs"
-                                                placeholder="" value="{{ old('pphs', $inquery->pphs) }}">
-                                            <label style="font-size: 14px; margin-right: 52px; margin-left:47px"
-                                                for="rute_perjalanan">Borong</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control" readonly placeholder="" value="50 %">
-                                        </div>
-                                        <div class="form-group" style="display: flex; align-items: center;">
-                                            <label style="font-size: 14px; margin-right: 20px;" for="rute_perjalanan">Uang
-                                                Jaminan</label>
-                                            <input style="width: 300px; font-size: 14px;" id="uangjaminanss"
-                                                type="text" class="form-control text-right" readonly
-                                                name="uang_jaminans" placeholder=""
-                                                value="{{ old('uang_jaminans', $inquery->uang_jaminans) }}">
-                                            <label style="font-size: 14px; margin-right: 10px; margin-left:46px"
-                                                for="rute_perjalanan">Uang Jaminan</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control" readonly placeholder="" value="1 %">
-                                        </div>
-                                        <div class="form-group" style="display: flex; align-items: center;">
-                                            <label style="font-size: 14px; margin-right: 25px;"
-                                                for="rute_perjalanan">Deposit Sopir</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control text-right" id="depositsdriverss" readonly
-                                                name="deposit_drivers" placeholder=""
-                                                value="{{ old('deposit_drivers', $inquery->deposit_drivers) }}">
-                                            <label style="font-size: 14px; margin-right: 10px; margin-left:45px"
-                                                for="rute_perjalanan">Deposit Sopir</label>
-                                            <input style="width: 300px; font-size: 14px; margin-left:6px" type="text"
-                                                class="form-control" id="depositsdriversst" readonly
-                                                name="depositsdriversst" placeholder=""
-                                                value="{{ old('depositsdriversst', $inquery->deposit_drivers) }}">
-
-                                        </div>
-                                        <div class="form-group" style="display: flex; align-items: center;">
-                                            <label style="font-size: 14px; margin-right: 78px;"
-                                                for="rute_perjalanan">Total</label>
-                                            <input style="width: 300px; font-size: 14px;" type="text"
-                                                class="form-control text-right" id="hasilsss" readonly name="totals"
-                                                placeholder="" value="{{ old('totals', $inquery->totals) }}"
-                                                onclick="calculateHasilsrute()">
-                                            <label
-                                                style="color:white; font-size: 14px; margin-right: 78px; margin-left: 585px"
-                                                for="rute_perjalanan">.</label>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br>
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="font-size:14px">keterangan</th>
-                                    <th style="font-size:14px">Sisa Saldo</th>
-                                    <th style="font-size:14px">Sub Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="biaya_id-0"
-                                                name="biaya_id[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
-                                                placeholder="Masukan keterangan">{{ old('keterangan', $inquery->keterangan) }}</textarea>
-                                            {{-- <input style="font-size:14px" type="text" class="form-control"
+                                                </div>
+                                                {{-- <div class="form-group" style="display: flex; align-items: center;">
+                                                    <label style="font-size: 14px; margin-right: 89px;"
+                                                        for="rute_perjalanan">Total</label>
+                                                    <input style="width: 300px; font-size: 14px;" type="text"
+                                                        class="form-control text-right" id="hasilsss" readonly
+                                                        name="totals" placeholder="" value="{{ old('totals') }}"
+                                                        onclick="calculateHasilsrute()">
+                                                    
+                                                </div> --}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:14px">keterangan</th>
+                                            {{-- <th style="font-size:14px">Sisa Saldo</th> --}}
+                                            <th style="font-size:14px">Grand Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {{-- <td hidden>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" id="biaya_id-0"
+                                                        name="biaya_id[]">
+                                                </div>
+                                            </td> --}}
+                                            <td>
+                                                <div class="form-group">
+                                                    <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
+                                                        placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                                                    {{-- <input style="font-size:14px" type="text" class="form-control"
                                                 id="kode_biaya-0" name="kode_biaya[]"> --}}
-                                        </div>
-                                    </td>
-                                    <td>
+                                                </div>
+                                            </td>
+                                            {{-- <td>
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" readonly class="form-control"
                                                 id="sisa_saldo" name="sisa_saldo"
-                                                value="{{ old('sisa_saldo', $inquery->sisa_saldo) }}">
+                                                value="{{ old('sisa_saldo', $saldoTerakhir->latest()->first()->sisa_saldo) }}">
                                         </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input style="font-size:14px; font-weight:bold" readonly type="text"
-                                                class="form-control" id="sub_total" name="sub_total"
-                                                value="{{ old('sub_total', $inquery->sub_total) }}"
-                                                onclick="SubTotalss()">
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                    </td> --}}
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px; font-weight:bold" readonly
+                                                        type="text" class="form-control" id="sub_total"
+                                                        name="sub_total" value="{{ old('sub_total') }}"
+                                                        onclick="SubTotalss()">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary">Reset</button>
@@ -651,38 +553,39 @@
                 </div>
             </form>
 
-            <div class="modal fade" id="tablePelanggan" data-backdrop="static">
+            <div class="modal fade" id="tableBiaya" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Data Pelanggan</h4>
+                            <h4 class="modal-title">Data Biaya Tambahan</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table id="datatables4" class="table table-bordered table-striped">
+                            <table id="datatables66" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th>Kode Pelanggan</th>
-                                        <th>Nama Pelanggan</th>
-                                        <th>Alamat</th>
-                                        <th>No. Telp</th>
+                                        <th>Kode Biaya Tambahan</th>
+                                        <th>Nama Biaya</th>
+                                        <th>Nominal</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pelanggans as $pelanggan)
-                                        <tr>
+                                    @foreach ($biayatambahan as $biayatambah)
+                                        <tr data-id="{{ $biayatambah->id }}"
+                                            data-kode_biaya="{{ $biayatambah->kode_biaya }}"
+                                            data-nama_biaya="{{ $biayatambah->nama_biaya }}"
+                                            data-nominal="{{ $biayatambah->nominal }}" data-param="{{ $loop->index }}">
                                             <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $pelanggan->kode_pelanggan }}</td>
-                                            <td>{{ $pelanggan->nama_pell }}</td>
-                                            <td>{{ $pelanggan->alamat }}</td>
-                                            <td>{{ $pelanggan->telp }}</td>
+                                            <td>{{ $biayatambah->kode_biaya }}</td>
+                                            <td>{{ $biayatambah->nama_biaya }}</td>
+                                            <td>{{ $biayatambah->nominal }}</td>
                                             <td class="text-center">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
+                                                <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
+                                                    onclick="getBiaya({{ $loop->index }})">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -695,39 +598,40 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="tableBiaya" data-backdrop="static">
+            <div class="modal fade" id="tablePotongans" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Data Biaya Tambahan</h4>
+                            <h4 class="modal-title">Data Potongan Memo</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table id="datatables3" class="table table-bordered table-striped">
+                            <table id="datatables6" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th>Kode Biaya Tambahan</th>
-                                        <th>Nama Biaya</th>
+                                        <th>Kode Potongan Memo</th>
+                                        <th>Keterangan</th>
                                         <th>Nominal</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($biayatambahan as $biayatambah)
-                                        <tr data-biaya_id="{{ $biayatambah->id }}"
-                                            data-kode_biaya="{{ $biayatambah->kode_biaya }}"
-                                            data-nama_biaya="{{ $biayatambah->nama_biaya }}"
-                                            data-nominal="{{ $biayatambah->nominal }}" data-param="{{ $loop->index }}">
+                                    @foreach ($potonganmemos as $potonganmemo)
+                                        <tr data-id="{{ $potonganmemo->id }}"
+                                            data-kode_potongan="{{ $potonganmemo->kode_potongan }}"
+                                            data-keterangan="{{ $potonganmemo->keterangan }}"
+                                            data-nominal="{{ $potonganmemo->nominal }}"
+                                            data-param="{{ $loop->index }}">
                                             <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $biayatambah->kode_biaya }}</td>
-                                            <td>{{ $biayatambah->nama_biaya }}</td>
-                                            <td>{{ $biayatambah->nominal }}</td>
+                                            <td>{{ $potonganmemo->kode_potongan }}</td>
+                                            <td>{{ $potonganmemo->keterangan }}</td>
+                                            <td>{{ $potonganmemo->nominal }}</td>
                                             <td class="text-center">
                                                 <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                    onclick="getBiaya({{ $loop->index }})">
+                                                    onclick="getPotongan({{ $loop->index }})">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -814,97 +718,6 @@
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="getSelectedDatarute('{{ $rute->id }}', '{{ $rute->kode_rute }}', '{{ $rute->nama_rute }}', '{{ $rute->harga }}')">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tableRutes" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Rute Perjalanan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="table-responsive scrollbar m-2">
-                                <table id="datatables5" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-center">No</th>
-                                            <th>Kode Rute</th>
-                                            <th>Rute Perjalanan</th>
-                                            <th>Golongan 1</th>
-                                            <th>Golongan 2</th>
-                                            <th>Golongan 3</th>
-                                            <th>Golongan 4</th>
-                                            <th>Golongan 5</th>
-                                            <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($ruteperjalanans as $ruteperjalanan)
-                                            <tr data-rute_perjalanan_id="{{ $ruteperjalanan->id }}"
-                                                data-kode_rute="{{ $ruteperjalanan->kode_rute }}"
-                                                data-nama_rute="{{ $ruteperjalanan->nama_rute }}"
-                                                data-harga="{{ $ruteperjalanan->harga }}"
-                                                data-param="{{ $loop->index }}">
-                                                <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td>{{ $ruteperjalanan->kode_rute }}</td>
-                                                <td>{{ $ruteperjalanan->nama_rute }}</td>
-                                                @if ($ruteperjalanan->kategori == 'Golongan 1')
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($ruteperjalanan->harga, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($ruteperjalanan->kategori == 'Golongan 2')
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($ruteperjalanan->harga, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($ruteperjalanan->kategori == 'Golongan 3')
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($ruteperjalanan->harga, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($ruteperjalanan->kategori == 'Golongan 4')
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($ruteperjalanan->harga, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($ruteperjalanan->kategori == 'Golongan 5')
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($ruteperjalanan->harga, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                <td class="text-center">
-                                                    <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                        onclick="getRutes({{ $loop->index }})">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </td>
@@ -1012,317 +825,8 @@
         </div>
     </section>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var kategoriSelect = document.getElementById("kategori");
-            var formBiayaTambahan = document.getElementById("form_biayatambahan");
-            var FormRUte = document.getElementById("form_rute");
-            var FormBorongan = document.getElementById("form_borongan");
-            var BorongPPh = document.getElementById("borongpph");
-            var FormPelanggan = document.getElementById("form_pelanggan");
-
-
-            if (!kategoriSelect || !formBiayaTambahan || !FormBorongan) {
-                console.error("One or more elements not found!");
-                return;
-            }
-
-            // Initial adjustment based on the selected category
-            adjustDisplay(kategoriSelect.value);
-
-            kategoriSelect.addEventListener("change", function() {
-                adjustDisplay(kategoriSelect.value);
-            });
-
-            function adjustDisplay(selectedKategori) {
-                console.log("Selected Kategori:", selectedKategori);
-
-                // Hide both forms initially
-                formBiayaTambahan.style.display = "none";
-                FormBorongan.style.display = "none";
-                BorongPPh.style.display = "none";
-                FormRUte.style.display = "none";
-                FormPelanggan.style.display = "none";
-
-                // Show the appropriate form based on the selected category
-                if (selectedKategori === "Memo Perjalanan") {
-                    formBiayaTambahan.style.display = "block";
-                    FormRUte.style.display = "block";
-                } else if (selectedKategori === "Memo Borong") {
-                    FormBorongan.style.display = "block";
-                    BorongPPh.style.display = "block";
-                    FormPelanggan.style.display = "block";
-                } else if (selectedKategori === "Memo Tambahan") {
-                    FormRUte.style.display = "block";
-                    formBiayaTambahan.style.display = "block";
-                    FormBorongan.style.display = "none";
-                    BorongPPh.style.display = "none";
-                    FormPelanggan.style.display = "none";
-                }
-            }
-
-        });
-
-        var TotalHasilss = 0;
-
-        function calculateAndDisplayTotal() {
-            var selectedCategory = $('#kategori').val();
-
-            if (selectedCategory === 'Memo Perjalanan') {
-                TotalHasilss++;
-
-                if (TotalHasilss === 2) {
-                    // Calculate total of 'nominal[]' inputs
-                    var total = 0;
-                    $('input[name="nominal[]"]').each(function() {
-                        total += parseFloat($(this).val()) || 0;
-                    });
-                    $('#harga_tambahan').val(total);
-
-                    // Get values for calculation
-                    var UangJalans = parseFloat($('#biaya').val()) || 0;
-                    var UangTambahan = parseFloat($('#harga_tambahan').val()) || 0;
-                    var DepositDriv = parseFloat($('#uang_jaminan').val()) || 0;
-
-                    // Calculate new subtotal
-                    var newSubTotal = UangJalans + UangTambahan;
-
-                    // Calculate 1% of newSubTotal
-                    var uangJaminanValue = newSubTotal * 0.01;
-
-                    // Update the 'uang_jaminan' input with the 1% value
-                    $('#uang_jaminan').val(uangJaminanValue);
-
-                    // Reset the counter for the next calculation
-                    TotalHasilss = 0;
-                }
-            }
-
-            if (selectedCategory === 'Memo Borong') {
-                TotalHasilss++;
-
-                if (TotalHasilss === 2) {
-                    // Calculate total of 'nominal[]' inputs
-                    var total = 0;
-                    $('input[name="totalrute[]"]').each(function() {
-                        total += parseFloat($(this).val()) || 0;
-                    });
-                    $('#harga_tambahan').val(total);
-
-                    // Get values for calculation
-                    var UangTambahan = parseFloat($('#harga_tambahan').val()) || 0;
-                    var DepositDriv = parseFloat($('#uang_jaminan').val()) || 0;
-
-                    // Calculate new subtotal
-                    var newSubTotal = UangTambahan;
-
-                    // Calculate 1% of newSubTotal
-                    var uangJaminanValue = newSubTotal * 0.01;
-
-                    // Update the 'uang_jaminan' input with the 1% value
-                    $('#uang_jaminan').val(uangJaminanValue);
-
-
-                    $('#sub_total').val(0);
-                    $('#totalborong').val(0);
-                    $('#uangjaminanss').val(0);
-                    $('#pph2').val(0);
-
-                    // Update the value of the 'harga_tambahan' input
-                    $('#harga_tambahan').val(total);
-
-                    // Get the value of #sub_total
-                    var subTotalValue = parseFloat($('#sub_total').val()) || 0;
-
-                    // Sum #harga_tambahan and #sub_total
-                    var newSubTotal = total + subTotalValue;
-
-                    // Update the value of the 'sub_total' input
-                    // $('#sub_total').val(newSubTotal);
-                    $('#totalborong').val(newSubTotal);
-
-                    // Calculate 1% of the newSubTotal
-                    var Uangjaminan = newSubTotal * 0.01;
-
-                    // Update the value of the 'pph2' input
-                    $('#uangjaminanss').val(Uangjaminan);
-                    $('#uang_jaminan').val(Uangjaminan);
-
-                    // Calculate 2% of the totalborong
-                    var pph2Value = newSubTotal * 0.02;
-
-                    // Update the value of the 'pph2' input
-                    $('#pph2').val(pph2Value);
-
-                    // Reset the counter for the next calculation
-                    TotalHasilss = 0;
-                }
-            }
-
-            if (selectedCategory === 'Memo Tambahan') {
-                TotalHasilss++;
-
-                if (TotalHasilss === 2) {
-                    // Calculate total of 'nominal[]' inputs
-                    var total = 0;
-                    $('input[name="nominal[]"]').each(function() {
-                        total += parseFloat($(this).val()) || 0;
-                    });
-                    $('#harga_tambahan').val(total);
-
-                    TotalHasilss = 0;
-                }
-            }
-        }
-
-        var TotalPerjalanan = 0;
-
-        function SubTotalss() {
-            var selectedCategory = $('#kategori').val();
-
-            if (selectedCategory === 'Memo Tambahan') {
-                TotalPerjalanan++;
-
-                if (TotalPerjalanan === 2) {
-                    var Biaya_tambahan = parseFloat($('#harga_tambahan').val()) || 0;
-                    var UangJalan = parseFloat($('#biaya').val()) || 0;
-
-                    // Calculate the sum of Biaya_tambahan and UangJalan
-                    var uangJaminanValue = Biaya_tambahan + UangJalan;
-
-                    // Round the uangJaminanValue to the nearest integer
-                    var roundedUangJaminanValue = Math.round(uangJaminanValue);
-
-                    // Update the value of the 'sub_total' input with the rounded value
-                    $('#sub_total').val(roundedUangJaminanValue);
-
-                    TotalPerjalanan = 0; // Reset click count
-                }
-            }
-
-            if (selectedCategory === 'Memo Perjalanan') {
-                TotalPerjalanan++;
-
-                if (TotalPerjalanan === 2) {
-                    var biaya = parseFloat($('#biaya').val()) || 0;
-                    var DepositDrivers = parseFloat($('#deposit_driver').val()) || 0;
-                    var UangJamin = parseFloat($('#uang_jaminan').val()) || 0;
-                    var Biaya_tambahan = parseFloat($('#harga_tambahan').val()) || 0;
-
-                   // Calculate 1% of biaya
-                    var TotalsValue = Biaya_tambahan + biaya - 0.01 - UangJamin - DepositDrivers;
-
-                    // Round the result to the nearest integer
-                    var roundedTotal = Math.round(TotalsValue);
-
-                    // Update the value of the 'sub_total' input
-                    $('#sub_total').val(roundedTotal);
-
-                    TotalPerjalanan = 0; // Reset click count
-                }
-
-            }
-
-            if (selectedCategory === 'Memo Borong') {
-                TotalPerjalanan++;
-
-                if (TotalPerjalanan === 2) {
-                    var TotalBorong = parseFloat($('#totalborong').val()) || 0;
-                    var PPh = parseFloat($('#pph2').val()) || 0;
-                    var UangJaminan = parseFloat($('#uangjaminanss').val()) || 0;
-                    var DepositDriver = parseFloat($('#depositsdriverss').val()) || 0;
-
-                    // Calculate uangJaminanValue without rounding
-                    var uangJaminanValue = TotalBorong - PPh - UangJaminan - DepositDriver;
-
-                    // Round the uangJaminanValue to the nearest integer
-                    var roundedUangJaminanValue = Math.round(uangJaminanValue);
-
-                    // Update the value of the 'hasilsss' input with the rounded value
-                    $('#hasilsss').val(roundedUangJaminanValue);
-
-                    // Calculate HasilBagi without rounding
-                    var HasilBagi = uangJaminanValue / 2;
-
-                    // Round the HasilBagi to the nearest integer
-                    var roundedHasilBagi = Math.round(HasilBagi);
-
-                    // Update the value of the 'sub_total' input with the rounded value
-                    $('#sub_total').val(roundedHasilBagi);
-
-                    TotalPerjalanan = 0; // Reset click count
-                }
-            }
-        }
-
-        // Add an event listener to the dropdown
-        $('#kategori').on('change', function() {
-            // Call the SubTotalss function when the dropdown changes
-            SubTotalss();
-        });
-    </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var kategoriSelect = document.getElementById("kategori");
-            var uangJalanInput = document.getElementById("biaya");
-            var formBiayaTambahan = document.getElementById("form_biayatambahan");
-            var FormBorongan = document.getElementById("form_borongan");
-            var FormRute = document.getElementById("form_rute");
-            var FormPelanggan = document.getElementById("form_pelanggan");
-            var BorongPPh = document.getElementById("borongpph");
-
-
-            kategoriSelect.addEventListener("change", function() {
-                // Mengambil nilai yang dipilih pada dropdown "Pilih Kategori"
-                var selectedKategori = kategoriSelect.value;
-
-                // Memeriksa apakah kategori yang dipilih adalah "Memo Tambahan"
-                if (selectedKategori === "Memo Tambahan") {
-                    // Jika ya, hapus atribut readonly pada input "Uang Jalan"
-                    uangJalanInput.removeAttribute("readonly");
-                    formBiayaTambahan.style.display = "block";
-                    FormBorongan.style.display = "none";
-                    BorongPPh.style.display = "none";
-                    FormPelanggan.style.display = "none";
-                    FormRute.style.display = "block";
-
-                } else if (selectedKategori === "Memo Perjalanan") {
-                    uangJalanInput.setAttribute("readonly", "readonly");
-                    formBiayaTambahan.style.display = "block";
-                    FormBorongan.style.display = "none";
-                    BorongPPh.style.display = "none";
-                    FormPelanggan.style.display = "none";
-                    FormRute.style.display = "block";
-
-
-                } else if (selectedKategori === "Memo Borong") {
-                    uangJalanInput.setAttribute("readonly", "readonly");
-                    FormBorongan.style.display = "block";
-                    BorongPPh.style.display = "block";
-                    formBiayaTambahan.style.display = "none";
-                    FormRute.style.display = "none";
-                    FormPelanggan.style.display = "block";
-                }
-            });
-        });
-
-
-        document.addEventListener("DOMContentLoaded", function() {
-            limitInput();
-        });
-
-        function limitInput() {
-            var depositInput = document.getElementById("deposit_driver");
-            var checkbox = document.getElementById("additional_checkbox");
-
-            if (!checkbox.checked) {
-                // If checkbox is not checked, set the input value to 50000
-                depositInput.value = "50000";
-            }
-        }
-
-
         function showCategoryModalPelanggan(selectedCategory) {
             $('#tablePelanggan').modal('show');
         }
@@ -1367,7 +871,6 @@
             $('#tableKendaraan').modal('hide');
         }
 
-
         function showCategoryModalrute(selectedCategory) {
             $('#tableRute').modal('show');
         }
@@ -1395,38 +898,6 @@
             $('#tableRute').modal('hide');
         }
 
-
-        document.addEventListener("DOMContentLoaded", function() {
-            var kategoriSelect = document.getElementById("kategori");
-            var uangJaminanInput = document.getElementById("uang_jaminan");
-            var BiayaTambahan = document.getElementById("harga_tambahan");
-            var uangJalanInput = document.getElementById("biaya");
-            var DepositDriver = document.getElementById("deposit_driver");
-
-            // Event listener untuk setiap kali kategori berubah
-            kategoriSelect.addEventListener("change", function() {
-                // Mengambil nilai yang dipilih pada dropdown "Pilih Kategori"
-                var selectedKategori = kategoriSelect.value;
-
-                // Memeriksa apakah kategori yang dipilih adalah "Memo Tambahan"
-                if (selectedKategori === "Memo Tambahan") {
-                    // Jika tidak, atur nilai uang jaminan menjadi 0
-                    uangJaminanInput.value = 0;
-                    BiayaTambahan.value = 0;
-                    DepositDriver.value = 0;
-                    // Set nilai uang jaminan
-                } else {
-                    // Jika ya, ambil nilai uang jalan dan hitung 1% dari nilai tersebut
-                    var uangJalanValue = parseFloat(uangJalanInput.value);
-                    var uangJaminan = uangJalanValue * 0.01;
-                    uangJaminanInput.value = uangJaminan;
-
-                }
-            });
-        });
-
-
-
         var activeSpecificationIndexs = 0;
 
         function rutebaru(param) {
@@ -1451,6 +922,27 @@
             $('#tableRutes').modal('hide');
         }
 
+        function potonganmemo(param) {
+            activeSpecificationIndex = param;
+            // Show the modal and filter rows if necessary
+            $('#tablePotongans').modal('show');
+        }
+
+        function getPotongan(rowIndex) {
+            var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+            var Potongan_id = selectedRow.data('id');
+            var KodePotongan = selectedRow.data('kode_potongan');
+            var Keterangan = selectedRow.data('keterangan');
+            var Nominal = selectedRow.data('nominal');
+
+            // Update the form fields for the active specification
+            $('#potongan_id-' + activeSpecificationIndex).val(Potongan_id);
+            $('#kode_potongan-' + activeSpecificationIndex).val(KodePotongan);
+            $('#keteranganpotongan-' + activeSpecificationIndex).val(Keterangan);
+            $('#nominalpotongan-' + activeSpecificationIndex).val(Nominal);
+
+            $('#tablePotongans').modal('hide');
+        }
 
 
         var activeSpecificationIndex = 0;
@@ -1462,97 +954,26 @@
         }
 
         function getBiaya(rowIndex) {
-            var selectedRow = $('#datatables3 tbody tr:eq(' + rowIndex + ')');
-            var biaya_id = selectedRow.data('biaya_id');
-            var kode_biaya = selectedRow.data('kode_biaya');
-            var nama_biaya = selectedRow.data('nama_biaya');
-            var nominal = selectedRow.data('nominal');
+            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var Biaya_id = selectedRow.data('id');
+            var KodeBiaya = selectedRow.data('kode_biaya');
+            var NamabIaya = selectedRow.data('nama_biaya');
+            var Nominal = selectedRow.data('nominal');
+            var HargaTambahan = selectedRow.data('harga_tambahan');
 
             // Update the form fields for the active specification
-            $('#biaya_id-' + activeSpecificationIndex).val(biaya_id);
-            $('#kode_biaya-' + activeSpecificationIndex).val(kode_biaya);
-            $('#nama_biaya-' + activeSpecificationIndex).val(nama_biaya);
-            $('#nominal-' + activeSpecificationIndex).val(nominal);
+            $('#biaya_id-' + activeSpecificationIndex).val(Biaya_id);
+            $('#kode_biaya-' + activeSpecificationIndex).val(KodeBiaya);
+            $('#nama_biaya-' + activeSpecificationIndex).val(NamabIaya);
+            $('#nominal-' + activeSpecificationIndex).val(Nominal);
+            $('#harga_tambahan-' + activeSpecificationIndex).val(HargaTambahan);
 
             $('#tableBiaya').modal('hide');
         }
-
-        var clickHasiljamin = 0;
-
-        function calculateHasilUangjaminan() {
-            clickHasiljamin++;
-
-            if (clickHasiljamin === 2) {
-                var biaya = parseFloat($('#biaya').val()) || 0;
-
-                // Calculate 1% of biaya
-                var uangJaminanValue = biaya * 0.01;
-
-                // Update the value of the 'uang_jaminan' input
-                $('#uang_jaminan').val(uangJaminanValue);
-
-                clickHasiljamin = 0; // Reset click count
-            }
-        }
+    </script>
 
 
-        var clickHasils = 0;
-
-        function calculateHasilsrute() {
-            clickHasils++;
-
-            if (clickHasils === 2) {
-                var saldoDeposit = parseFloat($('#totalborong').val()) || 0;
-                var ppH2 = parseFloat($('#pph2').val()) || 0;
-                var hasilPengurangan = parseFloat($('#uangjaminanss').val()) || 0;
-                var depositDriver = parseFloat($('#depositsdriverss').val()) || 0;
-
-
-                // Sum saldoDeposit and depositDriver
-                var newSaldoDeposit = saldoDeposit - ppH2 - hasilPengurangan - depositDriver;
-                // Update the value of the 'saldo_deposit' input
-                $('#hasilsss').val(newSaldoDeposit);
-
-
-                var newTotals = (saldoDeposit - ppH2 - hasilPengurangan - depositDriver) / 2;
-                $('#sub_total').val(newTotals);
-
-                clickHasils = 0; // Reset click count
-            }
-        }
-
-
-        var clickCountDeposit = 0;
-        var previousDepositDriver = 0;
-
-        function calculateAndDeposit() {
-            clickCountDeposit++;
-
-            if (clickCountDeposit === 2) {
-                var saldoDeposit = parseFloat($('#saldo_deposit').val()) || 0;
-                var depositDriver = parseFloat($('#deposit_driver').val()) || 0;
-
-                // Set the value of depositsdriverss and depositsdriversst to the new depositDriver
-                $('#depositsdriverss').val(depositDriver);
-                $('#depositsdriversst').val(depositDriver);
-
-                // Calculate the change in depositDriver
-                var depositDriverChange = depositDriver - previousDepositDriver;
-
-                // Subtract the previous depositDriver and add the new depositDriver to saldoDeposit
-                var newSaldoDeposit = saldoDeposit - previousDepositDriver + depositDriver;
-
-                // Update the value of the 'saldo_deposit' input
-                $('#saldo_deposit').val(newSaldoDeposit);
-
-                // Update the previousDepositDriver with the new value
-                previousDepositDriver = depositDriver;
-
-                clickCountDeposit = 0; // Reset click count
-            }
-        }
-
-
+    <script>
         var data_pembelian = @json(session('data_pembelians'));
         var jumlah_ban = 1;
 
@@ -1564,7 +985,6 @@
                 urutan = urutan + 1;
                 itemPembelian(urutan, key, value);
             });
-            calculateTotal(); // Calculate total after populating existing data
         }
 
         function addPesanan() {
@@ -1575,7 +995,6 @@
             }
 
             itemPembelian(jumlah_ban, jumlah_ban - 1);
-            calculateTotal(); // Calculate total after adding a new item
         }
 
         function removeBan(params) {
@@ -1596,20 +1015,8 @@
                 for (let i = 0; i < urutan.length; i++) {
                     urutan[i].innerText = i + 1;
                 }
-                calculateTotal(); // Calculate total after removing an item
             }
         }
-
-        function calculateTotal() {
-            var total = 0;
-            $('input[name="nominal[]"]').each(function() {
-                total += parseFloat($(this).val()) || 0;
-            });
-
-            // Update the value of the 'harga_tambahan' input
-            $('#harga_tambahan').val(total);
-        }
-
 
         function itemPembelian(urutan, key, value = null) {
             var biaya_id = '';
@@ -1664,15 +1071,15 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            item_pembelian += '<td style="width: 100px">';
+            item_pembelian += '<td style="width: 50px">';
             item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="biayatambah(' + urutan + ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
-            item_pembelian +=
-                '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
-                urutan + ')">';
-            item_pembelian += '<i class="fas fa-trash"></i>';
-            item_pembelian += '</button>';
+            // item_pembelian +=
+            //     '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
+            //     urutan + ')">';
+            // item_pembelian += '<i class="fas fa-trash"></i>';
+            // item_pembelian += '</button>';
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
@@ -1680,224 +1087,231 @@
         }
     </script>
 
-
     <script>
-        // var clickCountHargaTambahanrute = 0;
-
-        // function calculateAndDisplayTotalrute() {
-        //     clickCountHargaTambahanrute++;
-
-        //     if (clickCountHargaTambahanrute === 2) {
-        //         var total = 0;
-        //         $('input[name="totalrute[]"]').each(function() {
-        //             total += parseFloat($(this).val()) || 0;
-        //         });
-
-        //         // Update the value of the 'harga_tambahan' input
-        //         $('#harga_tambahan').val(total);
-
-        //         // Get the value of #sub_total
-        //         var subTotalValue = parseFloat($('#sub_total').val()) || 0;
-
-        //         // Sum #harga_tambahan and #sub_total
-        //         var newSubTotal = total + subTotalValue;
-
-        //         // Update the value of the 'sub_total' input
-        //         $('#sub_total').val(newSubTotal);
-
-        //         clickCountHargaTambahanrute = 0; // Reset click count
-        //     }
-        // }
-
-
-        $(document).on("input", ".harga_rute, .jumlah", function() {
-            var currentRow = $(this).closest('tr');
-            var hargasatuan = parseFloat(currentRow.find(".harga_rute").val()) || 0;
-            var jumlah = parseFloat(currentRow.find(".jumlah").val()) || 0;
-            var harga = hargasatuan * jumlah;
-            currentRow.find(".totalrute").val(harga);
-        });
-
-        var data_pembelian = @json(session('data_pembelians2'));
+        var data_pembelian = @json(session('data_pembelians3'));
         var jumlah_ban = 1;
 
         if (data_pembelian != null) {
             jumlah_ban = data_pembelian.length;
-            $('#tabel-rute').empty();
+            $('#tabel-potongan').empty();
             var urutan = 0;
             $.each(data_pembelian, function(key, value) {
                 urutan = urutan + 1;
-                itemPembelianrute(urutan, key, value);
+                itemPembelians(urutan, key, value);
             });
-            calculateTotalrute(); // Calculate total after populating existing data
         }
 
-        function addRute() {
+        function addPesanan() {
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
-                $('#tabel-rute').empty();
+                $('#tabel-potongan').empty();
             }
 
-            itemPembelianrute(jumlah_ban, jumlah_ban - 1);
-            calculateTotalrute(); // Calculate total after adding a new item
+            itemPembelians(jumlah_ban, jumlah_ban - 1);
         }
 
-        function removerute(params) {
+        function removeBan(params) {
             jumlah_ban = jumlah_ban - 1;
 
-            var tabel_pesanan = document.getElementById('tabel-rute');
-            var pembelian = document.getElementById('rute-' + params);
+            var tabel_pesanan = document.getElementById('tabel-potongan');
+            var pembelian = document.getElementById('potongan-' + params);
 
             tabel_pesanan.removeChild(pembelian);
 
             if (jumlah_ban === 0) {
                 var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- rute belum ditambahkan -</td>';
+                item_pembelian += '<td class="text-center" colspan="5">- Potongan memo belum ditambahkan -</td>';
                 item_pembelian += '</tr>';
-                $('#tabel-rute').html(item_pembelian);
+                $('#tabel-potongan').html(item_pembelian);
             } else {
-                var urutan = document.querySelectorAll('#urutanrute');
+                var urutan = document.querySelectorAll('#urutan');
                 for (let i = 0; i < urutan.length; i++) {
                     urutan[i].innerText = i + 1;
                 }
-                calculateTotal(); // Calculate total after removing an item
             }
         }
 
-        function calculateTotalrute() {
-            var total = 0;
-            $('input[name="totalrute[]"]').each(function() {
-                total += parseFloat($(this).val()) || 0;
-            });
-
-            // Calculate 1% of the total
-            var onePercent = total * 0.01;
-
-            // Update the value of the 'uang_jaminan' input
-            $('#uang_jaminan').val(onePercent);
-        }
-
-        // Attach a click event handler to the 'uang_jaminan' input
-        $(document).on('click', '#uang_jaminan', function() {
-            // Call the calculateTotalrute function when 'uang_jaminan' is clicked
-            calculateTotalrute();
-        });
-
-        function itemPembelianrute(urutan, key, value = null) {
-            var rute_id = '';
-            var kode_rutes = '';
-            var nama_rutes = '';
-            var harga_rute = '';
-            var jumlah = '';
-            var satuan = '';
-            var totalrute = '';
+        function itemPembelians(urutan, key, value = null) {
+            var potongan_id = '';
+            var kode_potongan = '';
+            var keterangan_potongan = '';
+            var nominal_potongan = '';
 
             if (value !== null) {
-                rute_id = value.rute_id;
-                kode_rutes = value.kode_rutes;
-                nama_rutes = value.nama_rutes;
-                harga_rute = value.harga_rute;
-                jumlah = value.jumlah;
-                satuan = value.satuan;
-                totalrute = value.totalrute;
+                potongan_id = value.potongan_id;
+                kode_potongan = value.kode_potongan;
+                keterangan_potongan = value.keterangan_potongan;
+                nominal_potongan = value.nominal_potongan;
             }
 
-            // urutanrute 
-            var item_pembelian = '<tr id="rute-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutanrute-' + urutan +
+            // urutan 
+            var item_pembelian = '<tr id="potongan-' + urutan + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutanpotongan-' + urutan +
                 '">' +
                 urutan + '</td>';
 
-            // rute_id 
+            // potongan_id 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="rute_id-' + urutan +
-                '" name="rute_id[]" value="' + rute_id + '" ';
+            item_pembelian += '<input type="text" class="form-control" id="potongan_id-' + urutan +
+                '" name="potongan_id[]" value="' + potongan_id + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // kode rutes 
+            // kode_potongan 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_rutes-' +
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_potongan-' +
                 urutan +
-                '" name="kode_rutes[]" value="' + kode_rutes + '" ';
+                '" name="kode_potongan[]" value="' + kode_potongan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // nama rutes 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rutes-' +
-                urutan +
-                '" name="nama_rutes[]" value="' + nama_rutes + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // harga 
+            // keterangan_potongan 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control harga_rute" readonly style="font-size:14px" id="harga_rute-' +
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="keterangan_potongan-' +
                 urutan +
-                '" name="harga_rute[]" value="' + harga_rute + '" ';
+                '" name="keterangan_potongan[]" value="' + keterangan_potongan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            //jumlah
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control jumlah" style="font-size:14px" id="jumlah-' +
-                urutan +
-                '" name="jumlah[]" value="' + jumlah + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            //satuan
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control" style="font-size:14px" id="satuan-' + urutan +
-                '" name="satuan[]">';
-            item_pembelian += '<option value="">- Pilih -</option>';
-            item_pembelian += '<option value="pcs"' + (satuan === 'pcs' ? ' selected' : '') + '>pcs</option>';
-            item_pembelian += '<option value="liter"' + (satuan === 'liter' ? ' selected' : '') +
-                '>liter</option>';
-            item_pembelian += '<option value="ton"' + (satuan === 'ton' ? ' selected' : '') +
-                '>ton</option>';
-            item_pembelian += '<option value="dus"' + (satuan === 'dus' ? ' selected' : '') +
-                '>dus</option>';
-
-            item_pembelian += '</select>';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            //total
+            // nominal_potongan 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control totalrute" style="font-size:14px" readonly id="totalrute-' +
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="nominal_potongan-' +
                 urutan +
-                '" name="totalrute[]" value="' + totalrute + '" ';
+                '" name="nominal_potongan[]" value="' + nominal_potongan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-
-            item_pembelian += '<td style="width: 100px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="rutebaru(' + urutan +
+            item_pembelian += '<td style="width: 50px">';
+            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="potonganmemo(' + urutan +
                 ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
-            item_pembelian +=
-                '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removerute(' +
-                urutan + ')">';
-            item_pembelian += '<i class="fas fa-trash"></i>';
-            item_pembelian += '</button>';
+            // item_pembelian +=
+            //     '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
+            //     urutan + ')">';
+            // item_pembelian += '<i class="fas fa-trash"></i>';
+            // item_pembelian += '</button>';
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
-            $('#tabel-rute').append(item_pembelian);
+            $('#tabel-potongan').append(item_pembelian);
+
         }
+    </script>
+
+    <script>
+        $('#deposit_driver').on('input', function() {
+            // Mengambil nilai input nominal
+            var nominalValue = $(this).val();
+
+            // Memeriksa apakah input nominal kosong atau tidak
+            if (nominalValue === "") {
+                // Jika kosong, set form saldo masuk dan sub total menjadi 0
+                $('#depositsdriverss').val("0");
+                updateSubTotals()
+            } else {
+                // Jika tidak kosong, mengonversi nilai ke format rupiah
+                var saldoMasukValue = formatRupiahs(nominalValue);
+
+                // Menetapkan nilai ke input saldo masuk
+                $('#depositsdriverss').val(saldoMasukValue);
+
+                // Memperbarui nilai sub total saat input nominal berubah
+                updateSubTotals();
+            }
+        });
+
+        function formatRupiahs(angka) {
+            var reverse = angka.toString().split('').reverse().join(''),
+                ribuan = reverse.match(/\d{1,3}/g);
+            ribuan = ribuan.join('.').split('').reverse().join('');
+            return ribuan; // Mengembalikan hanya angka tanpa teks "Rp"
+        }
+
+        function formatRupiah(value) {
+            return "Rp " + value.toLocaleString('id-ID');
+        }
+
+        function updateSubTotals() {
+            var Uangjalans = parseCurrency($('#biaya').val()) || 0;
+            var PotonganMemo = parseCurrency($('#potongan_memo').val().replace(/\./g, '')) || 0;
+            var HargaTambahan = parseCurrency($('#harga_tambahan').val().replace(/\./g, '')) || 0;
+            var DepositDriv = parseCurrency($('#deposit_driver').val()) || 0;
+
+
+            // Menghitung sub total (1% dari UangJaminan)
+            var UangJaminan = Uangjalans + HargaTambahan - PotonganMemo;
+            var satuPersenUangJaminan = 0.01 * UangJaminan;
+
+            // Menetapkan nilai ke input uang_jaminan
+            $('#uang_jaminan').val(formatRupiah(satuPersenUangJaminan));
+
+            // Menghitung Subtotal (satuPersenUangJaminan - DepositDriv)
+            var Subtotal = UangJaminan - satuPersenUangJaminan - DepositDriv;
+
+            // Menetapkan nilai ke input sub_total
+            $('#sub_total').val(formatRupiah(Subtotal));
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            limitInput();
+        });
+
+        function limitInput() {
+            var depositInput = document.getElementById("deposit_driver");
+            var depositInputss = document.getElementById("depositsdriverss");
+            var depositInputsst = document.getElementById("depositsdriversst");
+            var checkbox = document.getElementById("additional_checkbox");
+
+            if (!checkbox.checked) {
+                // If checkbox is not checked, set the input value to 50000
+                var defaultValue = 50000;
+
+                depositInput.value = defaultValue;
+                depositInputss.value = formatRupiah(defaultValue);
+                depositInputsst.value = formatRupiah(defaultValue);
+            }
+        }
+
+        var potonganMemoInput = document.getElementById('potongan_memo');
+        var HargaTambahan = document.getElementById('harga_tambahan');
+
+        // Check if the input is empty or not
+        if (potonganMemoInput.value.trim() === '') {
+            // Set the default value to 0 if the input is empty
+            potonganMemoInput.value = '0';
+        }
+
+        // Add an event listener to adjust the value on user input
+        potonganMemoInput.addEventListener('input', function() {
+            // Remove non-numeric characters and leading zeros
+            var sanitizedValue = potonganMemoInput.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+
+            // Set the adjusted value back to the input
+            potonganMemoInput.value = sanitizedValue || '0';
+        });
+
+
+        if (HargaTambahan.value.trim() === '') {
+            // Set the default value to 0 if the input is empty
+            HargaTambahan.value = '0';
+        }
+
+        // Add an event listener to adjust the value on user input
+        HargaTambahan.addEventListener('input', function() {
+            // Remove non-numeric characters and leading zeros
+            var sanitizedValues = HargaTambahan.value.replace(/[^0-9]/g, '').replace(/^0+/, '');
+
+            // Set the adjusted value back to the input
+            HargaTambahan.value = sanitizedValues || '0';
+        });
     </script>
 
 @endsection

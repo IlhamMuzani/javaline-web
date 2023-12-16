@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Memo Ekspedisi')
+@section('title', 'Inquery Memo Perjalanan')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Memo Ekspedisi</h1>
+                    <h1 class="m-0">Inquery Memo Perjalanan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Memo Ekspedisi</li>
+                        <li class="breadcrumb-item active">Inquery Memo Perjalanan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,7 +34,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Memo Ekspedisi</h3>
+                    <h3 class="card-title">Data Inquery Memo Perjalanan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

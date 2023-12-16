@@ -21,6 +21,9 @@ return new class extends Migration
             $table->foreign('pelanggan_id')->references('id')->on('pelanggans');
             $table->unsignedBigInteger('tarif_id')->nullable();
             $table->foreign('tarif_id')->references('id')->on('tarifs');
+            $table->unsignedBigInteger('kendaraan_id')->nullable();
+            $table->foreign('kendaraan_id')->references('id')->on('kendaraans');
+            $table->string('no_kabin')->nullable();
             $table->string('pph')->nullable();
             $table->string('kode_faktur')->nullable();
             $table->string('kategori')->nullable();
@@ -38,6 +41,7 @@ return new class extends Migration
             $table->string('total_tarif2')->nullable();
             $table->string('sisa')->nullable();
             $table->string('biaya_tambahan')->nullable();
+            $table->string('keterangan')->nullable();
             $table->string('grand_total')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();

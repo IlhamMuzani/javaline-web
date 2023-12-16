@@ -95,13 +95,13 @@ class MemoekspedisiController extends Controller
                     ]
                 );
 
-                $biayaTambahan = $request->biaya_tambahan;
-                $PotonganMemo = $request->potongan_memo;
+                // $biayaTambahan = $request->biaya_tambahan;
+                // $PotonganMemo = $request->potongan_memo;
 
-                if ($biayaTambahan && $PotonganMemo) {
-                    $errors = "Harus memilih salah satu biaya tambahan atau potongan memo";
-                    return back()->withInput()->with('erorrss', $errors);
-                }
+                // if ($biayaTambahan && $PotonganMemo) {
+                //     $errors = "Harus memilih salah satu biaya tambahan atau potongan memo";
+                //     return back()->withInput()->with('erorrss', $errors);
+                // }
 
                 $error_pelanggans = array();
 
@@ -116,10 +116,158 @@ class MemoekspedisiController extends Controller
                 $biayaTambahan = $request->biaya_tambahan;
                 $PotonganMemo = $request->potongan_memo;
 
+                // biaya dan potongan tidak null 
+                if (!$biayaTambahan == null && !$PotonganMemo == null) {
+
+                    if ($request->has('potongan_id')) {
+                        for ($i = 0; $i < count($request->potongan_id); $i++) {
+                            $potongan_id = $request->input('potongan_id.' . $i, null);
+                            $kode_potongan = $request->input('kode_potongan.' . $i, null);
+                            $keterangan_potongan = $request->input('keterangan_potongan.' . $i, null);
+                            $nominal_potongan = $request->input('nominal_potongan.' . $i, null);
+
+                            $validasi_produk = Validator::make([
+                                'potongan_id' => $potongan_id,
+                                'kode_potongan' => $kode_potongan,
+                                'keterangan_potongan' => $keterangan_potongan,
+                                'nominal_potongan' => $nominal_potongan,
+                            ], [
+                                'potongan_id' => 'required',
+                                'kode_potongan' => 'required',
+                                'keterangan_potongan' => 'required',
+                                'nominal_potongan' => 'required',
+                            ]);
+
+                            if ($validasi_produk->fails()) {
+                                array_push($error_pesanans, "Potongan memo " . ($i + 1) . " belum lengkap!");
+                            } else {
+                                $data_pembelians3->push([
+                                    'potongan_id' => $potongan_id,
+                                    'kode_potongan' => $kode_potongan,
+                                    'keterangan_potongan' => $keterangan_potongan,
+                                    'nominal_potongan' => $nominal_potongan
+                                ]);
+                            }
+                        }
+                    } else {
+                    }
+
+                    if ($request->has('biaya_id')) {
+                        for ($i = 0; $i < count($request->biaya_id); $i++) {
+                            $biaya_id = $request->input('biaya_id.' . $i, null);
+                            $kode_biaya = $request->input('kode_biaya.' . $i, null);
+                            $nama_biaya = $request->input('nama_biaya.' . $i, null);
+                            $nominal = $request->input('nominal.' . $i, null);
+
+                            $validasi_produk = Validator::make([
+                                'biaya_id' => $biaya_id,
+                                'kode_biaya' => $kode_biaya,
+                                'nama_biaya' => $nama_biaya,
+                                'nominal' => $nominal,
+                            ], [
+                                'biaya_id' => 'required',
+                                'kode_biaya' => 'required',
+                                'nama_biaya' => 'required',
+                                'nominal' => 'required',
+                            ]);
+
+                            if ($validasi_produk->fails()) {
+                                array_push($error_pesanans, "Tambahan biaya nomor " . ($i + 1) . " tidak valid!");
+                            } else {
+                                $data_pembelians->push([
+                                    'biaya_id' => $biaya_id,
+                                    'kode_biaya' => $kode_biaya,
+                                    'nama_biaya' => $nama_biaya,
+                                    'nominal' => $nominal
+                                ]);
+                            }
+                        }
+                    } else {
+                    }
 
 
+                    if ($error_pelanggans || $error_pesanans) {
+                        return back()
+                            ->withInput()
+                            ->with('error_pelanggans', $error_pelanggans)
+                            ->with('error_pesanans', $error_pesanans)
+                            ->with('data_pembelians', $data_pembelians)
+                            ->with('data_pembelians3', $data_pembelians3);
+                    }
+
+                    $kode = $this->kode();
+                    // tgl indo
+                    $tanggal1 = Carbon::now('Asia/Jakarta');
+                    $format_tanggal = $tanggal1->format('d F Y');
+
+                    $tanggal = Carbon::now()->format('Y-m-d');
+
+                    $cetakpdf = Memo_ekspedisi::create(array_merge(
+                        $request->all(),
+                        [
+                            'kategori' => $request->kategori,
+                            'kendaraan_id' => $request->kendaraan_id,
+                            'no_kabin' => $request->no_kabin,
+                            'golongan' => $request->golongan,
+                            'km_awal' => $request->km_awal,
+                            'user_id' => $request->user_id,
+                            'kode_driver' => $request->kode_driver,
+                            'nam_driver' => $request->nama_driver,
+                            'telp' => $request->telp,
+                            'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                            'kode_rute' => $request->kode_rute,
+                            'nama_rute' => $request->nama_rute,
+                            'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
+                            'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                            'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
+                            'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
+                            'potongan_memo' => str_replace('.', '', $request->potongan_memo),
+                            'deposit_driver' => str_replace('.', '', $request->deposit_driver),
+                            'deposit_drivers' => str_replace('.', '', $request->deposit_driver),
+                            'sub_total' => str_replace('.', '', $request->sub_total),
+                            // 'sisa_saldo' => $request->sisa_saldo,
+                            'keterangan' => $request->keterangan,
+                            // 'harga' => $request->harga,
+                            'kode_memo' => $this->kode(),
+                            'qrcode_memo' => 'https:///javaline.id/memo_ekspedisi/' . $kode,
+                            'tanggal' => $format_tanggal,
+                            'tanggal_awal' => $tanggal,
+                            'status' => 'unpost'
+                        ]
+                    ));
+
+                    $transaksi_id = $cetakpdf->id;
+
+                    if ($cetakpdf) {
+                        foreach ($data_pembelians as $data_pesanan) {
+                            Detail_memo::create([
+                                'memo_ekspedisi_id' => $cetakpdf->id,
+                                'biaya_id' => $data_pesanan['biaya_id'],
+                                'kode_biaya' => $data_pesanan['kode_biaya'],
+                                'nama_biaya' => $data_pesanan['nama_biaya'],
+                                'nominal' => str_replace('.', '', $data_pesanan['nominal']),
+                            ]);
+                        }
+                    }
+
+                    if ($cetakpdf) {
+                        foreach ($data_pembelians3 as $data_pesanan) {
+                            Detail_memo::create([
+                                'memo_ekspedisi_id' => $cetakpdf->id,
+                                'potongan_id' => $data_pesanan['potongan_id'],
+                                'kode_potongan' => $data_pesanan['kode_potongan'],
+                                'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                                'nominal_potongan' => str_replace('.', '', $data_pesanan['nominal_potongan']),
+                            ]);
+                        }
+                    }
+
+                    $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+
+                    return view('admin.memo_ekspedisi.show', compact('cetakpdf', 'detail_memo'));
+                }
+                // jika biaya tambahan tidak null 
                 if (!$biayaTambahan == null) {
-
                     if ($request->has('biaya_id')) {
                         for ($i = 0; $i < count($request->biaya_id); $i++) {
                             $biaya_id = $request->input('biaya_id.' . $i, null);
@@ -291,8 +439,9 @@ class MemoekspedisiController extends Controller
                     $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
 
                     return view('admin.memo_ekspedisi.show', compact('cetakpdf', 'detail_memo'));
-                } else {
-
+                }
+                // jika potongan tidak null
+                if (!$PotonganMemo == null) {
                     if ($request->has('potongan_id')) {
                         for ($i = 0; $i < count($request->potongan_id); $i++) {
                             $potongan_id = $request->input('potongan_id.' . $i, null);
@@ -452,7 +601,6 @@ class MemoekspedisiController extends Controller
                     $transaksi_id = $cetakpdf->id;
 
                     if ($cetakpdf) {
-
                         foreach ($data_pembelians3 as $data_pesanan) {
                             Detail_memo::create([
                                 'memo_ekspedisi_id' => $cetakpdf->id,

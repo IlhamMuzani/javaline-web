@@ -152,7 +152,10 @@
                                     <th style="font-size:14px" class="text-center">No</th>
                                     <th style="font-size:14px">No Memo</th>
                                     <th style="font-size:14px">Nama Sopir</th>
+                                    {{-- <th style="font-size:14px">Telp</th> --}}
                                     <th style="font-size:14px">Rute Perjalanan</th>
+                                    {{-- <th style="font-size:14px">Kendaraan_id</th>
+                                    <th style="font-size:14px">No Kabin</th> --}}
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
                             </thead>
@@ -178,10 +181,28 @@
                                                 id="nama_driver-0" name="nama_driver[]">
                                         </div>
                                     </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" readonly type="text" class="form-control"
+                                                id="telp_driver-0" name="telp_driver[]">
+                                        </div>
+                                    </td>
                                     <td>
                                         <div class="form-group">
                                             <input style="font-size:14px" readonly type="text" class="form-control"
                                                 id="nama_rute-0" name="nama_rute[]">
+                                        </div>
+                                    </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" readonly type="text" class="form-control"
+                                                id="kendaraan_id-0" name="kendaraan_id[]">
+                                        </div>
+                                    </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" readonly type="text" class="form-control"
+                                                id="no_kabin-0" name="no_kabin[]">
                                         </div>
                                     </td>
                                     <td style="width: 100px">
@@ -287,6 +308,11 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="form-group mt-2">
+                            <label style="font-size:14px" for="keterangan">Keterangan</label>
+                            <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
+                                placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                        </div>
                     </div>
                 </div>
 
@@ -576,7 +602,9 @@
                                 @foreach ($memos as $memo)
                                     <tr data-id="{{ $memo->id }}" data-kode_memo="{{ $memo->kode_memo }}"
                                         data-nama_driver="{{ $memo->nama_driver }}"
-                                        data-nama_rute="{{ $memo->nama_rute }}" data-param="{{ $loop->index }}">
+                                        data-telp_driver="{{ $memo->telp }}" data-nama_rute="{{ $memo->nama_rute }}"
+                                        data-kendaraan_id="{{ $memo->kendaraan_id }}"
+                                        data-no_kabin="{{ $memo->no_kabin }}" data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $memo->kode_memo }}</td>
                                         <td>{{ $memo->nama_driver }}</td>
@@ -706,13 +734,19 @@
             var memo_ekspedisi_id = '';
             var kode_memo = '';
             var nama_driver = '';
+            var telp_driver = '';
             var nama_rute = '';
+            var kendaraan_id = '';
+            var no_kabin = '';
 
             if (value !== null) {
                 memo_ekspedisi_id = value.memo_ekspedisi_id;
                 kode_memo = value.kode_memo;
                 nama_driver = value.nama_driver;
+                telp_driver = value.telp_driver;
                 nama_rute = value.nama_rute;
+                kendaraan_id = value.kendaraan_id;
+                no_kabin = value.no_kabin;
             }
 
             // urutan 
@@ -746,6 +780,15 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // telp_driver 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="telp_driver-' +
+                urutan +
+                '" name="telp_driver[]" value="' + telp_driver + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
             // nama_rute 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
@@ -753,6 +796,26 @@
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rute-' +
                 urutan +
                 '" name="nama_rute[]" value="' + nama_rute + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kendaraan_id 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="kendaraan_id-' +
+                urutan +
+                '" name="kendaraan_id[]" value="' + kendaraan_id + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // no_kabin 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="no_kabin-' +
+                urutan +
+                '" name="no_kabin[]" value="' + no_kabin + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -902,13 +965,19 @@
             var memo_ekspedisi_id = selectedRow.data('id');
             var kode_memo = selectedRow.data('kode_memo');
             var nama_driver = selectedRow.data('nama_driver');
+            var telp_driver = selectedRow.data('telp_driver');
             var nama_rute = selectedRow.data('nama_rute');
+            var kendaraan_id = selectedRow.data('kendaraan_id');
+            var no_kabin = selectedRow.data('no_kabin');
 
             // Update the form fields for the active specification
             $('#memo_ekspedisi_id-' + activeSpecificationIndex).val(memo_ekspedisi_id);
             $('#kode_memo-' + activeSpecificationIndex).val(kode_memo);
             $('#nama_driver-' + activeSpecificationIndex).val(nama_driver);
+            $('#telp_driver-' + activeSpecificationIndex).val(telp_driver);
             $('#nama_rute-' + activeSpecificationIndex).val(nama_rute);
+            $('#kendaraan_id-' + activeSpecificationIndex).val(kendaraan_id);
+            $('#no_kabin-' + activeSpecificationIndex).val(no_kabin);
 
             $('#tableMemo').modal('hide');
         }
@@ -971,6 +1040,30 @@
         $(document).on("input", ".harga_tarif, .jumlah, #biaya_tambahan", function() {
             updateHarga();
         });
+    </script>
+
+    <script>
+        function setPphValue() {
+            var kategori = document.getElementById("kategori").value;
+            var pphInput = document.getElementById("pph2");
+
+            // Jika kategori adalah NON PPH, atur nilai pph2 menjadi 0
+            if (kategori === "NON PPH") {
+                pphInput.value = 0;
+                updateHarga();
+            }
+            // Jika kategori adalah PPH, atur nilai pph2 sesuai dengan nilai dari server
+            else if (kategori === "PPH") {
+                updateHarga();
+
+            }
+        }
+
+        // Panggil fungsi setPphValue() saat halaman dimuat ulang
+        document.addEventListener("DOMContentLoaded", setPphValue);
+
+        // Tambahkan event listener untuk mendeteksi perubahan pada elemen <select>
+        document.getElementById("kategori").addEventListener("change", setPphValue);
     </script>
 
 

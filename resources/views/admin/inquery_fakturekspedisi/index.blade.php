@@ -80,6 +80,7 @@
                                 <th>Tujuan</th>
                                 <th>Pelanggan</th>
                                 <th>Tarif</th>
+                                <th>PPH</th>
                                 <th>U. Tambahan</th>
                                 <th>Total</th>
                                 <th class="text-center" width="20">Opsi</th>
@@ -100,24 +101,22 @@
                                         {{ $faktur->kategori }}
                                     </td>
                                     <td>
-                                        {{-- {{ optional(optional($faktur->detail_faktur->first())->memo_ekspedisi)->id }} --}}
+                                        {{ $faktur->detail_faktur->first()->no_kabin }}
                                     </td>
                                     <td>
-                                        {{-- {{ $faktur->tujuan }} --}}
-                                    </td>
+                                        {{ $faktur->detail_faktur->first()->nama_driver }} </td>
                                     <td>
-                                        {{-- {{ $faktur->tujuan }} --}}
-                                    </td>
+                                        {{ $faktur->detail_faktur->first()->nama_rute }} </td>
                                     <td>
                                         {{ $faktur->nama_pelanggan }}
                                     </td>
                                     <td>
-                                        {{ $faktur->total_tarif }}
-                                    </td>
-
+                                        Rp. {{ number_format($faktur->total_tarif, 0, ',', '.') }}</td>
                                     <td>
-                                        Rp. {{ number_format($faktur->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($faktur->sub_total, 0, ',', '.') }}</td>
+                                        Rp. {{ number_format($faktur->pph, 0, ',', '.') }}</td>
+                                    <td>
+                                        Rp. {{ number_format($faktur->biaya_tambahan, 0, ',', '.') }}</td>
+                                    <td> Rp. {{ number_format($faktur->grand_total, 0, ',', '.') }}</td>
                                     <td class="text-center">
                                         @if ($faktur->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
@@ -127,7 +126,6 @@
                                                 <i class="fas fa-truck-moving"></i>
                                             </button> --}}
                                         @endif
-
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modal-posting-{{ $faktur->id }}">

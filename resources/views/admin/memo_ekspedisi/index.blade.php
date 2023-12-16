@@ -232,23 +232,14 @@
                                         <h3 class="card-title">Rute Perjalanan</h3>
                                     </div>
                                     <div class="card-body">
-                                        {{-- <div class="mb-3">
-                                    <button class="btn btn-primary btn-sm" type="button"
-                                        onclick="showCategoryModalrute(this.value)">
-                                        <i class="fas fa-search mr-1"></i> Search Rute
-                                    </button>
-                                </div> --}}
+
                                         <div class="form-group" hidden>
                                             <label for="rute_perjalanan_id">rute Id</label>
                                             <input type="text" class="form-control" id="rute_perjalanan_id" readonly
                                                 name="rute_perjalanan_id" placeholder=""
                                                 value="{{ old('rute_perjalanan_id') }}">
                                         </div>
-                                        {{-- <div class="form-group">
-                                    <label for="kode_rute">Kode Rute</label>
-                                    <input type="text" class="form-control" id="kode_rute" readonly name="kode_rute"
-                                        placeholder="" value="{{ old('kode_rute') }}">
-                                </div> --}}
+
                                         <label style="font-size:14px" class="form-label" for="kode_rute">Kode
                                             Rute</label>
                                         <div class="form-group d-flex">
@@ -524,39 +515,42 @@
                                             <td hidden>
                                                 <div class="form-group">
                                                     <input type="text" class="form-control" id="rute_id"
-                                                        name="rute_id[]">
+                                                        name="rute_id" value="{{ old('rute_id') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" class="form-control"
-                                                        readonly id="kode_rutes" name="kode_rutes[]">
+                                                        readonly id="kode_rutes" name="kode_rutes"
+                                                        value="{{ old('kode_rutes') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" class="form-control"
-                                                        readonly id="nama_rutes" name="nama_rutes[]">
+                                                        readonly id="nama_rutes" name="nama_rutes"
+                                                        value="{{ old('nama_rutes') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="number"
                                                         class="form-control harga_rute" readonly id="harga_rute"
-                                                        name="harga_rute[]" data-row-id="0">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="number"
-                                                        class="form-control jumlah" id="jumlah" name="jumlah[]"
+                                                        value="{{ old('harga_rute') }}" name="harga_rute"
                                                         data-row-id="0">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
+                                                    <input style="font-size:14px" type="number"
+                                                        class="form-control jumlah" id="jumlah" name="jumlah"
+                                                        value="{{ old('jumlah') }}" data-row-id="0">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
                                                     <select style="font-size:14px" class="form-control" id="satuan"
-                                                        name="satuan[]">
+                                                        name="satuan">
                                                         <option value="">- Pilih -</option>
                                                         <option value="pcs"
                                                             {{ old('satuan') == 'pcs' ? 'selected' : null }}>
@@ -577,7 +571,7 @@
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text"
                                                         class="form-control totalrute" readonly id="totalrute"
-                                                        name="totalrute[]">
+                                                        name="totalrute" value="{{ old('totalrute') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 50px">
@@ -927,393 +921,39 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="modal fade" id="tablePelanggan" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Pelanggan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatables4" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th>Kode Pelanggan</th>
-                                        <th>Nama Pelanggan</th>
-                                        <th>Alamat</th>
-                                        <th>No. Telp</th>
-                                        <th>Opsi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($pelanggans as $pelanggan)
-                                        <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $pelanggan->kode_pelanggan }}</td>
-                                            <td>{{ $pelanggan->nama_pell }}</td>
-                                            <td>{{ $pelanggan->alamat }}</td>
-                                            <td>{{ $pelanggan->telp }}</td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
-            </div>
-
-            <div class="modal fade" id="tableBiaya" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Biaya Tambahan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatables3" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th>Kode Biaya Tambahan</th>
-                                        <th>Nama Biaya</th>
-                                        <th>Nominal</th>
-                                        <th>Opsi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($biayatambahan as $biayatambah)
-                                        <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $biayatambah->kode_biaya }}</td>
-                                            <td>{{ $biayatambah->nama_biaya }}</td>
-                                            <td>{{ $biayatambah->nominal }}</td>
-                                            <td class="text-center">
-                                                <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                    onclick="getBiaya('{{ $biayatambah->id }}', '{{ $biayatambah->kode_biaya }}', '{{ $biayatambah->nama_biaya }}', '{{ $biayatambah->nominal }}')">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tablePotongans" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Potongan Memo</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatables6" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th>Kode Potongan Memo</th>
-                                        <th>Keterangan</th>
-                                        <th>Nominal</th>
-                                        <th>Opsi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($potonganmemos as $potonganmemo)
-                                        <tr>
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $potonganmemo->kode_potongan }}</td>
-                                            <td>{{ $potonganmemo->keterangan }}</td>
-                                            <td>{{ $potonganmemo->nominal }}</td>
-                                            <td class="text-center">
-                                                <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                    onclick="getPotongan('{{ $potonganmemo->id }}', '{{ $potonganmemo->kode_potongan }}', '{{ $potonganmemo->keterangan }}', '{{ $potonganmemo->nominal }}')">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tableRute" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Rute Perjalanan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="table-responsive scrollbar m-2">
-                                <table id="datatables2" class="table table-bordered table-striped">
-                                    <thead class="bg-200 text-900">
-                                        <tr>
-                                            <th class="text-center">No</th>
-                                            <th>Kode Rute</th>
-                                            <th>Rute Perjalanan</th>
-                                            <th>Golongan 1</th>
-                                            <th>Golongan 2</th>
-                                            <th>Golongan 3</th>
-                                            <th>Golongan 4</th>
-                                            <th>Golongan 5</th>
-                                            <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($ruteperjalanans as $rute_perjalanan)
-                                            <tr>
-                                                <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td>{{ $rute_perjalanan->kode_rute }}
-                                                </td>
-                                                <td>{{ $rute_perjalanan->nama_rute }}
-                                                </td>
-                                                @if ($rute_perjalanan->golongan1)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan1, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan2)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan2, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan3)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan3, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan4)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan4, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan5)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan5, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="getSelectedDatarute('{{ $rute_perjalanan->id }}', '{{ $rute_perjalanan->kode_rute }}', '{{ $rute_perjalanan->nama_rute }}', '{{ $rute_perjalanan->golongan1 }}' , '{{ $rute_perjalanan->golongan2 }}', '{{ $rute_perjalanan->golongan3 }}', '{{ $rute_perjalanan->golongan4 }}', '{{ $rute_perjalanan->golongan5 }}', '{{ $rute_perjalanan->golongan6 }}', '{{ $rute_perjalanan->golongan7 }}', '{{ $rute_perjalanan->golongan8 }}', '{{ $rute_perjalanan->golongan9 }}', '{{ $rute_perjalanan->golongan10 }}')">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                <div class="modal fade" id="tablePelanggan" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Pelanggan</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tableRutes" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Rute Perjalanan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="table-responsive scrollbar m-2">
-                                <table id="datatables5" class="table table-bordered table-striped">
+                            <div class="modal-body">
+                                <table id="datatables4" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th class="text-center">No</th>
-                                            <th>Kode Rute</th>
-                                            <th>Rute Perjalanan</th>
-                                            <th>Golongan 1</th>
-                                            <th>Golongan 2</th>
-                                            <th>Golongan 3</th>
-                                            <th>Golongan 4</th>
-                                            <th>Golongan 5</th>
-                                            <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($ruteperjalanans as $rute_perjalanan)
-                                            <tr>
-                                                <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td>{{ $rute_perjalanan->kode_rute }}
-                                                </td>
-                                                <td>{{ $rute_perjalanan->nama_rute }}
-                                                </td>
-                                                @if ($rute_perjalanan->golongan1)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan1, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan2)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan2, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan3)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan3, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan4)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan4, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                @if ($rute_perjalanan->golongan5)
-                                                    <td style="font-weight: bold">Rp.
-                                                        {{ number_format($rute_perjalanan->golongan5, 0, ',', '.') }}
-                                                    </td>
-                                                @else
-                                                    <td>Rp.0
-                                                    </td>
-                                                @endif
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="getRutes('{{ $rute_perjalanan->id }}', '{{ $rute_perjalanan->kode_rute }}', '{{ $rute_perjalanan->nama_rute }}', '{{ $rute_perjalanan->golongan1 }}' , '{{ $rute_perjalanan->golongan2 }}', '{{ $rute_perjalanan->golongan3 }}', '{{ $rute_perjalanan->golongan4 }}', '{{ $rute_perjalanan->golongan5 }}', '{{ $rute_perjalanan->golongan6 }}', '{{ $rute_perjalanan->golongan7 }}', '{{ $rute_perjalanan->golongan8 }}', '{{ $rute_perjalanan->golongan9 }}', '{{ $rute_perjalanan->golongan10 }}')">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tableKendaraan" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Kendaraan</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="table-responsive scrollbar m-2">
-                                <table id="datatables1" class="table table-bordered table-striped">
-                                    <thead class="bg-200 text-900">
-                                        <tr>
-                                            <th class="text-center">No</th>
-                                            <th>Kode Kendaraan</th>
-                                            <th>No Kabin</th>
-                                            <th>Golongan</th>
-                                            <th>Km</th>
-                                            <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($kendaraans as $kendaraan)
-                                            <tr>
-                                                <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td>{{ $kendaraan->kode_kendaraan }}</td>
-                                                <td>{{ $kendaraan->no_kabin }}</td>
-                                                <td>{{ $kendaraan->golongan->nama_golongan }}</td>
-                                                <td>{{ $kendaraan->km }}</td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->golongan->nama_golongan }}', '{{ $kendaraan->km }}')">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tableDriver" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Sopir</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="table-responsive scrollbar m-2">
-                                <table id="datatables" class="table table-bordered table-striped">
-                                    <thead class="bg-200 text-900">
-                                        <tr>
-                                            <th class="text-center">No</th>
-                                            <th>Kode Sopir</th>
-                                            <th>Nama Sopir</th>
+                                            <th>Kode Pelanggan</th>
+                                            <th>Nama Pelanggan</th>
+                                            <th>Alamat</th>
                                             <th>No. Telp</th>
-                                            {{-- <th>Saldo Deposit</th> --}}
                                             <th>Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($drivers as $user)
+                                        @foreach ($pelanggans as $pelanggan)
                                             <tr>
                                                 <td class="text-center">{{ $loop->iteration }}</td>
-                                                <td>{{ $user->karyawan->kode_karyawan }}</td>
-                                                <td>{{ $user->karyawan->nama_lengkap }}</td>
-                                                <td>{{ $user->karyawan->telp }}</td>
-                                                {{-- <td>{{ $user->saldodp }}</td> --}}
+                                                <td>{{ $pelanggan->kode_pelanggan }}</td>
+                                                <td>{{ $pelanggan->nama_pell }}</td>
+                                                <td>{{ $pelanggan->alamat }}</td>
+                                                <td>{{ $pelanggan->telp }}</td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="getSelectedDatadriver('{{ $user->id }}', '{{ $user->karyawan->kode_karyawan }}', '{{ $user->karyawan->nama_lengkap }}', '{{ $user->karyawan->telp }}', '{{ $user->karyawan->tabungan }}')">
+                                                        onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </td>
@@ -1325,8 +965,361 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="modal fade" id="tableBiaya" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Biaya Tambahan</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="datatables3" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th>Kode Biaya Tambahan</th>
+                                            <th>Nama Biaya</th>
+                                            <th>Nominal</th>
+                                            <th>Opsi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($biayatambahan as $biayatambah)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td>{{ $biayatambah->kode_biaya }}</td>
+                                                <td>{{ $biayatambah->nama_biaya }}</td>
+                                                <td>{{ $biayatambah->nominal }}</td>
+                                                <td class="text-center">
+                                                    <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
+                                                        onclick="getBiaya('{{ $biayatambah->id }}', '{{ $biayatambah->kode_biaya }}', '{{ $biayatambah->nama_biaya }}', '{{ $biayatambah->nominal }}')">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="tablePotongans" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Potongan Memo</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <table id="datatables6" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th>Kode Potongan Memo</th>
+                                            <th>Keterangan</th>
+                                            <th>Nominal</th>
+                                            <th>Opsi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($potonganmemos as $potonganmemo)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td>{{ $potonganmemo->kode_potongan }}</td>
+                                                <td>{{ $potonganmemo->keterangan }}</td>
+                                                <td>{{ $potonganmemo->nominal }}</td>
+                                                <td class="text-center">
+                                                    <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
+                                                        onclick="getPotongan('{{ $potonganmemo->id }}', '{{ $potonganmemo->kode_potongan }}', '{{ $potonganmemo->keterangan }}', '{{ $potonganmemo->nominal }}')">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="tableRute" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Rute Perjalanan</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive scrollbar m-2">
+                                    <table id="datatables2" class="table table-bordered table-striped">
+                                        <thead class="bg-200 text-900">
+                                            <tr>
+                                                <th class="text-center">No</th>
+                                                <th>Kode Rute</th>
+                                                <th>Rute Perjalanan</th>
+                                                <th>Golongan 1</th>
+                                                <th>Golongan 2</th>
+                                                <th>Golongan 3</th>
+                                                <th>Golongan 4</th>
+                                                <th>Golongan 5</th>
+                                                <th>Opsi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($ruteperjalanans as $rute_perjalanan)
+                                                <tr>
+                                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                                    <td>{{ $rute_perjalanan->kode_rute }}
+                                                    </td>
+                                                    <td>{{ $rute_perjalanan->nama_rute }}
+                                                    </td>
+                                                    @if ($rute_perjalanan->golongan1)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan1, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan2)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan2, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan3)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan3, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan4)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan4, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan5)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan5, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            onclick="getSelectedDatarute('{{ $rute_perjalanan->id }}', '{{ $rute_perjalanan->kode_rute }}', '{{ $rute_perjalanan->nama_rute }}', '{{ $rute_perjalanan->golongan1 }}' , '{{ $rute_perjalanan->golongan2 }}', '{{ $rute_perjalanan->golongan3 }}', '{{ $rute_perjalanan->golongan4 }}', '{{ $rute_perjalanan->golongan5 }}', '{{ $rute_perjalanan->golongan6 }}', '{{ $rute_perjalanan->golongan7 }}', '{{ $rute_perjalanan->golongan8 }}', '{{ $rute_perjalanan->golongan9 }}', '{{ $rute_perjalanan->golongan10 }}')">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="tableRutes" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Rute Perjalanan</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive scrollbar m-2">
+                                    <table id="datatables5" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">No</th>
+                                                <th>Kode Rute</th>
+                                                <th>Rute Perjalanan</th>
+                                                <th>Golongan 1</th>
+                                                <th>Golongan 2</th>
+                                                <th>Golongan 3</th>
+                                                <th>Golongan 4</th>
+                                                <th>Golongan 5</th>
+                                                <th>Opsi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($ruteperjalanans as $rute_perjalanan)
+                                                <tr>
+                                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                                    <td>{{ $rute_perjalanan->kode_rute }}
+                                                    </td>
+                                                    <td>{{ $rute_perjalanan->nama_rute }}
+                                                    </td>
+                                                    @if ($rute_perjalanan->golongan1)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan1, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan2)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan2, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan3)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan3, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan4)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan4, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    @if ($rute_perjalanan->golongan5)
+                                                        <td style="font-weight: bold">Rp.
+                                                            {{ number_format($rute_perjalanan->golongan5, 0, ',', '.') }}
+                                                        </td>
+                                                    @else
+                                                        <td>Rp.0
+                                                        </td>
+                                                    @endif
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            onclick="getRutes('{{ $rute_perjalanan->id }}', '{{ $rute_perjalanan->kode_rute }}', '{{ $rute_perjalanan->nama_rute }}', '{{ $rute_perjalanan->golongan1 }}' , '{{ $rute_perjalanan->golongan2 }}', '{{ $rute_perjalanan->golongan3 }}', '{{ $rute_perjalanan->golongan4 }}', '{{ $rute_perjalanan->golongan5 }}', '{{ $rute_perjalanan->golongan6 }}', '{{ $rute_perjalanan->golongan7 }}', '{{ $rute_perjalanan->golongan8 }}', '{{ $rute_perjalanan->golongan9 }}', '{{ $rute_perjalanan->golongan10 }}')">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="tableKendaraan" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Kendaraan</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive scrollbar m-2">
+                                    <table id="datatables1" class="table table-bordered table-striped">
+                                        <thead class="bg-200 text-900">
+                                            <tr>
+                                                <th class="text-center">No</th>
+                                                <th>Kode Kendaraan</th>
+                                                <th>No Kabin</th>
+                                                <th>Golongan</th>
+                                                <th>Km</th>
+                                                <th>Opsi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($kendaraans as $kendaraan)
+                                                <tr>
+                                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                                    <td>{{ $kendaraan->kode_kendaraan }}</td>
+                                                    <td>{{ $kendaraan->no_kabin }}</td>
+                                                    <td>{{ $kendaraan->golongan->nama_golongan }}</td>
+                                                    <td>{{ $kendaraan->km }}</td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->golongan->nama_golongan }}', '{{ $kendaraan->km }}')">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="tableDriver" data-backdrop="static">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Data Sopir</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive scrollbar m-2">
+                                    <table id="datatables" class="table table-bordered table-striped">
+                                        <thead class="bg-200 text-900">
+                                            <tr>
+                                                <th class="text-center">No</th>
+                                                <th>Kode Sopir</th>
+                                                <th>Nama Sopir</th>
+                                                <th>No. Telp</th>
+                                                {{-- <th>Saldo Deposit</th> --}}
+                                                <th>Opsi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($drivers as $user)
+                                                <tr>
+                                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                                    <td>{{ $user->karyawan->kode_karyawan }}</td>
+                                                    <td>{{ $user->karyawan->nama_lengkap }}</td>
+                                                    <td>{{ $user->karyawan->telp }}</td>
+                                                    {{-- <td>{{ $user->saldodp }}</td> --}}
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            onclick="getSelectedDatadriver('{{ $user->id }}', '{{ $user->karyawan->kode_karyawan }}', '{{ $user->karyawan->nama_lengkap }}', '{{ $user->karyawan->telp }}', '{{ $user->karyawan->tabungan }}')">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
     </section>
 
     <script>
@@ -1511,6 +1504,7 @@
                 depositInputsst.value = formatRupiah(defaultValue); // Update the value of depositInputsst as well
             }
         }
+        
 
         function limitInput() {
             var depositInput = document.getElementById("deposit_driver");
@@ -1976,167 +1970,6 @@
     </script>
 
     <script>
-        var data_pembelian = @json(session('data_pembelians2'));
-        var jumlah_ban = 1;
-
-        if (data_pembelian != null) {
-            jumlah_ban = data_pembelian.length;
-            $('#tabel-rute').empty();
-            var urutan = 0;
-            $.each(data_pembelian, function(key, value) {
-                urutan = urutan + 1;
-                itemPembelianrute(urutan, key, value);
-            });
-        }
-
-        function addRute() {
-            jumlah_ban = jumlah_ban + 1;
-
-            if (jumlah_ban === 1) {
-                $('#tabel-rute').empty();
-            }
-
-            itemPembelianrute(jumlah_ban, jumlah_ban - 1);
-        }
-
-        function removerute(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-rute');
-            var pembelian = document.getElementById('rute-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- rute belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-rute').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutanrute');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
-        }
-
-        function itemPembelianrute(urutan, key, value = null) {
-            var rute_id = '';
-            var kode_rutes = '';
-            var nama_rutes = '';
-            var harga_rute = '';
-            var jumlah = '';
-            var satuan = '';
-            var totalrute = '';
-
-            if (value !== null) {
-                rute_id = value.rute_id;
-                kode_rutes = value.kode_rutes;
-                nama_rutes = value.nama_rutes;
-                harga_rute = value.harga_rute;
-                jumlah = value.jumlah;
-                satuan = value.satuan;
-                totalrute = value.totalrute;
-            }
-
-            // urutanrute 
-            var item_pembelian = '<tr id="rute-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutanrute-' + urutan +
-                '">' +
-                urutan + '</td>';
-
-            // rute_id 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="rute_id-' + urutan +
-                '" name="rute_id[]" value="' + rute_id + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kode rutes 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_rutes-' +
-                urutan +
-                '" name="kode_rutes[]" value="' + kode_rutes + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama rutes 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rutes-' +
-                urutan +
-                '" name="nama_rutes[]" value="' + nama_rutes + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // harga 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="number" class="form-control harga_rute" readonly style="font-size:14px" id="harga_rute-' +
-                urutan +
-                '" name="harga_rute[]" value="' + harga_rute + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            //jumlah
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control jumlah" style="font-size:14px" id="jumlah-' +
-                urutan +
-                '" name="jumlah[]" value="' + jumlah + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            //satuan
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control" style="font-size:14px" id="satuan-' + urutan +
-                '" name="satuan[]">';
-            item_pembelian += '<option value="">- Pilih -</option>';
-            item_pembelian += '<option value="pcs"' + (satuan === 'pcs' ? ' selected' : '') + '>pcs</option>';
-            item_pembelian += '<option value="liter"' + (satuan === 'liter' ? ' selected' : '') +
-                '>liter</option>';
-            item_pembelian += '<option value="ton"' + (satuan === 'ton' ? ' selected' : '') +
-                '>ton</option>';
-            item_pembelian += '<option value="dus"' + (satuan === 'dus' ? ' selected' : '') +
-                '>dus</option>';
-
-            item_pembelian += '</select>';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            //total
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="number" class="form-control totalrute" style="font-size:14px" readonly id="totalrute-' +
-                urutan +
-                '" name="totalrute[]" value="' + totalrute + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-
-            item_pembelian += '<td style="width: 50px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="rutebaru(' + urutan +
-                ')">';
-            item_pembelian += '<i class="fas fa-plus"></i>';
-            item_pembelian += '</button>';
-            // item_pembelian +=
-            //     '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removerute(' +
-            //     urutan + ')">';
-            // item_pembelian += '<i class="fas fa-trash"></i>';
-            // item_pembelian += '</button>';
-            item_pembelian += '</td>';
-            item_pembelian += '</tr>';
-
-            $('#tabel-rute').append(item_pembelian);
-        }
-    </script>
-
-    <script>
         var data_pembelian = @json(session('data_pembelians3'));
         var jumlah_ban = 1;
 
@@ -2239,7 +2072,7 @@
 
             item_pembelian += '<td style="width: 50px">';
             item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="potonganmemo(' + urutan +
-            ')">';
+                ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             // item_pembelian +=

@@ -294,6 +294,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapusfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'hapusfaktur'])->name('hapusfaktur');
     Route::get('print_faktur', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'print_faktur']);
     Route::get('cetak_faktur', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'cetak_faktur']);
+    Route::get('faktur_ekspedisi/cetak-pdf/{id}', [\App\Http\Controllers\Admin\FakturekspedisiController::class, 'cetakpdf']);
+    Route::get('print_fakturekspedisi', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'print_fakturekspedisi']);
+    Route::get('laporan_fakturekspedisi', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'index']);
 
     Route::resource('karyawan', \App\Http\Controllers\Admin\KaryawanController::class);
     Route::resource('user', \App\Http\Controllers\Admin\UserController::class);

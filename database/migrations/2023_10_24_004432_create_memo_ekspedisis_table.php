@@ -36,6 +36,10 @@ return new class extends Migration
             $table->string('kode_rute')->nullable();
             $table->string('nama_rute')->nullable();
             $table->string('uang_jalan')->nullable();
+            $table->string('jumlah')->nullable();
+            $table->string('harga_rute')->nullable();
+            $table->string('satuan')->nullable();
+            $table->string('totalrute')->nullable();
             $table->unsignedBigInteger('pelanggan_id')->nullable();
             $table->foreign('pelanggan_id')->references('id')->on('pelanggans')->onDelete('set null');
             $table->string('uang_jaminan')->nullable();

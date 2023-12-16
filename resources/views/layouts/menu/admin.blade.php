@@ -596,9 +596,9 @@
     </li>
 @endif
 <li
-    class="nav-item {{ request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'menu-open' : '' }}">
+    class="nav-item {{  request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'active' : '' }}">
         <i class="fas fa-clipboard-list nav-icon"></i>
         <p>
             <strong style="color: rgb(255, 255, 255);">LAPORAN</strong>
@@ -697,6 +697,17 @@
                     class="nav-link {{ request()->is('admin/laporan_memoekspedisi*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Laporan Memo Ekspedisi
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->karyawan->id === 1)
+            {{-- @if (auth()->check() && auth()->user()->menu['laporan penerimaan kas kecil']) --}}
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_fakturekspedisi') }}"
+                    class="nav-link {{ request()->is('admin/laporan_fakturekspedisi*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan Faktur Ekspedisi
                     </p>
                 </a>
             </li>

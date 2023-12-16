@@ -445,31 +445,31 @@
                     <hr style="border-top: 1px solid black; margin: 5px 0;">
                 </td>
             </tr>
-            @php
+            {{-- @php
                 $totalRuteSum = 0;
-            @endphp
-            @foreach ($detail_memo as $item)
+            @endphp --}}
+            {{-- @foreach ($detail_memo as $item) --}}
                 <tr>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
-                        {{ $loop->iteration }}
+                        1
                     </td>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
-                        {{ $item->nama_rutes }}
+                        {{ $cetakpdf->nama_rute }}
                     </td>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
-                        {{ number_format($item->harga_rute, 0, ',', '.') }}
+                        {{ number_format($cetakpdf->harga_rute, 0, ',', '.') }}
                     </td>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
-                        {{ $item->jumlah }}
+                        {{ $cetakpdf->jumlah }}
                     </td>
                     <td class="td" style="text-align: right; padding-right: 17px; font-size: 14px;">
-                        {{ number_format($item->totalrute, 0, ',', '.') }}
+                        {{ number_format($cetakpdf->totalrute, 0, ',', '.') }}
                     </td>
                 </tr>
-                @php
+                {{-- @php
                     $totalRuteSum += $item->totalrute;
-                @endphp
-            @endforeach
+                @endphp --}}
+            {{-- @endforeach --}}
             <tr>
                 <td colspan="5" style="padding: 0px;">
                     {{-- <hr style="border-top: 1px solid black; margin: 5px 0;"> --}}
@@ -483,7 +483,7 @@
                     <br>
                 </td>
                 <td style="text-align: right; padding-right: 17px;font-size: 14px;">
-                    {{ number_format($totalRuteSum, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->totalrute, 0, ',', '.') }}
                 </td>
             </tr>
         </table>
@@ -504,14 +504,14 @@
             <tr>
                 <td colspan="4" style="text-align: right; padding: 0px; font-size: 14px;"></td>
                 <td class="td" style="text-align: right; padding-right: 17px; font-size: 14px;">
-                    {{ number_format($totalRuteSum - $cetakpdf->pphs, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->totalrute - $cetakpdf->pphs, 0, ',', '.') }}
 
                 </td>
             </tr>
             <tr>
                 <td colspan="4" style="text-align: right; padding: 0px; font-size: 14px;">Borong 50 %</td>
                 <td class="td" style="text-align: right; padding: 0px; font-size: 14px;">
-                    {{ number_format(($totalRuteSum - $cetakpdf->pphs) / 2, 0, ',', '.') }} -
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 0, ',', '.') }} -
 
                 </td>
             </tr>
@@ -524,7 +524,7 @@
             <tr>
                 <td colspan="4" style="text-align: right; padding: 0px; font-size: 14px;"></td>
                 <td class="td" style="text-align: right; padding-right: 17px; font-size: 14px;">
-                    {{ number_format(($totalRuteSum - $cetakpdf->pphs) / 2, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 0, ',', '.') }}
 
                 </td>
             </tr>
@@ -556,7 +556,7 @@
                     Grand Total
                 </td>
                 <td class="td" style="text-align: right; padding-right: 17px; font-size: 14px;">
-                    {{ number_format(($totalRuteSum - $cetakpdf->pphs) / 2 - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
                 </td>
             </tr>
         </table>

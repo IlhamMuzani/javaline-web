@@ -90,9 +90,20 @@ class FakturekspedisiController extends Controller
                 $memo_ekspedisi_id = is_null($request->memo_ekspedisi_id[$i]) ? '' : $request->memo_ekspedisi_id[$i];
                 $kode_memo = is_null($request->kode_memo[$i]) ? '' : $request->kode_memo[$i];
                 $nama_driver = is_null($request->nama_driver[$i]) ? '' : $request->nama_driver[$i];
+                $telp_driver = is_null($request->telp_driver[$i]) ? '' : $request->telp_driver[$i];
                 $nama_rute = is_null($request->nama_rute[$i]) ? '' : $request->nama_rute[$i];
+                $kendaraan_id = is_null($request->kendaraan_id[$i]) ? '' : $request->kendaraan_id[$i];
+                $no_kabin = is_null($request->no_kabin[$i]) ? '' : $request->no_kabin[$i];
 
-                $data_pembelians->push(['memo_ekspedisi_id' => $memo_ekspedisi_id, 'kode_memo' => $kode_memo, 'nama_driver' => $nama_driver, 'nama_rute' => $nama_rute]);
+                $data_pembelians->push([
+                    'memo_ekspedisi_id' => $memo_ekspedisi_id,
+                    'kode_memo' => $kode_memo,
+                    'nama_driver' => $nama_driver,
+                    'telp_driver' => $telp_driver,
+                    'nama_rute' => $nama_rute,
+                    'kendaraan_id' => $kendaraan_id,
+                    'no_kabin' => $no_kabin
+                ]);
             }
         }
 
@@ -154,6 +165,7 @@ class FakturekspedisiController extends Controller
             'grand_total' => $request->sub_total,
             'sisa' => $request->sisa,
             'biaya_tambahan' => $request->biaya_tambahan,
+            'keterangan' => $request->keterangan,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
             'qrcode_faktur' => 'https://javaline.id/faktur_ekspedisi/' . $kode,
@@ -168,9 +180,13 @@ class FakturekspedisiController extends Controller
             foreach ($data_pembelians as $data_pesanan) {
                 Detail_faktur::create([
                     'faktur_ekspedisi_id' => $cetakpdf->id,
+                    'memo_ekspedisi_id' => $data_pesanan['memo_ekspedisi_id'],
                     'kode_memo' => $data_pesanan['kode_memo'],
                     'nama_driver' => $data_pesanan['nama_driver'],
                     'nama_rute' => $data_pesanan['nama_rute'],
+                    'telp_driver' => $data_pesanan['telp_driver'],
+                    'kendaraan_id' => $data_pesanan['kendaraan_id'],
+                    'no_kabin' => $data_pesanan['no_kabin'],
                 ]);
             }
         }
@@ -221,11 +237,11 @@ class FakturekspedisiController extends Controller
     public function cetakpdf($id)
     {
         $cetakpdf = Faktur_ekspedisi::where('id', $id)->first();
-        $detail_faktur = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
-        $detail_tarif = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
+        $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
+        $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
 
 
-        $pdf = PDF::loadView('admin.memo_ekspedisi.cetak_pdf', compact('cetakpdf', 'detail_memo'));
+        $pdf = PDF::loadView('admin.faktur_ekspedisi.cetak_pdf', compact('cetakpdf', 'details', 'detailtarifs'));
         $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
         return $pdf->stream('Faktur_ekspedisi.pdf');
