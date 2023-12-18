@@ -19,10 +19,13 @@ return new class extends Migration
             $table->foreign('faktur_ekspedisi_id')->references('id')->on('faktur_ekspedisis');
             $table->unsignedBigInteger('memo_ekspedisi_id')->nullable();
             $table->foreign('memo_ekspedisi_id')->references('id')->on('memo_ekspedisis');
+            $table->unsignedBigInteger('kendaraan_id')->nullable();
+            $table->foreign('kendaraan_id')->references('id')->on('kendaraans');
             $table->string('kode_memo')->nullable();
             $table->string('nama_biaya')->nullable();
             $table->string('kode_driver')->nullable();
             $table->string('nama_driver')->nullable();
+            $table->string('telp_driver')->nullable();
             $table->string('no_kabin')->nullable();
             $table->string('nama_rute')->nullable();
             $table->string('kategori_memo')->nullable();

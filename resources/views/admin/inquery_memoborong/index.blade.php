@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Memo Perjalanan')
+@section('title', 'Inquery Memo Borong')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Memo Perjalanan</h1>
+                    <h1 class="m-0">Inquery Memo Borong</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Memo Perjalanan</li>
+                        <li class="breadcrumb-item active">Inquery Memo Borong</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,7 +34,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Memo Perjalanan</h3>
+                    <h3 class="card-title">Data Inquery Memo Borong</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -77,63 +77,64 @@
                                 <th>Sopir</th>
                                 <th>No Kabin</th>
                                 <th>Rute</th>
-                                <th>U. Jalan</th>
-                                <th>U. Tambah</th>
-                                <th>Deposit</th>
-                                <th>Adm</th>
-                                <th>Total</th>
+                                <th style="text-align: center">Harga</th>
+                                <th style="text-align: center">qty</th>
+                                <th style="text-align: center">Total</th>
+                                <th style="text-align: center">PPH</th>
+                                <th style="text-align: center">Adm</th>
+                                <th style="text-align: center">Deposit Sopir</th>
+                                <th style="text-align: center">Grand Total</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $memoekspedisi)
+                            @foreach ($inquery as $memoborong)
                                 <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $memoekspedisi->id }}" style="cursor: pointer;">
+                                    data-target="#modal-posting-{{ $memoborong->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $memoekspedisi->kode_memo }}</td>
-                                    <td>{{ $memoekspedisi->tanggal_awal }}</td>
+                                    <td>{{ $memoborong->kode_memo }}</td>
+                                    <td>{{ $memoborong->tanggal_awal }}</td>
                                     <td>
-                                        {{ explode(' ', $memoekspedisi->nama_driver)[0] }}
+
+                                        {{ explode(' ', $memoborong->nama_driver)[0] }}
                                     </td>
                                     <td>
-                                        {{ $memoekspedisi->no_kabin }}
+                                        {{ $memoborong->no_kabin }}
                                     </td>
                                     <td>
-                                        @if ($memoekspedisi->nama_rute == null)
-                                            {{ $memoekspedisi->detail_memo->first()->nama_rutes }}
+                                        @if ($memoborong->nama_rute == null)
+                                            {{ $memoborong->detail_memo->first()->nama_rutes }}
                                         @else
-                                            {{ $memoekspedisi->nama_rute }}
+                                            {{ $memoborong->nama_rute }}
                                         @endif
                                     </td>
-                                    <td>
-                                        {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->harga_rute, 0, ',', '.') }}
                                     </td>
-                                    <td>
-                                        @if ($memoekspedisi->biaya_tambahan == null)
+                                    <td style="text-align: end">
+                                        {{ $memoborong->jumlah }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        @if ($memoborong->totalrute == null)
                                             0
                                         @else
-                                            {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
+                                            {{ number_format($memoborong->totalrute, 0, ',', '.') }}
                                         @endif
                                     </td>
-                                    <td>
-                                        @if ($memoekspedisi->deposit_driver == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
-                                        @endif
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->pphs, 0, ',', '.') }}
                                     </td>
-                                    <td>
-                                        @if ($memoekspedisi->uang_jaminan == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->uang_jaminan, 0, ',', '.') }}
-                                        @endif
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->uang_jaminans, 0, ',', '.') }}
                                     </td>
-                                    <td>
-                                        {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->sub_total, 0, ',', '.') }}
                                     </td>
                                     <td class="text-center">
-                                        @if ($memoekspedisi->status == 'posting')
+                                        @if ($memoborong->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
@@ -144,7 +145,7 @@
 
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-posting-{{ $memoekspedisi->id }}">
+                                <div class="modal fade" id="modal-posting-{{ $memoborong->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -155,40 +156,40 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Memo ekspedisi
-                                                    <strong>{{ $memoekspedisi->kode_memo }}</strong>
+                                                <p>Memo Borong
+                                                    <strong>{{ $memoborong->kode_memo }}</strong>
                                                 </p>
-                                                @if ($memoekspedisi->status == 'unpost')
+                                                @if ($memoborong->status == 'unpost')
                                                     <form method="GET"
-                                                        action="{{ route('hapusmemo', ['id' => $memoekspedisi->id]) }}">
+                                                        action="{{ route('hapusmemoborong', ['id' => $memoborong->id]) }}">
                                                         <button type="submit"
                                                             class="btn btn-outline-danger btn-block mt-2">
                                                             <i class="fas fa-trash-alt"></i> Delete
                                                         </button>
                                                     </form>
-                                                    <a href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}"
+                                                    <a href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}"
                                                         type="button" class="btn btn-outline-info btn-block">
                                                         <i class="fas fa-eye"></i> Show
                                                     </a>
-                                                    <a href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id . '/edit') }}"
+                                                    <a href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}"
                                                         type="button" class="btn btn-outline-warning btn-block">
                                                         <i class="fas fa-edit"></i> Update
                                                     </a>
                                                     <form method="GET"
-                                                        action="{{ route('postingmemo', ['id' => $memoekspedisi->id]) }}">
+                                                        action="{{ route('postingmemoborong', ['id' => $memoborong->id]) }}">
                                                         <button type="submit"
                                                             class="btn btn-outline-success btn-block mt-2">
                                                             <i class="fas fa-check"></i> Posting
                                                         </button>
                                                     </form>
                                                 @endif
-                                                @if ($memoekspedisi->status == 'posting')
-                                                    <a href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}"
+                                                @if ($memoborong->status == 'posting')
+                                                    <a href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}"
                                                         type="button" class="btn btn-outline-info btn-block">
                                                         <i class="fas fa-eye"></i> Show
                                                     </a>
                                                     <form method="GET"
-                                                        action="{{ route('unpostmemo', ['id' => $memoekspedisi->id]) }}">
+                                                        action="{{ route('unpostmemoborong', ['id' => $memoborong->id]) }}">
                                                         <button type="submit"
                                                             class="btn btn-outline-primary btn-block mt-2">
                                                             <i class="fas fa-check"></i> Unpost
@@ -232,16 +233,9 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_memoekspedisi') }}";
+            form.action = "{{ url('admin/inquery_memoborong') }}";
             form.submit();
         }
     </script>
-
-    {{-- untuk klik 2 kali ke edit  --}}
-    {{-- <script>
-        document.getElementById('editMemoekspedisi').addEventListener('dblclick', function() {
-            window.location.href = "{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id . '/edit') }}";
-        });
-    </script> --}}
 
 @endsection

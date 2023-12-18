@@ -596,9 +596,9 @@
     </li>
 @endif
 <li
-    class="nav-item {{  request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/laporan_tambahan*') || request()->is('admin/laporan_memoborong*') ||  request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/laporan_tambahan*') || request()->is('admin/laporan_memoborong*') || request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'active' : '' }}">
         <i class="fas fa-clipboard-list nav-icon"></i>
         <p>
             <strong style="color: rgb(255, 255, 255);">LAPORAN</strong>
@@ -696,7 +696,23 @@
                 <a href="{{ url('admin/laporan_memoekspedisi') }}"
                     class="nav-link {{ request()->is('admin/laporan_memoekspedisi*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Laporan Memo Ekspedisi
+                    <p style="font-size: 14px;">Laporan Memo Perjalanan
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_memoborong') }}"
+                    class="nav-link {{ request()->is('admin/laporan_memoborong*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan Memo Borong
+                    </p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_memotambahan') }}"
+                    class="nav-link {{ request()->is('admin/laporan_memotambahan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan Memo Tambahan
                     </p>
                 </a>
             </li>

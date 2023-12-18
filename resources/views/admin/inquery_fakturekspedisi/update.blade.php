@@ -477,7 +477,7 @@
                                                     <input style="text-align: end; font-size:14px;" type="text"
                                                         class="form-control" readonly id="biaya_tambahan"
                                                         name="biaya_tambahan" placeholder=""
-                                                        value="{{ old('biaya_tambahan', $inquery->biaya_tambahan) }}">
+                                                        value="{{ number_format($inquery->uang_jalan, 0, ',', '.') }}">
                                                 </div>
                                             </div>
                                         </div>

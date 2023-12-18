@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('kode_rute')->nullable();
             $table->string('nama_rute')->nullable();
             $table->string('uang_jalan')->nullable();
+            $table->string('uang_jalans')->nullable();
             $table->string('jumlah')->nullable();
             $table->string('harga_rute')->nullable();
             $table->string('satuan')->nullable();

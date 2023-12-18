@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Memo Ekspedisi')
+@section('title', 'Laporan Memo Tambahan')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Laporan Memo Ekspedisi</h1>
+                    <h1 class="m-0">Laporan Memo Tambahan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Memo Ekspedisi</li>
+                        <li class="breadcrumb-item active">Laporan Memo Tambahan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,7 +34,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Memo Ekspedisi</h3>
+                    <h3 class="card-title">Data Laporan Memo Tambahan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -70,65 +70,31 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>No Memo</th>
+                                <th>No Memo Tambahan</th>
                                 <th>Tanggal</th>
                                 <th>Sopir</th>
                                 <th>No Kabin</th>
                                 <th>Rute</th>
-                                <th>U. Jalan</th>
-                                <th>U. Tambah</th>
-                                <th>Deposit</th>
-                                <th>Adm</th>
-                                <th>Total</th>
+                                <th style="text-align: center">Uang Tambah</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $memoekspedisi)
+                            @foreach ($inquery as $memotambahan)
                                 <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $memoekspedisi->id }}" style="cursor: pointer;">
+                                    data-target="#modal-posting-{{ $memotambahan->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $memoekspedisi->kode_memo }}</td>
-                                    <td>{{ $memoekspedisi->tanggal_awal }}</td>
+                                    <td>{{ $memotambahan->memotambahan->memo->kode_memo }}</td>
+                                    <td>{{ $memotambahan->kode_memo }}</td>
+                                    <td>{{ $memotambahan->tanggal_awal }}</td>
                                     <td>
-                                        {{ explode(' ', $memoekspedisi->nama_driver)[0] }}
+                                        {{ explode(' ', $memotambahan->memotambahan->memo->nama_driver)[0] }}
                                     </td>
                                     <td>
-                                        {{ $memoekspedisi->no_kabin }}
+                                        {{ $memotambahan->memotambahan->memo->no_kabin }}
                                     </td>
-                                    <td>
-                                        @if ($memoekspedisi->nama_rute == null)
-                                            {{ $memoekspedisi->detail_memo->first()->nama_rutes }}
-                                        @else
-                                            {{ $memoekspedisi->nama_rute }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->biaya_tambahan == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->deposit_driver == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->uang_jaminan == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->uang_jaminan, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    
+                                    <td>{{ $memotambahan->memotambahan->memo->nama_rute }}</td>
+                                    <td style="text-align: end">
+                                        {{ number_format($memotambahan->memotambahan->grand_total, 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -159,7 +125,7 @@
         var form = document.getElementById('form-action')
 
         function cari() {
-            form.action = "{{ url('admin/laporan_memoekspedisi') }}";
+            form.action = "{{ url('admin/laporan_memotambahan') }}";
             form.submit();
         }
 
@@ -168,7 +134,7 @@
             var endDate = tanggalAkhir.value;
 
             if (startDate && endDate) {
-                form.action = "{{ url('admin/print_memoekspedisi') }}" + "?start_date=" + startDate + "&end_date=" +
+                form.action = "{{ url('admin/print_memotambahan') }}" + "?start_date=" + startDate + "&end_date=" +
                     endDate;
                 form.submit();
             } else {

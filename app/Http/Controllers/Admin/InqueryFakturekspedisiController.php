@@ -274,10 +274,10 @@ class InqueryFakturekspedisiController extends Controller
 
 
 
-        $detail_faktur = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
-        $detail_tarif = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
+        $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
+        $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
 
-        return view('admin.inquery_fakturekspedisi.show', compact('cetakpdf', 'detail_faktur', 'detail_tarif'));
+        return view('admin.inquery_fakturekspedisi.show', compact('cetakpdf', 'details', 'detailtarifs'));
     }
 
     public function show($id)

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Memo PERJALANAN</title>
+    <title>Laporan Memo Borong</title>
     <style>
         html,
         body {
@@ -82,7 +82,7 @@
         <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">LAPORAN MEMO PERJALANAN - RANGKUMAN</span>
+        <span style="font-weight: bold; font-size: 22px;">LAPORAN MEMO BORONG - RANGKUMAN</span>
         <br>
         <div class="text">
             @php
@@ -111,17 +111,20 @@
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8; width: 10%;">Sopir
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Kabin</td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">No Kabin</td>
             {{-- <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Type Memo</td> --}}
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Rute</td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">UJ
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Harga
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">UT
-            </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Deposit</td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Adm
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Qty
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Total</td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">PPH
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Adm</td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Deposit Sopir
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Grand Total</td>
         </tr>
         <!-- Separator row -->
         <tr style="border-bottom: 1px solid black;">
@@ -141,46 +144,59 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 8;">{{ $memo->no_kabin }}</td>
                 {{-- <td class="td" style="text-align: left; padding: 5px; font-size: 8;">{{ $memo->kategori }}</td> --}}
                 <td class="td" style="text-align: left; padding: 5px; font-size: 8;">
-                    @if ($memo->nama_rute == null)
-                        {{ $memo->detail_memo->first()->nama_rutes }}
+                    @if ($memo->kategori == 'Memo Tambahan')
                     @else
-                        {{ $memo->nama_rute }}
+                        @if ($memo->nama_rute == null)
+                            {{ $memo->detail_memo->first()->nama_rutes }}
+                        @else
+                            {{ $memo->nama_rute }}
+                        @endif
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    @if ($memo->uang_jalan == null)
+                    @if ($memo->harga_rute == null)
                         0
                     @else
-                        {{ number_format($memo->uang_jalan, 0, ',', '.') }}
+                        {{ number_format($memo->harga_rute, 0, ',', '.') }}
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    @if ($memo->biaya_tambahan == null)
+                    @if ($memo->jumlah == null)
                         0
                     @else
-                        {{ number_format($memo->biaya_tambahan, 0, ',', '.') }}
+                        {{ number_format($memo->jumlah, 0, ',', '.') }}
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    @if ($memo->deposit_driver == null)
+                    @if ($memo->totalrute == null)
                         0
                     @else
-                        {{ number_format($memo->deposit_driver, 0, ',', '.') }}
+                        {{ number_format($memo->totalrute, 0, ',', '.') }}
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    @if ($memo->uang_jaminan == null)
+                    @if ($memo->pphs == null)
                         0
                     @else
-                        {{ number_format($memo->uang_jaminan, 0, ',', '.') }}
+                        {{ number_format($memo->pphs, 0, ',', '.') }}
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    @if ($memo->sub_total == null)
+                    @if ($memo->uang_jaminans == null)
                         0
                     @else
-                        {{ number_format($memo->sub_total, 0, ',', '.') }}
+                        {{ number_format($memo->uang_jaminans, 0, ',', '.') }}
                     @endif
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
+                    @if ($memo->deposit_drivers == null)
+                        0
+                    @else
+                        {{ number_format($memo->deposit_drivers, 0, ',', '.') }}
+                    @endif
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
+                    {{ number_format(($memo->sub_total) / 2, 0, ',', '.') }}
                 </td>
             </tr>
         @endforeach
@@ -194,11 +210,11 @@
         @endphp
         @foreach ($inquery as $item)
             @php
-                $total += $item->sub_total;
+                $total += $item->total_borongs;
             @endphp
         @endforeach
         <tr>
-            <td colspan="10" style="text-align: right; font-weight: bold; padding: 5px; font-size: 8;">Sub Total
+            <td colspan="12" style="text-align: right; font-weight: bold; padding: 5px; font-size: 8;">Sub Total
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 8;">
                 {{ number_format($total, 0, ',', '.') }}

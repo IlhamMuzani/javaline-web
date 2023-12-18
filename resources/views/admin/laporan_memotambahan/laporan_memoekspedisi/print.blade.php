@@ -111,12 +111,12 @@
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8; width: 10%;">Sopir
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Kabin</td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">No Kabin</td>
             {{-- <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Type Memo</td> --}}
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Rute</td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">UJ
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">U. Jalan
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">UT
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">U. Tambah
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Deposit</td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Adm
@@ -141,10 +141,13 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 8;">{{ $memo->no_kabin }}</td>
                 {{-- <td class="td" style="text-align: left; padding: 5px; font-size: 8;">{{ $memo->kategori }}</td> --}}
                 <td class="td" style="text-align: left; padding: 5px; font-size: 8;">
-                    @if ($memo->nama_rute == null)
-                        {{ $memo->detail_memo->first()->nama_rutes }}
+                    @if ($memo->kategori == 'Memo Tambahan')
                     @else
-                        {{ $memo->nama_rute }}
+                        @if ($memo->nama_rute == null)
+                            {{ $memo->detail_memo->first()->nama_rutes }}
+                        @else
+                            {{ $memo->nama_rute }}
+                        @endif
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
@@ -176,11 +179,21 @@
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    @if ($memo->sub_total == null)
-                        0
+                    @if ($memo->kategori == 'Memo Tambahan')
+                        {{ number_format($memo->memotambahan->grand_total, 0, ',', '.') }}
                     @else
-                        {{ number_format($memo->sub_total, 0, ',', '.') }}
+                        @if ($memo->kategori == 'Memo Borong')
+                            {{ number_format(($memo->total_borongs - $memo->pphs - $memo->uang_jaminans - $memo->deposit_drivers) / 2, 0, ',', '.') }}
+                        @else
+                            @if ($memo->biaya_tambahan == 0)
+                                {{ number_format($memo->uang_jalan - $memo->potongan_memo - $memo->deposit_driver - $memo->uang_jaminan, 0, ',', '.') }}
+                            @endif
+                            @if ($memo->potongan_memo == 0)
+                                {{ number_format($memo->uang_jalan + $memo->biaya_tambahan - $memo->deposit_driver - $memo->uang_jaminan, 0, ',', '.') }}
+                            @endif
+                        @endif
                     @endif
+
                 </td>
             </tr>
         @endforeach
@@ -194,7 +207,7 @@
         @endphp
         @foreach ($inquery as $item)
             @php
-                $total += $item->sub_total;
+                $total += $item->total_borongs;
             @endphp
         @endforeach
         <tr>

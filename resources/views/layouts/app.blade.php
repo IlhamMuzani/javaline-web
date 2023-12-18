@@ -48,7 +48,7 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini @if (request()->is('admin/faktur_ekspedisi*') || request()->is('admin/inquery_fakturekspedisi*')) sidebar-open sidebar-collapse @endif">
+<body class="hold-transition sidebar-mini @if (request()->is('admin/faktur_ekspedisi*') || request()->is('admin/inquery_fakturekspedisi*') || request()->is('admin/inquery_memoekspedisi*') || request()->is('admin/inquery_memoborong*') || request()->is('admin/inquery_memotambahan*')|| request()->is('admin/laporan_memoekspedisi*')|| request()->is('admin/laporan_memoborong*')|| request()->is('admin/laporan_memotambahan*')) sidebar-open sidebar-collapse @endif">
     <div class="wrapper">
         <div class="preloader flex-column justify-content-center align-items-center">
             <img class="" src="{{ asset('storage/uploads/user/logo1.png') }}" alt="javaline" height="50"

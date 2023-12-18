@@ -78,62 +78,30 @@ class InqueryMemoekspedisiController extends Controller
         // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
 
         $inquery = Memo_ekspedisi::where('id', $id)->first();
-        if ($inquery->kategori == "Memo Tambahan") {
-            $details = Detail_memo::where('memo_ekspedisi_id', $id)->get();
-            $kendaraans = Kendaraan::all();
-            $drivers = User::whereHas('karyawan', function ($query) {
-                $query->where('departemen_id', '2');
-            })->get();
-            $ruteperjalanans = Rute_perjalanan::all();
-            $biayatambahan = Biaya_tambahan::all();
-            $pelanggans = Pelanggan::all();
-            $saldoTerakhir = Saldo::latest()->first();
-            $potonganmemos = Potongan_memo::all();
-            $memos = Memo_ekspedisi::all();
-            $memotambahans = Memotambahan::where('id', $inquery->memotambahan_id)->first();
-            $detailstambahan = Detail_memotambahan::where('memotambahan_id', $memotambahans->id)->get();
 
-            return view('admin.inquery_memoekspedisi.update', compact(
-                'details',
-                'detailstambahan',
-                'inquery',
-                'pelanggans',
-                'kendaraans',
-                'drivers',
-                'ruteperjalanans',
-                'biayatambahan',
-                'potonganmemos',
-                'memos',
-                'saldoTerakhir'
-            ));
-        } else {
-            $details = Detail_memo::where('memo_ekspedisi_id', $id)->get();
-            $kendaraans = Kendaraan::all();
-            $drivers = User::whereHas('karyawan', function ($query) {
-                $query->where('departemen_id', '2');
-            })->get();
-            $ruteperjalanans = Rute_perjalanan::all();
-            $biayatambahan = Biaya_tambahan::all();
-            $pelanggans = Pelanggan::all();
-            $saldoTerakhir = Saldo::latest()->first();
-            $potonganmemos = Potongan_memo::all();
-            $memos = Memo_ekspedisi::all();
-            return view('admin.inquery_memoekspedisi.update', compact(
-                'details',
-                'inquery',
-                'pelanggans',
-                'kendaraans',
-                'drivers',
-                'ruteperjalanans',
-                'biayatambahan',
-                'potonganmemos',
-                'memos',
-                'saldoTerakhir'
-            ));
-        }
-
-
-
+        $details = Detail_memo::where('memo_ekspedisi_id', $id)->get();
+        $kendaraans = Kendaraan::all();
+        $drivers = User::whereHas('karyawan', function ($query) {
+            $query->where('departemen_id', '2');
+        })->get();
+        $ruteperjalanans = Rute_perjalanan::all();
+        $biayatambahan = Biaya_tambahan::all();
+        $pelanggans = Pelanggan::all();
+        $saldoTerakhir = Saldo::latest()->first();
+        $potonganmemos = Potongan_memo::all();
+        $memos = Memo_ekspedisi::all();
+        return view('admin.inquery_memoekspedisi.update', compact(
+            'details',
+            'inquery',
+            'pelanggans',
+            'kendaraans',
+            'drivers',
+            'ruteperjalanans',
+            'biayatambahan',
+            'potonganmemos',
+            'memos',
+            'saldoTerakhir'
+        ));
 
         // } else {
         //     // tidak memiliki akses
@@ -205,6 +173,7 @@ class InqueryMemoekspedisiController extends Controller
                 $nominal = $request->nominal[$i] ?? '';
 
                 $data_pembelians->push([
+                    'detail_id' => $request->detail_ids[$i] ?? null,
                     'biaya_id' => $biaya_id,
                     'kode_biaya' => $kode_biaya,
                     'nama_biaya' => $nama_biaya,
@@ -237,6 +206,7 @@ class InqueryMemoekspedisiController extends Controller
                 $nominal_potongan = $request->nominal_potongan[$i] ?? '';
 
                 $data_pembelians3->push([
+                    'detail_idx' => $request->detail_idsx[$i] ?? null,
                     'potongan_id' => $potongan_id,
                     'kode_potongan' => $kode_potongan,
                     'keterangan_potongan' => $keterangan_potongan,
@@ -254,14 +224,16 @@ class InqueryMemoekspedisiController extends Controller
                 ->with('data_pembelians3', $data_pembelians3);
         }
 
-        $kode = $this->kode();
+        // $depositDriver = $request->deposit_driver;
+        // if($depositDriver <= '50000')
+
         // tgl indo
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
 
         $tanggal = Carbon::now()->format('Y-m-d');
-        $cetakpdf = Memo_ekspedisi::create(array_merge(
-            $request->all(),
+        $cetakpdf = Memo_ekspedisi::findOrFail($id);
+        $cetakpdf->update(
             [
                 'kategori' => $request->kategori,
                 'kendaraan_id' => $request->kendaraan_id,
@@ -272,38 +244,86 @@ class InqueryMemoekspedisiController extends Controller
                 'kode_driver' => $request->kode_driver,
                 'nam_driver' => $request->nama_driver,
                 'telp' => $request->telp,
-                'saldo_deposit' => $request->saldo_deposit,
                 'rute_perjalanan_id' => $request->rute_perjalanan_id,
                 'kode_rute' => $request->kode_rute,
                 'nama_rute' => $request->nama_rute,
-                'uang_jalan' => $request->uang_jalan,
-                'uang_jaminan' => $request->uang_jaminan,
-                'biaya_tambahan' => $request->biaya_tambahan,
-                'deposit_driver' => $request->deposit_driver,
+                'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
+                'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
+                'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
+                'potongan_memo' => str_replace('.', '', $request->potongan_memo),
+                'deposit_driver' => str_replace('.', '', $request->deposit_driver),
+                'deposit_drivers' => str_replace('.', '', $request->deposit_driver),
+                'sub_total' => str_replace('.', '', $request->sub_total),
+                // 'sisa_saldo' => $request->sisa_saldo,
                 'keterangan' => $request->keterangan,
-                'sisa_saldo' => $request->sisa_saldo,
-                'sub_total' => $request->sub_total,
-                // 'harga' => $request->harga,
-                'kode_memo' => $this->kode(),
-                'qrcode_memo' => 'https:///tigerload.id/memo_ekspedisi/' . $kode,
-                'tanggal' => $format_tanggal,
-                'tanggal_awal' => $tanggal,
-                // 'status' => 'posting',
             ]
-        ));
+        );
 
         $transaksi_id = $cetakpdf->id;
+        $detailIds = $request->input('detail_ids');
+        $detailIdss = $request->input('detail_idsx');
 
-        if ($cetakpdf) {
+        foreach ($data_pembelians as $data_pesanan) {
+            $detailId = $data_pesanan['detail_id'];
 
-            foreach ($data_pembelians as $data_pesanan) {
-                Detail_memo::create([
+            if ($detailId) {
+                Detail_memo::where('id', $detailId)->update([
                     'memo_ekspedisi_id' => $cetakpdf->id,
                     'biaya_id' => $data_pesanan['biaya_id'],
                     'kode_biaya' => $data_pesanan['kode_biaya'],
                     'nama_biaya' => $data_pesanan['nama_biaya'],
-                    'nominal' => $data_pesanan['nominal'],
+                    'nominal' => str_replace('.', '', $data_pesanan['nominal']),
                 ]);
+            } else {
+                $existingDetail = Detail_memo::where([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'biaya_id' => $data_pesanan['biaya_id'],
+
+                ])->first();
+
+
+                if (!$existingDetail) {
+                    Detail_memo::create([
+                        'memo_ekspedisi_id' => $cetakpdf->id,
+                        'biaya_id' => $data_pesanan['biaya_id'],
+                        'kode_biaya' => $data_pesanan['kode_biaya'],
+                        'nama_biaya' => $data_pesanan['nama_biaya'],
+                        'nominal' => str_replace('.', '', $data_pesanan['nominal']),
+
+                    ]);
+                }
+            }
+        }
+
+        foreach ($data_pembelians3 as $data_pesanan) {
+            $detailId = $data_pesanan['detail_idx'];
+
+            if ($detailId) {
+                Detail_memo::where('id', $detailId)->update([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'potongan_id' => $data_pesanan['potongan_id'],
+                    'kode_potongan' => $data_pesanan['kode_potongan'],
+                    'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                    'nominal_potongan' => str_replace('.', '', $data_pesanan['nominal_potongan']),
+                ]);
+            } else {
+                $existingDetail = Detail_memo::where([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'potongan_id' => $data_pesanan['potongan_id'],
+
+                ])->first();
+
+
+                if (!$existingDetail) {
+                    Detail_memo::create([
+                        'memo_ekspedisi_id' => $cetakpdf->id,
+                        'potongan_id' => $data_pesanan['potongan_id'],
+                        'kode_potongan' => $data_pesanan['kode_potongan'],
+                        'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                        'nominal_potongan' => str_replace('.', '', $data_pesanan['nominal_potongan']),
+                    ]);
+                }
             }
         }
 
@@ -314,18 +334,10 @@ class InqueryMemoekspedisiController extends Controller
 
     public function show($id)
     {
-        $inquery = Memo_ekspedisi::where('id', $id)->first();
-        if ($inquery->kategori == "Memo Tambahan") {
-            $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
-            $memotambahans = Memotambahan::where('id', $cetakpdf->memotambahan_id)->first();
-            $detail_memo = Detail_memotambahan::where('memotambahan_id', $memotambahans->id)->get();
-            return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
-        } else {
-            $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
-            // $memotambahans = Memotambahan::where('memo_id', $id)->first();
-            $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
-            return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
-        }
+        $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
+        // $memotambahans = Memotambahan::where('memo_id', $id)->first();
+        $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
     }
 
     public function unpostmemo($id)

@@ -36,6 +36,7 @@ class Memo_ekspedisi extends Model
         'satuan',
         'totalrute',
         'uang_jalan',
+        'uang_jalans',
         'pelanggan_id',
         'kode_pelanggan',
         'nama_pelanggan',

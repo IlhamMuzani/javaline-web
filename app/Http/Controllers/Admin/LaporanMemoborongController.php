@@ -8,7 +8,7 @@ use App\Models\Penggantian_oli;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class LaporanMemoekspedisiController extends Controller
+class LaporanMemoborongController extends Controller
 {
     public function index(Request $request)
     {
@@ -19,7 +19,7 @@ class LaporanMemoekspedisiController extends Controller
         $inquery = Memo_ekspedisi::orderBy('id', 'DESC');
 
         // Menambahkan filter berdasarkan kategori "Memo Perjalanan"
-        $inquery->where('kategori', 'Memo Perjalanan');
+        $inquery->where('kategori', 'Memo Borong');
 
         if ($status == "posting") {
             $inquery->where('status', $status);
@@ -36,12 +36,12 @@ class LaporanMemoekspedisiController extends Controller
         $hasSearch = $status || ($tanggal_awal && $tanggal_akhir);
         $inquery = $hasSearch ? $inquery->get() : collect();
 
-        return view('admin.laporan_memoekspedisi.index', compact('inquery'));
+        return view('admin.laporan_memoborong.index', compact('inquery'));
     }
 
 
 
-    public function print_memoekspedisi(Request $request)
+    public function print_memoborong(Request $request)
     {
         // if (auth()->check() && auth()->user()->menu['laporan penggantian oli']) {
 
@@ -50,7 +50,7 @@ class LaporanMemoekspedisiController extends Controller
         $tanggal_akhir = $request->tanggal_akhir;
 
         $query = Memo_ekspedisi::orderBy('id', 'DESC');
-        $query->where('kategori', 'Memo Perjalanan');
+        $query->where('kategori', 'Memo Borong');
 
         if ($status == "posting") {
             $query->where('status', $status);
@@ -64,8 +64,8 @@ class LaporanMemoekspedisiController extends Controller
         }
         $inquery = $query->orderBy('id', 'DESC')->get();
 
-        $pdf = PDF::loadView('admin.laporan_memoekspedisi.print', compact('inquery'));
-        return $pdf->stream('Laporan_Memo_Ekspedisi.pdf');
+        $pdf = PDF::loadView('admin.laporan_memoborong.print', compact('inquery'));
+        return $pdf->stream('Laporan_Memo_Borong.pdf');
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));

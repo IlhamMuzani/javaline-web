@@ -31,10 +31,6 @@ class UpdateKMController extends Controller
 
         $kendaraan = Kendaraan::where('id', $nomorKabin)->first();
 
-        // if (!$kendaraan) {
-        //     return response()->json(['Pesan' => 'Pilih no kabin'], 404);
-        // }
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -85,10 +81,26 @@ class UpdateKMController extends Controller
             'umur_ban' => DB::raw('CAST(' . $kendaraan->km . ' AS SIGNED) - CAST(km_pemasangan AS SIGNED)')
         ]);
 
+        $kms = $request->km;
+
+        // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
+        if ($kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olimesin = $status_olimesins;
+        }
+
+        if ($kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_oligardan = $status_olimesins;
+        }
+
+        if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olitransmisi = $status_olimesins;
+        }
+
+        // Simpan perubahan
         $kendaraan->save();
-
-
-
 
         return back()->with('success', 'Kilo meter berhasil terupdate');
     }

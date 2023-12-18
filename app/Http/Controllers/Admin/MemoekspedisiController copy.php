@@ -219,6 +219,7 @@ class MemoekspedisiController extends Controller
                             'nama_rute' => $request->nama_rute,
                             'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
                             'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                            'uang_jalans' => str_replace('.', '', $request->uang_jalans),
                             'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
                             'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
                             'potongan_memo' => str_replace('.', '', $request->potongan_memo),
@@ -335,6 +336,7 @@ class MemoekspedisiController extends Controller
                                         'nama_rute' => $request->nama_rute,
                                         'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
                                         'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                                        'uang_jalans' => str_replace('.', '', $request->uang_jalans),
                                         'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
                                         'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
                                         'deposit_driver' => str_replace('.', '', $request->deposit_driver),
@@ -405,6 +407,7 @@ class MemoekspedisiController extends Controller
                             'nama_rute' => $request->nama_rute,
                             'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
                             'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                            'uang_jalans' => str_replace('.', '', $request->uang_jalans),
                             'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
                             'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
                             'deposit_driver' => str_replace('.', '', $request->deposit_driver),
@@ -509,6 +512,7 @@ class MemoekspedisiController extends Controller
                                         'nama_rute' => $request->nama_rute,
                                         'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
                                         'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                                        'uang_jalans' => str_replace('.', '', $request->uang_jalans),
                                         'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
                                         'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
                                         'deposit_driver' => str_replace('.', '', $request->deposit_driver),
@@ -581,6 +585,7 @@ class MemoekspedisiController extends Controller
                             'nama_rute' => $request->nama_rute,
                             'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
                             'uang_jalan' => str_replace('.', '', $request->uang_jalan),
+                            'uang_jalans' => str_replace('.', '', $request->uang_jalans),
                             'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
                             'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
                             'deposit_driver' => str_replace('.', '', $request->deposit_driver),
@@ -620,69 +625,31 @@ class MemoekspedisiController extends Controller
 
             case 'Memo Borong':
 
-                $validasi_pelanggan = Validator::make(
+                $validator = Validator::make(
                     $request->all(),
                     [
                         'kategori' => 'required',
                         'kendaraan_id' => 'required',
                         'user_id' => 'required',
                         'pelanggan_id' => 'required',
-                        'sub_total' => 'required'
+                        'sub_total' => 'required',
+                        'jumlah' => 'required',
+                        'satuan' => 'required',
                     ],
                     [
                         'kategori.required' => 'Pilih kategori',
                         'kendaraan_id.required' => 'Pilih no kabin',
                         'user_id.required' => 'Pilih driver',
-                        'pelanggan_id.required' => 'Pilih rute pelanggan',
+                        'pelanggan_id.required' => 'Pilih rute perjalanan',
                         'sub_total.required' => 'Masukkan total harga',
+                        'jumlah.required' => 'Masukkan quantity',
+                        'satuan.required' => 'Pilih satuan',
                     ]
                 );
 
-                $error_pelanggans = array();
-
-                if ($validasi_pelanggan->fails()) {
-                    array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-                }
-
-                $error_pesanans = array();
-                $data_pembelians = collect();
-
-                if ($request->has('rute_id')) {
-                    for ($i = 0; $i < count($request->rute_id); $i++) {
-                        $validasi_produk = Validator::make($request->all(), [
-                            'rute_id.' . $i => 'required',
-                            'kode_rutes.' . $i => 'required',
-                            'nama_rutes.' . $i => 'required',
-                            'harga_rute.' . $i => 'required',
-                            'jumlah.' . $i => 'required',
-                            'satuan.' . $i => 'required',
-                            'totalrute.' . $i => 'required',
-                        ]);
-
-                        if ($validasi_produk->fails()) {
-                            array_push($error_pesanans, "Rute borong nomor " . $i + 1 . " belum dilengkapi!");
-                        }
-
-
-                        $rute_id = is_null($request->rute_id[$i]) ? '' : $request->rute_id[$i];
-                        $kode_rutes = is_null($request->kode_rutes[$i]) ? '' : $request->kode_rutes[$i];
-                        $nama_rutes = is_null($request->nama_rutes[$i]) ? '' : $request->nama_rutes[$i];
-                        $harga_rute = is_null($request->harga_rute[$i]) ? '' : $request->harga_rute[$i];
-                        $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
-                        $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
-                        $totalrute = is_null($request->totalrute[$i]) ? '' : $request->totalrute[$i];
-
-                        $data_pembelians->push(['rute_id' => $rute_id, 'kode_rutes' => $kode_rutes, 'nama_rutes' => $nama_rutes, 'harga_rute' => $harga_rute, 'jumlah' => $jumlah, 'satuan' => $satuan, 'totalrute' => $totalrute]);
-                    }
-                } else {
-                }
-
-                if ($error_pelanggans || $error_pesanans) {
-                    return back()
-                        ->withInput()
-                        ->with('error_pelanggans', $error_pelanggans)
-                        ->with('error_pesanans', $error_pesanans)
-                        ->with('data_pembelians2', $data_pembelians);
+                if ($validator->fails()) {
+                    $errors = $validator->errors()->all();
+                    return back()->withInput()->with('error', $errors);
                 }
 
                 $kode = $this->kodemb();
@@ -709,14 +676,13 @@ class MemoekspedisiController extends Controller
                         'alamat_pelanggan' => $request->alamat_pelanggan,
                         'telp_pelanggan' => $request->telp_pelanggan,
                         'saldo_deposit' => str_replace('.', '', $request->saldo_deposit),
-                        'uang_jaminan' => str_replace('.', '', $request->uang_jaminan),
                         'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
                         'deposit_driver' => str_replace('.', '', $request->depositsopir),
                         'total_borongs' => str_replace('.', '', $request->total_borongs),
                         'pphs' => str_replace('.', '', $request->pphs),
-                        'total_borongs' => str_replace('.', '', $request->total_borongs),
-                        'uang_jaminans' => str_replace('.', '', $request->depositsopir),
-                        'deposit_drivers' => str_replace('.', '', $request->deposit_drivers),
+                        'uang_jaminans' => str_replace('.', '', $request->uang_jaminans),
+                        'uang_jaminan' => str_replace('.', '', $request->uang_jaminans),
+                        'deposit_drivers' => str_replace('.', '', $request->depositsopir),
                         'totals' => str_replace('.', '', $request->totals),
                         'sub_total' => str_replace('.', '', $request->sub_total),
                         'keterangan' => $request->keterangan,
@@ -725,32 +691,18 @@ class MemoekspedisiController extends Controller
                         'qrcode_memo' => 'https:///javaline.id/memo_ekspedisi/' . $kode,
                         'tanggal' => $format_tanggal,
                         'tanggal_awal' => $tanggal,
-                        'status' => 'unpost'
+                        'status' => 'unpost',
+                        'rute_perjalanan_id' => $request->rute_id,
+                        'kode_rute' => $request->kode_rutes,
+                        'nama_rute' => $request->nama_rutes,
+                        'harga_rute' => str_replace('.', ' ', $request->harga_rute),
+                        'jumlah' => $request->jumlah,
+                        'satuan' => $request->satuan,
+                        'totalrute' => str_replace('.', ' ', $request->totalrute),
                     ]
                 ));
 
-                $transaksi_id = $cetakpdf->id;
-
-                if ($cetakpdf) {
-
-                    foreach ($data_pembelians as $data_pesanan) {
-                        Detail_memo::create([
-                            'memo_ekspedisi_id' => $cetakpdf->id,
-                            'rute_id' => $data_pesanan['rute_id'],
-                            'kode_rutes' => $data_pesanan['kode_rutes'],
-                            'nama_rutes' => $data_pesanan['nama_rutes'],
-                            'harga_rute' => $data_pesanan['harga_rute'],
-                            'jumlah' => $data_pesanan['jumlah'],
-                            'satuan' => $data_pesanan['satuan'],
-                            'totalrute' => str_replace('.', '', $data_pesanan['totalrute']),
-
-                        ]);
-                    }
-                }
-
-                $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
-
-                return view('admin.memo_ekspedisi.show', compact('cetakpdf', 'detail_memo'));
+                return view('admin.memo_ekspedisi.show', compact('cetakpdf'));
 
                 break;
 
@@ -804,33 +756,29 @@ class MemoekspedisiController extends Controller
                 }
 
                 $kode = $this->kodemt();
+
                 // tgl indo
                 $tanggal1 = Carbon::now('Asia/Jakarta');
                 $format_tanggal = $tanggal1->format('d F Y');
 
                 $tanggal = Carbon::now()->format('Y-m-d');
-                $memotambahan = Memotambahan::create(array_merge(
-                    $request->all(),
-                    [
-                        'memo_id' => $request->memo_id,
-                        'kode_memo' => $this->kodemt(),
-                        'grand_total' => str_replace('.', '', $request->grand_total),
-                        // 'qrcode_memo' => 'https:///javaline.id/memo_tambahan/' . $kode,
-                        'tanggal_awal' => $format_tanggal,
-                    ]
-                ));
 
-                $cetakpdf = Memo_ekspedisi::create(array_merge(
-                    $request->all(),
-                    [
-                        'memotambahan_id' => $memotambahan->id,
-                        'kode_memo' => $this->kodemt(),
-                        // 'grand_total' => str_replace('.', '', $request->grand_total),
-                        // 'qrcode_memo' => 'https:///javaline.id/memo_tambahan/' . $kode,
-                        'tanggal_awal' => $tanggal,
-                        'status' => 'unpost',
-                    ]
-                ));
+                // Create Memotambahan record
+                $memotambahan = Memotambahan::create([
+                    'memo_id' => $request->memo_id,
+                    'kode_memo' => $kode,
+                    'grand_total' => str_replace('.', '', $request->grand_total),
+                    'tanggal_awal' => $format_tanggal,
+                ]);
+
+                // Create Memo_ekspedisi record
+                $cetakpdf = Memo_ekspedisi::create([
+                    'memotambahan_id' => $memotambahan->id,
+                    'kode_memo' => $kode,
+                    'tanggal_awal' => $tanggal,
+                    'status' => 'unpost',
+                ]);
+
 
                 $transaksi_id = $memotambahan->id;
                 if ($memotambahan) {

@@ -202,9 +202,10 @@ class FakturekspedisiController extends Controller
             }
         }
 
-        $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+        $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
+        $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
 
-        return view('admin.memo_ekspedisi.show', compact('cetakpdf', 'detail_memo'));
+        return view('admin.faktur_ekspedisi.show', compact('cetakpdf', 'details', 'detailtarifs'));
     }
 
 

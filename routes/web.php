@@ -276,11 +276,23 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'postingmemo'])->name('postingmemo');
     Route::get('hapusmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'hapusmemo'])->name('hapusmemo');
 
+    Route::get('unpostmemoborong/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'unpostmemoborong'])->name('unpostmemoborong');
+    Route::get('postingmemoborong/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'postingmemoborong'])->name('postingmemoborong');
+    Route::get('hapusmemoborong/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'hapusmemoborong'])->name('hapusmemoborong');
+
+    Route::get('unpostmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'unpostmemotambahan'])->name('unpostmemotambahan');
+    Route::get('postingmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'postingmemotambahan'])->name('postingmemotambahan');
+    Route::get('hapusmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'hapusmemotambahan'])->name('hapusmemotambahan');
+
     Route::get('penerimaan_kaskecil/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenerimaankaskecilController::class, 'cetakpdf']);
     Route::get('laporan_penerimaankaskecil', [\App\Http\Controllers\Admin\LaporanPenerimaankaskecilController::class, 'index']);
     Route::get('print_penerimaankaskecil', [\App\Http\Controllers\Admin\LaporanPenerimaankaskecilController::class, 'print_penerimaankaskecil']);
     Route::get('print_memoekspedisi', [\App\Http\Controllers\Admin\LaporanMemoekspedisiController::class, 'print_memoekspedisi']);
     Route::get('laporan_memoekspedisi', [\App\Http\Controllers\Admin\LaporanMemoekspedisiController::class, 'index']);
+    Route::get('print_memoborong', [\App\Http\Controllers\Admin\LaporanMemoborongController::class, 'print_memoborong']);
+    Route::get('laporan_memoborong', [\App\Http\Controllers\Admin\LaporanMemoborongController::class, 'index']);
+    Route::get('print_memotambahan', [\App\Http\Controllers\Admin\LaporanMemotambahanController::class, 'print_memotambahan']);
+    Route::get('laporan_memotambahan', [\App\Http\Controllers\Admin\LaporanMemotambahanController::class, 'index']);
 
 
     Route::get('unpostdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostdeposit'])->name('unpostdeposit');

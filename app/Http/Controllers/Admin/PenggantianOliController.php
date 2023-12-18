@@ -257,17 +257,17 @@ END")->get();
         if ($request->has('kategori')) {
             if (in_array('Oli Mesin', $request->kategori)) {
                 $dataToUpdate['km_olimesin'] = $request->km + 13000;
-                $dataToUpdate['status_olimesin'] = 'konfirmasi';
+                $dataToUpdate['status_olimesin'] = 'sudah penggantian';
             }
 
             if (in_array('Oli Gardan', $request->kategori)) {
                 $dataToUpdate['km_oligardan'] = $request->km + 50000;
-                $dataToUpdate['status_oligardan'] = 'konfirmasi';
+                $dataToUpdate['status_oligardan'] = 'sudah penggantian';
             }
 
             if (in_array('Oli Transmisi', $request->kategori)) {
                 $dataToUpdate['km_olitransmisi'] = $request->km + 50000;
-                $dataToUpdate['status_olitransmisi'] = 'konfirmasi';
+                $dataToUpdate['status_olitransmisi'] = 'sudah penggantian';
             }
         }
 

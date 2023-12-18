@@ -58,6 +58,7 @@ class InqueryMemotambahanController extends Controller
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
+        $inquery->where('kategori', 'Memo Tambahan');
         $inquery->orderBy('id', 'DESC');
         $inquery = $inquery->get();
 
@@ -67,7 +68,7 @@ class InqueryMemotambahanController extends Controller
         // Query the associated Detail_memo using the collected ids
         $details = Detail_memo::whereIn('memo_ekspedisi_id', $memoIds)->first();
 
-        return view('admin.inquery_memoekspedisi.index', compact('inquery', 'details'));
+        return view('admin.inquery_memotambahan.index', compact('inquery', 'details'));
     }
 
 
@@ -88,11 +89,11 @@ class InqueryMemotambahanController extends Controller
             $pelanggans = Pelanggan::all();
             $saldoTerakhir = Saldo::latest()->first();
             $potonganmemos = Potongan_memo::all();
-            $memos = Memo_ekspedisi::all();
+            $memos = Memo_ekspedisi::where('kategori', 'Memo Perjalanan')->get();
             $memotambahans = Memotambahan::where('id', $inquery->memotambahan_id)->first();
             $detailstambahan = Detail_memotambahan::where('memotambahan_id', $memotambahans->id)->get();
 
-            return view('admin.inquery_memoekspedisi.update', compact(
+            return view('admin.inquery_memotambahan.update', compact(
                 'details',
                 'detailstambahan',
                 'inquery',
@@ -117,7 +118,7 @@ class InqueryMemotambahanController extends Controller
             $saldoTerakhir = Saldo::latest()->first();
             $potonganmemos = Potongan_memo::all();
             $memos = Memo_ekspedisi::all();
-            return view('admin.inquery_memoekspedisi.update', compact(
+            return view('admin.inquery_memotambahan.update', compact(
                 'details',
                 'inquery',
                 'pelanggans',
@@ -143,502 +144,100 @@ class InqueryMemotambahanController extends Controller
     public function update(Request $request, $id)
     {
 
-        $kategori = $request->kategori;
-
-        $commonData = [
-            'kategori' => $kategori,
-            // Add other common data fields here
-        ];
-
-        // Common validation logic
         $validasi_pelanggan = Validator::make(
             $request->all(),
             [
-                'kategori' => 'required',
+                'memo_id' => 'required',
             ],
             [
-                'kategori.required' => 'Pilih kategori',
+                'memo_id.required' => 'Pilih memo',
             ]
         );
 
+        $error_pelanggans = array();
+
         if ($validasi_pelanggan->fails()) {
-            $errors = $validasi_pelanggan->errors()->all();
-            return back()->withInput()->with('error', $errors);
+            array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
         }
 
+        $error_pesanans = array();
+        $data_pembelians4 = collect();
 
-        switch ($kategori) {
-            case 'Memo Perjalanan':
-
-                $validasi_pelanggan = Validator::make(
-                    $request->all(),
-                    [
-                        'kategori' => 'required',
-                        'kendaraan_id' => 'required',
-                        'user_id' => 'required',
-                        'rute_perjalanan_id' => 'required',
-                        'sub_total' => 'required'
-                    ],
-                    [
-                        'kategori.required' => 'Pilih kategori',
-                        'kendaraan_id.required' => 'Pilih no kabin',
-                        'user_id.required' => 'Pilih driver',
-                        'rute_perjalanan_id.required' => 'Pilih rute perjalanan',
-                        'sub_total.required' => 'Masukkan total harga',
-
-                    ]
-                );
-
-                $error_pelanggans = array();
-
-                if ($validasi_pelanggan->fails()) {
-                    array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-                }
-
-                $error_pesanans = array();
-                $data_pembelians = collect();
-
-                if ($request->has('biaya_id')) {
-                    for ($i = 0; $i < count($request->biaya_id); $i++) {
-                        $biaya_id = $request->input('biaya_id.' . $i, null);
-                        $kode_biaya = $request->input('kode_biaya.' . $i, null);
-                        $nama_biaya = $request->input('nama_biaya.' . $i, null);
-                        $nominal = $request->input('nominal.' . $i, null);
-
-                        // If 'biaya_id' is not null, validate and process the data
-                        if (!is_null($biaya_id)) {
-                            $validasi_produk = Validator::make([
-                                'biaya_id' => $biaya_id,
-                                'kode_biaya' => $kode_biaya,
-                                'nama_biaya' => $nama_biaya,
-                                'nominal' => $nominal,
-                            ], [
-                                'biaya_id' => 'required',
-                                'kode_biaya' => 'required',
-                                'nama_biaya' => 'required',
-                                'nominal' => 'required',
-                            ]);
-
-                            if ($validasi_produk->fails()) {
-                                array_push($error_pesanans, "Tambahan biaya nomor " . ($i + 1) . " tidak valid!");
-                            } else {
-                                $data_pembelians->push([
-                                    'detail_id' => $request->detail_ids[$i] ?? null,
-                                    'biaya_id' => $biaya_id,
-                                    'kode_biaya' => $kode_biaya,
-                                    'nama_biaya' => $nama_biaya,
-                                    'nominal' => $nominal
-                                ]);
-                            }
-                        } else {
-
-                            if ($error_pelanggans || $error_pesanans) {
-                                return back()
-                                    ->withInput()
-                                    ->with('error_pelanggans', $error_pelanggans)
-                                    ->with('error_pesanans', $error_pesanans)
-                                    ->with('data_pembelians', $data_pembelians);
-                            }
-
-
-                            // tgl indo
-                            $tanggal1 = Carbon::now('Asia/Jakarta');
-                            $format_tanggal = $tanggal1->format('d F Y');
-
-                            $tanggal = Carbon::now()->format('Y-m-d');
-                            $cetakpdf = Memo_ekspedisi::findOrFail($id);
-
-                            $cetakpdf->update([
-                                'kategori' => $request->kategori,
-                                'kendaraan_id' => $request->kendaraan_id,
-                                'no_kabin' => $request->no_kabin,
-                                'golongan' => $request->golongan,
-                                'km_awal' => $request->km_awal,
-                                'user_id' => $request->user_id,
-                                'kode_driver' => $request->kode_driver,
-                                'nam_driver' => $request->nama_driver,
-                                'telp' => $request->telp,
-                                'saldo_deposit' => $request->saldo_deposit,
-                                'rute_perjalanan_id' => $request->rute_perjalanan_id,
-                                'kode_rute' => $request->kode_rute,
-                                'nama_rute' => $request->nama_rute,
-                                'uang_jalan' => $request->uang_jalan,
-                                'uang_jaminan' => $request->uang_jaminan,
-                                'biaya_tambahan' => $request->biaya_tambahan,
-                                'deposit_driver' => $request->deposit_driver,
-                                'keterangan' => $request->keterangan,
-                                'sisa_saldo' => $request->sisa_saldo,
-                                'sub_total' => $request->sub_total,
-                                // 'status' => 'posting',
-                            ]);
-
-                            $transaksi_id = $cetakpdf->id;
-
-                            $detailIds = $request->input('detail_ids');
-
-                            foreach ($data_pembelians as $data_pesanan) {
-                                $detailId = $data_pesanan['detail_id'];
-
-                                if ($detailId) {
-                                    Detail_memo::where('id', $detailId)->update([
-                                        'memo_ekspedisi_id' => $cetakpdf->id,
-                                        'biaya_id' => $data_pesanan['biaya_id'],
-                                        'kode_biaya' => $data_pesanan['kode_biaya'],
-                                        'nama_biaya' => $data_pesanan['nama_biaya'],
-                                        'nominal' => $data_pesanan['nominal'],
-                                    ]);
-                                } else {
-                                    $existingDetail = Detail_memo::where([
-                                        'memo_ekspedisi_id' => $cetakpdf->id,
-                                    ])->first();
-
-                                    if (!$existingDetail) {
-                                        Detail_memo::create([
-                                            'memo_ekspedisi_id' => $cetakpdf->id,
-                                            'biaya_id' => $data_pesanan['biaya_id'],
-                                            'kode_biaya' => $data_pesanan['kode_biaya'],
-                                            'nama_biaya' => $data_pesanan['nama_biaya'],
-                                            'nominal' => $data_pesanan['nominal'],
-                                        ]);
-                                    }
-                                }
-                            }
-
-                            $cetakpdf = Memo_ekspedisi::find($transaksi_id);
-                            $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
-
-                            return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
-                        }
-                    }
-                } else {
-                }
-
-                if ($error_pelanggans || $error_pesanans) {
-                    return back()
-                        ->withInput()
-                        ->with('error_pelanggans', $error_pelanggans)
-                        ->with('error_pesanans', $error_pesanans)
-                        ->with('data_pembelians', $data_pembelians);
-                }
-
-                $kode = $this->kode();
-                // tgl indo
-                $tanggal1 = Carbon::now('Asia/Jakarta');
-                $format_tanggal = $tanggal1->format('d F Y');
-
-                $tanggal = Carbon::now()->format('Y-m-d');
-                $cetakpdf = Memo_ekspedisi::create(array_merge(
-                    $request->all(),
-                    [
-                        'kategori' => $request->kategori,
-                        'kendaraan_id' => $request->kendaraan_id,
-                        'no_kabin' => $request->no_kabin,
-                        'golongan' => $request->golongan,
-                        'km_awal' => $request->km_awal,
-                        'user_id' => $request->user_id,
-                        'kode_driver' => $request->kode_driver,
-                        'nam_driver' => $request->nama_driver,
-                        'telp' => $request->telp,
-                        'saldo_deposit' => $request->saldo_deposit,
-                        'rute_perjalanan_id' => $request->rute_perjalanan_id,
-                        'kode_rute' => $request->kode_rute,
-                        'nama_rute' => $request->nama_rute,
-                        'uang_jalan' => $request->uang_jalan,
-                        'uang_jaminan' => $request->uang_jaminan,
-                        'biaya_tambahan' => $request->biaya_tambahan,
-                        'deposit_driver' => $request->deposit_driver,
-                        'keterangan' => $request->keterangan,
-                        'sisa_saldo' => $request->sisa_saldo,
-                        'sub_total' => $request->sub_total,
-                        // 'harga' => $request->harga,
-                        'kode_memo' => $this->kode(),
-                        'qrcode_memo' => 'https:///tigerload.id/memo_ekspedisi/' . $kode,
-                        'tanggal' => $format_tanggal,
-                        'tanggal_awal' => $tanggal,
-                        // 'status' => 'posting',
-                    ]
-                ));
-
-                $transaksi_id = $cetakpdf->id;
-
-                if ($cetakpdf) {
-
-                    foreach ($data_pembelians as $data_pesanan) {
-                        Detail_memo::create([
-                            'memo_ekspedisi_id' => $cetakpdf->id,
-                            'biaya_id' => $data_pesanan['biaya_id'],
-                            'kode_biaya' => $data_pesanan['kode_biaya'],
-                            'nama_biaya' => $data_pesanan['nama_biaya'],
-                            'nominal' => $data_pesanan['nominal'],
-                        ]);
-                    }
-                }
-
-                $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
-
-                return view('admin.memo_ekspedisi.show', compact('cetakpdf', 'detail_memo'));
-                break;
-
-            case 'Memo Borong':
-
-                $validasi_pelanggan = Validator::make(
-                    $request->all(),
-                    [
-                        'kategori' => 'required',
-                        'kendaraan_id' => 'required',
-                        'user_id' => 'required',
-                        'pelanggan_id' => 'required',
-                        'sub_total' => 'required'
-                    ],
-                    [
-                        'kategori.required' => 'Pilih kategori',
-                        'kendaraan_id.required' => 'Pilih no kabin',
-                        'user_id.required' => 'Pilih driver',
-                        'pelanggan_id.required' => 'Pilih rute pelanggan',
-                        'sub_total.required' => 'Masukkan total harga',
-                    ]
-                );
-
-                $error_pelanggans = array();
-
-                if ($validasi_pelanggan->fails()) {
-                    array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-                }
-
-                $error_pesanans = array();
-                $data_pembelians = collect();
-
-                if ($request->has('rute_id')) {
-                    for ($i = 0; $i < count($request->rute_id); $i++) {
-                        $validasi_produk = Validator::make($request->all(), [
-                            'rute_id.' . $i => 'required',
-                            'kode_rutes.' . $i => 'required',
-                            'nama_rutes.' . $i => 'required',
-                            'harga_rute.' . $i => 'required',
-                            'jumlah.' . $i => 'required',
-                            'satuan.' . $i => 'required',
-                            'totalrute.' . $i => 'required',
-                        ]);
-
-                        if ($validasi_produk->fails()) {
-                            array_push($error_pesanans, "Rute borong nomor " . $i + 1 . " belum dilengkapi!");
-                        }
-
-
-                        $rute_id = is_null($request->rute_id[$i]) ? '' : $request->rute_id[$i];
-                        $kode_rutes = is_null($request->kode_rutes[$i]) ? '' : $request->kode_rutes[$i];
-                        $nama_rutes = is_null($request->nama_rutes[$i]) ? '' : $request->nama_rutes[$i];
-                        $harga_rute = is_null($request->harga_rute[$i]) ? '' : $request->harga_rute[$i];
-                        $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
-                        $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
-                        $totalrute = is_null($request->totalrute[$i]) ? '' : $request->totalrute[$i];
-
-                        $data_pembelians->push([
-                            'detail_id' => $request->detail_ids[$i] ?? null,
-                            'rute_id' => $rute_id,
-                            'kode_rutes' => $kode_rutes,
-                            'nama_rutes' => $nama_rutes,
-                            'harga_rute' => $harga_rute,
-                            'jumlah' => $jumlah,
-                            'satuan' => $satuan,
-                            'totalrute' => $totalrute
-                        ]);
-                    }
-                } else {
-                }
-
-                if ($error_pelanggans || $error_pesanans) {
-                    return back()
-                        ->withInput()
-                        ->with('error_pelanggans', $error_pelanggans)
-                        ->with('error_pesanans', $error_pesanans)
-                        ->with('data_pembelians2', $data_pembelians);
-                }
-
-                // tgl indo
-                $tanggal1 = Carbon::now('Asia/Jakarta');
-                $format_tanggal = $tanggal1->format('d F Y');
-                $cetakpdf = Memo_ekspedisi::findOrFail($id);
-
-                $tanggal = Carbon::now()->format('Y-m-d');
-                $cetakpdf->update(
-                    [
-                        'kategori' => $request->kategori,
-                        'kendaraan_id' => $request->kendaraan_id,
-                        'no_kabin' => $request->no_kabin,
-                        'golongan' => $request->golongan,
-                        'km_awal' => $request->km_awal,
-                        'user_id' => $request->user_id,
-                        'kode_driver' => $request->kode_driver,
-                        'nam_driver' => $request->nama_driver,
-                        'telp' => $request->telp,
-                        'saldo_deposit' => $request->saldo_deposit,
-                        'pelanggan_id' => $request->pelanggan_id,
-                        'kode_pelanggan' => $request->kode_pelanggan,
-                        'nama_pelanggan' => $request->nama_pelanggan,
-                        'alamat_pelanggan' => $request->alamat_pelanggan,
-                        'telp_pelanggan' => $request->telp_pelanggan,
-                        'uang_jaminan' => $request->uang_jaminan,
-                        'biaya_tambahan' => $request->biaya_tambahan,
-                        'deposit_driver' => $request->deposit_driver,
-                        'total_borongs' => $request->total_borongs,
-                        'pphs' => $request->pphs,
-                        'uang_jaminans' => $request->uang_jaminans,
-                        'deposit_drivers' => $request->deposit_drivers,
-                        'totals' => $request->totals,
-                        'keterangan' => $request->keterangan,
-                        'sisa_saldo' => $request->sisa_saldo,
-                        'sub_total' => $request->sub_total,
-                        // 'status' => 'posting'
-                    ]
-                );
-
-                $transaksi_id = $cetakpdf->id;
-
-                $detailIds = $request->input('detail_ids');
-
-                foreach ($data_pembelians as $data_pesanan) {
-                    $detailId = $data_pesanan['detail_id'];
-
-                    if ($detailId) {
-                        Detail_memo::where('id', $detailId)->update([
-                            'memo_ekspedisi_id' => $cetakpdf->id,
-                            'rute_id' => $data_pesanan['rute_id'],
-                            'kode_rutes' => $data_pesanan['kode_rutes'],
-                            'nama_rutes' => $data_pesanan['nama_rutes'],
-                            'harga_rute' => $data_pesanan['harga_rute'],
-                            'jumlah' => $data_pesanan['jumlah'],
-                            'satuan' => $data_pesanan['satuan'],
-                            'totalrute' => $data_pesanan['totalrute'],
-                        ]);
-                    } else {
-                        $existingDetail = Detail_memo::where([
-                            'memo_ekspedisi_id' => $cetakpdf->id,
-                        ])->first();
-                        if (!$existingDetail) {
-                            Detail_memo::create([
-                                'memo_ekspedisi_id' => $cetakpdf->id,
-                                'rute_id' => $data_pesanan['rute_id'],
-                                'kode_rutes' => $data_pesanan['kode_rutes'],
-                                'nama_rutes' => $data_pesanan['nama_rutes'],
-                                'harga_rute' => $data_pesanan['harga_rute'],
-                                'jumlah' => $data_pesanan['jumlah'],
-                                'satuan' => $data_pesanan['satuan'],
-                                'totalrute' => $data_pesanan['totalrute'],
-                            ]);
-                        }
-                    }
-                }
-
-                $cetakpdf = Memo_ekspedisi::find($transaksi_id);
-                $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
-
-                return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
-
-                break;
-
-
-            case 'Memo Tambahan':
-
-                $validasi_pelanggan = Validator::make(
-                    $request->all(),
-                    [
-                        'memo_id' => 'required',
-                    ],
-                    [
-                        'memo_id.required' => 'Pilih memo',
-                    ]
-                );
-
-                $error_pelanggans = array();
-
-                if ($validasi_pelanggan->fails()) {
-                    array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-                }
-
-                $error_pesanans = array();
-                $data_pembelians4 = collect();
-
-                if ($request->has('keterangan_tambahan')) {
-                    for ($i = 0; $i < count($request->keterangan_tambahan); $i++) {
-                        $validasi_produk = Validator::make($request->all(), [
-                            'keterangan_tambahan.' . $i => 'required',
-                            'nominal_tambahan.' . $i => 'required',
-                        ]);
-
-                        if ($validasi_produk->fails()) {
-                            array_push($error_pesanans, "Memo tambahan nomor " . $i + 1 . " belum dilengkapi!");
-                        }
-
-                        $keterangan_tambahan = is_null($request->keterangan_tambahan[$i]) ? '' : $request->keterangan_tambahan[$i];
-                        $nominal_tambahan = is_null($request->nominal_tambahan[$i]) ? '' : $request->nominal_tambahan[$i];
-
-                        $data_pembelians4->push([
-                            'detail_id' => $request->detail_idstambahan[$i] ?? null,
-                            'keterangan_tambahan' => $keterangan_tambahan,
-                            'nominal_tambahan' => $nominal_tambahan
-                        ]);
-                    }
-                } else {
-                }
-
-
-                if ($error_pelanggans || $error_pesanans) {
-                    return back()
-                        ->withInput()
-                        ->with('error_pelanggans', $error_pelanggans)
-                        ->with('error_pesanans', $error_pesanans)
-                        ->with('data_pembelians4', $data_pembelians4);
-                }
-
-                $tanggal1 = Carbon::now('Asia/Jakarta');
-                $format_tanggal = $tanggal1->format('d F Y');
-                $cetakpdf = Memo_ekspedisi::findOrFail($id);
-                $memotambahan = Memotambahan::findOrFail($cetakpdf->memotambahan_id);
-
-                $tanggal = Carbon::now()->format('Y-m-d');
-                $memotambahan->update([
-                    'grand_total' => str_replace('.', '', $request->grand_total),
+        if ($request->has('keterangan_tambahan')) {
+            for ($i = 0; $i < count($request->keterangan_tambahan); $i++) {
+                $validasi_produk = Validator::make($request->all(), [
+                    'keterangan_tambahan.' . $i => 'required',
+                    'nominal_tambahan.' . $i => 'required',
                 ]);
 
-                $transaksi_id = $memotambahan->id;
-                $detailIds = $request->input('detail_idstambahan');
-
-                foreach ($data_pembelians4 as $data_pesanan) {
-                    $detailId = $data_pesanan['detail_id'];
-
-                    if ($detailId) {
-                        Detail_memotambahan::where('id', $detailId)->update([
-                            'memotambahan_id' => $memotambahan->id,
-                            'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
-                            'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
-                        ]);
-                    } else {
-                        $existingDetail = Detail_memotambahan::where([
-                            'memotambahan_id' => $memotambahan->id,
-                            'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
-                        ])->first();
-
-                        if (!$existingDetail) {
-                            Detail_memotambahan::create([
-                                'memotambahan_id' => $memotambahan->id,
-                                'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
-                                'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
-                            ]);
-                        }
-                    }
+                if ($validasi_produk->fails()) {
+                    array_push($error_pesanans, "Memo tambahan nomor " . $i + 1 . " belum dilengkapi!");
                 }
-                // Fetch Memo_ekspedisi and its details after the updates
-                $cetakpdf = Memo_ekspedisi::find($id);
-                $memotambahan = Memotambahan::where('id', $cetakpdf->memotambahan_id)->first();
-                $detail_memo = Detail_memotambahan::where('memotambahan_id', $memotambahan->id)->get();
 
-                return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo', 'memotambahan'));
+                $keterangan_tambahan = is_null($request->keterangan_tambahan[$i]) ? '' : $request->keterangan_tambahan[$i];
+                $nominal_tambahan = is_null($request->nominal_tambahan[$i]) ? '' : $request->nominal_tambahan[$i];
 
-                break;
-
-            default:
+                $data_pembelians4->push([
+                    'detail_id' => $request->detail_idstambahan[$i] ?? null,
+                    'keterangan_tambahan' => $keterangan_tambahan,
+                    'nominal_tambahan' => $nominal_tambahan
+                ]);
+            }
+        } else {
         }
+
+
+        if ($error_pelanggans || $error_pesanans) {
+            return back()
+                ->withInput()
+                ->with('error_pelanggans', $error_pelanggans)
+                ->with('error_pesanans', $error_pesanans)
+                ->with('data_pembelians4', $data_pembelians4);
+        }
+
+        $tanggal1 = Carbon::now('Asia/Jakarta');
+        $format_tanggal = $tanggal1->format('d F Y');
+        $cetakpdf = Memo_ekspedisi::findOrFail($id);
+        $memotambahan = Memotambahan::findOrFail($cetakpdf->memotambahan_id);
+
+        $tanggal = Carbon::now()->format('Y-m-d');
+        $memotambahan->update([
+            'grand_total' => str_replace('.', '', $request->grand_total),
+        ]);
+
+        $transaksi_id = $memotambahan->id;
+        $detailIds = $request->input('detail_idstambahan');
+
+        foreach ($data_pembelians4 as $data_pesanan) {
+            $detailId = $data_pesanan['detail_id'];
+
+            if ($detailId) {
+                Detail_memotambahan::where('id', $detailId)->update([
+                    'memotambahan_id' => $memotambahan->id,
+                    'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
+                    'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
+                ]);
+            } else {
+                $existingDetail = Detail_memotambahan::where([
+                    'memotambahan_id' => $memotambahan->id,
+                    'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
+                ])->first();
+
+                if (!$existingDetail) {
+                    Detail_memotambahan::create([
+                        'memotambahan_id' => $memotambahan->id,
+                        'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
+                        'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
+                    ]);
+                }
+            }
+        }
+        // Fetch Memo_ekspedisi and its details after the updates
+        $cetakpdf = Memo_ekspedisi::find($id);
+        $memotambahan = Memotambahan::where('id', $cetakpdf->memotambahan_id)->first();
+        $detail_memo = Detail_memotambahan::where('memotambahan_id', $memotambahan->id)->get();
+
+        return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo', 'memotambahan'));
     }
 
     public function show($id)
@@ -648,16 +247,16 @@ class InqueryMemotambahanController extends Controller
             $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
             $memotambahans = Memotambahan::where('id', $cetakpdf->memotambahan_id)->first();
             $detail_memo = Detail_memotambahan::where('memotambahan_id', $memotambahans->id)->get();
-            return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
+            return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo'));
         } else {
             $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
             // $memotambahans = Memotambahan::where('memo_id', $id)->first();
             $detail_memo = Detail_memo::where('memo_ekspedisi_id', $cetakpdf->id)->get();
-            return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_memo'));
+            return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo'));
         }
     }
 
-    public function unpostmemo($id)
+    public function unpostmemotambahan($id)
     {
         $ban = Memo_ekspedisi::where('id', $id)->first();
 
@@ -668,7 +267,7 @@ class InqueryMemotambahanController extends Controller
         return back()->with('success', 'Berhasil');
     }
 
-    public function postingmemo($id)
+    public function postingmemotambahan($id)
     {
         $ban = Memo_ekspedisi::where('id', $id)->first();
 
@@ -679,7 +278,7 @@ class InqueryMemotambahanController extends Controller
         return back()->with('success', 'Berhasil');
     }
 
-    public function hapusmemo($id)
+    public function hapusmemotambahan($id)
     {
         $ban = Memo_ekspedisi::where('id', $id)->first();
 
@@ -692,6 +291,6 @@ class InqueryMemotambahanController extends Controller
         $ban = Memo_ekspedisi::find($id);
         // $ban->detail_memo()->delete();
         $ban->delete();
-        return redirect('admin/inquery_memoekspedisi')->with('success', 'Berhasil memperbarui memo ekspedisi');
+        return redirect('admin/inquery_memotambahan')->with('success', 'Berhasil memperbarui memo tambahan');
     }
 }
