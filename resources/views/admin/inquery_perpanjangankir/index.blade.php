@@ -75,60 +75,29 @@
                                 <th>Kode Perpanjangan</th>
                                 <th>No Registrasi</th>
                                 <th>Berlaku Sampai</th>
-                                <th class="text-center" width="120">Opsi</th>
+                                <th class="text-center" width="40">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($inquery as $inquerys)
-                                <tr>
+                                <tr id="editMemoekspedisi" data-toggle="modal"
+                                    data-target="#modal-posting-{{ $inquerys->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $inquerys->kode_perpanjangan }}</td>
                                     <td>{{ $inquerys->nokir->kendaraan->no_pol }}</td>
                                     <td>{{ $inquerys->masa_berlaku }}</td>
                                     <td class="text-center">
-                                        @if ($inquerys->status == 'unpost')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir show'])
-                                                <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir update'])
-                                                <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id . '/edit') }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir delete'])
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                    data-target="#modal-hapus-{{ $inquerys->id }}">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir posting'])
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modal-posting-{{ $inquerys->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
-                                        @endif
                                         @if ($inquerys->status == 'posting')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir show'])
-                                                <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir unpost'])
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                    data-target="#modal-unpost-{{ $inquerys->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            {{-- <button type="button" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-truck-moving"></i>
+                                            </button> --}}
                                         @endif
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $inquerys->id }}">
+                                {{-- <div class="modal fade" id="modal-hapus-{{ $inquerys->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -155,9 +124,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
-                                <div class="modal fade" id="modal-unpost-{{ $inquerys->id }}">
+                                {{-- <div class="modal fade" id="modal-unpost-{{ $inquerys->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -202,6 +171,117 @@
                                                     data-dismiss="modal">Batal</button>
                                                 <a class="btn btn-primary"
                                                     href="{{ route('postingkir', ['id' => $inquerys->id]) }}">Ya</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> --}}
+
+                                {{-- <td class="text-center">
+                                    @if ($inquerys->status == 'unpost')
+                                        @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir show'])
+                                            <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id) }}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir update'])
+                                            <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id . '/edit') }}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir delete'])
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $inquerys->id }}">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir posting'])
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                data-target="#modal-posting-{{ $inquerys->id }}">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        @endif
+                                    @endif
+                                    @if ($inquerys->status == 'posting')
+                                        @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir show'])
+                                            <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id) }}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        @endif
+                                        @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir unpost'])
+                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
+                                                data-target="#modal-unpost-{{ $inquerys->id }}">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        @endif
+                                    @endif
+                                </td> --}}
+
+                                <div class="modal fade" id="modal-posting-{{ $inquerys->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Opsi menu</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Perpanjangan Kir
+                                                    <strong>{{ $inquerys->kode_memo }}</strong>
+                                                </p>
+                                                @if ($inquerys->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir delete'])
+                                                        <form method="GET"
+                                                            action="{{ route('hapuskir', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-danger btn-block mt-2">
+                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir show'])
+                                                        <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id) }}"
+                                                            type="button" class="btn btn-outline-info btn-block">
+                                                            <i class="fas fa-eye"></i> Show
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir update'])
+                                                        <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id . '/edit') }}"
+                                                            type="button" class="btn btn-outline-warning btn-block">
+                                                            <i class="fas fa-edit"></i> Update
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir posting'])
+                                                        <form method="GET"
+                                                            action="{{ route('postingkir', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-success btn-block mt-2">
+                                                                <i class="fas fa-check"></i> Posting
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($inquerys->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir show'])
+                                                        <a href="{{ url('admin/inquery_perpanjangankir/' . $inquerys->id) }}"
+                                                            type="button" class="btn btn-outline-info btn-block">
+                                                            <i class="fas fa-eye"></i> Show
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan kir unpost'])
+                                                        <form method="GET"
+                                                            action="{{ route('unpostkir', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-primary btn-block mt-2">
+                                                                <i class="fas fa-check"></i> Unpost
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

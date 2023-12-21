@@ -737,30 +737,40 @@
             }
 
             itemPembelian(jumlah_ban, jumlah_ban - 1);
+            updateUrutans();
         }
 
-        function removeBan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Memo belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
+        function updateUrutans() {
+            var urutan = document.querySelectorAll('#urutan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
             }
         }
 
-        function itemPembelian(urutan, key, value = null) {
+
+        function removeBan(identifier, detailId) {
+            var row = document.getElementById('pembelian-' + identifier);
+            row.remove();
+
+            // $.ajax({
+            //     url: "{{ url('admin/ban/') }}/" + detailId,
+            //     type: "POST",
+            //     data: {
+            //         _method: 'DELETE',
+            //         _token: '{{ csrf_token() }}'
+            //     },
+            //     success: function(response) {
+            //         console.log('Data deleted successfully');
+            //     },
+            //     error: function(error) {
+            //         console.error('Failed to delete data:', error);
+            //     }
+            // });
+
+            updateUrutan();
+        }
+
+        function itemPembelian(identifier, key, value = null) {
             var memo_ekspedisi_id = '';
             var kode_memo = '';
             var nama_driver = '';
@@ -781,8 +791,8 @@
 
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan + '">' +
-                urutan + '</td>';
+            item_pembelian += '<td  style="width: 70px; font-size:14px" class="text-center" id="urutan">' + urutan +
+                '</td>';
 
             // biaya_id 
             item_pembelian += '<td hidden>';
@@ -831,7 +841,7 @@
             item_pembelian += '</td>';
 
             // kendaraan_id 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="kendaraan_id-' +
@@ -841,7 +851,7 @@
             item_pembelian += '</td>';
 
             // no_kabin 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="no_kabin-' +
@@ -881,7 +891,17 @@
             });
         }
 
+        function updateUrutan() {
+            var urutan = document.querySelectorAll('#urutantambahan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+        var counter = 0;
+
         function addMemotambahan() {
+            counter++;
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
@@ -889,30 +909,42 @@
             }
 
             itemPembelians(jumlah_ban, jumlah_ban - 1);
+            updateUrutan();
         }
 
-        function removememotambahans(params) {
-            jumlah_ban = jumlah_ban - 1;
+        //  function addMemotambahan() {
+        //     jumlah_ban = jumlah_ban + 1;
 
-            var tabel_pesanan = document.getElementById('tabel-memotambahan');
-            var pembelian = document.getElementById('memotambahan-' + params);
+        //     if (jumlah_ban === 1) {
+        //         $('#tabel-memotambahan').empty();
+        //     }
 
-            tabel_pesanan.removeChild(pembelian);
+        //     itemPembelians(jumlah_ban, jumlah_ban - 1);
+        // }
 
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Biaya tambahan belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-memotambahan').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutantambahan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
+        function removememotambahans(identifier, detailId) {
+            var row = document.getElementById('memotambahan-' + identifier);
+            row.remove();
+
+            // $.ajax({
+            //     url: "{{ url('admin/ban/') }}/" + detailId,
+            //     type: "POST",
+            //     data: {
+            //         _method: 'DELETE',
+            //         _token: '{{ csrf_token() }}'
+            //     },
+            //     success: function(response) {
+            //         console.log('Data deleted successfully');
+            //     },
+            //     error: function(error) {
+            //         console.error('Failed to delete data:', error);
+            //     }
+            // });
+
+            updateUrutan();
         }
 
-        function itemPembelians(urutan, key, value = null) {
+        function itemPembelians(identifier, key, value = null) {
             var keterangan_tambahan = '';
             var nominal_tambahan = '';
 
@@ -923,15 +955,14 @@
 
             // urutan 
             var item_pembelian = '<tr id="memotambahan-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutantambahan-' + urutan +
-                '">' +
-                urutan + '</td>';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutantambahan">' + urutan +
+                '</td>';
 
             // keterangan_tambahan 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="keterangan_tambahan-' +
-                urutan +
+                key +
                 '" name="keterangan_tambahan[]" value="' + keterangan_tambahan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -940,7 +971,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal_tambahan-' +
-                urutan +
+                key +
                 '" name="nominal_tambahan[]" value="' + nominal_tambahan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';

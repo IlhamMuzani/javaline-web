@@ -165,7 +165,6 @@ class InqueryPembelianBanController extends Controller
         ]);
 
         $transaksi_id = $transaksi->id;
-
         $detailIds = $request->input('detail_ids');
 
         foreach ($data_pembelians as $data_pesanan) {

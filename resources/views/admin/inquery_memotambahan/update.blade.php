@@ -155,6 +155,12 @@
                                                         value="{{ $detail['nominal_tambahan'] }}">
                                                 </div>
                                             </td>
+                                            <td style="width: 50px">
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -274,6 +280,7 @@
         });
 
 
+
         var data_pembelian = @json(session('data_pembelians4'));
         var jumlah_ban = 1;
 
@@ -287,7 +294,17 @@
             });
         }
 
+        function updateUrutan() {
+            var urutan = document.querySelectorAll('#urutantambah');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+        var counter = 0;
+
         function addMemotambahan() {
+            counter++;
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
@@ -295,30 +312,33 @@
             }
 
             itemPembelian(jumlah_ban, jumlah_ban - 1);
+            updateUrutan();
         }
 
-        function removeBan(params) {
-            jumlah_ban = jumlah_ban - 1;
+        function removeBan(identifier, detailId) {
 
-            var tabel_pesanan = document.getElementById('tabel-memotambahan');
-            var pembelian = document.getElementById('memotambahan-' + params);
+            var row = document.getElementById('memotambah-' + identifier);
+            row.remove();
 
-            tabel_pesanan.removeChild(pembelian);
+            // $.ajax({
+            //     url: "{{ url('admin/ban/') }}/" + detailId,
+            //     type: "POST",
+            //     data: {
+            //         _method: 'DELETE',
+            //         _token: '{{ csrf_token() }}'
+            //     },
+            //     success: function(response) {
+            //         console.log('Data deleted successfully');
+            //     },
+            //     error: function(error) {
+            //         console.error('Failed to delete data:', error);
+            //     }
+            // });
 
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Memo tambahan belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-memotambahan').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutantambahan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
+            updateUrutan();
         }
 
-        function itemPembelian(urutan, key, value = null) {
+        function itemPembelian(identifier, key, value = null) {
             var keterangan_tambahan = '';
             var nominal_tambahan = '';
 
@@ -328,16 +348,16 @@
             }
 
             // urutan 
-            var item_pembelian = '<tr id="memotambahan-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutantambahan-' + urutan +
-                '">' +
-                urutan + '</td>';
+            var item_pembelian = '<tr id="memotambah-' + urutan + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutantambah">' + urutan +
+                '</td>';
+
 
             // keterangan_tambahan 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="keterangan_tambahan-' +
-                urutan +
+                key +
                 '" name="keterangan_tambahan[]" value="' + keterangan_tambahan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -346,22 +366,19 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal_tambahan-' +
-                urutan +
+                key +
                 '" name="nominal_tambahan[]" value="' + nominal_tambahan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // item_pembelian += '<td style="width: 100px">';
-            // item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="memotambahans(' + urutan +
-            //     ')">';
-            // item_pembelian += '<i class="fas fa-plus"></i>';
-            // item_pembelian += '</button>';
-            // item_pembelian +=
-            //     '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removememotambahans(' +
-            //     urutan + ')">';
-            // item_pembelian += '<i class="fas fa-trash"></i>';
-            // item_pembelian += '</button>';
-            // item_pembelian += '</td>';
+            // opsi 
+            item_pembelian += '<td style="width: 50px">';
+            item_pembelian +=
+                '<button type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
+                urutan + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
             $('#tabel-memotambahan').append(item_pembelian);

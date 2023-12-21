@@ -488,8 +488,7 @@
                     @endphp
             @endforeach
         @endif
-
-        {{-- @if ($detailtarifs === null)
+        @if ($detailtarifs->isEmpty())
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 17px;">
 
@@ -510,7 +509,7 @@
                     0
                 </td>
             </tr>
-        @endif --}}
+        @endif
 
         </tr>
         <tr style="border-bottom: 1px solid black;">

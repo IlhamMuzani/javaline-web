@@ -362,9 +362,9 @@
     $kendaraan = \App\Models\Kendaraan::where([['status_post', 'posting'], ['status_notif', false]])->get();
 @endphp
 <li
-    class="nav-item {{ request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*') || request()->is('admin/inquery_perpanjanganstnk*') || request()->is('admin/inquery_perpanjangankir*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/laporan_tagihanekspedisi*') || request()->is('admin/inquery_tagihanekspedisi*') || request()->is('admin/tagihan_ekspedisi*') || request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*') || request()->is('admin/inquery_perpanjanganstnk*') || request()->is('admin/inquery_perpanjangankir*') ? 'menu-open' : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*') || request()->is('admin/inquery_perpanjanganstnk*') || request()->is('admin/inquery_perpanjangankir*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/laporan_tagihanekspedisi*') || request()->is('admin/inquery_tagihanekspedisi*') || request()->is('admin/tagihan_ekspedisi*') || request()->is('admin/pembelian_ban*') || request()->is('admin/pembelian_part*') || request()->is('admin/inquery_pembelianban*') || request()->is('admin/inquery_pembelianpart*') || request()->is('admin/inquery_pemasanganban*') || request()->is('admin/inquery_pelepasanban*') || request()->is('admin/inquery_pemasanganpart*') || request()->is('admin/inquery_penggantianoli*') || request()->is('admin/inquery_updatekm*') || request()->is('admin/inquery_perpanjanganstnk*') || request()->is('admin/inquery_perpanjangankir*') ? 'active' : '' }}">
         <i class="nav-icon fas fa-exchange-alt"></i>
         <p>
             <strong style="color: rgb(255, 255, 255);">TRANSAKSI</strong>
@@ -390,6 +390,15 @@
                 </a>
             </li>
         @endif
+        {{-- @if (auth()->check() && auth()->user()->menu['pembelian part']) --}}
+        <li class="nav-item">
+            <a href="{{ url('admin/tagihan_ekspedisi') }}"
+                class="nav-link {{ request()->is('admin/tagihan_ekspedisi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Tagihan Ekspedisi</p>
+            </a>
+        </li>
+        {{-- @endif --}}
         @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_pembelianban') }}"
@@ -490,6 +499,14 @@
                 class="nav-link {{ request()->is('admin/inquery_perpanjangankir*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Inquery Perpanjangan Kir
+                </p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery_tagihanekspedisi') }}"
+                class="nav-link {{ request()->is('admin/inquery_tagihanekspedisi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Inquery Tagihan Ekspedisi
                 </p>
             </a>
         </li>
@@ -596,7 +613,7 @@
     </li>
 @endif
 <li
-    class="nav-item {{ request()->is('admin/laporan_tambahan*') || request()->is('admin/laporan_memoborong*') ||  request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/laporan_tambahan*') || request()->is('admin/laporan_memoborong*') || request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'menu-open' : '' }}">
     <a href="#"
         class="nav-link {{ request()->is('admin/laporan_tambahan*') || request()->is('admin/laporan_memoborong*') || request()->is('admin/laporan_fakturekspedisi*') || request()->is('admin/laporan_depositdriver*') || request()->is('admin/laporan_memoekspedisi*') || request()->is('admin/laporan_penerimaankaskecil*') || request()->is('admin/laporan_pembelianban*') || request()->is('admin/laporan_pembelianpart*') || request()->is('admin/laporan_pemasanganban*') || request()->is('admin/laporan_pelepasanban*') || request()->is('admin/laporan_pemasanganpart*') || request()->is('admin/laporan_penggantianoli*') || request()->is('admin/laporan_updatekm*') || request()->is('admin/laporan_statusperjalanan*') ? 'active' : '' }}">
         <i class="fas fa-clipboard-list nav-icon"></i>

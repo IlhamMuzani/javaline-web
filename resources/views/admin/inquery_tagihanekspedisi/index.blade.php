@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Faktur Ekspedisi')
+@section('title', 'Inquery Tagihan Ekspedisi')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Faktur Ekspedisi</h1>
+                    <h1 class="m-0">Inquery Tagihan Ekspedisi</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Faktur Ekspedisi</li>
+                        <li class="breadcrumb-item active">Inquery Tagihan Ekspedisi</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,7 +34,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Inquery Faktur Ekspedisi</h3>
+                    <h3 class="card-title">Data Inquery Tagihan Ekspedisi</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -72,53 +72,38 @@
                         <thead>
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Faktur Ekspedisi</th>
+                                <th>No Faktur</th>
                                 <th>Tanggal</th>
                                 <th>Kategori</th>
-                                <th>No Kabin</th>
-                                <th>Sopir</th>
-                                <th>Tujuan</th>
+                                <th>Admin</th>
                                 <th>Pelanggan</th>
-                                <th>Tarif</th>
                                 <th>PPH</th>
-                                <th>U. Tambahan</th>
                                 <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $faktur)
+                            @foreach ($inquery as $tagihanekspedisi)
                                 <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $faktur->id }}" style="cursor: pointer;">
+                                    data-target="#modal-posting-{{ $tagihanekspedisi->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
+                                    <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                    <td>{{ $tagihanekspedisi->kategori }}</td>
                                     <td>
-                                        {{ $faktur->kode_faktur }}
+                                        {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
                                     </td>
                                     <td>
-                                        {{ $faktur->tanggal_awal }}
+                                        {{ $tagihanekspedisi->nama_pelanggan }}
                                     </td>
-                                    <td>
-                                        {{ $faktur->kategori }}
+                                    <td style="text-align: end">
+                                        {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
                                     </td>
-                                    <td>
-                                        {{ $faktur->detail_faktur->first()->no_kabin }}
+                                    <td  style="text-align: end">
+                                        {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}
                                     </td>
-                                    <td>
-                                        {{ $faktur->detail_faktur->first()->nama_driver }} </td>
-                                    <td>
-                                        {{ $faktur->detail_faktur->first()->nama_rute }} </td>
-                                    <td>
-                                        {{ $faktur->nama_pelanggan }}
-                                    </td>
-                                    <td>
-                                        Rp. {{ number_format($faktur->total_tarif, 0, ',', '.') }}</td>
-                                    <td>
-                                        Rp. {{ number_format($faktur->pph, 0, ',', '.') }}</td>
-                                    <td>
-                                        Rp. {{ number_format($faktur->biaya_tambahan, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($faktur->grand_total, 0, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($faktur->status == 'posting')
+                                        @if ($tagihanekspedisi->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
@@ -126,9 +111,10 @@
                                                 <i class="fas fa-truck-moving"></i>
                                             </button> --}}
                                         @endif
+
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-posting-{{ $faktur->id }}">
+                                <div class="modal fade" id="modal-posting-{{ $tagihanekspedisi->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -139,40 +125,40 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Faktur ekspedisi
-                                                    <strong>{{ $faktur->kode_faktur }}</strong>
+                                                <p>Memo ekspedisi
+                                                    <strong>{{ $tagihanekspedisi->kode_memo }}</strong>
                                                 </p>
-                                                @if ($faktur->status == 'unpost')
+                                                @if ($tagihanekspedisi->status == 'unpost')
                                                     <form method="GET"
-                                                        action="{{ route('hapusfaktur', ['id' => $faktur->id]) }}">
+                                                        action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
                                                         <button type="submit"
                                                             class="btn btn-outline-danger btn-block mt-2">
                                                             <i class="fas fa-trash-alt"></i> Delete
                                                         </button>
                                                     </form>
-                                                    <a href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}"
+                                                    <a href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}"
                                                         type="button" class="btn btn-outline-info btn-block">
                                                         <i class="fas fa-eye"></i> Show
                                                     </a>
-                                                    <a href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}"
+                                                    <a href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}"
                                                         type="button" class="btn btn-outline-warning btn-block">
                                                         <i class="fas fa-edit"></i> Update
                                                     </a>
                                                     <form method="GET"
-                                                        action="{{ route('postingfaktur', ['id' => $faktur->id]) }}">
+                                                        action="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}">
                                                         <button type="submit"
                                                             class="btn btn-outline-success btn-block mt-2">
                                                             <i class="fas fa-check"></i> Posting
                                                         </button>
                                                     </form>
                                                 @endif
-                                                @if ($faktur->status == 'posting')
-                                                    <a href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}"
+                                                @if ($tagihanekspedisi->status == 'posting')
+                                                    <a href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}"
                                                         type="button" class="btn btn-outline-info btn-block">
                                                         <i class="fas fa-eye"></i> Show
                                                     </a>
                                                     <form method="GET"
-                                                        action="{{ route('unpostfaktur', ['id' => $faktur->id]) }}">
+                                                        action="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}">
                                                         <button type="submit"
                                                             class="btn btn-outline-primary btn-block mt-2">
                                                             <i class="fas fa-check"></i> Unpost
@@ -216,8 +202,16 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_fakturekspedisi') }}";
+            form.action = "{{ url('admin/inquery_tagihanekspedisi') }}";
             form.submit();
         }
     </script>
+
+    {{-- untuk klik 2 kali ke edit  --}}
+    {{-- <script>
+        document.getElementById('editMemoekspedisi').addEventListener('dblclick', function() {
+            window.location.href = "{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}";
+        });
+    </script> --}}
+
 @endsection

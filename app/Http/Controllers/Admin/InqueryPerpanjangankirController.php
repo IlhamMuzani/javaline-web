@@ -166,6 +166,14 @@ class InqueryPerpanjangankirController extends Controller
         return back()->with('success', 'Berhasil');
     }
 
+    public function hapuskir($id)
+    {
+        $ban = Laporankir::where('id', $id)->first();
+
+        $ban->delete();
+        return back()->with('success', 'Berhasil');
+    }
+
     public function destroy($id)
     {
         $nokir = Laporankir::find($id);

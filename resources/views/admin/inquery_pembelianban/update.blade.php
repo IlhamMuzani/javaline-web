@@ -423,7 +423,6 @@
             }
 
             itemPembelian(jumlah_ban, jumlah_ban - 1);
-
             updateUrutan();
         }
 

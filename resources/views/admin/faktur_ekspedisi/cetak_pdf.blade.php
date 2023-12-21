@@ -489,7 +489,7 @@
             @endforeach
         @endif
 
-        {{-- @if ($detailtarifs === null)
+        @if ($detailtarifs->isEmpty())
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
@@ -510,7 +510,7 @@
                     0
                 </td>
             </tr>
-        @endif --}}
+        @endif
 
         </tr>
         <tr style="border-bottom: 1px solid black;">
@@ -577,7 +577,7 @@
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
-                     <tr style="text-align: center;">
+                    <tr style="text-align: center;">
                         <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
                     <tr>

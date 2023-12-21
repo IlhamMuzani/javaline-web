@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Detail_memo;
 use App\Models\Detail_memotambahan;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
@@ -186,9 +187,36 @@ class InqueryMemoborongController extends Controller
 
     public function unpostmemoborong($id)
     {
-        $ban = Memo_ekspedisi::where('id', $id)->first();
-
-        $ban->update([
+        $item = Memo_ekspedisi::where('id', $id)->first();
+        if (!$item) {
+            return back()->with('error', 'Memo tidak ditemukan');
+        }
+        $uangJalan = $item->totalrute;
+        $lastSaldo = Saldo::latest()->first();
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+        $sisaSaldo = $lastSaldo->sisa_saldo + $uangJalan;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
+        ]);
+        $item = Memo_ekspedisi::where('id', $id)->first();
+        if (!$item) {
+            return back()->with('error', 'Memo tidak ditemukan');
+        }
+        $user = User::where('id', $item->user_id)->first();
+        if (!$user) {
+            return back()->with('error', 'User tidak ditemukan');
+        }
+        $karyawan = Karyawan::where('id', $user->id)->first();
+        if (!$karyawan) {
+            return back()->with('error', 'Karyawan tidak ditemukan');
+        }
+        $tabungans = $karyawan->tabungan;
+        $karyawan->update([
+            'tabungan' => $tabungans - $item->deposit_driver
+        ]);
+        $item->update([
             'status' => 'unpost'
         ]);
 
@@ -197,12 +225,38 @@ class InqueryMemoborongController extends Controller
 
     public function postingmemoborong($id)
     {
-        $ban = Memo_ekspedisi::where('id', $id)->first();
-
-        $ban->update([
+        $item = Memo_ekspedisi::where('id', $id)->first();
+        if (!$item) {
+            return back()->with('error', 'Memo tidak ditemukan');
+        }
+        $uangJalan = $item->totalrute;
+        $lastSaldo = Saldo::latest()->first();
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+        $sisaSaldo = $lastSaldo->sisa_saldo - $uangJalan;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
+        ]);
+        if (!$item) {
+            return back()->with('error', 'Memo tidak ditemukan');
+        }
+        $user = User::where('id', $item->user_id)->first();
+        if (!$user) {
+            return back()->with('error', 'User tidak ditemukan');
+        }
+        $karyawan = Karyawan::where('id', $user->id)->first();
+        if (!$karyawan) {
+            return back()->with('error', 'Karyawan tidak ditemukan');
+        }
+        $tabungans = $karyawan->tabungan;
+        $karyawan->update([
+            'tabungan' => $tabungans + $item->deposit_driver
+        ]);
+        // Update the Memo_ekspedisi status
+        $item->update([
             'status' => 'posting'
         ]);
-
         return back()->with('success', 'Berhasil');
     }
 

@@ -258,9 +258,31 @@ class InqueryMemotambahanController extends Controller
 
     public function unpostmemotambahan($id)
     {
-        $ban = Memo_ekspedisi::where('id', $id)->first();
+        $item = Memo_ekspedisi::where('id', $id)->first();
+        if (!$item) {
+            return back()->with('error', 'Memo tidak ditemukan');
+        }
 
-        $ban->update([
+        // Assuming there's a foreign key relationship between Memo_ekspedisi and Memotambahan
+        $biayatambahan = Memotambahan::where('id', $item->memotambahan_id)->first();
+        if (!$biayatambahan) {
+            return back()->with('error', 'Biaya tambahan tidak ditemukan');
+        }
+
+        $totaltambahan = $biayatambahan->grand_total;
+
+        $lastSaldo = Saldo::latest()->first();
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $sisaSaldo = $lastSaldo->sisa_saldo + $totaltambahan;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
+        ]);
+
+        // Update the Memo_ekspedisi status
+        $item->update([
             'status' => 'unpost'
         ]);
 
@@ -269,9 +291,31 @@ class InqueryMemotambahanController extends Controller
 
     public function postingmemotambahan($id)
     {
-        $ban = Memo_ekspedisi::where('id', $id)->first();
+        $item = Memo_ekspedisi::where('id', $id)->first();
+        if (!$item) {
+            return back()->with('error', 'Memo tidak ditemukan');
+        }
 
-        $ban->update([
+        // Assuming there's a foreign key relationship between Memo_ekspedisi and Memotambahan
+        $biayatambahan = Memotambahan::where('id', $item->memotambahan_id)->first();
+        if (!$biayatambahan) {
+            return back()->with('error', 'Biaya tambahan tidak ditemukan');
+        }
+
+        $totaltambahan = $biayatambahan->grand_total;
+
+        $lastSaldo = Saldo::latest()->first();
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $sisaSaldo = $lastSaldo->sisa_saldo - $totaltambahan;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
+        ]);
+
+        // Update the Memo_ekspedisi status
+        $item->update([
             'status' => 'posting'
         ]);
 

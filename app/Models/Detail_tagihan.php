@@ -8,22 +8,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Detail_faktur extends Model
+class Detail_tagihan extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
+        'tagihan_ekspedisi_id',
         'faktur_ekspedisi_id',
-        'memo_ekspedisi_id',
-        'kendaraan_id',
-        'no_kabin',
-        'kode_memo',
-        'kode_driver',
-        'nama_driver',
-        'telp_driver',
+        'kode_faktur',
         'nama_rute',
-        'kategori_memo',
+        'no_memo',
+        'tanggal_memo',
+        'no_kabin',
+        'no_pol',
+        'jumlah',
+        'satuan',
+        'harga',
+        'total',
         'tanggal_awal',
         'tanggal_akhir',
     ];
@@ -33,14 +35,9 @@ class Detail_faktur extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
-    public function faktur_ekspedisi()
+    public function tagihan_ekspedisi()
     {
-        return $this->belongsTo(Faktur_ekspedisi::class);
-    }
-
-    public function memo_ekspedisi()
-    {
-        return $this->belongsTo(Memo_ekspedisi::class);
+        return $this->belongsTo(Tagihan_ekspedisi::class);
     }
 
 }

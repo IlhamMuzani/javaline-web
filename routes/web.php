@@ -268,6 +268,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingstnk/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjanganstnkController::class, 'postingstnk'])->name('postingstnk');
     Route::get('unpostkir/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjangankirController::class, 'unpostkir'])->name('unpostkir');
     Route::get('postingkir/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjangankirController::class, 'postingkir'])->name('postingkir');
+    Route::get('hapuskir/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjangankirController::class, 'hapuskir'])->name('hapuskir');
 
     Route::get('unpostpenerimaan/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'unpostpenerimaan'])->name('unpostpenerimaan');
     Route::get('postingpenerimaan/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'postingpenerimaan'])->name('postingpenerimaan');
@@ -301,6 +302,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'print_depositdriver']);
     Route::get('cetak_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'cetak_depositdriver']);
 
+    Route::get('unposttagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'unposttagihan'])->name('unposttagihan');
+    Route::get('postingtagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'postingtagihan'])->name('postingtagihan');
+    Route::get('hapustagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'hapustagihan'])->name('hapustagihan');
+    
     Route::get('unpostfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfaktur'])->name('unpostfaktur');
     Route::get('postingfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'postingfaktur'])->name('postingfaktur');
     Route::get('hapusfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'hapusfaktur'])->name('hapusfaktur');
@@ -309,6 +314,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('faktur_ekspedisi/cetak-pdf/{id}', [\App\Http\Controllers\Admin\FakturekspedisiController::class, 'cetakpdf']);
     Route::get('print_fakturekspedisi', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'print_fakturekspedisi']);
     Route::get('laporan_fakturekspedisi', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'index']);
+    Route::get('print_tagihanekspedisi', [\App\Http\Controllers\Admin\LaporanTagihanekspedisiController::class, 'print_tagihanekspedisi']);
+    Route::get('laporan_tagihanekspedisi', [\App\Http\Controllers\Admin\LaporanTagihanekspedisiController::class, 'index']);
+    Route::get('tagihan_ekspedisi/cetak-pdf/{id}', [\App\Http\Controllers\Admin\TagihanekspedisiController::class, 'cetakpdf']);
+    Route::get('inquery_fakturekspedisi', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'index']);
 
     Route::resource('karyawan', \App\Http\Controllers\Admin\KaryawanController::class);
     Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
@@ -368,6 +377,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('tarif', \App\Http\Controllers\Admin\TarifController::class);
     Route::resource('faktur_ekspedisi', \App\Http\Controllers\Admin\FakturekspedisiController::class);
     Route::resource('inquery_fakturekspedisi', \App\Http\Controllers\Admin\InqueryFakturekspedisiController::class);
+    Route::resource('tagihan_ekspedisi', \App\Http\Controllers\Admin\TagihanekspedisiController::class);
+    Route::resource('inquery_tagihanekspedisi', \App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class);
 
     // Route::resource('inquery_memotambahan', \App\Http\Controllers\Admin\InqueryMemoekspedisiController::class);
 
