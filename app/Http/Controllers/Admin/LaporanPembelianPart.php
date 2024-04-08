@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pembelian_part;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class LaporanPembelianPart extends Controller
 {
@@ -17,24 +18,25 @@ class LaporanPembelianPart extends Controller
             $tanggal_awal = $request->tanggal_awal;
             $tanggal_akhir = $request->tanggal_akhir;
 
-            $inquery = Pembelian_part::orderBy('id', 'DESC');
+            $inquery = Pembelian_part::query();
 
-            if ($status == "posting") {
+            if ($status) {
                 $inquery->where('status', $status);
-            } else {
-                $inquery->where('status', 'posting');
             }
 
             if ($tanggal_awal && $tanggal_akhir) {
-                $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
-                    ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
+                $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
+            } elseif ($tanggal_awal) {
+                $inquery->where('tanggal_awal', '>=', $tanggal_awal);
+            } elseif ($tanggal_akhir) {
+                $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+            } else {
+                // Jika tidak ada filter tanggal hari ini
+                $inquery->whereDate('tanggal_awal', Carbon::today());
             }
 
-            // $inquery = $inquery->get();
-
-            // kondisi sebelum melakukan pencarian data masih kosong
-            $hasSearch = $status || ($tanggal_awal && $tanggal_akhir);
-            $inquery = $hasSearch ? $inquery->get() : collect();
+            $inquery->orderBy('id', 'DESC');
+            $inquery = $inquery->get();
 
 
             return view('admin.laporan_pembelianpart.index', compact('inquery'));
@@ -54,10 +56,8 @@ class LaporanPembelianPart extends Controller
 
             $query = Pembelian_part::orderBy('id', 'DESC');
 
-            if ($status == "posting") {
+            if ($status) {
                 $query->where('status', $status);
-            } else {
-                $query->where('status', 'posting');
             }
 
             if ($tanggal_awal && $tanggal_akhir) {

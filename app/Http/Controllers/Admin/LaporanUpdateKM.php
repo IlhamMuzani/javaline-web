@@ -8,6 +8,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_pembelianban;
 use App\Models\Kendaraan;
+use App\Models\LogAktivitas;
 
 class LaporanUpdateKM extends Controller
 {
@@ -15,16 +16,16 @@ class LaporanUpdateKM extends Controller
     {
         if (auth()->check() && auth()->user()->menu['laporan update km']) {
 
-            $status_post = $request->status_post;
+            $status = $request->status;
             $tanggal_awal = $request->tanggal_awal;
             $tanggal_akhir = $request->tanggal_akhir;
 
-            $inquery = Kendaraan::orderBy('tanggal', 'DESC');
+            $inquery = LogAktivitas::orderBy('tanggal', 'DESC');
 
-            if ($status_post == "posting") {
-                $inquery->where('status_post', $status_post);
+            if ($status == "posting") {
+                $inquery->where('status', $status);
             } else {
-                $inquery->where('status_post', 'posting');
+                $inquery->where('status', 'posting');
             }
 
             if ($tanggal_awal && $tanggal_akhir) {
@@ -35,7 +36,7 @@ class LaporanUpdateKM extends Controller
             // $inquery = $inquery->get();
 
             // kondisi sebelum melakukan pencarian data masih kosong
-            $hasSearch = $status_post || ($tanggal_awal && $tanggal_akhir);
+            $hasSearch = $status || ($tanggal_awal && $tanggal_akhir);
             $inquery = $hasSearch ? $inquery->get() : collect();
 
             return view('admin.laporan_updatekm.index', compact('inquery'));
@@ -48,16 +49,16 @@ class LaporanUpdateKM extends Controller
     {
         if (auth()->check() && auth()->user()->menu['laporan update km']) {
 
-            $query = Kendaraan::query();
+            $query = LogAktivitas::query();
 
-            $status_post = $request->status_post;
+            $status = $request->status;
             $tanggal_awal = $request->input('tanggal_awal');
             $tanggal_akhir = $request->input('tanggal_akhir');
 
-            if ($status_post == "posting") {
-                $query->where('status_post', $status_post);
+            if ($status == "posting") {
+                $query->where('status', $status);
             } else {
-                $query->where('status_post', 'posting');
+                $query->where('status', 'posting');
             }
 
             if ($tanggal_awal && $tanggal_akhir) {

@@ -44,10 +44,12 @@
                                 <label for="kategori">(Pilih Kategori)</label>
                                 <select class="custom-select form-control" id="kategori" name="kategori">
                                     <option value="">- Semua Kategori -</option>
-                                    <option value="Pemasukan Deposit" {{ Request::get('kategori') == 'Pemasukan Deposit' ? 'selected' : '' }}>
+                                    <option value="Pemasukan Deposit"
+                                        {{ Request::get('kategori') == 'Pemasukan Deposit' ? 'selected' : '' }}>
                                         Pemasukan Deposit
                                     </option>
-                                    <option value="Pengambilan Deposit" {{ Request::get('kategori') == 'Pengambilan Deposit' ? 'selected' : '' }}>
+                                    <option value="Pengambilan Deposit"
+                                        {{ Request::get('kategori') == 'Pengambilan Deposit' ? 'selected' : '' }}>
                                         Pengambilan Deposit</option>
                                 </select>
                             </div>
@@ -63,21 +65,21 @@
                             </div>
                             <div class="col-md-2 mb-3">
                                 {{-- @if (auth()->check() && auth()->user()->fitur['laporan penerimaan kas kecil cari']) --}}
-                                    <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
-                                        <i class="fas fa-search"></i> Cari
-                                    </button>
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
                                 {{-- @endif --}}
                                 {{-- @if (auth()->check() && auth()->user()->fitur['laporan penerimaan kas kecil cetak']) --}}
-                                    <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
-                                        target="_blank">
-                                        <i class="fas fa-print"></i> Cetak
-                                    </button>
+                                <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
+                                    target="_blank">
+                                    <i class="fas fa-print"></i> Cetak
+                                </button>
                                 {{-- @endif --}}
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Faktur Deposit</th>

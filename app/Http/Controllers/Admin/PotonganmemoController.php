@@ -67,22 +67,37 @@ class PotonganmemoController extends Controller
     }
 
 
+    // public function kode()
+    // {
+    //     $type = Potongan_memo::all();
+    //     if ($type->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Potongan_memo::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'PM';
+    //     $kode_type = $data . $num;
+    //     return $kode_type;
+    // }
+
     public function kode()
     {
-        $type = Potongan_memo::all();
-        if ($type->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Potongan_memo::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Potongan_memo::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_potongan;
+            $num = (int) substr($lastCode, strlen('PM')) + 1;
         }
-
-        $data = 'PM';
-        $kode_type = $data . $num;
-        return $kode_type;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'PM';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
     public function edit($id)

@@ -42,6 +42,20 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
+                                <strong>Kode Kendaraan</strong>
+                            </div>
+                            <div class="col-md-6">
+                                @if ($kendaraan->gambar_barcodesolar)
+                                    <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_barcodesolar) }}"
+                                        alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                        alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
                                 <strong>No Kabin</strong>
                             </div>
                             <div class="col-md-6">

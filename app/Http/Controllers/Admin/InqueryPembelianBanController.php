@@ -93,19 +93,6 @@ class InqueryPembelianBanController extends Controller
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
         }
 
-        $transaksi = Pembelian_ban::findOrFail($id);
-
-
-        $tanggal_awal = Carbon::parse($transaksi->tanggal_awal);
-
-        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
-
-        if ($lastUpdatedDate < $today) {
-            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
-        }
-
-        
         if ($request->has('no_seri')) {
             for ($i = 0; $i < count($request->no_seri); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
@@ -160,11 +147,14 @@ class InqueryPembelianBanController extends Controller
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,
-            // 'tanggal_awal' => $tanggal,
+            'tanggal_awal' => $tanggal,
+            // 'grand_total' => str_replace('.', '', $request->grand_total),
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'status' => 'posting',
         ]);
 
         $transaksi_id = $transaksi->id;
+
         $detailIds = $request->input('detail_ids');
 
         foreach ($data_pembelians as $data_pesanan) {
@@ -178,7 +168,7 @@ class InqueryPembelianBanController extends Controller
                     'kondisi_ban' => $data_pesanan['kondisi_ban'],
                     'merek_id' => $data_pesanan['merek_id'],
                     'typeban_id' => $data_pesanan['typeban_id'],
-                    'harga' => $data_pesanan['harga'],
+                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                 ]);
             } else {
                 $existingDetail = Ban::where([
@@ -200,7 +190,7 @@ class InqueryPembelianBanController extends Controller
                         'kondisi_ban' => $data_pesanan['kondisi_ban'],
                         'merek_id' => $data_pesanan['merek_id'],
                         'typeban_id' => $data_pesanan['typeban_id'],
-                        'harga' => $data_pesanan['harga'],
+                        'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                     ]);
                 }
             }
@@ -324,6 +314,15 @@ class InqueryPembelianBanController extends Controller
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
+    }
+
+    public function hapusban($id)
+    {
+        $ban = Pembelian_ban::where('id', $id)->first();
+
+        $ban->detail_ban()->delete();
+        $ban->delete();
+        return back()->with('success', 'Berhasil');
     }
 
     public function destroy($id)

@@ -57,12 +57,50 @@
                         <label for="option-all">Select All</label>
                         <br>
                         @foreach ($menus as $menu)
+                            @if ($loop->iteration === 1)
+                                <label style="font-weight: bold; margin-bottom:20px; margin-top:20px"
+                                    class="form-check-label">MASTER</label>
+                                <br>
+                            @endif
+                            @if ($loop->iteration === 26)
+                                <label style="font-weight: bold; margin-bottom:20px; margin-top:20px"
+                                    class="form-check-label">OPERASIONAL</label>
+                                <br>
+                            @endif
+                            @if ($loop->iteration === 34)
+                                <label style="font-weight: bold; margin-bottom:20px; margin-top:20px"
+                                    class="form-check-label">TRANSAKSI</label>
+                                <br>
+                            @endif
+                            @if ($loop->iteration === 46)
+                                <label style="font-weight: bold; margin-bottom:20px; margin-top:20px"
+                                    class="form-check-label">FINANCE</label>
+                                <br>
+                            @endif
+                            @if ($loop->iteration === 66)
+                                <label style="font-weight: bold; margin-bottom:20px; margin-top:20px"
+                                    class="form-check-label">LAPORAN</label>
+                                <br>
+                            @endif
+
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" name="menu[]" value="{{ $menu }}"
                                     {{ $akses->menu[$menu] ? 'checked' : '' }}>
-                                <label class="form-check-label">{{ ucfirst($menu) }}</label>
+                                <label class="form-check-label">
+                                    @if ($loop->iteration === 18)
+                                        Data Driver
+                                    @elseif ($loop->iteration === 3)
+                                        Hak Akses
+                                    @elseif ($loop->iteration === 46)
+                                        UJS
+                                    @else
+                                        {{ $loop->iteration <= 25 ? 'Data ' : '' }}{{ ucfirst($menu) }}
+                                    @endif
+                                </label>
                             </div>
                         @endforeach
+
+
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary">Reset</button>

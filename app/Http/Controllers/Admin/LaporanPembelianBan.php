@@ -7,6 +7,7 @@ use App\Models\Pembelian_ban;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_pembelianban;
+use Carbon\Carbon;
 
 class LaporanPembelianBan extends Controller
 {
@@ -18,24 +19,26 @@ class LaporanPembelianBan extends Controller
             $tanggal_awal = $request->tanggal_awal;
             $tanggal_akhir = $request->tanggal_akhir;
 
-            $inquery = Pembelian_ban::orderBy('id', 'DESC');
+            $inquery = Pembelian_ban::query();
 
-            if ($status == "posting") {
+            if ($status) {
                 $inquery->where('status', $status);
-            } else {
-                $inquery->where('status', 'posting');
             }
 
             if ($tanggal_awal && $tanggal_akhir) {
-                $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
-                    ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
+                $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
+            } elseif ($tanggal_awal) {
+                $inquery->where('tanggal_awal', '>=', $tanggal_awal);
+            } elseif ($tanggal_akhir) {
+                $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+            } else {
+                // Jika tidak ada filter tanggal hari ini
+                $inquery->whereDate('tanggal_awal', Carbon::today());
             }
 
-            // $inquery = $inquery->get();
+            $inquery->orderBy('id', 'DESC');
+            $inquery = $inquery->get();
 
-            // kondisi sebelum melakukan pencarian data masih kosong
-            $hasSearch = $status || ($tanggal_awal && $tanggal_akhir);
-            $inquery = $hasSearch ? $inquery->get() : collect();
 
             return view('admin.laporan_pembelianban.index', compact('inquery'));
         } else {

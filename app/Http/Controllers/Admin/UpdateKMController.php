@@ -78,7 +78,7 @@ class UpdateKMController extends Controller
         $kendaraan->status_notif = false;
 
         $kendaraan->ban()->update([
-            'umur_ban' => DB::raw('CAST(' . $kendaraan->km . ' AS SIGNED) - CAST(km_pemasangan AS SIGNED)')
+            'umur_ban' => DB::raw('CAST(' . $kendaraan->km . ' AS SIGNED) - CAST(km_pemasangan AS SIGNED) + CAST(jumlah_km AS SIGNED)')
         ]);
 
         $kms = $request->km;

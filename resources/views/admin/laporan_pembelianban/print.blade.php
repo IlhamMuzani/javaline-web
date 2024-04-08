@@ -10,7 +10,7 @@
         body {
             margin: 0;
             padding: 20px;
-             font-family: 'DOSVGA', monospace;
+            font-family: 'DOSVGA', monospace;
             color: black;
         }
 
@@ -29,7 +29,8 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 12px; /* Atur ukuran font tabel sesuai kebutuhan */
+            font-size: 12px;
+            /* Atur ukuran font tabel sesuai kebutuhan */
         }
 
         th,

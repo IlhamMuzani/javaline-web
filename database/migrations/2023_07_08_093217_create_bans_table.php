@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('harga')->nullable();
             $table->string('umur_ban')->nullable();
             $table->string('km_pemasangan')->nullable();
+            $table->string('jumlah_km')->nullable();
             $table->string('km_pelepasan')->nullable();
             $table->string('target_km_ban')->nullable();
             $table->string('posisi_ban')->nullable();
@@ -45,6 +46,7 @@ return new class extends Migration
             $table->foreign('pemasangan_ban_id')->references('id')->on('pemasangan_bans')->onDelete('set null');
             $table->unsignedBigInteger('pelepasan_ban_id')->nullable();
             $table->foreign('pelepasan_ban_id')->references('id')->on('pelepasan_bans')->onDelete('set null');
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

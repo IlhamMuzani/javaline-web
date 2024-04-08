@@ -23,10 +23,10 @@ return new class extends Migration
             $table->foreign('tarif_id')->references('id')->on('tarifs');
             $table->unsignedBigInteger('kendaraan_id')->nullable();
             $table->foreign('kendaraan_id')->references('id')->on('kendaraans');
-            $table->string('no_kabin')->nullable();
             $table->string('pph')->nullable();
             $table->string('kode_faktur')->nullable();
             $table->string('kategori')->nullable();
+            $table->string('kategoris')->nullable();
             $table->string('qrcode_faktur')->nullable();
             $table->string('kode_pelanggan')->nullable();
             $table->string('nama_pelanggan')->nullable();
@@ -43,11 +43,21 @@ return new class extends Migration
             $table->string('biaya_tambahan')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('grand_total')->nullable();
+            $table->string('tanggal_memo')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
             $table->string('status')->nullable();
+            $table->string('status_faktur')->nullable();
+            $table->string('status_pelunasan')->nullable();
             $table->string('status_notif')->nullable();
+            $table->string('status_tagihan')->nullable();
+            $table->string('kode_memo')->nullable();
+            $table->string('nama_rute')->nullable();
+            $table->string('no_pol')->nullable();
+            $table->string('no_kabin')->nullable();
+            $table->string('nama_sopir')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->timestamps();
         });

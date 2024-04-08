@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('km_penggantian')->nullable();
             $table->string('km_berikutnya')->nullable();
             $table->string('jumlah')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

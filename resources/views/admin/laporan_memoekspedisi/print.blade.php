@@ -79,7 +79,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN MEMO PERJALANAN - RANGKUMAN</span>
@@ -117,6 +117,8 @@
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">UJ
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">UT
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">PM
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Deposit</td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Adm
@@ -162,6 +164,13 @@
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
+                    @if ($memo->potongan_memo == null)
+                        0
+                    @else
+                        {{ number_format($memo->potongan_memo, 0, ',', '.') }}
+                    @endif
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
                     @if ($memo->deposit_driver == null)
                         0
                     @else
@@ -190,18 +199,30 @@
         </tr>
         <!-- Subtotal row -->
         @php
+            $totalUJ = 0;
+            $totaltambahan = 0;
+            $totalpotongan = 0;
+            $deposit = 0;
             $total = 0;
         @endphp
         @foreach ($inquery as $item)
             @php
+                $totalUJ += $item->uang_jalan;
+                $totaltambahan += $item->biaya_tambahan;
+                $totalpotongan += $item->potongan_memo;
+                $deposit += $item->deposit_driver;
                 $total += $item->sub_total;
+
             @endphp
         @endforeach
         <tr>
-            <td colspan="10" style="text-align: right; font-weight: bold; padding: 5px; font-size: 8;">Sub Total
+            <td colspan="11" style="text-align: right; font-weight: bold; padding: 5px; font-size: 8;">Sub Total
             </td>
-            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 8;">
-                {{ number_format($total, 0, ',', '.') }}
+            {{-- <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 7;">
+                {{ number_format($totalUJ + $totaltambahan - $totalpotongan, 0, ',', '.') }}
+            </td> --}}
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9;">
+                {{-- {{ number_format($totalUJ + $totaltambahan - $totalpotongan, 2, ',', '.') }} --}}
             </td>
         </tr>
     </table>
@@ -218,6 +239,98 @@
 
 
     {{-- <br> --}}
+
+    <table width="100%" style="border-collapse: collapse;">
+        <tr>
+            <td style="width:100%;">
+
+            </td>
+            <td style="width: 70%;">
+                <table style="width: 100%;" cellpadding="2" cellspacing="0">
+                    <tr>
+                        <td colspan="5"
+                            style="text-align: left; font-weight: bold; padding-left: 0px; font-size: 11px;">
+                            Uang Jalan</td>
+                        <td class="td" style="text-align: right; font-weight: bold; font-size: 11px;">
+                            {{ number_format($totalUJ, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"
+                            style="text-align: left; font-weight: bold; padding-left: 0px; font-size: 11px;">Uang
+                            Tambahan
+                        </td>
+                        <td class="td" style="text-align: right; font-weight: bold; font-size: 11px;">
+                            {{ number_format($totaltambahan - $totalpotongan, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="padding: 0px;">
+                            <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                            {{-- <span
+                                    style="position: absolute; top: 50%; transform: translateY(-50%); background-color: white; padding: 0 5px; font-size: 12px;">+</span> --}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"
+                            style="text-align: left; font-weight: bold; padding-left: 0px; font-size: 11px;">
+                        </td>
+                        <td class="td" style="text-align: right; font-weight: bold; padding: 2px; font-size: 11px;">
+                            {{ number_format($totalUJ + $totaltambahan - $totalpotongan, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <br>
+                    </tr>
+                    <tr>
+                        <td colspan="5"
+                            style="text-align: left; font-weight: bold; padding-left: 0px; font-size: 11px;">
+                            Deposit
+                        </td>
+                        <td class="td" style="text-align: right; font-weight: bold; font-size: 11px;">
+                            {{ number_format($deposit, 2, ',', '.') }}
+
+                        </td>
+                    </tr>
+
+                    {{-- <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">
+                            Sub Total
+                        </td>
+                        <td class="td" style="text-align: right; font-size: 11px;">
+                            {{ number_format($totalUJ + $totaltambahan - $deposit, 0, ',', '.') }}
+                        </td>
+                    </tr> --}}
+                    <tr>
+                        <td colspan="6" style="padding: 0px;">
+                            <hr style="border-top: 0.1px solid black; font-weight: bold; margin: 5px 0;">
+                            {{-- <span
+                                    style="position: absolute; top: 50%; transform: translateY(-50%); background-color: white; padding: 0 5px; font-size: 12px;">+</span> --}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5"
+                            style="text-align: left; font-weight: bold; padding-left: 0px; font-size: 11px;">
+                            Sub Total
+                        </td>
+                        <td class="td" style="text-align: right; font-weight: bold; font-size: 11px;">
+                            {{ number_format($totalUJ + $totaltambahan - $totalpotongan - $deposit, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <br><br><br>
+                    </tr>
+                    <tr>
+                        <td colspan="5"
+                            style="text-align: left; font-weight: bold; padding-left: 120px; font-size: 11px;">
+                            Admin
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+    </table>
+
+
 
     <br>
     <br>

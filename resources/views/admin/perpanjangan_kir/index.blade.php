@@ -43,12 +43,13 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
-                                <th>No Registrasi</th>
+                                <th>No Kabin</th>
+                                <th>No Mobil</th>
                                 <th>Berlaku Sampai</th>
                                 <th>Keterangan</th>
                                 <th class="text-center" width="90">Opsi</th>
@@ -63,6 +64,13 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $nokir->kode_kir }}</td>
+                                    <td>
+                                        @if ($nokir->kendaraan)
+                                            {{ $nokir->kendaraan->no_kabin }}
+                                        @else
+                                            kabin tidak ada
+                                        @endif
+                                    </td>
                                     <td>
                                         @if ($nokir->kendaraan)
                                             {{ $nokir->kendaraan->no_pol }}

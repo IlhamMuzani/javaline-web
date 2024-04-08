@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Memo_ekspedisi;
+use App\Models\Memotambahan;
 use App\Models\Penggantian_oli;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -16,15 +16,12 @@ class LaporanMemotambahanController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $inquery = Memo_ekspedisi::orderBy('id', 'DESC');
+        $inquery = Memotambahan::orderBy('id', 'DESC');
 
-        // Menambahkan filter berdasarkan kategori "Memo Perjalanan"
-        $inquery->where('kategori', 'Memo Tambahan');
-
-        if ($status == "posting") {
+        if ($status == "posting" || $status == "selesai") {
             $inquery->where('status', $status);
         } else {
-            $inquery->where('status', 'posting');
+            $inquery->whereIn('status', ['posting', 'selesai']);
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -49,14 +46,14 @@ class LaporanMemotambahanController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $query = Memo_ekspedisi::orderBy('id', 'DESC');
+        $query = Memotambahan::orderBy('id', 'DESC');
         $query->where('kategori', 'Memo Tambahan');
 
 
-        if ($status == "posting") {
+        if ($status == "posting" || $status == "selesai") {
             $query->where('status', $status);
         } else {
-            $query->where('status', 'posting');
+            $query->whereIn('status', ['posting', 'selesai']);
         }
 
         if ($tanggal_awal && $tanggal_akhir) {

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Detail_tagihan extends Model
 {
@@ -19,6 +20,8 @@ class Detail_tagihan extends Model
         'kode_faktur',
         'nama_rute',
         'no_memo',
+        'no_do',
+        'no_po',
         'tanggal_memo',
         'no_kabin',
         'no_pol',
@@ -29,7 +32,10 @@ class Detail_tagihan extends Model
         'tanggal_awal',
         'tanggal_akhir',
     ];
-    
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -39,5 +45,11 @@ class Detail_tagihan extends Model
     {
         return $this->belongsTo(Tagihan_ekspedisi::class);
     }
+
+    public function faktur_ekspedisi()
+    {
+        return $this->belongsTo(Faktur_ekspedisi::class);
+    }
+
 
 }

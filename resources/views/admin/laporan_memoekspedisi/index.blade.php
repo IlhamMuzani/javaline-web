@@ -65,8 +65,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped" style="font-size:13px">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>No Memo</th>
@@ -128,7 +128,7 @@
                                     <td>
                                         {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
                                     </td>
-                                    
+
                                 </tr>
                             @endforeach
                         </tbody>

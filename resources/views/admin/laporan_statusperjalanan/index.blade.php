@@ -113,8 +113,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>No. Kabin</th>

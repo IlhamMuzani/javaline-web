@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Memo_ekspedisi;
 use App\Models\Penggantian_oli;
+use App\Models\Tagihan_ekspedisi;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -16,15 +17,12 @@ class LaporanTagihanekspedisiController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $inquery = Memo_ekspedisi::orderBy('id', 'DESC');
+        $inquery = Tagihan_ekspedisi::orderBy('id', 'DESC');
 
-        // Menambahkan filter berdasarkan kategori "Memo Perjalanan"
-        $inquery->where('kategori', 'Memo Tambahan');
-
-        if ($status == "posting") {
+        if ($status == "posting" || $status == "selesai") {
             $inquery->where('status', $status);
         } else {
-            $inquery->where('status', 'posting');
+            $inquery->whereIn('status', ['posting', 'selesai']);
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -36,12 +34,12 @@ class LaporanTagihanekspedisiController extends Controller
         $hasSearch = $status || ($tanggal_awal && $tanggal_akhir);
         $inquery = $hasSearch ? $inquery->get() : collect();
 
-        return view('admin.laporan_memotambahan.index', compact('inquery'));
+        return view('admin.laporan_tagihanekspedisi.index', compact('inquery'));
     }
 
 
 
-    public function print_memotambahan(Request $request)
+    public function print_tagihanekspedisi(Request $request)
     {
         // if (auth()->check() && auth()->user()->menu['laporan penggantian oli']) {
 
@@ -49,14 +47,15 @@ class LaporanTagihanekspedisiController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $query = Memo_ekspedisi::orderBy('id', 'DESC');
-        $query->where('kategori', 'Memo Tambahan');
+        $query = Tagihan_ekspedisi::orderBy('id', 'DESC');
 
 
-        if ($status == "posting") {
+        if (
+            $status == "posting" || $status == "selesai"
+        ) {
             $query->where('status', $status);
         } else {
-            $query->where('status', 'posting');
+            $query->whereIn('status', ['posting', 'selesai']);
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -65,8 +64,8 @@ class LaporanTagihanekspedisiController extends Controller
         }
         $inquery = $query->orderBy('id', 'DESC')->get();
 
-        $pdf = PDF::loadView('admin.laporan_memotambahan.print', compact('inquery'));
-        return $pdf->stream('Laporan_Memo_Tambahan.pdf');
+        $pdf = PDF::loadView('admin.laporan_tagihanekspedisi.print', compact('inquery'));
+        return $pdf->stream('Laporan_Tagihan_Ekspedisi.pdf');
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));

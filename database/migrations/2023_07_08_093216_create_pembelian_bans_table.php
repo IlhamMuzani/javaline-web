@@ -22,11 +22,14 @@ return new class extends Migration
             // $table->string('faktur_pembelian_ban')->nullable();
             $table->unsignedBigInteger('supplier_id')->nullable();
             $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('set null');
+            $table->string('grand_total')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
             $table->string('status')->nullable();
+            $table->string('status_pelunasan')->nullable();
             $table->string('status_notif')->nullable();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->timestamps();
         });

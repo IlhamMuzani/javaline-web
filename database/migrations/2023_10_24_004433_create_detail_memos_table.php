@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('jumlah')->nullable();
             $table->string('satuan')->nullable();
             $table->string('totalrute')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Pelanggan;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,8 +26,9 @@ class TarifController extends Controller
     public function create()
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
+        $pelanggans = Pelanggan::all();
 
-        return view('admin/tarif.create');
+        return view('admin/tarif.create', compact('pelanggans'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -38,10 +40,12 @@ class TarifController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'pelanggan_id' => 'required',
                 'nama_tarif' => 'required',
                 'nominal' => 'required',
             ],
             [
+                'pelanggan_id.required' => 'Pilih nama pelanggan',
                 'nama_tarif.required' => 'Masukkan nama tarif',
                 'nominal.required' => 'Masukkan nominal',
             ]
@@ -58,7 +62,8 @@ class TarifController extends Controller
             $request->all(),
             [
                 'kode_tarif' => $this->kode(),
-                // 'qrcode_rute' => 'https://javaline.id/rute_perjalanan/' . $kode,
+                'nominal' => str_replace('.', '', $request->nominal),
+                // 'qrcode_rute' => 'https://javaline.id/tarif/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ],
         ));
@@ -69,28 +74,33 @@ class TarifController extends Controller
 
     public function kode()
     {
-        $type = Tarif::all();
-        if ($type->isEmpty()) {
-            $num = "000001";
+        // Dapatkan kode barang terakhir
+        $lastBarang = Tarif::latest()->first();
+        // Jika tidak ada barang dalam database
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Tarif::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            // Dapatkan nomor dari kode barang terakhir dan tambahkan 1
+            $lastCode = $lastBarang->kode_tarif;
+            // Ambil angka setelah huruf dengan membuang karakter awalan
+            $num = (int) substr($lastCode, strlen('TF')) + 1;
         }
-
-        $data = 'TF';
-        $kode_type = $data . $num;
-        return $kode_type;
+        // Format nomor dengan panjang 6 digit (mis. 000001)
+        $formattedNum = sprintf("%06s", $num);
+        // Kode awalan
+        $prefix = 'TF';
+        // Gabungkan kode awalan dengan nomor yang diformat
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
     public function edit($id)
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
         $tarifs = Tarif::where('id', $id)->first();
+        $pelanggans = Pelanggan::all();
 
-        return view('admin/tarif.update', compact('tarifs'));
+        return view('admin/tarif.update', compact('tarifs', 'pelanggans'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -102,10 +112,12 @@ class TarifController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'pelanggan_id' => 'required',
                 'nama_tarif' => 'required',
                 'nominal' => 'required',
             ],
             [
+                'pelanggan_id.required' => 'Pilih nama pelanggan',
                 'nama_tarif.required' => 'Masukkan nama tarif',
                 'nominal.required' => 'Masukkan nominal',
             ]
@@ -118,8 +130,9 @@ class TarifController extends Controller
 
         $tarifs = Tarif::findOrFail($id);
 
+        $tarifs->pelanggan_id = $request->pelanggan_id;
         $tarifs->nama_tarif = $request->nama_tarif;
-        $tarifs->nominal = $request->nominal;
+        $tarifs->nominal = str_replace('.', '', $request->nominal);
 
         $tarifs->save();
 

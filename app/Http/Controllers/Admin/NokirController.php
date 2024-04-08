@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Validator;
 
 class NokirController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['nokir']) {
             $currentDate = now();
@@ -36,9 +36,25 @@ class NokirController extends Controller
             }
 
             // Retrieve nokirs ordered by the latest creation
-            $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
-                ->orderBy('created_at', 'desc') // Order by the latest creation
-                ->get();
+            // $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
+            //     ->orderBy('created_at', 'desc') // Order by the latest creation
+            //     ->get();
+
+
+            if ($request->has('keyword')) {
+                $keyword = $request->keyword;
+                $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('kode_rute', 'like', "%$keyword%")
+                            ->orWhere('nama_rute', 'like', "%$keyword%");
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            } else {
+                $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            }
 
             return view('admin/nokir.index', compact('nokirs'));
         } else {
@@ -66,7 +82,7 @@ class NokirController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'kendaraan_id' => 'required|unique:nokirs,kendaraan_id',
+                // 'kendaraan_id' => 'required|unique:nokirs,kendaraan_id',
                 'jenis_kendaraan' => 'required',
                 'ukuran_ban' => 'required',
                 'nama_pemilik' => 'required',
@@ -123,7 +139,7 @@ class NokirController extends Controller
                 'tanggal_sertifikat.required' => 'Masukkan tanggal sertifikat registrasi',
                 'nomor_sertifikat_kendaraan.required' => 'Masukkan no sertifikat kendaraan',
                 'kategori.required' => 'Pilih kategori perpanjangan',
-                // 'nopol.required' => 'Masukkan no registrasi kendaraan',
+                'nopol.required' => 'Masukkan no registrasi kendaraan',
                 // 'no_rangka.required' => 'Masukkan no rangka kendaraan',
                 // 'no_mesin.required' => 'Masukkan no motor penggerak',
                 'gambar_depan.image' => 'Gambar yang dimasukan salah!',
@@ -163,7 +179,7 @@ class NokirController extends Controller
                 'nama_direktur.required' => 'Masukkan nama direktur',
                 'pangkat_direktur.required' => 'Masukkan pangkat direktur',
                 'nip_direktur.required' => 'Masukkan nip direktur',
-                'kendaraan_id.unique' => 'Nomor Registrasi sudah terdaftar.', // Pesan untuk validasi unique
+                // 'kendaraan_id.unique' => 'Nomor Registrasi sudah terdaftar.', // Pesan untuk validasi unique
 
             ]
         );
@@ -219,7 +235,7 @@ class NokirController extends Controller
                 'gambar_belakang' => $namaGambar2,
                 'gambar_kanan' => $namaGambar3,
                 'gambar_kiri' => $namaGambar4,
-                // 'gambar_logo' => 'gambar_logo/dinas_perhubungan.png',
+                'nopol' => $request->no_pol,
                 'kode_kir' => $this->kode(),
                 'qrcode_kir' => 'https://javaline.id/nokir/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
@@ -231,24 +247,41 @@ class NokirController extends Controller
         return redirect('admin/nokir')->with('success', 'Berhasil menambahkan no. kir');
     }
 
+
+    // public function kode()
+    // {
+
+    //     $nokir = Nokir::all();
+    //     if ($nokir->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Nokir::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'AK';
+    //     $kode_nokir = $data . $num;
+    //     return $kode_nokir;
+    // }
+
     public function kode()
     {
-
-        $nokir = Nokir::all();
-        if ($nokir->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Nokir::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Nokir::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_kir;
+            $num = (int) substr($lastCode, strlen('AK')) + 1;
         }
-
-        $data = 'AK';
-        $kode_nokir = $data . $num;
-        return $kode_nokir;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'AK';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
+
 
     public function kendaraan($id)
     {
@@ -333,7 +366,6 @@ class NokirController extends Controller
                 'nomor_sertifikat_kendaraan.required' => 'Masukkan no sertifikat kendaraan',
                 'kendaraan_id.required' => 'Pilih no kabin',
                 'tanggal_sertifikat.required' => 'Masukkan tanggal sertifikat registrasi',
-                'kategori.required' => 'Pilih kategori perpanjangan',
                 // 'nopol.required' => 'Masukkan no registrasi kendaraan',
                 // 'no_rangka.required' => 'Masukkan no rangka kendaraan',
                 // 'no_mesin.required' => 'Masukkan no motor penggerak',
@@ -355,6 +387,7 @@ class NokirController extends Controller
                 'tinggi.required' => 'Masukkan tinggi',
                 'julur_depan.required' => 'Masukkan julur depan',
                 'julur_belakang.required' => 'Masukkan julur belakang',
+                'kategori.required' => 'Pilih kategori perpanjangan',
                 // 'sumbu_1_2.required' => 'Masukkan sumbu I -> II',
                 // 'sumbu_2_3.required' => 'Masukkan sumbu II -> III',
                 // 'sumbu_3_4.required' => 'Masukkan sumbu III -> IV',

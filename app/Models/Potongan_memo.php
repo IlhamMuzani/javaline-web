@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Potongan_memo extends Model
 {
@@ -20,6 +21,9 @@ class Potongan_memo extends Model
         'nominal',
         'tanggal_awal',
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {

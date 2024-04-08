@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\ServerBag;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pemasangan_ban extends Model
 {
@@ -24,6 +25,9 @@ class Pemasangan_ban extends Model
         'kode_pemasangan',
         'status_notif',
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
 
     public function getActivitylogOptions(): LogOptions

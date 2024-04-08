@@ -163,6 +163,22 @@ class InqueryPemasanganbanController extends Controller
         return redirect()->back()->with('error', 'Data ban tidak ditemukan');
     }
 
+    public function hapuspemasangan($id)
+    {
+        $ban = Ban::find($id);
+
+        if ($ban) {
+            $ban->update([
+                'pelepasan_ban_id' => null,
+                'kendaraan_id' => null,
+                'pemasangan_ban_id' => null,
+                'status' => 'stok'
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil menghapus pemasangan ban');
+        }
+    }
+
     public function delete($id)
     {
         $ban = Pemasangan_ban::find($id);
@@ -191,7 +207,7 @@ class InqueryPemasanganbanController extends Controller
         ]);
 
         $pemasangan_ban = Pemasangan_ban::find($inquerypemasanganban->id);
-        $kendaraan = Kendaraan::where('id', $inquerypemasanganban->kendaraan_id)->first();        
+        $kendaraan = Kendaraan::where('id', $inquerypemasanganban->kendaraan_id)->first();
         $bans = Ban::where('pemasangan_ban_id', $id)->get();
 
         return view('admin.inquery_pemasanganban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));

@@ -78,9 +78,9 @@ class InqueryPemasanganpartController extends Controller
     public function update(Request $request, $id)
     {
         $validasi_pelanggan = Validator::make($request->all(), [
-            'kendaraan_id' => 'required',
+            // 'kendaraan_id' => 'required',
         ], [
-            'kendaraan_id.required' => 'Pilih no kabin!',
+            // 'kendaraan_id.required' => 'Pilih no kabin!',
         ]);
 
         $error_pelanggans = array();
@@ -293,6 +293,27 @@ class InqueryPemasanganpartController extends Controller
     }
 
     public function deletepart($id)
+    {
+        $part = Detail_pemasanganpart::find($id);
+
+        if ($part) {
+            $sparepart = Sparepart::find($part->sparepart_id);
+
+            if ($sparepart) {
+                $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah]);
+
+                $part->delete();
+
+                return response()->json(['message' => 'Data deleted successfully']);
+            } else {
+                return response()->json(['message' => 'Sparepart not found'], 404);
+            }
+        } else {
+            return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
+        }
+    }
+
+    public function hapuspemasanganpart($id)
     {
         $part = Detail_pemasanganpart::find($id);
 

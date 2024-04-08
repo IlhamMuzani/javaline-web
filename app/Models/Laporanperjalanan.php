@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Laporanperjalanan extends Model
 {
@@ -54,6 +55,9 @@ class Laporanperjalanan extends Model
         'timer',
         'kota_id',
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {

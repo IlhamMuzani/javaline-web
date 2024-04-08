@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: 'DOSVGA', Arial, Helvetica, sans-serif;
             color: black;
         }
 
@@ -79,7 +79,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN PENERIMAAN KAS KECIL - RANGKUMAN</span>

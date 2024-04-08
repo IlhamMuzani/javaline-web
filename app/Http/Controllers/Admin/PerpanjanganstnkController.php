@@ -11,7 +11,9 @@ use App\Models\Jenis_kendaraan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\LogPerpanjanganstnk;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_pengeluaran;
 use App\Models\Laporanstnk;
+use App\Models\Pengeluaran_kaskecil;
 use Illuminate\Support\Facades\Validator;
 
 class PerpanjanganstnkController extends Controller
@@ -120,12 +122,43 @@ class PerpanjanganstnkController extends Controller
             'user_id' => auth()->user()->id,
             'kode_perpanjangan' => $this->kode(),
             'stnk_id' => $stnk->id,
+            'kendaraan_id' => $stnk->kendaraan_id,
             'expired_stnk' => $request->expired_stnk,
             'jumlah' => $request->jumlah,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
-            'status' => 'posting',
             'status_notif' => false,
+            'status' => 'unpost',
+
+        ]);
+
+        $kodepengeluaran = $this->kodepengeluaran();
+
+
+        $pengeluaran_kaskecil = Pengeluaran_kaskecil::create([
+            'laporanstnk_id' => $laporan->id,
+            'user_id' => auth()->user()->id,
+            'kode_pengeluaran' => $this->kodepengeluaran(),
+            'kendaraan_id' => $stnk->kendaraan_id,
+            'keterangan' => 'PERPANJANGAN STNK',
+            'grand_total' => str_replace('.', '', $request->jumlah),
+            'jam' => $tanggal1->format('H:i:s'),
+            'tanggal' => $format_tanggal,
+            'tanggal_awal' => $tanggal,
+            'qrcode_return' => 'https://javaline.id/pengeluaran_kaskecil/' . $kodepengeluaran,
+            'status' => 'unpost',
+        ]);
+
+        Detail_pengeluaran::create([
+            'laporanstnk_id' => $laporan->id,
+            'barangakun_id' => 14,
+            'pengeluaran_kaskecil_id' => $pengeluaran_kaskecil->id,
+            'kode_detailakun' => $this->kodeakuns(),
+            'kode_akun' => 'KA000014',
+            'nama_akun' => 'PAJAK KENDARAAN',
+            'keterangan' => 'PERPANJANGAN STNK',
+            'nominal' => str_replace('.', '', $request->jumlah),
+            'status' => 'unpost',
         ]);
 
         $cetakpdf = Stnk::where('id', $id)->first();
@@ -137,23 +170,94 @@ class PerpanjanganstnkController extends Controller
     }
 
 
-    public function kode()
+    public function kodeakuns()
     {
-        $perpanjangan = Laporanstnk::all();
-        if ($perpanjangan->isEmpty()) {
-            $num = "000001";
+        // Mengambil kode terbaru dari database dengan awalan 'MP'
+        $lastBarang = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->latest()->first();
+
+        // Mendapatkan bulan dari tanggal kode terakhir
+        $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
+        $currentMonth = date('m');
+
+        // Jika tidak ada kode sebelumnya atau bulan saat ini berbeda dari bulan kode terakhir
+        if (!$lastBarang || $currentMonth != $lastMonth) {
+            $num = 1; // Mulai dari 1 jika bulan berbeda
         } else {
-            $id = Laporanstnk::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            // Jika ada kode sebelumnya, ambil nomor terakhir
+            $lastCode = $lastBarang->kode_detailakun;
+
+            // Pisahkan kode menjadi bagian-bagian terpisah
+            $parts = explode('/', $lastCode);
+            $lastNum = end($parts); // Ambil bagian terakhir sebagai nomor terakhir
+            $num = (int) $lastNum + 1; // Tambahkan 1 ke nomor terakhir
         }
 
-        $data = 'AR';
-        $kode_perpanjangan = $data . $num;
-        return $kode_perpanjangan;
+        // Format nomor dengan leading zeros sebanyak 6 digit
+        $formattedNum = sprintf("%06s", $num);
+
+        // Awalan untuk kode baru
+        $prefix = 'KKA';
+        $tahun = date('y');
+        $tanggal = date('dm');
+
+        // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
+        $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+
+        // Kembalikan kode
+        return $newCode;
     }
+    public function kodepengeluaran()
+    {
+        // Mengambil kode terbaru dari database dengan awalan 'MP'
+        $lastBarang = Pengeluaran_kaskecil::where('kode_pengeluaran', 'like', 'KK%')->latest()->first();
+
+        // Mendapatkan bulan dari tanggal kode terakhir
+        $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
+        $currentMonth = date('m');
+
+        // Jika tidak ada kode sebelumnya atau bulan saat ini berbeda dari bulan kode terakhir
+        if (!$lastBarang || $currentMonth != $lastMonth) {
+            $num = 1; // Mulai dari 1 jika bulan berbeda
+        } else {
+            // Jika ada kode sebelumnya, ambil nomor terakhir
+            $lastCode = $lastBarang->kode_pengeluaran;
+
+            // Pisahkan kode menjadi bagian-bagian terpisah
+            $parts = explode('/', $lastCode);
+            $lastNum = end($parts); // Ambil bagian terakhir sebagai nomor terakhir
+            $num = (int) $lastNum + 1; // Tambahkan 1 ke nomor terakhir
+        }
+
+        // Format nomor dengan leading zeros sebanyak 6 digit
+        $formattedNum = sprintf("%06s", $num);
+
+        // Awalan untuk kode baru
+        $prefix = 'KK';
+        $tahun = date('y');
+        $tanggal = date('dm');
+
+        // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
+        $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+
+        // Kembalikan kode
+        return $newCode;
+    }
+
+    public function kode()
+    {
+        $lastBarang = Laporanstnk::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
+        } else {
+            $lastCode = $lastBarang->kode_perpanjangan;
+            $num = (int) substr($lastCode, strlen('AR')) + 1;
+        }
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'AR';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
+    }
+
 
     public function show($id)
     {

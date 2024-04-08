@@ -47,7 +47,9 @@
                                 <div class="form-group">
                                     <label for="nominal">Nominal</label>
                                     <input type="text" class="form-control" id="nominal" name="nominal"
-                                        placeholder="Masukan nominal" value="{{ old('nominal') }}">
+                                        placeholder="masukkan nominal" value="{{ old('nominal') }}"
+                                        oninput="formatRupiahsx(this)"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -68,7 +70,7 @@
                                     <label for="sisa_saldo">Sisa Saldo</label>
                                     <input style="text-align: end;margin:right:10px" type="text" class="form-control"
                                         id="sisa_saldo" readonly name="sisa_saldo"
-                                        value="{{ old('sisa_saldo', $saldoTerakhir->latest()->first()->sisa_saldo) }}"
+                                        value="{{ old('sisa_saldo', number_format($saldoTerakhir->latest()->first()->sisa_saldo, 2, ',', '.')) }}"
                                         placeholder="">
                                 </div>
                                 <hr
@@ -78,7 +80,7 @@
 
                             </div>
                             <div class="col-lg-6">
-                                
+
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -91,8 +93,11 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
                     </div>
                 </div>
 
@@ -113,6 +118,18 @@
             return ribuan; // Mengembalikan hanya angka tanpa teks "Rp"
         }
 
+        function formatRupiahxs(angka) {
+            // Menghilangkan semua titik dan koma
+            var cleanedAngka = angka.replace(/[.,]/g, '');
+            // Konversi ke tipe data numerik
+            var parsedAngka = parseFloat(cleanedAngka);
+            // Mengubah ke format rupiah dengan dua digit desimal dan koma sebagai pemisah desimal
+            var formattedAngka = parsedAngka.toLocaleString('id-ID', {
+                minimumFractionDigits: 2
+            });
+            return formattedAngka;
+        }
+
         // Fungsi untuk menangani perubahan nilai pada input nominal
         $('#nominal').on('input', function() {
             // Mengambil nilai input nominal
@@ -121,11 +138,11 @@
             // Memeriksa apakah input nominal kosong atau tidak
             if (nominalValue === "") {
                 // Jika kosong, set form saldo masuk dan sub total menjadi 0
-                $('#saldo_masuk').val("0");
+                $('#saldo_masuk').val("0,00");
                 updateSubTotal(); // Memanggil fungsi updateSubTotal tanpa argumen
             } else {
-                // Jika tidak kosong, mengonversi nilai ke format rupiah
-                var saldoMasukValue = formatRupiah(nominalValue);
+                // Mengonversi nilai ke format rupiah
+                var saldoMasukValue = formatRupiahxs(nominalValue);
 
                 // Menetapkan nilai ke input saldo masuk
                 $('#saldo_masuk').val(saldoMasukValue);
@@ -135,13 +152,24 @@
             }
         });
 
+
+
         // Fungsi untuk mengonversi sisa saldo ke format rupiah saat dokumen selesai dimuat
+        // Fungsi untuk memformat angka menjadi format Rupiah yang benar
+        // function formatRupiahx(angka) {
+        //     // Mengganti titik dengan koma untuk memisahkan desimal
+        //     var formattedAngka = angka.toString().replace(/\./g, ',');
+        //     // Lakukan pemisahan ribuan menggunakan titik
+        //     var ribuan = formattedAngka.replace(/\d(?=(\d{3})+(?!\d))/g, '$&.');
+        //     return ribuan;
+        // }
+
         $(document).ready(function() {
             // Mengambil nilai sisa saldo dari elemen dengan id sisa_saldo
             var sisaSaldoValue = $('#sisa_saldo').val();
 
             // Mengonversi nilai ke format rupiah
-            var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
+            var sisaSaldoRupiah = formatRupiahx(sisaSaldoValue);
 
             // Menetapkan nilai ke input sisa saldo
             $('#sisa_saldo').val(sisaSaldoRupiah);
@@ -150,26 +178,53 @@
             updateSubTotal();
         });
 
-        // Fungsi untuk memperbarui nilai sub total
+
         function updateSubTotal() {
             // Mengambil nilai saldo masuk dan sisa saldo
             var saldoMasuk = parseCurrency($('#saldo_masuk').val());
             var sisaSaldo = parseCurrency($('#sisa_saldo').val());
 
             // Menghitung sub total
-            var subTotal = saldoMasuk + sisaSaldo;
+            var subTotal = sisaSaldo + saldoMasuk;
 
             // Mengonversi nilai sub total ke format rupiah
-            var subTotalRupiah = "Rp " + formatRupiah(subTotal);
+            var subTotalRupiah = subTotal.toLocaleString('id-ID', {
+                minimumFractionDigits: 2
+            });
 
             // Menetapkan nilai ke input sub total
-            $('#sub_total').val(subTotalRupiah);
+            $('#sub_total').val("Rp " + subTotalRupiah);
         }
 
         // Fungsi untuk mengubah format uang ke angka
         function parseCurrency(value) {
-            return parseInt(value.replace(/[^0-9]/g, ''));
+            // Hilangkan semua karakter kecuali digit, koma, dan tanda minus
+            var cleanedValue = value.replace(/[^\d,-]/g, '');
+
+            // Jika nilai memiliki tanda minus di awal
+            var isNegative = false;
+            if (cleanedValue.charAt(0) === '-') {
+                isNegative = true;
+                // Hilangkan tanda minus agar bisa di-parse sebagai angka
+                cleanedValue = cleanedValue.slice(1);
+            }
+
+            // Ubah koma menjadi titik untuk memisahkan desimal
+            cleanedValue = cleanedValue.replace(',', '.');
+
+            // Ubah menjadi tipe data float
+            var parsedValue = parseFloat(cleanedValue);
+
+            // Jika nilai negatif, ubah ke bentuk negatif setelah di-parse
+            if (isNegative) {
+                parsedValue *= -1;
+            }
+
+            return parsedValue;
         }
+
+
+
 
         // max="{{ date('Y-m-d') }}"
 
@@ -186,5 +241,32 @@
         // tanggalAkhir.setAttribute('min', this.value);
     </script>
 
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
+
+    <script>
+        function formatRupiahsx(input) {
+            // Hapus karakter selain angka
+            var value = input.value.replace(/\D/g, "");
+
+            // Format angka dengan menambahkan titik sebagai pemisah ribuan
+            value = new Intl.NumberFormat('id-ID').format(value);
+
+            // Tampilkan nilai yang sudah diformat ke dalam input
+            input.value = value;
+        }
+    </script>
 
 @endsection

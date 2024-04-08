@@ -68,8 +68,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode Perpanjangan</th>
@@ -84,7 +84,13 @@
                                     data-target="#modal-posting-{{ $inquerys->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $inquerys->kode_perpanjangan }}</td>
-                                    <td>{{ $inquerys->nokir->kendaraan->no_pol }}</td>
+                                    <td>
+                                        @if ($inquerys->nokir->kendaraan)
+                                            {{ $inquerys->nokir->kendaraan->no_pol }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
                                     <td>{{ $inquerys->masa_berlaku }}</td>
                                     <td class="text-center">
                                         @if ($inquerys->status == 'posting')

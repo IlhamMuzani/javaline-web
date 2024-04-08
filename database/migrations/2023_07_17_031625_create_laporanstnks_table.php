@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('status_stnk')->nullable();
             $table->string('status_notif')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

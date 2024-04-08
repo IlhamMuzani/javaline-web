@@ -1459,7 +1459,6 @@
                                                 name="no_seri" placeholder="" value="{{ $bans3b->no_seri }}">
                                         </div>
 
-
                                         <div class="form-group">
                                             <label for="km_pemasangan">Km Pemasangan</label>
                                             <input type="text" class="form-control" readonly id="km_pemasangan1"
@@ -1489,10 +1488,11 @@
                                                     Stok</option>
                                             </select>
                                         </div>
-                                        <div class="card-footer text-right">
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
-                                            <button type="submit" class="btn btn-primary">Simpan</button>
-                                        </div>
+                                    </div>
+                                    <div class="card-footer text-right">
+                                        <button type="reset" class="btn btn-secondary">Reset</button>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -1948,6 +1948,9 @@
                                                 <option value="Pecah"
                                                     {{ old('keterangan') == 'Pecah' ? 'selected' : null }}>
                                                     Pecah</option>
+                                                <option value="Stok"
+                                                    {{ old('keterangan') == 'Stok' ? 'selected' : null }}>
+                                                    Stok</option>
                                             </select>
                                         </div>
                                     </div>

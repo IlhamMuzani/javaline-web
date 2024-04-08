@@ -67,22 +67,37 @@ class BiayatambahanController extends Controller
     }
 
 
+    // public function kode()
+    // {
+    //     $type = Biaya_tambahan::all();
+    //     if ($type->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Biaya_tambahan::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'BT';
+    //     $kode_type = $data . $num;
+    //     return $kode_type;
+    // }
+
     public function kode()
     {
-        $type = Biaya_tambahan::all();
-        if ($type->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Biaya_tambahan::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Biaya_tambahan::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_biaya;
+            $num = (int) substr($lastCode, strlen('BT')) + 1;
         }
-
-        $data = 'BT';
-        $kode_type = $data . $num;
-        return $kode_type;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'BT';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
     public function edit($id)

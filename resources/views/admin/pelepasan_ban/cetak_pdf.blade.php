@@ -71,7 +71,7 @@
 
 <body style="margin: 0; padding: 0;">
    <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
@@ -98,7 +98,7 @@
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No.</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Posisi</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Ban</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No. Seri</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Ukuran</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Merek</td>
@@ -191,6 +191,9 @@
             </td>
         </tr>
     </table>
+        <div style="text-align: right; font-size:12px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div>
 </body>
 
 </html>

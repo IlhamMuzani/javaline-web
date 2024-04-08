@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Deposit_driver extends Model
 {
@@ -15,6 +16,7 @@ class Deposit_driver extends Model
 
     protected $fillable = [
         'karyawan_id',
+        'memo_ekspedisi_id',
         'kategori',
         'kode_deposit',
         'kode_sopir',
@@ -31,6 +33,9 @@ class Deposit_driver extends Model
         'status_notif',
     ];
 
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {

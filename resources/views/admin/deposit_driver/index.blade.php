@@ -77,123 +77,127 @@
                             <input type="text" class="form-control" name="nama_sopir" id="nama_lengkap" readonly
                                 placeholder="" value="{{ old('nama_sopir') }}">
                         </div>
+                        <div class="form-group" hidden>
+                            <label for="sub_total2">Sub total Hidden</label>
+                            <input type="text" class="form-control" name="sub_total2" id="sub_total2" readonly
+                                placeholder="" value="{{ old('sub_total2') }}">
+                        </div>
                     </div>
                 </div>
-                <div id="pemasukan" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Pemasukan Deposit Sopir</h3>
+                <div class="card">
+                    <div id="pemasukan">
+                        <div class="card-header">
+                            <h3 class="card-title">Pemasukan Deposit Sopir</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="nominal">Nominal</label>
+                                        <input type="text" class="form-control" id="nominal" name="nominal"
+                                            placeholder="Masukan nominal" value="{{ old('nominal') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="saldo_masuk">Saldo Masuk</label>
+                                        <input style="text-align: end" type="text" class="form-control" readonly
+                                            id="saldo_masuk" name="saldo_masuk" placeholder=""
+                                            value="{{ old('saldo_masuk') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="alamat">Keterangan</label>
+                                        <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="sisa_saldo">Sisa Saldo</label>
+                                        <input style="text-align: end;margin:right:10px" type="text"
+                                            class="form-control" id="sisa_saldo" readonly name="sisa_saldo"
+                                            value="{{ old('sisa_saldo') }}" placeholder="">
+                                    </div>
+                                    <hr
+                                        style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
+                                    <span
+                                        style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">+</span>
+
+                                </div>
+                                <div class="col-lg-6">
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="sub_total">Sub Total</label>
+                                        <input style="text-align: end; margin:right:10px" type="text"
+                                            class="form-control" readonly id="sub_total" name="sub_total" placeholder=""
+                                            value="{{ old('sub_total') }}">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="nominal">Nominal</label>
-                                    <input type="text" class="form-control" id="nominal" name="nominal"
-                                        placeholder="Masukan nominal" value="{{ old('nominal') }}">
+                    <div id="pengambilan">
+                        <div class="card-header">
+                            <h3 class="card-title">Pengambilan Deposit Sopir</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="nominal">Nominal</label>
+                                        <input type="text" class="form-control" id="nominals" name="nominals"
+                                            placeholder="Masukan nominal" value="{{ old('nominals') }}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="saldo_masuk">Saldo Masuk</label>
-                                    <input style="text-align: end" type="text" class="form-control" readonly
-                                        id="saldo_masuk" name="saldo_masuk" placeholder="" value="{{ old('saldo_masuk') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="alamat">Keterangan</label>
-                                    <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sisa_saldo">Sisa Saldo</label>
-                                    <input style="text-align: end;margin:right:10px" type="text" class="form-control"
-                                        id="sisa_saldo" readonly name="sisa_saldo" value="{{ old('sisa_saldo') }}"
-                                        placeholder="">
-                                </div>
-                                <hr
-                                    style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
-                                <span
-                                    style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">+</span>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="sisa_saldo">Sisa Saldo</label>
+                                        <input style="text-align: end;margin:right:10px" type="text"
+                                            class="form-control" id="sisa_saldos" readonly name="sisa_saldos"
+                                            value="{{ old('sisa_saldos') }}" placeholder="">
 
-                            </div>
-                            <div class="col-lg-6">
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sub_total">Sub Total</label>
-                                    <input style="text-align: end; margin:right:10px" type="text" class="form-control"
-                                        readonly id="sub_total" name="sub_total" placeholder=""
-                                        value="{{ old('sub_total') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="alamat">Keterangan</label>
+                                        <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="saldo_masuk">Potongan Saldo</label>
+                                        <input style="text-align: end" type="text" class="form-control" readonly
+                                            id="saldo_keluar" name="saldo_keluar" placeholder=""
+                                            value="{{ old('saldo_keluar') }}">
+                                    </div>
+                                    <hr
+                                        style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
+                                    <span
+                                        style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
+                                </div>
+                                <div class="col-lg-6">
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="sub_total">Sub Total</label>
+                                        <input style="text-align: end; margin:right:10px" type="text"
+                                            class="form-control" readonly id="sub_totals" name="sub_totals"
+                                            placeholder="" value="{{ old('sub_totals') }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </div>
-
-                <div id="pengambilan" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Pengambilan Deposit Sopir</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="nominal">Nominal</label>
-                                    <input type="text" class="form-control" id="nominals" name="nominals"
-                                        placeholder="Masukan nominal" value="{{ old('nominals') }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sisa_saldo">Sisa Saldo</label>
-                                    <input style="text-align: end;margin:right:10px" type="text" class="form-control"
-                                        id="sisa_saldos" readonly name="sisa_saldos" value="{{ old('sisa_saldos') }}"
-                                        placeholder="">
-
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="alamat">Keterangan</label>
-                                    <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="saldo_masuk">Potongan Saldo</label>
-                                    <input style="text-align: end" type="text" class="form-control" readonly
-                                        id="saldo_keluar" name="saldo_keluar" placeholder=""
-                                        value="{{ old('saldo_keluar') }}">
-                                </div>
-                                <hr
-                                    style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
-                                <span
-                                    style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
-
-                            </div>
-                            <div class="col-lg-6">
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sub_total">Sub Total</label>
-                                    <input style="text-align: end; margin:right:10px" type="text" class="form-control"
-                                        readonly id="sub_totals" name="sub_totals" placeholder=""
-                                        value="{{ old('sub_totals') }}">
-                                </div>
-                            </div>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
                         </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </div>
             </form>
@@ -229,7 +233,8 @@
                                             <td>{{ $sopir->kode_karyawan }}</td>
                                             <td>{{ $sopir->nama_lengkap }}</td>
                                             <td>{{ $sopir->telp }}</td>
-                                            <td>{{ $sopir->tabungan }}</td>
+                                            <td> {{ number_format($sopir->tabungan, 0, ',', '.') }}
+                                            </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedData('{{ $sopir->id }}',
@@ -256,17 +261,32 @@
             $('#tableSopir').modal('show');
         }
 
+        // function formatCurrency(number) {
+        //     // Format number as currency with period as thousands separator and comma as decimal separator
+        //     const formattedNumber = new Intl.NumberFormat('id-ID', {
+        //         style: 'currency',
+        //         currency: 'IDR',
+        //         minimumFractionDigits: 0,
+        //     }).format(number);
+
+        //     // Remove the currency symbol "Rp"
+        //     return formattedNumber.replace(/^.*?\s/, '');
+        // }
         function formatCurrency(number) {
+            // Check if the number is negative
+            const isNegative = number < 0;
+
             // Format number as currency with period as thousands separator and comma as decimal separator
             const formattedNumber = new Intl.NumberFormat('id-ID', {
                 style: 'currency',
                 currency: 'IDR',
                 minimumFractionDigits: 0,
-            }).format(number);
+            }).format(Math.abs(number)); // Use Math.abs() to work with the absolute value
 
-            // Remove the currency symbol "Rp"
-            return formattedNumber.replace(/^.*?\s/, '');
+            // Add a minus sign for negative numbers
+            return isNegative ? `-${formattedNumber}` : formattedNumber;
         }
+
 
         function getSelectedData(Sopir_id, KodeSopir, NamaSopir, Tabungan) {
             // Set the values in the form fields
@@ -274,7 +294,7 @@
             document.getElementById('kode_karyawan').value = KodeSopir;
             document.getElementById('nama_lengkap').value = NamaSopir;
 
-            // Format Tabungan as currency without "Rp"
+            // Format Tabungan as currency with proper handling for negative values
             const formattedTabungan = formatCurrency(Tabungan);
 
             document.getElementById('sisa_saldo').value = formattedTabungan;
@@ -342,9 +362,11 @@
 
             // Mengonversi nilai sub total ke format rupiah
             var subTotalRupiah = "Rp " + formatRupiah(subTotal);
+            var subTotalRupiahs = (subTotal);
 
             // Menetapkan nilai ke input sub total
             $('#sub_total').val(subTotalRupiah);
+            $('#sub_total2').val(subTotalRupiahs);
         }
 
         // Fungsi untuk mengubah format uang ke angka
@@ -465,9 +487,11 @@
 
             // Mengonversi nilai sub total ke format rupiah dengan menambahkan simbol mines (-)
             var subTotalRupiah = "Rp " + (subTotal < 0 ? "- " : "") + formatRupiah(Math.abs(subTotal));
+            var subTotalRupiahs = (subTotal);
 
             // Menetapkan nilai ke input sub total
             $('#sub_totals').val(subTotalRupiah);
+            $('#sub_total2').val(subTotalRupiahs);
         }
 
         // Fungsi untuk mengubah format uang ke angka
@@ -476,5 +500,18 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
 
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
 @endsection

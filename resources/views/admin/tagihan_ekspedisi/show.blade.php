@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tagihan Ekspedisi</title>
+    <title>Invoice Ekspedisi</title>
     <style>
         html,
         body {
@@ -34,7 +34,7 @@
         }
 
         .info-column {
-            padding-left: 5px;
+            /* padding-left: 5px; */
         }
 
         .info-titik {
@@ -76,13 +76,13 @@
 
     <table width="100%">
         <tr>
-            <td style="width:10%;">
+            <td style="width:20%;">
                 <div style="text-align: left;">
-                        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="260"
-                            height="100">
+                    <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="150"
+                        height="75">
                 </div>
             </td>
-            <td style="width: 90%; text-align: left;">
+            <td style="width: 70%; text-align: left;">
                 <div style="text-align: center;">
                     <span style="font-weight: bold; font-size: 25px;">PT JAVA LINE LOGISTICS</span>
                     <br>
@@ -115,29 +115,100 @@
     <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
     <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
     <div style="text-align: left; margin-top:10px">
-        <span style="font-weight: bold; font-size: 16px;">No Faktur : <span>{{ $cetakpdf->kode_tagihan }}</span></span>
+        <table width="100%">
+            <tr>
+                <td style="width:30%;">
+                    <table style="font-weight: bold; font-size: 16px;">
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">No Invoice</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 16px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">{{ $cetakpdf->kode_tagihan }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">Periode</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 16px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">
+                                    {{ \Carbon\Carbon::parse($cetakpdf->periode_awal)->locale('id')->isoFormat('D MMMM') .
+                                        ' - ' .
+                                        \Carbon\Carbon::parse($cetakpdf->periode_akhir)->locale('id')->isoFormat('D MMMM YYYY') }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">No. Aproval</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 16px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;"></span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 70%; text-align: left;">
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div style="text-align: center;">
-        <span style="font-weight: bold; font-size: 20px;">DAFTAR RINCIAN FAKTUR</span>
+    <div style="text-align: left; margin-top:10px">
+        <span>Kepada Yth.</span>
+        <br>
+        <span style="font-weight: bold; font-size: 16px;">{{ $cetakpdf->nama_pelanggan }}</span>
     </div>
-    <div style="text-align: center; margin-top:8px">
+    <div style="text-align: left;">
+        <table width="100%">
+            <tr>
+                <td style="width:40%;">
+                    <table>
+                        <tr>
+                            <td>
+                                <span style="font-size: 16px;">{{ $cetakpdf->alamat_pelanggan }}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 70%; text-align: left;">
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <div style="text-align: center;">
+        <span style="font-weight: bold; font-size: 20px;">INVOICE FAKTUR EKSPEDISI</span>
+    </div>
+    {{-- <div style="text-align: center; margin-top:8px">
         <span style="font-size: 19px;">Jasa Pengiriman Barang <span
                 style="font-weight: bold;">{{ $cetakpdf->nama_pelanggan }}</span></span>
     </div>
     <div style="text-align: center;">
         <span style="font-size: 19px;">Daftar Rincian Sebagai Berikut :</span>
-    </div>
+    </div> --}}
     <br>
     <hr style="border: 1px solid;">
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. SJ</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">tgl. SJ</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Faktur</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Rute</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Registrasi</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">tgl. Kirim</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Faktur</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. DO</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. PO</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Mobil</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Qty</td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Harga</td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
@@ -155,16 +226,19 @@
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $loop->iteration }} </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    {{ $item->no_memo }}
+                <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                    {{ $item->nama_rute }}
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $item->tanggal_memo }}</td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $item->kode_faktur }}
                 </td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
-                    {{ $item->nama_rute }}
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ $item->no_do }}
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ $item->no_po }}
                 </td>
                 <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
                     {{ $item->no_pol }}
@@ -173,16 +247,58 @@
                     {{ $item->jumlah }} {{ $item->satuan }}
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    {{ number_format($item->harga, 0, ',', '.') }}
+                    {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($item->total, 0, ',', '.') }}
+                    @if ($item->faktur_ekspedisi)
+                        @if ($item->faktur_ekspedisi->biaya_tambahan != 0)
+                            {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}
+                        @else
+                            {{ number_format($item->total, 2, ',', '.') }}
+                        @endif
+                    @else
+                        {{ number_format($item->total, 2, ',', '.') }}
+                    @endif
                 </td>
             </tr>
             @php
                 $totalRuteSum += $item->total;
             @endphp
+
+            @foreach ($item->faktur_ekspedisi->detail_tariftambahan as $detail_tariftambahan)
+                <tr>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    </td>
+                    <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                         {{ $detail_tariftambahan->keterangan_tambahan }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ $item->tanggal_memo }}</td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ $item->kode_faktur }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ $item->no_do }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ $item->no_po }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                        {{ $item->no_pol }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                        {{ $item->jumlah }} {{ $item->satuan }}
+                    </td>
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                        {{ number_format($detail_tariftambahan->nominal_tambahan, 2, ',', '.') }}
+                    </td>
+                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                        {{ number_format($detail_tariftambahan->nominal_tambahan, 2, ',', '.') }}
+                    </td>
+                </tr>
+            @endforeach
         @endforeach
+
         <tr>
         </tr>
     </table>
@@ -199,7 +315,7 @@
             </td>
             <td style="text-align: right; padding: 0px;">
                 <span class="info-item" style="font-size: 15px; padding-right:24px">
-                    {{ number_format($totalRuteSum, 0, ',', '.') }}
+                    {{ number_format($totalRuteSum, 2, ',', '.') }}
                 </span>
             </td>
         </tr>
@@ -232,10 +348,10 @@
 
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    Dasar Pengenaan Pajak(DPP) :
+                    DPP :
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($totalRuteSum, 0, ',', '.') }}
+                    {{ number_format($totalRuteSum, 2, ',', '.') }}
                 </td>
             </tr>
 
@@ -253,10 +369,10 @@
 
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    PPH23 = 2% * Dasar Pengenaan Pajak :
+                    PPH23 = 2% :
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($cetakpdf->pph, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->pph, 2, ',', '.') }}
                 </td>
             </tr>
 
@@ -304,7 +420,7 @@
                 Grand Total :
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                {{ number_format($cetakpdf->grand_total, 0, ',', '.') }}
+                {{ number_format($cetakpdf->grand_total, 2, ',', '.') }}
 
             </td>
         </tr>
@@ -312,29 +428,47 @@
         <tr>
         </tr>
     </table>
-    <br>
-    <br>
-    <br>
 
-    {{-- <table style="width: 100%; margin-bottom:0px;">
-        <tr>
-            <td>
-                vxcvxc
-            </td>
-            <td style="text-align: right; padding-right: 100px;">
-                <span class="info-item" style="font-size: 15px; padding-right:24px">
-                    Tegal, {{ $cetakpdf->tanggal }}
-                </span>
-                <br>
-                <span class="info-item" style="font-size: 15px; padding-right:70px">
-                    Mengetahui,
-                </span>
-            </td>
-        </tr>
-    </table> --}}
+    <?php
+    function terbilang($angka)
+    {
+        $angka = abs($angka); // Pastikan angka selalu positif
+        $bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
+        $hasil = '';
+        if ($angka < 12) {
+            $hasil = $bilangan[$angka];
+        } elseif ($angka < 20) {
+            $hasil = terbilang($angka - 10) . ' Belas';
+        } elseif ($angka < 100) {
+            $hasil = terbilang($angka / 10) . ' Puluh ' . terbilang($angka % 10);
+        } elseif ($angka < 200) {
+            $hasil = 'Seratus ' . terbilang($angka - 100);
+        } elseif ($angka < 1000) {
+            $hasil = terbilang($angka / 100) . ' Ratus ' . terbilang($angka % 100);
+        } elseif ($angka < 2000) {
+            $hasil = 'Seribu ' . terbilang($angka - 1000);
+        } elseif ($angka < 1000000) {
+            $hasil = terbilang($angka / 1000) . ' Ribu ' . terbilang($angka % 1000);
+        } elseif ($angka < 1000000000) {
+            $hasil = terbilang($angka / 1000000) . ' Juta ' . terbilang($angka % 1000000);
+        } elseif ($angka < 1000000000000) {
+            $hasil = terbilang($angka / 1000000000) . ' Miliar ' . terbilang($angka % 1000000000);
+        } elseif ($angka < 1000000000000000) {
+            $hasil = terbilang($angka / 1000000000000) . ' Triliun ' . terbilang($angka % 1000000000000);
+        }
+        return $hasil;
+    }
+    ?>
+    <div>
+        Terbilang : <span style="font-weight: bold; font-style: italic;">
+            ({{ terbilang($cetakpdf->grand_total) }}
+            Rupiah)
+        </span>
+    </div>
     <br>
-
-
+    <br>
+    <br>
+    <br>
     <table width="100%">
         <tr>
             <td style="width:60%;">
@@ -343,7 +477,7 @@
                         <td>
                             Pembayaran <br>
                             <span>
-                                Bank BCA No. Rek. 3620567000. Java Line Logistics
+                                Bank BCA No. Rek. 3620567000. PT. Java Line Logistics
                             </span>
                         </td>
                     </tr>
@@ -372,7 +506,8 @@
                                 <tr style="text-align: center;">
                                     <td class="label">
                                         <span class="info-item" style="font-size: 15px; padding-right:24px">
-                                            Tegal, {{ $cetakpdf->tanggal }}
+                                            Tegal,
+                                            {{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
                                         </span>
                                         <br>
                                         <span class="info-item" style="font-size: 15px; padding-right:40px">
@@ -395,7 +530,7 @@
                                 <tr style="text-align: center;">
                                     <td class="label">
                                         <span class="info-item" style="font-size: 15px; padding-right:24px">
-                                            JAVA LINE
+                                            PT JAVA LINE LOGISTICS
                                         </span>
                                     </td>
                                 </tr>
@@ -415,7 +550,7 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_tagihanekspedisi') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/tagihan_ekspedisi') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/tagihan_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 

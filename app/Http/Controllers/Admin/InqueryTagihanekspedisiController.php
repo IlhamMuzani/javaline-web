@@ -74,10 +74,10 @@ class InqueryTagihanekspedisiController extends Controller
     {
         $inquery = Tagihan_ekspedisi::where('id', $id)->first();
         $details  = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
-        $pelanggans = Pelanggan::all();
-        $fakturs = Faktur_ekspedisi::all();
+        // $pelanggans = Pelanggan::all();
+        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting'])->get();
         $tarifs = Tarif::all();
-        return view('admin.inquery_tagihanekspedisi.update', compact('details', 'tarifs', 'fakturs', 'pelanggans', 'inquery'));
+        return view('admin.inquery_tagihanekspedisi.update', compact('details', 'tarifs', 'fakturs', 'inquery'));
     }
 
     public function update(Request $request, $id)
@@ -111,7 +111,9 @@ class InqueryTagihanekspedisiController extends Controller
                     'faktur_ekspedisi_id.' . $i => 'required',
                     'kode_faktur.' . $i => 'required',
                     'nama_rute.' . $i => 'required',
-                    'no_memo.' . $i => 'required',
+                    // 'no_memo.' . $i => 'required',
+                    'no_do.' . $i => 'required',
+                    // 'no_po.' . $i => 'required',
                     'tanggal_memo.' . $i => 'required',
                     'no_kabin.' . $i => 'required',
                     'no_pol.' . $i => 'required',
@@ -129,6 +131,8 @@ class InqueryTagihanekspedisiController extends Controller
                 $kode_faktur = is_null($request->kode_faktur[$i]) ? '' : $request->kode_faktur[$i];
                 $nama_rute = is_null($request->nama_rute[$i]) ? '' : $request->nama_rute[$i];
                 $no_memo = is_null($request->no_memo[$i]) ? '' : $request->no_memo[$i];
+                $no_do = is_null($request->no_do[$i]) ? '' : $request->no_do[$i];
+                // $no_po = is_null($request->no_po[$i]) ? '' : $request->no_po[$i];
                 $tanggal_memo = is_null($request->tanggal_memo[$i]) ? '' : $request->tanggal_memo[$i];
                 $no_kabin = is_null($request->no_kabin[$i]) ? '' : $request->no_kabin[$i];
                 $no_pol = is_null($request->no_pol[$i]) ? '' : $request->no_pol[$i];
@@ -143,6 +147,8 @@ class InqueryTagihanekspedisiController extends Controller
                     'kode_faktur' => $kode_faktur,
                     'nama_rute' => $nama_rute,
                     'no_memo' => $no_memo,
+                    'no_do' => $no_do,
+                    // 'no_po' => $no_po,
                     'tanggal_memo' => $tanggal_memo,
                     'no_kabin' => $no_kabin,
                     'no_pol' => $no_pol,
@@ -177,10 +183,13 @@ class InqueryTagihanekspedisiController extends Controller
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat_pelanggan' => $request->alamat_pelanggan,
             'telp_pelanggan' => $request->telp_pelanggan,
-            'pph' => str_replace('.', '', $request->pph),
-            'sub_total' => str_replace('.', '', $request->sub_total),
-            'grand_total' => str_replace('.', '', $request->grand_total),
+            'periode_awal' => $request->periode_awal,
+            'periode_akhir' => $request->periode_akhir,
+            'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
+            'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'keterangan' => $request->keterangan,
+            'status' => 'posting',
         ]);
 
         $transaksi_id = $cetakpdf->id;
@@ -190,20 +199,24 @@ class InqueryTagihanekspedisiController extends Controller
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                Detail_tagihan::where('id', $detailId)->update([
+                $existingDetail = Detail_tagihan::findOrFail($detailId);
+                $existingDetail->update([
                     'tagihan_ekspedisi_id' => $cetakpdf->id,
                     'faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id'],
                     'kode_faktur' => $data_pesanan['kode_faktur'],
                     'nama_rute' => $data_pesanan['nama_rute'],
                     'no_memo' => $data_pesanan['no_memo'],
+                    'no_do' => $data_pesanan['no_do'],
+                    // 'no_po' => $data_pesanan['no_po'],
                     'tanggal_memo' => $data_pesanan['tanggal_memo'],
                     'no_kabin' => $data_pesanan['no_kabin'],
                     'no_pol' => $data_pesanan['no_pol'],
-                    'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
-                    'harga' => str_replace('.', '', $data_pesanan['harga']),
-                    'total' => str_replace('.', '', $data_pesanan['total']),
+                    'jumlah' =>  $data_pesanan['jumlah'],
+                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]);
+                Faktur_ekspedisi::where('id', $existingDetail->faktur_ekspedisi_id)->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
             } else {
                 $existingDetail = Detail_tagihan::where([
                     'tagihan_ekspedisi_id' => $cetakpdf->id,
@@ -211,30 +224,38 @@ class InqueryTagihanekspedisiController extends Controller
                     'kode_faktur' => $data_pesanan['kode_faktur'],
                     'nama_rute' => $data_pesanan['nama_rute'],
                     'no_memo' => $data_pesanan['no_memo'],
+                    'no_do' => $data_pesanan['no_do'],
+                    // 'no_po' => $data_pesanan['no_po'],
                     'tanggal_memo' => $data_pesanan['tanggal_memo'],
                     'no_kabin' => $data_pesanan['no_kabin'],
                     'no_pol' => $data_pesanan['no_pol'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
-                    'harga' => str_replace('.', '', $data_pesanan['harga']),
-                    'total' => str_replace('.', '', $data_pesanan['total']),
+                    // 'jumlah' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['jumlah'])),
+                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ])->first();
 
                 if (!$existingDetail) {
-                    Detail_tagihan::create([
+                    $detailTagihan = Detail_tagihan::create([
                         'tagihan_ekspedisi_id' => $cetakpdf->id,
                         'faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id'],
                         'kode_faktur' => $data_pesanan['kode_faktur'],
                         'nama_rute' => $data_pesanan['nama_rute'],
                         'no_memo' => $data_pesanan['no_memo'],
+                        'no_do' => $data_pesanan['no_do'],
+                        // 'no_po' => $data_pesanan['no_po'],
                         'tanggal_memo' => $data_pesanan['tanggal_memo'],
                         'no_kabin' => $data_pesanan['no_kabin'],
                         'no_pol' => $data_pesanan['no_pol'],
                         'jumlah' => $data_pesanan['jumlah'],
                         'satuan' => $data_pesanan['satuan'],
-                        'harga' => str_replace('.', '', $data_pesanan['harga']),
-                        'total' => str_replace('.', '', $data_pesanan['total']),
+                        // 'jumlah' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['jumlah'])),
+                        'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                        'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                     ]);
+
+                    Faktur_ekspedisi::where('id', $detailTagihan->faktur_ekspedisi_id)->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
                 }
             }
         }
@@ -253,8 +274,15 @@ class InqueryTagihanekspedisiController extends Controller
 
     public function unposttagihan($id)
     {
-        $item = Tagihan_ekspedisi::where('id', $id)->first();
+        $item = Tagihan_ekspedisi::findOrFail($id);
+        $details = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
 
+        // Memperbarui status faktur ekspedisi untuk setiap detail yang sesuai
+        foreach ($details as $detail) {
+            Faktur_ekspedisi::where(['id' => $detail->faktur_ekspedisi_id, 'status' => 'selesai'])->update(['status_tagihan' => null, 'status' => 'posting']);
+        }
+
+        // Memperbarui status tagihan ekspedisi menjadi 'posting'
         $item->update([
             'status' => 'unpost'
         ]);
@@ -264,8 +292,15 @@ class InqueryTagihanekspedisiController extends Controller
 
     public function postingtagihan($id)
     {
-        $item = Tagihan_ekspedisi::where('id', $id)->first();
+        $item = Tagihan_ekspedisi::findOrFail($id);
+        $details = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
 
+        // Memperbarui status faktur ekspedisi untuk setiap detail yang sesuai
+        foreach ($details as $detail) {
+            Faktur_ekspedisi::where(['id' => $detail->faktur_ekspedisi_id, 'status' => 'posting'])->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
+        }
+
+        // Memperbarui status tagihan ekspedisi menjadi 'posting'
         $item->update([
             'status' => 'posting'
         ]);
@@ -275,11 +310,52 @@ class InqueryTagihanekspedisiController extends Controller
 
     public function hapustagihan($id)
     {
-        $item = Tagihan_ekspedisi::where('id', $id)->first();
+        $tagihan = Tagihan_ekspedisi::where('id', $id)->first();
 
-        $item->detail_tagihan()->delete();
-        $item->delete();
+        if ($tagihan) {
+            $detailtagihan = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
 
-        return back()->with('success', 'Berhasil');
+            // Loop through each Detail_tagihan and update associated Faktur_ekspedisi records
+            // foreach ($detailtagihan as $detail) {
+            //     if ($detail->faktur_ekspedisi_id) {
+            //         Faktur_ekspedisi::where('id', $detail->faktur_ekspedisi_id)->update(['status_faktur' => null]);
+            //     }
+            // }
+
+            // Delete related Detail_tagihan instances
+            Detail_tagihan::where('tagihan_ekspedisi_id', $id)->delete();
+
+            // Delete the main Tagihan_ekspedisi instance
+            $tagihan->delete();
+
+            return back()->with('success', 'Berhasil menghapus Faktur Ekspedisi');
+        } else {
+            // Handle the case where the Tagihan_ekspedisi with the given ID is not found
+            return back()->with('error', 'Faktur Ekspedisi tidak ditemukan');
+        }
     }
+
+    public function deletedetailtagihan($id)
+    {
+        $item = Detail_tagihan::find($id);
+
+        if ($item) {
+            $item->delete();
+            return response()->json(['message' => 'Data deleted successfully']);
+        } else {
+            return response()->json(['message' => 'Detail Faktur not found'], 404);
+        }
+    }
+
+
+
+    // public function hapustagihan($id)
+    // {
+    //     $item = Tagihan_ekspedisi::where('id', $id)->first();
+
+    //     // $item->detail_tagihan()->delete();
+    //     // $item->delete();
+
+    //     // return back()->with('success', 'Berhasil');
+    // }
 }

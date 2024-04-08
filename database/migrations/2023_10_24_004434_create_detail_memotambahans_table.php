@@ -19,8 +19,12 @@ return new class extends Migration
             $table->foreign('memotambahan_id')->references('id')->on('memotambahans');
             $table->string('kode_tambahan')->nullable();
             $table->string('keterangan_tambahan')->nullable();
+            $table->string('qty')->nullable();
+            $table->string('satuans')->nullable();
+            $table->string('hargasatuan')->nullable();
             $table->string('nominal_tambahan')->nullable();
             $table->string('tanggal_awal')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

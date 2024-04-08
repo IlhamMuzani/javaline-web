@@ -97,11 +97,24 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin:{{ $pembelians->kendaraan->no_kabin }}</td>
+                Kabin @if ($pembelians->kendaraan)
+                    {{ $pembelians->kendaraan->no_kabin }}
+                @else
+                    NON KENDARAAN
+                @endif
+            </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Registrasi:{{ $pembelians->kendaraan->no_pol }}</td>
+                Registrasi: @if ($pembelians->kendaraan)
+                    {{ $pembelians->kendaraan->no_pol }}
+                @else
+                @endif
+            </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
-                Kendaraan:{{ $pembelians->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
+                Kendaraan: @if ($pembelians->kendaraan)
+                    {{ $pembelians->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                @else
+                @endif
+            </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
                 Tanggal:{{ $pembelians->tanggal_pemasangan }}</td>
         </tr>

@@ -10,7 +10,7 @@
         body {
             margin: 0;
             padding: 20px;
-             font-family: 'DOSVGA', monospace;
+            font-family: 'DOSVGA', monospace;
             color: black;
         }
 

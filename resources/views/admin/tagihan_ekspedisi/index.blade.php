@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tagihan Ekspedisi')
+@section('title', 'Invoice Faktur Ekspedisi')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,18 +8,18 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Tagihan Ekspedisi</h1>
+                    <h1 class="m-0">Invoice Faktur Ekspedisi</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/tagihan_ekspedisi') }}">Tagihan Ekspedisi</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/tagihan_ekspedisi') }}">Invoice Faktur
+                                Ekspedisi</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-
 
     <section class="content">
         <div class="container-fluid">
@@ -67,7 +67,7 @@
                 @csrf
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Tagihan Ekspedisi</h3>
+                        <h3 class="card-title">Tambah Invoice Faktur Ekspedisi</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -96,17 +96,18 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
-                                        <input style="font-size:14px" type="text" class="form-control"
-                                            id="kode_pelanggan" readonly name="kode_pelanggan" placeholder=""
-                                            value="{{ old('kode_pelanggan') }}">
+                                        <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
+                                            type="text" class="form-control" id="kode_pelanggan" readonly
+                                            name="kode_pelanggan" placeholder="" value="{{ old('kode_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
                                         Pelanggan</label>
                                     <div class="form-group d-flex">
-                                        <input class="form-control" id="nama_pelanggan" name="nama_pelanggan" type="text"
-                                            placeholder="" value="{{ old('nama_pelanggan') }}" readonly
+                                        <input onclick="showCategoryModalPelanggan(this.value)" class="form-control"
+                                            id="nama_pelanggan" name="nama_pelanggan" type="text" placeholder=""
+                                            value="{{ old('nama_pelanggan') }}" readonly
                                             style="margin-right: 10px; font-size:14px" />
                                         <button class="btn btn-primary" type="button"
                                             onclick="showCategoryModalPelanggan(this.value)">
@@ -117,17 +118,38 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
-                                        <input style="font-size:14px" type="text" class="form-control"
-                                            id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
-                                            value="{{ old('telp_pelanggan') }}">
+                                        <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
+                                            type="text" class="form-control" id="telp_pelanggan" readonly
+                                            name="telp_pelanggan" placeholder="" value="{{ old('telp_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="alamat_pelanggan">Alamat</label>
-                                        <input style="font-size:14px" type="text" class="form-control"
-                                            id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
+                                        <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
+                                            type="text" class="form-control" id="alamat_pelanggan" readonly
+                                            name="alamat_pelanggan" placeholder=""
                                             value="{{ old('alamat_pelanggan') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>Periode:</label>
+                                    <div class="input-group date" id="reservationdatetime">
+                                        <input type="date" id="periode_awal" name="periode_awal"
+                                            placeholder="d M Y sampai d M Y"
+                                            data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
+                                            value="{{ old('periode_awal') }}" class="form-control datetimepicker-input"
+                                            data-target="#reservationdatetime">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label style="color:white">.</label>
+                                    <div class="input-group date" id="reservationdatetime">
+                                        <input type="date" id="periode_akhir" name="periode_akhir"
+                                            placeholder="d M Y sampai d M Y"
+                                            data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
+                                            value="{{ old('periode_akhir') }}" class="form-control datetimepicker-input"
+                                            data-target="#reservationdatetime">
                                     </div>
                                 </div>
                             </div>
@@ -150,13 +172,15 @@
                             <thead>
                                 <tr>
                                     <th style="font-size:14px" class="text-center">No</th>
-                                    <th style="font-size:14px">Kode Faktur</th>
-                                    <th style="font-size:14px">Tujuan</th>
+                                    <th style="font-size:14px">Rute</th>
+                                    <th style="font-size:14px">Tgl. Kirim</th>
+                                    <th style="font-size:14px">No Faktur</th>
+                                    {{-- <th style="font-size:14px">No. SJ</th> --}}
                                     <th style="font-size:14px">No. SJ</th>
-                                    <th style="font-size:14px">Tgl. SJ</th>
-                                    <th style="font-size:14px">No Kabin</th>
+                                    {{-- <th style="font-size:14px">No. PO</th> --}}
+                                    <th style="font-size:14px">No Mobil</th>
                                     <th style="font-size:14px">Qty</th>
-                                    <th style="font-size:14px">Satuan</th>
+                                    {{-- <th style="font-size:14px">Satuan</th> --}}
                                     <th style="font-size:14px">Harga</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
@@ -174,62 +198,77 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="kode_faktur-0" name="kode_faktur[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="nama_rute-0" name="nama_rute[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="nama_rute-0" name="nama_rute[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="no_memo-0" name="no_memo[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
+                                            <input style="font-size:14px" type="text" class="form-control"
                                                 id="tanggal_memo-0" name="tanggal_memo[]">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td style="width: 150px">
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="no_kabin-0" name="no_kabin[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="kode_faktur-0"
+                                                name="kode_faktur[]">
                                         </div>
                                     </td>
                                     <td hidden>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="no_pol-0" name="no_pol[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="no_memo-0" name="no_memo[]">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="no_do-0" name="no_do[]">
+                                        </div>
+                                    </td>
+
+                                    {{-- <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="no_po-0" name="no_po[]">
+                                        </div>
+                                    </td> --}}
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="no_kabin-0" name="no_kabin[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="jumlah-0" name="jumlah[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="no_pol-0" name="no_pol[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="satuan-0" name="satuan[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="jumlah-0" name="jumlah[]">
+                                        </div>
+                                    </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="satuan-0" name="satuan[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="harga-0" name="harga[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="harga-0" name="harga[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text" class="form-control"
-                                                id="total-0" name="total[]">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="total-0" name="total[]">
                                         </div>
                                     </td>
                                     <td style="width: 100px">
@@ -302,8 +341,11 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                                <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                                <div id="loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -324,30 +366,49 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
+                                    {{-- <th>nomor</th> --}}
                                     <th>Kode Pelanggan</th>
                                     <th>Nama Pelanggan</th>
                                     <th>Alamat</th>
                                     <th>No. Telp</th>
+                                    {{-- <th>Kategori</th> --}}
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pelanggans as $pelanggan)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $pelanggan->kode_pelanggan }}</td>
-                                        <td>{{ $pelanggan->nama_pell }}</td>
-                                        <td>{{ $pelanggan->alamat }}</td>
-                                        <td>{{ $pelanggan->telp }}</td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                @php
+                                    $uniqueCustomerIds = [];
+                                @endphp
+
+                                @foreach ($fakturs as $faktur)
+                                    @php
+                                        $customerId = $faktur->pelanggan->id;
+                                    @endphp
+
+                                    @if (!in_array($customerId, $uniqueCustomerIds))
+                                        <tr
+                                            onclick="getSelectedDataPelanggan('{{ $faktur->pelanggan->id }}', '{{ $faktur->pelanggan->kode_pelanggan }}', '{{ $faktur->pelanggan->nama_pell }}', '{{ $faktur->pelanggan->alamat }}', '{{ $faktur->pelanggan->telp }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $faktur->pelanggan->id }}</td> --}}
+                                            <td>{{ $faktur->pelanggan->kode_pelanggan }}</td>
+                                            <td>{{ $faktur->pelanggan->nama_pell }}</td>
+                                            <td>{{ $faktur->pelanggan->alamat }}</td>
+                                            <td>{{ $faktur->pelanggan->telp }}</td>
+                                            {{-- <td>{{ $faktur->kategori }}</td> --}}
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataPelanggan('{{ $faktur->pelanggan->id }}', '{{ $faktur->pelanggan->kode_pelanggan }}', '{{ $faktur->pelanggan->nama_pell }}', '{{ $faktur->pelanggan->alamat }}', '{{ $faktur->pelanggan->telp }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $uniqueCustomerIds[] = $customerId;
+                                        @endphp
+                                    @endif
                                 @endforeach
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -364,7 +425,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="datatables66" class="table table-bordered table-striped">
+                        <div class="m-2">
+                            <input type="text" id="searchInputrutes" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tablefaktur" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -372,29 +436,37 @@
                                     <th>Tanggal</th>
                                     <th>Pelanggan</th>
                                     <th>Rute</th>
-                                    {{-- <th>No Kabin</th> --}}
+                                    <th>Kategori</th>
                                     {{-- <th>kode memo</th> --}}
+                                    {{-- <th>kabin</th>
+                                    <th>nopol</th> --}}
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($fakturs as $faktur)
-                                    <tr data-id="{{ $faktur->id }}" data-kode_faktur="{{ $faktur->kode_faktur }}"
-                                        data-nama_rute="{{ $faktur->detail_faktur->first()->nama_rute }}"
-                                        data-kode_memo="{{ $faktur->detail_faktur->first()->memo_ekspedisi->kode_memo }}"
-                                        data-tanggal_awal="{{ $faktur->tanggal_awal }}"
-                                        data-no_kabin="{{ $faktur->detail_faktur->first()->memo_ekspedisi->kendaraan->no_kabin }}"
-                                        data-no_pol="{{ $faktur->detail_faktur->first()->memo_ekspedisi->kendaraan->no_pol }}"
+                                    <tr onclick="getFaktur({{ $loop->index }})" data-id="{{ $faktur->id }}"
+                                        data-kode_faktur="{{ $faktur->kode_faktur }}"
+                                        data-nama_rute="{{ $faktur->nama_tarif }}"
+                                        data-kode_memo="{{ $faktur->kode_memo }}"
+                                        data-tanggal_awal="{{ $faktur->tanggal_memo }}"
+                                        data-no_kabin="{{ $faktur->no_kabin }}" data-no_pol="{{ $faktur->no_pol }}"
                                         data-jumlah="{{ $faktur->jumlah }}" data-satuan="{{ $faktur->satuan }}"
                                         data-harga_tarif="{{ $faktur->harga_tarif }}"
-                                        data-total_tarif="{{ $faktur->total_tarif }}" data-param="{{ $loop->index }}">
+                                        data-total_tarif="{{ (float) $faktur->total_tarif + (float) $faktur->biaya_tambahan }}"
+                                        data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td hidden>{{ $faktur->pelanggan->id }}</td>
                                         <td>{{ $faktur->kode_faktur }}</td>
                                         <td>{{ $faktur->tanggal }}</td>
                                         <td>{{ $faktur->pelanggan->nama_pell }}</td>
-                                        <td>{{ $faktur->detail_faktur->first()->nama_rute }}</td>
+                                        <td>
+                                            {{ $faktur->nama_tarif }}
+                                        </td>
+                                        <td>{{ $faktur->kategori }}</td>
+                                        {{-- <td>{{ $faktur->detail_faktur->first()->kode_memo }}</td> --}}
                                         {{-- <td>{{ $faktur->detail_faktur->first()->no_kabin }}</td> --}}
-                                        {{-- <td>{{ $faktur->detail_faktur->first()->memo_ekspedisi->kode_memo }}</td> --}}
+                                        {{-- <td>{{ $faktur->detail_faktur->first()->no_pol }}</td> --}}
                                         <td class="text-center">
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
                                                 onclick="getFaktur({{ $loop->index }})">
@@ -410,6 +482,35 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function filterTablefaktur() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInputrutes");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablefaktur");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 4; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInputrutes").addEventListener("input", filterTablefaktur);
+    </script>
 
     <script>
         function showCategoryModalPelanggan(selectedCategory) {
@@ -471,14 +572,18 @@
                     urutan[i].innerText = i + 1;
                 }
             }
+
+            updateGrandTotal()
         }
 
         function itemPembelian(urutan, key, value = null) {
             var faktur_ekspedisi_id = '';
-            var kode_faktur = '';
             var nama_rute = '';
-            var no_memo = '';
             var tanggal_memo = '';
+            var kode_faktur = '';
+            var no_memo = '';
+            var no_do = '';
+            // var no_po = '';
             var no_kabin = '';
             var no_pol = '';
             var jumlah = '';
@@ -488,10 +593,12 @@
 
             if (value !== null) {
                 faktur_ekspedisi_id = value.faktur_ekspedisi_id;
-                kode_faktur = value.kode_faktur;
                 nama_rute = value.nama_rute;
-                no_memo = value.no_memo;
                 tanggal_memo = value.tanggal_memo;
+                kode_faktur = value.kode_faktur;
+                no_memo = value.no_memo;
+                no_do = value.no_do;
+                // no_po = value.no_po;
                 no_kabin = value.no_kabin;
                 no_pol = value.no_pol;
                 jumlah = value.jumlah;
@@ -513,17 +620,9 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // kode_faktur 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_faktur-' +
-                urutan +
-                '" name="kode_faktur[]" value="' + kode_faktur + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
             // nama_rute 
-            item_pembelian += '<td>';
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rute-' +
                 urutan +
@@ -531,8 +630,28 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // no_memo 
+            // tanggal_memo 
             item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" id="tanggal_memo-' +
+                urutan +
+                '" name="tanggal_memo[]" value="' + tanggal_memo + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kode_faktur 
+            item_pembelian += '<td style="width: 150px" onclick="MemoEkspedisi(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_faktur-' +
+                urutan +
+                '" name="kode_faktur[]" value="' + kode_faktur + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // no_memo 
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="no_memo-' +
                 urutan +
@@ -540,18 +659,26 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // tanggal_memo 
+            // no_do 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="tanggal_memo-' +
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="no_do-' +
                 urutan +
-                '" name="tanggal_memo[]" value="' + tanggal_memo + '" ';
+                '" name="no_do[]" value="' + no_do + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // // no_po 
+            // item_pembelian += '<td>';
+            // item_pembelian += '<div class="form-group">'
+            // item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="no_po-' +
+            //     urutan +
+            //     '" name="no_po[]" value="' + no_po + '" ';
+            // item_pembelian += '</div>';
+            // item_pembelian += '</td>';
+
             // no_kabin 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="no_kabin-' +
@@ -561,7 +688,8 @@
             item_pembelian += '</td>';
 
             // no_pol 
-            item_pembelian += '<td hidden>';
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="no_pol-' +
@@ -571,7 +699,8 @@
             item_pembelian += '</td>';
 
             // jumlah 
-            item_pembelian += '<td>';
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="jumlah-' +
@@ -581,7 +710,7 @@
             item_pembelian += '</td>';
 
             // satuan 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="satuan-' +
@@ -591,7 +720,8 @@
             item_pembelian += '</td>';
 
             // harga 
-            item_pembelian += '<td>';
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="harga-' +
@@ -601,7 +731,8 @@
             item_pembelian += '</td>';
 
             // total 
-            item_pembelian += '<td>';
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="total-' +
@@ -629,17 +760,33 @@
 
     <script>
         var activeSpecificationIndex = 0;
+        var fakturAlreadySelected = []; // Simpan daftar kode faktur yang sudah dipilih
 
         function MemoEkspedisi(param) {
             activeSpecificationIndex = param;
-            // Show the modal and filter rows if necessary
+            var nomorId = $('#pelanggan_id').val(); // Ambil nilai dari form nomor_id
+            // Filter data pelanggan yang memiliki nomor_id yang sesuai
+            $('#tablefaktur tbody tr').each(function() {
+                var idPelanggan = $(this).find('td:eq(1)').text(); // Ambil nomor_id dari setiap baris
+                if (idPelanggan === nomorId) {
+                    $(this).show(); // Tampilkan baris jika nomor_id sesuai
+                } else {
+                    $(this).hide(); // Sembunyikan baris jika nomor_id tidak sesuai
+                }
+            });
             $('#tableMemo').modal('show');
         }
 
         function getFaktur(rowIndex) {
-            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tablefaktur tbody tr:eq(' + rowIndex + ')');
             var faktur_ekspedisi_id = selectedRow.data('id');
             var kode_faktur = selectedRow.data('kode_faktur');
+            // Memeriksa apakah kode faktur sudah ada dalam daftar yang sudah dipilih
+            if (fakturAlreadySelected.includes(kode_faktur)) {
+                alert('Kode faktur sudah dipilih sebelumnya.');
+                return;
+            }
+            fakturAlreadySelected.push(kode_faktur); // Menambahkan kode faktur ke daftar yang sudah dipilih
             var nama_rute = selectedRow.data('nama_rute');
             var kode_memo = selectedRow.data('kode_memo');
             var tanggal_awal = selectedRow.data('tanggal_awal');
@@ -650,7 +797,8 @@
             var harga = selectedRow.data('harga_tarif');
             var sub_total = selectedRow.data('total_tarif');
 
-            // Update the form fields for the active specification
+            // membuat validasi jika kode sudah ada 
+
             $('#faktur_ekspedisi_id-' + activeSpecificationIndex).val(faktur_ekspedisi_id);
             $('#kode_faktur-' + activeSpecificationIndex).val(kode_faktur);
             $('#nama_rute-' + activeSpecificationIndex).val(nama_rute);
@@ -660,10 +808,10 @@
             $('#no_pol-' + activeSpecificationIndex).val(no_pol);
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
-            $('#harga-' + activeSpecificationIndex).val(harga);
-            $('#total-' + activeSpecificationIndex).val(sub_total);
+            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
 
-            updateGrandTotal()
+            updateGrandTotal();
 
             $('#tableMemo').modal('hide');
         }
@@ -681,51 +829,28 @@
     </script>
 
     <script>
-        // function updateGrandTotal() {
-        //     var grandTotal = 0;
-        //     var kategori = document.getElementById("kategori").value;
-        //     // Loop through all elements with name "nominal_tambahan[]"
-        //     $('input[name^="total"]').each(function() {
-        //         var nominalValue = parseFloat($(this).val()) || 0;
-        //         grandTotal += nominalValue;
-        //     });
-
-        //     var pph2Value = grandTotal * 0.02;
-
-
-        //     $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
-        //     $('#pph2').val(pph2Value.toLocaleString('id-ID')); // Display 2% of the grand total here
-
-        //     var grandtotals = grandTotal - pph2Value;
-        //     $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
-        // }
-
-        // $('body').on('input', 'input[name^="total"]', function() {
-        //     updateGrandTotal();
-        // });
-
-        // // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
-        // $(document).ready(function() {
-        //     updateGrandTotal();
-        // });
         function updateGrandTotal() {
             var grandTotal = 0;
             var kategori = document.getElementById("kategori").value;
 
             // Loop through all elements with name "nominal_tambahan[]"
             $('input[name^="total"]').each(function() {
-                var nominalValue = parseFloat($(this).val()) || 0;
+                var nominalValue = parseFloat($(this).val().replace(/\./g, '')) || 0; // Remove dots
                 grandTotal += nominalValue;
             });
 
             var pph2Value = grandTotal * 0.02;
 
-            $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
-            $('#pph2').val(pph2Value.toLocaleString('id-ID')); // Display 2% of the grand total here
+            // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
+            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            $('#sub_total').val(formatRupiah(grandTotal));
+            $('#pph2').val(formatRupiah(pph2Value));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
-            $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            $('#grand_total').val(formatRupiah(grandtotals));
+
         }
 
         $('body').on('input', 'input[name^="total"]', function() {
@@ -736,6 +861,14 @@
         $(document).ready(function() {
             updateGrandTotal();
         });
+
+        function formatRupiah(number) {
+            var formatted = new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(number);
+            return '' + formatted;
+        }
     </script>
 
     <script>
@@ -765,6 +898,40 @@
         // Tambahkan event listener untuk mendeteksi perubahan pada elemen <select>
         document.getElementById("kategori").addEventListener("change", setPphValue);
         document.getElementById("kategori").addEventListener("change", updateGrandTotal);
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
+
+    <script>
+        var tanggalAwal = document.getElementById('periode_awal');
+        var tanggalAkhir = document.getElementById('periode_akhir');
+        if (tanggalAwal.value == "") {
+            tanggalAkhir.readOnly = true;
+        }
+        tanggalAwal.addEventListener('change', function() {
+            if (this.value == "") {
+                tanggalAkhir.readOnly = true;
+            } else {
+                tanggalAkhir.readOnly = false;
+            };
+            tanggalAkhir.value = "";
+            var today = new Date().toISOString().split('T')[0];
+            tanggalAkhir.value = today;
+            tanggalAkhir.setAttribute('min', this.value);
+        });
     </script>
 
 @endsection

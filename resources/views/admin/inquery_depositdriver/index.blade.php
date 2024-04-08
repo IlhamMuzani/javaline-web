@@ -68,13 +68,13 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Faktur Deposit Sopir</th>
                                 <th>Tanggal</th>
-                                <th>Kategori</th>
+                                <th>Nama Sopir</th>
                                 <th>Nominal</th>
                                 <th>Total</th>
                                 <th class="text-center" width="20">Opsi</th>
@@ -92,7 +92,7 @@
                                         {{ $deposit->tanggal_awal }}
                                     </td>
                                     <td>
-                                        {{ $deposit->kategori }}
+                                        {{ $deposit->nama_sopir }}
                                     </td>
                                     <td>
                                         Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>

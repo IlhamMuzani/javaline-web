@@ -121,6 +121,18 @@
                             <div class="col-md-6">
                                 <div class="row mb-3">
                                     <div class="col-md-6">
+                                        <strong>Tanggal Pemasangan</strong>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @if ($ban->pemasangan_ban)
+                                            {{ $ban->pemasangan_ban->tanggal }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
                                         <strong>Kode Ban</strong>
                                     </div>
                                     <div class="col-md-6">
@@ -213,7 +225,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         {{-- {{ $ban->umur_ban }} --}}
-                                    {{ number_format($ban->umur_ban, 0, ',', '.') }} Km
+                                        {{ number_format($ban->umur_ban, 0, ',', '.') }} Km
                                     </div>
                                 </div>
                                 <div class="row mb-3">

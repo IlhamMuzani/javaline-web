@@ -43,10 +43,30 @@
                         @endif
                     </div>
                 </div>
+                <form action="{{ url('admin/kendaraan') }}" method="GET" id="get-keyword" autocomplete="off">
+                    @csrf
+                    <div class="row p-3">
+                        <div class="col-0 col-md-8"></div>
+                        <div class="col-md-4">
+                            <label for="keyword">Cari Kendaraan :</label>
+                            <div class="input-group">
+                                <input type="search" class="form-control" name="keyword" id="keyword"
+                                    value="{{ Request::get('keyword') }}"
+                                    onsubmit="event.preventDefault();
+                                        document.getElementById('get-keyword').submit();">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
@@ -54,8 +74,9 @@
                                 <th>No. Registrasi</th>
                                 <th>Jenis Kendaraan</th>
                                 <th>Driver</th>
+                                <th>Barcode Solar</th>
                                 <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="90">Opsi</th>
+                                <th class="text-center" width="150">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,6 +98,16 @@
                                             {{ $kendaraan->user->karyawan->nama_lengkap }}
                                         @else
                                             data tidak ada
+                                        @endif
+                                    </td>
+                                    <td data-toggle="modal" data-target="#modal-solar-{{ $kendaraan->id }}"
+                                        class="text-center">
+                                        @if ($kendaraan->gambar_barcodesolar)
+                                            <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_barcodesolar) }}"
+                                                alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
+                                        @else
+                                            <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                                alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
                                         @endif
                                     </td>
                                     <td data-toggle="modal" data-target="#modal-qrcode-{{ $kendaraan->id }}"
@@ -170,11 +201,60 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="modal fade" id="modal-solar-{{ $kendaraan->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Gambar QR Code</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{-- <p>Yakin hapus kendaraan
+                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
+                                                </p> --}}
+                                                <div style="text-align: center;">
+                                                    <p style="font-size:15px; font-weight: bold;">
+                                                        {{ $kendaraan->kode_kendaraan }}</p>
+                                                    <div style="display: inline-block;">
+                                                        @if ($kendaraan->gambar_barcodesolar)
+                                                            <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_barcodesolar) }}"
+                                                                alt="{{ $kendaraan->kode_kendaraan }}" width="400"
+                                                                height="220">
+                                                        @else
+                                                            <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                                                alt="{{ $kendaraan->kode_kendaraan }}" width="200"
+                                                                height="200">
+                                                        @endif
+                                                    </div>
+                                                    <p style="font-size:15px; font-weight: bold;">
+                                                        {{ $kendaraan->no_kabin }} / {{ $kendaraan->no_pol }}</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <a href="{{ url('admin/kendaraan/cetak-pdfsolar/' . $kendaraan->id) }}"
+                                                        class="btn btn-primary btn-sm">
+                                                        <i class=""></i> Cetak
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
-                <!-- /.card-body -->
+                @if ($kendaraans->total() > 10)
+                    <div class="card-footer">
+                        <div class="pagination float-right">
+                            {{ $kendaraans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>

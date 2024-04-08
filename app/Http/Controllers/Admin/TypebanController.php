@@ -91,23 +91,47 @@ class TypebanController extends Controller
         $dompdf->stream();
     }
 
+    // public function kode()
+    // {
+    //     $type = Typeban::all();
+    //     if ($type->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Typeban::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'AJ';
+    //     $kode_type = $data . $num;
+    //     return $kode_type;
+    // }
+
+
     public function kode()
     {
-        $type = Typeban::all();
-        if ($type->isEmpty()) {
-            $num = "000001";
+        // Dapatkan kode barang terakhir
+        $lastBarang = Typeban::latest()->first();
+        // Jika tidak ada barang dalam database
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Typeban::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            // Dapatkan nomor dari kode barang terakhir dan tambahkan 1
+            $lastCode = $lastBarang->kode_type;
+            // Ambil angka setelah huruf dengan membuang karakter awalan
+            $num = (int) substr($lastCode, strlen('AJ')) + 1;
         }
-
-        $data = 'AJ';
-        $kode_type = $data . $num;
-        return $kode_type;
+        // Format nomor dengan panjang 6 digit (mis. 000001)
+        $formattedNum = sprintf("%06s", $num);
+        // Kode awalan
+        $prefix = 'AJ';
+        // Gabungkan kode awalan dengan nomor yang diformat
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
+
 
     public function edit($id)
     {
@@ -145,7 +169,6 @@ class TypebanController extends Controller
         $typeban->save();
 
         return redirect('admin/type_ban')->with('success', 'Berhasil memperbarui Type ban');
-
     }
 
     public function destroy($id)

@@ -15,10 +15,13 @@ return new class extends Migration
     {
         Schema::create('tarifs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('pelanggan_id')->nullable();
+            $table->foreign('pelanggan_id')->references('id')->on('pelanggans');
             $table->string('kode_tarif')->nullable();
             $table->string('nama_tarif')->nullable();
             $table->string('nominal')->nullable();
             $table->string('tanggal_awal')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

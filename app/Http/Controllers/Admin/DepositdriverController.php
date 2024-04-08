@@ -55,10 +55,9 @@ class DepositdriverController extends Controller
             $kode = $this->kode();
             // $tanggal = Carbon::now()->format('d F Y');
 
-            // Mengonversi nilai sub_total dari format rupiah ke angka
-            $subTotalInput = $request->input('sub_total');
-            $cleanedSubTotal = (int) str_replace(['Rp', '.'], '', $subTotalInput);
-
+            $subTotalInput = $request->input('sisa_saldo');
+            $cleanedSubTotal = str_replace(['Rp', '.'], '', $subTotalInput);
+            $cleanedSubTotal = str_replace(',', '.', $cleanedSubTotal);
 
             $tanggal1 = Carbon::now('Asia/Jakarta');
             $format_tanggal = $tanggal1->format('d F Y');
@@ -68,39 +67,27 @@ class DepositdriverController extends Controller
                 $request->all(),
                 [
                     'kode_deposit' => $this->kode(),
-                    'sub_total' => $cleanedSubTotal,
+                    'sisa_saldo' => $cleanedSubTotal,
+                    'saldo_masuk' => str_replace('.', '', $request->saldo_masuk),
+                    'sub_total' => $request->sub_total2,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
-                    'status' => 'posting',
+                    'status' => 'unpost',
                 ]
             ));
-
-            $karyawanId = $request->karyawan_id;
-            $karyawan = Karyawan::find($karyawanId);
-
-            if ($karyawan) {
-                // Remove "Rp" and dots from the sub_total
-                $subTotal = str_replace(['Rp', '.'], '', $request->sub_total);
-
-                $karyawan->update([
-                    'tabungan' => $subTotal,
-                ]);
-            } else {
-                // Handle the case where the Karyawan with the given ID is not found
-            }
-
-
 
             $cetakpdf = Deposit_driver::find($penerimaan->id);
             return view('admin.deposit_driver.show', compact('cetakpdf'));
         } else {
             // Sisanya tetap sama
             $kode = $this->kode();
-            // $tanggal = Carbon::now()->format('d F Y');
-
-            // Mengonversi nilai sub_total dari format rupiah ke angka
-            $subTotalInput = $request->input('sub_totals');
-            $cleanedSubTotal = (int) str_replace(['Rp', '.'], '', $subTotalInput);
+            
+            $subTotalInput = $request->input('sisa_saldos');
+            $cleanedSubTotal = str_replace(['Rp', '.'], '', $subTotalInput);
+            $cleanedSubTotal = str_replace(',',
+                '.',
+                $cleanedSubTotal
+            );
 
             $tanggal1 = Carbon::now('Asia/Jakarta');
             $format_tanggal = $tanggal1->format('d F Y');
@@ -110,29 +97,29 @@ class DepositdriverController extends Controller
                 $request->all(),
                 [
                     'kode_deposit' => $this->kode(),
-                    'sub_total' => $cleanedSubTotal,
-                    'nominal' => $request->nominals,
+                    'sub_total' => $request->sub_total2,
+                    'nominal' => str_replace('.', '', $request->nominals),
                     'keterangan' => $request->keterangans,
-                    'sisa_saldo' => $request->sisa_saldos,
+                    'sisa_saldo' => $cleanedSubTotal,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
-                    'status' => 'posting',
+                    'status' => 'unpost',
                 ]
             ));
 
-            $karyawanId = $request->karyawan_id;
-            $karyawan = Karyawan::find($karyawanId);
+            // $karyawanId = $request->karyawan_id;
+            // $karyawan = Karyawan::find($karyawanId);
 
-            if ($karyawan) {
-                // Remove "Rp" and dots from the sub_total
-                $subTotal = str_replace(['Rp', '.'], '', $request->sub_totals);
+            // if ($karyawan) {
+            //     // Remove "Rp" and dots from the sub_total
+            //     $subTotal = str_replace(['Rp', '.'], '', $request->sub_totals);
 
-                $karyawan->update([
-                    'tabungan' => $subTotal,
-                ]);
-            } else {
-                // Handle the case where the Karyawan with the given ID is not found
-            }
+            //     $karyawan->update([
+            //         'tabungan' => $subTotal,
+            //     ]);
+            // } else {
+            //     // Handle the case where the Karyawan with the given ID is not found
+            // }
 
 
             $cetakpdf = Deposit_driver::find($penerimaan->id);
@@ -142,24 +129,38 @@ class DepositdriverController extends Controller
         }
     }
 
+    // public function kode()
+    // {
+    //     $penerimaan = Deposit_driver::all();
+    //     if ($penerimaan->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Deposit_driver::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'FD';
+    //     $kode_penerimaan = $data . $num;
+    //     return $kode_penerimaan;
+    // }
+
     public function kode()
     {
-        $penerimaan = Deposit_driver::all();
-        if ($penerimaan->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Deposit_driver::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Deposit_driver::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_deposit;
+            $num = (int) substr($lastCode, strlen('FD')) + 1;
         }
-
-        $data = 'FD';
-        $kode_penerimaan = $data . $num;
-        return $kode_penerimaan;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'FD';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
-
 
     public function show($id)
     {

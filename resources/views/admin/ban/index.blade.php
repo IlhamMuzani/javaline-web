@@ -45,33 +45,17 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    {{-- <form method="GET" id="form-action">
-                        <div class="form-row">
-                            <div class="col-md-4 col-sm-12">
-                                <div class="input-group mb-2">
-                                    <select class="custom-select form-control mr-2" id="status" name="status">
-                                        <option value="">- Semua Status -</option>
-                                        <option value="stok" {{ Request::get('status') == 'stok' ? 'selected' : '' }}>
-                                            stok</option>
-                                        <option value="aktif" {{ Request::get('status') == 'aktif' ? 'selected' : '' }}>
-                                            aktif
-                                        </option>
-                                        <option value="non aktif"
-                                            {{ Request::get('status') == 'non aktif' ? 'selected' : '' }}>
-                                            non aktif</option>
-                                    </select>
-                                    <div class="input-group-append">
-                                        <button type="button" class="btn btn-outline-primary" onclick="cari()">
-                                            <i class="fas fa-search"></i> Cari
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form> --}}
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-2 mb-3">
+                                <select class="select2bs4 select2-hidden-accessible" name="kendaraan_id"
+                                    data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23" tabindex="-1"
+                                    aria-hidden="true" id="kendaraan_id">
+                                    <option value="">- Pilih -</option>
+                                </select>
+                                <label for="status">(Cari Kendaraan)</label>
+                            </div>
+                            <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control mr-2" id="status" name="status">
                                     <option value="">- Semua Status -</option>
                                     <option value="stok" {{ Request::get('status') == 'stok' ? 'selected' : '' }}>
@@ -85,8 +69,8 @@
                                 <label for="status">(Pilih Status)</label>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                                <input class="form-control" id="tanggal_awal" name="created_at" type="date"
+                                    value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
                                 <label for="tanggal_awal">(Tanggal Awal)</label>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -94,11 +78,6 @@
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                                 <label for="tanggal_awal">(Tanggal Akhir)</label>
                             </div>
-                            {{-- <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                            </div> --}}
                             <div class="col-md-2 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
@@ -111,21 +90,8 @@
                             </div>
                         </div>
                     </form>
-                    {{-- <form method="get" id="form-action2">
-                        <div class="form-row">
-                            <div class="input-group mb-2">
-                                <div class="col-md-4 col-sm-12">
-                                    <input type="hidden" name="ids" id="selectedIds" value="">
-                                    <button type="button" class="btn btn-primary btn-block" id="checkfilter"
-                                        onclick="printSelectedData()">
-                                        <i class="fas fa-print"></i> Cetak Pilihan
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form> --}}
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table style="font-size: 15px" id="datatables66" class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
@@ -136,7 +102,7 @@
                                 <th>Ukuran</th>
                                 <th class="text-center">Qr Code</th>
                                 <th>Keterangan</th>
-                                <th class="text-center" width="150">Opsi</th>
+                                <th class="text-center">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -191,20 +157,20 @@
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['ban show'])
                                             @if ($ban->status == 'aktif')
-                                                <button type="submit" class="btn btn-success btn-sm mr-3"
-                                                    data-toggle="modal" data-target="#modal-detail-{{ $ban->id }}">
+                                                <button type="submit" class="btn btn-success btn-sm " data-toggle="modal"
+                                                    data-target="#modal-detail-{{ $ban->id }}">
                                                     <img src="{{ asset('storage/uploads/indikator/wheel2.png') }}"
                                                         height="17" width="17" alt="Roda Mobil">
                                                 </button>
                                             @elseif($ban->status == 'stok')
-                                                <button type="submit" class="btn btn-primary btn-sm mr-3"
+                                                <button type="submit" class="btn btn-primary btn-sm "
                                                     data-toggle="modal"
                                                     data-target="#modal-detailstok-{{ $ban->id }}">
                                                     <img src="{{ asset('storage/uploads/indikator/wheel2.png') }}"
                                                         height="17" width="17" alt="Roda Mobil">
                                                 </button>
                                             @elseif($ban->status == 'non aktif')
-                                                <button type="submit" class="btn btn-danger btn-sm mr-3">
+                                                <button type="submit" class="btn btn-danger btn-sm ">
                                                     <img src="{{ asset('storage/uploads/indikator/wheel2.png') }}"
                                                         height="17" width="17" alt="Roda Mobil">
                                                 </button>
@@ -309,6 +275,26 @@
                                                         </div>
                                                         <div class="col">
                                                             {{ $ban->posisi_ban }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <strong>Umur Ban</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            {{ number_format($ban->umur_ban, 0, ',', '.') }} Km
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col">
+                                                            <strong>Tanggal Pemasangan</strong>
+                                                        </div>
+                                                        <div class="col">
+                                                            @if ($ban->pemasangan_ban)
+                                                                {{ $ban->pemasangan_ban->tanggal }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>

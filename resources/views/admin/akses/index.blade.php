@@ -38,20 +38,33 @@
                     <div class="float-right">
                     </div>
                 </div>
+
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <form method="GET" id="form-action">
+                        <div class="row">
+                            <div class="col-md-2 mb-3">
+                                <label for="created_at">Kategori</label>
+                                <select class="custom-select form-control" id="statusx" name="statusx">
+                                    <option value="">- Pilih -</option>
+                                    <option value="memo_perjalanan">Staff</option>
+                                    <option value="memo_borong">Driver</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode User</th>
                                 <th>Nama</th>
-                                <th class="text-center" width="60">Opsi</th>
+                                <th class="text-center" width="60">Akses</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($aksess as $akses)
-                                <tr>
+                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $akses->kode_user }}</td>
                                     <td>{{ $akses->karyawan->nama_lengkap }}</td>
@@ -59,10 +72,9 @@
                                         @if (auth()->check() && auth()->user()->fitur['hak akses create'])
                                             <a href="{{ url('admin/akses/access/' . $akses->id) }}"
                                                 class="btn btn-info btn-sm">
-                                                <i class="fas fa-low-vision"></i> Akses
+                                                <i class="fas fa-low-vision"></i>
                                             </a>
                                         @endif
-                                      
                                     </td>
                                 </tr>
                             @endforeach
@@ -74,4 +86,57 @@
         </div>
     </section>
     <!-- /.card -->
+
+    <script>
+        var tanggalAwal = document.getElementById('tanggal_awal');
+        var tanggalAkhir = document.getElementById('tanggal_akhir');
+
+        if (tanggalAwal.value == "") {
+            tanggalAkhir.readOnly = true;
+        }
+
+        tanggalAwal.addEventListener('change', function() {
+            if (this.value == "") {
+                tanggalAkhir.readOnly = true;
+            } else {
+                tanggalAkhir.readOnly = false;
+            }
+
+            tanggalAkhir.value = "";
+            var today = new Date().toISOString().split('T')[0];
+            tanggalAkhir.value = today;
+            tanggalAkhir.setAttribute('min', this.value);
+        });
+
+        var form = document.getElementById('form-action');
+
+        function cari() {
+            form.action = "{{ url('admin/inquery_memotambahan') }}";
+            form.submit();
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#statusx').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'memo_perjalanan':
+                        window.location.href = "{{ url('admin/akses') }}";
+                        break;
+                    case 'memo_borong':
+                        window.location.href = "{{ url('admin/hakaksesdriver') }}";
+                        break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
+    </script>
+
 @endsection

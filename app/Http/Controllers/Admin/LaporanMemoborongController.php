@@ -21,10 +21,10 @@ class LaporanMemoborongController extends Controller
         // Menambahkan filter berdasarkan kategori "Memo Perjalanan"
         $inquery->where('kategori', 'Memo Borong');
 
-        if ($status == "posting") {
+        if ($status == "posting" || $status == "selesai") {
             $inquery->where('status', $status);
         } else {
-            $inquery->where('status', 'posting');
+            $inquery->whereIn('status', ['posting', 'selesai']);
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -52,12 +52,11 @@ class LaporanMemoborongController extends Controller
         $query = Memo_ekspedisi::orderBy('id', 'DESC');
         $query->where('kategori', 'Memo Borong');
 
-        if ($status == "posting") {
+        if ($status == "posting" || $status == "selesai") {
             $query->where('status', $status);
         } else {
-            $query->where('status', 'posting');
+            $query->whereIn('status', ['posting', 'selesai']);
         }
-
         if ($tanggal_awal && $tanggal_akhir) {
             $query->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);

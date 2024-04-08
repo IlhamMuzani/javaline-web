@@ -70,10 +70,15 @@ class AuthController extends Controller
 
     public function registeruser(Request $request)
     {
-        $user = User::where('kode_user', $request->kode_user)->first();
-        if (!is_null($user->password)) {
-            return redirect('register')->with('error', array('Anda tidak dapat registrasi 2 kali'));
-        }
+            $user = User::where('kode_user', $request->kode_user)->first();
+
+            if (is_null($user)) {
+                return redirect('register')->with('error', array('Kode tidak ditemukan'));
+            }
+
+            if (!is_null($user->password)) {
+                return redirect('register')->with('error', array('Anda tidak dapat registrasi 2 kali'));
+            }
 
         $validator = Validator::make(
             $request->all(),

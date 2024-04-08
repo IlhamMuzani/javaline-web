@@ -94,23 +94,39 @@ class MerekController extends Controller
         $dompdf->stream();
     }
 
+    // public function kode()
+    // {
+    //     $merek = Merek::all();
+    //     if ($merek->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Merek::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'AL';
+    //     $kode_merek = $data . $num;
+    //     return $kode_merek;
+    // }
+
     public function kode()
     {
-        $merek = Merek::all();
-        if ($merek->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Merek::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Merek::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_merek;
+            $num = (int) substr($lastCode, strlen('AL')) + 1;
         }
-
-        $data = 'AL';
-        $kode_merek = $data . $num;
-        return $kode_merek;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'AL';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
+
 
     public function edit($id)
     {

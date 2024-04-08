@@ -43,8 +43,7 @@
                             <div class="col-md-4 mb-3">
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
-                                    <option value="posting"
-                                        {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
+                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
                                         Posting
                                     </option>
                                     <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
@@ -53,14 +52,14 @@
                                 <label for="status">(Pilih Status)</label>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_awal">(Tanggal Awal)</label>
+                                <input class="form-control" id="created_at" name="created_at" type="date"
+                                    value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="created_at">(Tanggal Awal)</label>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_awal">(Tanggal Akhir)</label>
+                                <label for="created_at">(Tanggal Akhir)</label>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
@@ -69,86 +68,131 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Nama User</th>
                                 <th>No Kabin</th>
                                 <th>Km Update</th>
                                 <th>Tanggal</th>
-                                <th class="text-center" width="120">Opsi</th>
+                                <th class="text-center" width="30">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $kendaraan)
-                                <tr>
+                            @foreach ($inquery as $inquerys)
+                                <tr id="editMemoekspedisi" data-toggle="modal"
+                                    data-target="#modal-posting-{{ $inquerys->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $kendaraan->user->karyawan->nama_lengkap }}
+                                        {{ $inquerys->user->karyawan->nama_lengkap }}
                                     </td>
                                     <td>
                                         <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $kendaraan->id }}">
-                                            {{ $kendaraan->kendaraan->no_kabin }}
+                                            data-target="#modal-pilih-{{ $inquerys->id }}">
+                                            @if ($inquerys->kendaraan)
+                                                {{ $inquerys->kendaraan->no_kabin }}
+                                            @else
+                                                kabin tidak ada
+                                            @endif
                                         </a>
                                     </td>
                                     <td>
                                         <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $kendaraan->id }}">
-                                            {{ $kendaraan->kendaraan->km }}
+                                            data-target="#modal-pilih-{{ $inquerys->id }}">
+                                            {{ $inquerys->km_update }}
                                         </a>
                                     </td>
                                     <td>
                                         <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $kendaraan->id }}">
-                                            {{ $kendaraan->tanggal_awal }}
+                                            data-target="#modal-pilih-{{ $inquerys->id }}">
+                                            {{ $inquerys->created_at }}
                                         </a>
                                     </td>
                                     <td class="text-center">
-                                        @if ($kendaraan->status == 'unpost')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
-                                                <a href="{{ url('admin/lihat_kendaraan/' . $kendaraan->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery update km update'])
-                                                <a href="{{ url('admin/edit_kendaraan/' . $kendaraan->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery update km delete'])
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                    data-target="#modal-hapus-{{ $kendaraan->id }}">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery update km posting'])
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modal-posting-{{ $kendaraan->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
-                                        @endif
-                                        @if ($kendaraan->status == 'posting')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
-                                                <a href="{{ url('admin/lihat_kendaraan/' . $kendaraan->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery update km unpost'])
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                    data-target="#modal-unpost-{{ $kendaraan->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
+                                        @if ($inquerys->status == 'posting')
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $kendaraan->id }}">
+
+                                <div class="modal fade" id="modal-posting-{{ $inquerys->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Opsi menu</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Update km no kabin
+                                                    <strong>
+                                                        @if ($inquerys->kendaraan)
+                                                            {{ $inquerys->kendaraan->no_kabin }}
+                                                        @else
+                                                            kabin tidak ada
+                                                        @endif
+                                                    </strong>
+                                                </p>
+                                                @if ($inquerys->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km delete'])
+                                                        <form method="GET"
+                                                            action="{{ route('hapuskm', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-danger btn-block mt-2">
+                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
+                                                        <a href="{{ url('admin/lihat_kendaraan/' . $inquerys->id) }}"
+                                                            type="button" class="btn btn-outline-info btn-block">
+                                                            <i class="fas fa-eye"></i> Show
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km update'])
+                                                        <a href="{{ url('admin/edit_kendaraan/' . $inquerys->id) }}"
+                                                            type="button" class="btn btn-outline-warning btn-block">
+                                                            <i class="fas fa-edit"></i> Update
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km posting'])
+                                                        <form method="GET"
+                                                            action="{{ route('postingkm', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-success btn-block mt-2">
+                                                                <i class="fas fa-check"></i> Posting
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($inquerys->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
+                                                        <a href="{{ url('admin/lihat_kendaraan/' . $inquerys->id) }}"
+                                                            type="button" class="btn btn-outline-info btn-block">
+                                                            <i class="fas fa-eye"></i> Show
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km unpost'])
+                                                        <form method="GET"
+                                                            action="{{ route('unpostkm', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-primary btn-block mt-2">
+                                                                <i class="fas fa-check"></i> Unpost
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- <div class="modal fade" id="modal-hapus-{{ $kendaraan->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -223,7 +267,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             @endforeach
                         </tbody>
                     </table>
@@ -233,7 +277,7 @@
         </div>
     </section>
     <script>
-        var tanggalAwal = document.getElementById('tanggal_awal');
+        var tanggalAwal = document.getElementById('created_at');
         var tanggalAkhir = document.getElementById('tanggal_akhir');
 
         if (tanggalAwal.value == "") {

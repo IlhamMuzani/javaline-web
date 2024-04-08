@@ -12,17 +12,23 @@ use Illuminate\Support\Facades\Validator;
 
 class RuteperjalananController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
+        // Ambil semua golongan
         $golongan = Golongan::all();
-        $rute_perjalanans = Rute_perjalanan::all();
-        return view('admin/rute_perjalanan.index', compact('rute_perjalanans', 'golongan'));
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
+        if ($request->has('keyword')) {
+            $keyword = $request->keyword;
+            $rute_perjalanans = Rute_perjalanan::where('kode_rute', 'like', "%$keyword%")
+                ->orWhere('nama_rute', 'like', "%$keyword%")
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } else {
+            $rute_perjalanans = Rute_perjalanan::orderBy('created_at', 'desc')
+                ->paginate(10);
+        }
+        return view('admin.rute_perjalanan.index', compact('rute_perjalanans', 'golongan'));
     }
+
 
     public function create()
     {
@@ -110,23 +116,24 @@ class RuteperjalananController extends Controller
         }
 
         $kode = $this->kode();
-
+        $nama_rute_uppercase = strtoupper($request->nama_rute);
         Rute_perjalanan::create(array_merge(
             $request->all(),
             [
                 'kode_rute' => $this->kode(),
                 'qrcode_rute' => 'https://javaline.id/rute_perjalanan/' . $kode,
+                'nama_rute' =>  $nama_rute_uppercase,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                'golongan1' => $request->golongan1,
-                'golongan2' => $request->golongan2,
-                'golongan3' => $request->golongan3,
-                'golongan4' => $request->golongan4,
-                'golongan5' => $request->golongan5,
-                'golongan6' => $request->golongan6,
-                'golongan7' => $request->golongan7,
-                'golongan8' => $request->golongan8,
-                'golongan9' => $request->golongan9,
-                'golongan10' => $request->golongan10,
+                'golongan1' => $request->golongan1 ? str_replace('.', '', $request->golongan1) : null,
+                'golongan2' => $request->golongan2 ? str_replace('.', '', $request->golongan2) : null,
+                'golongan3' => $request->golongan3 ? str_replace('.', '', $request->golongan3) : null,
+                'golongan4' => $request->golongan4 ? str_replace('.', '', $request->golongan4) : null,
+                'golongan5' => $request->golongan5 ? str_replace('.', '', $request->golongan5) : null,
+                'golongan6' => $request->golongan6 ? str_replace('.', '', $request->golongan6) : null,
+                'golongan7' => $request->golongan7 ? str_replace('.', '', $request->golongan7) : null,
+                'golongan8' => $request->golongan8 ? str_replace('.', '', $request->golongan8) : null,
+                'golongan9' => $request->golongan9 ? str_replace('.', '', $request->golongan9) : null,
+                'golongan10' => $request->golongan10 ? str_replace('.', '', $request->golongan10) : null,
             ],
         ));
 
@@ -147,22 +154,37 @@ class RuteperjalananController extends Controller
         $dompdf->stream();
     }
 
+    // public function kode()
+    // {
+    //     $type = Rute_perjalanan::all();
+    //     if ($type->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Rute_perjalanan::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'RT';
+    //     $kode_type = $data . $num;
+    //     return $kode_type;
+    // }
+
     public function kode()
     {
-        $type = Rute_perjalanan::all();
-        if ($type->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Rute_perjalanan::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Rute_perjalanan::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_rute;
+            $num = (int) substr($lastCode, strlen('RT')) + 1;
         }
-
-        $data = 'RT';
-        $kode_type = $data . $num;
-        return $kode_type;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'RT';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
     public function edit($id)
@@ -244,21 +266,21 @@ class RuteperjalananController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-
+        $nama_rute_uppercase = strtoupper($request->nama_rute);
         $rute_perjalanan = Rute_perjalanan::findOrFail($id);
 
         $rute_perjalanan->provinsi = $request->provinsi;
-        $rute_perjalanan->nama_rute = $request->nama_rute;
-        $rute_perjalanan->golongan1 = $request->golongan1;
-        $rute_perjalanan->golongan2 = $request->golongan2;
-        $rute_perjalanan->golongan3 = $request->golongan3;
-        $rute_perjalanan->golongan4 = $request->golongan4;
-        $rute_perjalanan->golongan5 = $request->golongan5;
-        $rute_perjalanan->golongan6 = $request->golongan6;
-        $rute_perjalanan->golongan7 = $request->golongan7;
-        $rute_perjalanan->golongan8 = $request->golongan8;
-        $rute_perjalanan->golongan9 = $request->golongan9;
-        $rute_perjalanan->golongan10 = $request->golongan10;
+        $rute_perjalanan->nama_rute = $nama_rute_uppercase;
+        $rute_perjalanan->golongan1 = $request->golongan1 ? str_replace('.', '', $request->golongan1) : null;
+        $rute_perjalanan->golongan2 = $request->golongan2 ? str_replace('.', '', $request->golongan2) : null;
+        $rute_perjalanan->golongan3 = $request->golongan3 ? str_replace('.', '', $request->golongan3) : null;
+        $rute_perjalanan->golongan4 = $request->golongan4 ? str_replace('.', '', $request->golongan4) : null;
+        $rute_perjalanan->golongan5 = $request->golongan5 ? str_replace('.', '', $request->golongan5) : null;
+        $rute_perjalanan->golongan6 = $request->golongan6 ? str_replace('.', '', $request->golongan6) : null;
+        $rute_perjalanan->golongan7 = $request->golongan7 ? str_replace('.', '', $request->golongan7) : null;
+        $rute_perjalanan->golongan8 = $request->golongan8 ? str_replace('.', '', $request->golongan8) : null;
+        $rute_perjalanan->golongan9 = $request->golongan9 ? str_replace('.', '', $request->golongan9) : null;
+        $rute_perjalanan->golongan10 = $request->golongan10 ? str_replace('.', '', $request->golongan10) : null;
 
 
         $rute_perjalanan->save();

@@ -68,19 +68,20 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Faktur Pembelian Part</th>
                                 <th>Tanggal</th>
                                 <th>Nama Supplier</th>
                                 <th>Total</th>
-                                <th class="text-center" width="120">Opsi</th>
+                                <th class="text-center" width="30">Opsi</th>
                             </tr>
                         </thead>
                         @foreach ($inquery as $pembelians)
-                            <tr>
+                            <tr id="editMemoekspedisi" data-toggle="modal"
+                                data-target="#modal-posting-{{ $pembelians->id }}" style="cursor: pointer;">
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td>
                                     <a href="#" style="color: #000000;" data-toggle="modal"
@@ -107,45 +108,10 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    @if ($pembelians->status == 'unpost')
-                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
-                                            <a href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian part update'])
-                                            <a href="{{ url('admin/inquery_pembelianpart/' . $pembelians->id . '/edit') }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian part delete'])
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $pembelians->id }}">
-                                                <i class="fas fa-times"></i>
-                                            </button>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian part posting'])
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                data-target="#modal-posting-{{ $pembelians->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                    @endif
                                     @if ($pembelians->status == 'posting')
-                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
-                                            <a href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian part unpost'])
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                data-target="#modal-unpost-{{ $pembelians->id }}">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
+                                        <button type="button" class="btn btn-success btn-sm">
+                                            <i class="fas fa-check"></i>
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -154,8 +120,7 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Hapus Pembelian</h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
@@ -178,7 +143,75 @@
                                 </div>
                             </div>
 
-                            <div class="modal fade" id="modal-unpost-{{ $pembelians->id }}">
+                            <div class="modal fade" id="modal-posting-{{ $pembelians->id }}">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Opsi menu</h4>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>Pembelian Part
+                                                <strong>{{ $pembelians->kode_pembelian_part }}</strong>
+                                            </p>
+                                            @if ($pembelians->status == 'unpost')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part delete'])
+                                                    <form method="GET"
+                                                        action="{{ route('hapuspart', ['id' => $pembelians->id]) }}">
+                                                        <button type="submit"
+                                                            class="btn btn-outline-danger btn-block mt-2">
+                                                            <i class="fas fa-trash-alt"></i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
+                                                    <a href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}"
+                                                        type="button" class="btn btn-outline-info btn-block">
+                                                        <i class="fas fa-eye"></i> Show
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part update'])
+                                                    <a href="{{ url('admin/inquery_pembelianpart/' . $pembelians->id . '/edit') }}"
+                                                        type="button" class="btn btn-outline-warning btn-block">
+                                                        <i class="fas fa-edit"></i> Update
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part posting'])
+                                                    <form method="GET"
+                                                        action="{{ route('postingpart', ['id' => $pembelians->id]) }}">
+                                                        <button type="submit"
+                                                            class="btn btn-outline-success btn-block mt-2">
+                                                            <i class="fas fa-check"></i> Posting
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                            @if ($pembelians->status == 'posting')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
+                                                    <a href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}"
+                                                        type="button" class="btn btn-outline-info btn-block">
+                                                        <i class="fas fa-eye"></i> Show
+                                                    </a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part unpost'])
+                                                    <form method="GET"
+                                                        action="{{ route('unpostpart', ['id' => $pembelians->id]) }}">
+                                                        <button type="submit"
+                                                            class="btn btn-outline-primary btn-block mt-2">
+                                                            <i class="fas fa-check"></i> Unpost
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- <div class="modal fade" id="modal-unpost-{{ $pembelians->id }}">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -226,7 +259,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         @endforeach
                     </table>
                 </div>

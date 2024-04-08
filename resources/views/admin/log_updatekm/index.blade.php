@@ -43,8 +43,8 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Nama User</th>
@@ -65,7 +65,7 @@
 
                                     {{-- <td class="text-center"> --}}
 
-                                        {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#modal-hapus-{{ $log->id }}">
                                             <i class="fas fa-trash"></i> Hapus
                                         </button> --}}
@@ -82,7 +82,8 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Yakin hapus log update km <strong>{{ $log->user->karyawan->nama_lengkap }}</strong>?
+                                                <p>Yakin hapus log update km
+                                                    <strong>{{ $log->user->karyawan->nama_lengkap }}</strong>?
                                                 </p>
                                             </div>
                                             <div class="modal-footer justify-content-between">

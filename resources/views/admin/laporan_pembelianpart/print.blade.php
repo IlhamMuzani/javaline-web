@@ -106,17 +106,19 @@
     </div>
     <table>
         <tr>
-            <th>Faktur Pembelian</th>
-            <th>Tanggal</th>
-            <th>Supplier</th>
-            <th>Total</th>
+            <th style="font-size: 10">Faktur Pembelian</th>
+            <th style="font-size: 10">Tanggal</th>
+            <th style="font-size: 10">Supplier</th>
+            <th style="font-size: 10">Total</th>
         </tr>
         @foreach ($inquery as $pembelian_part)
             <tr>
-                <td>{{ $pembelian_part->kode_pembelianpart }}</td>
-                <td> {{ $pembelian_part->tanggal_awal }}</td>
-                <td> {{ $pembelian_part->supplier->nama_supp }}</td>
-                <td> Rp. {{ $pembelian_part->detail_part->sum('harga') }}</td>
+                <td style="font-size: 10">{{ $pembelian_part->kode_pembelianpart }}</td>
+                <td style="font-size: 10"> {{ $pembelian_part->tanggal_awal }}</td>
+                <td style="font-size: 10"> {{ $pembelian_part->supplier->nama_supp }}</td>
+                <td style="font-size: 10; text-align:right">
+                    {{ number_format($pembelian_part->detail_part->sum('harga'), 0, ',', '.') }}
+                </td>
 
             </tr>
         @endforeach

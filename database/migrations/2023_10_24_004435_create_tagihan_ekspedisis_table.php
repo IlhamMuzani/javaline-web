@@ -34,9 +34,11 @@ return new class extends Migration
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
+            $table->string('periode_awal')->nullable();
+            $table->string('periode_akhir')->nullable();
             $table->string('status')->nullable();
             $table->string('status_notif')->nullable();
-
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

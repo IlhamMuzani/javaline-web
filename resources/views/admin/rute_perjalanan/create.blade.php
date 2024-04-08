@@ -59,10 +59,11 @@
                         </div>
                         <div class="form-group">
                             <label for="nama_rute">Rute Perjalanan</label>
-                            <input type="text" class="form-control" id="nama_rute" name="nama_rute"
-                                placeholder="masukkan tujuan" value="{{ old('nama_rute') }}">
+                            <input style="text-transform:uppercase" type="text" class="form-control" id="nama_rute"
+                                name="nama_rute" placeholder="Masukkan Tujuan" value="{{ old('nama_rute') }}">
                         </div>
                     </div>
+
                     {{-- <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary">Reset</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -74,87 +75,81 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        @if ($golongan->count() >= 1)
-                            <div class="form-group">
-                                <label for="golongan1">Golongan 1</label>
-                                <input type="number" class="form-control" id="golongan1" name="golongan1"
-                                    placeholder="masukkan biaya" value="{{ old('golongan1') }}">
-                            </div>
-                        @endif
 
-                        @if ($golongan->count() >= 2)
-                            <div class="form-group">
-                                <label for="golongan2">Golongan 2</label>
-                                <input type="number" class="form-control" id="golongan2" name="golongan2"
-                                    placeholder="masukkan biaya" value="{{ old('golongan2') }}">
-                            </div>
-                        @endif
-                        @if ($golongan->count() >= 3)
-                            <div class="form-group">
-                                <label for="golongan3">Golongan 3</label>
-                                <input type="number" class="form-control" id="golongan3" name="golongan3"
-                                    placeholder="masukkan biaya" value="{{ old('golongan3') }}">
-                            </div>
-                        @endif
+                        <div class="form-group">
+                            <label for="golongan1">Golongan 1</label>
+                            <input type="text" class="form-control" id="golongan1" name="golongan1"
+                                placeholder="masukkan biaya" value="{{ old('golongan1') }}" oninput="formatRupiah(this)"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="form-group">
+                            <label for="golongan2">Golongan 2</label>
+                            <input type="text" class="form-control" id="golongan2" name="golongan2"
+                                placeholder="masukkan biaya" value="{{ old('golongan2') }}" oninput="formatRupiah(this)"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="form-group">
+                            <label for="golongan3">Golongan 3</label>
+                            <input type="text" class="form-control" id="golongan3" name="golongan3"
+                                placeholder="masukkan biaya" value="{{ old('golongan3') }}" oninput="formatRupiah(this)"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="form-group">
+                            <label for="golongan4">Golongan 4</label>
+                            <input type="text" class="form-control" id="golongan4" name="golongan4"
+                                placeholder="masukkan biaya" value="{{ old('golongan4') }}" oninput="formatRupiah(this)"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="form-group">
+                            <label for="golongan5">Golongan 5</label>
+                            <input type="text" class="form-control" id="golongan5" name="golongan5"
+                                placeholder="masukkan biaya" value="{{ old('golongan5') }}" oninput="formatRupiah(this)"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
 
-                        @if ($golongan->count() >= 4)
-                            <div class="form-group">
-                                <label for="golongan4">Golongan 4</label>
-                                <input type="number" class="form-control" id="golongan4" name="golongan4"
-                                    placeholder="masukkan biaya" value="{{ old('golongan4') }}">
-                            </div>
-                        @endif
-
-                        @if ($golongan->count() >= 5)
-                            <div class="form-group">
-                                <label for="golongan5">Golongan 5</label>
-                                <input type="number" class="form-control" id="golongan5" name="golongan5"
-                                    placeholder="masukkan biaya" value="{{ old('golongan5') }}">
-                            </div>
-                        @endif
-                        @if ($golongan->count() >= 6)
-                            <div class="form-group">
-                                <label for="golongan6">Golongan 6</label>
-                                <input type="number" class="form-control" id="golongan6" name="golongan6"
-                                    placeholder="masukkan biaya" value="{{ old('golongan6') }}">
-                            </div>
-                        @endif
-                        @if ($golongan->count() >= 7)
-                            <div class="form-group">
-                                <label for="golongan7">Golongan 7</label>
-                                <input type="number" class="form-control" id="golongan7" name="golongan7"
-                                    placeholder="masukkan biaya" value="{{ old('golongan7') }}">
-                            </div>
-                        @endif
-                        @if ($golongan->count() >= 8)
-                            <div class="form-group">
-                                <label for="golongan8">Golongan 8</label>
-                                <input type="number" class="form-control" id="golongan8" name="golongan8"
-                                    placeholder="masukkan biaya" value="{{ old('golongan8') }}">
-                            </div>
-                        @endif
-                        @if ($golongan->count() >= 9)
-                            <div class="form-group">
-                                <label for="golongan9">Golongan 9</label>
-                                <input type="number" class="form-control" id="golongan9" name="golongan9"
-                                    placeholder="masukkan biaya" value="{{ old('golongan9') }}">
-                            </div>
-                        @endif
-                        @if ($golongan->count() >= 10)
-                            <div class="form-group">
-                                <label for="golongan10">Golongan 10</label>
-                                <input type="number" class="form-control" id="golongan10" name="golongan10"
-                                    placeholder="masukkan biaya" value="{{ old('golongan10') }}">
-                            </div>
-                        @endif
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                        </div>
                     </div>
 
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
+
+    <script>
+        function formatRupiah(input) {
+            // Hapus karakter selain angka
+            var value = input.value.replace(/\D/g, "");
+
+            // Format angka dengan menambahkan titik sebagai pemisah ribuan
+            value = new Intl.NumberFormat('id-ID').format(value);
+
+            // Tampilkan nilai yang sudah diformat ke dalam input
+            input.value = value;
+        }
+    </script>
 @endsection

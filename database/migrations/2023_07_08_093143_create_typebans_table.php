@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreign('kendaraan_id')->references('id')->on('kendaraans')->onDelete('set null');
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

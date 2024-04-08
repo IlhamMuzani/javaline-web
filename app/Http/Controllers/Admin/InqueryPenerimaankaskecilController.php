@@ -77,6 +77,7 @@ class InqueryPenerimaankaskecilController extends Controller
             ],
             [
                 'nominal.required' => 'Masukkan nominal',
+                // 'nominal.numeric' => 'Nominal harus berupa angka',
                 // 'keterangan.required' => 'Masukkan keterangan',
             ]
         );
@@ -88,15 +89,6 @@ class InqueryPenerimaankaskecilController extends Controller
 
         $penerimaan = Penerimaan_kaskecil::findOrFail($id);
 
-        $tanggal_awal = Carbon::parse($penerimaan->tanggal_awal);
-
-        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
-
-        if ($lastUpdatedDate < $today) {
-            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
-        }
-
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
 
@@ -105,13 +97,17 @@ class InqueryPenerimaankaskecilController extends Controller
 
         $nominallama = $penerimaan->nominal;
 
-        $nominalbaru = $request->nominal;
-        $hasil = $sisaSaldo - $nominallama + $nominalbaru;
+        $nominalbaru = str_replace('.', '', $request->nominal);
+        $hasil = $sisaSaldo + $nominalbaru;
 
         // return $hasil;
 
         $subTotalInput = $request->input('sub_total');
-        $cleanedSubTotal = (int) str_replace(['Rp', '.'], '', $subTotalInput);
+
+        // Hilangkan 'Rp' dan titik
+        $cleanedSubTotal = str_replace(['Rp', '.'], '', $subTotalInput);
+        // Ubah koma menjadi titik
+        $cleanedSubTotal = str_replace(',', '.', $cleanedSubTotal);
 
         $saldoTerakhir = Saldo::latest()->first();
         $saldo = $saldoTerakhir->id;
@@ -120,8 +116,8 @@ class InqueryPenerimaankaskecilController extends Controller
         $format_tanggal = $tanggal1->format('d F Y');
 
         $tanggal = Carbon::now()->format('Y-m-d');
-                $penerimaan->update([
-            'nominal' => $request->nominal,
+        $penerimaan->update([
+            'nominal' => $request->nominal ? str_replace('.', '', $request->nominal) : null,
             'keterangan' => $request->keterangan,
             'saldo_masuk' => $request->saldo_masuk,
             'sisa_saldo' => $request->sisa_saldo,
@@ -143,38 +139,77 @@ class InqueryPenerimaankaskecilController extends Controller
     public function show($id)
     {
         $cetakpdf = Penerimaan_kaskecil::where('id', $id)->first();
-        
+
         return view('admin.inquery_penerimaankaskecil.show', compact('cetakpdf'));
     }
 
     public function unpostpenerimaan($id)
     {
-        $ban = Penerimaan_kaskecil::where('id', $id)->first();
+        // Cari penerimaan kas kecil berdasarkan ID
+        $item = Penerimaan_kaskecil::findOrFail($id);
 
-        $ban->update([
-            'status' => 'unpost'
+        // Ambil nominal dari penerimaan
+        $nominal = $item->nominal;
+
+        // Ambil saldo terakhir
+        $lastSaldo = Saldo::latest()->first();
+
+        // Periksa apakah saldo terakhir ditemukan
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+        
+        $sisaSaldo = $lastSaldo->sisa_saldo - $item->nominal;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
         ]);
+        
+        // Perbarui status penerimaan menjadi "unpost"
+        $item->update(['status' => 'unpost']);
 
-        return back()->with('success', 'Berhasil');
+        // Redirect kembali dengan pesan sukses
+        return back()->with('success', 'Penerimaan berhasil di-"unpost"');
     }
 
     public function postingpenerimaan($id)
     {
-        $ban = Penerimaan_kaskecil::where('id', $id)->first();
+        // Cari penerimaan kas kecil berdasarkan ID
+        $item = Penerimaan_kaskecil::findOrFail($id);
+        // Ambil saldo terakhir
+        $lastSaldo = Saldo::latest()->first();
 
-        $ban->update([
-            'status' => 'posting'
+        // Periksa apakah saldo terakhir ditemukan
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $sisaSaldo = $lastSaldo->sisa_saldo + $item->nominal;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
         ]);
+        
+        // Perbarui status penerimaan menjadi "unpost"
+        $item->update(['status' => 'posting']);
 
+        // Redirect kembali dengan pesan sukses
+        return back()->with('success', 'Penerimaan berhasil di-"Posting"');
+    }
+
+    public function hapuspenerimaan($id)
+    {
+        $item = Penerimaan_kaskecil::where('id', $id)->first();
+
+        $item->delete();
         return back()->with('success', 'Berhasil');
     }
 
 
     public function destroy($id)
     {
-        $ban = Penerimaan_kaskecil::find($id);
+        $ban = Pembelian_ban::find($id);
+        $ban->detail_ban()->delete();
         $ban->delete();
 
-        return redirect('admin/inquery_penerimaankaskecil')->with('success', 'Berhasil');
+        return redirect('admin/inquery_pembelianban')->with('success', 'Berhasil menghapus Pembelian');
     }
 }

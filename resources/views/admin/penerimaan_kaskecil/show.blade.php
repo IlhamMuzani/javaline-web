@@ -194,7 +194,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="150" height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
@@ -212,7 +212,7 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 17px; color:white">
                 Kode Faktur:{{ $cetakpdf->kode_penerimaan }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 17px;">
-                Tanggal:{{ $cetakpdf->tanggal }}</td>
+                Tanggal:{{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
         </tr>
     </table>
     </div>
@@ -257,7 +257,7 @@
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
                                 Rp.
-                                {{ number_format($cetakpdf->nominal, 0, ',', '.') }}
+                                {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
                             </td>
                         </tr>
                         <tr>
@@ -277,12 +277,16 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td style="text-align: left; padding: 0px; font-size: 17px; font-weight:bold">Keterangan :
-                {{ $cetakpdf->keterangan }}</td>
+            </td>
             <td style="text-align: right; padding: 0px; font-size: 17px; font-weight:bold">Jumlah Kas Saldo : Rp.
-                {{ number_format($cetakpdf->sub_total, 0, ',', '.') }}</td>
+                {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}</td>
         </tr>
     </table>
-
+    <div>
+        <span style="display: block; max-width: 55%; word-wrap: break-word;">
+            {{ $cetakpdf->keterangan }}
+        </span>
+    </div>
     <br><br><br>
 
     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">

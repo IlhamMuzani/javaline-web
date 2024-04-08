@@ -153,7 +153,6 @@ class PemasanganbanController extends Controller
             'pemasangan_ban_id' => $pemasanganId
         ]);
 
-
         $kendaraan = Kendaraan::findOrFail($id);
 
         $bans = Ban::where('pemasangan_ban_id', $pemasanganId)->get();
@@ -202,7 +201,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_1a);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_1a,
             'status' => 'aktif sementara',
@@ -253,7 +254,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_1b);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_1b,
             'status' => 'aktif sementara',
@@ -304,7 +307,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_2a);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2a,
             'status' => 'aktif sementara',
@@ -355,7 +360,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_2b);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2b,
             'status' => 'aktif sementara',
@@ -406,7 +413,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_2c);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2c,
             'status' => 'aktif sementara',
@@ -457,7 +466,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_2d);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2d,
             'status' => 'aktif sementara',
@@ -508,7 +519,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_3a);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3a,
             'status' => 'aktif sementara',
@@ -559,7 +572,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_3b);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3b,
             'status' => 'aktif sementara',
@@ -610,7 +625,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_3c);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3c,
             'status' => 'aktif sementara',
@@ -661,7 +678,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_3d);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3d,
             'status' => 'aktif sementara',
@@ -712,7 +731,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_4a);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4a,
             'status' => 'aktif sementara',
@@ -763,7 +784,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_4b);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4b,
             'status' => 'aktif sementara',
@@ -814,7 +837,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_4c);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4c,
             'status' => 'aktif sementara',
@@ -865,7 +890,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_4d);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4d,
             'status' => 'aktif sementara',
@@ -916,7 +943,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_5a);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5a,
             'status' => 'aktif sementara',
@@ -967,7 +996,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_5b);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5b,
             'status' => 'aktif sementara',
@@ -1018,7 +1049,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_5c);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5c,
             'status' => 'aktif sementara',
@@ -1069,7 +1102,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_5d);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5d,
             'status' => 'aktif sementara',
@@ -1120,7 +1155,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_6a);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6a,
             'status' => 'aktif sementara',
@@ -1171,7 +1208,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_6b);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6b,
             'status' => 'aktif sementara',
@@ -1222,7 +1261,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_6c);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6c,
             'status' => 'aktif sementara',
@@ -1273,7 +1314,9 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
         $ban = Ban::findOrFail($request->exel_6d);
+        // $jumlahkmpemasangan = $request->km_pemasangan - $ban->km_pemasangan;
         $ban->update([
+            // 'jumlah_km' => $jumlahkmpemasangan,
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6d,
             'status' => 'aktif sementara',

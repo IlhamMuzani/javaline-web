@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('kode_faktur')->nullable();
             $table->string('nama_rute')->nullable();
             $table->string('no_memo')->nullable();
+            $table->string('no_do')->nullable();
+            $table->string('no_po')->nullable();
             $table->string('tanggal_memo')->nullable();
             $table->string('no_kabin')->nullable();
             $table->string('no_pol')->nullable();
@@ -31,6 +33,7 @@ return new class extends Migration
             $table->string('total')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

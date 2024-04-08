@@ -11,21 +11,37 @@ use Illuminate\Http\Request;
 use App\Models\Jenis_kendaraan;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KendaraanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['kendaraan']) {
-            // Retrieve the vehicles ordered by the latest input
-            $kendaraans = Kendaraan::orderBy('created_at', 'desc')->get();
+            if ($request->has('keyword')) {
+                $keyword = $request->keyword;
+                $kendaraans = Kendaraan::with('jenis_kendaraan')
+                    ->where(function ($query) use ($keyword) {
+                        $query->whereHas('jenis_kendaraan', function ($query) use ($keyword) {
+                            $query->where('nama_jenis_kendaraan', 'like', "%$keyword%");
+                        })
+                            ->orWhere('kode_kendaraan', 'like', "%$keyword%")
+                            ->orWhere('no_kabin', 'like', "%$keyword%")
+                            ->orWhere('no_pol', 'like', "%$keyword%");
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            } else {
+                $kendaraans = Kendaraan::with('jenis_kendaraan')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            }
 
-            return view('admin/kendaraan.index', compact('kendaraans'));
-        } else {
-            // tidak memiliki akses
-            return back()->with('error', ['Anda tidak memiliki akses']);
+            return view('admin.kendaraan.index', compact('kendaraans'));
         }
+        return back()->with('error', array('Anda tidak memiliki akses'));
     }
 
     public function create()
@@ -86,12 +102,21 @@ class KendaraanController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
+        if ($request->gambar_barcodesolar) {
+            $gambar = str_replace(' ', '', $request->gambar_barcodesolar->getClientOriginalName());
+            $namaGambar = 'gambar_barcodesolar/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+            $request->gambar_barcodesolar->storeAs('public/uploads/', $namaGambar);
+        } else {
+            $namaGambar = null;
+        }
+
         // Sisanya tetap sama
         $kode = $this->kode();
         $tanggal = Carbon::now()->format('Y-m-d');
         Kendaraan::create(array_merge(
             $request->all(),
             [
+                'gambar_barcodesolar' => $namaGambar,
                 'kode_kendaraan' => $this->kode(),
                 'status' => 'truk',
                 'timer' => '0 00:00',
@@ -119,6 +144,27 @@ class KendaraanController extends Controller
         $dompdf->render();
 
         $dompdf->stream();
+    }
+
+    public function cetakpdfsolar($id)
+    {
+        $cetakpdf = Kendaraan::where('id', $id)->first();
+
+        // If Memo_ekspedisi is not found, try fetching Memotambahan
+        if (!$cetakpdf) {
+            $cetakpdf = Kendaraan::where('id', $id)->first();
+
+            // If Memotambahan is not found, handle the error
+            if (!$cetakpdf) {
+                abort(404, 'Memo not found');
+            }
+            $pdf = PDF::loadView('admin.kendaraan.cetak_pdfsolar', compact('cetakpdf'));
+            $pdf->setPaper('letter', 'portrait');
+            return $pdf->stream('Barcode_Solar.pdf');
+        }
+        $pdf = PDF::loadView('admin.kendaraan.cetak_pdfsolar', compact('cetakpdf'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('Barcode_Solar.pdf');
     }
 
 
@@ -208,6 +254,15 @@ class KendaraanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($id);
 
+        if ($request->gambar_barcodesolar) {
+            Storage::disk('local')->delete('public/uploads/' . $kendaraan->gambar_barcodesolar);
+            $gambar = str_replace(' ', '', $request->gambar_barcodesolar->getClientOriginalName());
+            $namaGambar = 'gambar_barcodesolar/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+            $request->gambar_barcodesolar->storeAs('public/uploads/', $namaGambar);
+        } else {
+            $namaGambar = $kendaraan->gambar_barcodesolar;
+        }
+
         $kendaraan->no_kabin = $request->no_kabin;
         $kendaraan->no_pol = $request->no_pol;
         $kendaraan->no_rangka = $request->no_rangka;
@@ -220,6 +275,7 @@ class KendaraanController extends Controller
         $kendaraan->divisi_id = $request->divisi_id;
         $kendaraan->user_id = $request->user_id;
         $kendaraan->km = $request->km;
+        $kendaraan->gambar_barcodesolar = $namaGambar;
         $kendaraan->tanggal = Carbon::now('Asia/Jakarta');
         $kendaraan->tanggal_awal = Carbon::now()->format('Y-m-d');
 

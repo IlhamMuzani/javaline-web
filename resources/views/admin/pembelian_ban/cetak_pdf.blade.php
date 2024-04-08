@@ -24,6 +24,8 @@
         html,
         body {
             font-family: 'DOSVGA', monospace;
+            /*font-family: 'DOSVGA', Arial, Helvetica, sans-serif;*/
+            /*font-weight: bold;*/
             color: black;
         }
 
@@ -306,7 +308,7 @@
                     Rp.
                 </td>
                 <td class="td" style="text-align: right;  font-size: 13px;">
-                    {{ number_format($item->harga, 0, ',', '.') }}
+                    {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
             </tr>
             @php
@@ -324,7 +326,7 @@
                 Rp.
             </td>
             <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
-                {{ number_format($totalHarga, 0, ',', '.') }}
+                {{ number_format($totalHarga, 2, ',', '.') }}
             </td>
         </tr>
     </table>
@@ -409,6 +411,9 @@
             </td>
         </tr>
     </table>
+    <div style="text-align: right; font-size:12px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div>
 </body>
 
 </html>

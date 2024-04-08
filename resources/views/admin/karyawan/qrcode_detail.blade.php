@@ -50,10 +50,10 @@
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
 
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="" src="{{ asset('storage/uploads/user/logo.png') }}" alt="javaline" height="50"
+        {{-- <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="" src="{{ asset('storage/uploads/user/logo.png') }}" alt="BAT" height="50"
                 width="100">
-        </div>
+        </div> --}}
 
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -71,7 +71,7 @@
                 <li class="nav-item d-none d-sm-inline-block">
                     <img class="animation__wobble" src="{{ asset('storage/uploads/user/logo.png') }}"
                         alt="AdminLTELogo" height="40" width="100">
-                    {{-- <a href="#" class="nav-link">Sistem - Javaline</a> --}}
+                    {{-- <a href="#" class="nav-link">Sistem - BAT</a> --}}
                 </li>
             </ul>
         </nav>
@@ -120,14 +120,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-5">
-                                    {{-- @if ($karyawan->gambar)
-                                <img src="{{ asset('storage/uploads/' . $karyawan->gambar) }}"
-                        class="w-100 rounded border">
-                        @else
-                        <img src="{{ asset('storage/uploads/karyawan/user.png') }}" class="w-100 rounded border">
-                        @endif --}}
-                                    {{-- <img src="{{ asset('storage/uploads/' . $karyawan->gambar) }}"
-                        alt="{{ $karyawan->nama_lengkap }}" class="w-100 rounded"> --}}
+                                 
                                     @if ($karyawan->gambar)
                                         <img src="{{ asset('storage/uploads/' . $karyawan->gambar) }}"
                                             alt="{{ $karyawan->nama_lengkap }}" class="w-100 rounded border">
@@ -272,7 +265,6 @@
                     </div>
                 </div>
             </section>
-
         </div>
         <!-- /.content-wrapper -->
 
@@ -286,7 +278,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Yakin keluar sistem <strong>Sistem Javaline</strong>?</p>
+                        <p>Yakin keluar sistem <strong>Sistem BAT</strong>?</p>
                     </div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>

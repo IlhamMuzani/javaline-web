@@ -28,4 +28,7 @@
     Order allow,deny
     Deny from all
     </Files>
+
+ # Set max_input_vars
+    php_value max_input_vars 2000
 </IfModule>

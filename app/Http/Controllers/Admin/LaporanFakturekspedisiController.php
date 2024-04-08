@@ -14,66 +14,76 @@ class LaporanFakturekspedisiController extends Controller
 {
     public function index(Request $request)
     {
-        // if (auth()->check() && auth()->user()->menu['laporan penggantian oli']) {
-
-        $status = $request->status;
+        // Mengambil parameter dari request
+        $status_pelunasan = $request->status_pelunasan;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $inquery = Faktur_ekspedisi::orderBy('id', 'DESC');
+        // Membuat query untuk model Faktur_ekspedisi yang diurutkan berdasarkan id secara ascending (ASC)
+        $inquery = Faktur_ekspedisi::orderBy('id', 'ASC')
+            ->whereIn('status', ['posting', 'selesai']);
 
-        if ($status == "posting") {
-            $inquery->where('status', $status);
+        // Menerapkan filter berdasarkan status_pelunasan
+        if ($status_pelunasan == null || $status_pelunasan == "aktif") {
+            $inquery->where('status_pelunasan', $status_pelunasan);
         } else {
-            $inquery->where('status', 'posting');
+            $inquery->whereIn('status_pelunasan', [null, 'aktif']);
         }
 
+        // Menerapkan filter berdasarkan rentang tanggal
         if ($tanggal_awal && $tanggal_akhir) {
             $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
         }
 
-        // $inquery = $inquery->get();
+        // Melakukan eksekusi query dan menyimpan hasilnya dalam variabel $inquery
+        $inquery = $inquery->get();
 
-        // kondisi sebelum melakukan pencarian data masih kosong
-        $hasSearch = $status || ($tanggal_awal && $tanggal_akhir);
-        $inquery = $hasSearch ? $inquery->get() : collect();
+        // Mengecek apakah telah dilakukan pencarian
+        $hasSearch = $status_pelunasan || ($tanggal_awal && $tanggal_akhir);
 
+        // Jika telah dilakukan pencarian, simpan hasil query. Jika tidak, variabel $inquery diisi dengan koleksi kosong.
+        $inquery = $hasSearch ? $inquery : collect();
+
+        // Mengembalikan view 'admin.laporan_fakturekspedisi.index' dengan menyertakan data hasil query
         return view('admin.laporan_fakturekspedisi.index', compact('inquery'));
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
-
 
     public function print_fakturekspedisi(Request $request)
     {
-        // if (auth()->check() && auth()->user()->menu['laporan penggantian oli']) {
-
-        $status = $request->status;
+        // Mengambil parameter dari request
+        $status_pelunasan = $request->status_pelunasan;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $query = Faktur_ekspedisi::orderBy('id', 'DESC');
+        // Membuat query untuk model Faktur_ekspedisi yang diurutkan berdasarkan id secara descending
+        $query = Faktur_ekspedisi::orderBy(
+            'id',
+            'ASC'
+        )
+            ->whereIn('status', ['posting', 'selesai']);
 
-        if ($status == "posting") {
-            $query->where('status', $status);
+
+        // Menerapkan filter berdasarkan status_pelunasan
+        if ($status_pelunasan == null || $status_pelunasan == "aktif") {
+            $query->where('status_pelunasan', $status_pelunasan);
         } else {
-            $query->where('status', 'posting');
+            $query->whereIn('status_pelunasan', [null, 'aktif']);
         }
 
+        // Menerapkan filter berdasarkan rentang tanggal
         if ($tanggal_awal && $tanggal_akhir) {
             $query->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
         }
-        $inquery = $query->orderBy('id', 'DESC')->get();
 
+        // Menjalankan query dan mengambil hasilnya
+        $inquery = $query->get();
+
+        // Membuat laporan PDF menggunakan data hasil query
         $pdf = PDF::loadView('admin.laporan_fakturekspedisi.print', compact('inquery'));
+
+        // Mengembalikan laporan PDF sebagai respons stream
         return $pdf->stream('Laporan_Faktur_Ekspedisi.pdf');
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('keterangan')->nullable();
             $table->string('nominal')->nullable();
             $table->string('tanggal_awal')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

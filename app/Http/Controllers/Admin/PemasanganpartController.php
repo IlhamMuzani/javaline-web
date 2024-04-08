@@ -40,9 +40,9 @@ class PemasanganpartController extends Controller
     public function store(Request $request)
     {
         $validasi_pelanggan = Validator::make($request->all(), [
-            'kendaraan_id' => 'required',
+            // 'kendaraan_id' => 'required',
         ], [
-            'kendaraan_id.required' => 'Pilih no kabin!',
+            // 'kendaraan_id.required' => 'Pilih no kabin!',
         ]);
 
         $error_pelanggans = array();

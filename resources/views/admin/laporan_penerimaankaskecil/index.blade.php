@@ -40,17 +40,36 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-5 mb-3">
+                            {{-- <div class="col-md-2 mb-3">
+                                <select class="custom-select form-control" id="statusx" name="statusx">
+                                    <option value="">- Pilih Laporan -</option>
+                                    <option value="memo_perjalanan">Memo Perjalanan</option>
+                                    <option value="memo_borong">Memo Borong</option>
+                                    <option value="memo_tambahan">Memo Tambahan</option>
+                                </select>
+                                <label for="statusx">(Kategori Memo)</label>
+                            </div> --}}
+                            <div class="col-md-3 mb-3">
+                                <label for="tanggal_awal">Kategori</label>
+                                <select class="custom-select form-control" id="statusx" name="statusx">
+                                    <option value="">- Pilih Laporan -</option>
+                                    <option value="memo_perjalanan" selected>Laporan Kas Masuk</option>
+                                    <option value="memo_borong">Laporan Kas Keluar</option>
+                                    <option value="akun">Laporan Kas Keluar Group by Akun</option>
+                                    <option value="memo_tambahan">Saldo Kas</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_awal">Tanggal Awal</label>
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
                                     value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 @if (auth()->check() && auth()->user()->fitur['laporan penerimaan kas kecil cari'])
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                         <i class="fas fa-search"></i> Cari
@@ -65,8 +84,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Faktur Penerimaan Kas Kecil</th>
@@ -134,5 +153,34 @@
                 alert("Silakan isi kedua tanggal sebelum mencetak.");
             }
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#statusx').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'memo_perjalanan':
+                        window.location.href = "{{ url('admin/laporan_penerimaankaskecil') }}";
+                        break;
+                    case 'memo_borong':
+                        window.location.href = "{{ url('admin/laporan_pengeluarankaskecil') }}";
+                        break;
+                    case 'akun':
+                        window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
+                        break;
+                    case 'memo_tambahan':
+                        window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                        break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
     </script>
 @endsection

@@ -65,8 +65,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Tanggal</th>
@@ -87,8 +87,14 @@
                                             User tidak ada
                                         @endif
                                     </td>
-                                    <td>{{ $updatekm->no_kabin }}</td>
-                                    <td>{{ $updatekm->km }}</td>
+                                    <td>
+                                        @if ($updatekm->kendaraan)
+                                            {{ $updatekm->kendaraan->no_kabin }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
+                                    <td style="text-align: right">{{ $updatekm->km_update }}</td>
                                     {{-- <td class="text-center">
                                     </td> --}}
                                 </tr>

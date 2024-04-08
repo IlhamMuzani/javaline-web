@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tarif extends Model
 {
@@ -15,11 +16,15 @@ class Tarif extends Model
 
     protected $fillable =
     [
+        'pelanggan_id',
         'kode_tarif',
         'nama_tarif',
         'nominal',
         'tanggal_awal',
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -27,9 +32,14 @@ class Tarif extends Model
             ->logFillable('*');
     }
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
+
+
     public static function getId()
     {
         return $getId = DB::table('tarifs')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

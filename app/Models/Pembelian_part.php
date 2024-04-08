@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pembelian_part extends Model
 {
@@ -23,9 +24,14 @@ class Pembelian_part extends Model
         'tanggal_awal',
         'tanggal_akhir',
         'status',
+        'status_pelunasan',
+        'grand_total',
         'status_notif',
 
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {

@@ -43,8 +43,8 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
@@ -95,7 +95,9 @@
                                         @else
                                             Konfirmasi
                                         @endif
+
                                     </td>
+
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['penggantian oli create'])
                                             @if (
@@ -121,6 +123,7 @@
                                                 </a>
                                             @endif
                                         @endif
+
                                     </td>
                                 </tr>
                             @endforeach

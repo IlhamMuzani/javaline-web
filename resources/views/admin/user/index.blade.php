@@ -40,9 +40,29 @@
                         @endif
                     </div>
                 </div>
+                <form action="{{ url('admin/user') }}" method="GET" id="get-keyword" autocomplete="off">
+                    @csrf
+                    <div class="row p-3">
+                        <div class="col-0 col-md-8"></div>
+                        <div class="col-md-4">
+                            <label for="keyword">Cari User :</label>
+                            <div class="input-group">
+                                <input type="search" class="form-control" name="keyword" id="keyword"
+                                    value="{{ Request::get('keyword') }}"
+                                    onsubmit="event.preventDefault();
+                                        document.getElementById('get-keyword').submit();">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table  class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode User</th>
@@ -134,7 +154,13 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- /.card-body -->
+                @if ($users->total() > 10)
+                    <div class="card-footer">
+                        <div class="pagination float-right">
+                            {{ $users->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>

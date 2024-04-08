@@ -84,16 +84,6 @@ class InqueryPembelianPartController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
 
-        $transaksi = Pembelian_part::findOrFail($id);
-        $tanggal_awal = Carbon::parse($transaksi->tanggal_awal);
-
-        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
-
-        if ($lastUpdatedDate < $today) {
-            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
-        }
-
 
         if ($validasi_pelanggan->fails()) {
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
@@ -154,10 +144,24 @@ class InqueryPembelianPartController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pembelian_part::findOrFail($id);
 
+        $grandTotal = 0;
+
+        // Loop melalui array harga dari permintaan
+        if ($request->has('harga')) {
+            foreach ($request->harga as $harga) {
+                // Ubah format harga (hapus titik sebagai pemisah ribuan)
+                $hargaNumeric = (float) str_replace('.', '', $harga);
+
+                // Tambahkan harga ke grand total
+                $grandTotal += $hargaNumeric;
+            }
+        }
+
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
-            'tanggal' => $format_tanggal,
+            // 'tanggal' => $format_tanggal,
             // 'tanggal_awal' => $tanggal,
+            'grand_total' => $grandTotal,
             'status' => 'posting',
         ]);
 
@@ -514,6 +518,14 @@ class InqueryPembelianPartController extends Controller
         return redirect('admin/inquery_pembelianpart')->with('success', 'Berhasil menghapus Pembelian');
     }
 
+    public function hapuspart($id)
+    {
+        $ban = Pembelian_part::where('id', $id)->first();
+
+        $ban->detail_part()->delete();
+        $ban->delete();
+        return back()->with('success', 'Berhasil');
+    }
 
     public function deletepart($id)
     {

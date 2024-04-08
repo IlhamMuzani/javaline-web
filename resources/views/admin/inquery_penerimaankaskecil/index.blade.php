@@ -68,20 +68,21 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Faktur Penerimaan Kas Kecil</th>
                                 <th>Tanggal</th>
                                 <th>Nominal</th>
                                 <th>Total</th>
-                                <th class="text-center" width="120">Opsi</th>
+                                <th class="text-center" width="30">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($inquery as $penerimaan)
-                                <tr>
+                                <tr id="editMemoekspedisi" data-toggle="modal"
+                                    data-target="#modal-posting-{{ $penerimaan->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
                                         {{ $penerimaan->kode_penerimaan }}
@@ -93,49 +94,82 @@
                                         Rp. {{ number_format($penerimaan->nominal, 0, ',', '.') }}</td>
                                     <td> Rp. {{ number_format($penerimaan->sub_total, 0, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($penerimaan->status == 'unpost')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
-                                                <a href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil update'])
-                                                <a href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id . '/edit') }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-edit"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil delete'])
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                    data-target="#modal-hapus-{{ $penerimaan->id }}">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil posting'])
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal"
-                                                    data-target="#modal-posting-{{ $penerimaan->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
-                                        @endif
                                         @if ($penerimaan->status == 'posting')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
-                                                <a href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil unpost'])
-                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal"
-                                                    data-target="#modal-unpost-{{ $penerimaan->id }}">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $penerimaan->id }}">
+
+                                <div class="modal fade" id="modal-posting-{{ $penerimaan->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Opsi menu</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>Perpanjangan Stnk
+                                                    <strong>{{ $penerimaan->kode_memo }}</strong>
+                                                </p>
+                                                @if ($penerimaan->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil delete'])
+                                                        <form method="GET"
+                                                            action="{{ route('hapuspenerimaan', ['id' => $penerimaan->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-danger btn-block mt-2">
+                                                                <i class="fas fa-trash-alt"></i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                        <a href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}"
+                                                            type="button" class="btn btn-outline-info btn-block">
+                                                            <i class="fas fa-eye"></i> Show
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil update'])
+                                                        <a href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id . '/edit') }}"
+                                                            type="button" class="btn btn-outline-warning btn-block">
+                                                            <i class="fas fa-edit"></i> Update
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil posting'])
+                                                        <form method="GET"
+                                                            action="{{ route('postingpenerimaan', ['id' => $penerimaan->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-success btn-block mt-2">
+                                                                <i class="fas fa-check"></i> Posting
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($penerimaan->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                        <a href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}"
+                                                            type="button" class="btn btn-outline-info btn-block">
+                                                            <i class="fas fa-eye"></i> Show
+                                                        </a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil unpost'])
+                                                        <form method="GET"
+                                                            action="{{ route('unpostpenerimaan', ['id' => $penerimaan->id]) }}">
+                                                            <button type="submit"
+                                                                class="btn btn-outline-primary btn-block mt-2">
+                                                                <i class="fas fa-check"></i> Unpost
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="modal fade" id="modal-hapus-{{ $penerimaan->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -212,7 +246,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             @endforeach
                         </tbody>
                     </table>

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('sparepart_id')->references('id')->on('spareparts')->onDelete('set null');
             $table->string('keterangan')->nullable();
             $table->string('jumlah')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

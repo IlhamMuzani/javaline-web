@@ -194,7 +194,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
@@ -212,7 +212,7 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
                 a</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                Tanggal:{{ $cetakpdf->tanggal }}</td>
+                Tanggal:{{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
         </tr>
     </table>
     </div>
@@ -247,7 +247,35 @@
         return $hasil;
     }
     ?>
-    <table width="100%">
+
+    <table style="width: 100%;" cellpadding="2" cellspacing="0">
+        <tr>
+            <td style="text-align: left; padding: 0px; font-weight:bold; font-size: 15px; width:5%">Nominal</td>
+            <td style="text-align: center; padding: 0px; font-weight:bold; font-size: 15px; width:5%">:</td>
+            <td style="text-align: left; padding: 0px; font-weight:bold; font-size: 15px; width:90%">Rp.
+                {{ number_format($cetakpdf->nominal, 2, ',', '.') }}</td>
+        </tr>
+        <tr>
+
+        </tr>
+        <tr>
+            <td style="text-align: left; padding: 0px; font-size: 15px; font-weight:bold">
+                Terbilang
+            </td>
+            <td style="text-align: center; padding: 0px; font-size: 15px; font-weight:bold">
+                :
+            </td>
+            <td style="text-align: left; padding-top: 5px; font-size: 15px; font-style:italic; font-weight:bold">
+                ({{ terbilang($cetakpdf->nominal) }} Rupiah)
+            </td>
+
+        </tr>
+        <tr>
+            <td colspan="5" style="padding: 0px;">
+            </td>
+        </tr>
+    </table>
+    {{-- <table width="100%">
         <tr>
             <td>
                 <div class="info-catatan" style="max-width: 230px;">
@@ -255,35 +283,40 @@
                         <tr>
                             <td class="info-catatan2">Nominal</td>
                             <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
-                                Rp.
-                                {{ number_format($cetakpdf->nominal, 0, ',', '.') }}
+                            <td style="font-weight:bold; word-wrap: break-word;" class="info-text info-left">
+                                Rp. {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
                             </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2">Terbilang</td>
                             <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
-                                ({{ terbilang($cetakpdf->nominal) }}
-                                Rupiah)</td>
+                            <td style="font-weight:bold; word-wrap: break-word;" class="info-text info-left">
+                            </td>
                         </tr>
                     </table>
                 </div>
             </td>
         </tr>
-    </table>
+    </table> --}}
+
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
 
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td style="text-align: left; padding: 0px; font-size: 15px; font-weight:bold">Keterangan :
-                {{ $cetakpdf->keterangan }}</td>
-            <td style="text-align: right; padding: 0px; font-size: 15px; font-weight:bold">Jumlah Kas Saldo : 
+            </td>
+            <td style="text-align: right; padding: 0px; font-size: 15px; font-weight:bold">Jumlah Kas Saldo :
                 <span>
-                    Rp.{{ number_format($cetakpdf->sub_total, 0, ',', '.') }}</td>
-                    </span>
+                    Rp.{{ number_format($cetakpdf->sub_total, 2, ',', '.') }}
+            </td>
+            </span>
         </tr>
     </table>
+    <div>
+        <span style="display: block; max-width: 55%; word-wrap: break-word;">
+            {{ $cetakpdf->keterangan }}
+        </span>
+    </div>
 
     <br><br><br>
 
@@ -330,6 +363,10 @@
             </td>
         </tr>
     </table>
+
+    <div style="text-align: right; font-size:12px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div>
 </body>
 
 </html>

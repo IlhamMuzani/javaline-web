@@ -6,8 +6,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_pengeluaran;
 use App\Models\Laporankir;
 use App\Models\Nokir;
+use App\Models\Pengeluaran_kaskecil;
+use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
@@ -90,25 +93,21 @@ class InqueryPerpanjangankirController extends Controller
 
         $nokir = Laporankir::findOrFail($id);
 
-        $tanggal_awal = Carbon::parse($nokir->tanggal_awal);
-
-        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
-
-        if ($lastUpdatedDate < $today) {
-            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
-        }
-
-        
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
-        Laporankir::where('id', $id)->update([
+
+        $kategori = $request->kategori;
+
+        if ($kategori == 'Perpanjangan JAVA LINE LOGISTICS') {
+            $status = 'posting';
+        } else {
+            $status = 'unpost';
+        }
+        $laporan = Laporankir::where('id', $id)->update([
             'kategori' => $request->kategori,
             'masa_berlaku' => $request->masa_berlaku,
             'jumlah' => $request->jumlah,
-            'tanggal' => $format_tanggal,
-            'status' => 'posting',
-            'tanggal_awal' => $request->masa_berlaku,
+            'status' => $status,
         ]);
 
         Nokir::where('id', $nokir->nokir_id)->update([
@@ -116,6 +115,28 @@ class InqueryPerpanjangankirController extends Controller
             'masa_berlaku' => $request->masa_berlaku,
             'jumlah' => $request->jumlah,
         ]);
+
+        if ($kategori == 'Perpanjangan DISHUB') {
+
+            $pengeluaran = Pengeluaran_kaskecil::where('laporankir_id', $id)->first();
+            $pengeluaran->update(
+                [
+                    'laporankir_id' => $id,
+                    'kendaraan_id' => $nokir->kendaraan_id,
+                    'grand_total' => str_replace('.', '', $request->jumlah),
+                    'status' => 'unpost',
+                ]
+            );
+
+            $detailpengeluaran = Detail_pengeluaran::where('laporankir_id', $id)->first();
+            $detailpengeluaran->update(
+                [
+                    'laporankir_id' => $id,
+                    'nominal' => str_replace('.', '', $request->jumlah),
+                    'status' => 'unpost',
+                ]
+            );
+        }
 
         $cetakpdf = Laporankir::where('id', $id)->first();
 
@@ -146,9 +167,35 @@ class InqueryPerpanjangankirController extends Controller
 
     public function unpostkir($id)
     {
-        $ban = Laporankir::where('id', $id)->first();
+        $item = Laporankir::where('id', $id)->first();
 
-        $ban->update([
+
+        $lastSaldo = Saldo::latest()->first();
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $sisaSaldo = $item->jumlah;
+
+        if ($lastSaldo->sisa_saldo < $sisaSaldo) {
+            return back()->with('error', 'Saldo tidak mencukupi');
+        }
+
+        // Update saldo terakhir
+        $lastSaldo->update([
+            'sisa_saldo' => $lastSaldo->sisa_saldo + $sisaSaldo,
+        ]);
+
+        // Update status pengeluaran
+        Pengeluaran_kaskecil::where('laporankir_id', $id)->update([
+            'status' => 'unpost'
+        ]);
+        Detail_pengeluaran::where('laporankir_id', $id)->update([
+            'status' => 'unpost'
+        ]);
+
+
+        $item->update([
             'status' => 'unpost'
         ]);
 
@@ -157,20 +204,47 @@ class InqueryPerpanjangankirController extends Controller
 
     public function postingkir($id)
     {
-        $ban = Laporankir::where('id', $id)->first();
+        $item = Laporankir::where('id', $id)->first();
 
-        $ban->update([
+        $lastSaldo = Saldo::latest()->first();
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $uangjalan = $item->jumlah;
+
+        if ($lastSaldo->sisa_saldo < $uangjalan) {
+            return back()->with('error', 'Saldo tidak mencukupi');
+        }
+
+        $sisaSaldo = $item->jumlah;
+        // Update saldo terakhir
+        $lastSaldo->update([
+            'sisa_saldo' => $lastSaldo->sisa_saldo - $sisaSaldo,
+        ]);
+
+        // Update status pengeluaran
+        Pengeluaran_kaskecil::where('laporankir_id', $id)->update([
+            'status' => 'posting'
+        ]);
+        Detail_pengeluaran::where('laporankir_id', $id)->update([
+            'status' => 'posting'
+        ]);
+
+        // Update status laporankir
+        $item->update([
             'status' => 'posting'
         ]);
 
         return back()->with('success', 'Berhasil');
     }
 
+
     public function hapuskir($id)
     {
-        $ban = Laporankir::where('id', $id)->first();
+        $item = Laporankir::where('id', $id)->first();
 
-        $ban->delete();
+        $item->delete();
         return back()->with('success', 'Berhasil');
     }
 

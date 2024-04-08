@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('tanggal_akhir')->nullable();
             $table->string('status')->nullable();
             $table->string('status_notif')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

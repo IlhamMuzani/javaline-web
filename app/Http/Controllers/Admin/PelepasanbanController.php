@@ -94,22 +94,20 @@ class PelepasanbanController extends Controller
 
     public function kode()
     {
-        $pelepasan_ban = Pelepasan_ban::all();
-        if ($pelepasan_ban->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Pelepasan_ban::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Pelepasan_ban::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_pelepasan;
+            $num = (int) substr($lastCode, strlen('AW')) + 1;
         }
-
-        $data = 'AN';
-        $kode_pelepasan_ban = $data . $num;
-        return $kode_pelepasan_ban;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'AW';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
+    
     public function kendaraan($id)
     {
         $jenis_kendaraan = Kendaraan::where('id', $id)->with('jenis_kendaraan')->first();
@@ -153,6 +151,7 @@ class PelepasanbanController extends Controller
             $ban->update([
                 'pelepasan_ban_id' => null,
                 'kendaraan_id' => null,
+                'jumlah_km' => null,
                 'status' => 'aktif'
             ]);
 
@@ -184,6 +183,16 @@ class PelepasanbanController extends Controller
 
         ]);
         $pelepasanId = $pelepasan->id;
+
+        Ban::where([
+            ['kendaraan_id', $id],
+            ['keterangan', 'Stok'],
+            ['status', 'non aktif sementara']
+        ])->update([
+            'status' => 'stok',
+            'pelepasan_ban_id' => $pelepasanId,
+            'kendaraan_id' => null,
+        ]);
 
         Ban::where([
             ['kendaraan_id', $id],
@@ -247,6 +256,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
 
         ]);
@@ -306,6 +316,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -362,6 +373,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -418,6 +430,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -474,6 +487,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -530,6 +544,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -586,6 +601,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -642,6 +658,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -698,6 +715,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -754,6 +772,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -810,6 +829,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -866,6 +886,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -922,6 +943,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -978,6 +1000,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1034,6 +1057,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1090,6 +1114,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1146,6 +1171,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1202,6 +1228,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1258,6 +1285,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1314,6 +1342,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1370,6 +1399,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 
@@ -1426,6 +1456,7 @@ class PelepasanbanController extends Controller
         $ban->update([
             'keterangan' => $request->keterangan,
             'km_pelepasan' => $request->km_pelepasan,
+            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
             'status' => 'non aktif sementara',
         ]);
 

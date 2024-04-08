@@ -194,18 +194,18 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
     </div>
     <br>
     @if ($cetakpdf->kategori == 'Pemasukan Deposit')
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">FAKTUR PEMASUKAN DEPOSIT</span>
+            <span style="font-weight: bold; font-size: 23px;">PENGAMBILAN KASBON</span>
             <br>
             <br>
         </div>
     @else
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">FAKTUR PENGAMBILAN DEPOSIT</span>
+            <span style="font-weight: bold; font-size: 23px;">PENGEMBALIAN KASBON</span>
             <br>
             <br>
         </div>
@@ -214,7 +214,7 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                Kode Faktur:{{ $cetakpdf->kode_deposit }}</td>
+                Kode Faktur:{{ $cetakpdf->kode_kasbon }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
                 a</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
@@ -264,14 +264,14 @@
                             <td class="info-catatan2">Kode Sopir</td>
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
-                                {{ $cetakpdf->kode_sopir }}
+                                {{ $cetakpdf->kode_karyawan }}
                             </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2">Nama Sopir</td>
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
-                                {{ $cetakpdf->nama_sopir }}
+                                {{ $cetakpdf->nama_karyawan }}
 
                             </td>
                         </tr>
@@ -300,14 +300,18 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td style="text-align: left; padding: 0px; font-size: 15px; font-weight:bold">Keterangan :
-                {{ $cetakpdf->keterangan }}</td>
-            <td style="text-align: right; padding: 0px; font-size: 15px; font-weight:bold">Sisa Saldo Deposit :
+            </td>
+            <td style="text-align: right; padding: 0px; font-size: 15px; font-weight:bold">Total Kasbon :
                 <span>
                     Rp.{{ number_format($cetakpdf->sub_total, 0, ',', '.') }}
             </td>
             </span>
         </tr>
     </table>
+    <div>
+        <span style="text-align: left; padding: 0px; font-size: 15px; font-weight:bold; margin-right:300px">
+            {{ $cetakpdf->keterangan }}</span>
+    </div>
 
     <br><br><br>
 

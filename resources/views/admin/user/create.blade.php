@@ -139,6 +139,7 @@
             });
         }
 
+
         function getCari(id) {
             var kode_karyawan = document.getElementById('kode_karyawan');
             $.ajax({

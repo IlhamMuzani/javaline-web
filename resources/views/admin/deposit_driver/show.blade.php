@@ -194,7 +194,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVALINE" width="70" height="35">
     </div>
     <br>
     @if ($cetakpdf->kategori == 'Pemasukan Deposit')

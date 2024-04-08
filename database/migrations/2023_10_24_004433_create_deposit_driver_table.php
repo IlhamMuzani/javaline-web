@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('karyawan_id')->nullable();
             $table->foreign('karyawan_id')->references('id')->on('karyawans');
+            $table->unsignedBigInteger('memo_ekspedisi_id')->nullable();
+            $table->foreign('memo_ekspedisi_id')->references('id')->on('memo_ekspedisis');
             $table->string('kategori')->nullable();
             $table->string('kode_deposit')->nullable();
             $table->string('kode_sopir')->nullable();
@@ -32,6 +34,7 @@ return new class extends Migration
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

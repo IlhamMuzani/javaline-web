@@ -79,7 +79,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN MEMO TAMBAHAN - RANGKUMAN</span>
@@ -104,9 +104,9 @@
         <!-- Header row -->
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9;">No</td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9;">No. Memo
-            </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9;">No. Memo Tambahan
+            </td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9;">No. Memo
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9;width: 12%;">
                 Tanggal
@@ -127,20 +127,34 @@
         @foreach ($inquery as $memo)
             <tr>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 9;">{{ $loop->iteration }}</td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 9;">{{ $memo->kode_tambahan }}</td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 9;">
-                    {{ $memo->memotambahan->memo->kode_memo }}</td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 9;">{{ $memo->kode_memo }}</td>
+                    {{ $memo->no_memo }}</td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 9;">{{ $memo->tanggal_awal }}</td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 9;">
-                    {{ $memo->memotambahan->memo->no_kabin }}</td>
+                    @if ($memo->memo_ekspedisi)
+                        {{ $memo->memo_ekspedisi->no_kabin }}
+                    @else
+                        tidaka ada
+                    @endif
+                </td>
                 <td class="td"
                     style="text-align: left; padding: 5px; font-size: 8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                    {{ substr($memo->memotambahan->memo->nama_driver, 0, 5) . '...' }}
+                    @if ($memo->memo_ekspedisi)
+                        {{ substr($memo->memo_ekspedisi->nama_driver, 0, 5) . '...' }}
+                    @else
+                        tidak ada
+                    @endif
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 9;">
-                    {{ $memo->memotambahan->memo->nama_rute }}</td>
+                    @if ($memo->memo_ekspedisi)
+                        {{ $memo->memo_ekspedisi->nama_rute }}
+                    @else
+                        tidak ada
+                    @endif
+                </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 9;">
-                    {{ number_format($memo->memotambahan->grand_total, 0, ',', '.') }}</td>
+                    {{ number_format($memo->grand_total, 0, ',', '.') }}</td>
 
 
 
@@ -156,7 +170,7 @@
         @endphp
         @foreach ($inquery as $item)
             @php
-                $total += $item->total_borongs;
+                $total += $item->grand_total;
             @endphp
         @endforeach
         <tr>

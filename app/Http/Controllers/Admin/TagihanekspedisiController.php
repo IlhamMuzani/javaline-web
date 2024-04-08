@@ -17,11 +17,11 @@ class TagihanekspedisiController extends Controller
 {
     public function index()
     {
-        $pelanggans = Pelanggan::all();
-        $fakturs = Faktur_ekspedisi::all();
+        // $pelanggans = Pelanggan::all();
+        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting'])->get();
         $tarifs = Tarif::all();
 
-        return view('admin.tagihan_ekspedisi.index', compact('pelanggans', 'fakturs', 'tarifs'));
+        return view('admin.tagihan_ekspedisi.index', compact('fakturs', 'tarifs'));
     }
 
     public function store(Request $request)
@@ -55,7 +55,9 @@ class TagihanekspedisiController extends Controller
                     'faktur_ekspedisi_id.' . $i => 'required',
                     'kode_faktur.' . $i => 'required',
                     'nama_rute.' . $i => 'required',
-                    'no_memo.' . $i => 'required',
+                    // 'no_memo.' . $i => 'required',
+                    'no_do.' . $i => 'required',
+                    // 'no_po.' . $i => 'required',
                     'tanggal_memo.' . $i => 'required',
                     'no_kabin.' . $i => 'required',
                     'no_pol.' . $i => 'required',
@@ -73,6 +75,8 @@ class TagihanekspedisiController extends Controller
                 $kode_faktur = is_null($request->kode_faktur[$i]) ? '' : $request->kode_faktur[$i];
                 $nama_rute = is_null($request->nama_rute[$i]) ? '' : $request->nama_rute[$i];
                 $no_memo = is_null($request->no_memo[$i]) ? '' : $request->no_memo[$i];
+                $no_do = is_null($request->no_do[$i]) ? '' : $request->no_do[$i];
+                // $no_po = is_null($request->no_po[$i]) ? '' : $request->no_po[$i];
                 $tanggal_memo = is_null($request->tanggal_memo[$i]) ? '' : $request->tanggal_memo[$i];
                 $no_kabin = is_null($request->no_kabin[$i]) ? '' : $request->no_kabin[$i];
                 $no_pol = is_null($request->no_pol[$i]) ? '' : $request->no_pol[$i];
@@ -86,6 +90,8 @@ class TagihanekspedisiController extends Controller
                     'kode_faktur' => $kode_faktur,
                     'nama_rute' => $nama_rute,
                     'no_memo' => $no_memo,
+                    'no_do' => $no_do,
+                    // 'no_po' => $no_po,
                     'tanggal_memo' => $tanggal_memo,
                     'no_kabin' => $no_kabin,
                     'no_pol' => $no_pol,
@@ -106,24 +112,27 @@ class TagihanekspedisiController extends Controller
                 ->with('data_pembelians', $data_pembelians);
         }
 
-        $kode = $this->kode();
-        // format tanggal indo
+        $kodePelanggan = $request->kode_pelanggan; // Mendapatkan kode pelanggan dari request
+        $kode = $this->kode($kodePelanggan); // Memanggil fungsi kode() dengan melewatkan kode pelanggan
+
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf = Tagihan_ekspedisi::create([
             'user_id' => auth()->user()->id,
-            'kode_tagihan' => $this->kode(),
+            'kode_tagihan' => $kode,
             'kategori' => $request->kategori,
             'pelanggan_id' => $request->pelanggan_id,
             'kode_pelanggan' => $request->kode_pelanggan,
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat_pelanggan' => $request->alamat_pelanggan,
             'telp_pelanggan' => $request->telp_pelanggan,
-            'pph' => str_replace('.', '', $request->pph),
-            'sub_total' => str_replace('.', '', $request->sub_total),
-            'grand_total' => str_replace('.', '', $request->grand_total),
+            'periode_awal' => $request->periode_awal,
+            'periode_akhir' => $request->periode_akhir,
+            'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
+            'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'keterangan' => $request->keterangan,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
@@ -136,21 +145,26 @@ class TagihanekspedisiController extends Controller
 
         if ($cetakpdf) {
             foreach ($data_pembelians as $data_pesanan) {
-                Detail_tagihan::create([
+                $detailTagihan = Detail_tagihan::create([
                     'tagihan_ekspedisi_id' => $cetakpdf->id,
                     'faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id'],
                     'kode_faktur' => $data_pesanan['kode_faktur'],
                     'nama_rute' => $data_pesanan['nama_rute'],
                     'no_memo' => $data_pesanan['no_memo'],
+                    'no_do' => $data_pesanan['no_do'],
+                    // 'no_po' => $data_pesanan['no_po'],
                     'tanggal_memo' => $data_pesanan['tanggal_memo'],
                     'no_kabin' => $data_pesanan['no_kabin'],
                     'no_pol' => $data_pesanan['no_pol'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
-                    'harga' => str_replace('.', '', $data_pesanan['harga']),
-                    'total' => str_replace('.', '', $data_pesanan['total']),
+                    // 'jumlah' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['jumlah'])),
+                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
 
                 ]);
+
+                Faktur_ekspedisi::where('id', $detailTagihan->faktur_ekspedisi_id)->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
             }
         }
 
@@ -160,22 +174,52 @@ class TagihanekspedisiController extends Controller
     }
 
 
-    public function kode()
+    public function kode($kodePelanggan)
     {
-        $item = Tagihan_ekspedisi::all();
-        if ($item->isEmpty()) {
-            $num = "000001";
+        // Mengambil 3 angka terakhir dari kode pelanggan
+        $lastThreeDigits = substr($kodePelanggan, -3);
+
+        // Mendapatkan tagihan terbaru dengan kode pelanggan yang sama
+        $lastBarang = Tagihan_ekspedisi::where('kode_tagihan', 'like', 'IF%')
+        ->where('kode_pelanggan', $kodePelanggan)
+            ->latest()
+            ->first();
+
+        // Mendapatkan bulan dari tanggal pembuatan terakhir
+        $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
+
+        // Mendapatkan bulan saat ini
+        $currentMonth = date('m');
+
+        // Mendapatkan tahun saat ini
+        $currentYear = date('y');
+
+        // Menghitung nomor urut baru
+        if (!$lastBarang || $lastMonth != $currentMonth || $currentYear != substr($lastBarang->created_at, 2, 2)) {
+            // Jika tidak ada tagihan dengan kode pelanggan yang sama, atau bulan pembuatan terakhir berbeda dengan bulan saat ini, atau tahun pembuatan terakhir berbeda dengan tahun saat ini, mulai dari nomor 1
+            $num = 1;
         } else {
-            $id = Tagihan_ekspedisi::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            // Jika ada tagihan dengan kode pelanggan yang sama dan bulan pembuatan terakhir sama dengan bulan saat ini, dan tahun pembuatan terakhir sama dengan tahun saat ini, lanjutkan nomor urut
+            $lastCode = $lastBarang->kode_tagihan;
+            $parts = explode('/', $lastCode);
+            $lastNum = end($parts);
+            $num = (int) $lastNum + 1;
         }
 
-        $data = 'JLL';
-        $kode_item = $data . $num;
-        return $kode_item;
+        // Format nomor urut menjadi tiga digit
+        $formattedNum = sprintf("%03s", $num);
+
+        // Prefix untuk kode tagihan
+        $prefix = 'IFAD';
+
+        // Tanggal
+        $tanggal = date('dm');
+
+        // Kode tagihan baru
+        $newCode = $prefix . $lastThreeDigits .  "/" . $tanggal . $currentYear . "/" . $formattedNum;
+
+        // Kembalikan kode
+        return $newCode;
     }
 
 

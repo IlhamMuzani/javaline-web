@@ -168,7 +168,7 @@
     <table class="gambar2">
         <tr>
             <td class="image-cell1">
-                <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40" width="35">
+                <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40" width="35">
             </td>
         </tr>
     </table>
@@ -247,7 +247,7 @@
             </td>
             {{-- <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}" style="display: inline-block;">
                 <div style="position: relative;">
-                    <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40"
+                    <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40"
                         width="35" style="position: absolute; top: 13; left: 13;">
                     {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2.5, 2.5) !!}
                 </div>
@@ -493,14 +493,14 @@
                             style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                             Image Front</span></p>
                     </p>
-                    <img src="{{ asset('storage/uploads/' . $nokir->gambar_depan) }}" height="50" width="100">
+                    <img src="{{ public_path('storage/uploads/' . $nokir->gambar_depan) }}" height="50" width="100">
                 </td>
                 <td class="image-cell">
                     <p style="font-size: 8px; font-weight: bold;">Foto Belakang <br> <span
                             style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                             Image Rear</span></p>
                     </p>
-                    <img src="{{ asset('storage/uploads/' . $nokir->gambar_belakang) }}" height="50"
+                    <img src="{{ public_path('storage/uploads/' . $nokir->gambar_belakang) }}" height="50"
                         width="100">
                 </td>
                 <td class="image-cell">
@@ -508,13 +508,13 @@
                             style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                             Image Right</span></p>
                     </p>
-                    <img src="{{ asset('storage/uploads/' . $nokir->gambar_kanan) }}" height="50" width="100">
+                    <img src="{{ public_path('storage/uploads/' . $nokir->gambar_kanan) }}" height="50" width="100">
                 </td>
                 <td class="image-cell">
                     <p style="font-size: 8px; font-weight: bold;">Foto Kiri <br> <span
                             style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                             Image Left</span></p>
-                    <img src="{{ asset('storage/uploads/' . $nokir->gambar_kiri) }}" height="50" width="100">
+                    <img src="{{ public_path('storage/uploads/' . $nokir->gambar_kiri) }}" height="50" width="100">
                 </td>
             </tr>
         </table>
@@ -1168,7 +1168,4 @@
             </td>
         </tr>
     </table>
-
-
-
 </html>

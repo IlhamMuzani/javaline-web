@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Karyawan extends Model
 {
@@ -31,11 +32,21 @@ class Karyawan extends Model
         'pembayaran',
         'gaji',
         'tabungan',
+        'kasbon',
+        'deposit',
+        'bayar_kasbon',
+        'bpjs',
+        'potongan_ke',
+        'potongan_backup',
+        'kasbon_backup',
         'status',
         'tanggal_awal',
         'tanggal_akhir',
     ];
 
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {
@@ -51,6 +62,11 @@ class Karyawan extends Model
     public function departemen()
     {
         return $this->belongsTo(Departemen::class);
+    }
+
+    public function kasbon_karyyawan()
+    {
+        return $this->hasMany(Kasbon_karyawan::class, 'karyawan_id');
     }
 
     public function user()

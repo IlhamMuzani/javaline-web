@@ -71,7 +71,7 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
@@ -84,11 +84,20 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin:{{ $pemasangans->kendaraan->no_kabin }}</td>
+                Kabin: @if ($pemasangans->kendaraan)
+                    {{ $pemasangans->kendaraan->no_kabin }}
+                @else
+                    NON KENDARAAN
+                @endif
+            </td>
             {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
                 Registrasi:{{ $pemasangans->kendaraan->no_pol }}</td> --}}
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
-                Kendaraan:{{ $pemasangans->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
+                Kendaraan: @if ($pemasangans->kendaraan)
+                    {{ $pemasangans->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                @else
+                @endif
+            </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
                 Tanggal:{{ $pemasangans->tanggal_pemasangan }}</td>
         </tr>
@@ -180,6 +189,9 @@
             </td>
         </tr>
     </table>
+    <div style="text-align: right; font-size:12px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div>
 </body>
 
 </html>

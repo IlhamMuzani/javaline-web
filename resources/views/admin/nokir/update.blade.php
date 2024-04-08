@@ -61,7 +61,6 @@
                                     PT. BINTANG KENCANA TRASINDO</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat', $nokir->alamat) }}</textarea>
@@ -446,7 +445,6 @@
                                     TIDAK LULUS UJI BERKALA</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label class="form-label" for="kategori">Kategori</label>
                             <select class="form-control" id="kategori" name="kategori">
@@ -459,7 +457,6 @@
                                     Perpanjangan DISHUB</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label>Masa Berlaku Uji Berkala</label>
                             <div class="input-group date" id="reservationdatetime">

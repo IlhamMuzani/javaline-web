@@ -51,12 +51,12 @@
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
                             <div class="col-md-2 mb-3">
-                                @if (auth()->check() && auth()->user()->fitur['laporan penggantian oli cari'])
+                                @if (auth()->check() && auth()->user()->fitur['laporan memo tambahan cari'])
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                         <i class="fas fa-search"></i> Cari
                                     </button>
                                 @endif
-                                @if (auth()->check() && auth()->user()->fitur['laporan penggantian oli cetak'])
+                                @if (auth()->check() && auth()->user()->fitur['laporan memo tambahan cetak'])
                                     <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
                                         target="_blank">
                                         <i class="fas fa-print"></i> Cetak
@@ -65,12 +65,12 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped" style="font-size:13px">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>No Memo</th>
                                 <th>No Memo Tambahan</th>
+                                <th>No Memo</th>
                                 <th>Tanggal</th>
                                 <th>Sopir</th>
                                 <th>No Kabin</th>
@@ -83,18 +83,39 @@
                                 <tr id="editMemoekspedisi" data-toggle="modal"
                                     data-target="#modal-posting-{{ $memotambahan->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $memotambahan->memotambahan->memo->kode_memo }}</td>
-                                    <td>{{ $memotambahan->kode_memo }}</td>
+                                    <td>{{ $memotambahan->kode_tambahan }}</td>
+                                    <td>
+                                        @if ($memotambahan->memo_ekspedisi)
+                                            {{ $memotambahan->memo_ekspedisi->kode_memo }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
                                     <td>{{ $memotambahan->tanggal_awal }}</td>
                                     <td>
-                                        {{ explode(' ', $memotambahan->memotambahan->memo->nama_driver)[0] }}
+                                        @if ($memotambahan->memo_ekspedisi)
+                                            {{ explode(' ', $memotambahan->memo_ekspedisi->nama_driver)[0] }}
+                                        @else
+                                            tidak ada
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ $memotambahan->memotambahan->memo->no_kabin }}
+                                        @if ($memotambahan->memo_ekspedisi)
+                                            {{ $memotambahan->memo_ekspedisi->no_kabin }}
+                                        @else
+                                            tidak ada
+                                        @endif
+
                                     </td>
-                                    <td>{{ $memotambahan->memotambahan->memo->nama_rute }}</td>
+                                    <td>
+                                        @if ($memotambahan->memo_ekspedisi)
+                                            {{ $memotambahan->memo_ekspedisi->nama_rute }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
                                     <td style="text-align: end">
-                                        {{ number_format($memotambahan->memotambahan->grand_total, 0, ',', '.') }}</td>
+                                        {{ number_format($memotambahan->grand_total, 0, ',', '.') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

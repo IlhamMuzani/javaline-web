@@ -40,17 +40,28 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-3 mb-3">
+                                <label for="created_at">Kategori</label>
+                                <select class="custom-select form-control" id="status" name="status">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
+                                        Belum Lunas
+                                    </option>
+                                    <option value="selesai" {{ Request::get('status') == 'selesai' ? 'selected' : '' }}>
+                                        Lunas</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_awal">Tanggal Awal</label>
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
                                     value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 @if (auth()->check() && auth()->user()->fitur['laporan pembelian ban cari'])
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                         <i class="fas fa-search"></i> Cari
@@ -65,8 +76,8 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Faktur Pembelian Ban</th>
@@ -78,6 +89,11 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                // $tanggal_awal = isset($tanggal_awal) ? $tanggal_awal : null;
+                                // $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
+                                $totalSubtotal = 0; // Initialize the total variable
+                            @endphp
                             @foreach ($inquery as $ban)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
@@ -85,16 +101,30 @@
                                     <td>{{ $ban->tanggal_awal }}</td>
                                     <td>{{ $ban->supplier->nama_supp }}</td>
                                     <td>{{ $ban->detail_ban->count() }}</td>
-                                    <td> Rp. {{ number_format($ban->detail_ban->sum('harga'), 0, ',', '.') }}</td>
-                                    {{-- <td class="text-center">
-                                        <a href="{{ url('admin/pembelian_ban/cetak-pdf/' . $ban->id) }}"
-                                            class="btn btn-info btn-sm">
-                                            <i class="fas fa-print">
-                                            </i> Cetak
-                                        </a>
-                                    </td> --}}
+                                    <td class="text-right">
+                                        {{ number_format($ban->detail_ban->sum('harga'), 0, ',', '.') }}</td>
                                 </tr>
+                                @php
+                                    // Accumulate the subtotal for each $ban
+                                    $totalSubtotal += $ban->detail_ban->sum('harga');
+                                @endphp
                             @endforeach
+                        </tbody>
+                        <tbody>
+                            <tr>
+                                <td colspan="2"></td>
+                                {{-- <td><strong>Total Deposit:</strong></td> --}}
+                                <td class="text-right" style="font-weight: bold;">
+                                </td>
+                                {{-- <td><strong>Total Saldo:</strong></td> --}}
+                                <td class="text-right" style="font-weight: bold;">
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    Rp.{{ number_format($totalSubtotal, 0, ',', '.') }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

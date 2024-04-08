@@ -83,8 +83,14 @@
                         User tidak ada
                     @endif
                 </td>
-                <td>{{ $updatekm->no_kabin }}</td>
-                <td>{{ $updatekm->km }}</td>
+                <td>
+                    @if ($updatekm->kendaraan)
+                        {{ $updatekm->kendaraan->no_kabin }}
+                    @else
+                        tidak ada
+                    @endif
+                </td>
+                <td style="text-align: right">{{ $updatekm->km_update }}</td>
             </tr>
         @endforeach
     </table>

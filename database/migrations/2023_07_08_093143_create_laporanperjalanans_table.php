@@ -60,7 +60,7 @@ return new class extends Migration
             $table->string('status_perjalanan')->nullable();
             $table->string('timer')->nullable();
             $table->string('tujuan')->nullable();
-
+            $table->timestamp('deleted_at')->nullable();
             $table->timestamps();
         });
     }

@@ -191,7 +191,7 @@
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ number_format($cetakpdf->saldo_deposit, 0, ',', '.') }}</span>
+                                    style="font-size: 15px;">{{ number_format($cetakpdf->saldo_deposit, 2, ',', '.') }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -218,7 +218,7 @@
                                     @if ($cetakpdf->uang_jalan == null)
                                         0
                                     @else
-                                        {{ number_format($cetakpdf->uang_jalan, 0, ',', '.') }}
+                                        {{ number_format($cetakpdf->uang_jalan, 2, ',', '.') }}
                                     @endif
                                 </td>
                             </tr>
@@ -230,7 +230,7 @@
                                     @if ($cetakpdf->biaya_tambahan == null)
                                         0
                                     @else
-                                        {{ number_format($cetakpdf->biaya_tambahan, 0, ',', '.') }}
+                                        {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }}
                                     @endif
                                 </td>
                             </tr>
@@ -247,7 +247,7 @@
                                     jumlah
                                 </td>
                                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                    {{ number_format($cetakpdf->uang_jalan + $cetakpdf->biaya_tambahan, 0, ',', '.') }}
+                                    {{ number_format($cetakpdf->uang_jalan + $cetakpdf->biaya_tambahan, 2, ',', '.') }}
                                 </td>
                             </tr>
                             <tr>
@@ -255,14 +255,14 @@
                                     Adm
                                 </td>
                                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                    {{ number_format($cetakpdf->uang_jaminan, 0, ',', '.') }}</td>
+                                    {{ number_format($cetakpdf->uang_jaminan, 2, ',', '.') }}</td>
                             </tr>
                             <tr>
                                 <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
                                     Deposit Sopir
                                 </td>
                                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                    {{ number_format($cetakpdf->deposit_driver, 0, ',', '.') }}</td>
+                                    {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }}</td>
                             </tr>
                         </table>
                     </td>
@@ -278,7 +278,7 @@
                                     @if ($cetakpdf->uang_jalan == null)
                                         0
                                     @else
-                                        {{ number_format($cetakpdf->uang_jalan, 0, ',', '.') }}
+                                        {{ number_format($cetakpdf->uang_jalan, 2, ',', '.') }}
                                     @endif
                                 </td>
                             </tr>
@@ -290,7 +290,7 @@
                                     @if ($cetakpdf->biaya_tambahan == null)
                                         0
                                     @else
-                                        {{ number_format($cetakpdf->biaya_tambahan, 0, ',', '.') }}
+                                        {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }}
                                     @endif
                                 </td>
                             </tr>
@@ -302,7 +302,7 @@
                                     @if ($cetakpdf->potongan_memo == null)
                                         0
                                     @else
-                                        {{ number_format($cetakpdf->potongan_memo, 0, ',', '.') }}
+                                        {{ number_format($cetakpdf->potongan_memo, 2, ',', '.') }}
                                     @endif
                                 </td>
                             </tr>
@@ -319,22 +319,22 @@
                                     jumlah
                                 </td>
                                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                    {{ number_format($cetakpdf->uang_jalan + $cetakpdf->biaya_tambahan - $cetakpdf->potongan_memo, 0, ',', '.') }}
+                                    {{ number_format($cetakpdf->uang_jalan + $cetakpdf->biaya_tambahan - $cetakpdf->potongan_memo, 2, ',', '.') }}
                                 </td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
                                     Adm
                                 </td>
                                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                                     {{ number_format($cetakpdf->uang_jaminan, 0, ',', '.') }}</td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
                                     Deposit Sopir
                                 </td>
                                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                    {{ number_format($cetakpdf->deposit_driver, 0, ',', '.') }}</td>
+                                    {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }}</td>
                             </tr>
                         </table>
                     </td>
@@ -377,11 +377,7 @@
                             <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 25%;">
                                 Grand Total</td>
                             <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                @if ($cetakpdf->biaya_tambahan == null)
-                                    {{ number_format($cetakpdf->uang_jalan - $cetakpdf->potongan_memo - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
-                                @else
-                                    {{ number_format($cetakpdf->uang_jalan + $cetakpdf->biaya_tambahan - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
-                                @endif
+                                {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}
                             </td>
                         </tr>
                     </table>
@@ -410,6 +406,17 @@
                     <table>
                         <tr>
                             <td class="info-column">
+                                <span class="info-item" style="font-size: 15px;">No Kabin</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 15px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->no_kabin }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-column">
                                 <span class="info-item" style="font-size: 15px;">Tanggal</span>
                             </td>
                             <td class="info-column">
@@ -430,7 +437,7 @@
                                 <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->kode_memo }}</span>
                             </td>
                         </tr>
-                        <tr style="color: white">
+                        {{-- <tr style="color: white">
                             <td class="info-column">
                                 <span class="info-item" style="font-size: 15px;">Nama Pelanggan</span>
                             </td>
@@ -441,7 +448,7 @@
                                 <span class="info-item"
                                     style="font-size: 15px;">{{ $cetakpdf->nama_pelanggan }}</span>
                             </td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </td>
                 <td style="width: 70%; text-align: left;">
@@ -449,13 +456,13 @@
                         <tr>
                             <td style="width: 40%;">
                                 <span class="info-item"
-                                    style="font-size: 15px; text-align: left; display: inline-block;">No.
-                                    Kabin</span>
+                                    style="font-size: 15px; text-align: left; display: inline-block;">Kode Sopir</span>
                             </td>
                             <td style="width: 60%;">
                                 <span class="info-item"
                                     style="font-size: 15px; text-align: left; display: inline-block;">:
-                                    {{ $cetakpdf->no_kabin }}</span>
+                                    {{ $cetakpdf->kode_driver }}
+                                </span>
                             </td>
                         </tr>
                         <tr>
@@ -517,13 +524,13 @@
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $cetakpdf->nama_rute }}</td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    {{ number_format($cetakpdf->harga_rute, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->harga_rute, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
                     {{ $cetakpdf->jumlah }}
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($cetakpdf->totalrute, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->totalrute, 2, ',', '.') }}
                 </td>
             </tr>
             {{-- @php
@@ -542,13 +549,14 @@
         </td>
         <table style="width: 100%; margin-bottom:0px;">
             <tr>
-                <td>
-                    <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->keterangan }}</span>
-                    <br>
+                <td style="width: 40%; text-align: left; padding-right: 20px;">
+                    <span class="info-item" style="font-size: 15px; display: block; word-wrap: break-word;">
+                        {{ $cetakpdf->keterangan }}
+                    </span>
                 </td>
                 <td style="text-align: right; padding: 0px;">
                     <span class="info-item" style="font-size: 15px; padding-right:20px">
-                        {{ number_format($cetakpdf->totalrute, 0, ',', '.') }}
+                        {{ number_format($cetakpdf->totalrute, 2, ',', '.') }}
                     </span>
                 </td>
             </tr>
@@ -559,7 +567,7 @@
             <tr>
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">PPH 2 %</td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format($cetakpdf->pphs, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->pphs, 2, ',', '.') }}
 
                 </td>
             </tr>
@@ -576,15 +584,22 @@
             <tr>
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;"></td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format($cetakpdf->totalrute - $cetakpdf->pphs, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->totalrute - $cetakpdf->pphs, 2, ',', '.') }}
 
                 </td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Borong 50 %</td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 2, ',', '.') }}
 
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Biaya Tambahan</td>
+                <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                    {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }}
                 </td>
             </tr>
             <tr>
@@ -593,7 +608,7 @@
                     <hr
                         style="border-top: 1px solid black; margin: 3px 0; display: inline-block; width: calc(100% - 25px); vertical-align: middle;">
                     <span>
-                        -
+                        +
                     </span>
                 </td>
             </tr>
@@ -601,7 +616,7 @@
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px; color:white">Sub Total
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 0, ',', '.') }}
+                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 + $cetakpdf->biaya_tambahan, 2, ',', '.') }}
 
                 </td>
             </tr>
@@ -609,13 +624,13 @@
                 <td colspan="5" style="text-align: right; padding-left: 78px; font-size: 15px;">Administrasi (1%)
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format($cetakpdf->uang_jaminan, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->uang_jaminans, 2, ',', '.') }}
                 </td>
             </tr>
             <tr>
                 <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Deposit Supir</td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format($cetakpdf->deposit_driver, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }}
                 </td>
             </tr>
         </table>
@@ -632,18 +647,18 @@
                 <td class="td"
                     style="text-align: left; padding: 0px; font-size: 15px; white-space: nowrap; width: 60%;">
                     Saldo Deposit Sopir :
-                    {{ number_format($cetakpdf->saldo_deposit, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->saldo_deposit, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: center; padding-right: 250px; font-size: 15px; width: 35%;">
                     Grand Total
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 - $cetakpdf->uang_jaminan - $cetakpdf->deposit_driver, 0, ',', '.') }}
+                    {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}
                 </td>
             </tr>
         </table>
     @endif
-    @if ($cetakpdf->kategori == 'Memo Tambahan')
+    @if (!($cetakpdf->kategori == 'Memo Perjalanan' || $cetakpdf->kategori == 'Memo Borong'))
         <div style="text-align: center;">
             <span style="font-weight: bold; font-size: 20px;">MEMO TAMBAHAN</span>
         </div>
@@ -659,8 +674,7 @@
                                 <span class="info-titik" style="font-size: 15px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item"
-                                    style="font-size: 15px;">{{ $cetakpdf->memotambahan->tanggal_awal }}</span>
+                                <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->tanggal_awal }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -671,7 +685,8 @@
                                 <span class="info-titik" style="font-size: 15px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->kode_memo }}</span>
+                                <span class="info-item"
+                                    style="font-size: 15px;">{{ $cetakpdf->kode_tambahan }}</span>
                             </td>
                         </tr>
                     </table>
@@ -686,7 +701,7 @@
                             <td style="width: 60%;">
                                 <span class="info-item"
                                     style="font-size: 15px; text-align: left; display: inline-block;">:
-                                    {{ $cetakpdf->memotambahan->memo->no_kabin }}</span>
+                                    {{ $cetakpdf->no_kabin }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -697,7 +712,7 @@
                             <td style="width: 60%;">
                                 <span class="info-item"
                                     style="font-size: 15px; text-align: left; display: inline-block;">:
-                                    {{ $cetakpdf->memotambahan->memo->nama_driver }}</span>
+                                    {{ $cetakpdf->nama_driver }}</span>
                             </td>
                         </tr>
                     </table>
@@ -705,11 +720,13 @@
             </tr>
         </table>
         <hr style="border: 1px solid;">
-
         <table style="width: 100%;" cellpadding="2" cellspacing="0">
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.</td>
-                <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">Keterangan</td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Keterangan</td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Qty</td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Satuan</td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Harga</td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
             </tr>
             <!-- Add horizontal line below this row -->
@@ -726,11 +743,20 @@
                     <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                         {{ $loop->iteration }}
                     </td>
-                    <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                         {{ $item->keterangan_tambahan }}
                     </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ $item->qty }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ $item->satuans }}
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                        {{ number_format($item->hargasatuan, 2, ',', '.') }}
+                    </td>
                     <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                        {{ number_format($item->nominal_tambahan, 0, ',', '.') }}
+                        {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
                     </td>
                 </tr>
                 @php
@@ -755,7 +781,7 @@
                 </td>
                 <td style="text-align: right; padding: 0px;">
                     <span class="info-item" style="font-size: 15px; padding-right:20px">
-                        {{ number_format($totalRuteSum, 0, ',', '.') }}
+                        {{ number_format($totalRuteSum, 2, ',', '.') }}
                     </span>
                 </td>
             </tr>
@@ -917,7 +943,7 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/memo_ekspedisi') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/tablememo') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/memo_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 

@@ -34,6 +34,16 @@
                     @endforeach
                 </div>
             @endif
+
+            @if (session('errormax'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-check"></i> Error!
+                    </h5>
+                    {{ session('errormax') }}
+                </div>
+            @endif
             <form action="{{ url('admin/inquery_depositdriver/' . $inquery->id) }}" method="POST"
                 enctype="multipart/form-data" autocomplete="off">
                 @csrf
@@ -48,9 +58,9 @@
                             <label class="form-label" for="kategori">Pilih Kategori</label>
                             <select class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
-                                <option value="Pemasukan Deposit"
+                                {{-- <option value="Pemasukan Deposit"
                                     {{ old('kategori', $inquery->kategori) == 'Pemasukan Deposit' ? 'selected' : null }}>
-                                    Pemasukan Deposit</option>
+                                    Pemasukan Deposit</option> --}}
                                 <option value="Pengambilan Deposit"
                                     {{ old('kategori', $inquery->kategori) == 'Pengambilan Deposit' ? 'selected' : null }}>
                                     Pengambilan Deposit</option>
@@ -78,6 +88,11 @@
                             <label for="nopol">Nama Sopir</label>
                             <input type="text" class="form-control" name="nama_sopir" id="nama_lengkap" readonly
                                 placeholder="" value="{{ old('nama_sopir', $inquery->nama_sopir) }}">
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="sub_total2">Sub Total hidden</label>
+                            <input type="text" class="form-control" name="sub_total2" id="sub_total2" readonly
+                                placeholder="" value="{{ old('sub_total2', $inquery->sub_total2) }}">
                         </div>
                     </div>
                 </div>
@@ -232,7 +247,7 @@
                                             <td>{{ $sopir->kode_karyawan }}</td>
                                             <td>{{ $sopir->nama_lengkap }}</td>
                                             <td>{{ $sopir->telp }}</td>
-                                            <td>{{ $sopir->tabungan }}</td>
+                                            <td> {{ number_format($sopir->tabungan, 0, ',', '.') }}
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedData('{{ $sopir->id }}',
@@ -255,6 +270,22 @@
     </section>
 
     <script>
+        function formatCurrency(number) {
+            // Check if the number is negative
+            const isNegative = number < 0;
+
+            // Format number as currency with period as thousands separator and comma as decimal separator
+            const formattedNumber = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+            }).format(Math.abs(number)); // Use Math.abs() to work with the absolute value
+
+            // Add a minus sign for negative numbers
+            return isNegative ? `-${formattedNumber}` : formattedNumber;
+        }
+
+
         function showSopir(selectedCategory) {
             $('#tableSopir').modal('show');
         }
@@ -264,8 +295,12 @@
             document.getElementById('karyawan_id').value = Sopir_id;
             document.getElementById('kode_karyawan').value = KodeSopir;
             document.getElementById('nama_lengkap').value = NamaSopir;
-            document.getElementById('sisa_saldo').value = Tabungan;
-            document.getElementById('sisa_saldos').value = Tabungan;
+            const formattedTabungan = formatCurrency(Tabungan);
+
+            document.getElementById('sisa_saldo').value = formattedTabungan;
+            document.getElementById('sisa_saldos').value = formattedTabungan;
+
+            updateSubTotals();
             // Close the modal (if needed)
             $('#tableSopir').modal('hide');
         }
@@ -328,9 +363,11 @@
 
             // Mengonversi nilai sub total ke format rupiah
             var subTotalRupiah = "Rp " + formatRupiah(subTotal);
+            var subTotalRupiahs = (subTotal);
 
             // Menetapkan nilai ke input sub total
             $('#sub_total').val(subTotalRupiah);
+            $('#sub_total2').val(subTotalRupiahs);
         }
 
         // Fungsi untuk mengubah format uang ke angka
@@ -456,9 +493,11 @@
 
             // Mengonversi nilai sub total ke format rupiah dengan menambahkan simbol mines (-)
             var subTotalRupiah = "Rp " + (subTotal < 0 ? "- " : "") + formatRupiah(Math.abs(subTotal));
+            var subTotalRupiahs = (subTotal);
 
             // Menetapkan nilai ke input sub total
             $('#sub_totals').val(subTotalRupiah);
+            $('#sub_total2').val(subTotalRupiahs);
         }
 
         // Fungsi untuk mengubah format uang ke angka

@@ -86,17 +86,6 @@ class InqueryPenggantianoliController extends Controller
         $data_pembelians = collect();
         $data_pembelians2 = collect();
 
-        $item = Penggantian_oli::findOrFail($id);
-
-        // Pastikan $item->tanggal_awal adalah objek Carbon
-        $tanggal_awal = Carbon::parse($item->tanggal_awal);
-
-        $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
-        $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
-
-        if ($lastUpdatedDate < $today) {
-            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
-        }
 
         if ($validasi_pelanggan->fails()) {
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
@@ -159,29 +148,57 @@ class InqueryPenggantianoliController extends Controller
         } else {
         }
 
-        if ($request->has('kategori2')) {
+        if ($request->has('kategori2') || $request->has('spareparts_id') || $request->has('nama_barang2') || $request->has('jumlah2')) {
             for ($i = 0; $i < count($request->kategori2); $i++) {
+                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
+                if (empty($request->kategori2[$i]) && empty($request->spareparts_id[$i]) && empty($request->nama_barang2[$i]) && empty($request->jumlah2[$i])) {
+                    continue; // Skip validation if both are empty
+                }
+
                 $validasi_produk = Validator::make($request->all(), [
                     'kategori2.' . $i => 'required',
                     'spareparts_id.' . $i => 'required',
                     'nama_barang2.' . $i => 'required',
-                    'jumlah2.' . $i => 'required',
+                    'jumlah2.*' => 'required|numeric|min:1',
                 ]);
 
                 if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Pergantian Filter nomor " . $i + 1 . " belum dilengkapi!");
+                    array_push($error_pesanans, "Pergantian filter nomor " . ($i + 1) . " belum dilengkapi!");
                 }
 
-
-                $kategori2 = is_null($request->kategori2[$i]) ? '' : $request->kategori2[$i];
-                $spareparts_id = is_null($request->spareparts_id[$i]) ? '' : $request->spareparts_id[$i];
-                $nama_barang2 = is_null($request->nama_barang2[$i]) ? '' : $request->nama_barang2[$i];
-                $jumlah2 = is_null($request->jumlah2[$i]) ? '' : $request->jumlah2[$i];
+                $kategori2 = $request->kategori2[$i] ?? '';
+                $spareparts_id = $request->spareparts_id[$i] ?? '';
+                $nama_barang2 = $request->nama_barang2[$i] ?? '';
+                $jumlah2 = $request->jumlah2[$i] ?? '';
 
                 $data_pembelians2->push(['details_id' => $request->details_ids[$i] ?? null, 'kategori2' => $kategori2, 'spareparts_id' => $spareparts_id, 'nama_barang2' => $nama_barang2, 'jumlah2' => $jumlah2]);
             }
         } else {
         }
+
+        // if ($request->has('kategori2')) {
+        //     for ($i = 0; $i < count($request->kategori2); $i++) {
+        //         $validasi_produk = Validator::make($request->all(), [
+        //             'kategori2.' . $i => 'required',
+        //             'spareparts_id.' . $i => 'required',
+        //             'nama_barang2.' . $i => 'required',
+        //             'jumlah2.' . $i => 'required',
+        //         ]);
+
+        //         if ($validasi_produk->fails()) {
+        //             array_push($error_pesanans, "Pergantian Filter nomor " . $i + 1 . " belum dilengkapi!");
+        //         }
+
+
+        //         $kategori2 = is_null($request->kategori2[$i]) ? '' : $request->kategori2[$i];
+        //         $spareparts_id = is_null($request->spareparts_id[$i]) ? '' : $request->spareparts_id[$i];
+        //         $nama_barang2 = is_null($request->nama_barang2[$i]) ? '' : $request->nama_barang2[$i];
+        //         $jumlah2 = is_null($request->jumlah2[$i]) ? '' : $request->jumlah2[$i];
+
+        //         $data_pembelians2->push(['details_id' => $request->details_ids[$i] ?? null, 'kategori2' => $kategori2, 'spareparts_id' => $spareparts_id, 'nama_barang2' => $nama_barang2, 'jumlah2' => $jumlah2]);
+        //     }
+        // } else {
+        // }
 
         if ($error_pelanggans || $error_pesanans) {
             return back()
@@ -522,6 +539,7 @@ class InqueryPenggantianoliController extends Controller
         return redirect('admin/inquery_penggantianoli')->with('success', 'Berhasil menghapus Penggantian');
     }
 
+
     public function deleteoli($id)
     {
         $part = Detail_penggantianoli::find($id);
@@ -557,6 +575,55 @@ class InqueryPenggantianoliController extends Controller
         } else {
             return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
         }
+    }
+
+    public function hapuspenggantianoli($id)
+    {
+        $part = Penggantian_oli::find($id);
+        $detailpenggantianoli = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
+        $detailpenggantianpart = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+
+        $kendaraan = Kendaraan::find($part->kendaraan_id);
+
+
+        foreach ($detailpenggantianoli as $detail) {
+            $sparepartId = $detail->sparepart_id;
+            $sparepart = Sparepart::find($sparepartId);
+
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $sparepart->jumlah + $detail->jumlah;
+            $sparepart->update(['jumlah' => $newQuantity]);
+
+            // Check the category and update the Kendaraan status
+            if ($detail->kategori == 'Oli Mesin') {
+                $kendaraan->update(['km_olimesin' => 0]);
+                $kendaraan->update(['status_olimesin' => 'belum penggantian']);
+            } elseif ($detail->kategori == 'Oli Transmisi') {
+                $kendaraan->update(['km_olitransmisi' => 0]);
+                $kendaraan->update(['status_olitransmisi' => 'belum penggantian']);
+            } elseif ($detail->kategori == 'Oli Gardan') {
+                $kendaraan->update(['km_oligardan' => 0]);
+                $kendaraan->update(['status_oligardan' => 'belum penggantian']);
+            }
+        }
+
+
+        foreach ($detailpenggantianpart as $detail) {
+            $sparepartId = $detail->spareparts_id;
+            $sparepart = Sparepart::find($sparepartId);
+
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $sparepart->jumlah + $detail->jumlah2;
+            $sparepart->update(['jumlah' => $newQuantity]);
+        }
+
+        // Delete the related Detail_penggantianoli records
+        $part->detail_oli()->delete();
+
+        // Delete the Penggantian_oli record
+        $part->delete();
+
+        return redirect('admin/inquery_penggantianoli')->with('success', 'Berhasil menghapus Penggantian');
     }
 
     public function deletefilter($id)

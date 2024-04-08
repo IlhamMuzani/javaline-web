@@ -161,7 +161,8 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control" id="jumlah-0" name="jumlah[]">
+                                            <input type="text" class="form-control" id="jumlah-0" name="jumlah[]"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
                                         </div>
                                     </td>
                                     <td>
@@ -245,7 +246,8 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control" id="jumlah2-0" name="jumlah2[]">
+                                            <input type="text" class="form-control" id="jumlah2-0" name="jumlah2[]"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
                                         </div>
                                     </td>
                                     <td>
@@ -401,12 +403,11 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<input type="number" class="form-control" id="jumlah-' + key +
-                '" name="jumlah[]" value="' +
-                jumlah +
-                '" ';
+            item_pembelian += '<input type="text" class="form-control" id="jumlah-' + key + '" name="jumlah[]" value="' +
+                jumlah + '" onkeypress="return isNumberKey(event)">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
+
 
             // delete
             item_pembelian += '<td>';
@@ -442,10 +443,6 @@
                 });
             });
         }
-
-
-
-
 
         function getData2(id) {
             var sparepart_id = document.getElementById('spareparts_id-0');
@@ -589,10 +586,8 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<input type="number" class="form-control" id="jumlah2-' + key +
-                '" name="jumlah2[]" value="' +
-                jumlah2 +
-                '" ';
+            item_pembelian += '<input type="text" class="form-control" id="jumlah2-' + key + '" name="jumlah2[]" value="' +
+                jumlah2 + '" onkeypress="return isNumberKey(event)">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -631,4 +626,14 @@
             });
         }
     </script>
+
+    <script>
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </script>
+
 @endsection

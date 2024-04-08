@@ -9,6 +9,7 @@ use App\Models\Merek;
 use App\Models\Ukuran;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Kendaraan;
 use App\Models\Typeban;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,38 +17,80 @@ class BanController extends Controller
 {
     public function index(Request $request)
     {
-        if (auth()->check() && auth()->user()->menu['ban']) {
+        // if (auth()->check() && auth()->user()->menu['ban']) {
 
+        //     $kendaraans = Kendaraan::all();
+
+        //     $status = $request->status;
+        //     $created_at = $request->created_at;
+        //     $tanggal_akhir = $request->tanggal_akhir;
+
+        //     $inquery = Ban::query();
+
+        //     if ($status) {
+        //         $inquery->where('status', $status);
+        //     }
+
+        //     if ($created_at && $tanggal_akhir) {
+        //         $inquery->whereBetween('created_at', [$created_at, $tanggal_akhir]);
+        //     } elseif ($created_at) {
+        //         $inquery->where('created_at', '>=', $created_at);
+        //     } elseif ($tanggal_akhir) {
+        //         $inquery->where('created_at', '<=', $tanggal_akhir);
+        //     } else {
+        //         // Jika tidak ada filter tanggal hari ini
+        //         $inquery->whereDate('created_at', Carbon::today());
+        //     }
+
+        //     $inquery->orderBy('id', 'DESC');
+        //     $bans = $inquery->get();
+
+        //     return view('admin.ban.index', compact('bans', 'kendaraans'));
+        // } else {
+        //     // tidak memiliki akses
+        //     return back()->with('error', array('Anda tidak memiliki akses'));
+        // }
+
+        if (auth()->check() && auth()->user()->menu['ban']) {
+            $kendaraans = Kendaraan::all();
 
             $status = $request->status;
-            $tanggal_awal = $request->tanggal_awal;
+            $created_at = $request->created_at;
             $tanggal_akhir = $request->tanggal_akhir;
 
+            $kendaraan = $request->kendaraan_id;
             $inquery = Ban::query();
 
-            if ($status) {
-                $inquery->where('status', $status);
-            }
-
-            if ($tanggal_awal && $tanggal_akhir) {
-                $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
-            } elseif ($tanggal_awal) {
-                $inquery->where('tanggal_awal', '>=', $tanggal_awal);
-            } elseif ($tanggal_akhir) {
-                $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+            if ($kendaraan) {
+                // Apply kendaraan_id filter if it's provided
+                $inquery->where('kendaraan_id', $kendaraan);
             } else {
-                // Jika tidak ada filter tanggal hari ini
-                $inquery->whereDate('tanggal_awal', Carbon::today());
+                // Apply both kendaraan_id and date filters
+                if ($status) {
+                    $inquery->where('status', $status);
+                }
+
+                if ($created_at && $tanggal_akhir) {
+                    $inquery->whereBetween('created_at', [$created_at, $tanggal_akhir]);
+                } elseif ($created_at) {
+                    $inquery->where('created_at', '>=', $created_at);
+                } elseif ($tanggal_akhir) {
+                    $inquery->where('created_at', '<=', $tanggal_akhir);
+                } else {
+                    // Jika tidak ada filter tanggal hari ini
+                    $inquery->whereDate('created_at', Carbon::today());
+                }
             }
 
             $inquery->orderBy('id', 'DESC');
             $bans = $inquery->get();
 
-            return view('admin.ban.index', compact('bans'));
+            return view('admin.ban.index', compact('bans', 'kendaraans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
+
     }
 
     public function create()

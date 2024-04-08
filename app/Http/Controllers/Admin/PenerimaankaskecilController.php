@@ -37,6 +37,7 @@ class PenerimaankaskecilController extends Controller
             ],
             [
                 'nominal.required' => 'Masukkan nominal',
+                // 'nominal.numeric' => 'Nominal harus berupa angka',
                 // 'keterangan.required' => 'Masukkan keterangan',
             ]
         );
@@ -50,9 +51,13 @@ class PenerimaankaskecilController extends Controller
         $kode = $this->kode();
         // $tanggal = Carbon::now()->format('d F Y');
 
-        // Mengonversi nilai sub_total dari format rupiah ke angka
         $subTotalInput = $request->input('sub_total');
-        $cleanedSubTotal = (int) str_replace(['Rp', '.'], '', $subTotalInput);
+
+        // Hilangkan 'Rp' dan titik
+        $cleanedSubTotal = str_replace(['Rp', '.'], '', $subTotalInput);
+
+        // Ubah koma menjadi titik
+        $cleanedSubTotal = str_replace(',', '.', $cleanedSubTotal);
 
         $saldoTerakhir = Saldo::latest()->first();
         $saldo = $saldoTerakhir->id;
@@ -64,6 +69,7 @@ class PenerimaankaskecilController extends Controller
             $request->all(),
             [
                 'kode_penerimaan' => $this->kode(),
+                'nominal' => $request->nominal ? str_replace('.', '', $request->nominal) : null,
                 'saldo_id' => $saldo,
                 'sub_total' => $cleanedSubTotal,
                 'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kode,
@@ -74,6 +80,7 @@ class PenerimaankaskecilController extends Controller
                 'status' => 'posting',
             ]
         ));
+
 
         $penerimaans = $penerimaan->id;
 
@@ -95,24 +102,38 @@ class PenerimaankaskecilController extends Controller
         return view('admin.penerimaan_kaskecil.show', compact('cetakpdf'));
     }
 
+    // public function kode()
+    // {
+    //     $penerimaan = Penerimaan_kaskecil::all();
+    //     if ($penerimaan->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Penerimaan_kaskecil::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'FK';
+    //     $kode_penerimaan = $data . $num;
+    //     return $kode_penerimaan;
+    // }
+
     public function kode()
     {
-        $penerimaan = Penerimaan_kaskecil::all();
-        if ($penerimaan->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Penerimaan_kaskecil::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Penerimaan_kaskecil::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_penerimaan;
+            $num = (int) substr($lastCode, strlen('FK')) + 1;
         }
-
-        $data = 'FK';
-        $kode_penerimaan = $data . $num;
-        return $kode_penerimaan;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'FK';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
-
 
     public function show($id)
     {

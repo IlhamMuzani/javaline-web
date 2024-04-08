@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Memo Ekspedisi</title>
+    <title>Memo Tambahan Ekspedisi</title>
     <style>
         html,
         body {
@@ -86,6 +86,9 @@
     <div style="text-align: center;">
         <span style="font-weight: bold; font-size: 20px;">MEMO TAMBAHAN</span>
     </div>
+    <div style="text-align: left; margin-left:5px">
+        <span style="font-weight: bold; font-size: 16px;">{{ $cetakpdf->no_memo }}</span>
+    </div>
     <table width="100%">
         <tr>
             <td style="width:60%;">
@@ -98,7 +101,7 @@
                             <span class="info-titik" style="font-size: 15px;">:</span>
                         </td>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->memotambahan->tanggal_awal }}</span>
+                            <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->tanggal_awal }}</span>
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +112,7 @@
                             <span class="info-titik" style="font-size: 15px;">:</span>
                         </td>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->kode_memo }}</span>
+                            <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->kode_tambahan }}</span>
                         </td>
                     </tr>
                 </table>
@@ -123,16 +126,17 @@
                         </td>
                         <td style="width: 60%;">
                             <span class="info-item" style="font-size: 15px; text-align: left; display: inline-block;">:
-                                {{ $cetakpdf->memotambahan->memo->no_kabin }}</span>
+                                {{ $cetakpdf->no_kabin }}</span>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 40%;">
-                            <span class="info-item" style="font-size: 15px; text-align: left; display: inline-block;">Nama Sopir</span>
+                            <span class="info-item"
+                                style="font-size: 15px; text-align: left; display: inline-block;">Nama Sopir</span>
                         </td>
                         <td style="width: 60%;">
                             <span class="info-item" style="font-size: 15px; text-align: left; display: inline-block;">:
-                                {{ $cetakpdf->memotambahan->memo->nama_driver }}</span>
+                                {{ $cetakpdf->nama_driver }}</span>
                         </td>
                     </tr>
                 </table>
@@ -144,7 +148,10 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">Keterangan</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Keterangan</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Qty</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Satuan</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Harga</td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
@@ -161,11 +168,20 @@
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $item->keterangan_tambahan }}
                 </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ $item->qty }}
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ $item->satuans }}
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    {{ number_format($item->hargasatuan, 2, ',', '.') }}
+                </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($item->nominal_tambahan, 0, ',', '.') }}
+                    {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
                 </td>
             </tr>
             @php
@@ -190,7 +206,7 @@
             </td>
             <td style="text-align: right; padding: 0px;">
                 <span class="info-item" style="font-size: 15px; padding-right:20px">
-                    {{ number_format($totalRuteSum, 0, ',', '.') }}
+                    {{ number_format($totalRuteSum, 2, ',', '.') }}
                 </span>
             </td>
         </tr>
@@ -352,8 +368,7 @@
 
 <div class="container">
     <a href="{{ url('admin/inquery_memoekspedisi') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/memo_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
+    <a href="{{ url('admin/inquery_memotambahan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
-
 
 </html>

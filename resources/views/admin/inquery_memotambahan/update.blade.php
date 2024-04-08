@@ -34,7 +34,15 @@
                     @endforeach
                 </div>
             @endif
-
+            @if (session('erorrss'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-ban"></i> Error!
+                    </h5>
+                    {{ session('erorrss') }}
+                </div>
+            @endif
             @if (session('error_pelanggans') || session('error_pesanans'))
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -76,33 +84,50 @@
                             </div>
                             <div class="form-group" hidden>
                                 <label for="nopol">Id Memo</label>
-                                <input type="text" class="form-control" id="memo_id" name="memo_id"
-                                    value="{{ old('memo_id', $inquery->memotambahan->id) }}" readonly placeholder=""
-                                    value="">
+                                <input type="text" class="form-control" id="memo_ekspedisi_id" name="memo_ekspedisi_id"
+                                    value="@if ($inquery->memo) {{ old('memo_ekspedisi_id', $inquery->memo->id) }}
+                                            @else @endif"
+                                    readonly placeholder="" value="">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">No Memo</label>
-                                <input style="font-size:14px" type="text" class="form-control" id="kode_memosa"
-                                    name="kode_memosa" readonly placeholder=""
-                                    value="{{ old('kode_memosa', $inquery->memotambahan->memo->kode_memo) }}">
+                                <input style="font-size:14px" type="text" class="form-control" readonly id="kode_memosa"
+                                    name="kode_memosa" placeholder="" value="{{ old('kode_memosa', $inquery->no_memo) }}">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">Nama Sopir</label>
-                                <input style="font-size:14px" type="text" class="form-control" name="nama_driversa"
-                                    id="nama_driversa" readonly placeholder=""
-                                    value="{{ old('nama_driversa', $inquery->memotambahan->memo->nama_driver) }}">
+                                <input style="font-size:14px" type="text" class="form-control" readonly
+                                    name="nama_driversa" id="nama_driversa" placeholder=""
+                                    value="{{ old('nama_driversa', $inquery->nama_driver) }}">
+                            </div>
+                            <div class="form-group" hidden>
+                                <label style="font-size:14px" for="nopol">Telp</label>
+                                <input style="font-size:14px" type="text" class="form-control" name="telps"
+                                    id="telps" placeholder="" value="{{ old('telps', $inquery->telp) }}">
+                            </div>
+                            <div class="form-group" hidden>
+                                <label style="font-size:14px" style="font-size:14px" for="nama">Kendaraan id</label>
+                                <input style="font-size:14px" style="font-size:14px" type="text" class="form-control"
+                                    name="kendaraan_idsa" id="kendaraan_idsa" placeholder=""
+                                    value="{{ old('kendaraan_idsa', $inquery->kendaraan_id) }}">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" style="font-size:14px" for="nama">No Kabin</label>
+                                <input style="font-size:14px" readonly style="font-size:14px" type="text"
+                                    class="form-control" name="no_kabinsa" id="no_kabinsa" placeholder=""
+                                    value="{{ old('no_kabinsa', $inquery->no_kabin) }}">
+                            </div>
+                            <div class="form-group" hidden>
+                                <label style="font-size:14px" style="font-size:14px" for="nama">No Pol</label>
                                 <input style="font-size:14px" style="font-size:14px" type="text" class="form-control"
-                                    name="no_kabinsa" id="no_kabinsa" readonly placeholder=""
-                                    value="{{ old('no_kabinsa', $inquery->memotambahan->memo->no_kabin) }}">
+                                    name="no_polsa" id="no_polsa" placeholder=""
+                                    value="{{ old('no_polsa', $inquery->no_pol) }}">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nama">Rute Perjalanan</label>
-                                <input style="font-size:14px" type="text" class="form-control" name="nama_rutesa"
-                                    id="nama_rutesa" readonly placeholder=""
-                                    value="{{ old('nama_rutesa', $inquery->memotambahan->memo->nama_rute) }}">
+                                <input style="font-size:14px" readonly type="text" class="form-control"
+                                    name="nama_rutesa" id="nama_rutesa" placeholder=""
+                                    value="{{ old('nama_rutesa', $inquery->nama_rute) }}">
                             </div>
                         </div>
                     </div>
@@ -125,12 +150,15 @@
                                     <tr>
                                         <th style="font-size:14px" class="text-center">No</th>
                                         <th style="font-size:14px">Keterangan</th>
+                                        <th style="font-size:14px">Qty</th>
+                                        <th style="font-size:14px">Satuan</th>
                                         <th style="font-size:14px">Nominal</th>
-                                        {{-- <th style="font-size:14px">Opsi</th> --}}
+                                        <th style="font-size:14px">Total</th>
+                                        <th style="font-size:14px">Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody id="tabel-memotambahan">
-                                    @foreach ($detailstambahan as $detail)
+                                    @foreach ($details as $detail)
                                         <tr id="memotambah-{{ $loop->index }}">
                                             <td style="width: 70px; font-size:14px" class="text-center"
                                                 id="urutantambah">
@@ -150,9 +178,63 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" type="number" class="form-control"
+                                                    <input style="font-size:14px" type="text" class="form-control qty"
+                                                        id="qty-0" name="qty[]" data-row-id="0"
+                                                        value="{{ $detail['qty'] }}"
+                                                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <select style="font-size:14px" class="form-control" id="satuans-0"
+                                                        name="satuans[]">
+                                                        <option value="">- Pilih -</option>
+                                                        <option value="pcs"
+                                                            {{ old('satuans', $detail['satuans']) == 'pcs' ? 'selected' : null }}>
+                                                            pcs</option>
+                                                        <option value="ltr"
+                                                            {{ old('satuans', $detail['satuans']) == 'ltr' ? 'selected' : null }}>
+                                                            ltr</option>
+                                                        <option value="kg"
+                                                            {{ old('satuans', $detail['satuans']) == 'kg' ? 'selected' : null }}>
+                                                            kg</option>
+                                                        <option value="ton"
+                                                            {{ old('satuans', $detail['satuans']) == 'ton' ? 'selected' : null }}>
+                                                            ton</option>
+                                                        <option value="dus"
+                                                            {{ old('satuans', $detail['satuans']) == 'dus' ? 'selected' : null }}>
+                                                            dus</option>
+                                                        <option value="kubik"
+                                                            {{ old('satuans', $detail['satuans']) == 'kubik' ? 'selected' : null }}>
+                                                            kubik</option>
+                                                        <option value="malam"
+                                                            {{ old('satuans', $detail['satuans']) == 'malam' ? 'selected' : null }}>
+                                                            malam</option>
+                                                        <option value="hari"
+                                                            {{ old('satuans', $detail['satuans']) == 'hari' ? 'selected' : null }}>
+                                                            hari</option>
+                                                        <option value="minggu"
+                                                            {{ old('satuans', $detail['satuans']) == 'minggu' ? 'selected' : null }}>
+                                                            minggu</option>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="number"
+                                                        class="form-control hargasatuan" id="hargasatuan-0"
+                                                        name="hargasatuan[]" data-row-id="0"
+                                                        value="{{ $detail['hargasatuan'] }}"
+                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text"
+                                                        class="form-control nominal_tambahan" readonly
                                                         id="nominal_tambahan-0" name="nominal_tambahan[]"
-                                                        value="{{ $detail['nominal_tambahan'] }}">
+                                                        value="{{ number_format($detail['nominal_tambahan'], 0, ',', '.') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 50px">
@@ -167,9 +249,9 @@
                             </table>
                             <div class="form-group">
                                 <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
-                                <input style="font-size:14px" type="number" class="form-control text-right"
+                                <input style="font-size:14px" type="text" class="form-control text-right"
                                     id="grand_total" name="grand_total" readonly placeholder=""
-                                    value="{{ old('grand_total', $inquery->grand_total) }}">
+                                    value="{{ old('grand_total', number_format($inquery->grand_total, 0, ',', '.')) }}">
                             </div>
                         </div>
                     </div>
@@ -206,7 +288,16 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($memos as $memo)
-                                        <tr>
+                                        <tr
+                                            onclick="getSelectedData('{{ $memo->id }}',
+                                                    '{{ $memo->kode_memo }}',
+                                                    '{{ $memo->nama_driver }}',
+                                                    '{{ $memo->telp }}',
+                                                    '{{ $memo->kendaraan_id }}',
+                                                    '{{ $memo->no_kabin }}',
+                                                    '{{ $memo->kendaraan->no_pol }}',
+                                                    '{{ $memo->nama_rute }}',   
+                                                    )">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $memo->kode_memo }}</td>
                                             <td>{{ $memo->tanggal_awal }}</td>
@@ -218,7 +309,10 @@
                                                     onclick="getSelectedData('{{ $memo->id }}',
                                                     '{{ $memo->kode_memo }}',
                                                     '{{ $memo->nama_driver }}',
+                                                    '{{ $memo->telp }}',
+                                                    '{{ $memo->kendaraan_id }}',
                                                     '{{ $memo->no_kabin }}',
+                                                    '{{ $memo->kendaraan->no_pol }}',
                                                     '{{ $memo->nama_rute }}',   
                                                     )">
                                                     <i class="fas fa-plus"></i>
@@ -241,12 +335,15 @@
             $('#tableMemo').modal('show');
         }
 
-        function getSelectedData(Memo_id, KodeMemo, NamaSopir, NoKabin, RutePerjalanan) {
+        function getSelectedData(Memo_id, KodeMemo, NamaSopir, Telp, Kendaraan_id, NoKabin, NoPol, RutePerjalanan) {
             // Set the values in the form fields
-            document.getElementById('memo_id').value = Memo_id;
+            document.getElementById('memo_ekspedisi_id').value = Memo_id;
             document.getElementById('kode_memosa').value = KodeMemo;
             document.getElementById('nama_driversa').value = NamaSopir;
+            document.getElementById('telps').value = Telp;
+            document.getElementById('kendaraan_idsa').value = Kendaraan_id;
             document.getElementById('no_kabinsa').value = NoKabin;
+            document.getElementById('no_polsa').value = NoPol;
             document.getElementById('nama_rutesa').value = RutePerjalanan;
             // Close the modal (if needed)
             $('#tableMemo').modal('hide');
@@ -255,29 +352,29 @@
 
 
     <script>
-        function updateGrandTotal() {
-            var grandTotal = 0;
+        // function updateGrandTotal() {
+        //     var grandTotal = 0;
 
-            // Loop through all elements with name "nominal_tambahan[]"
-            $('input[name^="nominal_tambahan"]').each(function() {
-                var nominalValue = parseFloat($(this).val()) || 0;
-                grandTotal += nominalValue;
-            });
+        //     // Loop through all elements with name "nominal_tambahan[]"
+        //     $('input[name^="nominal_tambahan"]').each(function() {
+        //         var nominalValue = parseFloat($(this).val()) || 0;
+        //         grandTotal += nominalValue;
+        //     });
 
-            // Set the calculated grand total to the input with ID "grand_total"
-            $('#grand_total').val(grandTotal.toLocaleString(
-                'id-ID')); // Menggunakan toLocaleString() dengan 'id-ID' sebagai bahasa Indonesia
-        }
+        //     // Set the calculated grand total to the input with ID "grand_total"
+        //     $('#grand_total').val(grandTotal.toLocaleString(
+        //         'id-ID')); // Menggunakan toLocaleString() dengan 'id-ID' sebagai bahasa Indonesia
+        // }
 
-        // Panggil fungsi saat ada perubahan pada input "nominal_tambahan[]"
-        $('body').on('input', 'input[name^="nominal_tambahan"]', function() {
-            updateGrandTotal();
-        });
+        // // Panggil fungsi saat ada perubahan pada input "nominal_tambahan[]"
+        // $('body').on('input', 'input[name^="nominal_tambahan"]', function() {
+        //     updateGrandTotal();
+        // });
 
-        // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
-        $(document).ready(function() {
-            updateGrandTotal();
-        });
+        // // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
+        // $(document).ready(function() {
+        //     updateGrandTotal();
+        // });
 
 
 
@@ -320,30 +417,37 @@
             var row = document.getElementById('memotambah-' + identifier);
             row.remove();
 
-            // $.ajax({
-            //     url: "{{ url('admin/ban/') }}/" + detailId,
-            //     type: "POST",
-            //     data: {
-            //         _method: 'DELETE',
-            //         _token: '{{ csrf_token() }}'
-            //     },
-            //     success: function(response) {
-            //         console.log('Data deleted successfully');
-            //     },
-            //     error: function(error) {
-            //         console.error('Failed to delete data:', error);
-            //     }
-            // });
+            $.ajax({
+                url: "{{ url('admin/inquery_memotambahan/deletedetailtambahan/') }}/" + detailId,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Data deleted successfully');
+                },
+                error: function(error) {
+                    console.error('Failed to delete data:', error);
+                }
+            });
 
+            updateGrandTotal();
             updateUrutan();
         }
 
         function itemPembelian(identifier, key, value = null) {
             var keterangan_tambahan = '';
+            var qty = '';
+            var satuans = '';
+            var hargasatuan = '';
             var nominal_tambahan = '';
 
             if (value !== null) {
                 keterangan_tambahan = value.keterangan_tambahan;
+                qty = value.qty;
+                satuans = value.satuans;
+                hargasatuan = value.hargasatuan;
                 nominal_tambahan = value.nominal_tambahan;
             }
 
@@ -362,10 +466,59 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // qty 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control qty" style="font-size:14px" id="qty-' +
+                key +
+                '" name="qty[]" value="' + qty + '" ';
+            item_pembelian += 'onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // satuans
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select style="font-size:14px" class="form-control" id="satuans-' + key +
+                '" name="satuans[]">';
+            item_pembelian += '<option value="">- Pilih -</option>';
+            item_pembelian += '<option value="pcs"' + (satuans === 'pcs' ? ' selected' : '') + '>pcs</option>';
+            item_pembelian += '<option value="ltr"' + (satuans === 'ltr' ? ' selected' : '') +
+                '>ltr</option>';
+            item_pembelian += '<option value="kg"' + (satuans === 'kg' ? ' selected' : '') +
+                '>kg</option>';
+            item_pembelian += '<option value="ton"' + (satuans === 'ton' ? ' selected' : '') +
+                '>ton</option>';
+            item_pembelian += '<option value="dus"' + (satuans === 'dus' ? ' selected' : '') +
+                '>dus</option>';
+            item_pembelian += '<option value="kubik"' + (satuans === 'kubik' ? ' selected' : '') +
+                '>kubik</option>';
+            item_pembelian += '<option value="malam"' + (satuans === 'malam' ? ' selected' : '') +
+                '>malam</option>';
+            item_pembelian += '<option value="hari"' + (satuans === 'hari' ? ' selected' : '') +
+                '>hari</option>';
+            item_pembelian += '<option value="minggu"' + (satuans === 'minggu' ? ' selected' : '') +
+                '>minggu</option>';
+            item_pembelian += '</select>';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // hargasatuan 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="number" class="form-control hargasatuan" style="font-size:14px" id="hargasatuan-' +
+                key +
+                '" name="hargasatuan[]" value="' + hargasatuan + '" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
             // nominal_tambahan 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal_tambahan-' +
+            item_pembelian +=
+                '<input type="text" class="form-control nominal_tambahan" readonly style="font-size:14px" id="nominal_tambahan-' +
                 key +
                 '" name="nominal_tambahan[]" value="' + nominal_tambahan + '" ';
             item_pembelian += '</div>';
@@ -382,6 +535,55 @@
             item_pembelian += '</tr>';
 
             $('#tabel-memotambahan').append(item_pembelian);
+        }
+    </script>
+
+
+    <script>
+        $(document).on("input", ".hargasatuan, .qty", function() {
+            var currentRow = $(this).closest('tr');
+            var hargasatuan = parseFloat(currentRow.find(".hargasatuan").val()) || 0;
+            var jumlah = parseFloat(currentRow.find(".qty").val()) || 0;
+            var harga = hargasatuan * jumlah;
+            currentRow.find(".nominal_tambahan").val(harga.toLocaleString('id-ID'));
+            updateGrandTotal()
+        });
+    </script>
+
+    <script>
+        function updateGrandTotal() {
+            var grandTotal = 0;
+
+            // Loop through all elements with name "nominal_tambahan[]"
+            $('input[name^="nominal_tambahan"]').each(function() {
+                var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
+                grandTotal += nominalValue;
+            });
+            // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
+            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            $('#grand_total').val(formatRupiahsss(grandTotal));
+
+        }
+
+        $('body').on('input', 'input[name^="nominal_tambahan"]', function() {
+            updateGrandTotal();
+        });
+
+        // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
+        $(document).ready(function() {
+            updateGrandTotal();
+        });
+
+        function formatRupiah(value) {
+            return value.toLocaleString('id-ID');
+        }
+
+        function formatRupiahsss(number) {
+            var formatted = new Intl.NumberFormat('id-ID', {
+                minimumFractionDigits: 1,
+                maximumFractionDigits: 1
+            }).format(number);
+            return '' + formatted;
         }
     </script>
 

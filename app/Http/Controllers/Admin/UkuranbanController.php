@@ -61,7 +61,7 @@ class UkuranbanController extends Controller
             [
                 'kode_ukuran_ban' => $this->kode(),
                 'qrcode_ukuran' => $number,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
+                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ],
         ));
 
@@ -87,22 +87,44 @@ class UkuranbanController extends Controller
         $dompdf->stream();
     }
 
+    // public function kode()
+    // {
+    //     $ukuran = Ukuran::all();
+    //     if ($ukuran->isEmpty()) {
+    //         $num = "000001";
+    //     } else {
+    //         $id = Ukuran::getId();
+    //         foreach ($id as $value);
+    //         $idlm = $value->id;
+    //         $idbr = $idlm + 1;
+    //         $num = sprintf("%06s", $idbr);
+    //     }
+
+    //     $data = 'AI';
+    //     $kode_karyawan = $data . $num;
+    //     return $kode_karyawan;
+    // }
+
     public function kode()
     {
-        $ukuran = Ukuran::all();
-        if ($ukuran->isEmpty()) {
-            $num = "000001";
+        // Dapatkan kode barang terakhir
+        $lastBarang = Ukuran::latest()->first();
+        // Jika tidak ada barang dalam database
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Ukuran::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            // Dapatkan nomor dari kode barang terakhir dan tambahkan 1
+            $lastCode = $lastBarang->kode_ukuran_ban;
+            // Ambil angka setelah huruf dengan membuang karakter awalan
+            $num = (int) substr($lastCode, strlen('AI')) + 1;
         }
-
-        $data = 'AI';
-        $kode_karyawan = $data . $num;
-        return $kode_karyawan;
+        // Format nomor dengan panjang 6 digit (mis. 000001)
+        $formattedNum = sprintf("%06s", $num);
+        // Kode awalan
+        $prefix = 'AI';
+        // Gabungkan kode awalan dengan nomor yang diformat
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
     public function edit($id)

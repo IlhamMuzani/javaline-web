@@ -45,12 +45,13 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
+                   <table id="datatables66" class="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
                                 <th>No Kabin</th>
+                                <th>No Pol</th>
                                 <th>Nama Pemilik</th>
                                 <th>Tanggal Expired</th>
                                 <th class="text-center">Qr Code</th>
@@ -65,6 +66,13 @@
                                     <td>
                                         @if ($nokir->kendaraan)
                                             {{ $nokir->kendaraan->no_kabin }}
+                                        @else
+                                            kabin tidak ada
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($nokir->kendaraan)
+                                            {{ $nokir->kendaraan->no_pol }}
                                         @else
                                             kabin tidak ada
                                         @endif

@@ -71,7 +71,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="60">    </div>
+
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
@@ -175,11 +176,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">@if ($cetakpdf->user)
-                                {{ $cetakpdf->user->karyawan->nama_lengkap }}
-                            @else
-                                user tidak ada
-                            @endif</td>
+                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
 
                     <tr>
@@ -218,7 +215,9 @@
             </td>
         </tr>
     </table>
-
+   <div style="text-align: right; font-size:12px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div>
 </body>
 
 </html>

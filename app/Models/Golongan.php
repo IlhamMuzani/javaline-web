@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Golongan extends Model
 {
@@ -21,6 +22,9 @@ class Golongan extends Model
         'tanggal_awal',
         'tanggal_akhir',
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
     
     public function getActivitylogOptions(): LogOptions

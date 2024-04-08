@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class InqueryUpdateKMController extends Controller
 {
+
     public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['inquery update km']) {
@@ -22,7 +23,7 @@ class InqueryUpdateKMController extends Controller
             ]);
 
             $status = $request->status;
-            $tanggal_awal = $request->tanggal_awal;
+            $created_at = $request->created_at;
             $tanggal_akhir = $request->tanggal_akhir;
 
             $inquery = LogAktivitas::query();
@@ -31,15 +32,15 @@ class InqueryUpdateKMController extends Controller
                 $inquery->where('status', $status);
             }
 
-            if ($tanggal_awal && $tanggal_akhir) {
-                $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
-            } elseif ($tanggal_awal) {
-                $inquery->where('tanggal_awal', '>=', $tanggal_awal);
+            if ($created_at && $tanggal_akhir) {
+                $inquery->whereBetween('created_at', [$created_at, $tanggal_akhir]);
+            } elseif ($created_at) {
+                $inquery->where('created_at', '>=', $created_at);
             } elseif ($tanggal_akhir) {
-                $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+                $inquery->where('created_at', '<=', $tanggal_akhir);
             }
 
-            $inquery->orWhereDate('tanggal_awal', Carbon::today());
+            $inquery->orWhereDate('created_at', Carbon::today());
 
             $inquery->orderBy('tanggal', 'DESC');
             $inquery = $inquery->get();
@@ -50,6 +51,46 @@ class InqueryUpdateKMController extends Controller
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
+    // public function index(Request $request)
+    // {
+    //     if (auth()->check() && auth()->user()->menu['inquery update km']) {
+
+    //         LogAktivitas::where([
+    //             ['status', 'posting']
+    //         ])->update([
+    //             'status_notif' => true
+    //         ]);
+
+    //         // $status = $request->status;
+    //         // $tanggal_awal = $request->tanggal_awal;
+    //         // $tanggal_akhir = $request->tanggal_akhir;
+
+    //         // $inquery = LogAktivitas::query();
+
+    //         // if ($status) {
+    //         //     $inquery->where('status', $status);
+    //         // }
+
+    //         // if ($tanggal_awal && $tanggal_akhir) {
+    //         //     $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
+    //         // } elseif ($tanggal_awal) {
+    //         //     $inquery->where('tanggal_awal', '>=', $tanggal_awal);
+    //         // } elseif ($tanggal_akhir) {
+    //         //     $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+    //         // }
+
+    //         // $inquery->orWhereDate('tanggal_awal', Carbon::today());
+
+    //         // $inquery->orderBy('tanggal', 'DESC');
+    //         // $inquery = $inquery->get();
+    //         $inquery = LogAktivitas::all();
+
+    //         return view('admin.inquery_updatekm.index', compact('inquery'));
+    //     } else {
+    //         // tidak memiliki akses
+    //         return back()->with('error', array('Anda tidak memiliki akses'));
+    //     }
+    // }
     public function unpostkm($id)
     {
         $ban = LogAktivitas::where('id', $id)->first();
@@ -75,7 +116,6 @@ class InqueryUpdateKMController extends Controller
     public function lihat_kendaraan($id)
     {
         if (auth()->check() && auth()->user()->menu['inquery update km']) {
-
             $kendaraan = LogAktivitas::where('id', $id)->first();
             return view('admin/inquery_updatekm.show', compact('kendaraan'));
         } else {
@@ -140,42 +180,50 @@ class InqueryUpdateKMController extends Controller
         return redirect('admin/inquery_updatekm')->with('success', 'Kilo meter berhasil terupdate');
     }
 
-    public function deletekm($id)
+    public function hapuskm($id)
     {
-        // $kendaraan = Kendaraan::find($id);
+        $ban = LogAktivitas::where('id', $id)->first();
 
-        // if (!$kendaraan) {
-        //     return back()->with('error', 'Kendaraan tidak ditemukan');
-        // }
-
-        // // Temukan log aktivitas terbaru yang mengubah "km"
-        // $logAktivitasTerbaru = LogAktivitas::where('kendaraan_id', $id)
-        //     ->orderBy('created_at', 'desc')
-        //     ->first();
-
-        // if (!$logAktivitasTerbaru) {
-        //     return back()->with('error', 'Log Aktivitas tidak ditemukan');
-        // }
-
-        // // Temukan log aktivitas sebelum "km" diperbarui
-        // $logAktivitasSebelumnya = LogAktivitas::where('kendaraan_id', $id)
-        //     ->where('created_at', '<', $logAktivitasTerbaru->created_at)
-        //     ->orderBy('created_at', 'desc')
-        //     ->first();
-
-        // if (!$logAktivitasSebelumnya) {
-        //     return back()->with('error', 'Log Aktivitas sebelumnya tidak ditemukan');
-        // }
-
-        // // Simpan nilai "km_update" sebelum "km" terakhir kali diperbarui
-        // $kmSebelumTerakhir = $logAktivitasSebelumnya->km_update;
-
-        // // Hapus kendaraan
-        // $kendaraan->update([
-        //     'status_post' => 'posting',
-        //     'km' => $kmSebelumTerakhir
-        // ]);
-
-        // return back()->with('success', 'Berhasil menghapus kendaraan. Nilai km terakhir sebelum terbaru: ' . $kmSebelumTerakhir);
+        $ban->delete();
+        return back()->with('success', 'Berhasil');
     }
+
+    // public function deletekm($id)
+    // {
+    //     $kendaraan = Kendaraan::find($id);
+
+    //     if (!$kendaraan) {
+    //         return back()->with('error', 'Kendaraan tidak ditemukan');
+    //     }
+
+    //     // Temukan log aktivitas terbaru yang mengubah "km"
+    //     $logAktivitasTerbaru = LogAktivitas::where('kendaraan_id', $id)
+    //         ->orderBy('created_at', 'desc')
+    //         ->first();
+
+    //     if (!$logAktivitasTerbaru) {
+    //         return back()->with('error', 'Log Aktivitas tidak ditemukan');
+    //     }
+
+    //     // Temukan log aktivitas sebelum "km" diperbarui
+    //     $logAktivitasSebelumnya = LogAktivitas::where('kendaraan_id', $id)
+    //         ->where('created_at', '<', $logAktivitasTerbaru->created_at)
+    //         ->orderBy('created_at', 'desc')
+    //         ->first();
+
+    //     if (!$logAktivitasSebelumnya) {
+    //         return back()->with('error', 'Log Aktivitas sebelumnya tidak ditemukan');
+    //     }
+
+    //     // Simpan nilai "km_update" sebelum "km" terakhir kali diperbarui
+    //     $kmSebelumTerakhir = $logAktivitasSebelumnya->km_update;
+
+    //     // Hapus kendaraan
+    //     $kendaraan->update([
+    //         'status_post' => 'posting',
+    //         'km' => $kmSebelumTerakhir
+    //     ]);
+
+    //     return back()->with('success', 'Berhasil menghapus kendaraan. Nilai km terakhir sebelum terbaru: ' . $kmSebelumTerakhir);
+    // }
 }

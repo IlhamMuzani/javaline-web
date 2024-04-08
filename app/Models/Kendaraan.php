@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kendaraan extends Model
 {
@@ -52,9 +53,13 @@ class Kendaraan extends Model
         'status_notifkm',
         'status_perjalanan',
         'nama_security',
+        'gambar_barcodesolar',
         'timer',
         'kota_id',
     ];
+
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
 
 
     public function getActivitylogOptions(): LogOptions
@@ -111,6 +116,23 @@ class Kendaraan extends Model
     public function divisi()
     {
         return $this->belongsTo(Divisi::class);
+    }
+
+    // Kendaraan.php (model)
+    public function faktur_ekspedisi()
+    {
+        return $this->hasMany(Faktur_ekspedisi::class, 'kendaraan_id');
+    }
+
+    // Kendaraan.php (model)
+    public function memo_ekspedisi()
+    {
+        return $this->hasMany(Memo_ekspedisi::class, 'kendaraan_id');
+    }
+
+    public function detail_pengeluaran()
+    {
+        return $this->hasMany(Detail_pengeluaran::class, 'kendaraan_id');
     }
 
     public static function getId()

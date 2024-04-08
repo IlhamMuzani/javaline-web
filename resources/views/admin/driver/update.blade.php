@@ -44,13 +44,26 @@
                     @csrf
                     @method('put')
                     <div class="card-body">
-                       
                         <div class="form-group">
-                            <label for="nama">Deposit Driver</label>
+                            <label for="nama">Deposit</label>
+                            <input type="number" class="form-control" id="no_sim" name="deposit"
+                                placeholder="Masukan deposit" value="{{ old('deposit', $drivers->deposit) }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="nama">Kasbon</label>
+                            <input type="number" class="form-control" id="kasbon" name="kasbon"
+                                placeholder="Masukan kasbon" value="{{ old('kasbon', $drivers->kasbon) }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="nama">Bayar Kasbon</label>
+                            <input type="number" class="form-control" id="bayar_kasbon" name="bayar_kasbon"
+                                placeholder="Masukan bayar" value="{{ old('bayar_kasbon', $drivers->bayar_kasbon) }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="nama">Saldo Deposit</label>
                             <input type="number" class="form-control" id="no_sim" name="tabungan"
                                 placeholder="Masukan deposit driver" value="{{ old('tabungan', $drivers->tabungan) }}">
                         </div>
-                       
                     </div>
             </div>
             <div class="card-footer text-right">
