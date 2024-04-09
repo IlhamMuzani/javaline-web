@@ -18,8 +18,8 @@
 </head>
 
 <body class="hold-transition login-page">
-    <img class="mb-2" src="{{ asset('storage/uploads/user/logo.png') }}" alt="AdminLTELogo" height="150"
-        width="330">
+    <img class="mb-2" src="{{ asset('storage/uploads/user/logo.png') }}" alt="AdminLTELogo" height="40"
+        width="100">
     <div class="login-box">
         {{-- <div class="login-logo">
             <a href=""><b>PT. JAVALINE LOGISTICS</b></a>
