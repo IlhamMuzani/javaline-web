@@ -73,7 +73,7 @@
         </div> --}}
 
         <div>
-            
+
         </div>
 
         <!-- Navbar -->
@@ -85,7 +85,7 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <img {{-- class="animation__wobble" --}} src="{{ asset('storage/uploads/user/logo1.png') }}" alt="AdminLTELogo"
+                    <img {{-- class="animation__wobble" --}} src="{{ asset('storage/uploads/user/logo.png') }}" alt="AdminLTELogo"
                         height="60" width="200">
                     {{-- <a href="#" class="nav-link">Sistem - Javaline</a> --}}
                 </li>
