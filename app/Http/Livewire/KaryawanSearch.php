@@ -4,17 +4,17 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Karyawan;
+use Livewire\WithPagination;
 
 class KaryawanSearch extends Component
 {
     public $keyword;
 
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     public function render()
     {
-        $karyawans = Karyawan::where('nama_lengkap', 'like', "%$this->keyword%")
-            ->orWhere('kode_karyawan', 'like', "%$this->keyword%")
-            ->paginate(10);
-
-        return view('livewire.karyawan-search', ['karyawans' => $karyawans]);
+        return view('livewire.karyawan-search', ['karyawans' => Karyawan::paginate(5)]);
     }
+
 }

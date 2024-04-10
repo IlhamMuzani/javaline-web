@@ -17,39 +17,6 @@ class BanController extends Controller
 {
     public function index(Request $request)
     {
-        // if (auth()->check() && auth()->user()->menu['ban']) {
-
-        //     $kendaraans = Kendaraan::all();
-
-        //     $status = $request->status;
-        //     $created_at = $request->created_at;
-        //     $tanggal_akhir = $request->tanggal_akhir;
-
-        //     $inquery = Ban::query();
-
-        //     if ($status) {
-        //         $inquery->where('status', $status);
-        //     }
-
-        //     if ($created_at && $tanggal_akhir) {
-        //         $inquery->whereBetween('created_at', [$created_at, $tanggal_akhir]);
-        //     } elseif ($created_at) {
-        //         $inquery->where('created_at', '>=', $created_at);
-        //     } elseif ($tanggal_akhir) {
-        //         $inquery->where('created_at', '<=', $tanggal_akhir);
-        //     } else {
-        //         // Jika tidak ada filter tanggal hari ini
-        //         $inquery->whereDate('created_at', Carbon::today());
-        //     }
-
-        //     $inquery->orderBy('id', 'DESC');
-        //     $bans = $inquery->get();
-
-        //     return view('admin.ban.index', compact('bans', 'kendaraans'));
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
 
         if (auth()->check() && auth()->user()->menu['ban']) {
             $kendaraans = Kendaraan::all();
@@ -60,6 +27,7 @@ class BanController extends Controller
 
             $kendaraan = $request->kendaraan_id;
             $inquery = Ban::query();
+            
 
             if ($kendaraan) {
                 // Apply kendaraan_id filter if it's provided
@@ -90,7 +58,6 @@ class BanController extends Controller
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
-
     }
 
     public function create()

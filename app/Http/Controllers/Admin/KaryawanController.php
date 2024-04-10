@@ -18,16 +18,30 @@ class KaryawanController extends Controller
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
-                $karyawans = Karyawan::where('nama_lengkap', 'like', "%$keyword%")
-                    ->orWhere('kode_karyawan', 'like', "%$keyword%")
+                $karyawans = Karyawan::with('departemen')
+                    ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan')
+                    ->where(function ($query) use ($keyword) {
+                        $query->whereHas('departemen', function ($query) use ($keyword) {
+                            $query->where('nama', 'like', "%$keyword%");
+                        })
+                            ->orWhere('kode_karyawan', 'like', "%$keyword%")
+                            ->orWhere('nama_lengkap', 'like', "%$keyword%")
+                            ->orWhere('telp', 'like', "%$keyword%");
+                    })
+                    ->orderBy('created_at')
                     ->paginate(10);
             } else {
-                $karyawans = Karyawan::paginate(10);
-                return view('admin.karyawan.index', compact('karyawans'));
+                $karyawans = Karyawan::with('departemen')
+                    ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan')
+                    ->orderBy('created_at')
+                    ->paginate(10);
             }
-            return back()->with('error', array('Anda tidak memiliki akses'));
+
+            return view('admin.karyawan.index', compact('karyawans'));
         }
+        return back()->with('error', array('Anda tidak memiliki akses'));
     }
+
 
     public function search(Request $request)
     {

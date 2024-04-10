@@ -297,6 +297,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('unpostpotongan/{id}', [\App\Http\Controllers\Admin\InqueryPotonganpenjualanController::class, 'unpostpotongan'])->name('unpostpotongan');
     Route::get('postingpotongan/{id}', [\App\Http\Controllers\Admin\InqueryPotonganpenjualanController::class, 'postingpotongan'])->name('postingpotongan');
 
+    Route::get('inquery_penerimaankaskecil/unpostpenerimaan/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'unpostpenerimaan']);
+    Route::get('inquery_penerimaankaskecil/postingpenerimaan/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'postingpenerimaan']);
+
     Route::get('inquery_penggantianoli', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'index']);
     Route::get('unpostpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'unpostpenggantianoli'])->name('unpostpenggantianoli');
     Route::get('postingpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'postingpenggantianoli'])->name('postingpenggantianoli');
@@ -380,8 +383,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'postingkasbon'])->name('postingkasbon');
     Route::get('hapuskasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'hapuskasbon'])->name('hapuskasbon');
 
-    Route::get('unpostdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'unpostdepositpemasukan'])->name('unpostdepositpemasukan');
-    Route::get('postingdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'postingdepositpemasukan'])->name('postingdepositpemasukan');
+    Route::get('inquery_pemasukandeposit/unpostdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class,'unpostdepositpemasukan']);
+    Route::get('inquery_pemasukandeposit/postingdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'postingdepositpemasukan']);
     Route::get('hapusdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'hapusdepositpemasukan'])->name('hapusdepositpemasukan');
     Route::get('print_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'print_depositdriver']);
     Route::get('cetak_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'cetak_depositdriver']);
