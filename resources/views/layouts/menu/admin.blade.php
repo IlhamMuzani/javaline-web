@@ -697,6 +697,7 @@
     request()->is('admin/penerimaan_kaskecil*') ||
     request()->is('admin/inquery_penerimaankaskecil*') ||
     request()->is('admin/inquery_potonganpenjualan*') ||
+    request()->is('admin/inquery_penambahansaldokasbon*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -728,6 +729,7 @@
         request()->is('admin/penerimaan_kaskecil*') ||
         request()->is('admin/inquery_penerimaankaskecil*') ||
         request()->is('admin/inquery_potonganpenjualan*') ||
+        request()->is('admin/inquery_penambahansaldokasbon*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">

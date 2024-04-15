@@ -176,8 +176,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
 
     Route::get('inquery_km', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'index']);
-    Route::get('unpostkm/{id}', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'unpostkm'])->name('unpostkm');
-    Route::get('postingkm/{id}', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'postingkm'])->name('postingkm');
+    Route::get('inquery_updatekm/unpostkm/{id}', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'unpostkm']);
+    Route::get('inquery_updatekm/postingkm/{id}', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'postingkm']);
     Route::get('hapuskm/{id}', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'hapuskm'])->name('hapuskm');
     Route::get('deletekm/{id}', [\App\Http\Controllers\Admin\InqueryUpdateKMController::class, 'deletekm'])->name('deletekm');
     Route::get('laporan_updatekm', [\App\Http\Controllers\Admin\LaporanUpdateKM::class, 'index']);
@@ -330,7 +330,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingpenambahankasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'postingpenambahankasbon'])->name('postingpenambahankasbon');
     Route::get('hapuspenambahankasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'hapuspenambahankasbon'])->name('hapuspenambahankasbon');
 
-    
+
     Route::get('unpostmemoselesai/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'unpostmemoselesai'])->name('unpostmemoselesai');
     Route::get('unpostmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'unpostmemo'])->name('unpostmemo');
     Route::get('postingmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'postingmemo'])->name('postingmemo');
@@ -375,15 +375,15 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('hakaksesdriver', [\App\Http\Controllers\Admin\AksesController::class, 'indexdriver']);
 
-    Route::get('unpostdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostdeposit'])->name('unpostdeposit');
-    Route::get('postingdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingdeposit'])->name('postingdeposit');
+    Route::get('inquery_depositdriver/unpostdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostdeposit']);
+    Route::get('inquery_depositdriver/postingdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingdeposit']);
     Route::get('hapusdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'hapusdeposit'])->name('hapusdeposit');
 
     Route::get('unposkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'unpostkasbon'])->name('unpostkasbon');
     Route::get('postingkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'postingkasbon'])->name('postingkasbon');
     Route::get('hapuskasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'hapuskasbon'])->name('hapuskasbon');
 
-    Route::get('inquery_pemasukandeposit/unpostdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class,'unpostdepositpemasukan']);
+    Route::get('inquery_pemasukandeposit/unpostdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'unpostdepositpemasukan']);
     Route::get('inquery_pemasukandeposit/postingdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'postingdepositpemasukan']);
     Route::get('hapusdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'hapusdepositpemasukan'])->name('hapusdepositpemasukan');
     Route::get('print_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'print_depositdriver']);

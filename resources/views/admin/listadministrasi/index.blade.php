@@ -43,8 +43,8 @@
                             <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih -</option>
-                                    <option value="memo_perjalanan" selected>Pemasukan UJS</option>
-                                    <option value="memo_borong">Pengambilan UJS</option>
+                                    <option value="listujs" selected>Pemasukan UJS</option>
+                                    <option value="pengambilan_ujs">Pengambilan UJS</option>
                                     <option value="akun">Saldo UJS</option>
                                 </select>
                             </div>
@@ -91,8 +91,7 @@
                         </thead>
                         <tbody>
                             @foreach ($inquery as $adms)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $adms->id }}" style="cursor: pointer;">
+                                <tr class="dropdown"{{ $adms->id }}>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
                                         {{ $adms->kode_jaminan }}
@@ -116,42 +115,19 @@
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
-                                            {{-- <button type="button" class="btn btn-primary btn-sm">
-                                                <i class="fas fa-truck-moving"></i>
-                                            </button> --}}
                                         @endif
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @if ($adms->status == 'pending')
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/listadministrasi/' . $adms->id) }}">Show</a>
+                                            @endif
+                                            @if ($adms->status == 'posting')
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/listadministrasi/' . $adms->id) }}">Show</a>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-posting-{{ $adms->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Opsi menu</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Faktur Deposit Driver
-                                                    <strong>{{ $adms->kode_jaminan }}</strong>
-                                                </p>
-                                                @if ($adms->status == 'pending')
-                                                    <a href="{{ url('admin/listadministrasi/' . $adms->id) }}"
-                                                        type="button" class="btn btn-outline-info btn-block">
-                                                        <i class="fas fa-eye"></i> Show
-                                                    </a>
-                                                @endif
-                                                @if ($adms->status == 'posting')
-                                                    <a href="{{ url('admin/listadministrasi/' . $adms->id) }}"
-                                                        type="button" class="btn btn-outline-info btn-block">
-                                                        <i class="fas fa-eye"></i> Show
-                                                    </a>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                     </table>
@@ -199,10 +175,10 @@
 
                 // Check the selected value and redirect accordingly
                 switch (selectedValue) {
-                    case 'memo_perjalanan':
+                    case 'listujs':
                         window.location.href = "{{ url('admin/listadministrasi') }}";
                         break;
-                    case 'memo_borong':
+                    case 'pengambilan_ujs':
                         window.location.href = "{{ url('admin/pengambilanujs') }}";
                         break;
                     case 'akun':
@@ -212,6 +188,62 @@
                         // Handle other cases or do nothing
                         break;
                 }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('tbody tr.dropdown').click(function(e) {
+                // Memeriksa apakah yang diklik adalah checkbox
+                if ($(e.target).is('input[type="checkbox"]')) {
+                    return; // Jika ya, hentikan eksekusi
+                }
+
+                // Menghapus kelas 'selected' dan mengembalikan warna latar belakang ke warna default dari semua baris
+                $('tr.dropdown').removeClass('selected').css('background-color', '');
+
+                // Menambahkan kelas 'selected' ke baris yang dipilih dan mengubah warna latar belakangnya
+                $(this).addClass('selected').css('background-color', '#b0b0b0');
+
+                // Menyembunyikan dropdown pada baris lain yang tidak dipilih
+                $('tbody tr.dropdown').not(this).find('.dropdown-menu').hide();
+
+                // Mencegah event klik menyebar ke atas (misalnya, saat mengklik dropdown)
+                e.stopPropagation();
+            });
+
+            $('tbody tr.dropdown').contextmenu(function(e) {
+                // Memeriksa apakah baris ini memiliki kelas 'selected'
+                if ($(this).hasClass('selected')) {
+                    // Menampilkan dropdown saat klik kanan
+                    var dropdownMenu = $(this).find('.dropdown-menu');
+                    dropdownMenu.show();
+
+                    // Mendapatkan posisi td yang diklik
+                    var clickedTd = $(e.target).closest('td');
+                    var tdPosition = clickedTd.position();
+
+                    // Menyusun posisi dropdown relatif terhadap td yang di klik
+                    dropdownMenu.css({
+                        'position': 'absolute',
+                        'top': tdPosition.top + clickedTd
+                            .height(), // Menempatkan dropdown sedikit di bawah td yang di klik
+                        'left': tdPosition
+                            .left // Menempatkan dropdown di sebelah kiri td yang di klik
+                    });
+
+                    // Mencegah event klik kanan menyebar ke atas (misalnya, saat mengklik dropdown)
+                    e.stopPropagation();
+                    e.preventDefault(); // Mencegah munculnya konteks menu bawaan browser
+                }
+            });
+
+            // Menyembunyikan dropdown saat klik di tempat lain
+            $(document).click(function() {
+                $('.dropdown-menu').hide();
+                $('tr.dropdown').removeClass('selected').css('background-color',
+                    ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
             });
         });
     </script>

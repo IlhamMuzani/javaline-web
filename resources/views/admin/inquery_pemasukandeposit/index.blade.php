@@ -143,6 +143,17 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
+                        aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+                                    <h4 class="mt-2">Sedang Menyimpan...</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

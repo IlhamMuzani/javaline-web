@@ -130,21 +130,6 @@ class InqueryDepositdriverController extends Controller
                 'status' => 'unpost',
             ]);
 
-            // $karyawanId = $request->karyawan_id;
-            // $karyawan = Karyawan::find($karyawanId);
-
-            // if ($karyawan) {
-            //     // Remove "Rp" and dots from the sub_total
-            //     $subTotal = str_replace(['Rp', '.'], '', $request->sub_total);
-
-            //     $karyawan->update([
-            //         'tabungan' => $subTotal,
-            //     ]);
-            // } else {
-            //     // Handle the case where the Karyawan with the given ID is not found
-            // }
-
-
 
             $cetakpdf = Deposit_driver::where('id', $id)->first();
 
@@ -182,22 +167,6 @@ class InqueryDepositdriverController extends Controller
                 'sub_total' => $request->sub_total2,
                 'status' => 'unpost',
             ]);
-
-            // $karyawanId = $request->karyawan_id;
-            // $karyawan = Karyawan::find($karyawanId);
-
-            // if ($karyawan) {
-            //     // Remove "Rp" and dots from the sub_total
-            //     $subTotal = str_replace(['Rp', '.'], '', $request->sub_totals);
-
-            //     $karyawan->update([
-            //         'tabungan' => $subTotal,
-            //     ]);
-            // } else {
-            //     // Handle the case where the Karyawan with the given ID is not found
-            // }
-
-
 
             $cetakpdf = Deposit_driver::where('id', $id)->first();
 
