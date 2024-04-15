@@ -13,9 +13,10 @@ use App\Models\Pembelian_ban;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Penambahan_saldokasbon;
-use App\Models\Saldo;
+use App\Models\Total_kasbon;
 use Illuminate\Support\Facades\Validator;
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
+use SebastianBergmann\CodeCoverage\Report\Xml\Totals;
 
 class InqueryPenambahansaldokasbonController extends Controller
 {
@@ -89,27 +90,22 @@ class InqueryPenambahansaldokasbonController extends Controller
 
         $penerimaan = Penambahan_saldokasbon::findOrFail($id);
 
-        $tanggal1 = Carbon::now('Asia/Jakarta');
-        $format_tanggal = $tanggal1->format('d F Y');
-
-        $saldo = Saldo::latest()->first();
-        $sisaSaldo = $saldo->sisa_saldo;
-
-        $nominallama = $penerimaan->nominal;
-
-        $nominalbaru = str_replace('.', '', $request->nominal);
-        $hasil = $sisaSaldo + $nominalbaru;
-
-        // return $hasil;
-
         $subTotalInput = $request->input('sub_total');
 
         // Hilangkan 'Rp' dan titik
         $cleanedSubTotal = str_replace(['Rp', '.'], '', $subTotalInput);
+
         // Ubah koma menjadi titik
         $cleanedSubTotal = str_replace(',', '.', $cleanedSubTotal);
 
-        $saldoTerakhir = Saldo::latest()->first();
+        $saldoTerakhir = Total_kasbon::latest()->first();
+        $saldo = $saldoTerakhir->id;
+        $tanggal1 = Carbon::now('Asia/Jakarta');
+        $format_tanggal = $tanggal1->format('d F Y');
+
+        $tanggal = Carbon::now()->format('Y-m-d');
+
+        $saldoTerakhir = Total_kasbon::latest()->first();
         $saldo = $saldoTerakhir->id;
 
         $tanggal1 = Carbon::now('Asia/Jakarta');
@@ -117,18 +113,10 @@ class InqueryPenambahansaldokasbonController extends Controller
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $penerimaan->update([
-            'nominal' => $request->nominal ? str_replace('.', '', $request->nominal) : null,
-            'keterangan' => $request->keterangan,
-            'saldo_masuk' => $request->saldo_masuk,
-            'sisa_saldo' => $request->sisa_saldo,
-            'sub_total' => $cleanedSubTotal,
-            'status' => 'posting',
-        ]);
-
-        Saldo::create([
-            'tanggal' => Carbon::now('Asia/Jakarta'),
-            'sisa_saldo' => $hasil,
-            'status' => 'inquery',
+                'nominal' => $request->nominal ? str_replace('.', '', $request->nominal) : null,
+                'total_kasbon_id' => $saldo,
+                'sub_total' => $cleanedSubTotal,
+                'status' => 'posting',
         ]);
 
         $cetakpdf = Penambahan_saldokasbon::where('id', $id)->first();
@@ -143,7 +131,7 @@ class InqueryPenambahansaldokasbonController extends Controller
         return view('admin.inquery_penambahansaldokasbon.show', compact('cetakpdf'));
     }
 
-    public function unpostpenerimaan($id)
+    public function unpostpenambahansaldokasbon($id)
     {
         // Cari penerimaan kas kecil berdasarkan ID
         $item = Penambahan_saldokasbon::findOrFail($id);
@@ -152,16 +140,16 @@ class InqueryPenambahansaldokasbonController extends Controller
         $nominal = $item->nominal;
 
         // Ambil saldo terakhir
-        $lastSaldo = Saldo::latest()->first();
+        $lastSaldo = Total_kasbon::latest()->first();
 
         // Periksa apakah saldo terakhir ditemukan
         if (!$lastSaldo) {
             return back()->with('error', 'Saldo tidak ditemukan');
         }
         
-        $sisaSaldo = $lastSaldo->sisa_saldo - $item->nominal;
-        Saldo::create([
-            'sisa_saldo' => $sisaSaldo,
+        $sisaSaldo = $lastSaldo->sisa_kasbon - $item->nominal;
+        Total_kasbon::create([
+            'sisa_kasbon' => $sisaSaldo,
         ]);
         
         // Perbarui status penerimaan menjadi "unpost"
@@ -171,21 +159,21 @@ class InqueryPenambahansaldokasbonController extends Controller
         return back()->with('success', 'Penerimaan berhasil di-"unpost"');
     }
 
-    public function postingpenerimaan($id)
+    public function postingpenambahansaldokasbon($id)
     {
         // Cari penerimaan kas kecil berdasarkan ID
         $item = Penambahan_saldokasbon::findOrFail($id);
         // Ambil saldo terakhir
-        $lastSaldo = Saldo::latest()->first();
+        $lastSaldo = Total_kasbon::latest()->first();
 
         // Periksa apakah saldo terakhir ditemukan
         if (!$lastSaldo) {
             return back()->with('error', 'Saldo tidak ditemukan');
         }
 
-        $sisaSaldo = $lastSaldo->sisa_saldo + $item->nominal;
-        Saldo::create([
-            'sisa_saldo' => $sisaSaldo,
+        $sisaSaldo = $lastSaldo->sisa_kasbon + $item->nominal;
+        Total_kasbon::create([
+            'sisa_kasbon' => $sisaSaldo,
         ]);
         
         // Perbarui status penerimaan menjadi "unpost"
@@ -195,21 +183,11 @@ class InqueryPenambahansaldokasbonController extends Controller
         return back()->with('success', 'Penerimaan berhasil di-"Posting"');
     }
 
-    public function hapuspenerimaan($id)
+    public function hapuspenambahansaldokasbon($id)
     {
         $item = Penambahan_saldokasbon::where('id', $id)->first();
 
         $item->delete();
         return back()->with('success', 'Berhasil');
-    }
-
-
-    public function destroy($id)
-    {
-        $ban = Pembelian_ban::find($id);
-        $ban->detail_ban()->delete();
-        $ban->delete();
-
-        return redirect('admin/inquery_pembelianban')->with('success', 'Berhasil menghapus Pembelian');
     }
 }

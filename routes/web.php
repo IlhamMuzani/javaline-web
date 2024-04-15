@@ -300,6 +300,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_penerimaankaskecil/unpostpenerimaan/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'unpostpenerimaan']);
     Route::get('inquery_penerimaankaskecil/postingpenerimaan/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'postingpenerimaan']);
 
+    Route::get('inquery_penambahansaldokasbon/unpostpenambahansaldokasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenambahansaldokasbonController::class, 'unpostpenambahansaldokasbon']);
+    Route::get('inquery_penambahansaldokasbon/postingpenambahansaldokasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenambahansaldokasbonController::class, 'postingpenambahansaldokasbon']);
+
     Route::get('inquery_penggantianoli', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'index']);
     Route::get('unpostpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'unpostpenggantianoli'])->name('unpostpenggantianoli');
     Route::get('postingpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'postingpenggantianoli'])->name('postingpenggantianoli');
@@ -330,6 +333,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingpenambahankasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'postingpenambahankasbon'])->name('postingpenambahankasbon');
     Route::get('hapuspenambahankasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenerimaankaskecilController::class, 'hapuspenambahankasbon'])->name('hapuspenambahankasbon');
 
+    Route::get('hapuspenambahansaldokasbon/{id}', [\App\Http\Controllers\Admin\InqueryPenambahansaldokasbonController::class, 'hapuspenambahansaldokasbon'])->name('hapuspenambahansaldokasbon');
 
     Route::get('unpostmemoselesai/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'unpostmemoselesai'])->name('unpostmemoselesai');
     Route::get('unpostmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'unpostmemo'])->name('unpostmemo');

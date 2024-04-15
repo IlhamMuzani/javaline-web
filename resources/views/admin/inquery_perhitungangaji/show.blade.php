@@ -74,7 +74,7 @@
 <body style="margin-top: 0; padding: 0;">
 
     <div style="text-align: center; margin-top:11px">
-        <span style="font-weight: bold; font-size: 16px;">REKAP GAJI TEKNISI JAVA LINE LOGISTICS(
+        <span style="font-weight: bold; font-size: 16px;">REKAP GAJI TEKNISI BINA ANUGERAH TRANSINDO(
             {{ \Carbon\Carbon::parse($cetakpdf->tanggal_awal)->locale('id')->isoFormat('D MMMM YYYY') }})</span>
         <div class="text">
             <p style="font-size: 14px">Periode:{{ $cetakpdf->periode_awal }}s/d {{ $cetakpdf->periode_akhir }}</p>

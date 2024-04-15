@@ -35,7 +35,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/inquery_penerimaankaskecil/' . $inquery->id) }}" method="POST" autocomplete="off">
+            <form action="{{ url('admin/inquery_penambahansaldokasbon/' . $inquery->id) }}" method="POST" autocomplete="off">
                 @method('put')
                 @csrf <div class="card">
                     <div class="card-header">
