@@ -212,23 +212,12 @@ class InqueryPerhitungangajibulananController extends Controller
 
         foreach ($data_pembelians as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
-
+            
             if ($detailId) {
 
+                // Mendapatkan nilai potongan dari model Karyawan
                 $karyawan = Karyawan::find($data_pesanan['karyawan_id']);
-                $kasbon = Kasbon_karyawan::where('karyawan_id', $data_pesanan['karyawan_id'])->latest()->first();
-                $potongan = $karyawan->potongan_ke ?? 0;
 
-                // Inisialisasi potongan_ke
-                $potongan_ke = null;
-
-                // Jika nilai 'pelunasan_kasbon' tidak null dan tidak sama dengan 0, tambahkan 1 ke potongan
-                if ($data_pesanan['pelunasan_kasbon'] !== null && $data_pesanan['pelunasan_kasbon'] !== 0) {
-                    $potongan_ke = $potongan + 1;
-                } else {
-                    // Jika tidak, gunakan nilai potongan yang ada
-                    $potongan_ke = $potongan;
-                }
 
                 Detail_gajikaryawan::where('id', $detailId)->update([
                     'perhitungan_gajikaryawan_id' => $transaksi->id,
@@ -257,7 +246,7 @@ class InqueryPerhitungangajibulananController extends Controller
                     'hasil_absen' => str_replace(',', '.', str_replace('.', '', $data_pesanan['hasil_absen'])),
                     'gajinol_pelunasan' => str_replace(',', '.', str_replace('.', '', $data_pesanan['gajinol_pelunasan'])),
                     'gaji_bersih' => str_replace(',', '.', str_replace('.', '', $data_pesanan['gaji_bersih'])),
-                    'kasbon_awal' => $kasbon ? $kasbon->sub_total : 0,
+                    'kasbon_awal' => $karyawan ? $karyawan->kasbon : 0,
                     'sisa_kasbon' => $karyawan->kasbon,
                     'status' => 'unpost',
                     'tanggal' => $format_tanggal,
@@ -323,7 +312,7 @@ class InqueryPerhitungangajibulananController extends Controller
                         'gajinol_pelunasan' => str_replace(',', '.', str_replace('.', '', $data_pesanan['gajinol_pelunasan'])),
                         'gaji_bersih' => str_replace(',', '.', str_replace('.', '', $data_pesanan['gaji_bersih'])),
                         'kasbon_awal' => $karyawan->kasbon,
-                        'potongan_ke' => $potongan_ke, // Nilai potongan_ke diambil dari potongan karyawan ditambah 1 jika pelunasan_kasbon tidak 0 atau null
+                        'sisa_kasbon' => $karyawan->kasbon,
                         'status' => 'unpost',
                         'tanggal' => $format_tanggal,
                         'tanggal_awal' => $tanggal,
@@ -333,71 +322,6 @@ class InqueryPerhitungangajibulananController extends Controller
                 }
             }
         }
-
-        $pengembalians = Pelunasan_deposit::where('perhitungan_gajikaryawan_id', $id)->first();
-        $pengembalians->update(
-            [
-                'kategori' => 'Mingguan',
-                'perhitungan_gajikaryawan_id' => $transaksi->id,
-                'periode_awal' => $request->periode_awal,
-                'periode_akhir' => $request->periode_akhir,
-                'keterangan' => $request->keterangan,
-                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->total_pelunasan)),
-                'status' => 'unpost',
-                'status_notif' => false,
-            ]
-        );
-
-        if ($pengembalians) {
-            foreach ($data_pembelians as $data_pesanan) {
-
-                if ($data_pesanan['pelunasan_kasbon'] != null || $data_pesanan['pelunasan_kasbon'] != 0) {
-                    $karyawan_id = $data_pesanan['karyawan_id'];
-
-                    $karyawanx = Karyawan::find($data_pesanan['karyawan_id']);
-                    // Mengambil detail_gajikaryawan_id berdasarkan karyawan_id
-                    $detail_gajikaryawan = Detail_gajikaryawan::where('karyawan_id', $karyawan_id)->first();
-
-                    if ($detail_gajikaryawan) {
-                        // Lakukan update pada Detail_pelunasandeposit yang memiliki karyawan_id yang sama
-                        Detail_pelunasandeposit::updateOrCreate(
-                            ['karyawan_id' => $karyawan_id],
-                            [
-                                'kategori' => 'Mingguan',
-                                'detail_gajikaryawan_id' => $transaksi->id,
-                                'pelunasan_deposit_id' => $pengembalians->id,
-                                'nama_lengkap' => $data_pesanan['nama_lengkap'],
-                                'kasbon_awal' => $karyawanx->kasbon,
-                                'pelunasan_kasbon' => str_replace('.', '', $data_pesanan['pelunasan_kasbon']),
-                                'sisa_kasbon' => $karyawanx->kasbon - str_replace('.', '', $data_pesanan['pelunasan_kasbon']),
-                                'status' => 'unpost',
-                            ]
-                        );
-
-                        // Menghapus Detail_pelunasandeposit jika pelunasan_kasbon menjadi 0
-                        if ($data_pesanan['pelunasan_kasbon'] == 0) {
-                            Detail_pelunasandeposit::where('karyawan_id', $karyawan_id)->delete();
-                        }
-                    } else {
-                        // Buat detail baru jika detail_gajikaryawan tidak ditemukan
-                        Detail_pelunasandeposit::create([
-                            'kategori' => 'Mingguan',
-                            'detail_gajikaryawan_id' => $detail_gajikaryawan->id,
-                            'pelunasan_deposit_id' => $pengembalians->id,
-                            'karyawan_id' => $data_pesanan['karyawan_id'],
-                            'nama_lengkap' => $data_pesanan['nama_lengkap'],
-                            'kasbon_awal' => $karyawan->kasbon,
-                            'pelunasan_kasbon' => str_replace('.', '', $data_pesanan['pelunasan_kasbon']),
-                            'sisa_kasbon' => $karyawan->kasbon - str_replace('.', '', $data_pesanan['pelunasan_kasbon']),
-                            'status' => 'unpost',
-                            'tanggal' => $format_tanggal,
-                            'tanggal_awal' => $tanggal,
-                        ]);
-                    }
-                }
-            }
-        }
-
         $cetakpdf = Perhitungan_gajikaryawan::find($transaksi_id);
         $details = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $cetakpdf->id)->get();
 
@@ -455,10 +379,6 @@ class InqueryPerhitungangajibulananController extends Controller
                     }
                 }
             }
-
-            Pelunasan_deposit::where('perhitungan_gajikaryawan_id', $id)->update([
-                'status' => 'unpost'
-            ]);
 
             $totalKasbon = Total_kasbon::latest()->first();
             if (!$totalKasbon) {
@@ -529,10 +449,6 @@ class InqueryPerhitungangajibulananController extends Controller
                     }
                 }
             }
-
-            Pelunasan_deposit::where('perhitungan_gajikaryawan_id', $id)->update([
-                'status' => 'posting'
-            ]);
 
             $totalKasbon = Total_kasbon::latest()->first();
             if (!$totalKasbon) {
