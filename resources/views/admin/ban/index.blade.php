@@ -52,6 +52,12 @@
                                     data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23" tabindex="-1"
                                     aria-hidden="true" id="kendaraan_id">
                                     <option value="">- Pilih -</option>
+                                    @foreach ($kendaraans as $kendaraan)
+                                        <option value="{{ $kendaraan->id }}"
+                                            {{ Request::get('kendaraan_id') == $kendaraan->id ? 'selected' : '' }}>
+                                            {{ $kendaraan->no_kabin }}
+                                        </option>
+                                    @endforeach
                                 </select>
                                 <label for="status">(Cari Kendaraan)</label>
                             </div>

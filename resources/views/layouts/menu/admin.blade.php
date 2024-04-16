@@ -571,7 +571,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['deposit sopir'])
+        {{-- @if (auth()->check() && auth()->user()->menu['deposit sopir'])
             <li class="nav-item">
                 <a href="{{ url('admin/saldo_kasbon') }}"
                     class="nav-link {{ request()->is('admin/saldo_kasbon*') || request()->is('admin/pelunasan_deposit*') ? 'active' : '' }}">
@@ -580,7 +580,7 @@
                     </p>
                 </a>
             </li>
-        @endif
+        @endif --}}
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/tablememo') }}"
@@ -760,7 +760,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['inquery penerimaan kas kecil'])
+        {{-- @if (auth()->check() && auth()->user()->menu['inquery penerimaan kas kecil'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_penambahansaldokasbon') }}"
                     class="nav-link {{ request()->is('admin/inquery_penambahansaldokasbon*') ? 'active' : '' }}">
@@ -770,7 +770,7 @@
                     </p>
                 </a>
             </li>
-        @endif
+        @endif --}}
         @if (auth()->check() && auth()->user()->menu['inquery deposit sopir'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_pilihdeposit') }}"
