@@ -43,9 +43,29 @@
                         @endif
                     </div>
                 </div>
+                <form action="{{ url('admin/nokir') }}" method="GET" id="get-keyword" autocomplete="off">
+                    @csrf
+                    <div class="row p-3">
+                        <div class="col-0 col-md-8"></div>
+                        <div class="col-md-4">
+                            <label for="keyword">Cari No Kir :</label>
+                            <div class="input-group">
+                                <input type="search" class="form-control" name="keyword" id="keyword"
+                                    value="{{ Request::get('keyword') }}"
+                                    onsubmit="event.preventDefault();
+                                        document.getElementById('get-keyword').submit();">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <!-- /.card-header -->
                 <div class="card-body">
-                   <table id="datatables66" class="table table-bordered table-striped table-hover">
+                    <table  class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
@@ -55,7 +75,7 @@
                                 <th>Nama Pemilik</th>
                                 <th>Tanggal Expired</th>
                                 <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="130">Opsi</th>
+                                <th class="text-center" width="170">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>

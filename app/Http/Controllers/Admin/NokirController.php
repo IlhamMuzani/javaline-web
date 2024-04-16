@@ -34,22 +34,25 @@ class NokirController extends Controller
                     'status_notif' => false,
                 ]);
             }
-            
+
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
                 $nokirs = Nokir::select('id', 'kode_kir', 'kendaraan_id', 'nama_pemilik', 'masa_berlaku', 'qrcode_kir')
                 ->where('status_kir', 'sudah perpanjang')
-                    ->where(function ($query) use ($keyword) {
-                        $query->where('kode_rute', 'like', "%$keyword%")
-                            ->orWhere('nama_rute', 'like', "%$keyword%");
-                    })
+                ->where(function ($query) use ($keyword) {
+                    $query->where('kode_kir', 'like', "%$keyword%")
+                        ->orWhereHas('kendaraan', function ($query) use ($keyword) {
+                            $query->where('no_pol', 'like', "%$keyword%")
+                                ->orWhere('no_kabin', 'like', "%$keyword%");
+                        });
+                })
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
             } else {
                 $nokirs = Nokir::select('id', 'kode_kir', 'kendaraan_id', 'nama_pemilik', 'masa_berlaku', 'qrcode_kir')
                 ->where('status_kir', 'sudah perpanjang')
-                    ->orderBy('created_at', 'desc')
-                    ->paginate(10);
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
             }
 
             return view('admin/nokir.index', compact('nokirs'));
