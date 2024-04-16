@@ -296,7 +296,7 @@
                             Bongkar
                         </td>
                         <td class="td" style="text-align: right; font-size: 11px;">
-                            0</td>
+                            0,00</td>
                     </tr>
                     <tr>
                         <td colspan="6" style="padding: 0px;">
