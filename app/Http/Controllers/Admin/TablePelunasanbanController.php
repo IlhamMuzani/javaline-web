@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Faktur_pelunasan;
+use App\Models\Faktur_pelunasanban;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pembelian_ban;
@@ -19,7 +20,7 @@ class TablePelunasanbanController extends Controller
 {
     public function index(Request $request)
     {
-        $inquery = Pembelian_ban::query();
+        $inquery = Faktur_pelunasanban::query();
 
         $inquery->whereDate('tanggal_awal', Carbon::today());
         $inquery->orderBy('id', 'DESC');
