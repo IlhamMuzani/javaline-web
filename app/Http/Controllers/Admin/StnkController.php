@@ -32,8 +32,9 @@ class StnkController extends Controller
                 ]);
             }
 
-            $stnks = Stnk::where(['status_stnk' => 'sudah perpanjang'])->get();
-                
+            $stnks = Stnk::select('id', 'kode_stnk', 'kendaraan_id', 'nama_pemilik', 'expired_stnk', 'qrcode_stnk')
+                ->where(['status_stnk' => 'sudah perpanjang'])->get();
+
             return view('admin.stnk.index', compact('stnks'));
         } else {
             // tidak memiliki akses
@@ -216,7 +217,6 @@ class StnkController extends Controller
         $stnk->save();
 
         return redirect('admin/stnk')->with('success', 'Berhasil memperbarui No. Stnk');
-
     }
     public function cetakpdf($id)
     {
