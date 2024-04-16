@@ -98,41 +98,24 @@
     </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     </div>
+    @php
+        $totalEkspe = 0;
+        $totalReturnEkspe = 0;
+        $totalPotongan = 0;
+        // $totalOngkosBongkar = 0;
+        $totaljumlahbayar = 0;
+    @endphp
     @foreach ($inquery as $faktur)
         @php
             $counter = 1; // Counter for each date
             $totalForFaktur = 0; // Variable to store total for each barangakun
+
+            $totalEkspe += $faktur->detail_pelunasan->sum('total');
+            $totalReturnEkspe += $faktur->detail_pelunasanreturn->sum('nominal_potongan');
+            $totalPotongan += $faktur->potonganselisih;
+            // $totalOngkosBongkar  += $faktur->
+            $totaljumlahbayar += $faktur->saldo_masuk;
         @endphp
-        {{-- <table style="width: 100%; border-top: 1px solid black;" cellspacing="0">
-            <!-- Header row -->
-            <tr>
-                <td colspan="1"
-                    style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190);">
-                    Kode Akun: {{ $faktur->kode_pelunasan }} <span style="margin-left: 20px">Nama Akun:
-                        {{ $faktur->kode_pelunasan }}</span>
-                </td>
-                <td colspan="2"
-                    style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-
-                </td>
-                <td colspan="3"
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-                </td>
-                <td colspan="4"
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-                </td>
-                <td colspan="5"
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-                </td>
-                <td
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                </td>
-            </tr>
-        </table> --}}
         <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
             <!-- Header row -->
             <tr>
@@ -267,6 +250,80 @@
     @endforeach
     <br>
 
+    <table width="100%" style="border-collapse: collapse;">
+        <tr>
+            <td style="width:100%;">
+
+            </td>
+            <td style="width: 70%;">
+                <table style="width: 100%;" cellpadding="2" cellspacing="0">
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">
+                            Total Ekspedisi</td>
+                        <td class="td" style="text-align: right; font-size: 11px;">
+                            {{ number_format($totalEkspe, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">
+                            Return Ekspedisi</td>
+                        <td class="td" style="text-align: right; font-size: 11px;">
+                            {{ number_format($totalReturnEkspe, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">Potongan
+                        </td>
+                        <td class="td" style="text-align: right; font-size: 11px;">
+                            {{ number_format($totalPotongan, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="padding: 0px;">
+                            <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                            {{-- <span
+                                    style="position: absolute; top: 50%; transform: translateY(-50%); background-color: white; padding: 0 5px; font-size: 12px;">+</span> --}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">
+                        </td>
+                        <td class="td" style="text-align: right; padding-right: 5px; font-size: 11px;">
+                            {{ number_format($totalEkspe - $totalReturnEkspe - $totalPotongan, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">Ongkos
+                            Bongkar
+                        </td>
+                        <td class="td" style="text-align: right; font-size: 11px;">
+                            0</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="padding: 0px;">
+                            <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                            {{-- <span
+                                    style="position: absolute; top: 50%; transform: translateY(-50%); background-color: white; padding: 0 5px; font-size: 12px;">+</span> --}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">Sub Total
+                        </td>
+                        <td class="td" style="text-align: right; padding-right: 5px; font-size: 11px;">
+                            {{ number_format($totalEkspe - $totalReturnEkspe - $totalPotongan, 2, ',', '.') }} </td>
+                    </tr>
+                    <tr>
+                        <br><br><br>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 120px; font-size: 11px;">
+                            Admin
+                        </td>
+                    </tr>
+                </table>
+            </td>
+
+        </tr>
+    </table>
     <br>
     <br>
 

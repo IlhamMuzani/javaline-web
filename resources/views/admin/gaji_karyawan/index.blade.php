@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </form> --}}
-                   <table id="datatables66" class="table table-bordered table-striped table-hover">
+                    <table id="datatables66" class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
@@ -82,13 +82,10 @@
                                     <td style="text-align: right">{{ number_format($gaji->bayar_kasbon, 0, ',', '.') }}</td>
                                     <td style="text-align: right">{{ number_format($gaji->gaji, 0, ',', '.') }}</td>
                                     <td class="text-center">
-                                        {{-- @if (auth()->check() && auth()->user()->fitur['hak gaji create']) --}}
                                         <a href="{{ url('admin/gaji_karyawan/' . $gaji->id . '/edit') }}"
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        {{-- @endif --}}
-
                                     </td>
                                 </tr>
                             @endforeach

@@ -19,7 +19,8 @@ class GajikaryawanController extends Controller
 {
     public function index()
     {
-        $gajis = Karyawan::whereNotIn('departemen_id', [2])
+        $gajis = Karyawan::select('id','kode_karyawan', 'nama_lengkap', 'kasbon', 'bayar_kasbon', 'gaji', 'departemen_id')
+            ->whereNotIn('departemen_id', [2])
             ->orderBy('nama_lengkap')
             ->get();
 

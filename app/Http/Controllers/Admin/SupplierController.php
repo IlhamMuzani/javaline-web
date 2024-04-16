@@ -16,14 +16,16 @@ class SupplierController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['supplier']) {
 
-            $suppliers = Supplier::all();
+            $suppliers = Supplier::select('id', 'kode_supplier', 'nama_supp', 'nama_person', 'telp', 'qrcode_supplier')
+            ->get(); // Menambahkan metode get() untuk mengeksekusi query
 
-            return view('admin/supplier.index', compact('suppliers'));
+            return view('admin.supplier.index', compact('suppliers'));
         } else {
             // tidak memiliki akses
-            return back()->with('error', array('Anda tidak memiliki akses'));
+            return back()->with('error', 'Anda tidak memiliki akses');
         }
     }
+
 
     public function create()
     {

@@ -34,16 +34,11 @@ class NokirController extends Controller
                     'status_notif' => false,
                 ]);
             }
-
-            // Retrieve nokirs ordered by the latest creation
-            // $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
-            //     ->orderBy('created_at', 'desc') // Order by the latest creation
-            //     ->get();
-
-
+            
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
-                $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
+                $nokirs = Nokir::select('id', 'kode_kir', 'kendaraan_id', 'nama_pemilik', 'masa_berlaku', 'qrcode_kir')
+                ->where('status_kir', 'sudah perpanjang')
                     ->where(function ($query) use ($keyword) {
                         $query->where('kode_rute', 'like', "%$keyword%")
                             ->orWhere('nama_rute', 'like', "%$keyword%");
@@ -51,7 +46,8 @@ class NokirController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
             } else {
-                $nokirs = Nokir::where('status_kir', 'sudah perpanjang')
+                $nokirs = Nokir::select('id', 'kode_kir', 'kendaraan_id', 'nama_pemilik', 'masa_berlaku', 'qrcode_kir')
+                ->where('status_kir', 'sudah perpanjang')
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
             }
