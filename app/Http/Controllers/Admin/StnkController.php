@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 
 class StnkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['stnk']) {
 
@@ -32,8 +32,29 @@ class StnkController extends Controller
                 ]);
             }
 
-            $stnks = Stnk::select('id', 'kode_stnk', 'kendaraan_id', 'nama_pemilik', 'expired_stnk', 'qrcode_stnk')
-                ->where(['status_stnk' => 'sudah perpanjang'])->get();
+            // $stnks = Stnk::select('id', 'kode_stnk', 'kendaraan_id', 'nama_pemilik', 'expired_stnk', 'qrcode_stnk')
+            //     ->where(['status_stnk' => 'sudah perpanjang'])->get();
+
+            if ($request->has('keyword')) {
+                $keyword = $request->keyword;
+                $stnks = Stnk::select('id', 'kode_stnk', 'kendaraan_id', 'nama_pemilik', 'expired_stnk', 'qrcode_stnk')
+                    ->where('status_stnk', 'sudah perpanjang')
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('kode_stnk', 'like', "%$keyword%")
+                            ->orWhereHas('kendaraan', function ($query) use ($keyword) {
+                                $query->where('no_pol', 'like', "%$keyword%")
+                                    ->orWhere('no_kabin', 'like', "%$keyword%");
+                            });
+                    })
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            } else {
+                $stnks = Stnk::select('id', 'kode_stnk', 'kendaraan_id', 'nama_pemilik', 'expired_stnk', 'qrcode_stnk')
+                    ->where('status_stnk', 'sudah perpanjang')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
+            }
+
 
             return view('admin.stnk.index', compact('stnks'));
         } else {
@@ -41,7 +62,6 @@ class StnkController extends Controller
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
-
     public function create()
     {
         if (auth()->check() && auth()->user()->menu['stnk']) {
