@@ -808,7 +808,7 @@ class InqueryMemoekspedisiController extends Controller
                     ]);
 
                     Uangjaminan::where('memo_ekspedisi_id', $id)->update([
-                        'status' => 'posting memo'
+                        'status' => 'posting'
                     ]);
 
                     $tanggal1 = Carbon::now('Asia/Jakarta');
