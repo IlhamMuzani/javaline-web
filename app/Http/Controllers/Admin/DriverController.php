@@ -42,7 +42,8 @@ class DriverController extends Controller
         // if (auth()->check() && auth()->user()->menu['karyawan']) {
 
         // Fetch drivers and order them by the 'nama_lengkap' column
-        $drivers = Karyawan::where('departemen_id', '2')
+        $drivers = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'deposit', 'kasbon', 'bayar_kasbon', 'tabungan')
+            ->where('departemen_id', '2')
             ->orderBy('nama_lengkap')
             ->get();
 

@@ -70,7 +70,7 @@
                                 <th class="text-right">Kasbon</th>
                                 <th class="text-right">Bayar Kasbon</th>
                                 <th class="text-right">Saldo Deposit</th>
-                                <th class="text-center" width="50">Opsi</th>
+                                {{-- <th class="text-center" width="50">Opsi</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -100,12 +100,12 @@
                                             </a>
                                         @endif --}}
                                     {{-- @if (auth()->check() && auth()->user()->fitur['driver update']) --}}
-                                    <td>
+                                    {{-- <td>
                                         <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                    </td>
+                                    </td> --}}
                                     {{-- @endif --}}
                                     {{-- @if (auth()->check() && auth()->user()->fitur['driver delete'])
                                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
@@ -115,63 +115,6 @@
                                         @endif --}}
                                     {{-- </td> --}}
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $driver->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Driver</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus driver <strong>{{ $driver->nama }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/driver/' . $driver->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="modal-qrcode-{{ $driver->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="text-align: center;">
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $driver->kode_karyawan }}</p>
-                                                    <div style="display: inline-block;">
-                                                        {!! DNS2D::getBarcodeHTML("$driver->qrcode_karyawan", 'QRCODE', 15, 15) !!}
-                                                    </div>
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $driver->nama_lengkap }}</p>
-                                                </div>
-                                                <div class="modal-footer justify-content-between">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <a href="{{ url('admin/driver/cetak-pdf/' . $driver->id) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class=""></i> Cetak
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                         {{-- <tbody>
