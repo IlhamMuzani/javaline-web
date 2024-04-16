@@ -17,7 +17,8 @@ class PelangganController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['pelanggan']) {
 
-            $pelanggans = Pelanggan::all();
+            $pelanggans = Pelanggan::select('id', 'kode_pelanggan', 'nama_pell', 'nama_person', 'telp', 'qrcode_pelanggan')
+            ->get(); 
             return view('admin/pelanggan.index', compact('pelanggans'));
         } else {
             // tidak memiliki akses

@@ -65,7 +65,7 @@
                 </form>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table  class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
@@ -196,7 +196,13 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- /.card-body -->
+                @if ($nokirs->total() > 10)
+                    <div class="card-footer">
+                        <div class="pagination float-right">
+                            {{ $nokirs->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
