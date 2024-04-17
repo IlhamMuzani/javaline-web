@@ -12,8 +12,7 @@
 
 <div class="form-inline">
     <div class="input-group" data-widget="sidebar-search">
-        <input class="form-control form-control-sidebar" type="search" placeholder="Search"
-            aria-label="Search">
+        <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
         <div class="input-group-append">
             <button class="btn btn-sidebar">
                 <i class="fas fa-search fa-fw"></i>
@@ -99,8 +98,7 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['user'])
             <li class="nav-item">
-                <a href="{{ url('admin/user') }}"
-                    class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}">
+                <a href="{{ url('admin/user') }}" class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data User</p>
                 </a>
@@ -108,8 +106,7 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['akses'])
             <li class="nav-item">
-                <a href="{{ url('admin/akses') }}"
-                    class="nav-link {{ request()->is('admin/akses*') ? 'active' : '' }}">
+                <a href="{{ url('admin/akses') }}" class="nav-link {{ request()->is('admin/akses*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Hak Akses</p>
                 </a>
@@ -216,8 +213,7 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['ban'])
             <li class="nav-item">
-                <a href="{{ url('admin/ban') }}"
-                    class="nav-link {{ request()->is('admin/ban*') ? 'active' : '' }}">
+                <a href="{{ url('admin/ban') }}" class="nav-link {{ request()->is('admin/ban*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Ban</p>
                 </a>
@@ -936,6 +932,16 @@
                 </a>
             </li>
         @endif
+        {{-- @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/memo_posting') }}"
+                    class="nav-link {{ request()->is('admin/memo_posting*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Memo Posting Hari Ini
+                    </p>
+                </a>
+            </li>
+        @endif --}}
         @if (auth()->check() && auth()->user()->menu['inquery faktur ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_fakturekspedisi') }}"

@@ -563,7 +563,7 @@ class InqueryMemoborongController extends Controller
 
             // Update the Memo_ekspedisi status
             $item->update([
-                'status' => 'pending',
+                'status' => 'unpost',
             ]);
 
             return back()->with('success', 'Berhasil');

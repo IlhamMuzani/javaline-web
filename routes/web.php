@@ -653,6 +653,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_perhitungangaji', \App\Http\Controllers\Admin\InqueryPerhitungangajiController::class);
     Route::resource('inquery_potonganpenjualan', \App\Http\Controllers\Admin\InqueryPotonganpenjualanController::class);
     Route::resource('kasbon_karyawan', \App\Http\Controllers\Admin\KasbonkaryawanController::class);
+    Route::resource('memo_posting', \App\Http\Controllers\Admin\MemopostingController::class);
 
     Route::resource('perhitungan_gajibulanan', \App\Http\Controllers\Admin\PerhitungangajibulananController::class);
     Route::resource('inquery_perhitungangajibulanan', \App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class);
