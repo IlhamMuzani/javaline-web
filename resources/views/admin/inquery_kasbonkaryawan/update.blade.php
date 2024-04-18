@@ -43,20 +43,6 @@
                         <h3 class="card-title">Tambah</h3>
                     </div>
                     <div class="card-body">
-
-                        <div class="form-group">
-                            <label class="form-label" for="kategori">Pilih Kategori</label>
-                            <select class="form-control" id="kategori" name="kategori">
-                                <option value="">- Pilih -</option>
-                                <option value="Pengambilan Kasbon"
-                                    {{ old('kategori', $inquery->kategori) == 'Pengambilan Kasbon' ? 'selected' : null }}>
-                                    Pengambilan Kasbon</option>
-                                <option value="Pengembalian Kasbon"
-                                    {{ old('kategori', $inquery->kategori) == 'Pengembalian Kasbon' ? 'selected' : null }}>
-                                    Pengembalian Kasbon</option>
-                            </select>
-                        </div>
-
                         <div class="mb-3 mt-4">
                             <button class="btn btn-primary btn-sm" type="button" onclick="showkaryawan(this.value)">
                                 <i class="fas fa-plus mr-2"></i> Pilih Karyawan
@@ -86,64 +72,6 @@
                         </div>
                     </div>
                 </div>
-                <div id="pemasukan" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Pengambilan Kasbon</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="nominal">Nominal</label>
-                                    <input type="text" class="form-control" id="nominal" name="nominal"
-                                        placeholder="Masukan nominal" value="{{ old('nominal', $inquery->nominal) }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="saldo_masuk">Nominal Kasbon</label>
-                                    <input style="text-align: end" type="text" class="form-control" readonly
-                                        id="saldo_masuk" name="saldo_masuk" placeholder=""
-                                        value="{{ old('saldo_masuk', $inquery->saldo_masuk) }}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="alamat">Keterangan</label>
-                                    <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan', $inquery->keterangan) }}</textarea>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sisa_saldo">Sisa Kasbon</label>
-                                    <input style="text-align: end;margin:right:10px" type="text" class="form-control"
-                                        id="sisa_saldo" readonly name="sisa_saldo"
-                                        value="{{ old('sisa_saldo', $inquery->sisa_saldo) }}" placeholder="">
-                                </div>
-                                <hr
-                                    style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
-                                <span
-                                    style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">+</span>
-
-                            </div>
-                            <div class="col-lg-6">
-
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="sub_total">Sub Total</label>
-                                    <input style="text-align: end; margin:right:10px" type="text" class="form-control"
-                                        readonly id="sub_total" name="sub_total" placeholder=""
-                                        value="{{ old('sub_total', $inquery->sub_total) }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </div>
 
                 <div id="pengambilan" class="card">
                     <div class="card-header">
@@ -154,8 +82,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="nominal">Nominal</label>
-                                    <input type="text" class="form-control" id="nominals" name="nominals"
-                                        placeholder="Masukan nominal" value="{{ old('nominals', $inquery->nominal) }}">
+                                    <input type="text" class="form-control" id="nominals" name="nominal"
+                                        placeholder="Masukan nominal" value="{{ old('nominal', $inquery->nominal) }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -287,7 +215,6 @@
             document.getElementById('nama_lengkap').value = NamaSopir;
             const formattedTabungan = formatCurrency(Tabungan);
 
-            document.getElementById('sisa_saldo').value = formattedTabungan;
             document.getElementById('sisa_saldos').value = formattedTabungan;
 
             updateSubTotals();
@@ -295,136 +222,6 @@
             $('#tableSopir').modal('hide');
         }
     </script>
-
-    <script>
-        // Fungsi untuk mengonversi angka ke format rupiah
-        function formatRupiah(angka) {
-            var reverse = angka.toString().split('').reverse().join(''),
-                ribuan = reverse.match(/\d{1,3}/g);
-            ribuan = ribuan.join('.').split('').reverse().join('');
-            return ribuan; // Mengembalikan hanya angka tanpa teks "Rp"
-        }
-
-        // Fungsi untuk menangani perubahan nilai pada input nominal
-        $('#nominal').on('input', function() {
-            // Mengambil nilai input nominal
-            var nominalValue = $(this).val();
-
-            // Memeriksa apakah input nominal kosong atau tidak
-            if (nominalValue === "") {
-                // Jika kosong, set form saldo masuk dan sub total menjadi 0
-                $('#saldo_masuk').val("0");
-                updateSubTotal(); // Memanggil fungsi updateSubTotal tanpa argumen
-            } else {
-                // Jika tidak kosong, mengonversi nilai ke format rupiah
-                var saldoMasukValue = formatRupiah(nominalValue);
-
-                // Menetapkan nilai ke input saldo masuk
-                $('#saldo_masuk').val(saldoMasukValue);
-
-                // Memperbarui nilai sub total saat input nominal berubah
-                updateSubTotal();
-            }
-        });
-
-        // Fungsi untuk mengonversi sisa saldo ke format rupiah saat dokumen selesai dimuat
-        $(document).ready(function() {
-            // Mengambil nilai sisa saldo dari elemen dengan id sisa_saldo
-            var sisaSaldoValue = $('#sisa_saldo').val();
-
-            // Mengonversi nilai ke format rupiah
-            var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
-
-            // Menetapkan nilai ke input sisa saldo
-            $('#sisa_saldo').val(sisaSaldoRupiah);
-
-            // Memperbarui nilai sub total saat dokumen selesai dimuat
-            updateSubTotal();
-        });
-
-        // Fungsi untuk memperbarui nilai sub total
-        function updateSubTotal() {
-            // Mengambil nilai saldo masuk dan sisa saldo
-            var saldoMasuk = parseCurrency($('#saldo_masuk').val());
-            var sisaSaldo = parseCurrency($('#sisa_saldo').val());
-
-            // Menghitung sub total
-            var subTotal = saldoMasuk + sisaSaldo;
-
-            // Mengonversi nilai sub total ke format rupiah
-            var subTotalRupiah = "Rp " + formatRupiah(subTotal);
-            var subTotalRupiahs = (subTotal);
-
-            // Menetapkan nilai ke input sub total
-            $('#sub_total').val(subTotalRupiah);
-            $('#sub_total2').val(subTotalRupiahs);
-        }
-
-        // Fungsi untuk mengubah format uang ke angka
-        function parseCurrency(value) {
-            return parseInt(value.replace(/[^0-9]/g, ''));
-        }
-
-        // max="{{ date('Y-m-d') }}"
-
-        // var tanggalAkhir = document.getElementById('tanggal_awal');
-
-        // if (this.value == "") {
-        //     tanggalAkhir.readOnly = true;
-        // } else {
-        //     tanggalAkhir.readOnly = false;
-        // }
-        // tanggalAkhir.value = "";
-        // var today = new Date().toISOString().split('T')[0];
-        // tanggalAkhir.value = today;
-        // tanggalAkhir.setAttribute('min', this.value);
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var kategoriSelect = document.getElementById("kategori");
-            var Pemasukan = document.getElementById("pemasukan");
-            var Pengambilan = document.getElementById("pengambilan");
-
-            // Mendapatkan nilai kategori dari $inquery->kategori
-            var initialKategori = '{{ $inquery->kategori }}';
-
-            // Cek apakah ada nilai kategori yang tersimpan dalam localStorage
-            var selectedKategori = localStorage.getItem("selectedKategori");
-
-            // Set nilai kategori berdasarkan urutan prioritas
-            if (initialKategori) {
-                kategoriSelect.value = initialKategori;
-                adjustDisplay(initialKategori);
-            } else if (selectedKategori) {
-                kategoriSelect.value = selectedKategori;
-                adjustDisplay(selectedKategori);
-            }
-
-            kategoriSelect.addEventListener("change", function() {
-                // Mengambil nilai yang dipilih pada dropdown "Pilih Kategori"
-                var selectedKategori = kategoriSelect.value;
-
-                // Menyimpan nilai kategori dalam localStorage
-                localStorage.setItem("selectedKategori", selectedKategori);
-
-                // Panggil fungsi untuk menyesuaikan tampilan berdasarkan kategori
-                adjustDisplay(selectedKategori);
-            });
-
-            // Fungsi untuk menyesuaikan tampilan berdasarkan kategori
-            function adjustDisplay(selectedKategori) {
-                if (selectedKategori === "Pengambilan Kasbon") {
-                    Pemasukan.style.display = "block";
-                    Pengambilan.style.display = "none";
-                } else if (selectedKategori === "Pengembalian Kasbon") {
-                    Pemasukan.style.display = "none";
-                    Pengambilan.style.display = "block";
-                }
-            }
-        });
-    </script>
-
 
     <script>
         // Fungsi untuk mengonversi angka ke format rupiah

@@ -137,6 +137,7 @@
                                 {{-- <th style="text-align: center">Adm</th> --}}
                                 <th style="text-align: center">Deposit Sopir</th>
                                 <th style="text-align: center">Grand Total</th>
+                                <th style="text-align: center" hidden>Hasil Jumlah</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -189,6 +190,9 @@
                                     <td style="text-align: end">
                                         {{ number_format($memoborong->sub_total, 0, ',', '.') }}
                                     </td>
+                                    <td hidden style="text-align: end">
+                                        {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
+                                    </td>
                                     <td class="text-center">
                                         @if ($memoborong->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
@@ -201,7 +205,7 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($memoborong->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $memoborong->totalrute)
+                                                @if ($saldoTerakhir->sisa_saldo < $memoborong->hasil_jumlah)
                                                     <a class="dropdown-item">Saldo tidak cukup</a>
                                                 @else
                                                     @if (auth()->check() && auth()->user()->fitur['inquery memo borong posting'])
@@ -450,7 +454,7 @@
             var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
 
             selectedCheckboxes.forEach(function(checkbox) {
-                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(10)').textContent
+                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(11)').textContent
                     .replace(/\D/g, ''));
                 totalGrandTotal += grandTotal;
             });
