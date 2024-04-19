@@ -273,6 +273,29 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- validasi gagal  --}}
+                    <div class="modal fade" id="validationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="validationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="validationModalLabel">Validasi Gagal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-times-circle fa-3x text-danger"></i>
+                                    <h4 class="mt-2">Validasi Gagal!</h4>
+                                    <p id="validationMessage"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -427,7 +450,8 @@
         function printSelectedData() {
             var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
             if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum mencetak.");
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum mencetak.');
+                $('#validationModal').modal('show');
             } else {
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
                 var selectedIds = [];
@@ -454,7 +478,7 @@
             var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
 
             selectedCheckboxes.forEach(function(checkbox) {
-                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(11)').textContent
+                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(14)').textContent
                     .replace(/\D/g, ''));
                 totalGrandTotal += grandTotal;
             });
@@ -470,11 +494,13 @@
             console.log(totalGrandTotal);
 
             if (totalGrandTotal > saldoTerakhir) {
-                alert("Saldo tidak mencukupi untuk melakukan posting.");
+                $('#validationMessage').text('Saldo tidak mencukupi untuk melakukan posting.');
+                $('#validationModal').modal('show');
             } else {
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
                 if (selectedCheckboxes.length === 0) {
-                    alert("Harap centang setidaknya satu item sebelum posting.");
+                    $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                    $('#validationModal').modal('show');
                 } else {
                     var selectedIds = [];
                     selectedCheckboxes.forEach(function(checkbox) {
@@ -522,7 +548,8 @@
         function unpostSelectedData() {
             var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
             if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum unpost.");
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum unpost.');
+                $('#validationModal').modal('show');
             } else {
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
                 var selectedIds = [];

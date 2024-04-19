@@ -402,7 +402,7 @@
 
             if (detailId) {
                 $.ajax({
-                    url: "{{ url('admin/inquery_kasbonkaryawan/deletecicilan/') }}/" + detailId,
+                    url: "{{ url('admin/inquery_kasbonkaryawan/deletedetailcicilan/') }}/" + detailId,
                     type: "POST",
                     data: {
                         _method: 'DELETE',

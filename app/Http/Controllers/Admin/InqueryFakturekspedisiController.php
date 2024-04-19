@@ -635,19 +635,6 @@ class InqueryFakturekspedisiController extends Controller
 
             if ($faktur) {
                 $memo = Memo_ekspedisi::find($item->memo_ekspedisi_id);
-
-                // if ($memo) {
-                //     // Update status_memo menjadi null
-                //     $memo->update(['status_memo' => null, 'status' => 'posting']);
-                // }
-
-                // $memotambahan = Memotambahan::find($item->memotambahan_id);
-
-                // if ($memotambahan) {
-                //     // Update status_memo tambahan menjadi null
-                //     $memotambahan->update(['status_memo' => null, 'status' => 'posting']);
-                // }
-
                 // Hapus Detail_faktur
                 $item->delete();
 

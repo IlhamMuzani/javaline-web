@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('kasbon_karyawan_id')->references('id')->on('kasbon_karyawans');
             $table->unsignedBigInteger('karyawan_id')->nullable();
             $table->foreign('karyawan_id')->references('id')->on('karyawans');
-            $table->string('nominal')->nullable();
+            $table->string('nominal_cicilan')->nullable();
             $table->string('status')->nullable();
             $table->string('status_cicilan')->nullable();
             $table->timestamp('deleted_at')->nullable();

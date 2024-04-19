@@ -260,7 +260,7 @@ class InqueryKasbonkaryawanController extends Controller
                 'status' => 'unpost'
             ]);
         }
-        
+
         // Update status deposit_driver menjadi 'unpost'
         $item->update([
             'status' => 'unpost'
@@ -324,7 +324,7 @@ class InqueryKasbonkaryawanController extends Controller
                 'status' => 'posting'
             ]);
         }
-        
+
         // Update status deposit_driver menjadi 'posting'
         $item->update([
             'status' => 'posting'
@@ -351,5 +351,17 @@ class InqueryKasbonkaryawanController extends Controller
         $item->delete();
 
         return redirect('admin/inquery_kasbonkaryawan')->with('success', 'Berhasil deposit');
+    }
+
+    public function deletedetailcicilan($id)
+    {
+        $item = Detail_cicilan::find($id);
+
+        if ($item) {
+            $item->delete();
+            return response()->json(['message' => 'Data deleted successfully']);
+        } else {
+            return response()->json(['message' => 'Detail Faktur not found'], 404);
+        }
     }
 }

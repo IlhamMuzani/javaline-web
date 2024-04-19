@@ -264,7 +264,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('inquery_kasbonkaryawan/unpostkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'unpostkasbon']);
     Route::get('inquery_kasbonkaryawan/postingkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'postingkasbon']);
-    
+    Route::delete('inquery_kasbonkaryawan/deletedetailcicilan/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'deletedetailcicilan']);
+
     Route::get('deleteban/{id}', [\App\Http\Controllers\Admin\PemasanganbanController::class, 'deleteban'])->name('deleteban');
     Route::get('ban', [\App\Http\Controllers\Admin\BanController::class, 'index']);
     Route::get('sparepart', [\App\Http\Controllers\Admin\SparepartController::class, 'sparepart']);
