@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_cicilan;
 use App\Models\Detail_gajikaryawan;
 use App\Models\Detail_pelunasandeposit;
 use App\Models\Detail_pengeluaran;
@@ -171,7 +172,6 @@ class PerhitungangajiController extends Controller
             foreach ($data_pembelians as $data_pesanan) {
                 // Mendapatkan nilai potongan dari model Karyawan
                 $karyawan = Karyawan::find($data_pesanan['karyawan_id']);
-
                 // Simpan Detail_gajikaryawan baru
                 $detailfaktur = Detail_gajikaryawan::create([
                     'kode_gajikaryawan' => $this->kodegaji(),
@@ -206,8 +206,18 @@ class PerhitungangajiController extends Controller
                     'tanggal' => $format_tanggal,
                     'tanggal_awal' => $tanggal,
                 ]);
+                $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
+                    ->where('status', 'posting')
+                    ->where('status_cicilan', 'belum lunas')
+                    ->first();
+                if ($detail_cicilan) {
+                    $detail_cicilan->update([
+                        'status_cicilan' => 'lunas',
+                    ]);
+                }
             }
         }
+
 
         $kodepengeluaran = $this->kodepengeluaran();
 

@@ -99,7 +99,9 @@ class KasbonkaryawanController extends Controller
                 Detail_cicilan::create([
                     'kasbon_karyawan_id' =>  $penerimaan->id,
                     'nominal_cicilan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_cicilan'])),
-                    'status' =>  'belum lunas',
+                    'status' =>  'unpost',
+                    'status_cicilan' =>  'belum lunas',
+                    'karyawan_id' =>  $request->karyawan_id,
                 ]);
             }
         }

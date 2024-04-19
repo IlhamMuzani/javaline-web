@@ -208,7 +208,145 @@
         </tr>
     </table>
     <br>
- 
+
+    <table style="width: 50%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
+        <tr>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 12px;  font-weight:bold;">
+                NO.</td>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 12px;  font-weight:bold;">
+                ID KARYAWAN</td>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 12px;  font-weight:bold;">
+                NAMA LENGKAP</td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 12px;  font-weight:bold;">
+                DEPOSIT AWAL</td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 12px;  font-weight:bold;">
+                PELUNASAN DEPOSIT</td>
+            <td class="td" style="text-align: right; font-size: 12px;  font-weight:bold;">SISA DEPOSIT
+            </td>
+        </tr>
+        <!-- Add horizontal line below this row -->
+        <tr>
+            <td colspan="6" style="padding: 0px;">
+                <hr style="border: 0.5px solid; margin-top:0px; margin-bottom: 1px; padding: 0;">
+                <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
+            </td>
+        </tr>
+        @php
+            $nomor_urut = 1;
+            $GrandtotalsaldoAwal = 0;
+            $GrandtotalsisaDeposit = 0;
+            $Grandtotal = 0;
+        @endphp
+        @foreach ($details as $item)
+            @if ($item->pelunasan_kasbon !== null && $item->pelunasan_kasbon != 0)
+                <tr>
+                    <td class="td"
+                        style="text-align: center; padding: 2px; font-size: 12px; border-bottom: 1px solid black;">
+                        {{ $loop->iteration }}
+                    </td>
+                    <td class="td"
+                        style="text-align: left; padding: 2px; font-size: 12px; border-bottom: 1px solid black;">
+                        @if ($item->karyawan)
+                            {{ $item->karyawan->kode_karyawan }}
+                        @endif
+                    </td>
+                    <td class="td"
+                        style="text-align: left; padding: 2px; font-size: 12px; border-bottom: 1px solid black;">
+                        {{ $item->nama_lengkap }}
+                    </td>
+                    <td class="td"
+                        style="text-align: center; padding: 1px; font-size: 12px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right; ">
+                            <tr>
+                                <td style="width: 30%;">
+                                    Rp.
+                                </td>
+                                <td style="width: 70%;">
+                                    - {{ number_format($item->kasbon_awal, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="td"
+                        style="text-align: center; padding: 1px; font-size: 12px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right; padding-right:1px">
+                            <tr>
+                                <td style="width: 30%;">
+                                    Rp.
+                                </td>
+                                <td style="width: 70%;">
+                                    {{ number_format($item->pelunasan_kasbon, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="td"
+                        style="text-align: center; padding: 1px; font-size: 12px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right;">
+                            <tr>
+                                <td style="width: 30%;">
+                                    Rp.
+                                </td>
+                                <td style="width: 70%;">
+                                    {{ number_format($item->sisa_kasbon - $item->pelunasan_kasbon, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                @php
+                    $GrandtotalsaldoAwal += $item->kasbon_awal;
+                    $GrandtotalsisaDeposit += $item->sisa_kasbon;
+                    $Grandtotal += $item->pelunasan_kasbon;
+                    $nomor_urut++;
+                @endphp
+            @endif
+        @endforeach
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="6" style="padding: 2px;"></td>
+        </tr>
+        <tr>
+            <td colspan="3"
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 12px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 12px;">
+                <table style="width: 100%; text-align: right;">
+                    <tr>
+                        <td style="width: 30%;">
+                            Rp.
+                        </td>
+                        <td style="width: 70%;">
+                            - {{ number_format($GrandtotalsaldoAwal, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 12px;">
+                <table style="width: 100%; text-align: right;">
+                    <tr>
+                        <td style="width: 30%;">
+                            Rp.
+                        </td>
+                        <td style="width: 70%;">
+                            {{ number_format($Grandtotal, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 12px;">
+                <table style="width: 100%; text-align: right;">
+                    <tr>
+                        <td style="width: 30%;">
+                            Rp.
+                        </td>
+                        <td style="width: 70%;">
+                            - {{ number_format($GrandtotalsisaDeposit - $Grandtotal, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
     <br>
     <br>
 

@@ -69,6 +69,11 @@ class Karyawan extends Model
         return $this->hasMany(Kasbon_karyawan::class, 'karyawan_id');
     }
 
+    public function detail_cicilan()
+    {
+        return $this->hasMany(Detail_cicilan::class);
+    }
+
     public function user()
     {
         return $this->hasMany(User::class);

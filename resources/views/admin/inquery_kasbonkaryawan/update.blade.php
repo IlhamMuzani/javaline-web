@@ -90,9 +90,10 @@
                                 <div class="form-group">
                                     <label for="sisa_saldo">Sisa Kasbon</label>
                                     <input style="text-align: end;margin:right:10px" type="text" class="form-control"
-                                        id="sisa_saldos" readonly name="sisa_saldos"
-                                        value="{{ old('sisa_saldos', $inquery->sisa_saldo) }}" placeholder="">
-
+                                        id="sisa_saldos" readonly name="sisa_saldo"
+                                        @if ($inquery->karyawan->kasbon == null) value="{{ old('sisa_saldo', 0) }}"
+                                        @else value="{{ old('sisa_saldo', $inquery->karyawan->kasbon) }}" @endif
+                                        placeholder="">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -126,6 +127,65 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="card" id="form_biayatambahan">
+                    <div class="card-header">
+                        <h3 class="card-title">Tambahkan Cicilan <span>
+                            </span></h3>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="font-size:14px" class="text-center">No</th>
+                                    <th style="font-size:14px">Nominal</th>
+                                    <th style="font-size:14px">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-pembelian">
+                                @foreach ($details as $detail)
+                                    <tr id="pembelian-{{ $loop->index }}">
+                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group" hidden>
+                                                <input type="text" class="form-control" name="detail_ids[]"
+                                                    value="{{ $detail['id'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" class="form-control"
+                                                    id="nominal_cicilan-{{ $loop->index }}" name="nominal_cicilan[]"
+                                                    value="{{ number_format($detail['nominal_cicilan'], 0, ',', '.') }}"
+                                                    oninput="formatRupiahform(this)"
+                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                            </div>
+                                        </td>
+                                        <td style="width: 50px">
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                onclick="removePesanan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        {{-- <div class="form-group">
+                            <label style="font-size:14px" class="mt-0" for="nopol">Grand Total</label>
+                            <input style="font-size:14px" type="text" class="form-control text-right"
+                                id="grand_total" name="grand_total" readonly placeholder=""
+                                value="{{ old('grand_total', number_format($inquery->grand_total, 0, ',', '.')) }}">
+                        </div> --}}
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary">Reset</button>
@@ -293,5 +353,120 @@
         }
     </script>
 
+    <script>
+        var data_pembelian = @json(session('data_pembelians'));
+        var jumlah_ban = 1;
+
+        if (data_pembelian != null) {
+            jumlah_ban = data_pembelian.length;
+            $('#tabel-pembelian').empty();
+            var urutan = 0;
+            $.each(data_pembelian, function(key, value) {
+                urutan = urutan + 1;
+                itemPembelian(urutan, key, value);
+            });
+        }
+
+        function updateUrutan() {
+            var urutan = document.querySelectorAll('#urutan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+        var counter = 0;
+
+        function addPesanan() {
+            counter++;
+            jumlah_ban = jumlah_ban + 1;
+
+            if (jumlah_ban === 1) {
+                $('#tabel-pembelian').empty();
+            } else {
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-pembelian tr:last');
+                var lastRowIndex = lastRow.find('#urutan').text();
+                jumlah_ban = parseInt(lastRowIndex) + 1;
+            }
+
+            console.log('Current jumlah_ban:', jumlah_ban);
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+            // updateUrutan();
+        }
+
+        function removePesanan(identifier) {
+            var row = $('#pembelian-' + identifier);
+            var detailId = row.find("input[name='detail_ids[]']").val();
+
+            row.remove();
+
+            if (detailId) {
+                $.ajax({
+                    url: "{{ url('admin/inquery_kasbonkaryawan/deletecicilan/') }}/" + detailId,
+                    type: "POST",
+                    data: {
+                        _method: 'DELETE',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log('Data deleted successfully');
+                    },
+                    error: function(error) {
+                        console.error('Failed to delete data:', error);
+                    }
+                });
+            }
+            // updateGrandTotal()
+            // updateUrutan();
+        }
+
+        function itemPembelian(identifier, key, value = null) {
+            var nominal_cicilan = '';
+
+            if (value !== null) {
+                nominal_cicilan = value.nominal_cicilan;
+            }
+
+            // urutan 
+            var item_pembelian = '<tr id="pembelian-' + key + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + key + '</td>';
+
+            // nominal_cicilan 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal_cicilan-' +
+                key +
+                '" name="nominal_cicilan[]" value="' + nominal_cicilan + '" ';
+            item_pembelian += 'oninput="formatRupiahform(this)" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+
+            item_pembelian += '<td style="width: 50px">';
+            item_pembelian +=
+                '<button type="button" class="btn btn-danger btn-sm" onclick="removePesanan(' +
+                key + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
+
+            $('#tabel-pembelian').append(item_pembelian);
+        }
+    </script>
+
+    <script>
+        function formatRupiahform(input) {
+            // Hapus karakter selain angka
+            var value = input.value.replace(/\D/g, "");
+
+            // Format angka dengan menambahkan titik sebagai pemisah ribuan
+            value = new Intl.NumberFormat('id-ID').format(value);
+
+            // Tampilkan nilai yang sudah diformat ke dalam input
+            input.value = value;
+        }
+    </script>
 
 @endsection

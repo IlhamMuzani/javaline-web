@@ -195,18 +195,17 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input type="text"
-                                                    style="font-size:14px" readonly class="form-control uang_makan"
-                                                    id="uang_makan-{{ $loop->index }}" name="uang_makan[]"
+                                                <input type="text" style="font-size:14px" readonly
+                                                    class="form-control uang_makan" id="uang_makan-{{ $loop->index }}"
+                                                    name="uang_makan[]"
                                                     value="{{ number_format($detail['uang_makan'], 0, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px"
-                                                    readonly type="text" class="form-control uang_hadir"
-                                                    id="uang_hadir-{{ $loop->index }}" name="uang_hadir[]"
-                                                    data-row-id="0"
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control uang_hadir" id="uang_hadir-{{ $loop->index }}"
+                                                    name="uang_hadir[]" data-row-id="0"
                                                     value="{{ number_format($detail['uang_hadir'], 0, ',', '.') }}">
                                             </div>
                                         </td>
@@ -229,8 +228,8 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px"
-                                                    readonly type="text" class="form-control hasil_lembur"
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control hasil_lembur"
                                                     id="hasil_lembur-{{ $loop->index }}" name="hasil_lembur[]"
                                                     data-row-id="0"
                                                     value="{{ number_format($detail['hasil_lembur'], 0, ',', '.') }}">
@@ -246,8 +245,8 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px"
-                                                    readonly type="text" class="form-control hasil_storing"
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control hasil_storing"
                                                     id="hasil_storing-{{ $loop->index }}" name="hasil_storing[]"
                                                     data-row-id="0"
                                                     value="{{ number_format($detail['hasil_storing'], 1, ',', '.') }}">
@@ -255,9 +254,9 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px"
-                                                    readonly type="text" class="form-control gaji_kotor"
-                                                    id="gaji_kotor-{{ $loop->index }}" name="gaji_kotor[]"
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control gaji_kotor" id="gaji_kotor-{{ $loop->index }}"
+                                                    name="gaji_kotor[]"
                                                     value="{{ number_format($detail['gaji_kotor'], 0, ',', '.') }}">
                                             </div>
                                         </td>
@@ -340,7 +339,7 @@
                                         <td style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text"
-                                                    class="form-control pelunasan_kasbon"
+                                                    class="form-control pelunasan_kasbon" readonly
                                                     id="pelunasan_kasbon-{{ $loop->index }}" name="pelunasan_kasbon[]"
                                                     value="{{ number_format($detail['pelunasan_kasbon'], 0, ',', '.') }}"
                                                     oninput="formatRupiahform(this)"
@@ -349,8 +348,8 @@
                                         </td>
                                         <td hidden style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px"  readonly
-                                                    type="text" class="form-control gajinol_pelunasan"
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control gajinol_pelunasan"
                                                     value="{{ number_format($detail['gajinol_pelunasan'], 0, ',', '.') }}"
                                                     id="gajinol_pelunasan-{{ $loop->index }}"
                                                     name="gajinol_pelunasan[]">
@@ -358,9 +357,9 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px" 
-                                                    readonly type="text" class="form-control gaji_bersih"
-                                                    id="gaji_bersih-{{ $loop->index }}" name="gaji_bersih[]"
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control gaji_bersih" id="gaji_bersih-{{ $loop->index }}"
+                                                    name="gaji_bersih[]"
                                                     value="{{ number_format($detail['gaji_bersih'], 0, ',', '.') }}">
                                             </div>
                                         </td>
@@ -435,6 +434,7 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Karyawan</th>
                                         <th>Nama Karyawan</th>
+                                        <th>Cicilan</th>
                                         <th>Gapok</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -445,10 +445,34 @@
                                             data-kode_karyawan="{{ $karyawan->kode_karyawan }}"
                                             data-nama_lengkap="{{ $karyawan->nama_lengkap }}"
                                             data-gaji="{{ $karyawan->gaji }}" data-bpjs="{{ $karyawan->bpjs }}"
+                                            data-pelunasan_kasbon="@php $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
+                                            ->where('status', 'posting')
+                                            ->where('status_cicilan', 'belum lunas')
+                                            ->first();
+                                            if ($detail_cicilan_posting_belum_lunas) {
+                                                echo $detail_cicilan_posting_belum_lunas->nominal_cicilan;
+                                            } else {
+                                                echo 0;
+                                            } @endphp"
                                             data-param="{{ $loop->index }}">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $karyawan->kode_karyawan }}</td>
                                             <td>{{ $karyawan->nama_lengkap }}</td>
+                                            <td>
+                                                @php
+                                                    $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
+                                                        ->where('status', 'posting')
+                                                        ->where('status_cicilan', 'belum lunas')
+                                                        ->first();
+                                                @endphp
+
+                                                @if ($detail_cicilan_posting_belum_lunas)
+                                                    {{ number_format($detail_cicilan_posting_belum_lunas->nominal_cicilan, 0, ',', '.') }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </td>
+
                                             <td>{{ number_format($karyawan->gaji, 0, ',', '.') }}</td>
                                             <td class="text-center">
                                                 <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
@@ -827,7 +851,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control pelunasan_kasbon" style="font-size:14px" id="pelunasan_kasbon-' +
+                '<input type="text" class="form-control pelunasan_kasbon" readonly style="font-size:14px" id="pelunasan_kasbon-' +
                 key +
                 '" name="pelunasan_kasbon[]" value="' + pelunasan_kasbon + '" ';
             item_pembelian += 'oninput="formatRupiahform(this)" ';
@@ -887,6 +911,7 @@
             var kode_karyawan = selectedRow.data('kode_karyawan');
             var nama_lengkap = selectedRow.data('nama_lengkap');
             var bpjs = selectedRow.data('bpjs');
+            var pelunasan_kasbon = parseFloat(selectedRow.data('pelunasan_kasbon')).toLocaleString('id-ID');
             var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
 
             // Update the form fields for the active specification
@@ -894,6 +919,7 @@
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
             $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon);
             $('#gaji-' + activeSpecificationIndex).val(gaji);
 
             // Check if bpjs is not null or has a value

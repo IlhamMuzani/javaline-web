@@ -262,6 +262,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index']);
     Route::post('profile/update', [\App\Http\Controllers\Admin\ProfileController::class, 'update']);
 
+    Route::get('inquery_kasbonkaryawan/unpostkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'unpostkasbon']);
+    Route::get('inquery_kasbonkaryawan/postingkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'postingkasbon']);
+    
     Route::get('deleteban/{id}', [\App\Http\Controllers\Admin\PemasanganbanController::class, 'deleteban'])->name('deleteban');
     Route::get('ban', [\App\Http\Controllers\Admin\BanController::class, 'index']);
     Route::get('sparepart', [\App\Http\Controllers\Admin\SparepartController::class, 'sparepart']);
@@ -383,8 +386,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_depositdriver/postingdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingdeposit']);
     Route::get('hapusdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'hapusdeposit'])->name('hapusdeposit');
 
-    Route::get('unposkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'unpostkasbon'])->name('unpostkasbon');
-    Route::get('postingkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'postingkasbon'])->name('postingkasbon');
+    // Route::get('unposkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'unpostkasbon'])->name('unpostkasbon');
+    // Route::get('postingkasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'postingkasbon'])->name('postingkasbon');
     Route::get('hapuskasbon/{id}', [\App\Http\Controllers\Admin\InqueryKasbonkaryawanController::class, 'hapuskasbon'])->name('hapuskasbon');
 
     Route::get('inquery_pemasukandeposit/unpostdepositpemasukan/{id}', [\App\Http\Controllers\Admin\InqueryPemasukandepositController::class, 'unpostdepositpemasukan']);

@@ -306,15 +306,15 @@ class InqueryPengeluarankaskecilController extends Controller
                 'status' => 'unpost'
             ]);
 
-            $totalKasbon = Total_kasbon::latest()->first();
-            if (!$totalKasbon) {
-                return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-            }
+            // $totalKasbon = Total_kasbon::latest()->first();
+            // if (!$totalKasbon) {
+            //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
+            // }
 
-            $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
-            Total_kasbon::create([
-                'sisa_kasbon' => $sisaKasbon,
-            ]);
+            // $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
+            // Total_kasbon::create([
+            //     'sisa_kasbon' => $sisaKasbon,
+            // ]);
         }
 
         $item->update([
@@ -419,15 +419,15 @@ class InqueryPengeluarankaskecilController extends Controller
                 'status' => 'posting'
             ]);
 
-            $totalKasbon = Total_kasbon::latest()->first();
-            if (!$totalKasbon) {
-                return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-            }
+            // $totalKasbon = Total_kasbon::latest()->first();
+            // if (!$totalKasbon) {
+            //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
+            // }
 
-            $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
-            Total_kasbon::create([
-                'sisa_kasbon' => $sisaKasbon,
-            ]);
+            // $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
+            // Total_kasbon::create([
+            //     'sisa_kasbon' => $sisaKasbon,
+            // ]);
         }
 
         // Update the main record
@@ -567,15 +567,15 @@ class InqueryPengeluarankaskecilController extends Controller
                             'status' => 'posting'
                         ]);
 
-                        $totalKasbon = Total_kasbon::latest()->first();
-                        if (!$totalKasbon) {
-                            return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-                        }
+                        // $totalKasbon = Total_kasbon::latest()->first();
+                        // if (!$totalKasbon) {
+                        //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
+                        // }
 
-                        $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
-                        Total_kasbon::create([
-                            'sisa_kasbon' => $sisaKasbon,
-                        ]);
+                        // $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
+                        // Total_kasbon::create([
+                        //     'sisa_kasbon' => $sisaKasbon,
+                        // ]);
                     }
                 }
             }
@@ -704,15 +704,15 @@ class InqueryPengeluarankaskecilController extends Controller
                             'status' => 'unpost'
                         ]);
 
-                        $totalKasbon = Total_kasbon::latest()->first();
-                        if (!$totalKasbon) {
-                            return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-                        }
+                        // $totalKasbon = Total_kasbon::latest()->first();
+                        // if (!$totalKasbon) {
+                        //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
+                        // }
 
-                        $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
-                        Total_kasbon::create([
-                            'sisa_kasbon' => $sisaKasbon,
-                        ]);
+                        // $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
+                        // Total_kasbon::create([
+                        //     'sisa_kasbon' => $sisaKasbon,
+                        // ]);
                     }
                 }
             }

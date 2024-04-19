@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Perhitungan_gajikaryawan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_cicilan;
 use App\Models\Detail_gajikaryawan;
 use App\Models\Detail_pelunasandeposit;
 use App\Models\Detail_pengeluaran;
@@ -217,7 +218,6 @@ class InqueryPerhitungangajiController extends Controller
                 // Mendapatkan nilai potongan dari model Karyawan
                 $karyawan = Karyawan::find($data_pesanan['karyawan_id']);
 
-
                 Detail_gajikaryawan::where('id', $detailId)->update([
                     'perhitungan_gajikaryawan_id' => $transaksi->id,
                     'karyawan_id' => $data_pesanan['karyawan_id'],
@@ -247,6 +247,15 @@ class InqueryPerhitungangajiController extends Controller
                     'kasbon_awal' => $karyawan ? $karyawan->kasbon : 0,
                     'sisa_kasbon' => $karyawan->kasbon,
                 ]);
+                $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
+                    ->where('status', 'posting')
+                    ->where('status_cicilan', 'belum lunas')
+                    ->first();
+                if ($detail_cicilan) {
+                    $detail_cicilan->update([
+                        'status_cicilan' => 'lunas',
+                    ]);
+                }
             } else {
                 $existingDetail = Detail_gajikaryawan::where([
                     'perhitungan_gajikaryawan_id' => $transaksi->id,
@@ -257,8 +266,6 @@ class InqueryPerhitungangajiController extends Controller
 
                 // Mendapatkan nilai potongan dari model Karyawan
                 $karyawan = Karyawan::find($data_pesanan['karyawan_id']);
-
-
                 if (!$existingDetail) {
                     $detailfaktur = Detail_gajikaryawan::create([
                         'kode_gajikaryawan' => $this->kodegaji(),
@@ -294,6 +301,15 @@ class InqueryPerhitungangajiController extends Controller
                         'tanggal' => $format_tanggal,
                         'tanggal_awal' => $tanggal,
                     ]);
+                    $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
+                        ->where('status', 'posting')
+                        ->where('status_cicilan', 'belum lunas')
+                        ->first();
+                    if ($detail_cicilan) {
+                        $detail_cicilan->update([
+                            'status_cicilan' => 'lunas',
+                        ]);
+                    }
                 }
             }
         }
@@ -386,15 +402,15 @@ class InqueryPerhitungangajiController extends Controller
                 'status' => 'unpost'
             ]);
 
-            $totalKasbon = Total_kasbon::latest()->first();
-            if (!$totalKasbon) {
-                return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-            }
+            // $totalKasbon = Total_kasbon::latest()->first();
+            // if (!$totalKasbon) {
+            //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
+            // }
 
-            $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
-            Total_kasbon::create([
-                'sisa_kasbon' => $sisaKasbon,
-            ]);
+            // $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
+            // Total_kasbon::create([
+            //     'sisa_kasbon' => $sisaKasbon,
+            // ]);
 
 
             // Update the Memo_ekspedisi status
@@ -425,7 +441,7 @@ class InqueryPerhitungangajiController extends Controller
                 return back()->with('error', 'Saldo tidak mencukupi');
             }
 
-            $sisaSaldo = $lastSaldo->sisa_saldo + $TotalGaji;
+            $sisaSaldo = $lastSaldo->sisa_saldo - $TotalGaji;
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
@@ -462,15 +478,15 @@ class InqueryPerhitungangajiController extends Controller
                 'status' => 'posting'
             ]);
 
-            $totalKasbon = Total_kasbon::latest()->first();
-            if (!$totalKasbon) {
-                return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-            }
+            // $totalKasbon = Total_kasbon::latest()->first();
+            // if (!$totalKasbon) {
+            //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
+            // }
 
-            $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
-            Total_kasbon::create([
-                'sisa_kasbon' => $sisaKasbon,
-            ]);
+            // $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
+            // Total_kasbon::create([
+            //     'sisa_kasbon' => $sisaKasbon,
+            // ]);
 
             // Update the Memo_ekspedisi status
             $item->update([
