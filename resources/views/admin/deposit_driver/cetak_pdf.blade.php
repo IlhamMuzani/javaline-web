@@ -214,7 +214,7 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                Kode Faktur:{{ $cetakpdf->kode_kasbon }}</td>
+                Kode Faktur:{{ $cetakpdf->kode_deposit }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
                 a</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
@@ -264,14 +264,13 @@
                             <td class="info-catatan2">Kode Sopir</td>
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
-                                {{ $cetakpdf->kode_karyawan }}
-                            </td>
+                                {{ $cetakpdf->kode_sopir }} </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2">Nama Sopir</td>
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
-                                {{ $cetakpdf->nama_karyawan }}
+                                {{ $cetakpdf->nama_sopir }}
 
                             </td>
                         </tr>
