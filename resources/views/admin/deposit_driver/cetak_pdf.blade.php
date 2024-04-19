@@ -199,13 +199,13 @@
     <br>
     @if ($cetakpdf->kategori == 'Pemasukan Deposit')
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">PENGAMBILAN KASBON</span>
+            <span style="font-weight: bold; font-size: 23px;">FAKTUR PEMASUKAN DEPOSIT</span>
             <br>
             <br>
         </div>
     @else
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">PENGEMBALIAN KASBON</span>
+            <span style="font-weight: bold; font-size: 23px;">FAKTUR PENGAMBILAN DEPOSIT</span>
             <br>
             <br>
         </div>
