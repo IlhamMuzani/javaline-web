@@ -187,12 +187,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
                             <input style="font-size:14px" type="text" class="form-control text-right"
                                 id="grand_total" name="grand_total" readonly placeholder=""
                                 value="{{ old('grand_total') }}">
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
