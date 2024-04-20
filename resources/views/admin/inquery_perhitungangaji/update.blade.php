@@ -339,7 +339,7 @@
                                         <td style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text"
-                                                    class="form-control pelunasan_kasbon" readonly
+                                                    class="form-control pelunasan_kasbon"
                                                     id="pelunasan_kasbon-{{ $loop->index }}" name="pelunasan_kasbon[]"
                                                     value="{{ number_format($detail['pelunasan_kasbon'], 0, ',', '.') }}"
                                                     oninput="formatRupiahform(this)"
@@ -851,7 +851,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control pelunasan_kasbon" readonly style="font-size:14px" id="pelunasan_kasbon-' +
+                '<input type="text" class="form-control pelunasan_kasbon"  style="font-size:14px" id="pelunasan_kasbon-' +
                 key +
                 '" name="pelunasan_kasbon[]" value="' + pelunasan_kasbon + '" ';
             item_pembelian += 'oninput="formatRupiahform(this)" ';

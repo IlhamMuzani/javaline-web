@@ -105,7 +105,13 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
-                                    <td>{{ $kendaraan->user->karyawan->nama_lengkap }}</td>
+                                    <td>
+                                        @if ($kendaraan->user)
+                                            {{ $kendaraan->user->karyawan->nama_lengkap }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
                                     <td class="text-right">
                                         {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->count() }}
 

@@ -80,7 +80,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN RITASE GLOBAL - RANGKUMAN</span>
@@ -163,7 +164,12 @@
                     {{ $ritase->no_kabin }} </td>
                 <td class="td"
                     style="text-align: left; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ $ritase->user->karyawan->nama_lengkap }}</td>
+                    @if ($ritase->user)
+                        {{ $ritase->user->karyawan->nama_lengkap }}
+                    @else
+                        tidak ada
+                    @endif
+                </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
                     {{ $ritase->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->count() }}

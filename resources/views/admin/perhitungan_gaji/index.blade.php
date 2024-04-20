@@ -315,7 +315,7 @@
                                     <td style="width: 150px;">
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text"
-                                                class="form-control pelunasan_kasbon" readonly id="pelunasan_kasbon-0"
+                                                class="form-control pelunasan_kasbon" id="pelunasan_kasbon-0"
                                                 name="pelunasan_kasbon[]" oninput="formatRupiahform(this)"
                                                 onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
@@ -798,7 +798,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control pelunasan_kasbon" readonly style="font-size:14px" id="pelunasan_kasbon-' +
+                '<input type="text" class="form-control pelunasan_kasbon" style="font-size:14px" id="pelunasan_kasbon-' +
                 urutan +
                 '" name="pelunasan_kasbon[]" value="' + pelunasan_kasbon + '" ';
             item_pembelian += 'oninput="formatRupiahform(this)" ';
