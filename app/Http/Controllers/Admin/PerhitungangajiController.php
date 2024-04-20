@@ -227,7 +227,7 @@ class PerhitungangajiController extends Controller
             'kode_pengeluaran' => $this->kodepengeluaran(),
             // 'kendaraan_id' => $request->kendaraan_id,
             'keterangan' => $request->keterangan,
-            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->total_gaji)),
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'jam' => $tanggal1->format('H:i:s'),
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
@@ -242,7 +242,7 @@ class PerhitungangajiController extends Controller
             'kode_akun' => 'KA000004',
             'nama_akun' => 'GAJI & TUNJANGAN',
             'keterangan' => $request->keterangan,
-            'nominal' => str_replace(',', '.', str_replace('.', '', $request->total_gaji)),
+            'nominal' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'status' => 'unpost',
         ]);
 

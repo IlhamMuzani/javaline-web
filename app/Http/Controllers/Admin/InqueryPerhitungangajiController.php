@@ -319,7 +319,7 @@ class InqueryPerhitungangajiController extends Controller
             [
                 'perhitungan_gajikaryawan_id' => $id,
                 'keterangan' => $request->keterangan,
-                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->total_gaji)),
+                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
                 'status' => 'unpost',
             ]
         );
@@ -329,7 +329,7 @@ class InqueryPerhitungangajiController extends Controller
             [
                 'perhitungan_gajikaryawan_id' => $id,
                 'keterangan' => $request->keterangan,
-                'nominal' => str_replace(',', '.', str_replace('.', '', $request->total_gaji)),
+                'nominal' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
                 'status' => 'unpost',
             ]
         );
