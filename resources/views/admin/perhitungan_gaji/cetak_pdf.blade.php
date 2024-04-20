@@ -182,7 +182,8 @@
                     style="text-align: center; padding-left: 2px; font-size: 9px;  font-weight:bold;width:13%">
                     TIDAK ABSEN <span> <br>ISTRAHAT</span></td>
                 </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold; width:12%">
+                <td class="td"
+                    style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold; width:12%">
                     BPJS</td>
                 <td class="td"
                     style="text-align: center; padding-left: 1px; font-size: 9px;  font-weight:bold;width:12%">
@@ -352,7 +353,8 @@
             </tr>
         </table>
 
-        <table style="width: 50%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
+        <table style="width: 50%; border-top: 1px solid #000; page-break-before: always;" cellpadding="2"
+            cellspacing="0">
             <tr>
                 <td class="td" style="text-align: left; padding: 2px; font-size: 9px;  font-weight:bold;">
                     NO.</td>
@@ -385,7 +387,7 @@
                     <tr>
                         <td class="td"
                             style="text-align: center; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
-                            {{ $loop->iteration }}
+                            {{ $nomor_urut }} <!-- Menggunakan nomor_urut yang sudah diatur -->
                         </td>
                         <td class="td"
                             style="text-align: left; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">

@@ -72,6 +72,18 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group" style="flex: 8;">
+                        <div class="col-md-0 mb-3">
+                            <label>Kategori</label>
+                            <select class="custom-select form-control" id="statusx" name="statusx">
+                                <option value="">- Pilih Kategori -</option>
+                                <option value="memo_perjalanan" selected>Gaji Mingguan</option>
+                                @if (auth()->check() && auth()->user()->menu['gaji karyawan'])
+                                    <option value="memo_borong">Gaji Bulanan</option>
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="flex: 8;">
                         <div class="row">
                             <div class="col-lg-6">
                                 <label>Periode:</label>
@@ -103,6 +115,11 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
+                    <!-- Tombol untuk menggeser tabel ke kanan -->
+                    {{-- <button type="button" class="btn btn-secondary btn-sm" onclick="geserTabelKeKanan()">
+                        <i class="fas fa-arrow-right"></i>
+                    </button> --}}
+
                     <div class="table-responsive">
                         <!-- Hapus class "overflow-x-auto" -->
                         <table class="table table-bordered table-striped">
@@ -140,9 +157,10 @@
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">ABSEN</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL ABSEN</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">BPJS</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">POTONGAN BPJS</th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">LAINYA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">PELUNASAN</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI NOL PELUNASAN</th>
+                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI NOL PELUNASAN
+                                    </th> --}}
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI BERSIH</th>
                                     <th style="font-size:14px; text-align:center; min-width: 100px;">OPSI</th>
                                 </tr>
@@ -177,52 +195,55 @@
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input type="text" onclick="Karyawan(0)" style="font-size:14px" readonly
+                                            <input type="text" style="font-size:14px" readonly
                                                 class="form-control uang_makan" id="uang_makan-0" name="uang_makan[]">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input onclick="Karyawan(0)" onclick="Karyawan(0)" style="font-size:14px"
-                                                readonly type="text" class="form-control uang_hadir" id="uang_hadir-0"
-                                                name="uang_hadir[]" data-row-id="0">
+                                            <input style="font-size:14px" readonly type="text"
+                                                class="form-control uang_hadir" id="uang_hadir-0" name="uang_hadir[]"
+                                                data-row-id="0">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input type="number" style="font-size:14px" class="form-control hari_kerja"
-                                                id="hari_kerja-0" name="hari_kerja[]" data-row-id="0">
+                                            <input type="text" style="font-size:14px" class="form-control hari_kerja"
+                                                id="hari_kerja-0" name="hari_kerja[]" data-row-id="0"
+                                                onkeypress="return isNumberKey(event)">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="number" class="form-control lembur"
-                                                id="lembur-0" name="lembur[]" data-row-id="0">
+                                            <input style="font-size:14px" type="text" class="form-control lembur"
+                                                id="lembur-0" name="lembur[]" data-row-id="0"
+                                                onkeypress="return isNumberKey(event)">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="number"
+                                            <input style="font-size:14px" readonly type="text"
                                                 class="form-control hasil_lembur" id="hasil_lembur-0"
                                                 name="hasil_lembur[]" data-row-id="0">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="number" class="form-control storing"
-                                                id="storing-0" name="storing[]" data-row-id="0">
+                                            <input style="font-size:14px" type="text" class="form-control storing"
+                                                id="storing-0" name="storing[]" data-row-id="0"
+                                                onkeypress="return isNumberKey(event)">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="number"
+                                            <input style="font-size:14px" readonly type="text"
                                                 class="form-control hasil_storing" id="hasil_storing-0"
                                                 name="hasil_storing[]" data-row-id="0">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" onclick="Karyawan(0)" readonly type="number"
+                                            <input style="font-size:14px" readonly type="text"
                                                 class="form-control gaji_kotor" id="gaji_kotor-0" name="gaji_kotor[]">
                                         </div>
                                     </td>
@@ -249,14 +270,14 @@
                                         <div style="display: flex; justify-content: space-between;">
                                             <div style="width: 45%;">
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" readonly type="number"
+                                                    <input style="font-size:14px" readonly type="text"
                                                         class="form-control hasilkurang" id="hasilkurang-0"
                                                         name="hasilkurang[]">
                                                 </div>
                                             </div>
                                             <div style="width: 45%;">
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" readonly type="number"
+                                                    <input style="font-size:14px" readonly type="text"
                                                         class="form-control hasillebih" id="hasillebih-0"
                                                         name="hasillebih[]">
                                                 </div>
@@ -272,22 +293,23 @@
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="number"
+                                            <input style="font-size:14px" readonly type="text"
                                                 class="form-control hasil_absen" id="hasil_absen-0" name="hasil_absen[]"
                                                 data-row-id="0">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input type="text" style="font-size:14px" class="form-control bpjs"
-                                                id="bpjs-0" name="bpjs[]" data-row-id="0">
+                                            <input type="text" style="font-size:14px"
+                                                class="form-control potongan_bpjs" readonly id="potongan_bpjs-0"
+                                                name="potongan_bpjs[]" data-row-id="0">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" readonly type="checkbox"
-                                                class="form-control potongan_bpjs" id="potongan_bpjs-0"
-                                                name="potongan_bpjs[]" data-row-id="0">
+                                            <input style="font-size:14px" type="text" class="form-control lainya"
+                                                id="lainya-0" name="lainya[]" oninput="formatRupiahform(this)"
+                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
@@ -298,16 +320,16 @@
                                                 onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                     </td>
-                                    <td style="width: 150px;">
+                                    <td hidden style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" onclick="Karyawan(0)" readonly type="number"
+                                            <input style="font-size:14px" readonly type="text"
                                                 class="form-control gajinol_pelunasan" id="gajinol_pelunasan-0"
                                                 name="gajinol_pelunasan[]">
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
                                         <div class="form-group">
-                                            <input style="font-size:14px" onclick="Karyawan(0)" readonly type="number"
+                                            <input style="font-size:14px" readonly type="text"
                                                 class="form-control gaji_bersih" id="gaji_bersih-0" name="gaji_bersih[]">
                                         </div>
                                     </td>
@@ -323,6 +345,11 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="float-left mb-2 mt-3">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                            <i class="fas fa-plus"></i>
+                        </button>
                     </div>
                 </div>
 
@@ -374,6 +401,7 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Karyawan</th>
                                         <th>Nama Karyawan</th>
+                                        <th>Cicilan</th>
                                         <th>Gapok</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -384,10 +412,34 @@
                                             data-kode_karyawan="{{ $karyawan->kode_karyawan }}"
                                             data-nama_lengkap="{{ $karyawan->nama_lengkap }}"
                                             data-gaji="{{ $karyawan->gaji }}" data-bpjs="{{ $karyawan->bpjs }}"
+                                            data-pelunasan_kasbon="@php $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
+                                            ->where('status', 'posting')
+                                            ->where('status_cicilan', 'belum lunas')
+                                            ->first();
+                                            if ($detail_cicilan_posting_belum_lunas) {
+                                                echo $detail_cicilan_posting_belum_lunas->nominal_cicilan;
+                                            } else {
+                                                echo 0;
+                                            } @endphp"
                                             data-param="{{ $loop->index }}">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $karyawan->kode_karyawan }}</td>
                                             <td>{{ $karyawan->nama_lengkap }}</td>
+                                            <td>
+                                                @php
+                                                    $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
+                                                        ->where('status', 'posting')
+                                                        ->where('status_cicilan', 'belum lunas')
+                                                        ->first();
+                                                @endphp
+
+                                                @if ($detail_cicilan_posting_belum_lunas)
+                                                    {{ number_format($detail_cicilan_posting_belum_lunas->nominal_cicilan, 0, ',', '.') }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </td>
+
                                             <td>{{ number_format($karyawan->gaji, 0, ',', '.') }}</td>
                                             <td class="text-center">
                                                 <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
@@ -502,7 +554,7 @@
             var absen = '';
             var hasil_absen = '';
             var potongan_bpjs = '';
-            var bpjs = '';
+            var lainya = '';
             var gajinol_pelunasan = '';
             var gaji_bersih = '';
 
@@ -527,7 +579,7 @@
                 absen = value.absen;
                 hasil_absen = value.hasil_absen;
                 potongan_bpjs = value.potongan_bpjs;
-                bpjs = value.bpjs;
+                lainya = value.lainya;
                 gajinol_pelunasan = value.gajinol_pelunasan;
                 gaji_bersih = value.gaji_bersih;
             }
@@ -569,29 +621,27 @@
             item_pembelian += '<td onclick="Karyawan(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control gaji" style="font-size:14px" readonly id="gaji-' +
+            item_pembelian += '<input type="text" class="form-control gaji" style="font-size:14px" readonly id="gaji-' +
                 urutan +
                 '" name="gaji[]" value="' + gaji + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // uang_makan 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control uang_makan" style="font-size:14px" readonly id="uang_makan-' +
+                '<input type="text" class="form-control uang_makan" style="font-size:14px" readonly id="uang_makan-' +
                 urutan +
                 '" name="uang_makan[]" value="' + uang_makan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // uang_hadir
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control uang_hadir" readonly style="font-size:14px" id="uang_hadir-' +
+                '<input type="text" class="form-control uang_hadir" readonly style="font-size:14px" id="uang_hadir-' +
                 urutan +
                 '" name="uang_hadir[]" value="' + uang_hadir + '" ';
             item_pembelian += '</div>';
@@ -601,7 +651,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control hari_kerja" style="font-size:14px" id="hari_kerja-' +
+                '<input type="text" class="form-control hari_kerja" onkeypress="return isNumberKey(event)" style="font-size:14px" id="hari_kerja-' +
                 urutan +
                 '" name="hari_kerja[]" value="' + hari_kerja + '" ';
             item_pembelian += '</div>';
@@ -611,18 +661,17 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control lembur" style="font-size:14px" id="lembur-' +
+                '<input type="text" class="form-control lembur" onkeypress="return isNumberKey(event)" style="font-size:14px" id="lembur-' +
                 urutan +
                 '" name="lembur[]" value="' + lembur + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // hasil_lembur 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control hasil_lembur" style="font-size:14px" readonly id="hasil_lembur-' +
+                '<input type="text" class="form-control hasil_lembur" style="font-size:14px" readonly id="hasil_lembur-' +
                 urutan +
                 '" name="hasil_lembur[]" value="' + hasil_lembur + '" ';
             item_pembelian += '</div>';
@@ -632,29 +681,27 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control storing" style="font-size:14px" id="storing-' +
+                '<input type="text" class="form-control storing" onkeypress="return isNumberKey(event)" style="font-size:14px" id="storing-' +
                 urutan +
                 '" name="storing[]" value="' + storing + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // hasil_storing 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control hasil_storing" style="font-size:14px" readonly id="hasil_storing-' +
+                '<input type="text" class="form-control hasil_storing" style="font-size:14px" readonly id="hasil_storing-' +
                 urutan +
                 '" name="hasil_storing[]" value="' + hasil_storing + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // gaji_kotor 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td >';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control gaji_kotor" style="font-size:14px" readonly id="gaji_kotor-' +
+                '<input type="text" class="form-control gaji_kotor" style="font-size:14px" readonly id="gaji_kotor-' +
                 urutan +
                 '" name="gaji_kotor[]" value="' + gaji_kotor + '" ';
             item_pembelian += '</div>';
@@ -686,7 +733,7 @@
             item_pembelian += '<div style="width: 45%;">';
             item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="number" class="form-control hasilkurang" readonly style="font-size:14px" id="hasilkurang-' +
+                '<input type="text" class="form-control hasilkurang" readonly style="font-size:14px" id="hasilkurang-' +
                 urutan +
                 '" name="hasilkurang[]" value="' + hasilkurang + '">';
             item_pembelian += '</div>';
@@ -694,7 +741,7 @@
             item_pembelian += '<div style="width: 45%;">';
             item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="number" class="form-control hasillebih" readonly style="font-size:14px" id="hasillebih-' +
+                '<input type="text" class="form-control hasillebih" readonly style="font-size:14px" id="hasillebih-' +
                 urutan +
                 '" name="hasillebih[]" value="' + hasillebih + '">';
             item_pembelian += '</div>';
@@ -716,40 +763,36 @@
             item_pembelian += '</td>';
 
             // hasil_absen 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td >';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control hasil_absen" style="font-size:14px" readonly id="hasil_absen-' +
+                '<input type="text" class="form-control hasil_absen" style="font-size:14px" readonly id="hasil_absen-' +
                 urutan +
                 '" name="hasil_absen[]" value="' + hasil_absen + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // bpjs 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="text" class="form-control bpjs" style="font-size:14px" readonly id="bpjs-' +
+                '<input type="text" class="form-control potongan_bpjs" style="font-size:14px" readonly id="potongan_bpjs-' +
                 urutan +
-                '" name="bpjs[]" value="' + bpjs + '" ';
+                '" name="potongan_bpjs[]" value="' + potongan_bpjs + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-
-            // potongan_bpjs 
-            item_pembelian += '<td style="width: 150px;">';
+            // lainya 
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input style="font-size:14px" type="checkbox" class="form-control potongan_bpjs" id="potongan_bpjs-' +
-                urutan + '" name="potongan_bpjs[]" data-row-id="' + urutan + '">';
+                '<input type="text" class="form-control lainya" style="font-size:14px" id="lainya-' +
+                urutan +
+                '" name="lainya[]" value="' + lainya + '" ';
+            item_pembelian += 'oninput="formatRupiahform(this)" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
-
-
-
-
 
             // pelunasan_kasbon 
             item_pembelian += '<td>';
@@ -764,22 +807,20 @@
             item_pembelian += '</td>';
 
             // gajinol_pelunasan 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control gajinol_pelunasan" style="font-size:14px" readonly id="gajinol_pelunasan-' +
+                '<input type="text" class="form-control gajinol_pelunasan" style="font-size:14px" readonly id="gajinol_pelunasan-' +
                 urutan +
                 '" name="gajinol_pelunasan[]" value="' + gajinol_pelunasan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // gaji_bersih 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
+            item_pembelian += '<td >';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control gaji_bersih" style="font-size:14px" readonly id="gaji_bersih-' +
+                '<input type="text" class="form-control gaji_bersih" style="font-size:14px" readonly id="gaji_bersih-' +
                 urutan +
                 '" name="gaji_bersih[]" value="' + gaji_bersih + '" ';
             item_pembelian += '</div>';
@@ -817,22 +858,30 @@
             var kode_karyawan = selectedRow.data('kode_karyawan');
             var nama_lengkap = selectedRow.data('nama_lengkap');
             var bpjs = selectedRow.data('bpjs');
+            var pelunasan_kasbon = parseFloat(selectedRow.data('pelunasan_kasbon')).toLocaleString('id-ID');
             var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
 
             // Update the form fields for the active specification
             $('#karyawan_id-' + activeSpecificationIndex).val(karyawan_id);
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
-            $('#bpjs-' + activeSpecificationIndex).val(bpjs);
+            $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon);
             $('#gaji-' + activeSpecificationIndex).val(gaji);
 
             // Check if bpjs is not null or has a value
             if (bpjs !== null && bpjs !== '') {
-                // Jika ada nilai bpjs, tandai checkbox potongan_bpjs
-                $('#potongan_bpjs-' + activeSpecificationIndex).prop('checked', true);
+                // Jika ada nilai bpjs
+                if (bpjs === 65735) {
+                    // Jika nilai bpjs adalah 65735, tandai checkbox potongan_bpjs dan atur nilainya menjadi 65735
+                    $('#potongan_bpjs-' + activeSpecificationIndex).val((65735).toLocaleString('id-ID'));
+                } else if (bpjs === 43823) {
+                    // Jika nilai bpjs adalah 43823, tandai checkbox potongan_bpjs dan atur nilainya menjadi 43823
+                    $('#potongan_bpjs-' + activeSpecificationIndex).val((43823).toLocaleString('id-ID'));
+                }
             } else {
-                // Jika tidak ada nilai bpjs, pastikan checkbox potongan_bpjs tidak dicentang
-                $('#potongan_bpjs-' + activeSpecificationIndex).prop('checked', false);
+                // Jika tidak ada nilai bpjs, pastikan checkbox potongan_bpjs tidak dicentang dan biarkan nilainya kosong
+                $('#potongan_bpjs-' + activeSpecificationIndex).val("");
             }
 
             // Hide the modal after updating the form fields
@@ -843,7 +892,7 @@
     {{-- hasil --}}
     <script>
         $(document).on("input",
-            ".gaji, .lembur, .storing, .kurangtigapuluh, .lebihtigapuluh, .pelunasan_kasbon, .absen, .hari_kerja, .potongan_bpjs",
+            ".gaji, .lembur, .storing, .kurangtigapuluh, .lebihtigapuluh, .pelunasan_kasbon, .lainya, .absen, .hari_kerja, .potongan_bpjs",
             function() {
                 // Ambil baris saat ini
                 var currentRow = $(this).closest('tr');
@@ -856,24 +905,30 @@
                 var kurangtigapuluh = parseFloat(currentRow.find(".kurangtigapuluh").val()) || 0;
                 var lebihtigapuluh = parseFloat(currentRow.find(".lebihtigapuluh").val()) || 0;
                 var pelunasan_kasbon = parseFloat(currentRow.find(".pelunasan_kasbon").val().replace(/[.]/g, '')) || 0;
+                var lainya = parseFloat(currentRow.find(".lainya").val().replace(/[.]/g, '')) || 0;
                 var absen = parseFloat(currentRow.find(".absen").val()) || 0;
-                // Mendapatkan nilai potongan_bpjs berdasarkan status centang checkbox
-                var potongan_bpjs = currentRow.find(".potongan_bpjs").is(":checked") ? 50000 : 0;
+                var potongan_bpjs = parseFloat(currentRow.find(".potongan_bpjs").val().replace(/[.]/g, '')) || 0;
 
-                // Mendapatkan input bpjs pada baris saat ini
-                var bpjsInput = currentRow.find(".bpjs");
+                var nilai_decimal = hari_kerja % 1;
+                var uang_makan;
 
-                // Jika checkbox potongan_bpjs dicentang, atur nilai bpjs menjadi "AKTIF", jika tidak, atur menjadi null
-                if (currentRow.find(".potongan_bpjs").is(":checked")) {
-                    bpjsInput.val("aktif");
+                if (nilai_decimal > 0 && nilai_decimal < 0.7) {
+                    uang_makan = 5000 * hari_kerja;
                 } else {
-                    bpjsInput.val(null);
+                    uang_makan = 10000 * hari_kerja;
                 }
 
+                var nilai_decimals = hari_kerja % 1;
+                var uang_hadir;
 
-                // Hitung uang makan dan uang hadir
-                var uang_makan = hari_kerja * 10000;
-                var uang_hadir = hari_kerja * 5000;
+                if (nilai_decimals > 0 && nilai_decimals < 0.7) {
+                    uang_hadir = 2500 * hari_kerja;
+                } else {
+                    uang_hadir = 5000 * hari_kerja;
+                }
+
+                console.log(uang_makan);
+                console.log(uang_hadir);
 
                 // Hitung hasil lembur dan storing
                 var hasil_lembur = lembur * 10000;
@@ -887,16 +942,24 @@
 
                 var test = gaji;
                 console.log(test);
-                var gajiperjam = gaji / 12;
-                var hasil_storing = Math.round(gajiperjam * storing); // Menggunakan Math.round() untuk membulatkan
+                var gajiperjam = storing / 12;
+                // Bulatkan gajiperjam menjadi 4 digit di belakang koma
+                gajiperjam = gajiperjam.toFixed(4);
+                var hasil_storing = gajiperjam * gaji;
 
                 // Hitung gaji kotor dan gaji bersih
-                var gaji_kotor = (gaji + 10000 + 5000) * hari_kerja + hasil_lembur + hasil_storing;
-                // var gaji_bersih = gaji_kotor - kurangtigapuluh - pelunasan_kasbon - absen;
+                var gaji_kotor = gaji * hari_kerja + hasil_lembur + hasil_storing;
+                console.log(gaji_kotor);
+
+                var uang_tambahan = gaji_kotor + uang_hadir + uang_makan;
+                var gaji_kotor_bulat = Math.round(gaji_kotor);
 
                 var gaji_bersih = gaji_kotor - hasil_kurangtigapuluh - hasil_lebihtigapuluh - hasil_absen -
-                    potongan_bpjs;
+                    potongan_bpjs - lainya;
+                var gaji_bersih_bulat = Math.round(gaji_bersih);
                 var hasil_gajibersih = gaji_bersih - pelunasan_kasbon;
+                var hasil_gajibersih_bulat = Math.round(hasil_gajibersih);
+
                 // Masukkan hasil perhitungan ke dalam input yang sesuai
                 currentRow.find(".uang_makan").val(uang_makan.toLocaleString('id-ID'));
                 currentRow.find(".uang_hadir").val(uang_hadir.toLocaleString('id-ID'));
@@ -905,9 +968,9 @@
                 currentRow.find(".hasillebih").val(hasil_lebihtigapuluh.toLocaleString('id-ID'));
                 currentRow.find(".hasil_absen").val(hasil_absen.toLocaleString('id-ID'));
                 currentRow.find(".hasil_storing").val(hasil_storing.toLocaleString('id-ID'));
-                currentRow.find(".gaji_kotor").val(gaji_kotor.toLocaleString('id-ID'));
-                currentRow.find(".gajinol_pelunasan").val(gaji_bersih.toLocaleString('id-ID'));
-                currentRow.find(".gaji_bersih").val(hasil_gajibersih.toLocaleString('id-ID'));
+                currentRow.find(".gaji_kotor").val(gaji_kotor_bulat.toLocaleString('id-ID'));
+                currentRow.find(".gajinol_pelunasan").val(gaji_bersih_bulat.toLocaleString('id-ID'));
+                currentRow.find(".gaji_bersih").val(hasil_gajibersih_bulat.toLocaleString('id-ID'));
                 updateGrandTotal();
 
             });
@@ -943,12 +1006,6 @@
         $('body').on('input', 'input[name^="gaji_bersih"], input[name^="pelunasan_kasbon"]', function() {
             updateGrandTotal();
         });
-
-
-        $('body').on('input', 'input[name^="gaji_bersih"], input[name^="pelunasan_kasbon"]', function() {
-            updateGrandTotal();
-        });
-
 
         // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
         $(document).ready(function() {
@@ -1011,5 +1068,80 @@
             input.value = value;
         }
     </script>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#statusx').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'memo_perjalanan':
+                        window.location.href = "{{ url('admin/perhitungan_gaji') }}";
+                        break;
+                    case 'memo_borong':
+                        window.location.href = "{{ url('admin/perhitungan_gajibulanan') }}";
+                        break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode == 46) {
+                var currentValue = evt.target.value;
+                // Pastikan hanya satu titik yang diterima
+                if (currentValue.indexOf('.') !== -1) {
+                    return false;
+                }
+            }
+            return !(charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46);
+        }
+    </script>
+
+
+    <script>
+        var startX;
+
+        function startDrag(event) {
+            startX = event.clientX;
+            // Mencegah seleksi teks saat menyeret mouse
+            event.preventDefault();
+            document.addEventListener('mousemove', dragTable);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function dragTable(event) {
+            var table = document.querySelector('.table-responsive');
+            // Mendapatkan perubahan posisi mouse
+            var movementX = event.clientX - startX;
+            // Geser tabel berdasarkan arah pergerakan mouse
+            table.scrollLeft -= movementX;
+            // Simpan posisi mouse untuk digunakan di event selanjutnya
+            startX = event.clientX;
+        }
+
+        function stopDrag() {
+            document.removeEventListener('mousemove', dragTable);
+            document.removeEventListener('mouseup', stopDrag);
+        }
+
+        // Menambahkan event listener ke tabel untuk memulai drag
+        var table = document.querySelector('.table-responsive');
+        table.addEventListener('mousedown', function(event) {
+            // Periksa apakah mouse ditekan pada elemen selain sel-sel input
+            if (!event.target.tagName.toLowerCase().match(/input|textarea/)) {
+                startDrag(event);
+            }
+        });
+    </script>
+
 
 @endsection
