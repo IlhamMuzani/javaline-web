@@ -136,7 +136,7 @@
                                     <td>
                                         {{ $perhitungan->periode_akhir }}
                                     </td>
-                                    <td class="text-right">{{ number_format($perhitungan->total_gaji, 2, ',', '.') }}</td>
+                                    <td class="text-right">{{ number_format($perhitungan->grand_total, 2, ',', '.') }}</td>
                                     <td class="text-center">
                                         @if ($perhitungan->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
