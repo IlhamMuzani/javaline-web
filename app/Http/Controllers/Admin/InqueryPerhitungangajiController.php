@@ -354,14 +354,14 @@ class InqueryPerhitungangajiController extends Controller
         try {
             $item = Perhitungan_gajikaryawan::findOrFail($id);
 
-            $TotalGaji = $item->total_gaji;
+            $TotalGaji = $item->grand_total;
             $TotalPelunasan = $item->total_pelunasan;
 
             $lastSaldo = Saldo::latest()->first();
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
-            $totalgaji = $item->total_gaji;
+            $totalgaji = $item->grand_total;
             if ($lastSaldo->sisa_saldo < $totalgaji) {
                 return back()->with('error', 'Saldo tidak mencukupi');
             }
@@ -429,14 +429,14 @@ class InqueryPerhitungangajiController extends Controller
         try {
             $item = Perhitungan_gajikaryawan::findOrFail($id);
 
-            $TotalGaji = $item->total_gaji;
+            $TotalGaji = $item->grand_total;
             $TotalPelunasan = $item->total_pelunasan;
 
             $lastSaldo = Saldo::latest()->first();
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
-            $totalgaji = $item->total_gaji;
+            $totalgaji = $item->grand_total;
             if ($lastSaldo->sisa_saldo < $totalgaji) {
                 return back()->with('error', 'Saldo tidak mencukupi');
             }
