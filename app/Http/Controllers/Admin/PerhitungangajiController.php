@@ -161,7 +161,7 @@ class PerhitungangajiController extends Controller
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
-            'qr_code_perhitungan' => 'https://batlink.id/perhitungan_gaji/' . $kode,
+            'qr_code_perhitungan' => 'https://javaline.id/perhitungan_gaji/' . $kode,
             'status' => 'unpost',
             'status_notif' => false,
         ]);
@@ -206,13 +206,23 @@ class PerhitungangajiController extends Controller
                     'tanggal' => $format_tanggal,
                     'tanggal_awal' => $tanggal,
                 ]);
+                // $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
+                //     ->where('status', 'posting')
+                //     ->where('status_cicilan', 'belum lunas')
+                //     ->first();
+                // if ($detail_cicilan) {
+                //     $detail_cicilan->update([
+                //         'status_cicilan' => 'lunas',
+                //     ]);
+                // }
                 $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
                     ->where('status', 'posting')
                     ->where('status_cicilan', 'belum lunas')
                     ->first();
                 if ($detail_cicilan) {
                     $detail_cicilan->update([
-                        'status_cicilan' => 'lunas',
+                        // 'status_cicilan' => 'belum lunas',
+                        'detail_gajikaryawan_id' =>  $detailfaktur->id,
                     ]);
                 }
             }

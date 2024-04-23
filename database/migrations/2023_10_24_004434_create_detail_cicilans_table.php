@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('kasbon_karyawan_id')->nullable();
             $table->foreign('kasbon_karyawan_id')->references('id')->on('kasbon_karyawans');
+            $table->unsignedBigInteger('detail_gajikaryawan_id')->nullable();
+            $table->foreign('detail_gajikaryawan_id')->references('id')->on('detail_gajikaryawans');
             $table->unsignedBigInteger('karyawan_id')->nullable();
             $table->foreign('karyawan_id')->references('id')->on('karyawans');
             $table->string('nominal_cicilan')->nullable();

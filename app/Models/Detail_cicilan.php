@@ -17,6 +17,7 @@ class Detail_cicilan extends Model
 
     protected $fillable =
     [
+        'detail_gajikaryawan_id',
         'kasbon_karyawan_id',
         'karyawan_id',
         'nominal_cicilan',

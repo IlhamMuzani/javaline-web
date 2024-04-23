@@ -382,7 +382,7 @@
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                             <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                                onclick="removeBan({{ $loop->index }})">
+                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -447,6 +447,7 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Karyawan</th>
                                         <th>Nama Karyawan</th>
+                                        <th>Cicilan</th>
                                         <th>Gapok</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -457,11 +458,34 @@
                                             data-kode_karyawan="{{ $karyawan->kode_karyawan }}"
                                             data-nama_lengkap="{{ $karyawan->nama_lengkap }}"
                                             data-gaji="{{ $karyawan->gaji }}" data-bpjs="{{ $karyawan->bpjs }}"
+                                            data-pelunasan_kasbon="@php $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
+                                            ->where('status', 'posting')
+                                            ->where('status_cicilan', 'belum lunas')
+                                            ->first();
+                                            if ($detail_cicilan_posting_belum_lunas) {
+                                                echo $detail_cicilan_posting_belum_lunas->nominal_cicilan;
+                                            } else {
+                                                echo 0;
+                                            } @endphp"
                                             data-param="{{ $loop->index }}">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $karyawan->kode_karyawan }}</td>
                                             <td>{{ $karyawan->nama_lengkap }}</td>
                                             <td>{{ number_format($karyawan->gaji, 0, ',', '.') }}</td>
+                                            <td>
+                                                @php
+                                                    $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
+                                                        ->where('status', 'posting')
+                                                        ->where('status_cicilan', 'belum lunas')
+                                                        ->first();
+                                                @endphp
+
+                                                @if ($detail_cicilan_posting_belum_lunas)
+                                                    {{ number_format($detail_cicilan_posting_belum_lunas->nominal_cicilan, 0, ',', '.') }}
+                                                @else
+                                                    0
+                                                @endif
+                                            </td>
                                             <td class="text-center">
                                                 <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
                                                     onclick="getMemos({{ $loop->index }})">
@@ -555,7 +579,7 @@
             row.remove();
 
             $.ajax({
-                url: "{{ url('admin/inquery_perhitungangaji/deletedetailgaji/') }}/" + detailId,
+                url: "{{ url('admin/inquery_perhitungangajibulanan/deletedetailperhitungan/') }}/" + detailId,
                 type: "POST",
                 data: {
                     _method: 'DELETE',
@@ -911,6 +935,7 @@
             var kode_karyawan = selectedRow.data('kode_karyawan');
             var nama_lengkap = selectedRow.data('nama_lengkap');
             var bpjs = selectedRow.data('bpjs');
+            var pelunasan_kasbon = parseFloat(selectedRow.data('pelunasan_kasbon')).toLocaleString('id-ID');
             var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
 
             // Update the form fields for the active specification
@@ -918,6 +943,7 @@
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
             $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon);
             $('#gaji-' + activeSpecificationIndex).val(gaji);
 
             // Check if bpjs is not null or has a value

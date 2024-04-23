@@ -161,7 +161,7 @@
                                                 {{-- @endif --}}
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi delete']) --}}
                                                 <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusperhitungan', ['id' => $perhitungan->id]) }}">
+                                                    action="{{ route('hapusperhitunganbulanan', ['id' => $perhitungan->id]) }}">
                                                     <button type="submit"
                                                         class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                         </i> Delete

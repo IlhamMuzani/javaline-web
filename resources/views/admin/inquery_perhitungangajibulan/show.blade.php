@@ -67,7 +67,6 @@
             position: relative;
             top: -9px;
         }
-
     </style>
 </head>
 
@@ -121,8 +120,7 @@
                     ID KARYAWAN</td>
                 <td class="td" style="text-align: left; padding: 2px; font-size: 9px;  font-weight:bold; ">
                     NAMA LENGKAP</td>
-                <td class="td"
-                    style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;  ">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;  ">
                     GAPOK</td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
                     HE</td>
@@ -136,13 +134,11 @@
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
                     GAJI KOTOR</td>
                 </td>
-                <td class="td"
-                    style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold; ">
+                <td class="td" style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold; ">
                     KETERLAMBATAN <span> <br>(&lt; 30 MNT) (> 30 MNT)</span></td>
                 {{-- <td class="td" style="text-align: center; padding: 2px; font-size: 9px;  font-weight:bold;width:8%">
                 TIDAK ABSEN</td> --}}
-                <td class="td"
-                    style="text-align: center; padding-left: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: center; padding-left: 2px; font-size: 9px;  font-weight:bold;">
                     TIDAK ABSEN <span> <br>ISTRAHAT</span></td>
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
@@ -311,9 +307,9 @@
     </div>
 
     <div class="container">
-    <a href="{{ url('admin/inquery_perhitungangajibulanan') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/perhitungan_gajibulanan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
-</div>
+        <a href="{{ url('admin/inquery_perhitungangajibulanan') }}" class="blue-button">Kembali</a>
+        <a href="{{ url('admin/perhitungan_gajibulanan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
+    </div>
 
 </body>
 

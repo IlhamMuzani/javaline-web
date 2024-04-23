@@ -243,7 +243,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapusperhitungan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'hapusperhitungan'])->name('hapusperhitungan');
     Route::get('inquery_perhitungangajibulanan/unpostperhitunganbulanan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'unpostperhitunganbulanan']);
     Route::get('inquery_perhitungangajibulanan/postingperhitunganbulanan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'postingperhitunganbulanan']);
-    Route::get('hapusperhitunganbulanan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'hapusperhitungan'])->name('hapusperhitunganbulanan');
+    Route::get('hapusperhitunganbulanan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'hapusperhitunganbulanan'])->name('hapusperhitunganbulanan');
 
     Route::get('karyawan/search', [\App\Http\Controllers\Admin\KaryawanController::class, 'search']);
 
@@ -489,6 +489,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('laporan_mobillogistikglobal', [\App\Http\Controllers\Admin\LaporanMobillogistikglobalController::class, 'index']);
     Route::get('print_mobillogistikglobal', [\App\Http\Controllers\Admin\LaporanMobillogistikglobalController::class, 'print_mobillogistikglobal']);
 
+    Route::delete('inquery_perhitungangaji/deletedetailperhitungangaji/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'deletedetailperhitungangaji']);
+    Route::delete('inquery_perhitungangajibulanan/deletedetailperhitungan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'deletedetailperhitungan']);
     Route::delete('inquery_fakturekspedisi/deletedetailfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'deletedetailfaktur']);
     Route::delete('inquery_memotambahan/deletedetailtambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'deletedetailtambahan']);
     Route::delete('inquery_fakturpenjualanreturn/dell/{id}', [\App\Http\Controllers\Admin\InqueryFakturpenjualanreturnController::class, 'dell']);

@@ -377,10 +377,7 @@ class InqueryPerhitungangajiController extends Controller
                 $detail->update([
                     'status' => 'unpost'
                 ]);
-            }
 
-            // return;
-            foreach ($detailGaji as $detail) {
                 $karyawan = Karyawan::find($detail->karyawan_id);
                 if ($karyawan) {
                     $kasbon = $karyawan->kasbon_backup;
@@ -392,6 +389,19 @@ class InqueryPerhitungangajiController extends Controller
                         'bayar_kasbon' => $bayar_kasbon - $detail->pelunasan_kasbon,
                     ]);
                 }
+
+                // Perbarui detail cicilan untuk setiap karyawan yang terlibat
+                $detail_cicilan = Detail_cicilan::where('detail_gajikaryawan_id', $detail->id)
+                    ->where('status', 'posting')
+                    ->where('status_cicilan', 'lunas')
+                    ->latest() // Mengambil data terbaru berdasarkan waktu pembuatan
+                    ->first();
+
+                if ($detail_cicilan) {
+                    $detail_cicilan->update([
+                        'status_cicilan' => 'belum lunas', // Kembalikan status cicilan menjadi 'belum lunas'
+                    ]);
+                }
             }
 
             Pengeluaran_kaskecil::where('perhitungan_gajikaryawan_id', $id)->update([
@@ -401,17 +411,6 @@ class InqueryPerhitungangajiController extends Controller
             Detail_pengeluaran::where('perhitungan_gajikaryawan_id', $id)->update([
                 'status' => 'unpost'
             ]);
-
-            // $totalKasbon = Total_kasbon::latest()->first();
-            // if (!$totalKasbon) {
-            //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-            // }
-
-            // $sisaKasbon = $totalKasbon->sisa_kasbon + $TotalPelunasan;
-            // Total_kasbon::create([
-            //     'sisa_kasbon' => $sisaKasbon,
-            // ]);
-
 
             // Update the Memo_ekspedisi status
             $item->update([
@@ -452,10 +451,19 @@ class InqueryPerhitungangajiController extends Controller
                 $detail->update([
                     'status' => 'posting'
                 ]);
-            }
 
-            // return;
-            foreach ($detailGaji as $detail) {
+                // Perbarui detail cicilan untuk setiap karyawan yang terlibat
+                $detail_cicilan = Detail_cicilan::where('detail_gajikaryawan_id', $detail->id)
+                    ->where('status', 'posting')
+                    ->where('status_cicilan', 'belum lunas')
+                    ->first();
+
+                if ($detail_cicilan) {
+                    $detail_cicilan->update([
+                        'status_cicilan' => 'lunas',
+                    ]);
+                }
+
                 $karyawan = Karyawan::find($detail->karyawan_id);
                 if ($karyawan) {
                     $kasbon = $karyawan->kasbon;
@@ -469,7 +477,6 @@ class InqueryPerhitungangajiController extends Controller
             }
 
             // return;
-
             Pengeluaran_kaskecil::where('perhitungan_gajikaryawan_id', $id)->update([
                 'status' => 'posting'
             ]);
@@ -477,16 +484,6 @@ class InqueryPerhitungangajiController extends Controller
             Detail_pengeluaran::where('perhitungan_gajikaryawan_id', $id)->update([
                 'status' => 'posting'
             ]);
-
-            // $totalKasbon = Total_kasbon::latest()->first();
-            // if (!$totalKasbon) {
-            //     return back()->with('error', 'Saldo Kasbon tidak ditemukan');
-            // }
-
-            // $sisaKasbon = $totalKasbon->sisa_kasbon - $TotalPelunasan;
-            // Total_kasbon::create([
-            //     'sisa_kasbon' => $sisaKasbon,
-            // ]);
 
             // Update the Memo_ekspedisi status
             $item->update([
@@ -547,13 +544,30 @@ class InqueryPerhitungangajiController extends Controller
 
     public function hapusperhitungan($id)
     {
-        $ban = Perhitungan_gajikaryawan::where('id', $id)->first();
+        $item = Perhitungan_gajikaryawan::findOrFail($id);
+        // Perbarui detail cicilan yang terkait
+        $detail_gajikaryawan = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $id)->get();
+        foreach ($detail_gajikaryawan as $detail) {
+            Detail_cicilan::where('detail_gajikaryawan_id', $detail->id)
+                ->update(['detail_gajikaryawan_id' => null]);
+        }
 
-        $ban->detail_gajikaryawan()->delete();
-        $ban->pengeluaran_kaskecil()->delete();
-        $ban->detail_pengeluaran()->delete();
-        $ban->pelunasan_deposit()->delete();
-        $ban->delete();
+        $item->detail_gajikaryawan()->delete();
+        $item->pengeluaran_kaskecil()->delete();
+        $item->detail_pengeluaran()->delete();
+        $item->pelunasan_deposit()->delete();
+        $item->delete();
         return back()->with('success', 'Berhasil');
+    }
+
+    public function deletedetailperhitungangaji($id)
+    {
+        $item = Detail_gajikaryawan::find($id);
+        Detail_cicilan::where('detail_gajikaryawan_id', $id)
+            ->update(['detail_gajikaryawan_id' => null]);
+
+        $item->delete();
+
+        return response()->json(['message' => 'Data deleted successfully']);
     }
 }

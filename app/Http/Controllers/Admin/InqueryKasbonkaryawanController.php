@@ -69,7 +69,7 @@ class InqueryKasbonkaryawanController extends Controller
 
         $inquery = Kasbon_karyawan::where('id', $id)->first();
         $details  = Detail_cicilan::where('kasbon_karyawan_id', $id)->get();
-        $KaryawanAll = Karyawan::where('departemen_id', '2')->get();
+        $KaryawanAll = Karyawan::whereIn('departemen_id', [1, 3])->get();
 
         return view('admin.inquery_kasbonkaryawan.update', compact('inquery', 'KaryawanAll', 'details'));
     }
