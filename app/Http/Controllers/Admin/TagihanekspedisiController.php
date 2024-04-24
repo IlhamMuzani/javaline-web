@@ -59,7 +59,7 @@ class TagihanekspedisiController extends Controller
                     'no_do.' . $i => 'required',
                     // 'no_po.' . $i => 'required',
                     'tanggal_memo.' . $i => 'required',
-                    'no_kabin.' . $i => 'required',
+                    // 'no_kabin.' . $i => 'required',
                     'no_pol.' . $i => 'required',
                     'jumlah.' . $i => 'required',
                     'satuan.' . $i => 'required',

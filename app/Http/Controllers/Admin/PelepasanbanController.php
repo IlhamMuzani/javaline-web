@@ -150,7 +150,7 @@ class PelepasanbanController extends Controller
         if ($ban) {
             $ban->update([
                 'pelepasan_ban_id' => null,
-                'kendaraan_id' => null,
+                // 'kendaraan_id' => null,
                 'jumlah_km' => null,
                 'status' => 'aktif'
             ]);

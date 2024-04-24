@@ -107,45 +107,12 @@ class DepositdriverController extends Controller
                 ]
             ));
 
-            // $karyawanId = $request->karyawan_id;
-            // $karyawan = Karyawan::find($karyawanId);
-
-            // if ($karyawan) {
-            //     // Remove "Rp" and dots from the sub_total
-            //     $subTotal = str_replace(['Rp', '.'], '', $request->sub_totals);
-
-            //     $karyawan->update([
-            //         'tabungan' => $subTotal,
-            //     ]);
-            // } else {
-            //     // Handle the case where the Karyawan with the given ID is not found
-            // }
-
-
             $cetakpdf = Deposit_driver::find($penerimaan->id);
 
 
             return view('admin.deposit_driver.show', compact('cetakpdf'));
         }
     }
-
-    // public function kode()
-    // {
-    //     $penerimaan = Deposit_driver::all();
-    //     if ($penerimaan->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Deposit_driver::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'FD';
-    //     $kode_penerimaan = $data . $num;
-    //     return $kode_penerimaan;
-    // }
 
     public function kode()
     {

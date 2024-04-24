@@ -247,13 +247,14 @@ class InqueryPerhitungangajiController extends Controller
                     'kasbon_awal' => $karyawan ? $karyawan->kasbon : 0,
                     'sisa_kasbon' => $karyawan->kasbon,
                 ]);
+                $detail_gajikaryawan = Detail_gajikaryawan::find($detailId);
                 $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
                     ->where('status', 'posting')
                     ->where('status_cicilan', 'belum lunas')
                     ->first();
                 if ($detail_cicilan) {
                     $detail_cicilan->update([
-                        'status_cicilan' => 'lunas',
+                        'detail_gajikaryawan_id' =>  $detail_gajikaryawan->id,
                     ]);
                 }
             } else {
@@ -307,7 +308,7 @@ class InqueryPerhitungangajiController extends Controller
                         ->first();
                     if ($detail_cicilan) {
                         $detail_cicilan->update([
-                            'status_cicilan' => 'lunas',
+                            'detail_gajikaryawan_id' =>  $detailfaktur->id,
                         ]);
                     }
                 }
