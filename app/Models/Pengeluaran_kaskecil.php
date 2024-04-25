@@ -64,6 +64,11 @@ class Pengeluaran_kaskecil extends Model
         return $this->belongsTo(Kendaraan::class);
     }
 
+    public function kasbon_karyawan()
+    {
+        return $this->belongsTo(Kasbon_karyawan::class);
+    }
+
     public function detail_pengeluaran()
     {
         return $this->hasMany(Detail_pengeluaran::class);

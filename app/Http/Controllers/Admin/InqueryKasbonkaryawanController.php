@@ -338,20 +338,22 @@ class InqueryKasbonkaryawanController extends Controller
     public function hapuskasbon($id)
     {
         $item = Kasbon_karyawan::where('id', $id)->first();
-
+        $item->pengeluaran_kaskecil()->delete();
+        $item->detail_pengeluaran()->delete();
+        $item->detail_cicilan()->delete();
         $item->delete();
         return back()->with('success', 'Berhasil');
     }
 
 
-    public function destroy($id)
-    {
-        $item = Pembelian_ban::find($id);
-        $item->detail_ban()->delete();
-        $item->delete();
+    // public function destroy($id)
+    // {
+    //     $item = Kasbon_karyawan::find($id);
+    //     $item->detail_ban()->delete();
+    //     $item->delete();
 
-        return redirect('admin/inquery_kasbonkaryawan')->with('success', 'Berhasil deposit');
-    }
+    //     return redirect('admin/inquery_kasbonkaryawan')->with('success', 'Berhasil deposit');
+    // }
 
     public function deletedetailcicilan($id)
     {

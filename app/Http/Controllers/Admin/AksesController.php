@@ -112,7 +112,7 @@ class AksesController extends Controller
                 'biaya tambahan',
                 'potongan memo',
                 'tarif',
-                'satuan barang',
+                // 'satuan barang',
                 'barang return',
                 'akun',
                 'update km',
@@ -173,7 +173,7 @@ class AksesController extends Controller
                 'laporan status perjalanan kendaraan',
                 'laporan penerimaan kas kecil',
                 'laporan pengambilan kas kecil',
-                'laporan mobil logistik',
+                // 'laporan mobil logistik',
                 'laporan deposit sopir',
                 'laporan memo ekspedisi',
                 'laporan faktur ekspedisi',
@@ -574,6 +574,102 @@ class AksesController extends Controller
                 'laporan pelunasan faktur pembelian part cari',
                 'laporan pelunasan faktur pembelian part cetak',
 
+                // gaji karyawan
+                'gaji karyawan update',
+
+                // akun 
+                'create akun',
+                'update akun',
+                'delete akun',
+
+                // memo ekspedisi 
+                'create memo ekspedisi',
+                'update memo ekspedisi',
+                'show memo ekspedisi',
+                'delete memo ekspedisi',
+                'posting memo ekspedisi',
+                'unpost memo ekspedisi',
+                'posting memo perjalanan continue',
+                'posting memo borong continue',
+                'posting memo tambahan continue',
+
+                // faktur ekspedisi 
+                'creates faktur ekspedisi',
+                'updates faktur ekspedisi',
+                'shows faktur ekspedisi',
+                'postings faktur ekspedisi',
+                'unposts faktur ekspedisi',
+                'deletes faktur ekspedisi',
+
+                // invoice
+                "create invoice ekspedisi",
+                "update invoice ekspedisi",
+                "show invoice ekspedisi",
+                "posting invoice ekspedisi",
+                "unpost invoice ekspedisi",
+                'delete invoice ekspedisi',
+
+                // pelunasan ekspedisi
+                "create pelunasan faktur ekspedisi",
+                "update pelunasan faktur ekspedisi",
+                "show pelunasan faktur ekspedisi",
+                "posting pelunasan faktur ekspedisi",
+                "unpost pelunasan faktur ekspedisi",
+                'delete pelunasan faktur ekspedisi',
+
+                // pelunasan pembelian ban
+                "create pelunasan faktur pembelian ban",
+                "update pelunasan faktur pembelian ban",
+                "show pelunasan faktur pembelian ban",
+                "posting pelunasan faktur pembelian ban",
+                "unpost pelunasan faktur pembelian ban",
+                'delete pelunasan faktur pembelian ban',
+
+                // pelunasan pembelian part
+                "create pelunasan faktur pembelian part",
+                "update pelunasan faktur pembelian part",
+                "show pelunasan faktur pembelian part",
+                "posting pelunasan faktur pembelian part",
+                "unpost pelunasan faktur pembelian part",
+                'delete pelunasan faktur pembelian part',
+
+                // pelunasan pembelian part
+                "create pengambilan kas kecil",
+                "update pengambilan kas kecil",
+                "show pengambilan kas kecil",
+                "posting pengambilan kas kecil",
+                "unpost pengambilan kas kecil",
+                'delete pengambilan kas kecil',
+
+                // inquery perhitungan gaji mingguan    
+                'inquery perhitungan gaji mingguan posting',
+                'inquery perhitungan gaji mingguan unpost',
+                'inquery perhitungan gaji mingguan update',
+                'inquery perhitungan gaji mingguan delete',
+                'inquery perhitungan gaji mingguan show',
+
+                // inquery perhitungan gaji bulanan    
+                'inquery perhitungan gaji bulanan posting',
+                'inquery perhitungan gaji bulanan unpost',
+                'inquery perhitungan gaji bulanan update',
+                'inquery perhitungan gaji bulanan delete',
+                'inquery perhitungan gaji bulanan show',
+
+                // inquery kasbon karyawan    
+                'inquery kasbon karyawan posting',
+                'inquery kasbon karyawan unpost',
+                'inquery kasbon karyawan update',
+                'inquery kasbon karyawan delete',
+                'inquery kasbon karyawan show',
+
+                // laporan perhitungan gaji 
+                'laporan perhitungan gaji cari',
+                'laporan perhitungan gaji cetak',
+
+                // laporan kasbon karyawan 
+                'laporan kasbon karyawan cari',
+                'laporan kasbon karyawan cetak',
+
 
             );
             $akses = User::where('id', $id)->first();
@@ -671,7 +767,7 @@ class AksesController extends Controller
             'laporan status perjalanan kendaraan',
             'laporan penerimaan kas kecil',
             'laporan pengambilan kas kecil',
-            'laporan mobil logistik',
+            // 'laporan mobil logistik',
             'laporan deposit sopir',
             'laporan memo ekspedisi',
             'laporan faktur ekspedisi',
@@ -712,6 +808,9 @@ class AksesController extends Controller
 
             // hak akses
             'hak akses create',
+
+            // gaji karyawan
+            'gaji karyawan update',
 
             // departemen
             'departemen create',
@@ -1089,6 +1188,99 @@ class AksesController extends Controller
             // laporan pelunasan faktur pembelian part 
             'laporan pelunasan faktur pembelian part cari',
             'laporan pelunasan faktur pembelian part cetak',
+
+            // akun 
+            'create akun',
+            'update akun',
+            'delete akun',
+
+            // memo ekspedisi 
+            'create memo ekspedisi',
+            'update memo ekspedisi',
+            'show memo ekspedisi',
+            'delete memo ekspedisi',
+            'posting memo ekspedisi',
+            'unpost memo ekspedisi',
+            'posting memo perjalanan continue',
+            'posting memo borong continue',
+            'posting memo tambahan continue',
+
+            // faktur ekspedisi 
+            'creates faktur ekspedisi',
+            'updates faktur ekspedisi',
+            'shows faktur ekspedisi',
+            'postings faktur ekspedisi',
+            'unposts faktur ekspedisi',
+            'deletes faktur ekspedisi',
+
+            // invoice
+            "create invoice ekspedisi",
+            "update invoice ekspedisi",
+            "show invoice ekspedisi",
+            "posting invoice ekspedisi",
+            "unpost invoice ekspedisi",
+            'delete invoice ekspedisi',
+
+            // pelunasan ekspedisi
+            "create pelunasan faktur ekspedisi",
+            "update pelunasan faktur ekspedisi",
+            "show pelunasan faktur ekspedisi",
+            "posting pelunasan faktur ekspedisi",
+            "unpost pelunasan faktur ekspedisi",
+            'delete pelunasan faktur ekspedisi',
+
+            // pelunasan pembelian ban
+            "create pelunasan faktur pembelian ban",
+            "update pelunasan faktur pembelian ban",
+            "show pelunasan faktur pembelian ban",
+            "posting pelunasan faktur pembelian ban",
+            "unpost pelunasan faktur pembelian ban",
+            'delete pelunasan faktur pembelian ban',
+
+            // pelunasan pembelian part
+            "create pelunasan faktur pembelian part",
+            "update pelunasan faktur pembelian part",
+            "show pelunasan faktur pembelian part",
+            "posting pelunasan faktur pembelian part",
+            "unpost pelunasan faktur pembelian part",
+            'delete pelunasan faktur pembelian part',
+
+            // pelunasan pembelian part
+            "create pengambilan kas kecil",
+            "update pengambilan kas kecil",
+            "show pengambilan kas kecil",
+            "posting pengambilan kas kecil",
+            "unpost pengambilan kas kecil",
+            'delete pengambilan kas kecil',
+
+            // inquery perhitungan gaji mingguan    
+            'inquery perhitungan gaji mingguan posting',
+            'inquery perhitungan gaji mingguan unpost',
+            'inquery perhitungan gaji mingguan update',
+            'inquery perhitungan gaji mingguan delete',
+            'inquery perhitungan gaji mingguan show',
+
+            // inquery perhitungan gaji bulanan    
+            'inquery perhitungan gaji bulanan posting',
+            'inquery perhitungan gaji bulanan unpost',
+            'inquery perhitungan gaji bulanan update',
+            'inquery perhitungan gaji bulanan delete',
+            'inquery perhitungan gaji bulanan show',
+
+            // inquery kasbon karyawan    
+            'inquery kasbon karyawan posting',
+            'inquery kasbon karyawan unpost',
+            'inquery kasbon karyawan update',
+            'inquery kasbon karyawan delete',
+            'inquery kasbon karyawan show',
+
+            // laporan perhitungan gaji 
+            'laporan perhitungan gaji cari',
+            'laporan perhitungan gaji cetak',
+
+            // laporan kasbon karyawan 
+            'laporan kasbon karyawan cari',
+            'laporan kasbon karyawan cetak',
 
         );
 
@@ -1509,7 +1701,6 @@ class AksesController extends Controller
                 // laporan pelunasan faktur pembelian part 
                 'laporan pelunasan faktur pembelian part cari',
                 'laporan pelunasan faktur pembelian part cetak',
-
 
             );
             $akses = User::where('id', $id)->first();

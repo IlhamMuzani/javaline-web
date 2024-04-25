@@ -48,6 +48,21 @@ class Kasbon_karyawan extends Model
         return $this->belongsTo(Karyawan::class);
     }
 
+    public function detail_cicilan()
+    {
+        return $this->hasMany(Detail_cicilan::class);
+    }
+
+    public function pengeluaran_kaskecil()
+    {
+        return $this->hasMany(Pengeluaran_kaskecil::class);
+    }
+
+    public function detail_pengeluaran()
+    {
+        return $this->hasMany(Detail_pengeluaran::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('kasbon_karyawans')->orderBy('id', 'DESC')->take(1)->get();

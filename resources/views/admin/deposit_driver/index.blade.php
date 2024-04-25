@@ -261,17 +261,6 @@
             $('#tableSopir').modal('show');
         }
 
-        // function formatCurrency(number) {
-        //     // Format number as currency with period as thousands separator and comma as decimal separator
-        //     const formattedNumber = new Intl.NumberFormat('id-ID', {
-        //         style: 'currency',
-        //         currency: 'IDR',
-        //         minimumFractionDigits: 0,
-        //     }).format(number);
-
-        //     // Remove the currency symbol "Rp"
-        //     return formattedNumber.replace(/^.*?\s/, '');
-        // }
         function formatCurrency(number) {
             // Check if the number is negative
             const isNegative = number < 0;
