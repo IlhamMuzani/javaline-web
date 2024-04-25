@@ -599,6 +599,102 @@ class UserController extends Controller
                     // laporan pelunasan faktur pembelian part 
                     'laporan pelunasan faktur pembelian part cari' => false,
                     'laporan pelunasan faktur pembelian part cetak' => false,
+
+                    // gaji karyawan
+                    'gaji karyawan update' => false,
+
+                    // akun 
+                    'create akun' => false,
+                    'update akun' => false,
+                    'delete akun' => false,
+
+                    // memo ekspedisi 
+                    'create memo ekspedisi' => false,
+                    'update memo ekspedisi' => false,
+                    'show memo ekspedisi' => false,
+                    'delete memo ekspedisi' => false,
+                    'posting memo ekspedisi' => false,
+                    'unpost memo ekspedisi' => false,
+                    'posting memo perjalanan continue' => false,
+                    'posting memo borong continue' => false,
+                    'posting memo tambahan continue' => false,
+
+                    // faktur ekspedisi 
+                    'creates faktur ekspedisi' => false,
+                    'updates faktur ekspedisi' => false,
+                    'shows faktur ekspedisi' => false,
+                    'postings faktur ekspedisi' => false,
+                    'unposts faktur ekspedisi' => false,
+                    'deletes faktur ekspedisi' => false,
+
+                    // invoice
+                    "create invoice ekspedisi" => false,
+                    "update invoice ekspedisi" => false,
+                    "show invoice ekspedisi" => false,
+                    "posting invoice ekspedisi" => false,
+                    "unpost invoice ekspedisi" => false,
+                    'delete invoice ekspedisi' => false,
+
+                    // pelunasan ekspedisi
+                    "create pelunasan faktur ekspedisi" => false,
+                    "update pelunasan faktur ekspedisi" => false,
+                    "show pelunasan faktur ekspedisi" => false,
+                    "posting pelunasan faktur ekspedisi" => false,
+                    "unpost pelunasan faktur ekspedisi" => false,
+                    'delete pelunasan faktur ekspedisi' => false,
+
+                    // pelunasan pembelian ban
+                    "create pelunasan faktur pembelian ban" => false,
+                    "update pelunasan faktur pembelian ban" => false,
+                    "show pelunasan faktur pembelian ban" => false,
+                    "posting pelunasan faktur pembelian ban" => false,
+                    "unpost pelunasan faktur pembelian ban" => false,
+                    'delete pelunasan faktur pembelian ban' => false,
+
+                    // pelunasan pembelian part
+                    "create pelunasan faktur pembelian part" => false,
+                    "update pelunasan faktur pembelian part" => false,
+                    "show pelunasan faktur pembelian part" => false,
+                    "posting pelunasan faktur pembelian part" => false,
+                    "unpost pelunasan faktur pembelian part" => false,
+                    'delete pelunasan faktur pembelian part' => false,
+
+                    // pelunasan pembelian part
+                    "create pengambilan kas kecil" => false,
+                    "update pengambilan kas kecil" => false,
+                    "show pengambilan kas kecil" => false,
+                    "posting pengambilan kas kecil" => false,
+                    "unpost pengambilan kas kecil" => false,
+                    'delete pengambilan kas kecil' => false,
+
+                    // inquery perhitungan gaji mingguan    
+                    'inquery perhitungan gaji mingguan posting' => false,
+                    'inquery perhitungan gaji mingguan unpost' => false,
+                    'inquery perhitungan gaji mingguan update' => false,
+                    'inquery perhitungan gaji mingguan delete' => false,
+                    'inquery perhitungan gaji mingguan show' => false,
+
+                    // inquery perhitungan gaji bulanan    
+                    'inquery perhitungan gaji bulanan posting' => false,
+                    'inquery perhitungan gaji bulanan unpost' => false,
+                    'inquery perhitungan gaji bulanan update' => false,
+                    'inquery perhitungan gaji bulanan delete' => false,
+                    'inquery perhitungan gaji bulanan show' => false,
+
+                    // inquery kasbon karyawan    
+                    'inquery kasbon karyawan posting' => false,
+                    'inquery kasbon karyawan unpost' => false,
+                    'inquery kasbon karyawan update' => false,
+                    'inquery kasbon karyawan delete' => false,
+                    'inquery kasbon karyawan show' => false,
+
+                    // laporan perhitungan gaji 
+                    'laporan perhitungan gaji cari' => false,
+                    'laporan perhitungan gaji cetak' => false,
+
+                    // laporan kasbon karyawan 
+                    'laporan kasbon karyawan cari' => false,
+                    'laporan kasbon karyawan cetak' => false,
                 ]
             ]
         ));
