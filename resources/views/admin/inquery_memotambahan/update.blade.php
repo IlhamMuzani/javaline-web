@@ -82,12 +82,18 @@
                                     <i class="fas fa-plus mr-2"></i> Pilih Memo
                                 </button>
                             </div>
+                            {{-- <div class="form-group" hidden>
+                                <label for="nopol">Id Memo</label>
+                                <input type="text" class="form-control" id="memo_ekspedisi_id" name="memo_ekspedisi_id"
+                                    value="@if ($inquery->memo_ekspedisi) {{ old('memo_ekspedisi_id', $inquery->memo_ekspedisi->id) }}
+                                            @else @endif"
+                                    readonly placeholder="" value="">
+                            </div> --}}
                             <div class="form-group" hidden>
                                 <label for="nopol">Id Memo</label>
                                 <input type="text" class="form-control" id="memo_ekspedisi_id" name="memo_ekspedisi_id"
-                                    value="@if ($inquery->memo) {{ old('memo_ekspedisi_id', $inquery->memo->id) }}
-                                            @else @endif"
-                                    readonly placeholder="" value="">
+                                    value="{{ old('memo_ekspedisi_id', $inquery->memo_ekspedisi->id) }}" readonly
+                                    placeholder="" value="">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">No Memo</label>
