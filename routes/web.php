@@ -164,6 +164,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::delete('inquery_pemasanganban/deleteban/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganbanController::class, 'delete']);
     Route::delete('inquery_pelepasanban/deleteban/{id}', [\App\Http\Controllers\Admin\InqueryPelepasanbanController::class, 'delete']);
+    Route::get('deletebans/{id}', [\App\Http\Controllers\Admin\InqueryPelepasanbanController::class, 'deletebans'])->name('deletebans');
 
     Route::get('inquery_part', [\App\Http\Controllers\Admin\InqueryPembelianPartController::class, 'index']);
     Route::get('unpostpart/{id}', [\App\Http\Controllers\Admin\InqueryPembelianPartController::class, 'unpostpart'])->name('unpostpart');
