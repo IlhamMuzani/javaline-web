@@ -129,7 +129,7 @@ class InqueryKasbonkaryawanController extends Controller
         $penerimaan = Kasbon_karyawan::findOrFail($id);
         $penerimaan->update([
             'nominal' => $request->nominal,
-            'keterangan' => $request->keterangan,
+            'keterangan' => $request->keterangans,
             'saldo_masuk' => $request->saldo_masuk,
             'sisa_saldo' => $request->sisa_saldo,
             'sub_total' => $request->sub_total2,

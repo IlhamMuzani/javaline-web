@@ -99,7 +99,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="alamat">Keterangan</label>
-                                    <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans', $inquery->keterangan) }}</textarea>
+                                    <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan', $inquery->keterangan) }}</textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6">

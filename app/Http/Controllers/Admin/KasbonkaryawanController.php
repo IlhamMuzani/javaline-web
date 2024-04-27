@@ -87,6 +87,7 @@ class KasbonkaryawanController extends Controller
                 'sub_total' => $request->sub_total2,
                 'tanggal' =>  $format_tanggal,
                 'tanggal_awal' =>  $tanggal,
+                'keterangan' => $request->keterangan,
                 'status' => 'unpost',
             ]
         ));
