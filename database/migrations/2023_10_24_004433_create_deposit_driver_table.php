@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreign('karyawan_id')->references('id')->on('karyawans');
             $table->unsignedBigInteger('memo_ekspedisi_id')->nullable();
             $table->foreign('memo_ekspedisi_id')->references('id')->on('memo_ekspedisis');
+            $table->unsignedBigInteger('ban_id')->nullable();
+            $table->foreign('ban_id')->references('id')->on('bans');
             $table->string('kategori')->nullable();
             $table->string('kode_deposit')->nullable();
             $table->string('kode_sopir')->nullable();

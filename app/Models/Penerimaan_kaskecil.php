@@ -18,6 +18,7 @@ class Penerimaan_kaskecil extends Model
     [
         'kode_penerimaan',
         'saldo_id',
+        'deposit_driver_id',
         'qr_code_penerimaan',
         'nominal',
         'keterangan',
@@ -42,10 +43,14 @@ class Penerimaan_kaskecil extends Model
             ->logFillable('*');
     }
 
+    public function deposit_driver()
+    {
+        return $this->belongsTo(Deposit_driver::class);
+    }
+
 
     public static function getId()
     {
         return $getId = DB::table('penerimaan_kaskecils')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

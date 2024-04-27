@@ -18,6 +18,7 @@ class Ban extends Model
         'kendaraan_id',
         // 'supplier_id',
         'pemasangan_ban_id',
+        'km_terpakai',
         'pelepasan_ban_id',
         'pembelian_ban_id',
         'no_seri',
@@ -78,6 +79,11 @@ class Ban extends Model
     public function ukuran()
     {
         return $this->belongsTo(Ukuran::class);
+    }
+
+    public function deposit_driver()
+    {
+        return $this->hasMany(Deposit_driver::class);
     }
 
     public static function getId()

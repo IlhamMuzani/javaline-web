@@ -16,6 +16,7 @@ class Deposit_driver extends Model
 
     protected $fillable = [
         'karyawan_id',
+        'ban_id',
         'memo_ekspedisi_id',
         'kategori',
         'kode_deposit',
@@ -47,6 +48,16 @@ class Deposit_driver extends Model
     public function karyawan()
     {
         return $this->belongsTo(Karyawan::class);
+    }
+
+    public function ban()
+    {
+        return $this->belongsTo(Ban::class);
+    }
+
+    public function penerimaan_kaskecil()
+    {
+        return $this->hasMany(Penerimaan_kaskecil::class);
     }
 
     public static function getId()

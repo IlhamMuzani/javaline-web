@@ -19,6 +19,8 @@ return new class extends Migration
             $table->string('qr_code_penerimaan')->nullable();
             $table->unsignedBigInteger('saldo_id')->nullable();
             $table->foreign('saldo_id')->references('id')->on('saldos')->onDelete('set null');
+            $table->unsignedBigInteger('deposit_driver_id')->nullable();
+            $table->foreign('deposit_driver_id')->references('id')->on('deposit_drivers')->onDelete('set null');
             $table->string('nominal')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('saldo_masuk')->nullable();

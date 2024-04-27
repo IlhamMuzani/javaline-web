@@ -11,6 +11,10 @@ use App\Models\Service_ban;
 use App\Models\Pelepasan_ban;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Deposit_driver;
+use App\Models\Karyawan;
+use App\Models\Penerimaan_kaskecil;
+use App\Models\Saldo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -74,9 +78,11 @@ class PelepasanbanController extends Controller
         $bans6c = Ban::where(['posisi_ban' => '6C', 'status' => 'aktif', 'kendaraan_id' => $kendaraan->id])->first();
         $bans6d = Ban::where(['posisi_ban' => '6D', 'status' => 'aktif', 'kendaraan_id' => $kendaraan->id])->first();
 
+        $SopirAll = Karyawan::where('departemen_id', '2')->get();
+
         $tabelbans = Ban::where(['kendaraan_id' => $kendaraan->id, 'status' => 'non aktif sementara'])->get();
 
-        return view('admin/pelepasan_ban.create', compact('kendaraan', 'tabelbans', 'bans', 'bansb', 'bans2a', 'bans2b', 'bans2c', 'bans2d', 'bans3a', 'bans3b', 'bans3c', 'bans3d', 'bans4a', 'bans4b', 'bans4c', 'bans4d', 'bans5a', 'bans5b', 'bans5c', 'bans5d', 'bans6a', 'bans6b', 'bans6c', 'bans6d'));
+        return view('admin/pelepasan_ban.create', compact('SopirAll', 'kendaraan', 'tabelbans', 'bans', 'bansb', 'bans2a', 'bans2b', 'bans2c', 'bans2d', 'bans3a', 'bans3b', 'bans3c', 'bans3d', 'bans4a', 'bans4b', 'bans4c', 'bans4d', 'bans5a', 'bans5b', 'bans5c', 'bans5d', 'bans6a', 'bans6b', 'bans6c', 'bans6d'));
     }
 
 
@@ -107,7 +113,7 @@ class PelepasanbanController extends Controller
         return $newCode;
     }
 
-    
+
     public function kendaraan($id)
     {
         $jenis_kendaraan = Kendaraan::where('id', $id)->with('jenis_kendaraan')->first();
@@ -147,18 +153,30 @@ class PelepasanbanController extends Controller
     {
         $ban = Ban::find($id);
 
-        if ($ban) {
-            $ban->update([
-                'pelepasan_ban_id' => null,
-                // 'kendaraan_id' => null,
-                'jumlah_km' => null,
-                'status' => 'aktif'
-            ]);
-
-            return redirect()->back()->with('success', 'Berhasil menghapus pelepasan ban');
+        if (!$ban) {
+            return redirect()->back()->with('error', 'Data ban tidak ditemukan');
         }
 
-        return redirect()->back()->with('error', 'Data ban tidak ditemukan');
+        $depositdriver = Deposit_driver::where('ban_id', $id)->first();
+        if ($depositdriver) {
+            // Hapus penerimaan_kaskecil yang terkait
+            $penerimaanKasKecil = $depositdriver->penerimaan_kaskecil();
+            if ($penerimaanKasKecil) {
+                $penerimaanKasKecil->delete();
+            }
+
+            // Hapus deposit_driver
+            $depositdriver->delete();
+        }
+
+        // Setelah itu, update objek Ban
+        $ban->update([
+            'pelepasan_ban_id' => null,
+            'jumlah_km' => null,
+            'status' => 'aktif'
+        ]);
+
+        return redirect()->back()->with('success', 'Berhasil menghapus pelepasan ban');
     }
 
     public function update(Request $request, $id)
@@ -191,7 +209,7 @@ class PelepasanbanController extends Controller
         ])->update([
             'status' => 'stok',
             'pelepasan_ban_id' => $pelepasanId,
-            'kendaraan_id' => null,
+            // 'kendaraan_id' => null,
         ]);
 
         Ban::where([
@@ -200,7 +218,7 @@ class PelepasanbanController extends Controller
         ])->update([
             'status' => 'non aktif',
             'pelepasan_ban_id' => $pelepasanId,
-            'kendaraan_id' => null,
+            // 'kendaraan_id' => null,
         ]);
 
         return redirect('admin/pelepasan_ban')->with('success', 'Berhasil melakukan pelepasan');
@@ -240,26 +258,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan,
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-
-        ]);
 
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 1A');
 
@@ -300,26 +395,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 1B');
     }
 
@@ -356,26 +528,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
 
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 2A');
     }
@@ -414,25 +663,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
 
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 2B');
     }
@@ -471,26 +798,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 2C');
     }
 
@@ -528,26 +932,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 2D');
     }
 
@@ -585,26 +1066,104 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 3A');
     }
 
@@ -642,26 +1201,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 3B');
     }
 
@@ -699,26 +1335,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 3C');
     }
 
@@ -756,26 +1469,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 3D');
     }
 
@@ -812,27 +1602,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 4A');
     }
 
@@ -870,26 +1736,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 4B');
     }
 
@@ -927,26 +1870,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 4C');
     }
 
@@ -984,26 +2004,103 @@ class PelepasanbanController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 4D');
     }
 
@@ -1040,27 +2137,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 5A');
     }
 
@@ -1097,27 +2270,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 5B');
     }
 
@@ -1154,27 +2403,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 5C');
     }
 
@@ -1211,27 +2536,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 5D');
     }
 
@@ -1268,31 +2669,107 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 6A');
     }
 
-    public function updatepelepasan_6B(Request $request, $id)
+    public function updatepelepasan_6b(Request $request, $id)
     {
 
         $validator = Validator::make(
@@ -1325,27 +2802,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 6B');
     }
 
@@ -1382,27 +2935,103 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 6C');
     }
 
@@ -1439,27 +3068,133 @@ class PelepasanbanController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
+        $keterangan = $request->keterangan;
+        if ($keterangan == "Pecah Klaim") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        $kendaraan->update([
-            'km' => $request->km_pelepasan
-        ]);
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
 
-        $kendaraan = Kendaraan::findOrFail($id);
-        $banId = $request->id_ban;
-        $ban = Ban::find($banId);
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
 
-        if (!$ban) {
-            return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+
+            ]);
+
+            $kodedepositdriver = $this->kodedepositdriver();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Deposit_driver::create(array_merge(
+                $request->all(),
+                [
+                    'kode_deposit' => $this->kodedepositdriver(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'kode_sopir' => $request->kode_karyawan,
+                    'nama_sopir' => $request->nama_lengkap,
+                    'kategori' => 'Pengambilan Deposit',
+                    'sub_total' => str_replace('.', '', $request->sub_totals),
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_keluar' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => str_replace('.', '', $request->sisa_saldo),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $saldoTerakhir = Saldo::latest()->first();
+            $saldo = $saldoTerakhir->id;
+            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
+            $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
+            $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
+            $kodepenerimaan = $this->kodepenerimaan();
+            $penerimaan = Penerimaan_kaskecil::create(array_merge(
+                $request->all(),
+                [
+                    'kode_penerimaan' => $this->kodepenerimaan(),
+                    'deposit_driver_id' => $depositdriver->id,
+                    'nominal' => str_replace('.', '', $request->saldo_keluar),
+                    'saldo_masuk' => $request->saldo_keluar,
+                    'keterangan' => $request->keterangans,
+                    'sisa_saldo' => $saldoTerakhir->sisa_saldo,
+                    'saldo_id' => $saldo,
+                    'sub_total' => $subtotals,
+                    'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
+                    'tanggaljam' => Carbon::now('Asia/Jakarta'),
+                    'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        } else {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
         }
-
-        $ban->update([
-            'keterangan' => $request->keterangan,
-            'km_pelepasan' => $request->km_pelepasan,
-            'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
-            'status' => 'non aktif sementara',
-        ]);
-
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan ban pada posisi Axle 6D');
+    }
+
+    public function kodedepositdriver()
+    {
+        $lastBarang = Deposit_driver::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
+        } else {
+            $lastCode = $lastBarang->kode_deposit;
+            $num = (int) substr($lastCode, strlen('FD')) + 1;
+        }
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'FD';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
+    }
+
+    public function kodepenerimaan()
+    {
+        $lastBarang = Penerimaan_kaskecil::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
+        } else {
+            $lastCode = $lastBarang->kode_penerimaan;
+            $num = (int) substr($lastCode, strlen('FK')) + 1;
+        }
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'FK';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 }

@@ -173,7 +173,7 @@
                                                     @if ($pelepasan_ban->status == 'unpost')
                                                         @if (auth()->check() && auth()->user()->fitur['inquery pelepasan ban delete'])
                                                             <form method="GET"
-                                                                action="{{ route('hapuspelepasan', ['id' => $pelepasan_ban->id]) }}">
+                                                                action="{{ route('deletebans', ['id' => $pelepasan_ban->id]) }}">
                                                                 <button type="submit"
                                                                     class="btn btn-outline-danger btn-block mt-2">
                                                                     <i class="fas fa-trash-alt"></i> Delete
@@ -224,55 +224,7 @@
                                         </div>
                                     </div>
 
-                                    {{-- <div class="modal fade" id="modal-unpost-{{ $pelepasan_ban->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">UNPOST</h4>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Unpost pelepasan ban
-                                                        <strong>{{ $pelepasan_ban->kode_pembelian_ban }}</strong>?
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <a class="btn btn-primary"
-                                                        href="{{ route('unpostpelepasan', ['id' => $pelepasan_ban->id]) }}">Ya</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal fade" id="modal-posting-{{ $pelepasan_ban->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">UNPOST</h4>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Posting pelepasan ban
-                                                        <strong>{{ $pelepasan_ban->kode_pembelian_ban }}</strong>?
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <a class="btn btn-primary"
-                                                        href="{{ route('postingpelepasan', ['id' => $pelepasan_ban->id]) }}">Ya</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
+                                   
                                 @endforeach
                             </tbody>
                         </table>

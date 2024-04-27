@@ -30,6 +30,7 @@ return new class extends Migration
             $table->unsignedBigInteger('typeban_id')->nullable();
             $table->foreign('typeban_id')->references('id')->on('typebans')->onDelete('set null');
             $table->string('harga')->nullable();
+            $table->string('km_terpakai')->nullable();
             $table->string('umur_ban')->nullable();
             $table->string('km_pemasangan')->nullable();
             $table->string('jumlah_km')->nullable();
