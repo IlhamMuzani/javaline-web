@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Klaim Ban</h1>
+                    <h1 class="m-0">Inquery Klaim Ban</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Klaim Ban</li>
+                        <li class="breadcrumb-item active">Inquery Klaim Ban</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -44,14 +44,44 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Klaim Ban</h3>
-                    {{-- <div class="float-right">
-                        <a href="{{ url('admin/klaim_ban/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
-                    </div> --}}
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <form method="GET" id="form-action">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <select class="custom-select form-control" id="status" name="status">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
+                                        Posting
+                                    </option>
+                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
+                                        Unpost</option>
+                                </select>
+                                <label for="status">(Pilih Status)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
+                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal Awal)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
+                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal Akhir)</label>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                                <input type="hidden" name="ids" id="selectedIds" value="">
+                                {{-- <button type="button" class="btn btn-primary btn-block mt-1" id="checkfilter"
+                                    onclick="printSelectedData()" target="_blank">
+                                    <i class="fas fa-print"></i> Cetak Filter
+                                </button> --}}
+                            </div>
+                        </div>
+                    </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
@@ -118,10 +148,10 @@
                                                     <a class="dropdown-item posting-btn"
                                                         data-memo-id="{{ $klaimban->id }}">Posting</a>
                                                 @endif
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id . '/edit') }}">Update</a>
-                                                @endif --}}
+                                                @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
@@ -158,6 +188,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -174,6 +205,7 @@
             </div>
         </div>
     </section>
+
 
     <!-- /.card -->
     <script>
@@ -200,7 +232,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_fakturekspedisi') }}";
+            form.action = "{{ url('admin/inqueryklaim_ban') }}";
             form.submit();
         }
     </script>
@@ -241,7 +273,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_fakturekspedisi/unpostfaktur/') }}/" + memoId,
+                    url: "{{ url('admin/inqueryklaim_ban/unpost_klaimban/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -281,7 +313,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_fakturekspedisi/postingfaktur/') }}/" + memoId,
+                    url: "{{ url('admin/inqueryklaim_ban/posting_klaimban/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId

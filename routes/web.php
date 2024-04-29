@@ -291,8 +291,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_fakturekspedisi/postingfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'postingfaktur']);
     Route::get('inquery_pengeluarankaskecil/unpostpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'unpostpengeluaran']);
     Route::get('inquery_pengeluarankaskecil/postingpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'postingpengeluaran']);
-    Route::get('klaim_ban/unpost_klaimban/{id}', [\App\Http\Controllers\Admin\KlaimbanController::class, 'unpost_klaimban']);
-    Route::get('klaim_ban/posting_klaimban/{id}', [\App\Http\Controllers\Admin\KlaimbanController::class, 'posting_klaimban']);
+    Route::get('inqueryklaim_ban/unpost_klaimban/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'unpost_klaimban']);
+    Route::get('inqueryklaim_ban/posting_klaimban/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'posting_klaimban']);
     
     Route::get('inquery_pengambilanujs/unpostpengeluaranujs/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranujsController::class, 'unpostpengeluaranujs']);
     Route::get('inquery_pengambilanujs/postingpengeluaranujs/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranujsController::class, 'postingpengeluaran']);
@@ -359,7 +359,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('unpostmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'unpostmemotambahan'])->name('unpostmemotambahan');
     Route::get('postingmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'postingmemotambahan'])->name('postingmemotambahan');
     Route::get('hapusmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'hapusmemotambahan'])->name('hapusmemotambahan');
-    Route::get('klaim_ban/cetak-pdf/{id}', [\App\Http\Controllers\Admin\KlaimbanController::class, 'cetakpdf']);
+    Route::get('inqueryklaim_ban/cetak-pdf/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'cetakpdf']);
 
     Route::get('penambahan_saldokasbon/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenambahansaldokasbonController::class, 'cetakpdf']);
     Route::get('penerimaan_kaskecil/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenerimaankaskecilController::class, 'cetakpdf']);
@@ -668,6 +668,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('kasbon_karyawan', \App\Http\Controllers\Admin\KasbonkaryawanController::class);
     Route::resource('memo_posting', \App\Http\Controllers\Admin\MemopostingController::class);
     Route::resource('klaim_ban',\App\Http\Controllers\Admin\KlaimbanController::class);
+    Route::resource('inqueryklaim_ban', \App\Http\Controllers\Admin\InqueryKlaimbanController::class);
     Route::resource('perhitungan_gajibulanan', \App\Http\Controllers\Admin\PerhitungangajibulananController::class);
     Route::resource('inquery_perhitungangajibulanan', \App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class);
 });

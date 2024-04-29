@@ -486,6 +486,7 @@
     request()->is('admin/pembelian_ban*') ||
     request()->is('admin/pengeluaran_kaskecil*') ||
     request()->is('admin/pilih_deposit*') ||
+    request()->is('admin/klaim_ban*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
         : '' }}">
@@ -511,6 +512,7 @@
         request()->is('admin/pembelian_ban*') ||
         request()->is('admin/pengeluaran_kaskecil*') ||
         request()->is('admin/pilih_deposit*') ||
+        request()->is('admin/klaim_ban*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">
@@ -554,6 +556,16 @@
                     class="nav-link {{ request()->is('admin/pembelian_part*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Faktur Pembelian Part</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pembelian ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/klaim_ban') }}"
+                    class="nav-link {{ request()->is('admin/klaim_ban*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Klaim Ban
+                    </p>
                 </a>
             </li>
         @endif
@@ -694,7 +706,7 @@
     request()->is('admin/inquery_penerimaankaskecil*') ||
     request()->is('admin/inquery_potonganpenjualan*') ||
     request()->is('admin/inquery_penambahansaldokasbon*') ||
-    request()->is('admin/klaim_ban*') ||
+    request()->is('admin/inqueryklaim_ban*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -727,7 +739,7 @@
         request()->is('admin/inquery_penerimaankaskecil*') ||
         request()->is('admin/inquery_potonganpenjualan*') ||
         request()->is('admin/inquery_penambahansaldokasbon*') ||
-        request()->is('admin/klaim_ban*') ||
+        request()->is('admin/inqueryklaim_ban*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">
@@ -823,10 +835,10 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
             <li class="nav-item">
-                <a href="{{ url('admin/klaim_ban') }}"
-                    class="nav-link {{ request()->is('admin/klaim_ban*') ? 'active' : '' }}">
+                <a href="{{ url('admin/inqueryklaim_ban') }}"
+                    class="nav-link {{ request()->is('admin/inqueryklaim_ban*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Klaim Ban
+                    <p style="font-size: 14px;">Inquery Klaim Ban
                     </p>
                 </a>
             </li>

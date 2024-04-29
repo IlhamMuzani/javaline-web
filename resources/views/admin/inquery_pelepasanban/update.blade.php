@@ -6862,7 +6862,7 @@
             </div>
         @endif
 
-       <div class="modal fade" id="tableSopir" data-backdrop="static">
+        <div class="modal fade" id="tableSopir" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
