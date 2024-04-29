@@ -10,6 +10,7 @@ use App\Models\Pelepasan_ban;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
 use App\Models\Karyawan;
+use App\Models\Klaim_ban;
 use App\Models\Penerimaan_kaskecil;
 use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
@@ -196,6 +197,12 @@ class InqueryPelepasanbanController extends Controller
             $depositdriver->delete();
         }
 
+        $klaim_ban = Klaim_ban::where('ban_id', $id)->first();
+        if ($klaim_ban) {
+            // Hapus deposit_driver
+            $klaim_ban->delete();
+        }
+        
         // Setelah itu, update objek Ban
         $ban->update([
             // 'pelepasan_ban_id' => null,
@@ -371,6 +378,34 @@ class InqueryPelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($id);
             $banId = $request->id_ban;
@@ -420,6 +455,21 @@ class InqueryPelepasanbanController extends Controller
         }
         $formattedNum = sprintf("%06s", $num);
         $prefix = 'FK';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
+    }
+
+    public function kodeklaimban()
+    {
+        $lastBarang = Klaim_ban::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
+        } else {
+            $lastCode = $lastBarang->kode_klaimban;
+            $num = (int) substr($lastCode, strlen('KB')) + 1;
+        }
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'KB';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }

@@ -104,28 +104,32 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($deposit->status == 'unpost')
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $deposit->id }}">Posting</a>
+                                                @if ($deposit->ban_id === null)
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $deposit->id }}">Posting</a>
 
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_depositdriver/' . $deposit->id . '/edit') }}">Update</a>
-
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_depositdriver/' . $deposit->id . '/edit') }}">Update</a>
+                                                @endif
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
-
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusdeposit', ['id' => $deposit->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
+                                                @if ($deposit->ban_id === null)
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusdeposit', ['id' => $deposit->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
                                             @if ($deposit->status == 'posting')
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $deposit->id }}">Unpost</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
+                                                @if ($deposit->ban_id === null)
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $deposit->id }}">Unpost</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
+                                                @endif
                                             @endif
                                             @if ($deposit->status == 'selesai')
                                                 <a class="dropdown-item"

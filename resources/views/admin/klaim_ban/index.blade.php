@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Penerimaan Kas Kecil')
+@section('title', 'Klaim Ban')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Penerimaan Kas Kecil</h1>
+                    <h1 class="m-0">Klaim Ban</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Penerimaan Kas Kecil</li>
+                        <li class="breadcrumb-item active">Klaim Ban</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -32,9 +32,18 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-ban"></i> Error!
+                    </h5>
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Penerimaan Kas Kecil</h3>
+                    <h3 class="card-title">Klaim Ban</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -62,87 +71,115 @@
                                 <label for="tanggal_awal">(Tanggal Akhir)</label>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
+                                <input type="hidden" name="ids" id="selectedIds" value="">
+                                {{-- <button type="button" class="btn btn-primary btn-block mt-1" id="checkfilter"
+                                    onclick="printSelectedData()" target="_blank">
+                                    <i class="fas fa-print"></i> Cetak Filter
+                                </button> --}}
                             </div>
                         </div>
                     </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
+                                {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
                                 <th class="text-center">No</th>
-                                <th>Faktur Penerimaan Kas Kecil</th>
+                                <th>Kode Klaim</th>
                                 <th>Tanggal</th>
+                                <th>Sopir</th>
+                                <th>No Kabin</th>
+                                <th>No Seri Ban</th>
                                 <th>Nominal</th>
-                                <th>Total</th>
-                                <th class="text-center" width="30">Opsi</th>
+                                <th class="text-center" width="20">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $penerimaan)
-                                <tr class="dropdown"{{ $penerimaan->id }}>
+                            @foreach ($inquery as $klaimban)
+                                <tr class="dropdown"{{ $klaimban->id }}>
+                                    {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $klaimban->id }}">
+                                    </td> --}}
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $penerimaan->kode_penerimaan }}
+                                        {{ $klaimban->kode_klaimban }}
                                     </td>
                                     <td>
-                                        {{ $penerimaan->tanggal_awal }}
+                                        {{ $klaimban->tanggal_awal }}
                                     </td>
                                     <td>
-                                        Rp. {{ number_format($penerimaan->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($penerimaan->sub_total, 0, ',', '.') }}</td>
+                                        @if ($klaimban->karyawan)
+                                            {{ $klaimban->karyawan->nama_lengkap }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($klaimban->kendaraan)
+                                            {{ $klaimban->kendaraan->no_kabin }}
+                                        @else
+                                            tidak ada
+                                        @endif
+
+                                    </td>
+                                    <td>
+                                        @if ($klaimban->ban)
+                                            {{ $klaimban->ban->no_seri }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
+                                    <td class="text-right">{{ number_format($klaimban->harga_klaim, 2, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($penerimaan->status == 'posting')
+                                        @if ($klaimban->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
-
+                                        @if ($klaimban->status == 'selesai')
+                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Roda Mobil">
+                                        @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($penerimaan->status == 'unpost')
-                                                @if ($penerimaan->deposit_driver_id === null)
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $penerimaan->id }}">Posting</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil update'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id . '/edit') }}">Update</a>
-                                                    @endif
+                                            @if ($klaimban->status == 'unpost')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi posting'])
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $klaimban->id }}">Posting</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update'])
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}">Show</a>
+                                                        href="{{ url('admin/klaim_ban/' . $klaimban->id . '/edit') }}">Update</a>
+                                                @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/klaim_ban/' . $klaimban->id) }}">Show</a>
                                                 @endif
-                                                @if ($penerimaan->deposit_driver_id === null)
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil delete'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapuspenerimaan', ['id' => $penerimaan->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi delete'])
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusfaktur', ['id' => $klaimban->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
                                                 @endif
                                             @endif
-                                            @if ($penerimaan->status == 'posting')
-                                                @if ($penerimaan->deposit_driver_id === null)
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil unpost'])
-                                                        <a class="dropdown-item unpost-btn"
-                                                            data-memo-id="{{ $penerimaan->id }}">Unpost</a>
-                                                    @endif
+                                            @if ($klaimban->status == 'posting')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi unpost'])
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $klaimban->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}">Show</a>
+                                                        href="{{ url('admin/klaim_ban/' . $klaimban->id) }}">Show</a>
                                                 @endif
                                             @endif
-                                            @if ($penerimaan->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                            @if ($klaimban->status == 'selesai')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penerimaankaskecil/' . $penerimaan->id) }}">Show</a>
+                                                        href="{{ url('admin/klaim_ban/' . $klaimban->id) }}">Show</a>
                                                 @endif
                                             @endif
                                         </div>
@@ -168,6 +205,8 @@
             </div>
         </div>
     </section>
+
+
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
@@ -193,11 +232,11 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_penerimaankaskecil') }}";
+            form.action = "{{ url('admin/klaim_ban') }}";
             form.submit();
         }
     </script>
-    {{-- unpost penerimaan  --}}
+
     <script>
         $(function(e) {
             $("#select_all_ids").click(function() {
@@ -205,6 +244,26 @@
             })
         });
 
+        function printSelectedData() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum mencetak.");
+            } else {
+                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                document.getElementById('selectedIds').value = selectedIds.join(',');
+                var selectedIdsString = selectedIds.join(',');
+                window.location.href = "{{ url('admin/cetak_fakturekspedisifilter') }}?ids=" + selectedIdsString;
+                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
+            }
+        }
+    </script>
+
+    {{-- unpost memo  --}}
+    <script>
         $(document).ready(function() {
             $('.unpost-btn').click(function() {
                 var memoId = $(this).data('memo-id');
@@ -214,8 +273,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_penerimaankaskecil/unpostpenerimaan/') }}/" +
-                        memoId,
+                    url: "{{ url('admin/klaim_ban/unpost_klaimban/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -244,7 +302,7 @@
             });
         });
     </script>
-    {{-- posting penerimaan --}}
+    {{-- posting memo --}}
     <script>
         $(document).ready(function() {
             $('.posting-btn').click(function() {
@@ -255,8 +313,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_penerimaankaskecil/postingpenerimaan/') }}/" +
-                        memoId,
+                    url: "{{ url('admin/klaim_ban/posting_klaimban/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -341,4 +398,5 @@
             });
         });
     </script>
+
 @endsection

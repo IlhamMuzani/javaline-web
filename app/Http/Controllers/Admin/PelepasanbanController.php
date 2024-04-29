@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
 use App\Models\Karyawan;
+use App\Models\Klaim_ban;
 use App\Models\Penerimaan_kaskecil;
 use App\Models\Saldo;
 use Illuminate\Support\Facades\Storage;
@@ -50,6 +51,28 @@ class PelepasanbanController extends Controller
     public function edit($id)
     {
         $kendaraan = Kendaraan::where('id', $id)->first();
+
+        $bans = Ban::where('kendaraan_id', $id)
+            ->where('status', 'aktif')
+            ->whereNull('target_km_ban')
+            ->get();
+
+        foreach ($bans as $ban) {
+            $posisi_ban = $ban->posisi_ban;
+            $km_pemasangan = $ban->km_pemasangan;
+
+            // Tetapkan nilai target_km berdasarkan posisi_ban
+            if ($posisi_ban == '1A' || $posisi_ban == '1B') {
+                $target_km = ($km_pemasangan !== null) ? $km_pemasangan + 100000 : null;
+            } else {
+                $target_km = ($km_pemasangan !== null) ? $km_pemasangan + 80000 : null;
+            }
+
+            // Update baris Ban dengan nilai target_km_ban yang baru
+            $ban->update([
+                'target_km_ban' => $target_km,
+            ]);
+        }
 
         $bans = Ban::where(['posisi_ban' => '1A', 'status' => 'aktif', 'kendaraan_id' => $kendaraan->id])->first();
         $bansb = Ban::where(['posisi_ban' => '1B', 'status' => 'aktif', 'kendaraan_id' => $kendaraan->id])->first();
@@ -167,6 +190,12 @@ class PelepasanbanController extends Controller
 
             // Hapus deposit_driver
             $depositdriver->delete();
+        }
+
+        $klaim_ban = Klaim_ban::where('ban_id', $id)->first();
+        if ($klaim_ban) {
+            // Hapus deposit_driver
+            $klaim_ban->delete();
         }
 
         // Setelah itu, update objek Ban
@@ -333,6 +362,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -470,6 +527,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => $request->sisa_harga,
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -598,6 +683,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -738,6 +851,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -868,6 +1009,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -1007,6 +1176,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1136,6 +1333,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -1276,6 +1501,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1405,6 +1658,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -1544,6 +1825,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1672,6 +1981,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -1811,6 +2148,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1940,6 +2305,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -2079,6 +2472,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2207,6 +2628,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -2345,6 +2794,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2473,6 +2950,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -2611,6 +3116,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2739,6 +3272,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -2877,6 +3438,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3005,6 +3594,34 @@ class PelepasanbanController extends Controller
                     'qr_code_penerimaan' => 'https:///javaline.id/penerimaan_kaskecil/' . $kodepenerimaan,
                     'tanggaljam' => Carbon::now('Asia/Jakarta'),
                     'jam' => $tanggal1->format('H:i:s'),
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
                     'tanggal' =>  $format_tanggal,
                     'tanggal_awal' =>  $tanggal,
                     'status' => 'unpost',
@@ -3143,6 +3760,34 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+
+            $kodeklaimban = $this->kodeklaimban();
+
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositdriver = Klaim_ban::create(array_merge(
+                $request->all(),
+                [
+                    'kode_klaimban' => $this->kodeklaimban(),
+                    'ban_id' => $banId,
+                    'karyawan_id' => $request->karyawan_id,
+                    'deposit_driver_id' => $depositdriver->id,
+                    'penerimaan_kaskecil_id' => $penerimaan->id,
+                    'keterangan' => $request->keterangan,
+                    'harga_ban' => $ban->harga,
+                    'harga_klaim' => str_replace('.', '', $request->sisa_harga),
+                    'km_terpakai' => $request->km_terpakai,
+                    'target_km' => $request->target_km,
+                    'km_pemasangan' => $request->km_pemasangan,
+                    'km_pelepasan' => $request->km_pelepasan,
+                    'grand_total' => $request->grand_total,
+                    'tanggal' =>  $format_tanggal,
+                    'tanggal_awal' =>  $tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3194,6 +3839,21 @@ class PelepasanbanController extends Controller
         }
         $formattedNum = sprintf("%06s", $num);
         $prefix = 'FK';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
+    }
+
+    public function kodeklaimban()
+    {
+        $lastBarang = Klaim_ban::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
+        } else {
+            $lastCode = $lastBarang->kode_klaimban;
+            $num = (int) substr($lastCode, strlen('KB')) + 1;
+        }
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'KB';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }

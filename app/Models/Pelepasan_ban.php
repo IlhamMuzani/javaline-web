@@ -49,11 +49,6 @@ class Pelepasan_ban extends Model
         return $this->belongsTo(Ban::class);
     }
 
-    public function pelepasan_ban()
-    {
-        return $this->hasMany(Pelepasanban::class);
-    }
-
     public function detail_ban()
     {
         return $this->hasMany(Ban::class);

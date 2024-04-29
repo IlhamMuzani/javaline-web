@@ -86,6 +86,11 @@ class Ban extends Model
         return $this->hasMany(Deposit_driver::class);
     }
 
+    public function klaim_ban()
+    {
+        return $this->hasMany(Klaim_ban::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('bans')->orderBy('id', 'DESC')->take(1)->get();

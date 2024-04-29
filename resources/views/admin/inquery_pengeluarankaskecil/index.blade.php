@@ -143,47 +143,49 @@
                                             </button>
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($pengeluaran->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $pengeluaran->grand_total)
-                                                    <a class="dropdown-item">Saldo tidak cukup</a>
-                                                @else
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $pengeluaran->id }}">Posting</a>
+                                            @if ($pengeluaran->memo_ekspedisi_id === null && $pengeluaran->memotambahan_id === null)
+                                                @if ($pengeluaran->status == 'unpost')
+                                                    @if ($saldoTerakhir->sisa_saldo < $pengeluaran->grand_total)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $pengeluaran->id }}">Posting</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapuspengeluaran', ['id' => $pengeluaran->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id . '/edit') }}">Update</a>
+                                                @if ($pengeluaran->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $pengeluaran->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuspengeluaran', ['id' => $pengeluaran->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($pengeluaran->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $pengeluaran->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($pengeluaran->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id) }}">Show</a>
+                                                @if ($pengeluaran->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_pengeluarankaskecil/' . $pengeluaran->id) }}">Show</a>
+                                                    @endif
                                                 @endif
                                             @endif
                                             {{-- @if ($pengeluaran->detail_faktur->first())
@@ -198,7 +200,6 @@
                                     </td>
 
                                 </tr>
-
                             @endforeach
                         </tbody>
                     </table>

@@ -600,9 +600,20 @@
                                 <td>{{ $ban->merek->nama_merek }}</td>
                                 <td>{{ $ban->kondisi_ban }}</td>
                                 <td class="text-center">
+                                @if ($ban->klaim_ban->first())
+                                <a href="{{ url('admin/lihat_klaim/' . $ban->id) }}"
+                                    class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            @else
+                            <a href="#"
+                                    class="btn btn-info btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            @endif
                                     <a class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#modal-hapus1-{{ $ban->id }}">
-                                        <i class="fas fa-trash"></i> Hapus
+                                        <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
                                 <div class="modal fade" id="modal-hapus1-{{ $ban->id }}">
@@ -832,9 +843,16 @@
                                                     console.log(harga);
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
                                                     // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga').val(hasil_harga_formatted);
                                                     $('#saldo_keluar').val(hasil_harga_formatted);
@@ -1104,9 +1122,16 @@
                                                     console.log(harga);
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
+                                                   // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
                                                     // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga1b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar1b').val(hasil_harga_formatted);
@@ -1373,8 +1398,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                    // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2a').val(hasil_harga_formatted);
@@ -1644,8 +1677,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                    // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2b').val(hasil_harga_formatted);
@@ -1919,8 +1960,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2c').val(hasil_harga_formatted);
@@ -2193,8 +2242,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                    // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2d').val(hasil_harga_formatted);
@@ -2471,8 +2528,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3a').val(hasil_harga_formatted);
@@ -2749,8 +2814,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                    // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3b').val(hasil_harga_formatted);
@@ -3028,8 +3101,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3c').val(hasil_harga_formatted);
@@ -3307,8 +3388,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3d').val(hasil_harga_formatted);
@@ -3585,8 +3674,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4a').val(hasil_harga_formatted);
@@ -3864,8 +3961,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4b').val(hasil_harga_formatted);
@@ -4142,8 +4247,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4c').val(hasil_harga_formatted);
@@ -4421,8 +4534,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4d').val(hasil_harga_formatted);
@@ -4696,8 +4817,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5a').val(hasil_harga_formatted);
@@ -4970,8 +5099,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5b').val(hasil_harga_formatted);
@@ -5243,8 +5380,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5c').val(hasil_harga_formatted);
@@ -5515,8 +5660,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                    // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5d').val(hasil_harga_formatted);
@@ -5783,8 +5936,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6a').val(hasil_harga_formatted);
@@ -6055,8 +6216,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6b').val(hasil_harga_formatted);
@@ -6327,8 +6496,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                     // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6c').val(hasil_harga_formatted);
@@ -6599,8 +6776,16 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
+                                                    // Pastikan hasil_harga tidak negatif
+                                                    hasil_harga = Math.max(0, hasil_harga);
+
+                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
+
+                                                    // Pastikan sisa_harga tidak negatif
+                                                    sisa_harga = Math.max(0, sisa_harga);
+
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6d').val(hasil_harga_formatted);
