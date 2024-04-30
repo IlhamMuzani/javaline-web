@@ -318,8 +318,8 @@
                             {{ $cetakpdf->detail_faktur->first()->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
                         @else
                             @if ($cetakpdf->kendaraan)
-                            {{ $cetakpdf->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                        @endif
+                                {{ $cetakpdf->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                            @endif
                         @endif </span>
                     </span>
                     <br>
@@ -341,16 +341,20 @@
 
                 <td style="text-align: left; font-size: 13px;">
                     <span class="content2">
-                    : @if ($cetakpdf->detail_faktur->first())
-                        {{ $cetakpdf->detail_faktur->first()->nama_driver }}
-                    @else
-                        @if ($cetakpdf->kendaraan)
-                            {{ $cetakpdf->kendaraan->user->karyawan->nama_lengkap }}
+                        : @if ($cetakpdf->detail_faktur->first())
+                            {{ $cetakpdf->detail_faktur->first()->nama_driver }}
                         @else
-                            {{ $cetakpdf->nama_sopir }}
-                        @endif
-                    @endif </span>
-                </span>
+                            @if ($cetakpdf->kendaraan)
+                                @if ($cetakpdf->kendaraan->user)
+                                    {{ $cetakpdf->kendaraan->user->karyawan->nama_lengkap }}
+                                @else
+                                    tidak ada
+                                @endif
+                            @else
+                                {{ $cetakpdf->nama_sopir }}
+                            @endif
+                        @endif </span>
+                    </span>
                     <br>
                 </td>
             </tr>
