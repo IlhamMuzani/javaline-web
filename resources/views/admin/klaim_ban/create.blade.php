@@ -77,13 +77,18 @@
                         </div>
                         <div class="form-group" hidden>
                             <label for="km_pemasangan">Ban Id</label>
-                            <input type="text" class="form-control" id="" name="id_ban" placeholder=""
+                            <input type="text" class="form-control" id="" name="ban_id" placeholder=""
                                 value="{{ old('ban_id') }}">
                         </div>
                         <div class="form-group">
-                            <label for="km_pemasangan">Kode Ban</label>
-                            <input type="text" class="form-control" id="" readonly name="kode_ban"
-                                placeholder="" value="{{ old('kode_ban') }}">
+                            <div class="form-group d-flex">
+                                <input onclick="showBan(this.value)" class="form-control" id="kode_ban" name="kode_ban"
+                                    type="text" placeholder="" value="{{ old('kode_ban') }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <button class="btn btn-primary" type="button" onclick="showBan(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="km_pemasangan">No. Seri</label>
@@ -114,8 +119,7 @@
                             <div class="form-group" hidden>
                                 <label for="km_pemasangan">KM target</label>
                                 <input type="text" class="form-control" id="km_target" readonly name="km_target"
-                                    placeholder=""
-                                    value="{{ old('km_target') }}">
+                                    placeholder="" value="{{ old('km_target') }}">
                             </div>
                             <div class="form-group">
                                 <label for="km_terpakai">KM Terpakai</label>
@@ -141,8 +145,8 @@
                                                     value="{{ old('karyawan_id') }}">
                                                 <input onclick="showSopir(this.value)" class="form-control"
                                                     id="kode_karyawan" name="kode_karyawan" type="text"
-                                                    placeholder="" value="{{ old('kode_karyawan')}}"
-                                                    readonly style="margin-right: 10px; font-size:14px" />
+                                                    placeholder="" value="{{ old('kode_karyawan') }}" readonly
+                                                    style="margin-right: 10px; font-size:14px" />
                                                 <button class="btn btn-primary" type="button"
                                                     onclick="showSopir(this.value)">
                                                     <i class="fas fa-search"></i>
@@ -154,8 +158,7 @@
                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                 <input style="text-align: end;margin:right:10px" type="text"
                                                     class="form-control" id="sisa_saldo" readonly name="sisa_saldo"
-                                                    value="{{ old('tabungan') }}"
-                                                    placeholder="">
+                                                    value="{{ old('tabungan') }}" placeholder="">
 
                                             </div>
                                         </div>
@@ -197,7 +200,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <script>
                         $(document).ready(function() {
@@ -299,6 +301,56 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="tableBan" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Ban</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="datatables1" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Ban</th>
+                                        <th>No seri</th>
+                                        <th>Merek</th>
+                                        <th>Type</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($bans as $ban)
+                                        <tr>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $ban->kode_ban }}</td>
+                                            <td>{{ $ban->no_seri }}</td>
+                                            <td>{{ $ban->merek->nama_merek }}</td>
+                                            <td>{{ $ban->typeban->nama_type }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataban('{{ $ban->id }}',
+                                                    '{{ $ban->kode_karyawan }}',
+                                                    '{{ $ban->nama_lengkap }}',
+                                                    '{{ $ban->tabungan }}',
+                                                    )">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 
@@ -348,6 +400,12 @@
             $('#tableSopir').modal('hide');
 
             // Mengatur kembali properti overflow-y pada modal axle
+        }
+    </script>
+
+    <script>
+        function showSopir(selectedCategory) {
+            $('#tableBan').modal('show');
         }
     </script>
 

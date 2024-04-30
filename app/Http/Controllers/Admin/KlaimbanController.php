@@ -38,10 +38,10 @@ class KlaimbanController extends Controller
 
     public function create()
     {
-        $ban = Ban::get();
+        $bans = Ban::get();
         $SopirAll = Karyawan::where('departemen_id', '2')->get();
 
-        return view('admin.klaim_ban.create', compact('ban', 'SopirAll'));
+        return view('admin.klaim_ban.create', compact('bans', 'SopirAll'));
     }
     // public function destroy($id)
     // {

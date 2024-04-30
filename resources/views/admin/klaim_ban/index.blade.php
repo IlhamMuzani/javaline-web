@@ -44,11 +44,11 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Klaim Ban</h3>
-                    {{-- <div class="float-right">
+                    <div class="float-right">
                         <a href="{{ url('admin/klaim_ban/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
                         </a>
-                    </div> --}}
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

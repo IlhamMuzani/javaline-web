@@ -412,7 +412,7 @@
                             Harga Ban</td>
                         <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                             @if ($cetakpdf->ban)
-                                {{ number_format($cetakpdf->ban->harga, 0, ',', '.') }}
+                                {{ number_format($cetakpdf->ban->harga, 2, ',', '.') }}
                             @else
                             @endif
                         </td>
@@ -461,7 +461,7 @@
 
                         </td>
                         <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                            {{ number_format(($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pelepasan) * ($cetakpdf->ban->harga / ($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pemasangan)), 0, ',', '.') }}
+                            {{ number_format(($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pelepasan) * ($cetakpdf->ban->harga / ($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pemasangan)), 2, ',', '.') }}
                         </td>
                     </tr>
                 </table>
@@ -503,7 +503,7 @@
                         <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 25%;">
                             Grand Total</td>
                         <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                            {{ number_format(($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pelepasan) * ($cetakpdf->ban->harga / ($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pemasangan)), 0, ',', '.') }}
+                            {{ number_format(($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pelepasan) * ($cetakpdf->ban->harga / ($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pemasangan)), 2, ',', '.') }}
                         </td>
                     </tr>
                 </table>

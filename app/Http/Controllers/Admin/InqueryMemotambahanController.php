@@ -317,7 +317,7 @@ class InqueryMemotambahanController extends Controller
         $pengeluaran = Pengeluaran_kaskecil::where('memotambahan_id', $id)->first();
         $pengeluaran->update(
             [
-                'kendaraan_id' => $request->kendaraan_id,
+                'kendaraan_id' => $request->kendaraan_idsa,
                 'keterangan' => $allKeterangan, // Use accumulated keterangan values
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             ]
