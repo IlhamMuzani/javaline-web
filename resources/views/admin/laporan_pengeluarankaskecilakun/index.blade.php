@@ -51,16 +51,30 @@
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
+                                <label for="status">Cari Kendaraan</label>
+                                <select class="select2bs4 select2-hidden-accessible" name="barangakun_id"
+                                    data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23" tabindex="-1"
+                                    aria-hidden="true" id="barangakun_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($barangakuns as $akun)
+                                        <option value="{{ $akun->id }}"
+                                            {{ Request::get('barangakun_id') == $akun->id ? 'selected' : '' }}>
+                                            {{ $akun->nama_barangakun }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
                                 <label for="created_at">Tanggal Awal</label>
                                 <input class="form-control" id="created_at" name="created_at" type="date"
                                     value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
                                 {{-- @if (auth()->check() && auth()->user()->fitur['laporan pengambilan kas kecil cari']) --}}
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari

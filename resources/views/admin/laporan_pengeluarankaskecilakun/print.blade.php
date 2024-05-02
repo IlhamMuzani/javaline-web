@@ -80,7 +80,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN PENGAMBILAN KAS KECIL</span>
@@ -102,106 +103,109 @@
         @php
             $counter = 1; // Counter for each date
             $totalForAkun = 0; // Variable to store total for each barangakun
+            $transactions = $inquery->where('barangakun_id', $akun->id); // Get transactions for current barangakun
         @endphp
-        <table style="width: 100%; border-top: 1px solid black;" cellspacing="0">
-            <!-- Header row -->
-            <tr>
-                <td colspan="1"
-                    style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190);">
-                    Kode Akun: {{ $akun->kode_barangakun }} <span style="margin-left: 20px">Nama Akun:
-                        {{ $akun->nama_barangakun }}</span>
-                </td>
-                <td colspan="2"
-                    style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-
-                </td>
-                <td colspan="3"
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-                </td>
-                <td colspan="4"
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-                </td>
-                <td colspan="5"
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
-                </td>
-                <td
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                </td>
-            </tr>
-        </table>
-        <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
-            <!-- Header row -->
-            <tr>
-                <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 5%">
-                    No</td>
-                <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 15%">
-                    Kode Pengeluaran</td>
-                    <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 15%">
-                    Tanggal</td>
-                <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 45%">
-                    Keterangan</td>
-                <td class="td"
-                    style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 20%">
-                    Nominal</td>
-            </tr>
-            <tr style="border-bottom: 1px solid black;">
-                <td colspan="5" style="padding: 0px;"></td>
-            </tr>
-            <!-- Data rows -->
-            @foreach ($inquery->where('barangakun_id', $akun->id) as $item)
-                {{-- @if ($item->tanggal_awal == $date) --}}
+        @if ($transactions->isNotEmpty())
+            <!-- Check if there are transactions for current barangakun -->
+            <table style="width: 100%; border-top: 1px solid black;" cellspacing="0">
+                <!-- Header row -->
                 <tr>
-                    <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                        {{ $counter++ }}</td>
-                    <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                        {{ $item->kode_detailakun }}
+                    <td colspan="1"
+                        style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190);">
+                        Kode Akun: {{ $akun->kode_barangakun }} <span style="margin-left: 20px">Nama Akun:
+                            {{ $akun->nama_barangakun }}</span>
                     </td>
-                    <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                        {{ $item->created_at }}
+                    <td colspan="2"
+                        style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
+
+
                     </td>
-                    <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                        {{ $item->keterangan }}
+                    <td colspan="3"
+                        style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
+
                     </td>
-                    <td class="td" style="text-align: right; padding: 5px; font-size: 10px; ">
-                        {{ number_format($item->nominal, 0, ',', '.') }}
-                        @php
-                            $totalForAkun += $item->nominal; // Accumulate total for each barangakun
-                        @endphp
+                    <td colspan="4"
+                        style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
+
+                    </td>
+                    <td colspan="5"
+                        style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
+
+                    </td>
+                    <td
+                        style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                     </td>
                 </tr>
-                {{-- @endif --}}
-            @endforeach
-            <!-- Separator row -->
-            <tr style="border-bottom: 1px solid black;">
-                <td colspan="5" style="padding: 0px;"></td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; ">
-                </td>
-                <td
-                    style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                    {{ number_format($totalForAkun, 0, ',', '.') }}
-                </td>
-            </tr>
-        </table>
-        <br>
-
-         @php
-            $total = 0;
-        @endphp
-        @foreach ($inquery as $item)
+            </table>
+            <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
+                <!-- Header row -->
+                <tr>
+                    <td class="td"
+                        style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 5%">
+                        No</td>
+                    <td class="td"
+                        style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 15%">
+                        Kode Pengeluaran</td>
+                    <td class="td"
+                        style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 15%">
+                        Tanggal</td>
+                    <td class="td"
+                        style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 45%">
+                        Keterangan</td>
+                    <td class="td"
+                        style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 20%">
+                        Nominal</td>
+                </tr>
+                <tr style="border-bottom: 1px solid black;">
+                    <td colspan="5" style="padding: 0px;"></td>
+                </tr>
+                <!-- Data rows -->
+                @foreach ($inquery->where('barangakun_id', $akun->id) as $item)
+                    {{-- @if ($item->tanggal_awal == $date) --}}
+                    <tr>
+                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                            {{ $counter++ }}</td>
+                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                            {{ $item->kode_detailakun }}
+                        </td>
+                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                            {{ $item->created_at }}
+                        </td>
+                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                            {{ $item->keterangan }}
+                        </td>
+                        <td class="td" style="text-align: right; padding: 5px; font-size: 10px; ">
+                            {{ number_format($item->nominal, 0, ',', '.') }}
+                            @php
+                                $totalForAkun += $item->nominal; // Accumulate total for each barangakun
+                            @endphp
+                        </td>
+                    </tr>
+                    {{-- @endif --}}
+                @endforeach
+                <!-- Separator row -->
+                <tr style="border-bottom: 1px solid black;">
+                    <td colspan="5" style="padding: 0px;"></td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; ">
+                    </td>
+                    <td
+                        style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
+                        {{ number_format($totalForAkun, 0, ',', '.') }}
+                    </td>
+                </tr>
+            </table>
+            <br>
             @php
-                $total += $item->nominal;
+                $total = 0;
             @endphp
-        @endforeach
+            @foreach ($inquery as $item)
+                @php
+                    $total += $item->nominal;
+                @endphp
+            @endforeach
+        @endif
     @endforeach
     <br>
 
