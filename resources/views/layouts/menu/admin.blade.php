@@ -843,6 +843,18 @@
                 </a>
             </li>
         @endif
+        @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_pembelianban') }}"
+                    class="nav-link {{ request()->is('admin/inquery_pembelianban*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Inquery Faktur Pembelian Ban @if (count($pembelian) > 0)
+                            <span class="right badge badge-info">{{ count($pembelian) }}</span>
+                        @endif
+                    </p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['inquery pembelian part'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_pembelianpart') }}"
