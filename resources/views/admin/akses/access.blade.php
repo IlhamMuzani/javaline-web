@@ -109,27 +109,6 @@
                                     @endif
                                 </label>
                             </div>
-                            {{-- @if ($loop->iteration === 1)
-                                <div class="row">
-                                    <div class="form-check" style="margin-left:28px">
-                                        <input type="checkbox" id="select-karyawan" onchange="checkAllCategory('karyawan')">
-                                        <label for="select-karyawan" style="margin-left:5px;">Select All</label>
-                                    </div>
-                                    <div class="mb-3" style="display: flex; flex-wrap: wrap;">
-                                        @foreach ($fiturs as $fitur)
-                                            @if ($loop->iteration <= 4)
-                                                <div class="form-check ml-5 mb-3">
-                                                    <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="karyawan" value="{{ $fitur }}"
-                                                        {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
-                                                    <label class="form-check-label">{{ ucfirst($fitur) }}</label>
-                                                </div>
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif --}}
-
                             @if ($loop->iteration === 1)
                                 <div class="row">
                                     <div class="form-check" style="margin-left:28px">
@@ -1276,8 +1255,8 @@
                             @if ($loop->iteration === 39)
                                 <div class="row">
                                     <div class="form-check" style="margin-left:28px">
-                                        <input type="checkbox" id="select-memos" onchange="checkAllCategory('memos')">
-                                        <label for="select-memos" style="margin-left:5px">Select All
+                                        <input type="checkbox" id="select-faks" onchange="checkAllCategory('faks')">
+                                        <label for="select-faks" style="margin-left:5px">Select All
                                         </label>
                                     </div>
                                     <div class="mb-3" style="display: flex; flex-wrap: wrap;">
@@ -1285,7 +1264,7 @@
                                             @if ($loop->iteration >= 255 && $loop->iteration <= 255)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="memos" value="{{ $fitur }}"
+                                                        data-category="faks" value="{{ $fitur }}"
                                                         {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                     <label class="form-check-label">Create</label>
                                                 </div>
@@ -1293,7 +1272,7 @@
                                             @if ($loop->iteration >= 256 && $loop->iteration <= 256)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="memos" value="{{ $fitur }}"
+                                                        data-category="faks" value="{{ $fitur }}"
                                                         {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                     <label class="form-check-label">Update</label>
                                                 </div>
@@ -1301,7 +1280,7 @@
                                             @if ($loop->iteration >= 257 && $loop->iteration <= 257)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="memos" value="{{ $fitur }}"
+                                                        data-category="faks" value="{{ $fitur }}"
                                                         {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                     <label class="form-check-label">Show</label>
                                                 </div>
@@ -1309,7 +1288,7 @@
                                             @if ($loop->iteration >= 258 && $loop->iteration <= 258)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="memos" value="{{ $fitur }}"
+                                                        data-category="faks" value="{{ $fitur }}"
                                                         {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                     <label class="form-check-label">Posting</label>
                                                 </div>
@@ -1317,7 +1296,7 @@
                                             @if ($loop->iteration >= 259 && $loop->iteration <= 259)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="memos" value="{{ $fitur }}"
+                                                        data-category="faks" value="{{ $fitur }}"
                                                         {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                     <label class="form-check-label">Unpost</label>
                                                 </div>
@@ -1325,7 +1304,7 @@
                                             @if ($loop->iteration >= 260 && $loop->iteration <= 260)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
-                                                        data-category="memos" value="{{ $fitur }}"
+                                                        data-category="faks" value="{{ $fitur }}"
                                                         {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                     <label class="form-check-label">Delete</label>
                                                 </div>

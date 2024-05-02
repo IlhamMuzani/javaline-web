@@ -362,11 +362,7 @@ class InqueryPerhitungangajiController extends Controller
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
-            $totalgaji = $item->grand_total;
-            if ($lastSaldo->sisa_saldo < $totalgaji) {
-                return back()->with('error', 'Saldo tidak mencukupi');
-            }
-
+            
             $sisaSaldo = $lastSaldo->sisa_saldo + $TotalGaji;
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
