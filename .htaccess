@@ -31,4 +31,5 @@
 
  # Set max_input_vars
     php_value max_input_vars 2000
+    php_value memory_limit 1024M
 </IfModule>
