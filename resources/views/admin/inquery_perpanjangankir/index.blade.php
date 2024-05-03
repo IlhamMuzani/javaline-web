@@ -75,6 +75,7 @@
                                 <th>Kode Perpanjangan</th>
                                 <th>No Registrasi</th>
                                 <th>Berlaku Sampai</th>
+                                <th>Nominal</th>
                                 <th class="text-center" width="40">Opsi</th>
                             </tr>
                         </thead>
@@ -92,6 +93,9 @@
                                         @endif
                                     </td>
                                     <td>{{ $inquerys->masa_berlaku }}</td>
+                                    <td>
+                                        {{ number_format($inquerys->jumlah, 0, ',', '.') }}
+                                    </td>
                                     <td class="text-center">
                                         @if ($inquerys->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
