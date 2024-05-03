@@ -126,7 +126,7 @@
                                                     <label class="form-check-label">Create</label>
                                                 </div>
                                             @endif
-                                            @if ($loop->iteration >= 5 && $loop->iteration <= 5)
+                                            @if ($loop->iteration >= 2 && $loop->iteration <= 2)
                                                 <div class="form-check ml-5 mb-3">
                                                     <input class="form-check-input" type="checkbox" name="fitur[]"
                                                         data-category="karyawan" value="{{ $fitur }}"
