@@ -142,6 +142,8 @@
                     TIDAK ABSEN <span> <br>ISTRAHAT</span></td>
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                    POTONGAN LAINYA</td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
                     BPJS</td>
                 {{-- <td class="td"
                     style="text-align: center; padding-left: 1px; font-size: 9px;  font-weight:bold;width:15%">
@@ -267,6 +269,10 @@
                         Rp. {{ number_format($item->hasil_absen, 0, ',', '.') }}
                     </td>
                     <td class="td"
+                        style="text-align: right; padding-right: 15px; font-size: 9px; border-bottom: 1px solid black;">
+                        Rp. {{ number_format($item->lainya, 0, ',', '.') }}
+                    </td>
+                    <td class="td"
                         style="text-align: right; padding-right: 7px; font-size: 9px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->potongan_bpjs, 0, ',', '.') }}
                         {{-- <td class="td"
@@ -291,10 +297,10 @@
                 @endphp
             @endforeach
             <tr style="border-bottom: 1px solid black;">
-                <td colspan="13" style="padding: 2px;"></td>
+                <td colspan="14" style="padding: 2px;"></td>
             </tr>
             <tr>
-                <td colspan="12"
+                <td colspan="13"
                     style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 9px;">
                     {{-- GRAND
                 TOTAL --}}
