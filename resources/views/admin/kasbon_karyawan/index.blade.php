@@ -332,10 +332,10 @@
             var sisaSaldoValue = $('#sisa_saldos').val();
 
             // Mengonversi nilai ke format rupiah
-            var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
+            // var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
 
             // Menetapkan nilai ke input sisa saldo
-            $('#sisa_saldos').val(sisaSaldoRupiah);
+            $('#sisa_saldos').val(sisaSaldoValue);
 
             // Memperbarui nilai sub total saat dokumen selesai dimuat
             updateSubTotals();

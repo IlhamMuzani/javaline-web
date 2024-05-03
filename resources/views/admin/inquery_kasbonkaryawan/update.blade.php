@@ -92,7 +92,7 @@
                                     <input style="text-align: end;margin:right:10px" type="text" class="form-control"
                                         id="sisa_saldos" readonly name="sisa_saldo"
                                         @if ($inquery->karyawan->kasbon == null) value="{{ old('sisa_saldo', 0) }}"
-                                        @else value="{{ old('sisa_saldo', $inquery->karyawan->kasbon) }}" @endif
+                                        @else value="{{ old('sisa_saldo', number_format($inquery->karyawan->kasbon, 0, ',', '.')) }}" @endif
                                         placeholder="">
                                 </div>
                             </div>
@@ -320,10 +320,10 @@
             var sisaSaldoValue = $('#sisa_saldos').val();
 
             // Mengonversi nilai ke format rupiah
-            var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
+            // var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
 
             // Menetapkan nilai ke input sisa saldo
-            $('#sisa_saldos').val(sisaSaldoRupiah);
+            $('#sisa_saldos').val(sisaSaldoValue);
 
             // Memperbarui nilai sub total saat dokumen selesai dimuat
             updateSubTotals();

@@ -20,6 +20,7 @@ class Detail_tariftambahan extends Model
         'kode_tambahan',
         'keterangan_tambahan',
         'nominal_tambahan',
+        'satuan_tambahan',
         'tanggal_awal',
     ];
 
