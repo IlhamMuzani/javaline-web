@@ -328,11 +328,11 @@
                         </table>
                     </td>
                     <td class="td" style="text-align: right; font-size: 9px; border-bottom: 1px solid black;">
-                        Rp. {{ number_format($item->gajinol_pelunasan, 0, ',', '.') }}
+                        Rp. {{ number_format($item->gaji_bersih, 0, ',', '.') }}
                     </td>
                 </tr>
                 @php
-                    $Grandtotal += $item->gajinol_pelunasan;
+                    $Grandtotal += $item->gaji_bersih;
                 @endphp
             @endforeach
             <tr style="border-bottom: 1px solid black;">
