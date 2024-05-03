@@ -77,7 +77,7 @@
                             </div>
                         </div>
                     </form>
-                    @if (auth()->user()->id == 1)
+                    @if (auth()->user()->id == 1 || auth()->user()->id == 31 || auth()->user()->id == 4)
                         <form method="GET" id="form-action">
                             <div class="row">
                                 <div class="col-md-2 mb-3">
