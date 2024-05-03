@@ -145,16 +145,16 @@
                     POTONGAN LAINYA</td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
                     BPJS</td>
-                {{-- <td class="td"
+                <td class="td"
                     style="text-align: center; padding-left: 1px; font-size: 9px;  font-weight:bold;width:15%">
                     PELUNASAN <span> <br>KASBON</span></td>
-                </td> --}}
+                </td>
                 <td class="td" style="text-align: right; font-size: 9px;  font-weight:bold; ">GAJI BERSIH
                 </td>
             </tr>
             <!-- Add horizontal line below this row -->
             <tr>
-                <td colspan="14" style="padding: 0px;">
+                <td colspan="15" style="padding: 0px;">
                     <hr style="border: 0.5px solid; margin-top:0px; margin-bottom: 1px; padding: 0;">
                     <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
                 </td>
@@ -275,7 +275,7 @@
                     <td class="td"
                         style="text-align: right; padding-right: 7px; font-size: 9px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->potongan_bpjs, 0, ',', '.') }}
-                        {{-- <td class="td"
+                    <td class="td"
                         style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
                         <table style="width: 100%; text-align: right; padding-right: 24px; ">
                             <tr>
@@ -287,7 +287,7 @@
                                 </td>
                             </tr>
                         </table>
-                    </td> --}}
+                    </td>
                     <td class="td" style="text-align: right; font-size: 9px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->gajinol_pelunasan, 0, ',', '.') }}
                     </td>
@@ -297,10 +297,10 @@
                 @endphp
             @endforeach
             <tr style="border-bottom: 1px solid black;">
-                <td colspan="14" style="padding: 2px;"></td>
+                <td colspan="15" style="padding: 2px;"></td>
             </tr>
             <tr>
-                <td colspan="13"
+                <td colspan="14"
                     style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 9px;">
                     {{-- GRAND
                 TOTAL --}}
