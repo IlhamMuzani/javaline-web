@@ -502,6 +502,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::delete('inquery_memotambahan/deletedetailtambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'deletedetailtambahan']);
     Route::delete('inquery_fakturpenjualanreturn/dell/{id}', [\App\Http\Controllers\Admin\InqueryFakturpenjualanreturnController::class, 'dell']);
     Route::delete('inquery_pengeluarankaskecil/deletedetailpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'deletedetailpengeluaran']);
+    Route::delete('inquery_fakturekspedisi/delettariftambahan/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'delettariftambahan']);
 
     Route::delete('inquery_tagihanekspedisi/deletedetailtagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'deletedetailtagihan']);
     Route::delete('inquery_memoekspedisi/deletedetailbiayatambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'deletedetailbiayatambahan']);

@@ -659,4 +659,16 @@ class InqueryFakturekspedisiController extends Controller
             return response()->json(['message' => 'Detail Faktur not found'], 404);
         }
     }
+
+    public function delettariftambahan($id)
+    {
+        $item = Detail_tariftambahan::find($id);
+
+        if ($item) {
+            $item->delete();
+            return response()->json(['message' => 'Data deleted successfully']);
+        } else {
+            return response()->json(['message' => 'Detail Faktur not found'], 404);
+        }
+    }
 }
