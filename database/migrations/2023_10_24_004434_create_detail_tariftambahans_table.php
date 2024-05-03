@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('kode_tambahan')->nullable();
             $table->string('keterangan_tambahan')->nullable();
             $table->string('nominal_tambahan')->nullable();
+            $table->string('qty_tambahan')->nullable();
+            $table->string('satuan_tambahan')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();

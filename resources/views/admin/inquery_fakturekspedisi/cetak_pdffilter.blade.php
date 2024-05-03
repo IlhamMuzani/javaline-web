@@ -425,30 +425,17 @@
                             {{ $item->keterangan_tambahan }}
                         </td>
 
-                        <td class="td" style="text-align: right; padding: 0px; font-size: 12px;">
+                        <td class="td" style="text-align: right; padding-right: 90px; font-size: 12px;">
                             {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
                             {{-- {{ number_format($cetakpdf->harga_tarif, $cetakpdf->harga_tarif - floor($cetakpdf->harga_tarif) > 0 ? 1 : 0, ',', '.') }} --}}
-
                         </td>
-                        <td class="td" style="text-align: right; padding-right: 100px; font-size: 12px;">
-                            {{ $cetakpdf->jumlah }}
+                        <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
+                            {{ number_format($item->qty_tambahan, 2, ',', '.') }}
                         </td>
                         <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
-                            @if ($cetakpdf->satuan == 'M3')
-                                M&sup3;
-                            @else
-                                {{ $cetakpdf->satuan }}
-                            @endif
+                            {{ $item->satuan_tambahan }}
                         </td>
-                        {{-- @php
-                $formattedGrandTotaltotal_tarif = number_format($cetakpdf->total_tarif, $cetakpdf->total_tarif - floor($cetakpdf->total_tarif) > 0 ? 1 : 0, ',', '.');
-            @endphp --}}
                         <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                            {{-- @if ($cetakpdf->total_tarif - floor($cetakpdf->total_tarif) == 0)
-                    {{ rtrim($formattedGrandTotaltotal_tarif) }},0
-                @else
-                    {{ $formattedGrandTotaltotal_tarif }}
-                @endif --}}
                             {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
 
                         </td>
@@ -464,38 +451,24 @@
             </tr>
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
-
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
-
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
-
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
-
+                <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
+                    @if ($item->qty_tambahan == null)
+                    @else
+                        {{ number_format($cetakpdf->jumlah + $item->qty_tambahan, 2, ',', '.') }}
+                    @endif
                 </td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 12px;">
-
+                <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
+                    {{ $item->satuan_tambahan }}
                 </td>
-
-                {{-- @php
-                $formattedGrandTotaltotal_tarif = number_format($cetakpdf->total_tarif, $cetakpdf->total_tarif - floor($cetakpdf->total_tarif) > 0 ? 1 : 0, ',', '.');
-            @endphp --}}
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                    {{-- @if ($cetakpdf->total_tarif - floor($cetakpdf->total_tarif) == 0)
-                    {{ rtrim($formattedGrandTotaltotal_tarif) }},0
-                @else
-                    {{ $formattedGrandTotaltotal_tarif }}
-                @endif --}}
                     {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 2, ',', '.') }}
-
                 </td>
             </tr>
-            {{-- @php
-                $totalRuteSum += $item->totalrute;
-            @endphp
-        @endforeach --}}
             <tr>
             </tr>
         </table>

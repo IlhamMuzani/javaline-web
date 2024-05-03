@@ -548,6 +548,9 @@
                                                         <th style="font-size:14px" class="text-center">No</th>
                                                         <th style="font-size:14px">Keterangan</th>
                                                         <th style="font-size:14px">Nominal</th>
+                                                        <th style="font-size:14px">Qty</th>
+                                                        <th style="font-size:14px">Satuan</th>
+                                                        <th style="font-size:14px">Opsi</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tabel-memotambahan">
@@ -579,6 +582,52 @@
                                                                         value="{{ $detail['nominal_tambahan'] }}">
                                                                 </div>
                                                             </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input style="font-size:14px" type="number"
+                                                                        class="form-control"
+                                                                        id="qty_tambahan-{{ $loop->index }}"
+                                                                        name="qty_tambahan[]"
+                                                                        value="{{ $detail['qty_tambahan'] }}">
+                                                                </div>
+                                                            </td>
+                                                            <td>
+
+                                                                <select style="font-size:14px" class="form-control"
+                                                                id="satuan_tambahan-0" name="satuan_tambahan[]">
+                                                                <option value="">- Pilih -</option>
+                                                                <option value="M3"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'M3' ? 'selected' : null }}>
+                                                                    M&sup3;</option>
+                                                                <option value="ton"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'ton' ? 'selected' : null }}>
+                                                                    ton</option>
+                                                                <option value="krtn"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'krtn' ? 'selected' : null }}>
+                                                                    krtn</option>
+                                                                <option value="dus"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'dus' ? 'selected' : null }}>
+                                                                    dus</option>
+                                                                <option value="rit"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'rit' ? 'selected' : null }}>
+                                                                    rit</option>
+                                                                <option value="kg"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'kg' ? 'selected' : null }}>
+                                                                    kg</option>
+                                                                <option value="ltr"
+                                                                    {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'ltr' ? 'selected' : null }}>
+                                                                    ltr</option>
+                                                                <option value="pcs"
+                                                                {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'pcs' ? 'selected' : null }}>
+                                                                pcs</option>
+                                                                <option value="hr"
+                                                                {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'hr' ? 'selected' : null }}>
+                                                                hr</option>
+                                                                <option value="ZAK"
+                                                                {{ old('satuan_tambahan', $detail['satuan_tambahan']) == 'ZAK' ? 'selected' : null }}>
+                                                                ZAK</option>
+                                                            </select>
+                                                        </td>
                                                             <td style="width: 50px">
                                                                 <button style="margin-left:5px" type="button"
                                                                     class="btn btn-danger btn-sm"

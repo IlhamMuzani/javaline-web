@@ -19,6 +19,7 @@ class Detail_tariftambahan extends Model
         'faktur_ekspedisi_id',
         'kode_tambahan',
         'keterangan_tambahan',
+        'qty_tambahan',
         'nominal_tambahan',
         'satuan_tambahan',
         'tanggal_awal',
