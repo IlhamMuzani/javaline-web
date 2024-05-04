@@ -322,32 +322,26 @@ class InqueryPerhitungangajibulananController extends Controller
                 }
             }
         }
-        $kodepengeluaran = $this->kodepengeluaran();
+        
+        $pengeluaran = Pengeluaran_kaskecil::where('perhitungan_gajikaryawan_id', $id)->first();
+        $pengeluaran->update(
+            [
+                'perhitungan_gajikaryawan_id' => $id,
+                'keterangan' => $request->keterangan,
+                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
+                'status' => 'unpost',
+            ]
+        );
 
-        Pengeluaran_kaskecil::create([
-            'perhitungan_gajikaryawan_id' => $transaksi->id,
-            'user_id' => auth()->user()->id,
-            'kode_pengeluaran' => $this->kodepengeluaran(),
-            // 'kendaraan_id' => $request->kendaraan_id,
-            'keterangan' => $request->keterangan,
-            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
-            'jam' => $tanggal1->format('H:i:s'),
-            'tanggal' => $format_tanggal,
-            'tanggal_awal' => $tanggal,
-            'qrcode_return' => 'https://javaline.id/pengeluaran_kaskecil/' . $kodepengeluaran,
-            'status' => 'unpost',
-        ]);
-
-        Detail_pengeluaran::create([
-            'perhitungan_gajikaryawan_id' => $transaksi->id,
-            'barangakun_id' => 1,
-            'kode_detailakun' => $this->kodeakuns(),
-            'kode_akun' => 'KA000004',
-            'nama_akun' => 'GAJI & TUNJANGAN',
-            'keterangan' => $request->keterangan,
-            'nominal' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
-            'status' => 'unpost',
-        ]);
+        $detailpengeluaran = Detail_pengeluaran::where('perhitungan_gajikaryawan_id', $id)->first();
+        $detailpengeluaran->update(
+            [
+                'perhitungan_gajikaryawan_id' => $id,
+                'keterangan' => $request->keterangan,
+                'nominal' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
+                'status' => 'unpost',
+            ]
+        );
 
         $cetakpdf = Perhitungan_gajikaryawan::find($transaksi_id);
         $details = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $cetakpdf->id)->get();
