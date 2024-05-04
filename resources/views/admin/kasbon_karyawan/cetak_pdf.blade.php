@@ -311,7 +311,7 @@
             </td>
             <td style="text-align: right; padding: 0px; font-size: 15px; font-weight:bold">Total Kasbon :
                 <span>
-                    Rp.{{ number_format($cetakpdf->sub_total, 0, ',', '.') }}
+                    Rp.-{{ number_format($cetakpdf->sub_total, 0, ',', '.') }}
             </td>
             </span>
         </tr>

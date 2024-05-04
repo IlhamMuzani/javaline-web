@@ -44,20 +44,36 @@ class KasbonkaryawanController extends Controller
         $data_pembelians = collect();
 
         if ($request->has('nominal_cicilan')) {
+            $totalNominalCicilan = 0;
+
             for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
                     'nominal_cicilan.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Nominal cicilan nomor " . $i + 1 . " belum dilengkapi!");
+                    array_push($error_pesanans, "Nominal cicilan nomor " . ($i + 1) . " belum dilengkapi!");
                 }
 
                 $nominal_cicilan = $request->nominal_cicilan[$i] ?? '';
+                $totalNominalCicilan += $nominal_cicilan;
+            }
 
-                $data_pembelians->push([
-                    'nominal_cicilan' => $nominal_cicilan
-                ]);
+            $saldo_keluar = $request->saldo_keluar;
+
+            if ($totalNominalCicilan > $saldo_keluar) {
+                array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
+            }
+
+            // Jika tidak ada kesalahan, tambahkan data pembelian
+            if (empty($error_pesanans)) {
+                for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
+                    $nominal_cicilan = $request->nominal_cicilan[$i] ?? '';
+
+                    $data_pembelians->push([
+                        'nominal_cicilan' => $nominal_cicilan
+                    ]);
+                }
             }
         }
 

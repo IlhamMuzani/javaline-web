@@ -180,12 +180,12 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {{-- <div class="form-group">
-                            <label style="font-size:14px" class="mt-0" for="nopol">Grand Total</label>
+                        <div class="form-group">
+                            <label style="font-size:14px" class="mt-3" for="grand_totalz">Grand Total</label>
                             <input style="font-size:14px" type="text" class="form-control text-right"
-                                id="grand_total" name="grand_total" readonly placeholder=""
-                                value="{{ old('grand_total', number_format($inquery->grand_total, 0, ',', '.')) }}">
-                        </div> --}}
+                                id="grand_totalz" name="grand_totalz" readonly placeholder=""
+                                value="{{ old('grand_totalz') }}">
+                        </div>
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary">Reset</button>
@@ -278,6 +278,7 @@
             document.getElementById('sisa_saldos').value = formattedTabungan;
 
             updateSubTotals();
+
             // Close the modal (if needed)
             $('#tableSopir').modal('hide');
         }
@@ -336,10 +337,10 @@
             var sisaSaldo = parseCurrency($('#saldo_keluar').val());
 
             // Menghitung sub total
-            var subTotal = saldoMasuk - sisaSaldo;
+            var subTotal = saldoMasuk + sisaSaldo;
 
             // Mengonversi nilai sub total ke format rupiah dengan menambahkan simbol mines (-)
-            var subTotalRupiah = "Rp " + (subTotal < 0 ? "- " : "") + formatRupiah(Math.abs(subTotal));
+            var subTotalRupiah = "Rp " + formatRupiah(Math.abs(subTotal));
             var subTotalRupiahs = (subTotal);
 
             // Menetapkan nilai ke input sub total
@@ -377,21 +378,30 @@
         var counter = 0;
 
         function addPesanan() {
-            counter++;
-            jumlah_ban = jumlah_ban + 1;
+            var grandTotal = parseFloat(document.getElementById('grand_totalz').value.replace(/\./g, '').replace('Rp ', '')
+                .replace(',', ''));
+            var sisaSaldo = parseFloat(document.getElementById('saldo_keluar').value.replace(/\./g, '').replace('Rp ', '')
+                .replace(',', ''));
 
-            if (jumlah_ban === 1) {
-                $('#tabel-pembelian').empty();
+            if (grandTotal < sisaSaldo) {
+                counter++;
+                jumlah_ban = jumlah_ban + 1;
+
+                if (jumlah_ban === 1) {
+                    $('#tabel-pembelian').empty();
+                } else {
+                    // Find the last row and get its index to continue the numbering
+                    var lastRow = $('#tabel-pembelian tr:last');
+                    var lastRowIndex = lastRow.find('#urutan').text();
+                    jumlah_ban = parseInt(lastRowIndex) + 1;
+                }
+
+                console.log('Current jumlah_ban:', jumlah_ban);
+                itemPembelian(jumlah_ban, jumlah_ban - 1);
+                updateUrutan();
             } else {
-                // Find the last row and get its index to continue the numbering
-                var lastRow = $('#tabel-pembelian tr:last');
-                var lastRowIndex = lastRow.find('#urutan').text();
-                jumlah_ban = parseInt(lastRowIndex) + 1;
+                alert('Nilai Grand Total melebihi atau sama dengan nilai Sisa Saldo.');
             }
-
-            console.log('Current jumlah_ban:', jumlah_ban);
-            itemPembelian(jumlah_ban, jumlah_ban - 1);
-            // updateUrutan();
         }
 
         function removePesanan(identifier) {
@@ -467,6 +477,49 @@
             // Tampilkan nilai yang sudah diformat ke dalam input
             input.value = value;
         }
+    </script>
+
+    <script>
+        function updateGrandTotal() {
+            var grandTotal = 0;
+            var saldoKeluar = parseFloat($('#saldo_keluar').val().replace(/\./g, '').replace(/,/g, '.')) || 0;
+
+            // Maksimum nilai untuk setiap cicilan
+            var maxCicilanValue = saldoKeluar;
+
+            // Loop through all elements with name "nominal_cicilan[]"
+            $('input[name^="nominal_cicilan"]').each(function(index) {
+                var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(/,/g, '.')) || 0;
+                // Check if value exceeds maximum value
+                if (nominalValue > maxCicilanValue) {
+                    if (index === 0) {
+                        // Jika input pertama melebihi batas, atur nilainya ke maksimum
+                        $(this).val(maxCicilanValue.toLocaleString('id-ID'));
+                    } else {
+                        // Jika input kedua atau seterusnya melebihi batas, atur nilainya ke 0
+                        $(this).val(0);
+                        nominalValue = 0;
+                    }
+                }
+                grandTotal += nominalValue;
+            });
+
+            // Batasi nilai grand total agar tidak melebihi saldo keluar
+            grandTotal = Math.min(grandTotal, saldoKeluar);
+
+            // Set the calculated grand total to the input with ID "grand_totalz"
+            $('#grand_totalz').val(grandTotal.toLocaleString('id-ID'));
+        }
+
+        // Panggil fungsi saat ada perubahan pada input "nominal_cicilan[]"
+        $(document).on('input', 'input[name^="nominal_cicilan"]', function() {
+            updateGrandTotal();
+        });
+
+        // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
+        $(document).ready(function() {
+            updateGrandTotal();
+        });
     </script>
 
 @endsection
