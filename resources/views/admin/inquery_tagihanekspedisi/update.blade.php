@@ -295,7 +295,7 @@
                                                 <input onclick="MemoEkspedisi({{ $loop->index }})"
                                                     style="font-size:14px" readonly type="text" class="form-control"
                                                     id="total-{{ $loop->index }}" name="total[]"
-                                                    value="{{ number_format($detail['total'], 0, ',', '.') }}">
+                                                    value="{{ number_format($detail['total'], 2, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td style="width: 100px">
@@ -950,21 +950,21 @@
 
             // Loop through all elements with name "nominal_tambahan[]"
             $('input[name^="total"]').each(function() {
-                var nominalValue = parseFloat($(this).val().replace(/\./g, '')) || 0; // Remove dots
-                grandTotal += nominalValue;
+                var nominalValue = $(this).val().replace(/\./g, '').replace(',',
+                    '.'); // Replace dots and convert comma to dot
+                grandTotal += parseFloat(nominalValue) || 0; // Convert to float and sum
             });
 
             var pph2Value = grandTotal * 0.02;
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            $('#pph2').val(pph2Value.toLocaleString('id-ID')); // Display 2% of the grand total here
+            $('#pph2').val(pph2Value.toLocaleString('id-ID'));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
             $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
         }
-
 
         $('body').on('input', 'input[name^="total"]', function() {
             updateGrandTotal();
