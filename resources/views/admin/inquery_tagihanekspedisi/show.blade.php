@@ -344,7 +344,6 @@
 
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
                     DPP :
@@ -353,19 +352,14 @@
                     {{ number_format($totalRuteSum, 2, ',', '.') }}
                 </td>
             </tr>
-
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
                     PPH23 = 2% :
