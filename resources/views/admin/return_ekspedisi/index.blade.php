@@ -415,14 +415,12 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="float-right ml-3 mt-3">
-                            {{-- <button type="button" data-toggle="modal" data-target="#modal-barang"
-                                class="btn btn-primary btn-sm">
-                                Tambah
-                            </button> --}}
-                        </div>
                         <div class="modal-body">
-                            <table id="datatables66" class="table table-bordered table-striped">
+                            <div class="m-2">
+                                <input type="text" id="searchInputrutes" class="form-control"
+                                    placeholder="Search...">
+                            </div>
+                            <table id="tablefaktur" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
@@ -742,6 +740,35 @@
     </script>
 
     <script>
+        function filterTablefaktur() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInputrutes");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablefaktur");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 4; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInputrutes").addEventListener("input", filterTablefaktur);
+    </script>
+
+    <script>
         var activeSpecificationIndex = 0;
 
         function Barangs(param) {
@@ -751,7 +778,7 @@
         }
 
         function getBarang(rowIndex) {
-            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tablefaktur tbody tr:eq(' + rowIndex + ')');
             var barang_id = selectedRow.data('id');
             var kode_barang = selectedRow.data('kode_barang');
             var nama_barang = selectedRow.data('nama_barang');

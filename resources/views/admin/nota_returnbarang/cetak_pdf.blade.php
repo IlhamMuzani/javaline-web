@@ -27,7 +27,7 @@
         html,
         body {
             margin-top: 30px;
-            margin-right: 20px;
+            margin-right: 50px;
             margin-left: 20px;
             font-family: Arial, sans-serif;
             color: black;
@@ -297,10 +297,10 @@
                     {{ $item->jumlah }}
                 </td>
                 <td class="td" style="text-align: right;  font-size: 13px;">
-                    {{ number_format($item->harga, 0, ',', '.') }}
+                    {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right;  font-size: 13px;">
-                    {{ number_format($item->total, 0, ',', '.') }}
+                    {{ number_format($item->total, 2, ',', '.') }}
                 </td>
             </tr>
             @php
@@ -322,7 +322,7 @@
                 Sub Total
             </td>
             <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
-                {{ number_format($totalHarga, 0, ',', '.') }}
+                {{ number_format($totalHarga, 2, ',', '.') }}
             </td>
         </tr>
     </table>
