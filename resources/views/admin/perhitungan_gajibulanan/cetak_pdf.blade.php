@@ -430,7 +430,7 @@
                                         Rp.
                                     </td>
                                     <td style="width: 70%;">
-                                        {{ number_format($item->sisa_kasbon - $item->pelunasan_kasbon, 2, ',', '.') }}
+                                        - {{ number_format($item->sisa_kasbon - $item->pelunasan_kasbon, 2, ',', '.') }}
                                     </td>
                                 </tr>
                             </table>
