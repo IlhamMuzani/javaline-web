@@ -455,13 +455,13 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
             </td>
             <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
-                @if ($item->qty_tambahan == null)
+                {{-- @if ($item->qty_tambahan == null)
                 @else
                     {{ number_format($cetakpdf->jumlah + $item->qty_tambahan, 2, ',', '.') }}
-                @endif
+                @endif --}}
             </td>
             <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
-                {{ $item->satuan_tambahan }}
+                {{-- {{ $item->satuan_tambahan }} --}}
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
                 {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 2, ',', '.') }}
