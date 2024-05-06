@@ -181,7 +181,7 @@
                             </td>
 
                         </tr> --}}
-                        <tr>
+                        {{-- <tr>
                             <td class="info-column">
                                 <span class="info-item" style="font-size: 11px;">No. Aproval</span>
                             </td>
@@ -191,7 +191,7 @@
                             <td class="info-column">
                                 <span class="info-item" style="font-size: 11px;"></span>
                             </td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </td>
                 <td style="width: 70%; text-align: left;">
@@ -245,7 +245,7 @@
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:25%">
                 Rute</td>
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:10%">
-                Tgl. Kirim</td>
+                Tgl. SJ</td>
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:13%">No.
                 Faktur</td>
             <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold; width:14%">
