@@ -348,35 +348,34 @@
             $('.posting-btn').click(function() {
                 var memoId = $(this).data('memo-id');
 
-                // Tampilkan modal loading saat permintaan AJAX diproses
-                $('#modal-loading').modal('show');
-
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
                     url: "{{ url('admin/inquery_memoborong/postingmemoborong/') }}/" + memoId,
                     type: 'GET',
-                    data: {
-                        id: memoId
-                    },
                     success: function(response) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
+                        // Periksa apakah ada pesan success dalam respons
+                        if (response.success) {
+                            // Tampilkan modal loading saat permintaan AJAX berhasil
+                            $('#modal-loading').modal('show');
 
-                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(response);
+                            // Tutup modal setelah berhasil posting
+                            $('#modal-posting-' + memoId).modal('hide');
 
-                        // Tutup modal setelah berhasil posting
-                        $('#modal-posting-' + memoId).modal('hide');
-
-                        // Reload the page to refresh the table
-                        location.reload();
+                            // Muat ulang halaman untuk menyegarkan tabel
+                            location.reload();
+                        } else if (response.error) {
+                            // Tampilkan modal validasi gagal dengan pesan error
+                            $('#validationMessage').text(response.error);
+                            $('#validationModal').modal('show');
+                        }
                     },
-                    error: function(error) {
-                        // Sembunyikan modal loading setelah permintaan selesai
+                    error: function(xhr, status, error) {
+                        // Tampilkan pesan error yang dihasilkan oleh AJAX
+                        alert("Terjadi kesalahan: " + xhr.responseText);
+                    },
+                    complete: function() {
+                        // Sembunyikan modal loading setelah permintaan AJAX selesai
                         $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(error);
                     }
                 });
             });

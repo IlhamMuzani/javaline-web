@@ -392,7 +392,17 @@ class InqueryMemoborongController extends Controller
     {
         try {
             $item = Memo_ekspedisi::findOrFail($id);
+            $user = $item->user;
 
+            // Hitung jumlah memo ekspedisi yang telah diposting dengan nama driver yang sama
+            $postedCount = Memo_ekspedisi::where('nama_driver', $item->nama_driver)
+                ->where('status', 'posting')
+                ->count();
+
+            // Jika jumlahnya sudah mencapai atau melebihi 3, lewati memo ekspedisi ini
+            if ($postedCount >= 3) {
+                return response()->json(['error' => 'Memo Borong telah mencapai batas maksimal']);
+            }
             // Update Saldo
             // $uangJalan = $item->harga_rute;
             $BiayaTambahan = $item->hasil_jumlah;
@@ -494,9 +504,10 @@ class InqueryMemoborongController extends Controller
                 'status' => 'posting'
             ]);
 
-            return back()->with('success', 'Berhasil');
+            return response()->json(['success' => 'Berhasil memposting memo']);
+            // return back()->with('success', 'Berhasil');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // return back()->with('error', 'Memo tidak ditemukan');
+            return response()->json(['error' => 'Gagal memposting memo: Memo tidak ditemukan']);
         }
     }
 
