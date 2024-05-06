@@ -118,7 +118,7 @@ class InqueryKasbonkaryawanController extends Controller
         //     }
         // } 
 
-         if ($request->has('nominal_cicilan')) {
+        if ($request->has('nominal_cicilan')) {
             $totalNominalCicilan = 0;
 
             for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
@@ -134,11 +134,11 @@ class InqueryKasbonkaryawanController extends Controller
                 $totalNominalCicilan += $nominal_cicilan;
             }
 
-            $saldo_keluar = $request->saldo_keluar;
+            // $saldo_keluar = $request->saldo_keluar;
 
-            if ($totalNominalCicilan > $saldo_keluar) {
-                array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
-            }
+            // if ($totalNominalCicilan > $saldo_keluar) {
+            //     array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
+            // }
 
             // Jika tidak ada kesalahan, tambahkan data pembelian
             if (empty($error_pesanans)) {

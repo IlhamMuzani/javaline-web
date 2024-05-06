@@ -59,11 +59,11 @@ class KasbonkaryawanController extends Controller
                 $totalNominalCicilan += $nominal_cicilan;
             }
 
-            $saldo_keluar = $request->saldo_keluar;
+            // $saldo_keluar = $request->saldo_keluar;
 
-            if ($totalNominalCicilan > $saldo_keluar) {
-                array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
-            }
+            // if ($totalNominalCicilan > $saldo_keluar) {
+            //     array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
+            // }
 
             // Jika tidak ada kesalahan, tambahkan data pembelian
             if (empty($error_pesanans)) {
