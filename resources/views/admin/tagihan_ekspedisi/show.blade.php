@@ -270,7 +270,7 @@
                     <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     </td>
                     <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
-                         {{ $detail_tariftambahan->keterangan_tambahan }}
+                        {{ $detail_tariftambahan->keterangan_tambahan }}
                     </td>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                         {{ $item->tanggal_memo }}</td>
@@ -287,7 +287,8 @@
                         {{ $item->no_pol }}
                     </td>
                     <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
-                        {{ $item->jumlah }} {{ $item->satuan }}
+                        {{ number_format($detail_tariftambahan->qty_tambahan, 2, ',', '.') }}
+                        {{ $detail_tariftambahan->satuan_tambahan }}
                     </td>
                     <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
                         {{ number_format($detail_tariftambahan->nominal_tambahan, 2, ',', '.') }}

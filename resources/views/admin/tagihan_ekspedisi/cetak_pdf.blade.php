@@ -340,7 +340,8 @@
                         {{ $item->no_pol }}
                     </td>
                     <td class="td" style="text-align: left; padding: 1px; font-size: 10px;">
-                        {{ number_format($item->jumlah, 2, ',', '.') }} {{ $item->satuan }}
+                        {{ number_format($detail_tariftambahan->qty_tambahan, 2, ',', '.') }}
+                        {{ $detail_tariftambahan->satuan_tambahan }}
                     </td>
                     <td class="td" style="text-align: right; padding-right: 7px; font-size: 10px;">
                         {{ number_format($detail_tariftambahan->nominal_tambahan, 2, ',', '.') }}
