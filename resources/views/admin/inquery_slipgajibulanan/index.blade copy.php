@@ -104,18 +104,24 @@
                         </thead>
                         <tbody>
                             @foreach ($inquery as $slips)
-                                <tr class="dropdown" data-id="{{ $slips->id }}" data-telp="{{ $slips->karyawan->telp }}">
+                                <tr class="dropdown"{{ $slips->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $slips->id }}"></td>
+                                            value="{{ $slips->id }}">
+                                    </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $slips->kode_gajikaryawan }}</td>
-                                    <td>{{ $slips->tanggal_awal }}</td>
+                                    <td>
+                                        {{ $slips->kode_gajikaryawan }}
+                                    </td>
+                                    <td>
+                                        {{ $slips->tanggal_awal }}
+                                    </td>
                                     <td>
                                         @if ($slips->perhitungan_gajikaryawan)
                                             {{ $slips->perhitungan_gajikaryawan->user->karyawan->nama_lengkap }}
                                         @else
                                             tidak ada
                                         @endif
+
                                     </td>
                                     <td>
                                         @if ($slips->karyawan)
@@ -125,7 +131,9 @@
                                         @endif
                                     </td>
                                     <td class="text-right">{{ number_format($slips->gajinol_pelunasan, 2, ',', '.') }}</td>
-                                    <td><button class="waButton" style="background-color: #25D366;">WhatsApp</button></td>
+                                    <td>
+                                        <button class="waButton" data-id="{{ $slips->id }}">WhatsApp</button>
+                                    </td>
                                     <td class="text-center">
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($slips->status == 'posting')
@@ -140,7 +148,6 @@
                                     </td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
@@ -151,35 +158,29 @@
 
     <script>
         $(document).ready(function() {
-    // Ketika tombol WhatsApp diklik
-    $('.waButton').click(function() {
-        // Ambil nomor telepon yang sesuai dengan baris yang berisi tombol WhatsApp yang diklik
-        var nomorPenerima = $(this).closest('tr').data('telp');
+            // Ketika tombol WhatsApp diklik
+            $('.waButton').click(function() {
+                // Ambil ID dari atribut data pada baris yang berisi tombol WhatsApp yang diklik
+                var slipId = $(this).data('id');
 
-        // Jika nomor telepon tidak ditemukan, berikan peringatan
-        if (!nomorPenerima) {
-            alert("Nomor telepon tidak tersedia untuk pengiriman pesan WhatsApp.");
-            return; // Berhenti eksekusi fungsi
-        }
+                // Ambil nomor telepon yang sesuai dengan baris yang berisi tombol WhatsApp yang diklik
+                var nomorPenerima = $(this).closest('tr').find('.nomor-telepon')
+            .text(); // Ganti '.nomor-telepon' dengan selector yang sesuai untuk elemen yang berisi nomor telepon
 
-        // Ambil ID dari atribut data pada baris yang berisi tombol WhatsApp yang diklik
-        var slipId = $(this).closest('tr').data('id');
+                // Pesan yang ingin Anda kirim
+                var pesan =
+                    'ini adalah gaji yang anda terima silakan lihat detailnya disini http://localhost/javaline/admin/laporan_slipgajibulanan/' +
+                    slipId;
 
-        // Pesan yang ingin Anda kirim
-        var pesan = 'Ini adalah gaji yang Anda terima. Silakan lihat detailnya disini: ' +
-            'http://localhost/javaline/admin/laporan_slipgajibulanan/' + slipId;
+                // Membuat URL dengan format URL Scheme WhatsApp
+                var url = 'https://api.whatsapp.com/send?phone=' + nomorPenerima + '&text=' +
+                    encodeURIComponent(pesan);
 
-        // Membuat URL dengan format URL Scheme WhatsApp
-        var url = 'https://api.whatsapp.com/send?phone=' + nomorPenerima + '&text=' +
-            encodeURIComponent(pesan);
-
-        // Buka URL dalam tab atau jendela baru
-        window.open(url, '_blank');
-    });
-});
-
+                // Buka URL dalam tab atau jendela baru
+                window.open(url, '_blank');
+            });
+        });
     </script>
-
 
 
 
