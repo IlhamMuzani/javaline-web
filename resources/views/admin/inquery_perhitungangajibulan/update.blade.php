@@ -116,10 +116,19 @@
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">NAMA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAPOK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
-                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">UM</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">UH</th> --}}
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HE</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HK</th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">TIDAK <br> <span>
+                                            BERANGKAT
+                                        </span>
+                                    </th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL TDK BERANGKAT
+                                        <br> <span>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">LEMBUR <br> <span>
+                                            (TGL MERAH)
+                                        </span>
+                                    </th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL TGL MERAH</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HE</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL HK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">LEMBUR <br> <span>
                                             (JAM)
@@ -202,10 +211,47 @@
                                                 <input type="text" style="font-size:14px" readonly
                                                     class="form-control gaji_perhari"
                                                     id="gaji_perhari-{{ $loop->index }}" name="gaji_perhari[]"
-                                                    value="{{ number_format($detail['gaji_perhari'], 0, ',', '.') }}">
+                                                    value="{{ number_format($detail['gaji_perhari'], 3, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td style="width: 150px;">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="number"
+                                                    class="form-control tdk_berangkat"
+                                                    id="tdk_berangkat-{{ $loop->index }}" name="tdk_berangkat[]"
+                                                    value="{{ $detail['tdk_berangkat'] }}"
+                                                    oninput="formatRupiahform(this)"
+                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px;">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control hasiltdk_berangkat"
+                                                    value="{{ number_format($detail['hasiltdk_berangkat'], 3, ',', '.') }}"
+                                                    id="hasiltdk_berangkat-{{ $loop->index }}"
+                                                    name="hasiltdk_berangkat[]" data-row-id="0">
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px;">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="number"
+                                                    class="form-control tgl_merah" id="tgl_merah-{{ $loop->index }}"
+                                                    name="tgl_merah[]" value="{{ $detail['tgl_merah'] }}"
+                                                    oninput="formatRupiahform(this)"
+                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                            </div>
+                                        </td>
+                                        <td style="width: 150px;">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control hasiltgl_merah"
+                                                    value="{{ number_format($detail['hasiltgl_merah'], 3, ',', '.') }}"
+                                                    id="hasiltgl_merah-{{ $loop->index }}" name="hasiltgl_merah[]"
+                                                    data-row-id="0">
+                                            </div>
+                                        </td>
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text"
                                                     class="form-control hari_efektif"
@@ -214,7 +260,7 @@
                                                     onkeypress="return isNumberKey(event)">
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text"
                                                     class="form-control hari_kerja" id="hari_kerja-{{ $loop->index }}"
@@ -228,7 +274,7 @@
                                                 <input type="text" style="font-size:14px" readonly
                                                     class="form-control hasil_hk" id="hasil_hk-{{ $loop->index }}"
                                                     name="hasil_hk[]" data-row-id="0"
-                                                    value="{{ number_format($detail['hasil_hk'], 0, ',', '.') }}">
+                                                    value="{{ number_format($detail['hasil_hk'], 3, ',', '.') }}">
                                             </div>
                                         </td style="width: 150px;">
                                         <td>
@@ -599,13 +645,17 @@
         updateGrandTotal();
 
         function itemPembelian(urutan, key, value = null) {
-            var karyawan_id = '';
+           var karyawan_id = '';
             var kode_karyawan = '';
             var nama_lengkap = '';
             var gaji = '';
             var gaji_perhari = '';
-            var hari_efektif = '';
-            var hari_kerja = '';
+            var tdk_berangkat = '';
+            var hasiltdk_berangkat = '';
+            var tgl_merah = '';
+            var hasiltgl_merah = '';
+            var hari_efektif = '26';
+            var hari_kerja = '26';
             var hasil_hk = '';
             var lembur = '';
             var hasil_lembur = '';
@@ -630,6 +680,10 @@
                 nama_lengkap = value.nama_lengkap;
                 gaji = value.gaji;
                 gaji_perhari = value.gaji_perhari;
+                tdk_berangkat = value.tdk_berangkat;
+                hasiltdk_berangkat = value.hasiltdk_berangkat;
+                tgl_merah = value.tgl_merah;
+                hasiltgl_merah = value.hasiltgl_merah;
                 hari_efektif = value.hari_efektif;
                 hari_kerja = value.hari_kerja;
                 hasil_hk = value.hasil_hk;
@@ -704,8 +758,52 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hari_efektif
+            // tdk_berangkat 
             item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian +=
+                '<input type="number" class="form-control tdk_berangkat" style="font-size:14px" id="tdk_berangkat-' +
+                key +
+                '" name="tdk_berangkat[]" value="' + tdk_berangkat + '" ';
+            item_pembelian += 'oninput="formatRupiahform(this)" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // hasiltdk_berangkat 
+            item_pembelian += '<td >';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control hasiltdk_berangkat" style="font-size:14px" readonly id="hasiltdk_berangkat-' +
+                key +
+                '" name="hasiltdk_berangkat[]" value="' + hasiltdk_berangkat + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // tgl_merah 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian +=
+                '<input type="number" class="form-control tgl_merah" style="font-size:14px" id="tgl_merah-' +
+                key +
+                '" name="tgl_merah[]" value="' + tgl_merah + '" ';
+            item_pembelian += 'oninput="formatRupiahform(this)" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // hasiltgl_merah 
+            item_pembelian += '<td >';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control hasiltgl_merah" style="font-size:14px" readonly id="hasiltgl_merah-' +
+                key +
+                '" name="hasiltgl_merah[]" value="' + hasiltgl_merah + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // hari_efektif
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control hari_efektif" onkeypress="return isNumberKey(event)" style="font-size:14px" id="hari_efektif-' +
@@ -715,7 +813,7 @@
             item_pembelian += '</td>';
 
             // hari_kerja 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control hari_kerja" onkeypress="return isNumberKey(event)" style="font-size:14px" id="hari_kerja-' +
@@ -935,32 +1033,61 @@
             var kode_karyawan = selectedRow.data('kode_karyawan');
             var nama_lengkap = selectedRow.data('nama_lengkap');
             var bpjs = selectedRow.data('bpjs');
-            var pelunasan_kasbon = parseFloat(selectedRow.data('pelunasan_kasbon')).toLocaleString('id-ID');
-            var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
+            var pelunasan_kasbon = parseFloat(selectedRow.data('pelunasan_kasbon'));
+            var gaji = parseFloat(selectedRow.data('gaji'));
+            var nol = 0;
 
             // Update the form fields for the active specification
             $('#karyawan_id-' + activeSpecificationIndex).val(karyawan_id);
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
-            $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
-            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon);
-            $('#gaji-' + activeSpecificationIndex).val(gaji);
+            $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs.toLocaleString('id-ID'));
+            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon.toLocaleString('id-ID'));
+            $('#gaji-' + activeSpecificationIndex).val(gaji.toLocaleString('id-ID'));
+
+            // Calculate daily wage by dividing monthly salary by 26
+            var dailyWage = gaji / 26;
+            $('#gaji_perhari-' + activeSpecificationIndex).val(dailyWage.toLocaleString('id-ID'));
+
+            // Calculate net salary (gaji bersih)
+            var gajiNolpelunasan = gaji - bpjs;
+            $('#gajinol_pelunasan-' + activeSpecificationIndex).val(gajiNolpelunasan.toLocaleString('id-ID'));
+
+            var gajiBersih = gaji - bpjs - pelunasan_kasbon;
+            $('#gaji_bersih-' + activeSpecificationIndex).val(gajiBersih.toLocaleString('id-ID'));
+
+            // Initialize other fields with zero
+            $('#hasil_hk-' + activeSpecificationIndex).val(gaji.toLocaleString('id-ID'));
+            $('#lembur-' + activeSpecificationIndex).val(nol);
+            $('#hasil_lembur-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#storing-' + activeSpecificationIndex).val(nol);
+            $('#hasil_storing-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#kurangtigapuluh-' + activeSpecificationIndex).val(nol);
+            $('#lebihtigapuluh-' + activeSpecificationIndex).val(nol);
+            $('#hasilkurang-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#hasillebih-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#absen-' + activeSpecificationIndex).val(nol);
+            $('#hasil_absen-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#tdk_berangkat-' + activeSpecificationIndex).val(nol);
+            $('#hasiltdk_berangkat-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#tgl_merah-' + activeSpecificationIndex).val(nol);
+            $('#hasiltgl_merah-' + activeSpecificationIndex).val(nol.toLocaleString('id-ID'));
+            $('#lainya-' + activeSpecificationIndex).val(nol);
+            // $('#gajinol_pelunasan-' + activeSpecificationIndex).val(gaji.toLocaleString('id-ID'));
+            $('#gaji_kotor-' + activeSpecificationIndex).val(gaji.toLocaleString('id-ID'));
 
             // Check if bpjs is not null or has a value
             if (bpjs !== null && bpjs !== '') {
-                // Jika ada nilai bpjs
                 if (bpjs === 65735) {
-                    // Jika nilai bpjs adalah 65735, tandai checkbox potongan_bpjs dan atur nilainya menjadi 65735
                     $('#potongan_bpjs-' + activeSpecificationIndex).val((65735).toLocaleString('id-ID'));
                 } else if (bpjs === 43823) {
-                    // Jika nilai bpjs adalah 43823, tandai checkbox potongan_bpjs dan atur nilainya menjadi 43823
                     $('#potongan_bpjs-' + activeSpecificationIndex).val((43823).toLocaleString('id-ID'));
                 }
             } else {
-                // Jika tidak ada nilai bpjs, pastikan checkbox potongan_bpjs tidak dicentang dan biarkan nilainya kosong
                 $('#potongan_bpjs-' + activeSpecificationIndex).val("");
             }
 
+            updateGrandTotal();
             // Hide the modal after updating the form fields
             $('#tableMemo').modal('hide');
         }
@@ -968,77 +1095,102 @@
 
     {{-- hasil --}}
     <script>
-        $(document).on("input",
-            ".gaji, .lembur, .storing, .kurangtigapuluh, .lebihtigapuluh, .pelunasan_kasbon, .lainya, .absen, .hari_kerja, .hasil_hk, .hari_efektif, .gaji_perhari, .potongan_bpjs",
-            function() {
-                // Ambil baris saat ini
-                var currentRow = $(this).closest('tr');
+        function perhitungan() {
+            $(document).on("input",
+                ".gaji, .lembur, .storing, .hk, .kurangtigapuluh, .lebihtigapuluh, .pelunasan_kasbon, .lainya, .absen, .tdk_berangkat, .tgl_merah, .hari_kerja, .hasil_hk, .hari_efektif, .gaji_perhari, .potongan_bpjs",
+                function() {
+                    // Ambil baris saat ini
+                    var currentRow = $(this).closest('tr');
 
-                // Ambil nilai dari input
-                var gaji = parseFloat(currentRow.find(".gaji").val().replace(/[.]/g, '')) || 0;
-                var hari_efektif = parseFloat(currentRow.find(".hari_efektif").val()) || 0;
-                var hari_kerja = parseFloat(currentRow.find(".hari_kerja").val()) || 0;
-                var lembur = parseFloat(currentRow.find(".lembur").val().replace(",", ".")) || 0;
-                var storing = parseFloat(currentRow.find(".storing").val().replace(",", ".")) || 0;
-                var kurangtigapuluh = parseFloat(currentRow.find(".kurangtigapuluh").val()) || 0;
-                var lebihtigapuluh = parseFloat(currentRow.find(".lebihtigapuluh").val()) || 0;
-                var gaji_perhari = parseFloat(currentRow.find(".gaji_perhari").val()) || 0;
-                var hasil_hk = parseFloat(currentRow.find(".hasil_hk").val()) || 0;
-                var pelunasan_kasbon = parseFloat(currentRow.find(".pelunasan_kasbon").val().replace(/[.]/g, '')) || 0;
-                var lainya = parseFloat(currentRow.find(".lainya").val().replace(/[.]/g, '')) || 0;
-                var absen = parseFloat(currentRow.find(".absen").val()) || 0;
-                var potongan_bpjs = parseFloat(currentRow.find(".potongan_bpjs").val().replace(/[.]/g, '')) || 0;
+                    // Ambil nilai dari input
+                    var gaji = parseFloat(currentRow.find(".gaji").val().replace(/[.]/g, '')) || 0;
+                    var hari_efektif = parseFloat(currentRow.find(".hari_efektif").val()) || 0;
+                    var hari_kerja = parseFloat(currentRow.find(".hari_kerja").val()) || 26;
+                    var lembur = parseFloat(currentRow.find(".lembur").val().replace(",", ".")) || 0;
+                    var tdk_berangkat = parseFloat(currentRow.find(".tdk_berangkat").val().replace(",", ".")) || 0;
+                    var tgl_merah = parseFloat(currentRow.find(".tgl_merah").val().replace(",", ".")) || 0;
+                    var storing = parseFloat(currentRow.find(".storing").val().replace(",", ".")) || 0;
+                    var kurangtigapuluh = parseFloat(currentRow.find(".kurangtigapuluh").val()) || 0;
+                    var lebihtigapuluh = parseFloat(currentRow.find(".lebihtigapuluh").val()) || 0;
+                    var gaji_perhari = parseFloat(currentRow.find(".gaji_perhari").val()) || 0;
+                    var hasil_hk = parseFloat(currentRow.find(".hasil_hk").val()) || 0;
+                    var pelunasan_kasbon = parseFloat(currentRow.find(".pelunasan_kasbon").val().replace(/[.]/g, '')) ||
+                        0;
+                    var lainya = parseFloat(currentRow.find(".lainya").val().replace(/[.]/g, '')) || 0;
+                    var absen = parseFloat(currentRow.find(".absen").val()) || 0;
+                    var potongan_bpjs = parseFloat(currentRow.find(".potongan_bpjs").val().replace(/[.]/g, '')) || 0;
 
 
-                // Gaji satu Hari
-                var gaji_perhari = gaji / hari_efektif;
-                var hasil_harikerja = gaji_perhari * hari_kerja
-                // // Hitung uang makan dan uang hadir
+                    // Gaji satu Hari
+                    var gaji_perhari = gaji / hari_efektif;
+                    var hasiltdk_berangkat = gaji_perhari * tdk_berangkat
+                    var hasiltgl_merah = gaji_perhari * tgl_merah
 
-                // Hitung hasil lembur dan storing
-                var hasil_lembur = lembur * 10000;
+                    var hasil_harikerja = gaji - hasiltdk_berangkat + hasiltgl_merah
 
-                // Hitung hasil terlambat
-                var hasil_kurangtigapuluh = kurangtigapuluh * 5000;
-                var hasil_lebihtigapuluh = lebihtigapuluh * 15000;
+                    // // Hitung uang makan dan uang hadir
 
-                // hitung absen 
-                var hasil_absen = absen * 5000;
 
-                var test = gaji;
-                console.log(test);
-                console.log(test);
-                var gajiperjam = storing / 12;
-                // Bulatkan gajiperjam menjadi 4 digit di belakang koma
-                gajiperjam = gajiperjam.toFixed(4);
-                var hasil_storing = gajiperjam * gaji_perhari;
+                    // Hitung hasil hari kerja
+                    var hrkerja;
 
-                // Hitung gaji kotor dan gaji bersih
-                var gaji_kotor = hasil_harikerja + hasil_lembur + hasil_storing;
-                // var gaji_bersih = gaji_kotor - kurangtigapuluh - pelunasan_kasbon - absen;
-                var gaji_kotor_bulat = Math.round(gaji_kotor);
+                    // Set hari kerja default
+                    var hari_kerja = 26; // Default hari kerja
+                    // Jika tidak berangkat, kurangi dari hari kerja
+                    if (tdk_berangkat > 0) {
+                        hrkerja = hari_kerja - tdk_berangkat;
+                    } else {
+                        hrkerja = hari_kerja; // Default jika tidak ada yang bolos
+                    }
+                    // Jika ada hari merah, tambahkan ke hari kerja
+                    if (tgl_merah > 0) {
+                        hrkerja += tgl_merah; // Tambahkan jika ada hari merah
+                    }
 
-                var gaji_bersih = gaji_kotor - hasil_kurangtigapuluh - hasil_lebihtigapuluh - hasil_absen -
-                    potongan_bpjs - lainya;
-                var gaji_bersih_bulat = Math.round(gaji_bersih);
+                    // Hitung hasil lembur dan storing
+                    var hasil_lembur = lembur * 10000;
 
-                var hasil_gajibersih = gaji_bersih - pelunasan_kasbon;
-                var hasil_gajibersih_bulat = Math.round(hasil_gajibersih);
+                    // Hitung hasil terlambat
+                    var hasil_kurangtigapuluh = kurangtigapuluh * 5000;
+                    var hasil_lebihtigapuluh = lebihtigapuluh * 15000;
+                    // hitung absen 
+                    var hasil_absen = absen * 5000;
 
-                // Masukkan hasil perhitungan ke dalam input yang sesuai
-                currentRow.find(".hasil_hk").val(hasil_harikerja.toLocaleString('id-ID'));
-                currentRow.find(".hasil_lembur").val(hasil_lembur.toLocaleString('id-ID'));
-                currentRow.find(".hasilkurang").val(hasil_kurangtigapuluh.toLocaleString('id-ID'));
-                currentRow.find(".hasillebih").val(hasil_lebihtigapuluh.toLocaleString('id-ID'));
-                currentRow.find(".hasil_absen").val(hasil_absen.toLocaleString('id-ID'));
-                currentRow.find(".hasil_storing").val(hasil_storing.toLocaleString('id-ID'));
-                currentRow.find(".gaji_perhari").val(gaji_perhari.toLocaleString('id-ID'));
-                currentRow.find(".gaji_kotor").val(gaji_kotor_bulat.toLocaleString('id-ID'));
-                currentRow.find(".gajinol_pelunasan").val(gaji_bersih_bulat.toLocaleString('id-ID'));
-                currentRow.find(".gaji_bersih").val(hasil_gajibersih_bulat.toLocaleString('id-ID'));
-                updateGrandTotal();
+                    var test = gaji;
+                    console.log(test);
+                    var gajiperjam = storing / 12;
+                    // Bulatkan gajiperjam menjadi 4 digit di belakang koma
+                    gajiperjam = gajiperjam.toFixed(4);
+                    var hasil_storing = gajiperjam * gaji_perhari;
+                    // Hitung gaji kotor dan gaji bersih
+                    var gaji_kotor = hasil_harikerja + hasil_lembur + hasil_storing;
+                    var gaji_kotor_bulat = Math.round(gaji_kotor);
 
-            });
+                    var gaji_bersih = gaji_kotor - hasil_kurangtigapuluh - hasil_lebihtigapuluh - hasil_absen -
+                        potongan_bpjs - lainya;
+                    var gaji_bersih_bulat = Math.round(gaji_bersih);
+
+                    var hasil_gajibersih = gaji_bersih - pelunasan_kasbon;
+                    var hasil_gajibersih_bulat = Math.round(hasil_gajibersih);
+
+                    // Masukkan hasil perhitungan ke dalam input yang sesuai
+                    currentRow.find(".hari_kerja").val(hrkerja.toLocaleString('id-ID'));
+                    currentRow.find(".hasiltdk_berangkat").val(hasiltdk_berangkat.toLocaleString('id-ID'));
+                    currentRow.find(".hasiltgl_merah").val(hasiltgl_merah.toLocaleString('id-ID'));
+                    currentRow.find(".hasil_hk").val(hasil_harikerja.toLocaleString('id-ID'));
+                    currentRow.find(".hasil_lembur").val(hasil_lembur.toLocaleString('id-ID'));
+                    currentRow.find(".hasilkurang").val(hasil_kurangtigapuluh.toLocaleString('id-ID'));
+                    currentRow.find(".hasillebih").val(hasil_lebihtigapuluh.toLocaleString('id-ID'));
+                    currentRow.find(".hasil_absen").val(hasil_absen.toLocaleString('id-ID'));
+                    currentRow.find(".hasil_storing").val(hasil_storing.toLocaleString('id-ID'));
+                    currentRow.find(".gaji_perhari").val(gaji_perhari.toLocaleString('id-ID'));
+                    currentRow.find(".gaji_kotor").val(gaji_kotor_bulat.toLocaleString('id-ID'));
+                    currentRow.find(".gajinol_pelunasan").val(gaji_bersih_bulat.toLocaleString('id-ID'));
+                    currentRow.find(".gaji_bersih").val(hasil_gajibersih_bulat.toLocaleString('id-ID'));
+                    updateGrandTotal();
+                });
+        }
+        perhitungan();
     </script>
 
     {{-- perhitungan --}}

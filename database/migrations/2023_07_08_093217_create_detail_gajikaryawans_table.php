@@ -25,6 +25,10 @@ return new class extends Migration
             $table->string('nama_lengkap')->nullable();
             $table->string('gaji')->nullable();
             $table->string('gaji_perhari')->nullable();
+            $table->string('tdk_berangkat')->nullable();
+            $table->string('hasiltdk_berangkat')->nullable();
+            $table->string('tgl_merah')->nullable();
+            $table->string('hasiltgl_merah')->nullable();
             $table->string('hari_efektif')->nullable();
             $table->string('hasil_hk')->nullable();
             $table->string('uang_makan')->nullable();

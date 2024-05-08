@@ -111,7 +111,6 @@
         </div>
     </div>
     <div style="text-align: left; margin-top:1px">
-
         <table style="width: 100%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
             <tr>
                 <td class="td" style="text-align: left; padding: 2px; font-size: 9px;  font-weight:bold; ">
@@ -123,9 +122,9 @@
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;  ">
                     GAPOK</td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
-                    HE</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
-                    HK</td>
+                    TDK MASUK</td>
+                <td class="td" style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold;">
+                    LEMBUR <span> <br>(TGL MERAH)</span></td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
                     LEMBUR</td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
@@ -197,11 +196,11 @@
                     </td>
                     <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px;  border-bottom: 1px solid black;">
-                        {{ $item->hari_efektif }}
+                        Rp. {{ number_format($item->hasiltdk_berangkat, 0, ',', '.') }}
                     </td>
                     <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
-                        Rp. {{ number_format($item->hari_kerja, 0, ',', '.') }}
+                        Rp. {{ number_format($item->hasiltgl_merah, 0, ',', '.') }}
                     </td>
                     <td class="td"
                         style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">

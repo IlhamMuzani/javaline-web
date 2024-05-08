@@ -136,8 +136,8 @@
                                         </span>
                                     </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL TGL MERAH</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HE</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HK</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HE</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL HK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">LEMBUR <br> <span>
                                             (JAM)
@@ -248,7 +248,7 @@
                                                 name="uang_hadir[]" data-row-id="0">
                                         </div>
                                     </td> --}}
-                                    <td style="width: 150px;">
+                                    <td hidden style="width: 150px;">
                                         <div class="form-group">
                                             <input type="text" style="font-size:14px"
                                                 class="form-control hari_efektif" id="hari_efektif-0"
@@ -256,7 +256,7 @@
                                                 onkeypress="return isNumberKey(event)">
                                         </div>
                                     </td>
-                                    <td style="width: 150px;">
+                                    <td hidden style="width: 150px;">
                                         <div class="form-group">
                                             <input type="text" style="font-size:14px" class="form-control hari_kerja"
                                                 id="hari_kerja-0" name="hari_kerja[]" data-row-id="0" value="26"
@@ -595,10 +595,12 @@
             var nama_lengkap = '';
             var gaji = '';
             var gaji_perhari = '';
-            // var uang_makan = '';
-            // var uang_hadir = '';
-            var hari_efektif = '';
-            var hari_kerja = '';
+            var tdk_berangkat = '';
+            var hasiltdk_berangkat = '';
+            var tgl_merah = '';
+            var hasiltgl_merah = '';
+            var hari_efektif = '26';
+            var hari_kerja = '26';
             var hasil_hk = '';
             var lembur = '';
             var hasil_lembur = '';
@@ -623,8 +625,10 @@
                 nama_lengkap = value.nama_lengkap;
                 gaji = value.gaji;
                 gaji_perhari = value.gaji_perhari;
-                // uang_makan = value.uang_makan;
-                // uang_hadir = value.uang_hadir;
+                tdk_berangkat = value.tdk_berangkat;
+                hasiltdk_berangkat = value.hasiltdk_berangkat;
+                tgl_merah = value.tgl_merah;
+                hasiltgl_merah = value.hasiltgl_merah;
                 hari_efektif = value.hari_efektif;
                 hari_kerja = value.hari_kerja;
                 hasil_hk = value.hasil_hk;
@@ -700,30 +704,54 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // // uang_makan 
-            // item_pembelian += '<td onclick="Karyawan(' + urutan +
-            //     ')">';
-            // item_pembelian += '<div class="form-group">'
-            // item_pembelian +=
-            //     '<input type="number" class="form-control uang_makan" style="font-size:14px" readonly id="uang_makan-' +
-            //     urutan +
-            //     '" name="uang_makan[]" value="' + uang_makan + '" ';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
+            // tdk_berangkat 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian +=
+                '<input type="number" class="form-control tdk_berangkat" style="font-size:14px" id="tdk_berangkat-' +
+                urutan +
+                '" name="tdk_berangkat[]" value="' + tdk_berangkat + '" ';
+            item_pembelian += 'oninput="formatRupiahform(this)" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
-            // // uang_hadir
-            // item_pembelian += '<td onclick="Karyawan(' + urutan +
-            //     ')">';
-            // item_pembelian += '<div class="form-group">'
-            // item_pembelian +=
-            //     '<input type="number" class="form-control uang_hadir" readonly style="font-size:14px" id="uang_hadir-' +
-            //     urutan +
-            //     '" name="uang_hadir[]" value="' + uang_hadir + '" ';
-            // item_pembelian += '</div>';
-            // item_pembelian += '</td>';
+            // hasiltdk_berangkat 
+            item_pembelian += '<td onclick="Karyawan(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control hasiltdk_berangkat" style="font-size:14px" readonly id="hasiltdk_berangkat-' +
+                urutan +
+                '" name="hasiltdk_berangkat[]" value="' + hasiltdk_berangkat + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // tgl_merah 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian +=
+                '<input type="number" class="form-control tgl_merah" style="font-size:14px" id="tgl_merah-' +
+                urutan +
+                '" name="tgl_merah[]" value="' + tgl_merah + '" ';
+            item_pembelian += 'oninput="formatRupiahform(this)" ';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // hasiltgl_merah 
+            item_pembelian += '<td onclick="Karyawan(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control hasiltgl_merah" style="font-size:14px" readonly id="hasiltgl_merah-' +
+                urutan +
+                '" name="hasiltgl_merah[]" value="' + hasiltgl_merah + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             // hari_efektif 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control hari_efektif" onkeypress="return isNumberKey(event)" style="font-size:14px" id="hari_efektif-' +
@@ -733,7 +761,7 @@
             item_pembelian += '</td>';
 
             // hari_kerja 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control hari_kerja" onkeypress="return isNumberKey(event)" style="font-size:14px" id="hari_kerja-' +

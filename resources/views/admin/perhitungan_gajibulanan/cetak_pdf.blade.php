@@ -157,12 +157,15 @@
                 <td class="td"
                     style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold; width:11% ">
                     GAPOK</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold; width:4%">
-                    HE</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold; width:9%">
-                    HK</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;width:10%">
-                    LEMBUR</td>
+                <td class="td"
+                    style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold; width:12%">
+                    TDK MASUK</td>
+                <td class="td"
+                    style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold; width:12%">
+                    LEMBUR <span> <br>(TGL MERAH)</span></td>
+                <td class="td"
+                    style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold; width:10%">
+                    LEMBUR <span> <br>(JAM)</span></td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;width:12%">
                     STORING</td>
                 </td>
@@ -236,11 +239,11 @@
                     </td>
                     <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px;  border-bottom: 1px solid black;">
-                        {{ $item->hari_efektif }}
+                        Rp. {{ number_format($item->hasiltdk_berangkat, 0, ',', '.') }}
                     </td>
                     <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
-                        Rp. {{ number_format($item->hari_kerja, 0, ',', '.') }}
+                        Rp. {{ number_format($item->hasiltgl_merah, 0, ',', '.') }}
                     </td>
                     <td class="td"
                         style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
@@ -430,7 +433,8 @@
                                         Rp.
                                     </td>
                                     <td style="width: 70%;">
-                                        - {{ number_format($item->sisa_kasbon - $item->pelunasan_kasbon, 2, ',', '.') }}
+                                        -
+                                        {{ number_format($item->sisa_kasbon - $item->pelunasan_kasbon, 2, ',', '.') }}
                                     </td>
                                 </tr>
                             </table>
