@@ -673,6 +673,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_perhitungangaji', \App\Http\Controllers\Admin\InqueryPerhitungangajiController::class);
     Route::resource('inquery_perhitungangajibulanan', \App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class);
     Route::resource('report_slipgajibulanan', \App\Http\Controllers\Admin\ReportgajibulananController::class);
+    Route::resource('report_slipgajimingguan', \App\Http\Controllers\Admin\ReportgajimingguanController::class);
 
 
 });

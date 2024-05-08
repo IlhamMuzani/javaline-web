@@ -1375,10 +1375,14 @@
         function itemPembelians(identifier, key, value = null) {
             var keterangan_tambahan = '';
             var nominal_tambahan = '';
+            var qty_tambahan = '';
+            var satuan_tambahan = '';
 
             if (value !== null) {
                 keterangan_tambahan = value.keterangan_tambahan;
                 nominal_tambahan = value.nominal_tambahan;
+                qty_tambahan = value.qty_tambahan;
+                satuan_tambahan = value.satuan_tambahan;
             }
 
             // urutan 
@@ -1401,6 +1405,45 @@
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal_tambahan-' +
                 key +
                 '" name="nominal_tambahan[]" value="' + nominal_tambahan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // qty_tambahan 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="number" class="form-control" style="font-size:14px" id="nominal_tambahan-' +
+                urutan +
+                '" name="qty_tambahan[]" value="' + qty_tambahan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+
+            // satuan_tambahan
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select style="font-size:14px" class="form-control" id="satuan_tambahan-' + key +
+                '" name="satuan_tambahan[]">';
+            item_pembelian += '<option value="">- Pilih -</option>';
+            item_pembelian += '<option value="M3"' + (satuan_tambahan === 'M3' ? ' selected' : '') +
+                '>M&sup3;</option>';
+            item_pembelian += '<option value="ton"' + (satuan_tambahan === 'ton' ? ' selected' : '') +
+                '>ton</option>';
+            item_pembelian += '<option value="krtn"' + (satuan_tambahan === 'krtn' ? ' selected' : '') +
+                '>krtn</option>';
+            item_pembelian += '<option value="dus"' + (satuan_tambahan === 'dus' ? ' selected' : '') +
+                '>dus</option>';
+            item_pembelian += '<option value="rit"' + (satuan_tambahan === 'rit' ? ' selected' : '') +
+                '>rit</option>';
+            item_pembelian += '<option value="kg"' + (satuan_tambahan === 'kg' ? ' selected' : '') +
+                '>kg</option>';
+            item_pembelian += '<option value="ltr"' + (satuan_tambahan === 'ltr' ? ' selected' : '') +
+                '>ltr</option>';
+            item_pembelian += '<option value="pcs"' + (satuan_tambahan === 'pcs' ? ' selected' : '') + '>pcs</option>';
+            item_pembelian += '<option value="hr"' + (satuan_tambahan === 'hr' ? ' selected' : '') +
+                '>hr</option>';
+            item_pembelian += '<option value="ZAK"' + (satuan_tambahan === 'ZAK' ? ' selected' : '') +
+                '>ZAK</option>';
+            item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
