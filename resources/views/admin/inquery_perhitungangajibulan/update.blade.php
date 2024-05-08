@@ -115,7 +115,7 @@
                                     <th style="font-size:14px; text-align:center; width: 50px;" class="text-center">NO</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">NAMA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAPOK</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">TIDAK <br> <span>
                                             BERANGKAT
                                         </span>
@@ -206,7 +206,7 @@
                                                     value="{{ number_format($detail['gaji'], 0, ',', '.') }}">
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input type="text" style="font-size:14px" readonly
                                                     class="form-control gaji_perhari"
@@ -749,7 +749,7 @@
             item_pembelian += '</td>';
 
             // gaji_perhari 
-            item_pembelian += '<td>';
+            item_pembelian += '<hidden td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control gaji_perhari" style="font-size:14px" readonly id="gaji_perhari-' +

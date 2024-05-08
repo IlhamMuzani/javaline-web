@@ -124,7 +124,7 @@
                                     <th style="font-size:14px; text-align:center; width: 50px;" class="text-center">NO</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">NAMA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAPOK</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">TIDAK <br> <span>
                                             BERANGKAT
                                         </span>
@@ -199,7 +199,7 @@
                                                 class="form-control gaji" id="gaji-0" name="gaji[]" data-row-id="0">
                                         </div>
                                     </td>
-                                    <td style="width: 150px;">
+                                    <td hidden style="width: 150px;">
                                         <div class="form-group">
                                             <input type="text" onclick="Karyawan(0)" style="font-size:14px" readonly
                                                 class="form-control gaji_perhari" id="gaji_perhari-0"
@@ -694,7 +694,7 @@
             item_pembelian += '</td>';
 
             // gaji_perhari 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
+            item_pembelian += '<td hidden onclick="Karyawan(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
