@@ -38,55 +38,6 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form method="GET" id="form-action">
-                        <div class="row">
-                            <div class="col-md-3 mb-3">
-                                <select class="custom-select form-control" id="kategori" name="kategori">
-                                    <option value="">- Pilih Kategori -</option>
-                                    <option value="memo_perjalanan">Gaji Mingguan</option>
-                                    <option value="slip_mingguan">Slip Gaji Mingguan</option>
-                                    <option value="memo_borong">Gaji Bulanan</option>
-                                    <option value="slip_bulanan"selected>Slip Gaji Bulanan</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <select class="select2bs4 select2-hidden-accessible" name="perhitungan_gajikaryawan_id"
-                                    data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23" tabindex="-1"
-                                    aria-hidden="true" id="perhitungan_gajikaryawan_id">
-                                    <option value="">- Pilih -</option>
-                                    @foreach ($gajis as $gaji)
-                                        <option value="{{ $gaji->id }}"
-                                            {{ Request::get('perhitungan_gajikaryawan_id') == $gaji->id ? 'selected' : '' }}>
-                                            {{ $gaji->kode_gaji }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                {{-- @if (auth()->check() && auth()->user()->fitur['laporan slips kas kecil cari']) --}}
-                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                                {{-- @endif --}}
-                                {{-- @if (auth()->check() && auth()->user()->fitur['laporan slips kas kecil cetak']) --}}
-                                {{-- @endif --}}
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <input type="hidden" name="ids" id="selectedIds" value="">
-                                <button type="button" class="btn btn-primary btn-block" id="checkfilter"
-                                    onclick="printSelectedData()" target="_blank">
-                                    <i class="fas fa-print"></i> Cetak Filter
-                                </button>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <input type="hidden" name="idss" id="selectedIdss" value="">
-                                <button type="button" class="btn btn-success btn-block" id="checkfilterss"
-                                    onclick="DownloadPDF()" target="_blank">
-                                    <i class="fas fa-print"></i> Download PDF
-                                </button>
-                            </div>
-                        </div>
-                    </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
@@ -130,17 +81,16 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($slips->status == 'posting')
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/laporan_slipgajibulanan/' . $slips->id) }}">Show</a>
+                                                    href="{{ url('admin/report_slipgajibulanan/' . $slips->id) }}">Show</a>
                                             @endif
                                             @if ($slips->status == 'selesai')
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/laporan_slipgajibulanan/' . $slips->id) }}">Show</a>
+                                                    href="{{ url('admin/report_slipgajibulanan/' . $slips->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
-
                         </tbody>
                     </table>
                 </div>
@@ -148,94 +98,7 @@
             </div>
         </div>
     </section>
-
-    <script>
-        $(document).ready(function() {
-            // Ketika tombol WhatsApp diklik
-            $('.waButton').click(function() {
-                // Ambil nomor telepon yang sesuai dengan baris yang berisi tombol WhatsApp yang diklik
-                var nomorPenerima = $(this).closest('tr').data('telp');
-
-                // Jika nomor telepon tidak ditemukan, berikan peringatan
-                if (!nomorPenerima) {
-                    alert("Nomor telepon tidak tersedia untuk pengiriman pesan WhatsApp.");
-                    return; // Berhenti eksekusi fungsi
-                }
-
-                // Ambil ID dari atribut data pada baris yang berisi tombol WhatsApp yang diklik
-                var slipId = $(this).closest('tr').data('id');
-
-                // Pesan yang ingin Anda kirim
-                var pesan = 'Ini adalah gaji yang Anda terima. Silakan lihat detailnya disini: ' +
-                    'https://javaline.id/admin/report_slipgajibulanan/' + slipId;
-
-                // Membuat URL dengan format URL Scheme WhatsApp
-                var url = 'https://api.whatsapp.com/send?phone=' + nomorPenerima + '&text=' +
-                    encodeURIComponent(pesan);
-
-                // Buka URL dalam tab atau jendela baru
-                window.open(url, '_blank');
-            });
-        });
-    </script>
-
-
-
-
-    <!-- /.card -->
-    <script>
-        var form = document.getElementById('form-action')
-
-        function cari() {
-            form.action = "{{ url('admin/inquery_slipgajibulanan') }}";
-            form.submit();
-        }
-
-        function printReport() {
-            var startDate = tanggalAwal.value;
-            var endDate = tanggalAkhir.value;
-
-            if (startDate && endDate) {
-                form.action = "{{ url('admin/print_slipgaji') }}" + "?start_date=" + startDate + "&end_date=" +
-                    endDate;
-                form.submit();
-            } else {
-                alert("Silakan isi kedua tanggal sebelum mencetak.");
-            }
-        }
-    </script>
-
-
-    <script>
-        $(document).ready(function() {
-            // Detect the change event on the 'status' dropdown
-            $('#kategori').on('change', function() {
-                // Get the selected value
-                var selectedValue = $(this).val();
-
-                // Check the selected value and redirect accordingly
-                switch (selectedValue) {
-                    case 'memo_perjalanan':
-                        window.location.href = "{{ url('admin/inquery_perhitungangaji') }}";
-                        break;
-                    case 'slip_mingguan':
-                        window.location.href = "{{ url('admin/inquery_slipgaji') }}";
-                        break;
-                    case 'memo_borong':
-                        window.location.href = "{{ url('admin/inquery_perhitungangajibulanan') }}";
-                        break;
-                    case 'slip_bulanan':
-                        window.location.href = "{{ url('admin/inquery_slipgajibulanan') }}";
-                        break;
-                    default:
-                        // Handle other cases or do nothing
-                        break;
-                }
-            });
-        });
-    </script>
-
-    <script>
+  <script>
         $(document).ready(function() {
             $('tbody tr.dropdown').click(function(e) {
                 // Memeriksa apakah yang diklik adalah checkbox
@@ -340,4 +203,5 @@
             }
         }
     </script>
+
 @endsection
