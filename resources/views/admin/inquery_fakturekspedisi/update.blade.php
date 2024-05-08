@@ -1712,7 +1712,7 @@
                 // Jika kategori NON PPH, tidak kurangkan 2%
                 $(".pph2").val(0);
                 $(".sisa").val(harga.toLocaleString('id-ID'));
-                var Subtotal = harga + biaya_tambahan;
+                var Subtotal = harga;
                 $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
             }
         }
