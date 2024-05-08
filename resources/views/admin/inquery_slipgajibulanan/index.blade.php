@@ -78,13 +78,13 @@
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
                             </div>
-                            <div class="col-md-2 mb-3">
+                            {{-- <div class="col-md-2 mb-3">
                                 <input type="hidden" name="idss" id="selectedIdss" value="">
                                 <button type="button" class="btn btn-success btn-block" id="checkfilterss"
                                     onclick="DownloadPDF()" target="_blank">
                                     <i class="fas fa-print"></i> Download PDF
                                 </button>
-                            </div>
+                            </div> --}}
                         </div>
                     </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
@@ -125,7 +125,13 @@
                                         @endif
                                     </td>
                                     <td class="text-right">{{ number_format($slips->gajinol_pelunasan, 2, ',', '.') }}</td>
-                                    <td><button class="waButton" style="background-color: #25D366;">WhatsApp</button></td>
+                                    <td>
+                                        {{-- <button class="waButton"  style="background-color: #25D366;">WhatsApp</button> --}}
+                                        <span></span><button class="waButton" type="submit" style="background-color: #25D366;" class="btn btn-success btn-sm">
+                                                    <img src="{{ asset('storage/uploads/gambar_logo/whatsapp.png') }}"
+                                                        height="19" width="19" alt="whatsapp">
+                                                </button>
+                                    </td>
                                     <td class="text-center">
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($slips->status == 'posting')
@@ -316,7 +322,7 @@
         }
     </script>
 
-    <script>
+    {{-- <script>
         $(function(e) {
             $("#select_all_ids").click(function() {
                 $('.checkbox_ids').prop('checked', $(this).prop('checked'))
@@ -339,5 +345,5 @@
                 // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
             }
         }
-    </script>
+    </script> --}}
 @endsection

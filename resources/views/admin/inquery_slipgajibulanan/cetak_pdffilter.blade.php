@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Invoice Ekspedisi</title>
+    <title>SLip Gaji</title>
     <style>
         html,
         body {
@@ -123,8 +123,8 @@
                 <td style="text-align: left; padding: 0px; font-weight:bold; font-size: 15px; width:5%">Nama</td>
                 <td style="text-align: center; padding: 0px; font-weight:bold; font-size: 15px; width:5%">:</td>
                 <td style="text-align: left; padding: 0px; font-weight:bold; font-size: 15px; width:90%">
-                    @if ($cetakpdf->perhitungan_gajikaryawan)
-                        {{ $cetakpdf->perhitungan_gajikaryawan->user->karyawan->nama_lengkap }}
+                    @if ($cetakpdf->karyawan)
+                        {{ $cetakpdf->karyawan->nama_lengkap }}
                     @else
                         tidak ada
                     @endif
@@ -603,7 +603,13 @@
                     <td style="text-align: center;">
                         <table style="margin: 0 auto;">
                             <tr style="text-align: center; font-size:14px">
-                                <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                                <td class="label">
+                                    @if ($cetakpdf->perhitungan_gajikaryawan)
+                                        {{ $cetakpdf->perhitungan_gajikaryawan->user->karyawan->nama_lengkap }}
+                                    @else
+                                        tidak ada
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <td class="separator" colspan="2"><span></span></td>
