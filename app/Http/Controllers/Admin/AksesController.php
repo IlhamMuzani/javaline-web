@@ -185,6 +185,7 @@ class AksesController extends Controller
                 'laporan pelunasan pembelian part',
             );
             $fiturs = array(
+
                 // karyawan
                 'karyawan create',
                 'karyawan update',
@@ -197,6 +198,9 @@ class AksesController extends Controller
 
                 // hak akses
                 'hak akses create',
+
+                // gaji karyawan
+                'gaji karyawan update',
 
                 // departemen
                 'departemen create',
@@ -329,6 +333,7 @@ class AksesController extends Controller
                 'inquery penerimaan kas kecil delete',
                 'inquery penerimaan kas kecil show',
 
+                // inquery pengambilan kas kecil   
                 'inquery pengambilan kas kecil posting',
                 'inquery pengambilan kas kecil unpost',
                 'inquery pengambilan kas kecil update',
@@ -574,9 +579,6 @@ class AksesController extends Controller
                 'laporan pelunasan faktur pembelian part cari',
                 'laporan pelunasan faktur pembelian part cetak',
 
-                // gaji karyawan
-                'gaji karyawan update',
-
                 // akun 
                 'create akun',
                 'update akun',
@@ -669,6 +671,15 @@ class AksesController extends Controller
                 // laporan kasbon karyawan 
                 'laporan kasbon karyawan cari',
                 'laporan kasbon karyawan cetak',
+
+                'posting memo perjalanan continue',
+                'posting memo borong continue',
+                'posting memo tambahan continue',
+
+                'unpost memo perjalanan continue',
+                'unpost memo borong continue',
+                'unpost memo tambahan continue',
+
 
 
             );
@@ -1281,6 +1292,15 @@ class AksesController extends Controller
             // laporan kasbon karyawan 
             'laporan kasbon karyawan cari',
             'laporan kasbon karyawan cetak',
+
+            'posting memo perjalanan continue',
+            'posting memo borong continue',
+            'posting memo tambahan continue',
+
+            'unpost memo perjalanan continue',
+            'unpost memo borong continue',
+            'unpost memo tambahan continue',
+
 
         );
 

@@ -695,6 +695,14 @@ class UserController extends Controller
                     // laporan kasbon karyawan 
                     'laporan kasbon karyawan cari' => false,
                     'laporan kasbon karyawan cetak' => false,
+
+                    'posting memo perjalanan continue' => false,
+                    'posting memo borong continue' => false,
+                    'posting memo tambahan continue' => false,
+
+                    'unpost memo perjalanan continue' => false,
+                    'unpost memo borong continue' => false,
+                    'unpost memo tambahan continue' => false,
                 ]
             ]
         ));
