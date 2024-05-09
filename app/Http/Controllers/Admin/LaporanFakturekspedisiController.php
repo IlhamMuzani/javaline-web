@@ -15,6 +15,7 @@ class LaporanFakturekspedisiController extends Controller
     public function index(Request $request)
     {
         // Mengambil parameter dari request
+        $kategoris = $request->kategoris;
         $status_pelunasan = $request->status_pelunasan;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
@@ -23,6 +24,14 @@ class LaporanFakturekspedisiController extends Controller
         $inquery = Faktur_ekspedisi::orderBy('id', 'ASC')
             ->whereIn('status', ['posting', 'selesai']);
 
+        if ($kategoris) {
+            if ($kategoris == 'memo') {
+                $inquery->where('kategoris', 'memo');
+            } elseif ($kategoris == 'non-memo') {
+                $inquery->where('kategoris', 'non-memo');
+            }
+        }
+        
         // Menerapkan filter berdasarkan status_pelunasan
         if ($status_pelunasan == null || $status_pelunasan == "aktif") {
             $inquery->where('status_pelunasan', $status_pelunasan);

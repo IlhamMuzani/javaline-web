@@ -41,6 +41,18 @@
                     <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-2 mb-3">
+                                <label for="created_at">Status</label>
+                                <select class="custom-select form-control" id="kategoris" name="kategoris">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="memo" {{ Request::get('kategoris') == 'memo' ? 'selected' : '' }}>
+                                        MEMO
+                                    </option>
+                                    <option value="non memo"
+                                        {{ Request::get('kategoris') == 'non memo' ? 'selected' : '' }}>
+                                        NON MEMO</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
                                 <label for="created_at">Kategori</label>
                                 <select class="custom-select form-control" id="status_pelunasan" name="status_pelunasan">
                                     <option value="">- Semua Status -</option>
@@ -52,20 +64,20 @@
                                         Lunas</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_awal">Tanggal Awal</label>
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
                                     value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
                             <div class="col-md-2 mb-3">
-                                    <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
-                                        <i class="fas fa-search"></i> Cari
-                                    </button>
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
                                 @if (auth()->check() && auth()->user()->fitur['laporan penggantian oli cetak'])
                                     <button type="button" class="btn btn-primary btn-block" onclick="printReport()"
                                         target="_blank">
@@ -123,7 +135,12 @@
                                     <td style="text-align: right">
                                         {{ number_format($faktur->pph, 2, ',', '.') }}</td>
                                     <td style="text-align: right">
-                                        {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}</td>
+                                        @if (is_numeric($faktur->biaya_tambahan))
+                                            {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}
+                                        @else
+                                            Format salah
+                                        @endif
+                                    </td>
                                     <td style="text-align: right">
                                         {{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
                                 </tr>

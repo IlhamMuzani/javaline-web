@@ -53,7 +53,7 @@ class LaporanMobillogistikController extends Controller
     public function print_mobillogistik(Request $request)
     {
         // if (auth()->check() && auth()->user()->menu['laporan penerimaan kas kecil']) {
-
+        $kendaraans = Kendaraan::with(['detail_pengeluaran'])->get();
         $status = $request->status;
         $created_at = $request->created_at;
         $tanggal_akhir = $request->tanggal_akhir;
@@ -78,7 +78,7 @@ class LaporanMobillogistikController extends Controller
 
         $inquery = $query->orderBy('id', 'DESC')->get();
 
-        $pdf = PDF::loadView('admin.laporan_mobillogistik.print', compact('inquery'));
+        $pdf = PDF::loadView('admin.laporan_mobillogistik.print', compact('inquery', 'kendaraans'));
         return $pdf->stream('Laporan_Pengeluaran_Kas_Kecil.pdf');
         // } else {
         //     // tidak memiliki akses

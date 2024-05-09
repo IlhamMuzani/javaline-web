@@ -92,8 +92,8 @@
                                             <br>
                                     @endif
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" name="menu[]"
-                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}>
+                                        {{-- <input class="form-check-input" type="checkbox" name="menu[]"
+                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}> --}}
                                         <label class="form-check-label">
                                             @if ($loop->iteration === 1)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
@@ -1308,8 +1308,8 @@
                                             <br>
                                     @endif
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" name="menu[]"
-                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}>
+                                        {{-- <input class="form-check-input" type="checkbox" name="menu[]"
+                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}> --}}
                                         <label class="form-check-label">
                                             @if ($loop->iteration === 26)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
@@ -1476,8 +1476,8 @@
                                             <br>
                                     @endif
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" name="menu[]"
-                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}>
+                                        {{-- <input class="form-check-input" type="checkbox" name="menu[]"
+                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}> --}}
                                         <label class="form-check-label">
                                             @if ($loop->iteration === 34)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
@@ -2177,8 +2177,8 @@
                                             <br>
                                     @endif
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" name="menu[]"
-                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}>
+                                        {{-- <input class="form-check-input" type="checkbox" name="menu[]"
+                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}> --}}
                                         <label class="form-check-label">
                                             @if ($loop->iteration === 49)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
@@ -3938,7 +3938,10 @@
                                     $loop->iteration === 74 ||
                                     $loop->iteration === 75 ||
                                     $loop->iteration === 76 ||
+                                    $loop->iteration === 77 ||
                                     $loop->iteration === 78 ||
+                                    $loop->iteration === 79 ||
+                                    $loop->iteration === 80 ||
                                     $loop->iteration === 81 ||
                                     $loop->iteration === 82 ||
                                     $loop->iteration === 83 ||
@@ -3960,8 +3963,8 @@
                                             <br>
                                     @endif
                                     <div class="form-check mb-3">
-                                        <input class="form-check-input" type="checkbox" name="menu[]"
-                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}>
+                                        {{-- <input class="form-check-input" type="checkbox" name="menu[]"
+                                            value="{{ $menu }}" {{ $akses->menu[$menu] ? 'checked' : '' }}> --}}
                                         <label class="form-check-label">
                                             @if ($loop->iteration === 70)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
@@ -4012,6 +4015,16 @@
                                                     data-category="laporan_update_km" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangelaporan('laporan_update_km')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> LAPORAN UPDATE KM
+                                                    @elseif ($loop->iteration === 79)
+                                                <input class="form-check-input" type="checkbox" name="menu[]"
+                                                    data-category="laporan_kas_kecil" value="{{ $menu }}"
+                                                    onchange="handleIndividualCheckboxChangelaporan('laporan_kas_kecil')"
+                                                    {{ $akses->menu[$menu] ? 'checked' : '' }}> LAPORAN KAS KECIL
+                                                    @elseif ($loop->iteration === 80)
+                                                <input class="form-check-input" type="checkbox" name="menu[]"
+                                                    data-category="laporan_mobil_logistik" value="{{ $menu }}"
+                                                    onchange="handleIndividualCheckboxChangelaporan('laporan_mobil_logistik')"
+                                                    {{ $akses->menu[$menu] ? 'checked' : '' }}> LAPORAN MOBIL LOGISTIK
                                             @elseif ($loop->iteration === 81)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
                                                     data-category="laporan_status_perjalanan"
@@ -5094,6 +5107,7 @@
                                 updateSelectAllCheckboxfinance('laporan_pengambilan_kaskecil');
                                 updateSelectAllCheckboxfinance('laporan_deposit_driver');
                                 updateSelectAllCheckboxfinance('laporan_memo_ekspedisi');
+                                updateSelectAllCheckboxfinance('laporan_penggantian_oli');
                                  updateSelectAllCheckboxfinance('laporan_pph');
                                 updateSelectAllCheckboxfinance('laporan_invoice_ekspedisi');
                                 updateSelectAllCheckboxfinance('laporan_faktur_ekspedisi');
