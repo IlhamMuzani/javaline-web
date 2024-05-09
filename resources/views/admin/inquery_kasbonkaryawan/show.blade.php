@@ -199,7 +199,7 @@
     <br>
     @if ($cetakpdf->kategori == 'PENGAMBILAN KASBON')
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">PENGAMBILAN KASBON</span>
+            <span style="font-weight: bold; font-size: 23px;">PEMINJAMAN KASBON</span>
             <br>
             <br>
         </div>
