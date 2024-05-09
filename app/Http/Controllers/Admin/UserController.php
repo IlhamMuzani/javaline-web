@@ -696,10 +696,12 @@ class UserController extends Controller
                     'laporan kasbon karyawan cari' => false,
                     'laporan kasbon karyawan cetak' => false,
 
+                    // posting continue
                     'posting memo perjalanan continue' => false,
                     'posting memo borong continue' => false,
                     'posting memo tambahan continue' => false,
 
+                    // unpost continue 
                     'unpost memo perjalanan continue' => false,
                     'unpost memo borong continue' => false,
                     'unpost memo tambahan continue' => false,
