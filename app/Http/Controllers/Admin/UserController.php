@@ -700,10 +700,7 @@ class UserController extends Controller
                     'posting memo perjalanan continue' => false,
                     'posting memo borong continue' => false,
                     'posting memo tambahan continue' => false,
-
-                    // unpost continue 
-                    // unpost continue 
-                    // unpost continue 
+                    // akses coba 
                     // test coba 
                     'unpost memo perjalanan continue' => false,
                     'unpost memo borong continue' => false,
