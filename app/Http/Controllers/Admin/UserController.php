@@ -702,6 +702,7 @@ class UserController extends Controller
                     'posting memo tambahan continue' => false,
 
                     // unpost continue 
+                    // unpost continue 
                     'unpost memo perjalanan continue' => false,
                     'unpost memo borong continue' => false,
                     'unpost memo tambahan continue' => false,
