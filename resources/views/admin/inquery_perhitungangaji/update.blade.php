@@ -434,8 +434,9 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Karyawan</th>
                                         <th>Nama Karyawan</th>
-                                        <th>Cicilan</th>
                                         <th>Gapok</th>
+                                        <th>Cicilan</th>
+                                        <th>BPJS</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -458,6 +459,7 @@
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $karyawan->kode_karyawan }}</td>
                                             <td>{{ $karyawan->nama_lengkap }}</td>
+                                            <td>{{ number_format($karyawan->gaji, 0, ',', '.') }}</td>
                                             <td>
                                                 @php
                                                     $detail_cicilan_posting_belum_lunas = $karyawan->detail_cicilan
@@ -473,7 +475,7 @@
                                                 @endif
                                             </td>
 
-                                            <td>{{ number_format($karyawan->gaji, 0, ',', '.') }}</td>
+                                            <td>{{ number_format($karyawan->bpjs, 0, ',', '.') }}</td>
                                             <td class="text-center">
                                                 <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
                                                     onclick="getMemos({{ $loop->index }})">
