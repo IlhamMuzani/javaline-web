@@ -124,7 +124,8 @@
                                     <th style="font-size:14px; text-align:center; width: 50px;" class="text-center">NO</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">NAMA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAPOK</th>
-                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
+                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI
+                                    </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">TIDAK <br> <span>
                                             BERANGKAT
                                         </span>
@@ -706,13 +707,11 @@
 
             // tdk_berangkat 
             item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control tdk_berangkat" style="font-size:14px" id="tdk_berangkat-' +
+                '<input type="text" class="form-control tdk_berangkat" onkeypress="return isNumberKey(event)" style="font-size:14px" id="tdk_berangkat-' +
                 urutan +
                 '" name="tdk_berangkat[]" value="' + tdk_berangkat + '" ';
-            item_pembelian += 'oninput="formatRupiahform(this)" ';
-            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -729,13 +728,11 @@
 
             // tgl_merah 
             item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control tgl_merah" style="font-size:14px" id="tgl_merah-' +
+                '<input type="text" class="form-control tgl_merah" onkeypress="return isNumberKey(event)" style="font-size:14px" id="tgl_merah-' +
                 urutan +
                 '" name="tgl_merah[]" value="' + tgl_merah + '" ';
-            item_pembelian += 'oninput="formatRupiahform(this)" ';
-            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 

@@ -758,15 +758,13 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // tdk_berangkat 
+             // tdk_berangkat 
             item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control tdk_berangkat" style="font-size:14px" id="tdk_berangkat-' +
+                '<input type="text" class="form-control tdk_berangkat" onkeypress="return isNumberKey(event)" style="font-size:14px" id="tdk_berangkat-' +
                 key +
                 '" name="tdk_berangkat[]" value="' + tdk_berangkat + '" ';
-            item_pembelian += 'oninput="formatRupiahform(this)" ';
-            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -782,13 +780,11 @@
 
             // tgl_merah 
             item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="number" class="form-control tgl_merah" style="font-size:14px" id="tgl_merah-' +
+                '<input type="text" class="form-control tgl_merah" onkeypress="return isNumberKey(event)" style="font-size:14px" id="tgl_merah-' +
                 key +
                 '" name="tgl_merah[]" value="' + tgl_merah + '" ';
-            item_pembelian += 'oninput="formatRupiahform(this)" ';
-            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
