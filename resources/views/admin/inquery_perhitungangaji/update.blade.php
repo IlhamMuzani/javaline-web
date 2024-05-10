@@ -123,11 +123,11 @@
                                         </span>
                                     </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL LEMBUR</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
+                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
                                             (JAM)
                                         </span>
                                     </th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th> --}}
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI KOTOR</th>
                                     <th style="font-size:14px; text-align:center; min-width: 300px;">KETERLAMBATAN <br>
                                         <span>
@@ -235,7 +235,7 @@
                                                     value="{{ number_format($detail['hasil_lembur'], 0, ',', '.') }}">
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text" class="form-control storing"
                                                     id="storing-{{ $loop->index }}" name="storing[]" data-row-id="0"
@@ -243,7 +243,7 @@
                                                     onkeypress="return isNumberKey(event)">
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" readonly type="text"
                                                     class="form-control hasil_storing"
@@ -369,7 +369,7 @@
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                             <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                onclick="removeBan({{ $loop->index }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -567,7 +567,7 @@
             row.remove();
 
             $.ajax({
-                url: "{{ url('admin/inquery_perhitungangaji/deletedetailperhitungangaji/') }}/" + detailId,
+                url: "{{ url('admin/inquery_perhitungangaji/deletedetailgaji/') }}/" + detailId,
                 type: "POST",
                 data: {
                     _method: 'DELETE',
@@ -731,7 +731,7 @@
             item_pembelian += '</td>';
 
             // storing 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control storing"  onkeypress="return isNumberKey(event)" style="font-size:14px" id="storing-' +
@@ -741,7 +741,7 @@
             item_pembelian += '</td>';
 
             // hasil_storing 
-            item_pembelian += '<td >';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control hasil_storing" style="font-size:14px" readonly id="hasil_storing-' +
@@ -913,14 +913,30 @@
             var bpjs = selectedRow.data('bpjs');
             var pelunasan_kasbon = parseFloat(selectedRow.data('pelunasan_kasbon')).toLocaleString('id-ID');
             var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
+            var nol = 0;
 
             // Update the form fields for the active specification
             $('#karyawan_id-' + activeSpecificationIndex).val(karyawan_id);
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
             $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
-            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon);
+            $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon.toLocaleString('id-ID'));
             $('#gaji-' + activeSpecificationIndex).val(gaji);
+
+            $('#hari_kerja-' + activeSpecificationIndex).val(nol);
+            $('#uang_makan-' + activeSpecificationIndex).val(nol);
+            $('#uang_hadir-' + activeSpecificationIndex).val(nol);
+            $('#lembur-' + activeSpecificationIndex).val(nol);
+            $('#hasil_lembur-' + activeSpecificationIndex).val(nol);
+            $('#gaji_kotor-' + activeSpecificationIndex).val(nol);
+            $('#kurangtigapuluh-' + activeSpecificationIndex).val(nol);
+            $('#lebihtigapuluh-' + activeSpecificationIndex).val(nol);
+            $('#hasilkurang-' + activeSpecificationIndex).val(nol);
+            $('#hasillebih-' + activeSpecificationIndex).val(nol);
+            $('#absen-' + activeSpecificationIndex).val(nol);
+            $('#hasil_absen-' + activeSpecificationIndex).val(nol);
+            $('#lainya-' + activeSpecificationIndex).val(nol);
+            $('#gajinol_pelunasan-' + activeSpecificationIndex).val(nol);
 
             // Check if bpjs is not null or has a value
             if (bpjs !== null && bpjs !== '') {
@@ -966,8 +982,9 @@
                 var uang_makan = hari_kerja * 10000;
                 var uang_hadir = hari_kerja * 5000;
 
+                var gajilemburjam = gaji / 10
                 // Hitung hasil lembur dan storing
-                var hasil_lembur = lembur * 10000;
+                var hasil_lembur = lembur * gajilemburjam;
 
                 // Hitung hasil terlambat
                 var hasil_kurangtigapuluh = kurangtigapuluh * 5000;
