@@ -115,7 +115,7 @@
                                     <th style="font-size:14px; text-align:center; width: 50px;" class="text-center">NO</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">NAMA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAPOK</th>
-                                    <th hidden style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI PERHARI</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">TIDAK <br> <span>
                                             BERANGKAT
                                         </span>
@@ -135,11 +135,11 @@
                                         </span>
                                     </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL LEMBUR</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
+                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
                                             (JAM)
                                         </span>
-                                    </th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th>
+                                    </th> --}}
+                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th> --}}
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI KOTOR</th>
                                     <th style="font-size:14px; text-align:center; min-width: 300px;">KETERLAMBATAN <br>
                                         <span>
@@ -206,7 +206,7 @@
                                                     value="{{ number_format($detail['gaji'], 0, ',', '.') }}">
                                             </div>
                                         </td>
-                                        <td hidden style="width: 150px;">
+                                        <td style="width: 150px;">
                                             <div class="form-group">
                                                 <input type="text" style="font-size:14px" readonly
                                                     class="form-control gaji_perhari"
@@ -294,7 +294,7 @@
                                                     value="{{ number_format($detail['hasil_lembur'], 0, ',', '.') }}">
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text" class="form-control storing"
                                                     id="storing-{{ $loop->index }}" name="storing[]" data-row-id="0"
@@ -302,7 +302,7 @@
                                                     onkeypress="return isNumberKey(event)">
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
+                                        <td hidden style="width: 150px;">
                                             <div class="form-group">
                                                 <input style="font-size:14px" readonly type="text"
                                                     class="form-control hasil_storing"
@@ -645,7 +645,7 @@
         updateGrandTotal();
 
         function itemPembelian(urutan, key, value = null) {
-           var karyawan_id = '';
+            var karyawan_id = '';
             var kode_karyawan = '';
             var nama_lengkap = '';
             var gaji = '';
@@ -749,7 +749,7 @@
             item_pembelian += '</td>';
 
             // gaji_perhari 
-            item_pembelian += '<hidden td>';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control gaji_perhari" style="font-size:14px" readonly id="gaji_perhari-' +
@@ -853,7 +853,7 @@
             item_pembelian += '</td>';
 
             // storing 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control storing" onkeypress="return isNumberKey(event)" style="font-size:14px" id="storing-' +
@@ -863,7 +863,7 @@
             item_pembelian += '</td>';
 
             // hasil_storing 
-            item_pembelian += '<td >';
+            item_pembelian += '<td hidden >';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control hasil_storing" style="font-size:14px" readonly id="hasil_storing-' +
@@ -1123,6 +1123,7 @@
 
                     // Gaji satu Hari
                     var gaji_perhari = gaji / hari_efektif;
+                    var gaji_perjam = gaji_perhari / 10;
                     var hasiltdk_berangkat = gaji_perhari * tdk_berangkat
                     var hasiltgl_merah = gaji_perhari * tgl_merah
 
@@ -1148,7 +1149,7 @@
                     }
 
                     // Hitung hasil lembur dan storing
-                    var hasil_lembur = lembur * 10000;
+                    var hasil_lembur = lembur * gaji_perjam;
 
                     // Hitung hasil terlambat
                     var hasil_kurangtigapuluh = kurangtigapuluh * 5000;

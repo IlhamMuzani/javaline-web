@@ -656,10 +656,11 @@ class InqueryPerhitungangajibulananController extends Controller
                 ->update(['detail_gajikaryawan_id' => null]);
         }
 
-        // Hapus semua detail gaji karyawan yang terkait
         $item->detail_gajikaryawan()->delete();
+        $item->pengeluaran_kaskecil()->delete();
+        $item->detail_pengeluaran()->delete();
+        $item->pelunasan_deposit()->delete();
         $item->delete();
-
         return back()->with('success', 'Berhasil');
     }
 

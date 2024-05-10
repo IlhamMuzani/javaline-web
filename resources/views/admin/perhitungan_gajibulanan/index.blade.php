@@ -144,11 +144,11 @@
                                         </span>
                                     </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL LEMBUR</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
+                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
                                             (JAM)
                                         </span>
-                                    </th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th>
+                                    </th> --}}
+                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th> --}}
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI KOTOR</th>
                                     <th style="font-size:14px; text-align:center; min-width: 300px;">KETERLAMBATAN <br>
                                         <span>
@@ -284,14 +284,14 @@
                                                 name="hasil_lembur[]" data-row-id="0">
                                         </div>
                                     </td>
-                                    <td style="width: 150px;">
+                                    <td hidden style="width: 150px;">
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" class="form-control storing"
                                                 id="storing-0" name="storing[]" data-row-id="0"
                                                 onkeypress="return isNumberKey(event)">
                                         </div>
                                     </td>
-                                    <td style="width: 150px;">
+                                    <td hidden style="width: 150px;">
                                         <div class="form-group">
                                             <input style="font-size:14px" readonly type="text"
                                                 class="form-control hasil_storing" id="hasil_storing-0"
@@ -802,7 +802,7 @@
             item_pembelian += '</td>';
 
             // storing 
-            item_pembelian += '<td>';
+            item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control storing" onkeypress="return isNumberKey(event)" style="font-size:14px" id="storing-' +
@@ -812,7 +812,7 @@
             item_pembelian += '</td>';
 
             // hasil_storing 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
+            item_pembelian += '<td hidden onclick="Karyawan(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
@@ -1077,6 +1077,7 @@
 
                     // Gaji satu Hari
                     var gaji_perhari = gaji / hari_efektif;
+                    var gaji_perjam = gaji_perhari / 10;
                     var hasiltdk_berangkat = gaji_perhari * tdk_berangkat
                     var hasiltgl_merah = gaji_perhari * tgl_merah
 
@@ -1102,7 +1103,7 @@
                     }
 
                     // Hitung hasil lembur dan storing
-                    var hasil_lembur = lembur * 10000;
+                    var hasil_lembur = lembur * gaji_perjam;
 
                     // Hitung hasil terlambat
                     var hasil_kurangtigapuluh = kurangtigapuluh * 5000;
