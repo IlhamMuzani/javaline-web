@@ -205,7 +205,7 @@
         </div>
     @else
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">PENGELUARAN KASBON</span>
+            <span style="font-weight: bold; font-size: 23px;">MEMO HUTANG KARYAWAN</span>
             <br>
             <br>
         </div>
