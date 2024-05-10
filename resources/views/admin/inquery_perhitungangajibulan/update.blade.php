@@ -216,12 +216,11 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px" type="number"
+                                                <input style="font-size:14px" type="text"
                                                     class="form-control tdk_berangkat"
                                                     id="tdk_berangkat-{{ $loop->index }}" name="tdk_berangkat[]"
                                                     value="{{ $detail['tdk_berangkat'] }}"
-                                                    oninput="formatRupiahform(this)"
-                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                    onkeypress="return isNumberKey(event)">
                                             </div>
                                         </td>
                                         <td style="width: 150px;">
@@ -235,11 +234,10 @@
                                         </td>
                                         <td style="width: 150px;">
                                             <div class="form-group">
-                                                <input style="font-size:14px" type="number"
+                                                <input style="font-size:14px" type="text"
                                                     class="form-control tgl_merah" id="tgl_merah-{{ $loop->index }}"
                                                     name="tgl_merah[]" value="{{ $detail['tgl_merah'] }}"
-                                                    oninput="formatRupiahform(this)"
-                                                    onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                    onkeypress="return isNumberKey(event)">
                                             </div>
                                         </td>
                                         <td style="width: 150px;">
@@ -758,7 +756,7 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-             // tdk_berangkat 
+            // tdk_berangkat 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
