@@ -537,7 +537,7 @@
                 <a href="{{ url('admin/kasbon_karyawan') }}"
                     class="nav-link {{ request()->is('admin/kasbon_karyawan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Kasbon Karyawan</p>
+                    <p style="font-size: 14px;">Memo Hutang Karyawan</p>
                 </a>
             </li>
         @endif
@@ -941,7 +941,8 @@
                 <a href="{{ url('admin/inquery_kasbonkaryawan') }}"
                     class="nav-link {{ request()->is('admin/inquery_kasbonkaryawan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Inquery Kasbon Karyawan
+                    <p style="font-size: 14px;">Inquery Memo Hutang-<br>
+                        <span style="margin-left: 32px">Karyawan</span>
                     </p>
                 </a>
             </li>
@@ -1192,7 +1193,9 @@
                 <a href="{{ url('admin/laporan_kasbonkaryawan') }}"
                     class="nav-link {{ request()->is('admin/laporan_kasbonkaryawan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Laporan Kasbon Karyawan</p>
+                    <p style="font-size: 14px;">Laporan Memo Hutang-<br>
+                        <span style="margin-left: 32px">Karyawan</span>
+                    </p>
                 </a>
             </li>
         @endif
