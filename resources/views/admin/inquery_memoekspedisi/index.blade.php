@@ -305,6 +305,7 @@
             $('.unpost-btn').click(function() {
                 var memoId = $(this).data('memo-id');
 
+                $(this).addClass('disabled');
                 // Tampilkan modal loading saat permintaan AJAX diproses
                 $('#modal-loading').modal('show');
 
@@ -339,51 +340,15 @@
             });
         });
     </script>
-    {{-- posting memo --}}
-    {{-- <script>
-        $(document).ready(function() {
-            $('.posting-btn').click(function() {
-                var memoId = $(this).data('memo-id');
-
-                // Tampilkan modal loading saat permintaan AJAX diproses
-                $('#modal-loading').modal('show');
-
-                // Kirim permintaan AJAX untuk melakukan posting
-                $.ajax({
-                    url: "{{ url('admin/inquery_memoekspedisi/postingmemo/') }}/" + memoId,
-                    type: 'GET',
-                    data: {
-                        id: memoId
-                    },
-                    success: function(response) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(response);
-
-                        // Tutup modal setelah berhasil posting
-                        $('#modal-posting-' + memoId).modal('hide');
-
-                        // Reload the page to refresh the table
-                        location.reload();
-                    },
-                    error: function(error) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script> --}}
+    
 
     <script>
         $(document).ready(function() {
             $('.posting-btn').click(function() {
+
                 var memoId = $(this).data('memo-id');
+
+                $(this).addClass('disabled');
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({

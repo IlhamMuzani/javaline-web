@@ -272,6 +272,7 @@
         $(document).ready(function() {
             $('.unpost-btn').click(function() {
                 var memoId = $(this).data('memo-id');
+                $(this).addClass('disabled');
 
                 // Tampilkan modal loading saat permintaan AJAX diproses
                 $('#modal-loading').modal('show');
@@ -312,6 +313,7 @@
         $(document).ready(function() {
             $('.posting-btn').click(function() {
                 var memoId = $(this).data('memo-id');
+                $(this).addClass('disabled');
 
                 // Tampilkan modal loading saat permintaan AJAX diproses
                 $('#modal-loading').modal('show');
