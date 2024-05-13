@@ -71,19 +71,6 @@
             text-align: center
         }
 
-        /* .blue-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            right: 0;
-        } */
-
         .info-container {
             display: flex;
             justify-content: space-between;

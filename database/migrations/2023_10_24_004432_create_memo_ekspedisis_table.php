@@ -66,7 +66,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('status_memo')->nullable();
             $table->string('status_notif')->nullable();
-
+            $table->string('status_terpakai')->nullable();
             $table->unsignedBigInteger('biaya_id')->nullable();
             $table->foreign('biaya_id')->references('id')->on('biaya_tambahans');
             $table->string('kode_biaya')->nullable();

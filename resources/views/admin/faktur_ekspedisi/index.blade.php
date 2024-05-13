@@ -973,7 +973,7 @@
 
             if (jumlah_ban === 0) {
                 var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Memo belum ditambahkan -</td>';
+                item_pembelian += '<td class="text-center" colspan="11">- Memo belum ditambahkan -</td>';
                 item_pembelian += '</tr>';
                 $('#tabel-pembelian').html(item_pembelian);
             } else {

@@ -115,7 +115,7 @@
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Admin</td>
             {{-- <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Type Memo</td> --}}
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">Pelanggan</td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8;">PPH
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">PPH
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 8;">Total</td>
         </tr>
@@ -139,11 +139,11 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 8;">{{ $faktur->nama_pelanggan }}
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    {{ number_format($faktur->pph, 0, ',', '.') }}
+                    {{ number_format($faktur->pph, 2, ',', '.') }}
                 </td>
 
                 <td class="td" style="text-align: right; padding: 5px; font-size: 8;">
-                    {{ $faktur->grand_total }}
+                {{ number_format($faktur->grand_total, 2, ',', '.') }}
                 </td>
 
             </tr>

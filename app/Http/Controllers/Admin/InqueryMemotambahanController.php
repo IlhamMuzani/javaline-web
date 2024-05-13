@@ -30,6 +30,8 @@ use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryMemotambahanController extends Controller
@@ -329,22 +331,58 @@ class InqueryMemotambahanController extends Controller
 
     public function kodeakuns()
     {
-        $ban = Detail_pengeluaran::all();
-        if ($ban->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Detail_pengeluaran::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+        try {
+            return DB::transaction(function () {
+                // Mengambil kode terbaru dari database dengan awalan 'KKA'
+                $lastBarang = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->latest()->first();
+
+                // Mendapatkan bulan dari tanggal kode terakhir
+                $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
+                $currentMonth = date('m');
+
+                // Jika tidak ada kode sebelumnya atau bulan saat ini berbeda dari bulan kode terakhir
+                if (!$lastBarang || $currentMonth != $lastMonth) {
+                    $num = 1; // Mulai dari 1 jika bulan berbeda
+                } else {
+                    // Jika ada kode sebelumnya, ambil nomor terakhir
+                    $lastCode = $lastBarang->kode_detailakun;
+
+                    // Pisahkan kode menjadi bagian-bagian terpisah
+                    $parts = explode('/', $lastCode);
+                    $lastNum = end($parts); // Ambil bagian terakhir sebagai nomor terakhir
+                    $num = (int) $lastNum + 1; // Tambahkan 1 ke nomor terakhir
+                }
+
+                // Format nomor dengan leading zeros sebanyak 6 digit
+                $formattedNum = sprintf("%06s", $num);
+
+                // Awalan untuk kode baru
+                $prefix = 'KKA';
+                $tahun = date('y');
+                $tanggal = date('dm');
+
+                // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
+                $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+
+                // Kembalikan kode
+                return $newCode;
+            });
+        } catch (\Throwable $e) {
+            // Jika terjadi kesalahan, melanjutkan dengan kode berikutnya
+            $lastCode = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->latest()->value('kode_detailakun');
+            if (!$lastCode) {
+                $lastNum = 0;
+            } else {
+                $parts = explode('/', $lastCode);
+                $lastNum = end($parts);
+            }
+            $nextNum = (int) $lastNum + 1;
+            $formattedNextNum = sprintf("%06s", $nextNum);
+            $tahun = date('y');
+            $tanggal = date('dm');
+            return 'KKA/' . $tanggal . $tahun . "/" . $formattedNextNum;
         }
-
-        $data = 'KKA';
-        $kode_ban = $data . $num;
-        return $kode_ban;
     }
-
 
     public function show($id)
     {

@@ -39,7 +39,7 @@ class FakturekspedisiController extends Controller
     public function index()
     {
         $pelanggans = Pelanggan::all();
-        $memoEkspedisi = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting'])->get();
+        $memoEkspedisi = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_terpakai' => null])->get();
         $memoTambahan = Memotambahan::where(['status_memo' => null, 'status' => 'posting'])->get();
         $kendaraans = Kendaraan::get();
         // Gabungkan dua koleksi menjadi satu
@@ -276,7 +276,7 @@ class FakturekspedisiController extends Controller
                 ]);
 
                 // Update status memo ekspedisi
-                Memo_ekspedisi::where('id', $data_pesanan['memo_ekspedisi_id'])->update(['status_memo' => 'aktif', 'status' => 'selesai']);
+                Memo_ekspedisi::where('id', $data_pesanan['memo_ekspedisi_id'])->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan']);
 
                 if ($data_pesanan['memo_ekspedisi_id']) {
                     // Ambil semua memo tambahan yang terkait dengan memo ekspedisi tertentu
