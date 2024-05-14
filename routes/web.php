@@ -289,6 +289,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_memoborong/postingmemoborong/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'postingmemoborong']);
     Route::get('inquery_fakturekspedisi/unpostfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfaktur']);
     Route::get('inquery_fakturekspedisi/postingfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'postingfaktur']);
+    Route::get('inquery_perpanjanganstnk/unpoststnk/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjanganstnkController::class, 'unpoststnk']);
+    Route::get('inquery_perpanjanganstnk/postingstnk/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjanganstnkController::class, 'postingstnk']);
+    Route::get('inquery_perpanjangankir/unpostkir/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjangankirController::class, 'unpostkir']);
+    Route::get('inquery_perpanjangankir/postingkir/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjangankirController::class, 'postingkir']);
     Route::get('inquery_pengeluarankaskecil/unpostpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'unpostpengeluaran']);
     Route::get('inquery_pengeluarankaskecil/postingpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'postingpengeluaran']);
     Route::get('inqueryklaim_ban/unpost_klaimban/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'unpost_klaimban']);
@@ -410,6 +414,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_tagihanekspedisi/unposttagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'unposttagihan']);
     Route::get('inquery_tagihanekspedisi/postingtagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'postingtagihan']);
     Route::get('hapustagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'hapustagihan'])->name('hapustagihan');
+    Route::get('hapusstnk/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjanganstnkController::class, 'hapusstnk'])->name('hapusstnk');
 
     // Route::get('unpostfakturselesai/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfakturselesai'])->name('unpostfakturselesai');
     Route::get('unpostfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfaktur'])->name('unpostfaktur');
@@ -433,7 +438,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingnota/{id}', [\App\Http\Controllers\Admin\InqueryNotareturnController::class, 'postingnota'])->name('postingnota');
     Route::get('hapusnota/{id}', [\App\Http\Controllers\Admin\InqueryNotareturnController::class, 'hapusnota'])->name('hapusnota');
     Route::get('nota_returnbarang/cetak-pdf/{id}', [\App\Http\Controllers\Admin\NotareturnController::class, 'cetakpdf']);
-
 
     Route::get('unpostpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'unpostpengeluaran'])->name('unpostpengeluaran');
     Route::get('postingpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'postingpengeluaran'])->name('postingpengeluaran');

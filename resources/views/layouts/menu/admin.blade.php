@@ -791,7 +791,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['list administrasi'])
+        @if (auth()->check() && auth()->user()->menu['inquery deposit sopir'])
             <li class="nav-item">
                 <a href="{{ url('admin/saldo_ujs') }}"
                     class="nav-link {{ request()->is('admin/saldo_ujs*') || request()->is('admin/listadministrasi*') || request()->is('admin/pengambilanujs*') ? 'active' : '' }}">
@@ -801,7 +801,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['list administrasi'])
+        @if (auth()->check() && auth()->user()->menu['inquery deposit sopir'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_pengeluaranujs') }}"
                     class="nav-link {{ request()->is('admin/inquery_pengeluaranujs*') ? 'active' : '' }}">

@@ -11,6 +11,7 @@ use App\Models\Faktur_ekspedisi;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pengeluaran_kaskecil;
+use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
 
 class TablepengeluaranController extends Controller
@@ -28,7 +29,8 @@ class TablepengeluaranController extends Controller
 
         // Get the results
         $inquery = $inquery->get();
+        $saldoTerakhir = Saldo::latest()->first();
 
-        return view('admin.tablepengeluaran.index', compact('inquery'));
+        return view('admin.tablepengeluaran.index', compact('inquery','saldoTerakhir'));
     }
 }

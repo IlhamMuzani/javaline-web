@@ -14,6 +14,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_pengeluaran;
 use App\Models\Laporanstnk;
+use App\Models\LogPerpanjanganstnk;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Saldo;
 use App\Models\Stnk;
@@ -225,6 +226,14 @@ class InqueryPerpanjanganstnkController extends Controller
             'status' => 'posting'
         ]);
 
+        return back()->with('success', 'Berhasil');
+    }
+
+    public function hapusstnk($id)
+    {
+        $item = Laporanstnk::where('id', $id)->first();
+
+        $item->delete();
         return back()->with('success', 'Berhasil');
     }
 
