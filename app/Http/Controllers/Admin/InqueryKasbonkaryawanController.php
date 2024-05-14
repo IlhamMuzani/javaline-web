@@ -166,6 +166,7 @@ class InqueryKasbonkaryawanController extends Controller
             'nominal' => $request->nominal,
             'keterangan' => $request->keterangan,
             'saldo_masuk' => $request->saldo_masuk,
+            'saldo_keluar' => $request->saldo_keluar,
             'sisa_saldo' => $request->sisa_saldo,
             'sub_total' => $request->sub_total2,
             'status' => 'unpost',

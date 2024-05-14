@@ -27,6 +27,10 @@ return new class extends Migration
             $table->string('saldo_keluar')->nullable();
             $table->string('sisa_saldo')->nullable();
             $table->string('sub_total')->nullable();
+            $table->string('nominal_cicilan')->nullable();
+            $table->string('nominal_lebih')->nullable();
+            $table->string('jumlah_cicilan')->nullable();
+            $table->string('grand_total')->nullable();
             $table->string('status')->nullable();
             $table->string('status_notif')->nullable();
             $table->string('tanggal')->nullable();
