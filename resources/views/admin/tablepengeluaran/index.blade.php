@@ -52,7 +52,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form method="GET" id="form-action">
+                    {{-- <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-4 mb-3">
                                 <select class="custom-select form-control" id="status" name="status">
@@ -81,7 +81,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> --}}
                     @if (auth()->user()->id == 1 || auth()->user()->id == 31 || auth()->user()->id == 4)
                         <form method="GET" id="form-action">
                             <div class="row">
