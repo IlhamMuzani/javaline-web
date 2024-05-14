@@ -823,7 +823,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
+        {{-- @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_pengeluaranujs') }}"
                     class="nav-link {{ request()->is('admin/inquery_pengeluaranujs*') ? 'active' : '' }}">
@@ -832,7 +832,7 @@
                     </p>
                 </a>
             </li>
-        @endif
+        @endif --}}
         @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
             <li class="nav-item">
                 <a href="{{ url('admin/inqueryklaim_ban') }}"
