@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Pengambilan Kas Kecil')
+@section('title', 'Pengambilan Kas Kecil')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Pengambilan Kas Kecil</h1>
+                    <h1 class="m-0">Pengambilan Kas Kecil</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Pengambilan Kas Kecil</li>
+                        <li class="breadcrumb-item active">Pengambilan Kas Kecil</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -43,7 +43,12 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Pengambilan Kas Kecil</h3>
+                    <h3 class="card-title">Pengambilan kas kecil</h3>
+                    <div class="float-right">
+                        <a href="{{ url('admin/pengeluaran_kaskecil') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Tambah
+                        </a>
+                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
