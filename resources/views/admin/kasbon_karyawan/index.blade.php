@@ -23,22 +23,15 @@
 
     <section class="content">
         <div class="container-fluid">
-            @if (session('error_pelanggans') || session('error_pesanans'))
+            @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
                         <i class="icon fas fa-ban"></i> Gagal Menyimpan!
                     </h5>
-                    @if (session('error_pelanggans'))
-                        @foreach (session('error_pelanggans') as $error)
-                            - {{ $error }} <br>
-                        @endforeach
-                    @endif
-                    @if (session('error_pesanans'))
-                        @foreach (session('error_pesanans') as $error)
-                            - {{ $error }} <br>
-                        @endforeach
-                    @endif
+                    @foreach (session('error') as $error)
+                        - {{ $error }} <br>
+                    @endforeach
                 </div>
             @endif
             <form action="{{ url('admin/kasbon_karyawan') }}" method="POST" enctype="multipart/form-data"
@@ -102,7 +95,9 @@
                                     <div class="form-group">
                                         <label for="nominal">Nominal</label>
                                         <input type="text" class="form-control" id="nominals" name="nominal"
-                                            placeholder="Masukan nominal" value="{{ old('nominal') }}">
+                                            placeholder="Masukan nominal"
+                                            value="{{ old('nominal') }}"
+                                            onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -151,47 +146,42 @@
                     <div class="card-header">
                         <h3 class="card-title">Rincian Cicilan <span>
                             </span></h3>
-                        <div class="float-right">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="font-size:14px" class="text-center">No</th>
-                                    <th style="font-size:14px">Nominal</th>
-                                    <th style="font-size:14px">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabel-pembelian">
-                                <tr id="pembelian-0">
-                                    <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="nominal_cicilan-0" name="nominal_cicilan[]"
-                                                oninput="formatRupiahform(this)"
-                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-                                        </div>
-                                    </td>
-                                    <td style="width: 50px">
-                                        <button type="button" class="btn btn-danger btn-sm" onclick="removePesanan(0)">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
                         <div class="form-group">
-                            <label style="font-size:14px" class="mt-3" for="grand_totalz">Grand Total</label>
+                            <label for="sub_total">Cicilan</label>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <input style="font-size:14px" type="text" class="form-control"
+                                        id="nominal_cicilan" name="nominal_cicilan" placeholder="nominal cicilan"
+                                        value="{{ old('nominal_cicilan') }}" oninput="formatRupiahform(this)"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                </div>
+                                <div class="col-md-1">
+                                    <input style="font-size:14px; text-align:center" readonly type="text"
+                                        class="form-control" value="x">
+                                </div>
+                                <div class="col-md-6">
+                                    <input style="font-size:14px" type="text" class="form-control"
+                                        id="jumlah_cicilan" name="jumlah_cicilan" placeholder="jumlah cicilan"
+                                        value="{{ old('jumlah_cicilan') }}"oninput="formatRupiahform(this)"
+                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:14px" class="mt-3" for="nominal_lebih">Nominal lebih</label>
+                            <input style="font-size:14px" type="text" class="form-control" id="nominal_lebih"
+                                name="nominal_lebih" placeholder="nominal di luar perkalian"
+                                value="{{ old('nominal_lebih') }}"oninput="formatRupiahform(this)"
+                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:14px" class="mt-3" for="grand_total">Grand Total</label>
                             <input style="font-size:14px" type="text" class="form-control text-right"
-                                id="grand_totalz" name="grand_totalz" readonly placeholder=""
-                                value="{{ old('grand_totalz') }}">
+                                id="grand_total" name="grand_total" readonly placeholder=""
+                                value="{{ old('grand_total') }}">
                         </div>
                     </div>
                     <div class="card-footer text-right">
@@ -383,100 +373,6 @@
 
 
     <script>
-        var data_pembelian = @json(session('data_pembelians'));
-        var jumlah_ban = 1;
-
-        if (data_pembelian != null) {
-            jumlah_ban = data_pembelian.length;
-            $('#tabel-pembelian').empty();
-            var urutan = 0;
-            $.each(data_pembelian, function(key, value) {
-                urutan = urutan + 1;
-                itemPembelian(urutan, key, value);
-            });
-        }
-
-        function addPesanan() {
-            var grandTotal = parseFloat(document.getElementById('grand_totalz').value.replace(/\./g, '').replace('Rp ', '')
-                .replace(',', ''));
-            var sisaSaldo = parseFloat(document.getElementById('saldo_keluar').value.replace(/\./g, '').replace('Rp ', '')
-                .replace(',', ''));
-
-            // console.log(grandTotal);
-            console.log(sisaSaldo);
-
-            if (grandTotal < sisaSaldo) {
-                jumlah_ban = jumlah_ban + 1;
-
-                if (jumlah_ban === 1) {
-                    $('#tabel-pembelian').empty();
-                }
-
-                itemPembelian(jumlah_ban, jumlah_ban - 1);
-            } else {
-                alert('Nilai Grand Total melebihi atau sama dengan nilai Sisa Saldo.');
-            }
-        }
-
-        function removePesanan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Cicilan belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
-            updateGrandTotal()
-        }
-
-        function itemPembelian(urutan, key, value = null) {
-            var nominal_cicilan = '';
-            if (value !== null) {
-                nominal_cicilan = value.nominal_cicilan;
-            }
-
-            // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan +
-                '">' +
-                urutan + '</td>';
-
-            // nominal_cicilan 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal_cicilan-' +
-                urutan +
-                '" name="nominal_cicilan[]" value="' + nominal_cicilan + '" ';
-            item_pembelian += 'oninput="formatRupiahform(this)" ';
-            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            item_pembelian += '<td style="width: 50px">';
-            item_pembelian +=
-                '<button style="type="button" class="btn btn-danger btn-sm" onclick="removePesanan(' +
-                urutan + ')">';
-            item_pembelian += '<i class="fas fa-trash"></i>';
-            item_pembelian += '</button>';
-            item_pembelian += '</td>';
-            item_pembelian += '</tr>';
-
-            $('#tabel-pembelian').append(item_pembelian);
-        }
-    </script>
-
-    <script>
         function formatRupiahform(input) {
             // Hapus karakter selain angka
             var value = input.value.replace(/\D/g, "");
@@ -490,45 +386,28 @@
     </script>
 
     <script>
-        function updateGrandTotal() {
-            var grandTotal = 0;
-            var saldoKeluar = parseFloat($('#saldo_keluar').val().replace(/\./g, '').replace(/,/g, '.')) || 0;
-
-            // Maksimum nilai untuk setiap cicilan
-            var maxCicilanValue = saldoKeluar;
-
-            // Loop through all elements with name "nominal_cicilan[]"
-            $('input[name^="nominal_cicilan"]').each(function(index) {
-                var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(/,/g, '.')) || 0;
-                // Check if value exceeds maximum value
-                if (nominalValue > maxCicilanValue) {
-                    if (index === 0) {
-                        // Jika input pertama melebihi batas, atur nilainya ke maksimum
-                        $(this).val(maxCicilanValue.toLocaleString('id-ID'));
-                    } else {
-                        // Jika input kedua atau seterusnya melebihi batas, atur nilainya ke 0
-                        $(this).val(0);
-                        nominalValue = 0;
-                    }
-                }
-                grandTotal += nominalValue;
-            });
-
-            // Batasi nilai grand total agar tidak melebihi saldo keluar
-            grandTotal = Math.min(grandTotal, saldoKeluar);
-
-            // Set the calculated grand total to the input with ID "grand_totalz"
-            $('#grand_totalz').val(grandTotal.toLocaleString('id-ID'));
-        }
-
-        // Panggil fungsi saat ada perubahan pada input "nominal_cicilan[]"
-        $(document).on('input', 'input[name^="nominal_cicilan"]', function() {
-            updateGrandTotal();
-        });
-
-        // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
         $(document).ready(function() {
-            updateGrandTotal();
+            function calculateTotal() {
+                // Ambil nilai input dan hapus titik pemisah ribuan
+                var nominalCicilan = parseFloat($('#nominal_cicilan').val().replace(/[.]/g, '')) || 0;
+                var jumlahCicilan = parseFloat($('#jumlah_cicilan').val().replace(/[.]/g, '')) || 0;
+                var nominalTambahan = parseFloat($('#nominal_lebih').val().replace(/[.]/g, '')) || 0;
+                var subTotals = parseFloat($('#nominals').val().replace(/[.]/g, '')) || 0;
+
+                // Lakukan perkalian dan penjumlahan
+                var grandTotal = (nominalCicilan * jumlahCicilan) + nominalTambahan;
+
+                // Pastikan grandTotal tidak melebihi subTotals
+                if (grandTotal > subTotals) {
+                    grandTotal = 0;
+                    $('#nominal_cicilan').val(0);
+                    $('#nominal_lebih').val(0);
+                }
+
+                // Tampilkan hasil dengan format pemisah ribuan
+                $('#grand_total').val(grandTotal.toLocaleString('id-ID'));
+            }
+            $('#nominal_cicilan, #jumlah_cicilan, #nominal_lebih').on('input', calculateTotal);
         });
     </script>
 

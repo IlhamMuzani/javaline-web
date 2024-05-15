@@ -1652,7 +1652,6 @@
         }
         document.getElementById("searchInputtarif").addEventListener("input", filterTable);
 
-
         function Tarifs(selectedCategory) {
             var nomorId = $('#pelanggan_id').val(); // Ambil nilai dari form nomor_id
             // Filter data pelanggan yang memiliki nomor_id yang sesuai

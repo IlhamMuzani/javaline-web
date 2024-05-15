@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreign('karyawan_id')->references('id')->on('karyawans');
             $table->string('nominal_cicilan')->nullable();
             $table->string('status')->nullable();
+            $table->string('status_pemisah')->nullable();
             $table->string('status_cicilan')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();

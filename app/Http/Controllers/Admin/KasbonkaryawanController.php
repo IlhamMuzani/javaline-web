@@ -24,69 +24,22 @@ class KasbonkaryawanController extends Controller
 
     public function store(Request $request)
     {
-        $validasi_pelanggan = Validator::make(
+        $validator = Validator::make(
             $request->all(),
             [
                 'karyawan_id' => 'required',
+                'nominal_cicilan' => 'required',
+                'jumlah_cicilan' => 'required',
             ],
             [
-                'karyawan_id.required' => 'Pilih sopir',
+                'karyawan_id.required' => 'Pilih Karyawan',
+                'nominal_cicilan.required' => 'Masukkan nominal cicilan',
+                'jumlah_cicilan.required' => 'Masukkan jumlah cicilan',
             ]
         );
 
-        $error_pelanggans = array();
-
-        if ($validasi_pelanggan->fails()) {
-            array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-        }
-
-        $error_pesanans = array();
-        $data_pembelians = collect();
-
-        if ($request->has('nominal_cicilan')) {
-            $totalNominalCicilan = 0;
-
-            for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
-                $validasi_produk = Validator::make($request->all(), [
-                    'nominal_cicilan.' . $i => 'required',
-                ]);
-
-                if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Nominal cicilan nomor " . ($i + 1) . " belum dilengkapi!");
-                }
-
-                $nominal_cicilan = $request->nominal_cicilan[$i] ?? '';
-                $totalNominalCicilan += $nominal_cicilan;
-            }
-
-            // $saldo_keluar = $request->saldo_keluar;
-
-            // if ($totalNominalCicilan > $saldo_keluar) {
-            //     array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
-            // }
-
-            // Jika tidak ada kesalahan, tambahkan data pembelian
-            if (empty($error_pesanans)) {
-                for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
-                    $nominal_cicilan = $request->nominal_cicilan[$i] ?? '';
-
-                    $data_pembelians->push([
-                        'nominal_cicilan' => $nominal_cicilan
-                    ]);
-                }
-            }
-        }
-
-        if ($error_pelanggans || $error_pesanans) {
-            return back()
-                ->withInput()
-                ->with('error_pelanggans', $error_pelanggans)
-                ->with('error_pesanans', $error_pesanans)
-                ->with('data_pembelians', $data_pembelians);
-        }
-
-        if ($validasi_pelanggan->fails()) {
-            $errors = $validasi_pelanggan->errors()->all();
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
             return back()->withInput()->with('error', $errors);
         }
 
@@ -100,7 +53,11 @@ class KasbonkaryawanController extends Controller
             [
                 'kode_kasbon' => $this->kode(),
                 'kategori' => 'Pengambilan Kasbon',
-                'sub_total' => $request->sub_total2,
+                'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total2)),
+                'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_cicilan)),
+                'nominal_lebih' => !empty($request->nominal_lebih) ? str_replace(',', '.', str_replace('.', '', $request->nominal_lebih)) : 0,
+                'jumlah_cicilan' => str_replace(',', '.', str_replace('.', '', $request->jumlah_cicilan)),
+                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
                 'tanggal' =>  $format_tanggal,
                 'tanggal_awal' =>  $tanggal,
                 'keterangan' => $request->keterangan,
@@ -108,20 +65,51 @@ class KasbonkaryawanController extends Controller
             ]
         ));
 
-        $transaksi_id = $penerimaan->id;
+        $kasbon_id = $penerimaan->id;
+        $jumlah_cicilan = $request->jumlah_cicilan;
 
-        if ($penerimaan) {
-
-            foreach ($data_pembelians as $data_pesanan) {
+        if ($jumlah_cicilan) {
+            // Memeriksa jika jumlah unit adalah 1
+            if ($jumlah_cicilan == 1) {
+                // Membuat voucher untuk 1 unit
                 Detail_cicilan::create([
-                    'kasbon_karyawan_id' =>  $penerimaan->id,
-                    'nominal_cicilan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_cicilan'])),
-                    'status' =>  'unpost',
-                    'status_cicilan' =>  'belum lunas',
+                    'kasbon_karyawan_id' =>  $kasbon_id,
                     'karyawan_id' =>  $request->karyawan_id,
+                    'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_cicilan)),
+                    'status_pemisah' =>  'cicilan perkalian',
+                    'status_cicilan' =>  'belum lunas',
+                    'status' =>  'unpost',
+
                 ]);
+            } else {
+                // Membuat voucher untuk lebih dari 1 unit
+                for ($i = 1; $i <= $jumlah_cicilan; $i++) {
+                    Detail_cicilan::create([
+                        'kasbon_karyawan_id' =>  $kasbon_id,
+                        'karyawan_id' =>  $request->karyawan_id,
+                        'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_cicilan)),
+                        'status_pemisah' =>  'cicilan perkalian',
+                        'status_cicilan' =>  'belum lunas',
+                        'status' =>  'unpost',
+                    ]);
+                }
             }
         }
+
+        $nominal_lebih = $request->nominal_lebih;
+        if ($nominal_lebih !== null) {
+            Detail_cicilan::create([
+                'kasbon_karyawan_id' =>  $kasbon_id,
+                'karyawan_id' =>  $request->karyawan_id,
+                'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_lebih)),
+                'status_cicilan' =>  'belum lunas',
+                'status_pemisah' => 'nominal lebih',
+                'status' =>  'unpost',
+
+            ]);
+        }
+
+        $transaksi_id = $penerimaan->id;
 
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');

@@ -22,6 +22,7 @@ class Detail_cicilan extends Model
         'karyawan_id',
         'nominal_cicilan',
         'status',
+        'status_pemisah',
         'status_cicilan',
     ];
 

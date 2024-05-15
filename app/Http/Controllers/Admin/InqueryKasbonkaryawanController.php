@@ -76,131 +76,102 @@ class InqueryKasbonkaryawanController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validasi_pelanggan = Validator::make(
+        $validator = Validator::make(
             $request->all(),
             [
                 'karyawan_id' => 'required',
+                'nominal_cicilan' => 'required',
+                'jumlah_cicilan' => 'required',
             ],
             [
-                'karyawan_id.required' => 'Pilih sopir',
+                'karyawan_id.required' => 'Pilih Karyawan',
+                'nominal_cicilan.required' => 'Masukkan nominal cicilan',
+                'jumlah_cicilan.required' => 'Masukkan jumlah cicilan',
             ]
         );
 
-        $error_pelanggans = array();
-
-        if ($validasi_pelanggan->fails()) {
-            array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-        }
-
-        $error_pesanans = array();
-        $data_pembelians = collect();
-
-        if ($validasi_pelanggan->fails()) {
-            array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-        }
-
-        // if ($request->has('nominal_cicilan')) {
-        //     for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
-        //         $validasi_produk = Validator::make($request->all(), [
-        //             'nominal_cicilan.' . $i => 'required',
-        //         ]);
-
-        //         if ($validasi_produk->fails()) {
-        //             array_push($error_pesanans, "Cicilan nomor " . ($i + 1) . " belum dilengkapi!");
-        //         }
-
-        //         $nominal_cicilan = is_null($request->nominal_cicilan[$i]) ? '' : $request->nominal_cicilan[$i];
-
-        //         $data_pembelians->push([
-        //             'detail_id' => $request->detail_ids[$i] ?? null,
-        //             'nominal_cicilan' => $nominal_cicilan,
-        //         ]);
-        //     }
-        // } 
-
-        if ($request->has('nominal_cicilan')) {
-            $totalNominalCicilan = 0;
-
-            for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
-                $validasi_produk = Validator::make($request->all(), [
-                    'nominal_cicilan.' . $i => 'required',
-                ]);
-
-                if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Nominal cicilan nomor " . ($i + 1) . " belum dilengkapi!");
-                }
-
-                $nominal_cicilan = $request->nominal_cicilan[$i] ?? '';
-                $totalNominalCicilan += $nominal_cicilan;
-            }
-
-            // $saldo_keluar = $request->saldo_keluar;
-
-            // if ($totalNominalCicilan > $saldo_keluar) {
-            //     array_push($error_pesanans, "Jumlah nominal cicilan melebihi nominal potongan !");
-            // }
-
-            // Jika tidak ada kesalahan, tambahkan data pembelian
-            if (empty($error_pesanans)) {
-                for ($i = 0; $i < count($request->nominal_cicilan); $i++) {
-                    $nominal_cicilan = $request->nominal_cicilan[$i] ?? '';
-
-                    $data_pembelians->push([
-                        'nominal_cicilan' => $nominal_cicilan
-                    ]);
-                }
-            }
-        }
-        else {
-        }
-        if ($validasi_pelanggan->fails() || $error_pesanans) {
-            return back()
-                ->withInput()
-                ->with('error_pelanggans', $error_pelanggans)
-                ->with('error_pesanans', $error_pesanans)
-                ->with('data_pembelians', $data_pembelians);
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            return back()->withInput()->with('error', $errors);
         }
 
         $penerimaan = Kasbon_karyawan::findOrFail($id);
         $penerimaan->update([
             'nominal' => $request->nominal,
-            'keterangan' => $request->keterangan,
             'saldo_masuk' => $request->saldo_masuk,
-            'saldo_keluar' => $request->saldo_keluar,
             'sisa_saldo' => $request->sisa_saldo,
-            'sub_total' => $request->sub_total2,
+            'saldo_keluar' => $request->saldo_keluar,
+            'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total2)),
+            'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_cicilan)),
+            'nominal_lebih' => !empty($request->nominal_lebih) ? str_replace(',', '.', str_replace('.', '', $request->nominal_lebih)) : 0,
+            'jumlah_cicilan' => str_replace(',', '.', str_replace('.', '', $request->jumlah_cicilan)),
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
+            'keterangan' => $request->keterangan,
             'status' => 'unpost',
         ]);
 
+        $kasbon_id = $id; // Anda perlu mendefinisikan $pembelian_id, saya asumsikan ini adalah id dari pembelian yang sedang diperbarui
+        $jumlah_cicilan = $request->jumlah_cicilan;
 
-        foreach ($data_pembelians as $data_pesanan) {
-            $detailId = $data_pesanan['detail_id'];
+        if ($jumlah_cicilan) {
+            $existing_vouchers = Detail_cicilan::where(['kasbon_karyawan_id' => $kasbon_id, 'status_pemisah' => 'cicilan perkalian'])->get();
+            $existing_voucher_count = $existing_vouchers->count();
 
-            if ($detailId) {
-                Detail_cicilan::where('id', $detailId)->update([
-                    'kasbon_karyawan_id' => $penerimaan->id,
-                    'kasbon_karyawan_id' =>  $penerimaan->id,
-                    'nominal_cicilan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_cicilan'])),
-                    'status' =>  'unpost',
-                    'status_cicilan' =>  'belum lunas',
-                    'karyawan_id' =>  $request->karyawan_id,
-                ]);
-            } else {
-                $existingDetail = Detail_cicilan::where([
-                    'kasbon_karyawan_id' => $penerimaan->id,
-                    'nominal_cicilan' => $data_pesanan['nominal_cicilan'],
-                ])->first();
+            if ($jumlah_cicilan > $existing_voucher_count) {
+                // Jika jumlah unit baru lebih besar dari jumlah voucher yang ada, buat voucher baru
+                $vouchers_to_create = $jumlah_cicilan - $existing_voucher_count;
 
-                if (!$existingDetail) {
+                for ($i = 1; $i <= $vouchers_to_create; $i++) {
                     Detail_cicilan::create([
-                        'kasbon_karyawan_id' =>  $penerimaan->id,
-                        'nominal_cicilan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_cicilan'])),
-                        'status' =>  'unpost',
-                        'status_cicilan' =>  'belum lunas',
+                        'kasbon_karyawan_id' =>  $kasbon_id,
                         'karyawan_id' =>  $request->karyawan_id,
+                        'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_cicilan)),
+                        'status_cicilan' =>  'belum lunas',
+                        'status_pemisah' =>  'cicilan perkalian',
+                        'status' =>  'unpost',
                     ]);
                 }
+            } elseif ($jumlah_cicilan < $existing_voucher_count) {
+                // Jika jumlah unit baru lebih kecil dari jumlah voucher yang ada, hapus voucher yang status_pemisah = 'cicilan perkalian'
+                $vouchers_to_delete = $existing_vouchers
+                    ->where('status_pemisah', 'cicilan perkalian')
+                    ->sortByDesc('id')
+                    ->take($existing_voucher_count - $jumlah_cicilan);
+
+                foreach ($vouchers_to_delete as $voucher) {
+                    $voucher->delete();
+                }
             }
+        }
+
+        $nominal_lebih = $request->nominal_lebih;
+        $detail_cicilan = Detail_cicilan::where('kasbon_karyawan_id', $kasbon_id)
+            ->where('karyawan_id', $request->karyawan_id)
+            ->where('status_pemisah', 'nominal lebih')
+            ->first();
+
+        if ($nominal_lebih !== null && $nominal_lebih != 0) {
+            if ($detail_cicilan) {
+                // Update existing record
+                $detail_cicilan->update([
+                    'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_lebih)),
+                    'status_cicilan' => 'belum lunas',
+                    'status' => 'unpost',
+                ]);
+            } else {
+                // Create new record if it doesn't exist
+                Detail_cicilan::create([
+                    'kasbon_karyawan_id' => $kasbon_id,
+                    'karyawan_id' => $request->karyawan_id,
+                    'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_lebih)),
+                    'status_cicilan' => 'belum lunas',
+                    'status_pemisah' => 'nominal lebih',
+                    'status' => 'unpost',
+                ]);
+            }
+        } elseif ($detail_cicilan) {
+            // Delete existing record if $nominal_lebih is null or 0
+            $detail_cicilan->delete();
         }
 
         $pengeluaran = Pengeluaran_kaskecil::where('kasbon_karyawan_id', $id)->first();

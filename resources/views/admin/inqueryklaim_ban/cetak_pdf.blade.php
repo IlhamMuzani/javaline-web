@@ -486,7 +486,7 @@
         <tr>
             <td class="td"
                 style="text-align: left; padding-right: 330px; font-size: 12px; white-space: normal; width: 60%;">
-                {{ $cetakpdf->keterangan }}
+                {{ $cetakpdf->deposit_driver->keterangan }}
             </td>
         </tr>
     </table>

@@ -546,7 +546,7 @@
         <tr>
         </tr>
     </table> --}}
-    <div style="font-size: 15px; margin-right:300px">Keterangan : {{ $cetakpdf->keterangan }}</div>
+    <div style="font-size: 15px; margin-right:300px">Keterangan : {{ $cetakpdf->deposit_driver->keterangan }}</div>
     <div style=" margin-top:13px; margin-bottom:27px">
         <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
             <tr>
