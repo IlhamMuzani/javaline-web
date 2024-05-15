@@ -101,7 +101,9 @@
                                             tidak ada
                                         @endif
                                     </td>
-                                    <td class="text-right">{{ number_format($klaimban->harga_klaim, 2, ',', '.') }}</td>
+                                    <td class="text-right">
+                                        {{ number_format(($klaimban->ban->target_km_ban - $klaimban->ban->km_pelepasan) * ($klaimban->ban->harga / ($klaimban->ban->target_km_ban - $klaimban->ban->km_pemasangan)), 2, ',', '.') }}
+                                    </td>
                                     <td class="text-center">
                                         @if ($klaimban->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
