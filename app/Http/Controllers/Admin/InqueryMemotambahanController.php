@@ -246,6 +246,22 @@ class InqueryMemotambahanController extends Controller
                     'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
                 ])->first();
 
+                // Ambil nomor terakhir untuk kode_detailakun yang ada di database
+                $lastDetail = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->orderBy('id', 'desc')->first();
+                $lastNum = 0;
+
+                // Ambil bulan saat ini
+                $currentMonth = date('m');
+
+                // Jika tidak ada kode terakhir atau bulan saat ini berbeda dari bulan kode terakhir
+                if (!$lastDetail || $currentMonth != date('m', strtotime($lastDetail->created_at))) {
+                    $lastNum = 0; // Mulai dari 0 jika bulan berbeda atau tidak ada kode terakhir
+                } else {
+                    // Ambil nomor terakhir dari kode terakhir
+                    $lastCode = substr($lastDetail->kode_detailakun, -6);
+                    $lastNum = (int)$lastCode; // Ubah menjadi integer
+                }
+
                 if (!$existingDetail) {
                     $detailMemotambahan = Detail_memotambahan::create([
                         'memotambahan_id' => $cetakpdf->id,
@@ -255,11 +271,23 @@ class InqueryMemotambahanController extends Controller
                         'hargasatuan' => $data_pesanan['hargasatuan'],
                         'nominal_tambahan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_tambahan'])),
                     ]);
-                    // Use the $detailMemotambahan->id in the creation of Detail_pengeluaran
+
+                    // Tambahkan index untuk menghasilkan nomor unik
+                    $num = $lastNum + 1;
+                    $formattedNum = sprintf("%06s", $num);
+
+                    // Awalan untuk kode baru
+                    $prefix = 'KKA';
+                    $tahun = date('y');
+                    $tanggal = date('dm');
+
+                    // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
+                    $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+                    
                     Detail_pengeluaran::create([
                         'detail_memotambahan_id' => $detailMemotambahan->id,
                         'memotambahan_id' => $cetakpdf->id,
-                        'kode_detailakun' => $this->kodeakuns(),
+                        'kode_detailakun' => $newCode,
                         'barangakun_id' => 25,
                         'kode_akun' => 'KA000025',
                         'nama_akun' => 'MEMO TAMBAHAN',

@@ -163,10 +163,38 @@ class InqueryPengeluarankaskecilController extends Controller
 
                 ])->first();
 
+                // Ambil nomor terakhir untuk kode_detailakun yang ada di database
+                $lastDetail = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->orderBy('id', 'desc')->first();
+                $lastNum = 0;
+
+                // Ambil bulan saat ini
+                $currentMonth = date('m');
+
+                // Jika tidak ada kode terakhir atau bulan saat ini berbeda dari bulan kode terakhir
+                if (!$lastDetail || $currentMonth != date('m', strtotime($lastDetail->created_at))) {
+                    $lastNum = 0; // Mulai dari 0 jika bulan berbeda atau tidak ada kode terakhir
+                } else {
+                    // Ambil nomor terakhir dari kode terakhir
+                    $lastCode = substr($lastDetail->kode_detailakun, -6);
+                    $lastNum = (int)$lastCode; // Ubah menjadi integer
+                }
+
                 if (!$existingDetail) {
+                    // Tambahkan index untuk menghasilkan nomor unik
+                    $num = $lastNum + 1;
+                    $formattedNum = sprintf("%06s", $num);
+
+                    // Awalan untuk kode baru
+                    $prefix = 'KKA';
+                    $tahun = date('y');
+                    $tanggal = date('dm');
+
+                    // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
+                    $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+
                     Detail_pengeluaran::create([
                         'pengeluaran_kaskecil_id' => $cetakpdf->id,
-                        'kode_detailakun' => $this->kodeakuns(),
+                        'kode_detailakun' => $newCode,
                         'kendaraan_id' => $request->kendaraan_id,
                         'barangakun_id' => $data_pesanan['barangakun_id'],
                         'kode_akun' => $data_pesanan['kode_akun'],

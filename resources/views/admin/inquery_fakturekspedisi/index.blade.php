@@ -131,7 +131,6 @@
                                         @else
                                             tidak ada
                                         @endif
-
                                     </td>
                                     <td>
                                         @if ($faktur->detail_faktur->first())

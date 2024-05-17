@@ -661,7 +661,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="card-footer text-right">
                             <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
                             <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
