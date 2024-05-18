@@ -14,8 +14,8 @@
             color: black;
 
             margin-top: 0px;
-            margin-right: 9px;
-            margin-left: 9px;
+            margin-right: 10px;
+            margin-left: 10px;
             /* Margin kiri sebesar 20 piksel */
 
             /* font-weight: bold; */
@@ -29,7 +29,7 @@
         }
 
         .blue-button {
-            padding: 9px 20px;
+            padding: 10px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -56,7 +56,7 @@
         }
 
         .separator {
-            padding-top: 9px;
+            padding-top: 10px;
             text-align: center;
         }
 
@@ -65,7 +65,7 @@
             border-top: 1px solid black;
             width: 100%;
             position: relative;
-            top: -9px;
+            top: -10px;
         }
     </style>
 </head>
@@ -113,42 +113,42 @@
     <div style="text-align: left; margin-top:1px">
         <table style="width: 100%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
             <tr>
-                <td class="td" style="text-align: left; padding: 2px; font-size: 9px;  font-weight:bold; ">
+                <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold; ">
                     NO.</td>
-                <td class="td" style="text-align: left; padding: 2px; font-size: 9px;  font-weight:bold; ">
+                <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold; ">
                     ID KARYAWAN</td>
-                <td class="td" style="text-align: left; padding: 2px; font-size: 9px;  font-weight:bold; ">
+                <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold; ">
                     NAMA LENGKAP</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;  ">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;  ">
                     GAPOK</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     TDK MASUK</td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold;">
+                <td class="td" style="text-align: center; padding: 2px; font-size: 10px; font-weight:bold;">
                     LEMBUR <span> <br>(TGL MERAH)</span></td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     LEMBUR</td>
-                {{-- <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                {{-- <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     STORING</td> --}}
                 </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     GAJI KOTOR</td>
                 </td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 9px; font-weight:bold; ">
+                <td class="td" style="text-align: center; padding: 2px; font-size: 10px; font-weight:bold; ">
                     KETERLAMBATAN <span> <br>(&lt; 30 MNT) (> 30 MNT)</span></td>
-                {{-- <td class="td" style="text-align: center; padding: 2px; font-size: 9px;  font-weight:bold;width:8%">
+                {{-- <td class="td" style="text-align: center; padding: 2px; font-size: 10px;  font-weight:bold;width:8%">
                 TIDAK ABSEN</td> --}}
-                <td class="td" style="text-align: center; padding-left: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: center; padding-left: 2px; font-size: 10px;  font-weight:bold;">
                     TIDAK ABSEN <span> <br>ISTRAHAT</span></td>
                 </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     POTONGAN LAINYA</td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 9px;  font-weight:bold;">
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     BPJS</td>
                 <td class="td"
-                    style="text-align: center; padding-left: 1px; font-size: 9px;  font-weight:bold;width:15%">
+                    style="text-align: center; padding-left: 1px; font-size: 10px;  font-weight:bold;width:15%">
                     PELUNASAN <span> <br>KASBON</span></td>
                 </td>
-                <td class="td" style="text-align: right; font-size: 9px;  font-weight:bold; ">GAJI BERSIH
+                <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold; ">GAJI BERSIH
                 </td>
             </tr>
             <!-- Add horizontal line below this row -->
@@ -164,25 +164,25 @@
             @foreach ($details as $item)
                 <tr>
                     <td class="td"
-                        style="text-align: center; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: center; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
                         {{ $loop->iteration }}
                     </td>
                     <td class="td"
-                        style="text-align: left; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: left; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
                         @if ($item->karyawan)
                             {{ $item->karyawan->kode_karyawan }}
                         @endif
                     </td>
                     <td class="td"
-                        style="text-align: left; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: left; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
                         {{ substr($item->nama_lengkap, 0, 12) }}
                     </td>
                     {{-- <td class="td"
-                    style="text-align: right; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
+                    style="text-align: right; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
                     Rp. {{ number_format($item->gaji, 0, ',', '.') }}
                 </td> --}}
                     <td class="td"
-                        style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
                         <table style="width: 100%; text-align: right;">
                             <tr>
                                 <td style="width: 50%;">
@@ -195,15 +195,15 @@
                         </table>
                     </td>
                     <td class="td"
-                        style="text-align: right; padding: 2px; font-size: 9px;  border-bottom: 1px solid black;">
+                        style="text-align: right; padding: 2px; font-size: 10px;  border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->hasiltdk_berangkat, 0, ',', '.') }}
                     </td>
                     <td class="td"
-                        style="text-align: right; padding: 2px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: right; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->hasiltgl_merah, 0, ',', '.') }}
                     </td>
                     <td class="td"
-                        style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
                         <table style="width: 100%; text-align: right;">
                             <tr>
                                 <td style="width: 50%;">
@@ -216,7 +216,7 @@
                         </table>
                     </td>
                     {{-- <td class="td"
-                        style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
                         <table style="width: 100%; text-align: right; padding-left:10px">
                             <tr>
                                 <td style="width: 20%;">
@@ -229,12 +229,12 @@
                         </table>
                     </td> --}}
                     <td class="td"
-                        style="text-align: right; padding-right: 7px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: right; padding-right: 7px; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->gaji_kotor, 0, ',', '.') }}
                     </td>
                     <td class="td"
-                        style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
-                        <table style="width: 100%; text-align: right; padding-right:9px">
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right; padding-right:10px">
                             <tr>
                                 <td style="width: 50%;">
                                     <table style="width: 100%; text-align: right;">
@@ -264,18 +264,18 @@
                         </table>
                     </td>
                     <td class="td"
-                        style="text-align: right; padding-right: 15px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: right; padding-right: 15px; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->hasil_absen, 0, ',', '.') }}
                     </td>
                     <td class="td"
-                        style="text-align: right; padding-right: 15px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: right; padding-right: 15px; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->lainya, 0, ',', '.') }}
                     </td>
                     <td class="td"
-                        style="text-align: right; padding-right: 7px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: right; padding-right: 7px; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->potongan_bpjs, 0, ',', '.') }}
                     <td class="td"
-                        style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
                         <table style="width: 100%; text-align: right; padding-right: 24px; ">
                             <tr>
                                 <td style="width: 50%;">
@@ -287,7 +287,7 @@
                             </tr>
                         </table>
                     </td>
-                    <td class="td" style="text-align: right; font-size: 9px; border-bottom: 1px solid black;">
+                    <td class="td" style="text-align: right; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->gaji_bersih, 0, ',', '.') }}
                     </td>
                 </tr>
@@ -300,16 +300,160 @@
             </tr>
             <tr>
                 <td colspan="13"
-                    style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 9px;">
+                    style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 10px;">
                     {{-- GRAND
                 TOTAL --}}
                 </td>
-                <td class="td" style="text-align: right; font-weight: bold; font-size: 9px;">
+                <td class="td" style="text-align: right; font-weight: bold; font-size: 10px;">
                     Rp. {{ number_format($Grandtotal, 0, ',', '.') }}
                 </td>
             </tr>
         </table>
     </div>
+
+    <table style="width: 50%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
+        <tr>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold;">
+                NO.</td>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold;">
+                ID KARYAWAN</td>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold;">
+                NAMA LENGKAP</td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
+                DEPOSIT AWAL</td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
+                PELUNASAN DEPOSIT</td>
+            <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold;">SISA DEPOSIT
+            </td>
+        </tr>
+        <!-- Add horizontal line below this row -->
+        <tr>
+            <td colspan="6" style="padding: 0px;">
+                <hr style="border: 0.5px solid; margin-top:0px; margin-bottom: 1px; padding: 0;">
+                <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
+            </td>
+        </tr>
+        @php
+            $nomor_urut = 1;
+            $GrandtotalsaldoAwal = 0;
+            $GrandtotalsisaDeposit = 0;
+            $Grandtotal = 0;
+        @endphp
+        @foreach ($details as $item)
+            @if ($item->pelunasan_kasbon !== null && $item->pelunasan_kasbon != 0)
+                <tr>
+                    <td class="td"
+                        style="text-align: center; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
+                        {{ $loop->iteration }}
+                    </td>
+                    <td class="td"
+                        style="text-align: left; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
+                        @if ($item->karyawan)
+                            {{ $item->karyawan->kode_karyawan }}
+                        @endif
+                    </td>
+                    <td class="td"
+                        style="text-align: left; padding: 2px; font-size: 10px; border-bottom: 1px solid black;">
+                        {{ $item->nama_lengkap }}
+                    </td>
+                    <td class="td"
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right; ">
+                            <tr>
+                                <td style="width: 30%;">
+                                    Rp.
+                                </td>
+                                <td style="width: 70%;">
+                                    - {{ number_format($item->kasbon_awal, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="td"
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right; padding-right:1px">
+                            <tr>
+                                <td style="width: 30%;">
+                                    Rp.
+                                </td>
+                                <td style="width: 70%;">
+                                    {{ number_format($item->pelunasan_kasbon, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td class="td"
+                        style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
+                        <table style="width: 100%; text-align: right;">
+                            <tr>
+                                <td style="width: 30%;">
+                                    Rp.
+                                </td>
+                                <td style="width: 70%;">
+                                    {{ number_format($item->sisa_kasbon - $item->pelunasan_kasbon, 2, ',', '.') }}
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                @php
+                    $GrandtotalsaldoAwal += $item->kasbon_awal;
+                    $GrandtotalsisaDeposit += $item->sisa_kasbon;
+                    $Grandtotal += $item->pelunasan_kasbon;
+                    $nomor_urut++;
+                @endphp
+            @endif
+        @endforeach
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="6" style="padding: 2px;"></td>
+        </tr>
+        <tr>
+            <td colspan="3"
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 10px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 10px;">
+                <table style="width: 100%; text-align: right;">
+                    <tr>
+                        <td style="width: 30%;">
+                            Rp.
+                        </td>
+                        <td style="width: 70%;">
+                            - {{ number_format($GrandtotalsaldoAwal, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 10px;">
+                <table style="width: 100%; text-align: right;">
+                    <tr>
+                        <td style="width: 30%;">
+                            Rp.
+                        </td>
+                        <td style="width: 70%;">
+                            {{ number_format($Grandtotal, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 10px;">
+                <table style="width: 100%; text-align: right;">
+                    <tr>
+                        <td style="width: 30%;">
+                            Rp.
+                        </td>
+                        <td style="width: 70%;">
+                            - {{ number_format($GrandtotalsisaDeposit - $Grandtotal, 2, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <br>
+
+    <br>
+    <br>
 
     <div class="container">
         <a href="{{ url('admin/inquery_perhitungangajibulanan') }}" class="blue-button">Kembali</a>

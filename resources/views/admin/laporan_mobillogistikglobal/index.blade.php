@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="created_at">Kategori</label>
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih Laporan -</option>
@@ -48,17 +48,29 @@
                                     <option value="memo_borong" selected>Laporan Global</option>
                                 </select>
                             </div>
-                            <div class="col-md-4 mb-3">
+                            {{-- <div class="col-md-2 mb-3">
+                                <label for="created_at">Status</label>
+                                <select class="custom-select form-control" id="kategoris" name="kategoris">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="memo" {{ Request::get('kategoris') == 'memo' ? 'selected' : '' }}>
+                                        MEMO
+                                    </option>
+                                    <option value="non memo"
+                                        {{ Request::get('kategoris') == 'non memo' ? 'selected' : '' }}>
+                                        NON MEMO</option>
+                                </select>
+                            </div> --}}
+                            <div class="col-md-3 mb-3">
                                 <label for="created_at">Tanggal Awal</label>
                                 <input class="form-control" id="created_at" name="created_at" type="date"
                                     value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 {{-- @if (auth()->check() && auth()->user()->fitur['laporan pengambilan kas kecil cari']) --}}
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari

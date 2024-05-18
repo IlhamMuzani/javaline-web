@@ -18,12 +18,21 @@ class LaporanMobillogistikController extends Controller
         //     $totalNominal = $kendaraan->detail_pengeluaran->sum('nominal');
         //     // Lakukan sesuatu dengan $totalNominal, seperti menyimpannya dalam array atau memasukkannya ke dalam data yang dikirim ke tampilan.
         // }
+        $kategoris = $request->kategoris;
         $status = $request->status;
         $created_at = $request->created_at;
         $tanggal_akhir = $request->tanggal_akhir;
         $kendaraan = $request->kendaraan_id; // New variable to store kendaraan_id
 
         $inquery = Faktur_ekspedisi::orderBy('id', 'DESC');
+
+        if ($kategoris) {
+            if ($kategoris == 'memo') {
+                $inquery->where('kategoris', 'memo');
+            } elseif ($kategoris == 'non memo') {
+                $inquery->where('kategoris', 'non memo');
+            }
+        }
 
         if ($status == "posting" || $status == "selesai") {
             $inquery->where('status', $status);
@@ -54,11 +63,21 @@ class LaporanMobillogistikController extends Controller
     {
         // if (auth()->check() && auth()->user()->menu['laporan penerimaan kas kecil']) {
         $kendaraans = Kendaraan::with(['detail_pengeluaran'])->get();
+
+        $kategoris = $request->kategoris;
         $status = $request->status;
         $created_at = $request->created_at;
         $tanggal_akhir = $request->tanggal_akhir;
         $kendaraan = $request->kendaraan_id; // New variable to store kendaraan_id
         $query = Faktur_ekspedisi::orderBy('id', 'DESC');
+
+        if ($kategoris) {
+            if ($kategoris == 'memo') {
+                $query->where('kategoris', 'memo');
+            } elseif ($kategoris == 'non memo') {
+                $query->where('kategoris', 'non memo');
+            }
+        }
 
         if ($status == "posting" || $status == "selesai") {
             $query->where('status', $status);

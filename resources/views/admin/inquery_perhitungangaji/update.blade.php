@@ -414,7 +414,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="tableMemo" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -562,14 +561,12 @@
                 urutan[i].innerText = i + 1;
             }
         }
-
-
         function removeBan(identifier, detailId) {
             var row = document.getElementById('pembelian-' + identifier);
             row.remove();
 
             $.ajax({
-                url: "{{ url('admin/inquery_perhitungangaji/deletedetailgaji/') }}/" + detailId,
+                url: "{{ url('admin/inquery_perhitungangaji/deletedetailperhitungangaji/') }}/" + detailId,
                 type: "POST",
                 data: {
                     _method: 'DELETE',

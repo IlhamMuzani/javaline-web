@@ -154,7 +154,7 @@
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id . '/edit') }}">Update</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
                                                 @endif
@@ -173,13 +173,13 @@
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $klaimban->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
                                                 @endif
                                             @endif
                                             @if ($klaimban->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
                                                 @endif
