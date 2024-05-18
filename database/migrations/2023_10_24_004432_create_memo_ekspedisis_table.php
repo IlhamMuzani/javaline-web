@@ -65,6 +65,7 @@ return new class extends Migration
             $table->string('tanggal_akhir')->nullable();
             $table->string('status')->nullable();
             $table->string('status_memo')->nullable();
+            $table->string('status_memotambahan')->nullable();
             $table->string('status_notif')->nullable();
             $table->string('status_terpakai')->nullable();
             $table->unsignedBigInteger('biaya_id')->nullable();
@@ -82,11 +83,6 @@ return new class extends Migration
             $table->string('kode_rutes')->nullable();
             $table->string('nama_rutes')->nullable();
             $table->timestamp('deleted_at')->nullable();
-            // $table->string('harga_rute')->nullable();
-            // $table->string('jumlah')->nullable();
-            // $table->string('satuan')->nullable();
-            // $table->string('totalrute')->nullable();
-
             $table->timestamps();
         });
     }

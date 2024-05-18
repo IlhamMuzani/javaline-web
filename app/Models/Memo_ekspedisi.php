@@ -64,15 +64,6 @@ class Memo_ekspedisi extends Model
         'tanggal_akhir',
         'status',
         'status_notif',
-
-        // 'biaya_id',
-        // 'potongan_memo_id',
-        // 'kode_biaya',
-        // 'nama_biaya',
-        // 'nominal',
-        // 'kode_potongan',
-        // 'keterangan_potongan',
-        // 'nominal_potongan',
         'rute_id',
         'kode_rutes',
         'nama_rutes',
@@ -81,6 +72,7 @@ class Memo_ekspedisi extends Model
         'satuan',
         'totalrute',
         'status_memo',
+        'status_memotambahan',
     ];
 
 

@@ -107,7 +107,7 @@ class InqueryMemotambahanController extends Controller
         $pelanggans = Pelanggan::all();
         $saldoTerakhir = Saldo::latest()->first();
         $potonganmemos = Potongan_memo::all();
-        $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting'])->get();
+        $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_memotambahan' => null])->get();
         return view('admin.inquery_memotambahan.update', compact(
             'details',
             'inquery',
@@ -193,6 +193,7 @@ class InqueryMemotambahanController extends Controller
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf = Memotambahan::findOrFail($id);
+        $previousMemoEkspedisiId = $cetakpdf->memo_ekspedisi_id;
         $cetakpdf->update([
             'memo_ekspedisi_id' => $request->memo_ekspedisi_id,
             'no_memo' => $request->kode_memosa,
@@ -283,7 +284,7 @@ class InqueryMemotambahanController extends Controller
 
                     // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
                     $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
-                    
+
                     Detail_pengeluaran::create([
                         'detail_memotambahan_id' => $detailMemotambahan->id,
                         'memotambahan_id' => $cetakpdf->id,
@@ -304,46 +305,6 @@ class InqueryMemotambahanController extends Controller
             }
         }
 
-        // foreach ($data_pembelians4 as $data_pesanan) {
-        //     $detailId = $data_pesanan['detail_id'];
-
-        //     if ($detailId) {
-        //         // Detail_memotambahan::where('id', $detailId)->update([
-        //         //     'memotambahan_id' => $cetakpdf->id,
-        //         //     'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
-        //         //     'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
-        //         // ]);
-        //         Detail_pengeluaran::where('id', $detailId)->update([
-        //             'memotambahan_id' => $cetakpdf->id,
-        //             'keterangan' => $data_pesanan['keterangan_tambahan'],
-        //             'nominal' => $data_pesanan['nominal_tambahan'],
-        //         ]);
-        //     } else {
-        //         $existingDetail = Detail_memotambahan::where([
-        //             'memotambahan_id' => $cetakpdf->id,
-        //             'keterangan' => $data_pesanan['keterangan_tambahan'],
-        //         ])->first();
-
-        //         if (!$existingDetail) {
-        //             // Detail_memotambahan::create([
-        //             //     'memotambahan_id' => $cetakpdf->id,
-        //             //     'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
-        //             //     'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
-        //             // ]);
-        //             Detail_pengeluaran::create([
-        //                 'memotambahan_id' => $cetakpdf->id,
-        //                 'barangakun_id' => 25,
-        //                 'kode_akun' => 'KA000025',
-        //                 'nama_akun' => 'MEMO TAMBAHAN',
-        //                 'status' => 'pending',
-        //                 'keterangan' => $data_pesanan['keterangan_tambahan'],
-        //                 'nominal' => $data_pesanan['nominal_tambahan'],
-        //             ]);
-        //         }
-        //     }
-        // }
-
-
         $pengeluaran = Pengeluaran_kaskecil::where('memotambahan_id', $id)->first();
         $pengeluaran->update(
             [
@@ -352,6 +313,18 @@ class InqueryMemotambahanController extends Controller
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             ]
         );
+
+        $memoNew = $request->memo_ekspedisi_id;
+        if ($memoNew) {
+            // Set the new memo_ekspedisi to 'digunakan'
+            Memo_ekspedisi::where('id', $memoNew)->update(['status_memotambahan' => 'digunakan']);
+
+            // Set the previous memo_ekspedisi to 'null' if it's different from the new one
+            if ($previousMemoEkspedisiId != $memoNew) {
+                Memo_ekspedisi::where('id', $previousMemoEkspedisiId)->update(['status_memotambahan' => null]);
+            }
+        }
+
         $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
 
         return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo'));

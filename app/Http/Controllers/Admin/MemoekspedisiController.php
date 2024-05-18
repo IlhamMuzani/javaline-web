@@ -47,11 +47,11 @@ class MemoekspedisiController extends Controller
         $biayatambahan = Biaya_tambahan::all();
         $potonganmemos = Potongan_memo::all();
         $pelanggans = Pelanggan::all();
-        $memos = Memo_ekspedisi::where(function ($query) {
-            $query->where(['status_memo' => null, 'status' => 'posting'])
-                ->orWhere(['status_memo' => null, 'status' => 'unpost']);
-        })->get();
-        // $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting'])->get();
+        // $memos = Memo_ekspedisi::where(function ($query) {
+        //     $query->where(['status_memo' => null, 'status' => 'posting'])
+        //         ->orWhere(['status_memo' => null, 'status' => 'unpost']);
+        // })->get();
+        $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_memotambahan' => null])->get();
         $saldoTerakhir = Saldo::latest()->first();
         return view('admin.memo_ekspedisi.index', compact('memos', 'pelanggans', 'kendaraans', 'drivers', 'ruteperjalanans', 'biayatambahan', 'saldoTerakhir', 'potonganmemos'));
     }
@@ -295,16 +295,6 @@ class MemoekspedisiController extends Controller
                         'tanggal' => $format_tanggal,
                         'tanggal_awal' => $tanggal,
                         'status' => 'unpost',
-
-                        // 'biaya_id' => $request->biaya_id,
-                        // 'kode_biaya' => $request->kode_biaya,
-                        // 'nama_biaya' => $request->nama_biaya,
-                        // 'nominal' => $request->has('nominal') ? ($request->nominal != 0 ? str_replace('.', '', $request->nominal) : null) : null,
-
-                        // 'potongan_memo_id' => $request->potongan_memo_id,
-                        // 'kode_potongan' => $request->kode_potongan,
-                        // 'keterangan_potongan' => $request->keterangan_potongan,
-                        // 'nominal_potongan' => $request->has('nominal_potongan') ? ($request->nominal_potongan != 0 ? str_replace('.', '', $request->nominal_potongan) : null) : null,
                     ]
                 ));
 
@@ -806,44 +796,7 @@ class MemoekspedisiController extends Controller
                     'status' => 'pending',
                 ]);
 
-
-                // if ($cetakpdf) {
-                //     foreach ($data_pembelians4 as $data_pesanan) {
-                //         Detail_memotambahan::create([
-                //             'memotambahan_id' => $cetakpdf->id,
-                //             'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
-                //             'nominal_tambahan' => $data_pesanan['nominal_tambahan'],
-                //         ]);
-                //     }
-                // }
-
-                // if ($cetakpdf) {
-                //     foreach ($data_pembelians4 as $data_pesanan) {
-                //         Detail_pengeluaran::create([
-                //             'detail_memotambahan_id' => ,
-                //             'memotambahan_id' => $cetakpdf->id,
-                //             'barangakun_id' => 25,
-                //             'kode_akun' => 'KA000025',
-                //             'nama_akun' => 'MEMO TAMBAHAN',
-                //             'status' => 'pending',
-                //             'keterangan' => $data_pesanan['keterangan_tambahan'],
-                //             'nominal' => $data_pesanan['nominal_tambahan'],
-                //         ]);
-                //     }
-                // }
-
-
-
-                // Detail_pengeluaran::create([
-                //     'memotambahan_id' => $cetakpdf->id,
-                //     'barangakun_id' => 25,
-                //     'kode_akun' => 'KA000025',
-                //     'nama_akun' => 'MEMO TAMBAHAN',
-                //     'keterangan' => $request->keterangan,
-                //     'nominal' => str_replace('.', '', $request->grand_total),
-                //     'status' => 'pending',
-                // ]);
-
+                $memos = Memo_ekspedisi::where('id', $cetakpdf->memo_ekspedisi_id)->update(['status_memotambahan' => 'digunakan']);
                 $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
 
                 return view('admin.tablememo.show', compact('cetakpdf', 'detail_memo'));
