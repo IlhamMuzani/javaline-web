@@ -82,10 +82,12 @@
                                     <td style="text-align: right">{{ number_format($gaji->bayar_kasbon, 0, ',', '.') }}</td>
                                     <td style="text-align: right">{{ number_format($gaji->gaji, 0, ',', '.') }}</td>
                                     <td class="text-center">
-                                        <a href="{{ url('admin/gaji_karyawan/' . $gaji->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                        @if (auth()->check() && auth()->user()->fitur['gaji karyawan update'])
+                                            <a href="{{ url('admin/gaji_karyawan/' . $gaji->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

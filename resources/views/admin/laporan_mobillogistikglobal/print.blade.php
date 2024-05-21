@@ -141,16 +141,16 @@
 
         @php
             $created_at = isset($created_at) ? $created_at : null;
-            // $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
-            // $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir . ' 23:59:59' : null;
             $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir . ' 23:59:59' : null;
-
+            $kategoris = $kategoris ?? null;
             $totalFaktur = 0; // Initialize the total variable
+            $totalFakturmemo = 0; // Initialize the total
+            $totalFakturnonmemo = 0; // Initialize the total
             $totalMemo = 0; // Initialize the total variable
             $totalMemotambahan = 0; // Initialize the total variable
             $totalRitase = 0; // Initialize the total variable
-            // $totalOperasional = 0; // Initialize the total variable
-            // $totalPerbaikan = 0; // Initialize the total variable
+            $totalOperasional = 0; // Initialize the total variable
+            $totalPerbaikan = 0; // Initialize the total variable
             $totalSubtotal = 0; // Initialize the total variable
         @endphp
 
@@ -172,37 +172,70 @@
                 </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ $ritase->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->count() }}
+                    @if ($kategoris == 'non memo')
+                        0
+                    @else
+                        {{ $ritase->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->count() }}
+                    @endif
                 </td>
 
                 {{-- {{ $ritase->memo_ekspedisi_count }} --}}
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ number_format(
-                        optional($ritase->faktur_ekspedisi)->whereBetween('created_at', [$created_at, $tanggal_akhir])->sum('grand_total') ?? 0,
-                        0,
-                        ',',
-                        '.',
-                    ) }}
+                    @php
+                        $kategoriMemo =
+                            optional($ritase->faktur_ekspedisi)
+                                ->whereBetween('created_at', [
+                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                ])
+                                ->where('kategoris', 'memo')
+                                ->sum('grand_total') ?? 0;
+
+                        $kategoriNonMemo =
+                            optional($ritase->faktur_ekspedisi)
+                                ->whereBetween('created_at', [
+                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                ])
+                                ->where('kategoris', 'non memo')
+                                ->sum('grand_total') ?? 0;
+
+                    @endphp
+                    @if ($kategoris == 'memo')
+                        @if ($kategoriMemo > 0)
+                            {{ number_format($kategoriMemo, 2, ',', '.') }}
+                        @endif
+                    @elseif ($kategoris == 'non memo')
+                        @if ($kategoriNonMemo > 0)
+                            {{ number_format($kategoriNonMemo, 2, ',', '.') }}
+                        @endif
+                    @else
+                        {{ number_format($kategoriMemo + $kategoriNonMemo, 2, ',', '.') }}
+                    @endif
                 </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ number_format(
-                        (optional($ritase->memo_ekspedisi)->whereBetween('created_at', [
-                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                            ])->sum('hasil_jumlah') ??
-                            0) +
-                            $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                                return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                        Carbon\Carbon::parse($created_at)->startOfDay(),
-                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                    ])->sum('grand_total');
-                            }),
-                        0,
-                        ',',
-                        '.',
-                    ) }}
+                    @if ($kategoris == 'non memo')
+                        0
+                    @else
+                        {{ number_format(
+                            (optional($ritase->memo_ekspedisi)->whereBetween('created_at', [
+                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                ])->sum('hasil_jumlah') ??
+                                0) +
+                                $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                    return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
+                                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                        ])->sum('grand_total');
+                                }),
+                            2,
+                            ',',
+                            '.',
+                        ) }}
+                    @endif
                 </td>
                 {{-- <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
@@ -220,31 +253,95 @@
                 </td> --}}
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    0</td>
-                <td class="td"
-                    style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    0</td>
-                <td class="td"
-                    style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black; background:rgb(206, 206, 206)">
                     {{ number_format(
-                        optional($ritase->faktur_ekspedisi)->whereBetween('created_at', [
+                        optional($ritase->detail_pengeluaran)->where('kode_akun', 'KA000029')->whereBetween('created_at', [
                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                            ])->sum('grand_total') -
-                            optional($ritase->memo_ekspedisi)->whereBetween('created_at', [
-                                    Carbon\Carbon::parse($created_at)->startOfDay(),
-                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                ])->sum('hasil_jumlah') -
-                            $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                                return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                        Carbon\Carbon::parse($created_at)->startOfDay(),
-                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                    ])->sum('grand_total');
-                            }),
-                        0,
+                            ])->sum('nominal') ?? 0,
+                        2,
                         ',',
                         '.',
                     ) }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
+                    {{ number_format(
+                        optional($ritase->detail_pengeluaran)->where('kode_akun', 'KA000015')->whereBetween('created_at', [
+                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                            ])->sum('nominal') ?? 0,
+                        2,
+                        ',',
+                        '.',
+                    ) }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black; background:rgb(206, 206, 206)">
+                    @if ($kategoris == 'memo')
+                        @if ($kategoriMemo > 0)
+                            {{ number_format(
+                                optional($ritase->faktur_ekspedisi)->whereBetween('created_at', [
+                                        Carbon\Carbon::parse($created_at)->startOfDay(),
+                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                    ])->where('kategoris', 'memo')->sum('grand_total') -
+                                    optional($ritase->memo_ekspedisi)->whereBetween('created_at', [
+                                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                        ])->sum('hasil_jumlah') -
+                                    $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                        return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
+                                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                            ])->sum('grand_total');
+                                    }),
+                                2,
+                                ',',
+                                '.',
+                            ) }}
+                        @endif
+                    @elseif ($kategoris == 'non memo')
+                        @if ($kategoriNonMemo > 0)
+                            {{ number_format(
+                                optional($ritase->faktur_ekspedisi)->whereBetween('created_at', [
+                                        Carbon\Carbon::parse($created_at)->startOfDay(),
+                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                    ])->where('kategoris', 'non memo')->sum('grand_total') -
+                                    optional($ritase->memo_ekspedisi)->whereBetween('created_at', [
+                                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                        ])->sum('hasil_jumlah') -
+                                    $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                        return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
+                                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                            ])->sum('grand_total');
+                                    }),
+                                2,
+                                ',',
+                                '.',
+                            ) }}
+                        @endif
+                    @else
+                        {{ number_format(
+                            optional($ritase->faktur_ekspedisi)->whereBetween('created_at', [
+                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                ])->sum('grand_total') -
+                                optional($ritase->memo_ekspedisi)->whereBetween('created_at', [
+                                        Carbon\Carbon::parse($created_at)->startOfDay(),
+                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                    ])->sum('hasil_jumlah') -
+                                $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                    return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
+                                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                        ])->sum('grand_total');
+                                }),
+                            2,
+                            ',',
+                            '.',
+                        ) }}
+                    @endif
                 </td>
             </tr>
 
@@ -253,6 +350,18 @@
                 $totalFaktur +=
                     optional($ritase->faktur_ekspedisi)
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                        ->sum('grand_total') ?? 0;
+
+                $totalFakturmemo +=
+                    optional($ritase->faktur_ekspedisi)
+                        ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                        ->where('kategoris', 'memo')
+                        ->sum('grand_total') ?? 0;
+
+                $totalFakturnonmemo +=
+                    optional($ritase->faktur_ekspedisi)
+                        ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                        ->where('kategoris', 'non memo')
                         ->sum('grand_total') ?? 0;
 
                 $totalMemo +=
@@ -273,20 +382,28 @@
                         ->sum('grand_total');
                 });
 
+                $totalOperasional +=
+                    optional($ritase->detail_pengeluaran)
+                        ->where('kode_akun', 'KA000029')
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->sum('nominal') ?? 0;
+
+                $totalPerbaikan +=
+                    optional($ritase->detail_pengeluaran)
+                        ->where('kode_akun', 'KA000015')
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->sum('nominal') ?? 0;
+
                 $totalRitase +=
                     optional($ritase->memo_ekspedisi)
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                         ->count() ?? 0;
-
-                // $totalFaktur +=
-                //     optional($ritase->faktur_ekspedisi)
-                //         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
-                //         ->sum('grand_total') ?? 0;
-
-                // $totalFaktur +=
-                //     optional($ritase->faktur_ekspedisi)
-                //         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
-                //         ->sum('grand_total') ?? 0;
 
                 $subtotalDifference =
                     optional($ritase->faktur_ekspedisi)
@@ -322,32 +439,49 @@
             </td>
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                {{ number_format($totalRitase, 0, ',', '.') }}</td>
+                @if ($kategoris == 'non memo')
+                    0
+                @else
+                    {{ number_format($totalRitase, 0, ',', '.') }}
+                @endif
+            </td>
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                {{ number_format($totalFaktur, 0, ',', '.') }}</td>
+                {{ number_format($totalFaktur, 2, ',', '.') }}</td>
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                {{ number_format($totalMemo + $totalMemotambahan, 0, ',', '.') }}</td>
+                @if ($kategoris == 'mon memo')
+                0
+                @else
+                {{ number_format($totalMemo + $totalMemotambahan, 2, ',', '.') }}
+                @endif
+            </td>
             {{-- <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                 {{ number_format($totalMemotambahan, 0, ',', '.') }}</td> --}}
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                0</td>
+                {{ number_format($totalOperasional, 2, ',', '.') }}</td>
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                0</td>
+                {{ number_format($totalPerbaikan, 2, ',', '.') }}</td>
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                {{ number_format($totalFaktur - $totalMemo - $totalMemotambahan, 0, ',', '.') }}</td>
+                {{-- {{ number_format($totalFaktur - $totalMemo - $totalMemotambahan, 0, ',', '.') }} --}}
+                @if ($kategoris == 'memo')
+                    @if ($totalFakturmemo > 0)
+                        Rp.{{ number_format($totalFakturmemo - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
+                    @endif
+                @elseif ($kategoris == 'non memo')
+                    @if ($totalFakturnonmemo > 0)
+                        Rp.{{ number_format($totalFakturnonmemo - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
+                    @endif
+                @else
+                    Rp.{{ number_format($totalFaktur - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
+                @endif
+            </td>
         </tr>
     </table>
-
-
-
-
-
     <br>
 
     <!-- Tampilkan sub-total di bawah tabel -->

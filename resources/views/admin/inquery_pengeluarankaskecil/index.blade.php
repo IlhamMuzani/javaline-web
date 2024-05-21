@@ -77,17 +77,19 @@
                             </div>
                         </div>
                     </form>
-                    @if (auth()->user()->id == 1 || auth()->user()->id == 31 || auth()->user()->id == 4)
-                        <form method="GET" id="form-action">
-                            <div class="row">
+                    {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 31 || auth()->user()->id == 4) --}}
+                    <form method="GET" id="form-action">
+                        <div class="row">
+                            @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil posting'])
                                 <div class="col-md-2 mb-3">
                                     <input type="hidden" name="ids" id="selectedIds" value="">
                                     <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
                                         onclick="postingSelectedData()">
                                         <i class="fas fa-check-square"></i> Posting Filter
                                     </button>
-
                                 </div>
+                            @endif
+                            @if (auth()->check() && auth()->user()->fitur['inquery pengambilan kas kecil unpost'])
                                 <div class="col-md-2 mb-3">
                                     <input type="hidden" name="ids" id="selectedIdss" value="">
                                     <button type="button" class="btn btn-warning btn-block mt-1" id="unpostfilter"
@@ -95,9 +97,10 @@
                                         <i class="fas fa-times-circle"></i> Unpost Filter
                                     </button>
                                 </div>
-                            </div>
-                        </form>
-                    @endif
+                            @endif
+                        </div>
+                    </form>
+                    {{-- @endif --}}
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>

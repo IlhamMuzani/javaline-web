@@ -15,7 +15,7 @@ class LaporanMobillogistikglobalController extends Controller
     {
         $kendaraans = Kendaraan::with(['faktur_ekspedisi', 'memo_ekspedisi', 'detail_pengeluaran'])->get();
 
-        // $kategoris = $request->kategoris;
+        $kategoris = $request->kategoris;
         $status = $request->status;
         $created_at = $request->created_at;
         $tanggal_akhir = $request->tanggal_akhir;
@@ -23,13 +23,13 @@ class LaporanMobillogistikglobalController extends Controller
         $inquery = Faktur_ekspedisi::orderBy('id', 'DESC');
 
 
-        // if ($kategoris) {
-        //     if ($kategoris == 'memo') {
-        //         $inquery->where('kategoris', 'memo');
-        //     } elseif ($kategoris == 'non memo') {
-        //         $inquery->where('kategoris', 'non memo');
-        //     }
-        // }
+        if ($kategoris) {
+            if ($kategoris == 'memo') {
+                $inquery->where('kategoris', 'memo');
+            } elseif ($kategoris == 'non memo') {
+                $inquery->where('kategoris', 'non memo');
+            }
+        }
 
         if ($status == "posting") {
             $inquery->where('status', $status);
@@ -51,7 +51,7 @@ class LaporanMobillogistikglobalController extends Controller
         $hasSearch = $status || ($created_at && $tanggal_akhir);
         $inquery = $hasSearch ? $faktur_ekspedisis : collect();
 
-        return view('admin.laporan_mobillogistikglobal.index', compact('kendaraans', 'created_at', 'tanggal_akhir'));
+        return view('admin.laporan_mobillogistikglobal.index', compact('kendaraans', 'created_at', 'tanggal_akhir', 'kategoris'));
     }
 
     public function print_mobillogistikglobal(Request $request)
@@ -91,7 +91,7 @@ class LaporanMobillogistikglobalController extends Controller
         // Retrieve faktur_ekspedisis directly from the relationship
         $faktur_ekspedisis = $inquery->get();
 
-        $pdf = PDF::loadView('admin.laporan_mobillogistikglobal.print', compact('inquery', 'kendaraans', 'faktur_ekspedisis'));
+        $pdf = PDF::loadView('admin.laporan_mobillogistikglobal.print', compact('inquery', 'kendaraans', 'faktur_ekspedisis', 'kategoris'));
         return $pdf->stream('Laporan_mobil_logistik.pdf');
     }
 }

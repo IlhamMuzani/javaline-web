@@ -133,7 +133,7 @@
                                     <td>{{ $faktur->created_at }}</td>
                                     <td>{{ $faktur->nama_pelanggan }}</td>
                                     <td>{{ $faktur->kendaraan ? $faktur->kendaraan->no_kabin : 'Tidak ada' }}</td>
-                                    <td class="text-right">{{ number_format($faktur->grand_total, 0, ',', '.') }}</td>
+                                    <td class="text-right">{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
                                     <td>
                                         <!-- Tombol untuk Menampilkan/Menyembunyikan Detail -->
                                         <button class="btn btn-info" data-toggle="collapse"
@@ -162,10 +162,10 @@
                                                             <td>{{ $memo->created_at }}</td>
                                                             <td>{{ $memo->nama_rute }}</td>
                                                             <td class="text-right">
-                                                                {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->uang_jalan, 0, ',', '.') : 'Tidak ada' }}
+                                                                {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->uang_jalan, 2, ',', '.') : 'Tidak ada' }}
                                                             </td>
                                                             <td class="text-right">
-                                                                {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->hasil_jumlah, 0, ',', '.') : 'Tidak ada' }}
+                                                                {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->hasil_jumlah, 2, ',', '.') : 'Tidak ada' }}
                                                             </td>
                                                         </tr>
 
@@ -177,10 +177,10 @@
                                                                     <td>{{ $memoTambahan->created_at }}</td>
                                                                     <td>{{ $memoTambahan->memo_ekspedisi->nama_rute }}</td>
                                                                     <td class="text-right">
-                                                                        {{ number_format($memoTambahan->grand_total, 0, ',', '.') }}
+                                                                        {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
                                                                     </td>
                                                                     <td class="text-right">
-                                                                        {{ number_format($memoTambahan->grand_total, 0, ',', '.') }}
+                                                                        {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
@@ -237,7 +237,7 @@
                                         <div class="col-md-6">
                                             <input style="text-align: end; font-size:14px;" type="text"
                                                 class="form-control"
-                                                value="{{ number_format($totalGrandTotal, 0, ',', '.') }}" readonly>
+                                                value="{{ number_format($totalGrandTotal, 2, ',', '.') }}" readonly>
                                         </div>
                                     </div>
 
@@ -249,7 +249,7 @@
                                         <div class="col-md-6">
                                             <input style="text-align: end; font-size:14px;" type="text"
                                                 class="form-control"
-                                                value="{{ number_format($totalMemo + $totalMemoTambahan, 0, ',', '.') }}"
+                                                value="{{ number_format($totalMemo + $totalMemoTambahan, 2, ',', '.') }}"
                                                 readonly>
                                         </div>
                                     </div>
@@ -268,7 +268,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <input style="text-align: end; font-size:14px;" type="text"
-                                                class="form-control" value="{{ number_format($selisih, 0, ',', '.') }}"
+                                                class="form-control" value="{{ number_format($selisih, 2, ',', '.') }}"
                                                 readonly>
                                         </div>
                                     </div>
@@ -284,7 +284,7 @@
                                                     $kendaraans->flatMap(function ($kendaraan) use ($created_at, $tanggal_akhir) {
                                                             return $kendaraan->detail_pengeluaran->where('barangakun_id', 29)->where('status', 'posting')->whereBetween('created_at', [$created_at, $tanggal_akhir])->pluck('nominal');
                                                         })->sum() ?? 0,
-                                                    0,
+                                                    2,
                                                     ',',
                                                     '.',
                                                 ) }}">
@@ -303,7 +303,7 @@
                                                     $kendaraans->flatMap(function ($kendaraan) use ($created_at, $tanggal_akhir) {
                                                             return $kendaraan->detail_pengeluaran->where('barangakun_id', 5)->where('status', 'posting')->whereBetween('created_at', [$created_at, $tanggal_akhir])->pluck('nominal');
                                                         })->sum() ?? 0,
-                                                    0,
+                                                    2,
                                                     ',',
                                                     '.',
                                                 ) }}">
@@ -333,7 +333,7 @@
                                                         $kendaraans->flatMap(function ($kendaraan) use ($created_at, $tanggal_akhir) {
                                                                 return $kendaraan->detail_pengeluaran->where('barangakun_id', 5)->where('status', 'posting')->whereBetween('created_at', [$created_at, $tanggal_akhir])->pluck('nominal');
                                                             })->sum(),
-                                                    0,
+                                                    2,
                                                     ',',
                                                     '.',
                                                 ) }}"

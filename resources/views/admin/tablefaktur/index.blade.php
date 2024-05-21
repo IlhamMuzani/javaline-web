@@ -45,9 +45,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Faktur Ekspedisi</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/faktur_ekspedisi') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        @if (auth()->check() && auth()->user()->fitur['creates faktur ekspedisi'])
+                            <a href="{{ url('admin/faktur_ekspedisi') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -141,43 +143,43 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($faktur->status == 'unpost')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi posting']) --}}
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $faktur->id }}">Posting</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi delete']) --}}
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusfaktur', ['id' => $faktur->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
-                                                {{-- @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['postings faktur ekspedisi'])
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $faktur->id }}">Posting</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['updates faktur ekspedisi'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['deletes faktur ekspedisi'])
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusfaktur', ['id' => $faktur->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
                                             @if ($faktur->status == 'posting')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi unpost']) --}}
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $faktur->id }}">Unpost</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['unposts faktur ekspedisi'])
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $faktur->id }}">Unpost</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                @endif
                                             @endif
                                             @if ($faktur->status == 'selesai')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

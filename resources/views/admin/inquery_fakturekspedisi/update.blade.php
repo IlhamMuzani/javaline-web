@@ -1369,6 +1369,9 @@
             });
 
             updateUrutan();
+
+            updateGrandTotal();
+            updateHarga();
         }
 
 

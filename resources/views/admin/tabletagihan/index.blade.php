@@ -45,14 +45,16 @@
                 <div class="card-header">
                     <h3 class="card-title">Invoice Faktur Ekspedisi</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/tagihan_ekspedisi') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        @if (auth()->check() && auth()->user()->fitur['create invoice ekspedisi'])
+                            <a href="{{ url('admin/tagihan_ekspedisi') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                   <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
@@ -93,43 +95,43 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($tagihanekspedisi->status == 'unpost')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi posting']) --}}
-                                                    <a href="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}"
-                                                        class="dropdown-item">Posting</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi update']) --}}
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show']) --}}
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi delete']) --}}
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                {{-- @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['posting invoice ekspedisi'])
+                                                <a href="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}"
+                                                    class="dropdown-item">Posting</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['update invoice ekspedisi'])
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['delete invoice ekspedisi'])
+                                                <form style="margin-top:5px" method="GET"
+                                                    action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
+                                                    <button type="submit"
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                        </i> Delete
+                                                    </button>
+                                                </form>
+                                                @endif
                                             @endif
                                             @if ($tagihanekspedisi->status == 'posting')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi unpost']) --}}
-                                                    <a href="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}"
-                                                        class="dropdown-item">Unpost</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show']) --}}
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['unpost invoice ekspedisi'])
+                                                <a href="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}"
+                                                    class="dropdown-item">Unpost</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                @endif
                                             @endif
                                             @if ($tagihanekspedisi->status == 'selesai')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show']) --}}
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

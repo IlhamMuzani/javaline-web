@@ -73,7 +73,7 @@
         </div> --}}
 
         <div>
-            
+
         </div>
 
         <!-- Navbar -->
@@ -1022,7 +1022,7 @@
                         class="brand-image rounded-circle">
                 @endif
                 <span style="font-size: 18px"
-                    class="brand-text font-weight-bold ml-2">{{ auth()->user()->karyawan->nama_lengkap }}</span>
+                    class="brand-text font-wight-bold">{{ implode(' ', array_slice(str_word_count(auth()->user()->karyawan->nama_lengkap, 1), 0, 2)) }}</span>
             </a>
 
             <!-- Sidebar -->

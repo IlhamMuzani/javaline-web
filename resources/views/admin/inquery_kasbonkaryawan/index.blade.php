@@ -115,30 +115,42 @@
                                                 @if ($saldoTerakhir->sisa_saldo < $kasbon->nominal)
                                                     <a class="dropdown-item">Saldo tidak cukup</a>
                                                 @else
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $kasbon->id }}">Posting</a>
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $kasbon->id }}">Posting</a>
+                                                    @endif
                                                 @endif
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id . '/edit') }}">Update</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapuskasbon', ['id' => $kasbon->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan update'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id . '/edit') }}">Update</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan delete'])
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapuskasbon', ['id' => $kasbon->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             @endif
                                             @if ($kasbon->status == 'posting')
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $kasbon->id }}">Unpost</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $kasbon->id }}">Unpost</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                @endif
                                             @endif
                                             @if ($kasbon->status == 'selesai')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

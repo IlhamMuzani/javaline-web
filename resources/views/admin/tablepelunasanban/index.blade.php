@@ -45,9 +45,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Faktur Pelunasan Pembelian Ban</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/faktur_pelunasanban') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        @if (auth()->check() && auth()->user()->fitur['create pelunasan faktur pembelian ban'])
+                            <a href="{{ url('admin/faktur_pelunasanban') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        @endif
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -106,34 +108,34 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Memo ekspedisi
+                                                <p>Pelunasan Ban
                                                     <strong>{{ $fakturpelunasan->kode_pelunasan }}</strong>
                                                 </p>
                                                 @if ($fakturpelunasan->status == 'unpost')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi delete'])
+                                                    @if (auth()->check() && auth()->user()->fitur['delete pelunasan faktur pembelian ban'])
                                                         <form method="GET"
-                                                            action="{{ route('hapuspelunasan', ['id' => $fakturpelunasan->id]) }}">
+                                                            action="{{ route('hapuspelunasanban', ['id' => $fakturpelunasan->id]) }}">
                                                             <button type="submit"
                                                                 class="btn btn-outline-danger btn-block mt-2">
                                                                 <i class="fas fa-trash-alt"></i> Delete
                                                             </button>
                                                         </form>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
-                                                        <a href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}"
+                                                    @if (auth()->check() && auth()->user()->fitur['show pelunasan faktur pembelian ban'])
+                                                        <a href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}"
                                                             type="button" class="btn btn-outline-info btn-block">
                                                             <i class="fas fa-eye"></i> Show
                                                         </a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi update'])
-                                                        <a href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id . '/edit') }}"
+                                                    @if (auth()->check() && auth()->user()->fitur['update pelunasan faktur pembelian ban'])
+                                                        <a href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id . '/edit') }}"
                                                             type="button" class="btn btn-outline-warning btn-block">
                                                             <i class="fas fa-edit"></i> Update
                                                         </a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi posting'])
+                                                    @if (auth()->check() && auth()->user()->fitur['posting pelunasan faktur pembelian ban'])
                                                         <form method="GET"
-                                                            action="{{ route('postingpelunasan', ['id' => $fakturpelunasan->id]) }}">
+                                                            action="{{ route('postingpelunasanban', ['id' => $fakturpelunasan->id]) }}">
                                                             <button type="submit"
                                                                 class="btn btn-outline-success btn-block mt-2">
                                                                 <i class="fas fa-check"></i> Posting
@@ -142,15 +144,15 @@
                                                     @endif
                                                 @endif
                                                 @if ($fakturpelunasan->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
-                                                        <a href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}"
+                                                    @if (auth()->check() && auth()->user()->fitur['show pelunasan faktur pembelian ban'])
+                                                        <a href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}"
                                                             type="button" class="btn btn-outline-info btn-block">
                                                             <i class="fas fa-eye"></i> Show
                                                         </a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi unpost'])
+                                                    @if (auth()->check() && auth()->user()->fitur['unpost pelunasan faktur pembelian ban'])
                                                         <form method="GET"
-                                                            action="{{ route('unpostpelunasan', ['id' => $fakturpelunasan->id]) }}">
+                                                            action="{{ route('unpostpelunasanban', ['id' => $fakturpelunasan->id]) }}">
                                                             <button type="submit"
                                                                 class="btn btn-outline-primary btn-block mt-2">
                                                                 <i class="fas fa-check"></i> Unpost

@@ -199,9 +199,6 @@ class AksesController extends Controller
                 // hak akses
                 'hak akses create',
 
-                // gaji karyawan
-                'gaji karyawan update',
-
                 // departemen
                 'departemen create',
                 'departemen update',
@@ -579,6 +576,9 @@ class AksesController extends Controller
                 'laporan pelunasan faktur pembelian part cari',
                 'laporan pelunasan faktur pembelian part cetak',
 
+                // gaji karyawan
+                'gaji karyawan update',
+
                 // akun 
                 'create akun',
                 'update akun',
@@ -671,16 +671,6 @@ class AksesController extends Controller
                 // laporan kasbon karyawan 
                 'laporan kasbon karyawan cari',
                 'laporan kasbon karyawan cetak',
-
-                'posting memo perjalanan continue',
-                'posting memo borong continue',
-                'posting memo tambahan continue',
-
-                'unpost memo perjalanan continue',
-                'unpost memo borong continue',
-                'unpost memo tambahan continue',
-
-
 
             );
             $akses = User::where('id', $id)->first();
@@ -819,9 +809,6 @@ class AksesController extends Controller
 
             // hak akses
             'hak akses create',
-
-            // gaji karyawan
-            'gaji karyawan update',
 
             // departemen
             'departemen create',
@@ -1200,6 +1187,9 @@ class AksesController extends Controller
             'laporan pelunasan faktur pembelian part cari',
             'laporan pelunasan faktur pembelian part cetak',
 
+            // gaji karyawan
+            'gaji karyawan update',
+            
             // akun 
             'create akun',
             'update akun',
@@ -1292,15 +1282,6 @@ class AksesController extends Controller
             // laporan kasbon karyawan 
             'laporan kasbon karyawan cari',
             'laporan kasbon karyawan cetak',
-
-            'posting memo perjalanan continue',
-            'posting memo borong continue',
-            'posting memo tambahan continue',
-
-            'unpost memo perjalanan continue',
-            'unpost memo borong continue',
-            'unpost memo tambahan continue',
-
 
         );
 

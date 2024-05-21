@@ -1669,7 +1669,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                        {{-- <div class="row">
                                             <div class="mb-3" style="display: flex; flex-wrap: wrap;">
                                                 @foreach ($fiturs as $fitur)
                                                     @if ($loop->iteration == 309)
@@ -1705,7 +1705,7 @@
                                                     @endif
                                                 @endforeach
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     @elseif ($loop->iteration === 39)
                                         <div class="row">
                                             <div class="form-check" style="margin-left:28px">

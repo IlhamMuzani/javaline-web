@@ -138,7 +138,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::put('admin/update_km/{id}', [\App\Http\Controllers\Admin\KmController::class, 'updateKM'])->name('update_km.update');
 
-    Route::get('inquery_ban', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'index']);
+    Route::get('ban', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'index']);
     Route::get('unpostban/{id}', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'unpostban'])->name('unpostban');
     Route::get('postingban/{id}', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'postingban'])->name('postingban');
     Route::get('hapusban/{id}', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'hapusban'])->name('hapusban');

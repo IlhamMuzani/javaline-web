@@ -1270,6 +1270,9 @@
                     urutan[i].innerText = i + 1;
                 }
             }
+
+            updateGrandTotal();
+            updateHarga();
         }
 
         function itemPembelians(urutan, key, value = null) {

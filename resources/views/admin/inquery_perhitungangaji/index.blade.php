@@ -149,19 +149,19 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($perhitungan->status == 'unpost')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi posting']) --}}
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan posting'])
                                                 <a class="dropdown-item posting-btn"
                                                     data-memo-id="{{ $perhitungan->id }}">Posting</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi update']) --}}
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan update'])
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id . '/edit') }}">Update</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi show']) --}}
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi delete']) --}}
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan delete'])
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusperhitungan', ['id' => $perhitungan->id]) }}">
                                                     <button type="submit"
@@ -169,23 +169,23 @@
                                                         </i> Delete
                                                     </button>
                                                 </form>
-                                                {{-- @endif --}}
+                                                @endif
                                             @endif
                                             @if ($perhitungan->status == 'posting')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi unpost']) --}}
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan unpost'])
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $perhitungan->id }}">Unpost</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi show']) --}}
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                @endif
                                             @endif
                                             @if ($perhitungan->status == 'selesai')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery perhitungan ekspedisi show']) --}}
+                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                @endif
                                             @endif
                                         </div>
                                     </td>

@@ -39,6 +39,8 @@ return new class extends Migration
             $table->string('posisi_ban')->nullable();
             $table->string('qrcode_ban')->nullable();
             $table->string('status')->nullable();
+            $table->string('status_pelepasan')->nullable();
+            $table->string('status_pemasangan')->nullable();
             $table->unsignedBigInteger('kendaraan_id')->nullable();
             $table->foreign('kendaraan_id')->references('id')->on('kendaraans')->onDelete('set null');
             $table->string('tanggal_awal')->nullable();

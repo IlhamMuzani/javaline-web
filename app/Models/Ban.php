@@ -36,6 +36,8 @@ class Ban extends Model
         'qrcode_ban',
         'keterangan',
         'status',
+        'status_pelepasan',
+        'status_pemasangan',
         'tanggal_awal',
         'tanggal_akhir',
     ];
