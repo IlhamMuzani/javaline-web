@@ -190,12 +190,12 @@ class InqueryPemasanganbanController extends Controller
         }
     }
 
-    public function delete($id)
+    public function hapuspemasanganban($id)
     {
-        $ban = Pemasangan_ban::find($id);
+        $ban = Pemasangan_ban::findOrFail($id);
         $ban->delete();
 
-        return redirect('admin/inquery_pemasanganban')->with('success', 'Berhasil menghapus Pemasangan');
+        return redirect()->route('inquery_pemasanganban.index')->with('success', 'Berhasil menghapus Pemasangan');
     }
 
     public function update(Request $request, $id)

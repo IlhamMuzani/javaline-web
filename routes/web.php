@@ -164,7 +164,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::delete('pemasangan_ban/delete_ban/{id}', [\App\Http\Controllers\Admin\PemasanganbanController::class, 'delete_ban']);
     Route::delete('hapus_part/{id}', [\App\Http\Controllers\Admin\PemasanganpartController::class, 'hapus_part']);
 
-    Route::delete('inquery_pemasanganban/deleteban/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganbanController::class, 'delete']);
+    Route::delete('inquery_pemasanganban/deleteban/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganbanController::class, 'deleteban']);
     Route::delete('inquery_pelepasanban/deleteban/{id}', [\App\Http\Controllers\Admin\InqueryPelepasanbanController::class, 'delete']);
     Route::get('deletebans/{id}', [\App\Http\Controllers\Admin\InqueryPelepasanbanController::class, 'deletebans'])->name('deletebans');
 
@@ -420,6 +420,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('unpostfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfaktur'])->name('unpostfaktur');
     Route::get('postingfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'postingfaktur'])->name('postingfaktur');
     Route::get('hapusfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'hapusfaktur'])->name('hapusfaktur');
+    Route::get('hapuspemasanganban/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganbanController::class, 'hapuspemasanganban'])->name('hapuspemasanganban');
     Route::get('print_faktur', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'print_faktur']);
     Route::get('cetak_faktur', [\App\Http\Controllers\Admin\LaporanFakturekspedisiController::class, 'cetak_faktur']);
     Route::get('faktur_ekspedisi/cetak-pdf/{id}', [\App\Http\Controllers\Admin\FakturekspedisiController::class, 'cetakpdf']);
