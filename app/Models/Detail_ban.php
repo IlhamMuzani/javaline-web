@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Ban extends Model
+class Detail_ban extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
+        'ban_id',
         'kode_ban',
         'kendaraan_id',
         // 'supplier_id',
@@ -88,13 +89,15 @@ class Ban extends Model
         return $this->hasMany(Deposit_driver::class);
     }
 
-    public function km_ban()
+    public function ban()
     {
-        return $this->hasMany(Km_ban::class);
+        return $this->belongsTo(Ban::class);
     }
+
+
 
     public static function getId()
     {
-        return $getId = DB::table('bans')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('detail_bans')->orderBy('id', 'DESC')->take(1)->get();
     }
 }

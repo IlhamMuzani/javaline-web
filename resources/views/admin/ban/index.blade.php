@@ -288,7 +288,16 @@
                                                             <strong>Umur Ban</strong>
                                                         </div>
                                                         <div class="col">
-                                                            {{ number_format($ban->umur_ban, 0, ',', '.') }} Km
+                                                            @if ($ban->keterangan == 'Stok')
+                                                                {{ number_format($ban->jumlah_km, 0, ',', '.') }} Km
+                                                            @else
+                                                                @if ($ban->km_ban()->latest()->first())
+                                                                    {{ number_format($ban->umur_ban + $ban->km_ban()->latest()->first()->umur_ban, 0, ',', '.') }}
+                                                                    Km
+                                                                @else
+                                                                    {{ number_format($ban->umur_ban, 0, ',', '.') }} Km
+                                                                @endif
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     <div class="row mb-3">

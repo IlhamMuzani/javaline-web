@@ -12,10 +12,12 @@ use App\Models\Pelepasan_ban;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
+use App\Models\Detail_ban;
 use App\Models\Karyawan;
 use App\Models\Klaim_ban;
 use App\Models\Penerimaan_kaskecil;
 use App\Models\Saldo;
+use App\Models\Km_ban;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
@@ -117,7 +119,6 @@ class PelepasanbanController extends Controller
             'status' => 'aktif',
         ]);
 
-
         return redirect('admin/pelepasan_ban/' . $kendaraan_id . '/edit');
     }
 
@@ -163,7 +164,7 @@ class PelepasanbanController extends Controller
             $pemasangan_ban = Pelepasan_ban::findOrFail($id);
             $kendaraan_id = $pemasangan_ban->kendaraan_id;
             $kendaraan = Kendaraan::findOrFail($kendaraan_id);
-            $bans = Ban::where('pelepasan_ban_id', $id)->get();
+            $bans = Detail_ban::where('pelepasan_ban_id', $id)->get();
 
             $pdf = PDF::loadView('admin/pelepasan_ban.cetak_pdf', compact('bans', 'kendaraan', 'pelepasan_ban'));
             $pdf->setPaper('letter', 'portrait');
@@ -198,6 +199,15 @@ class PelepasanbanController extends Controller
             $klaim_ban->delete();
         }
 
+        $umurbans = Km_ban::where(['ban_id' => $id, 'status' => 'non aktif sementara'])
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($umurbans) {
+            // Hapus deposit_driver
+            $umurbans->delete();
+        }
+
         // Setelah itu, update objek Ban
         $ban->update([
             'pelepasan_ban_id' => null,
@@ -219,7 +229,7 @@ class PelepasanbanController extends Controller
         // tgl filter
         $tanggal = Carbon::now()->format('Y-m-d');
 
-        $pelepasan = Pelepasan_ban::create([
+        $pelepasan_ban = Pelepasan_ban::create([
             'user_id' => auth()->user()->id,
             'kode_pelepasan' => $this->kode(),
             'kendaraan_id' => $kendaraans->id,
@@ -229,28 +239,71 @@ class PelepasanbanController extends Controller
             'status_notif' => false,
 
         ]);
-        $pelepasanId = $pelepasan->id;
+        $pelepasanId = $pelepasan_ban->id;
 
-        Ban::where([
+
+        // Ambil semua Ban yang memenuhi kriteria
+        $bans = Ban::where([
             ['kendaraan_id', $id],
             ['keterangan', 'Stok'],
             ['status', 'non aktif sementara']
-        ])->update([
-            'status' => 'stok',
-            'pelepasan_ban_id' => $pelepasanId,
-            // 'kendaraan_id' => null,
-        ]);
+        ])->get();
 
-        Ban::where([
+        // Loop melalui setiap Ban dan update dengan jumlah_km dari Km_ban
+        foreach ($bans as $ban) {
+            // Ambil nilai jumlah_km terbaru dari Km_ban berdasarkan ban_id
+            $jumlahKm = Km_ban::where('ban_id', $ban->id)
+                ->where('status', 'digunakan')
+                ->latest()
+                ->value('umur_ban') ?? 0;
+
+            // Update Ban dengan nilai jumlah_km
+            $ban->update([
+                'status' => 'stok',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $pelepasanId,
+                'jumlah_km' => $jumlahKm + ($ban->km_terpakai ?? 0)
+            ]);
+
+            // Duplicate ban to Detail_ban
+            $detailBanData = $ban->toArray();
+            $detailBanData['ban_id'] = $ban->id;
+
+            Detail_ban::create($detailBanData);
+        }
+
+        $banss = Ban::where([
+            ['kendaraan_id', $id],
+            ['status', 'non aktif sementara']
+        ])->get();
+
+        foreach ($banss as $ban) {
+
+            $ban->update([
+                'status' => 'non aktif',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $pelepasanId,
+            ]);
+            // Duplicate ban to Detail_ban
+            $detailBanData = $ban->toArray();
+            $detailBanData['ban_id'] = $ban->id;
+
+            Detail_ban::create($detailBanData);
+        }
+
+        Km_ban::where([
             ['kendaraan_id', $id],
             ['status', 'non aktif sementara']
         ])->update([
-            'status' => 'non aktif',
+            'status' => 'digunakan',
             'pelepasan_ban_id' => $pelepasanId,
-            // 'kendaraan_id' => null,
         ]);
 
-        return redirect('admin/pelepasan_ban')->with('success', 'Berhasil melakukan pelepasan');
+        $kendaraan = Kendaraan::findOrFail($id);
+
+        $bans = Detail_ban::where('pelepasan_ban_id', $pelepasanId)->get();
+
+        return view('admin.pelepasan_ban.show', compact('bans', 'kendaraan', 'pelepasan_ban'));
     }
 
     public function updatepelepasan_1a(Request $request, $id)
@@ -390,6 +443,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -420,7 +503,6 @@ class PelepasanbanController extends Controller
 
     public function updatepelepasan_1b(Request $request, $id)
     {
-
         $validator = Validator::make(
             $request->all(),
             [
@@ -555,6 +637,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -716,6 +828,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -879,6 +1021,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1042,6 +1214,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1204,6 +1406,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1366,6 +1598,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
 
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
@@ -1529,6 +1791,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1691,6 +1983,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -1853,6 +2175,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2014,6 +2366,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2176,6 +2558,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2338,6 +2750,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2500,6 +2942,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2661,6 +3133,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2822,6 +3324,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -2983,6 +3515,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3144,6 +3706,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3305,6 +3897,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3466,6 +4088,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3627,6 +4279,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([
@@ -3788,6 +4470,36 @@ class PelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+            ]);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+                'pelepasan_ban_id' => null
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
             $kendaraan->update([

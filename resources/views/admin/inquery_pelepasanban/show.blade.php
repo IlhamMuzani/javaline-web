@@ -44,6 +44,7 @@
         .tdd td {
             border: none;
         }
+
         .faktur {
             text-align: center
         }
@@ -222,42 +223,187 @@
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">No.</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Posisi Ban</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Kode Ban</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">No. Seri</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Ukuran</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Merek</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Keterangan</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">No.</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">Posisi</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">Kode Ban</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">No. Seri</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">Ukuran</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">Merek</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">Ket</td>
+            <td class="td" style="text-align: right; padding: 0px; font-size: 12px;">Km Pasang</td>
+            <td class="td" style="text-align: right; padding: 0px; font-size: 12px;">Km Lepas</td>
+            <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">Km Terpakai</td>
         </tr>
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="7" style="padding: 0px;">
-            </td>
-        </tr>
+        <!-- Add horizontal line below this row -->
+
         @foreach ($bans as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $loop->iteration }}
+                <td colspan="10" style="padding: 0px;">
+                    <hr style="border-top: 0.1px solid black; margin: 5px 0;">
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
+            </tr>
+            @php
+                $kmPasang = $item->km_pemasangan;
+                $kmLepas = $item->km_pelepasan;
+                $selisih = $kmLepas - $kmPasang;
+            @endphp
+            <tr>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    {{ $loop->iteration }}
+                </td>
+                <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
                     {{ $item->posisi_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $item->kode_ban }}
+
+                <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
+                    {{ $item->kode_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $item->no_seri }}
+                <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
+                    {{ $item->no_seri }}
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                    {{ $item->ukuran->ukuran }}</td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                    {{ $item->merek->nama_merek }}</td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
+                <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
+                    {{ $item->ukuran->ukuran }}
+                </td>
+                <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
+                    {{ $item->merek->nama_merek }}
+                </td>
+                <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
                     {{ $item->keterangan }}
+                </td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    {{ number_format($kmPasang, 0, ',', '.') }}
+                </td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    {{ number_format($kmLepas, 0, ',', '.') }}
+                </td>
+
+                <td class="td" style="text-align: right;padding-right: 10px; font-size: 12px;">
+                    {{ number_format($selisih, 0, ',', '.') }}
+                </td>
+            </tr>
+
+            {{-- <tr style="border-bottom: 1px solid black;">
+                <td colspan="10"></td>
+            </tr> --}}
+            @if ($item->keterangan == 'Stok')
+                <tr>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                        Umur Awal Ban :
+                    </td>
+                    @php
+                        // Ambil semua data km_ban yang diurutkan berdasarkan waktu atau ID
+                        $kmBanRecords = $item->ban->km_ban()->orderBy('created_at', 'desc')->get();
+                        // Ambil umur_ban terakhir kedua
+                        $umurBanTerakhirKedua = $kmBanRecords->skip(1)->first();
+                    @endphp
+                    <td class="td" style="text-align: right;padding: 0px; font-size: 12px;">
+                        {{ number_format($umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0, 0, ',', '.') }} +
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                    </td>
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                        Umur Awal Ban :
+                    </td>
+                    <td class="td" style="text-align: right;padding: 0px; font-size: 12px;">
+                        {{ number_format(optional($item->ban->km_ban()->latest()->first())->umur_ban ?? 0, 0, ',', '.') }} +
+                    </td>
+                </tr>
+            @endif
+
+            <tr style="border-bottom: 1px solid black;">
+                <td colspan="10"></td>
+            </tr>
+            <tr>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+                </td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    Total Umur Ban :
+                </td>
+                <td class="td" style="text-align: right;padding-right: 10px; font-size: 12px;">
+                    @if ($item->keterangan == 'Stok')
+                        {{ number_format($selisih + ($umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0), 0, ',', '.') }}
+                    @else
+                        {{ number_format($selisih + (optional($item->ban->km_ban()->latest()->first())->umur_ban ?? 0), 0, ',', '.') }}
+                    @endif
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <br>
                 </td>
             </tr>
         @endforeach
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="7" style="padding: 0px;">
-            </td>
-        </tr>
     </table>
 
     <br><br><br>

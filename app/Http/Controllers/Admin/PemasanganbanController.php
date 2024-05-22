@@ -10,6 +10,7 @@ use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use App\Models\Pemasangan_ban;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_ban;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -84,7 +85,7 @@ class PemasanganbanController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($kendaraan_id);
 
-        $bans = Ban::where('kendaraan_id', $kendaraan_id)->get();
+        $bans = Detail_ban::where('kendaraan_id', $kendaraan_id)->get();
 
         return view('admin.pemasangan_ban.show', compact('bans', 'kendaraan'));
     }
@@ -95,7 +96,7 @@ class PemasanganbanController extends Controller
         $pemasangan_ban = Pemasangan_ban::findOrFail($id);
         $kendaraan_id = $pemasangan_ban->kendaraan_id;
         $kendaraan = Kendaraan::findOrFail($kendaraan_id);
-        $bans = Ban::where('pemasangan_ban_id', $id)->get();
+        $bans = Detail_ban::where('pemasangan_ban_id', $id)->get();
 
         $pdf = PDF::loadView('admin/pemasangan_ban.cetak_pdf', compact('bans', 'kendaraan', 'pasang_ban'));
         $pdf->setPaper('letter', 'portrait');
@@ -106,6 +107,16 @@ class PemasanganbanController extends Controller
     public function destroy($id)
     {
         $ban = Ban::find($id);
+
+        if (!$ban) {
+            return redirect()->back()->with('error', 'Data ban tidak ditemukan');
+        }
+
+        // $detail_ban = Detail_ban::where('ban_id', $id)->first();
+        // if ($detail_ban) {
+        //     // Hapus deposit_driver
+        //     $detail_ban->delete();
+        // }
 
         if ($ban) {
             $ban->update([
@@ -121,7 +132,6 @@ class PemasanganbanController extends Controller
 
     public function update(Request $request, $id)
     {
-
         $kendaraans = Kendaraan::findOrFail($id);
         Kendaraan::where('id', $id)->update([
             'status_pemasangan' => 'pemasangan',
@@ -141,24 +151,35 @@ class PemasanganbanController extends Controller
             'tanggal_awal' => $tanggal,
             'status' => 'posting',
             'status_notif' => false,
-
         ]);
         $pemasanganId = $pemasangan_ban->id;
 
-        Ban::where([
+        // Update status ban dan pemasangan_ban_id
+        $bans = Ban::where([
             ['kendaraan_id', $id],
             ['status', 'aktif sementara']
-        ])->update([
-            'status' => 'aktif',
-            'pemasangan_ban_id' => $pemasanganId
-        ]);
+        ])->get();
+
+        foreach ($bans as $ban) {
+            $ban->update([
+                'status' => 'aktif',
+                'umur_ban' => null,
+                'pemasangan_ban_id' => $pemasanganId
+            ]);
+
+            // Duplicate ban to Detail_ban
+            $detailBanData = $ban->toArray();
+            $detailBanData['ban_id'] = $ban->id;
+
+            Detail_ban::create($detailBanData);
+        }
 
         $kendaraan = Kendaraan::findOrFail($id);
-
-        $bans = Ban::where('pemasangan_ban_id', $pemasanganId)->get();
+        $bans = Detail_ban::where('pemasangan_ban_id', $pemasanganId)->get();
 
         return view('admin.pemasangan_ban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));
     }
+
 
     public function update_1a(Request $request, $id)
     {
@@ -209,6 +230,11 @@ class PemasanganbanController extends Controller
             'status' => 'aktif sementara',
             'kendaraan_id' => $kendaraan->id,
         ]);
+
+        // $detailBanData = $ban->toArray();
+        // $detailBanData['ban_id'] = $ban->id;
+
+        // Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 1A');
     }

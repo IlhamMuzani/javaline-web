@@ -8,6 +8,7 @@ use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use App\Models\Pemasangan_ban;
 use App\Http\Controllers\Controller;
+use App\Models\Detail_ban;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryPemasanganbanController extends Controller
@@ -86,7 +87,7 @@ class InqueryPemasanganbanController extends Controller
 
             $kendaraan = Kendaraan::findOrFail($kendaraan_id);
 
-            $bans = Ban::where('pemasangan_ban_id', $id)->get();
+            $bans = Detail_ban::where('pemasangan_ban_id', $id)->get();
 
             return view('admin.inquery_pemasanganban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));
         } else {
@@ -149,6 +150,16 @@ class InqueryPemasanganbanController extends Controller
     {
         $ban = Ban::find($id);
 
+        if (!$ban) {
+            return redirect()->back()->with('error', 'Data ban tidak ditemukan');
+        }
+
+        $detail_ban = Detail_ban::where('ban_id', $id)->first();
+        if ($detail_ban) {
+            // Hapus deposit_driver
+            $detail_ban->delete();
+        }
+
         if ($ban) {
             $ban->update([
                 'pelepasan_ban_id' => null,
@@ -201,14 +212,13 @@ class InqueryPemasanganbanController extends Controller
             return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
         }
 
-
         $inquerypemasanganban->update([
             'status' => 'posting',
         ]);
 
         $pemasangan_ban = Pemasangan_ban::find($inquerypemasanganban->id);
         $kendaraan = Kendaraan::where('id', $inquerypemasanganban->kendaraan_id)->first();
-        $bans = Ban::where('pemasangan_ban_id', $id)->get();
+        $bans = Detail_ban::where('pemasangan_ban_id', $id)->get();
 
         return view('admin.inquery_pemasanganban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));
     }
@@ -259,9 +269,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_1a,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id,
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 1A');
     }
@@ -312,9 +328,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_1b,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 1B');
     }
@@ -365,9 +387,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2a,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 2A');
     }
@@ -419,9 +447,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2b,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 2B');
     }
@@ -472,9 +506,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2c,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 2C');
     }
@@ -525,9 +565,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_2d,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 2D');
     }
@@ -578,9 +624,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3a,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 3A');
     }
@@ -631,9 +683,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3b,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 3B');
     }
@@ -684,9 +742,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3c,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 3C');
     }
@@ -737,10 +801,16 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_3d,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
 
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 3D');
     }
@@ -791,9 +861,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4a,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 4A');
     }
@@ -844,9 +920,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4b,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 4B');
     }
@@ -897,9 +979,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4c,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 4C');
     }
@@ -950,9 +1038,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_4d,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 4D');
     }
@@ -1003,9 +1097,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5a,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 5A');
     }
@@ -1056,9 +1156,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5b,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 5B');
     }
@@ -1109,9 +1215,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5c,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 5C');
     }
@@ -1162,9 +1274,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_5d,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 5D');
     }
@@ -1215,9 +1333,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6a,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 6A');
     }
@@ -1269,9 +1393,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6b,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 6B');
     }
@@ -1322,9 +1452,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6c,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 6C');
     }
@@ -1373,9 +1509,15 @@ class InqueryPemasanganbanController extends Controller
             'km_pemasangan' => $request->km_pemasangan,
             'posisi_ban' => $request->posisi_6d,
             'status' => 'aktif',
+            'umur_ban' => null,
             'kendaraan_id' => $kendaraan->id,
             'pemasangan_ban_id' => $pemasangan->id
         ]);
+
+        $detailBanData = $ban->toArray();
+        $detailBanData['ban_id'] = $ban->id;
+
+        Detail_ban::create($detailBanData);
 
         return redirect()->back()->with('success', 'Berhasil menambahkan Pemasangan ban pada posisi Axle 6D');
     }

@@ -206,6 +206,9 @@
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 19px;">SURAT KLAIM BAN DRIVER</span>
     </div>
+    <p style="font-size: 15px; text-align: right">Tanggal :
+        {{ \Carbon\Carbon::parse($cetakpdf->tanggal_awal)->locale('id')->isoFormat('D MMMM YYYY') }}
+    </p>
     <table style=" margin: 5px 0;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="text-align: left" style="font-size: 15px; display: block;">Kode Klaim</td>

@@ -212,6 +212,7 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Ukuran</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Merek</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Kondisi</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Km Pemasangan</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -233,7 +234,10 @@
                 <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                     {{ $item->merek->nama_merek }}</td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                    {{ $item->kondisi_ban }}
+                    {{ number_format($item->jumlah_km, 0, ',', '.') }} km
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
+                    {{ number_format($item->km_pemasangan, 0, ',', '.') }} km
                 </td>
             </tr>
         @endforeach

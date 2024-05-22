@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 use App\Models\Pelepasan_ban;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
+use App\Models\Detail_ban;
 use App\Models\Karyawan;
 use App\Models\Klaim_ban;
 use App\Models\Penerimaan_kaskecil;
 use App\Models\Saldo;
+use App\Models\Km_ban;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryPelepasanbanController extends Controller
@@ -90,7 +92,7 @@ class InqueryPelepasanbanController extends Controller
 
             $kendaraan = Kendaraan::findOrFail($kendaraan_id);
 
-            $bans = Ban::where('pelepasan_ban_id', $id)->get();
+            $bans = Detail_ban::where('pelepasan_ban_id', $id)->get();
 
             return view('admin.inquery_pelepasanban.show', compact('bans', 'kendaraan', 'pelepasan_ban'));
         } else {
@@ -107,32 +109,32 @@ class InqueryPelepasanbanController extends Controller
             $inquery_pelepasanban = Pelepasan_ban::findOrFail($id);
             $kendaraan = Kendaraan::findOrFail($inquery_pelepasanban->kendaraan_id);
 
-            $bans = Ban::where(['posisi_ban' => '1A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bansb = Ban::where(['posisi_ban' => '1B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans2a = Ban::where(['posisi_ban' => '2A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans2b = Ban::where(['posisi_ban' => '2B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans2c = Ban::where(['posisi_ban' => '2C', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans2d = Ban::where(['posisi_ban' => '2D', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans3a = Ban::where(['posisi_ban' => '3A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans3b = Ban::where(['posisi_ban' => '3B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans3c = Ban::where(['posisi_ban' => '3C', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans3d = Ban::where(['posisi_ban' => '3D', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4a = Ban::where(['posisi_ban' => '3A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4b = Ban::where(['posisi_ban' => '3B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4c = Ban::where(['posisi_ban' => '3C', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4d = Ban::where(['posisi_ban' => '3D', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4a = Ban::where(['posisi_ban' => '4A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4b = Ban::where(['posisi_ban' => '4B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4c = Ban::where(['posisi_ban' => '4C', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans4d = Ban::where(['posisi_ban' => '4D', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans5a = Ban::where(['posisi_ban' => '5A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans5b = Ban::where(['posisi_ban' => '5B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans5c = Ban::where(['posisi_ban' => '5C', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans5d = Ban::where(['posisi_ban' => '5D', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans6a = Ban::where(['posisi_ban' => '6A', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans6b = Ban::where(['posisi_ban' => '6B', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans6c = Ban::where(['posisi_ban' => '6C', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
-            $bans6d = Ban::where(['posisi_ban' => '6D', 'status' => 'non aktif', 'pelepasan_ban_id' => $id])->first();
+            $bans = Ban::where(['posisi_ban' => '1A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bansb = Ban::where(['posisi_ban' => '1B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans2a = Ban::where(['posisi_ban' => '2A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans2b = Ban::where(['posisi_ban' => '2B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans2c = Ban::where(['posisi_ban' => '2C', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans2d = Ban::where(['posisi_ban' => '2D', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans3a = Ban::where(['posisi_ban' => '3A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans3b = Ban::where(['posisi_ban' => '3B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans3c = Ban::where(['posisi_ban' => '3C', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans3d = Ban::where(['posisi_ban' => '3D', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4a = Ban::where(['posisi_ban' => '3A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4b = Ban::where(['posisi_ban' => '3B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4c = Ban::where(['posisi_ban' => '3C', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4d = Ban::where(['posisi_ban' => '3D', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4a = Ban::where(['posisi_ban' => '4A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4b = Ban::where(['posisi_ban' => '4B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4c = Ban::where(['posisi_ban' => '4C', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans4d = Ban::where(['posisi_ban' => '4D', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans5a = Ban::where(['posisi_ban' => '5A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans5b = Ban::where(['posisi_ban' => '5B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans5c = Ban::where(['posisi_ban' => '5C', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans5d = Ban::where(['posisi_ban' => '5D', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans6a = Ban::where(['posisi_ban' => '6A', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans6b = Ban::where(['posisi_ban' => '6B', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans6c = Ban::where(['posisi_ban' => '6C', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
+            $bans6d = Ban::where(['posisi_ban' => '6D', 'status' => 'aktif',  'kendaraan_id' => $kendaraan->id,])->first();
 
             $banspas = Ban::where(['posisi_ban' => '1A', 'status' => 'non aktif', 'status' => 'aktif', 'kendaraan_id' => $kendaraan->id,])->first();
             $banspasb = Ban::where(['posisi_ban' => '1B', 'status' => 'non aktif', 'status' => 'aktif', 'kendaraan_id' => $kendaraan->id,])->first();
@@ -165,8 +167,8 @@ class InqueryPelepasanbanController extends Controller
             $SopirAll = Karyawan::where('departemen_id', '2')->get();
 
             $tabelbans = Ban::where([
-                // ['kendaraan_id', $kendaraan->id],
-                ['status', 'non aktif'],
+                ['kendaraan_id', $kendaraan->id],
+                ['status_pelepasan', 'true'],
                 ['pelepasan_ban_id', $id]
             ])->get();
 
@@ -202,12 +204,28 @@ class InqueryPelepasanbanController extends Controller
             // Hapus deposit_driver
             $klaim_ban->delete();
         }
-        
+
+        $umurbans = Km_ban::where(['ban_id' => $id])
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        if ($umurbans) {
+            // Hapus deposit_driver
+            $umurbans->delete();
+        }
+
+        $detail_ban = Detail_ban::where('ban_id', $id)->first();
+        if ($detail_ban) {
+            // Hapus deposit_driver
+            $detail_ban->delete();
+        }
+
         // Setelah itu, update objek Ban
         $ban->update([
             // 'pelepasan_ban_id' => null,
             'jumlah_km' => null,
-            'status' => 'aktif'
+            'status' => 'aktif',
+            'status_pelepasan' => null
         ]);
 
         return redirect()->back()->with('success', 'Berhasil menghapus pelepasan ban');
@@ -249,9 +267,9 @@ class InqueryPelepasanbanController extends Controller
     public function update(Request $request, $id)
     {
 
-        $inquerypemasanganban = Pelepasan_ban::findOrFail($id);
+        $pelepasan_ban = Pelepasan_ban::findOrFail($id);
 
-        $tanggal_awal = Carbon::parse($inquerypemasanganban->tanggal_awal);
+        $tanggal_awal = Carbon::parse($pelepasan_ban->tanggal_awal);
 
         $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
@@ -260,11 +278,86 @@ class InqueryPelepasanbanController extends Controller
         //     return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
         // }
 
+        $bans = Ban::where([
+            ['pelepasan_ban_id', $id],
+            ['keterangan', 'Stok'],
+            ['status', 'non aktif sementara']
+        ])->get();
 
-        $inquerypemasanganban->update([
+        // Loop melalui setiap Ban dan update dengan jumlah_km dari Km_ban
+        foreach ($bans as $ban) {
+            // Ambil nilai jumlah_km terbaru dari Km_ban berdasarkan ban_id
+            $jumlahKm = Km_ban::where('ban_id', $ban->id)
+                ->where('status', 'digunakan')
+                ->latest()
+                ->value('umur_ban') ?? 0;
+
+            // Update Ban dengan nilai jumlah_km
+            $ban->update([
+                'status' => 'stok',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $id,
+                'jumlah_km' => $jumlahKm + ($ban->km_terpakai ?? 0)
+            ]);
+
+            $detail_ban = Detail_ban::where('ban_id', $ban->id)->update([
+                'status' => 'stok',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $id,
+                'jumlah_km' => $jumlahKm + ($ban->km_terpakai ?? 0)
+            ]);
+        }
+
+
+        $bans = Ban::where([
+            ['pelepasan_ban_id', $id],
+            ['status', 'non aktif sementara']
+        ])->get();
+
+        // Loop melalui setiap Ban dan update dengan jumlah_km dari Km_ban
+        foreach ($bans as $ban) {
+
+            $ban->update([
+                'status' => 'non aktif',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $id,
+            ]);
+
+            $detail_ban = Detail_ban::where('ban_id', $ban->id)->update([
+                'status' => 'non aktif',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $id,
+            ]);
+        }
+
+        // Ban::where([
+        //     ['kendaraan_id', $id],
+        //     ['status', 'non aktif sementara']
+        // ])->update([
+        //     'status' => 'non aktif',
+        //     'status_pelepasan' => 'true',
+        //     'pelepasan_ban_id' => $id,
+        // ]);
+
+        Km_ban::where([
+            ['pelepasan_ban_id', $id],
+            ['status', 'non aktif sementara']
+        ])->update([
+            'status' => 'digunakan',
+            'pelepasan_ban_id' => $id,
+        ]);
+
+        $pelepasan_ban->update([
             'status' => 'posting',
         ]);
-        return redirect('admin/inquery_pelepasanban')->with('success', 'Berhasil memperbarui');
+
+        $kendaraan_id = $pelepasan_ban->kendaraan_id;
+
+        $kendaraan = Kendaraan::findOrFail($kendaraan_id);
+
+        $bans = Detail_ban::where('pelepasan_ban_id', $id)->get();
+
+        return view('admin.inquery_pelepasanban.show', compact('bans', 'kendaraan', 'pelepasan_ban'));
     }
 
     public function inquerypelepasan1(Request $request, $id)
@@ -321,11 +414,17 @@ class InqueryPelepasanbanController extends Controller
             $ban->update([
                 'keterangan' => $request->keterangan,
                 'km_pelepasan' => $request->km_pelepasan,
-                'status' => 'non aktif',
+                'status' => 'non aktif sementara',
+                'status_pelepasan' => 'true',
                 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
                 'km_terpakai' => $request->km_terpakai,
-                'pelepasan_ban_id' => $pelepasan->id,
+                'pelepasan_ban_id' => $request->pelepasan_ban_id,
             ]);
+
+            $detailBanData = $ban->toArray();
+            $detailBanData['ban_id'] = $ban->id;
+
+            Detail_ban::create($detailBanData);
 
             $kodedepositdriver = $this->kodedepositdriver();
 
@@ -406,6 +505,43 @@ class InqueryPelepasanbanController extends Controller
                     'status' => 'unpost',
                 ]
             ));
+        } else if ($keterangan == "Stok") {
+            $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+            $kendaraan->update([
+                'km' => $request->km_pelepasan,
+            ]);
+
+            $kendaraan = Kendaraan::findOrFail($id);
+            $banId = $request->id_ban;
+            $ban = Ban::find($banId);
+
+            if (!$ban) {
+                return redirect()->back()->with('error', 'Ban dengan ID ' . $banId . ' tidak ditemukan.');
+            }
+
+            $ban->update([
+                'keterangan' => $request->keterangan,
+                'km_pelepasan' => $request->km_pelepasan,
+                'status_pelepasan' => 'true',
+                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
+                'km_terpakai' => $request->km_terpakai,
+                'status' => 'non aktif sementara',
+                'pelepasan_ban_id' => $request->pelepasan_ban_id,
+            ]);
+
+            $detailBanData = $ban->toArray();
+            $detailBanData['ban_id'] = $ban->id;
+
+            Detail_ban::create($detailBanData);
+
+            Km_ban::create([
+                'ban_id' => $banId,
+                'kendaraan_id' => $request->kendaraan_id,
+                'pemasangan_ban_id' => $ban->pemasangan_ban_id,
+                'pelepasan_ban_id' => $request->pelepasan_ban_id,
+                'status' => 'non aktif sementara',
+                'umur_ban' => $request->km_terpakai + ($ban->jumlah_km ?? 0),
+            ]);
         } else {
             $kendaraan = Kendaraan::findOrFail($id);
             $banId = $request->id_ban;
@@ -419,11 +555,18 @@ class InqueryPelepasanbanController extends Controller
             $ban->update([
                 'keterangan' => $request->keterangan,
                 'km_pelepasan' => $request->km_pelepasan,
-                'status' => 'pelepasan',
                 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
                 'km_terpakai' => $request->km_terpakai,
                 'pelepasan_ban_id' => $pelepasan->id,
+                'status' => 'non aktif sementara',
+                'status_pelepasan' => 'true',
+                'pelepasan_ban_id' => $request->pelepasan_ban_id,
             ]);
+
+            $detailBanData = $ban->toArray();
+            $detailBanData['ban_id'] = $ban->id;
+
+            Detail_ban::create($detailBanData);
         }
 
         return redirect()->back()->withInput()->with('success', 'Berhasil menambahkan Pelepasan');

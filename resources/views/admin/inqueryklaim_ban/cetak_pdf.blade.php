@@ -206,6 +206,9 @@
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 19px;">SURAT KLAIM BAN DRIVER</span>
     </div>
+    <p style="font-size: 13px; text-align: right">Tanggal :
+        {{ \Carbon\Carbon::parse($cetakpdf->tanggal_awal)->locale('id')->isoFormat('D MMMM YYYY') }}
+    </p>
     <table style=" margin: 5px 0;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="text-align: left" style="font-size: 12px; display: block;">Kode Klaim</td>
@@ -428,7 +431,7 @@
                     </tr>
                     <tr>
                         <td colspan="6" style="padding: 0px;">
-                        <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                            <hr style="border-top: 0.1px solid black; margin: 5px 0;">
                         </td>
                     </tr>
                     <tr>
@@ -437,7 +440,7 @@
                         </td>
                         <td class="td" style="text-align: right; padding-right: 11px; font-size: 12px;">
                             {{ $cetakpdf->ban->harga / ($cetakpdf->ban->target_km_ban - $cetakpdf->ban->km_pemasangan) }}
-                            
+
                         </td>
                     </tr>
                     <tr>

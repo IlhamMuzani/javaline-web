@@ -109,9 +109,13 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($bans != null)
+                                                @if ($bans == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
+                                                        alt="AdminLTELogo" height="20" width="20">
+                                                @else
+                                                    <img class=""
+                                                        src="{{ asset('storage/uploads/indikator/hijau.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @endif
                                                 <div class="mt-2" data-toggle="modal"
@@ -130,7 +134,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($bansb != null)
+                                                @if ($bansb == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -152,7 +156,7 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans2a != null)
+                                                @if ($bans2a == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -169,7 +173,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans2b != null)
+                                                @if ($bans2b == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -194,7 +198,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans2c != null)
+                                                @if ($bans2c == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -211,7 +215,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans2d != null)
+                                                @if ($bans2d == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -237,7 +241,7 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans3a != null)
+                                                @if ($bans3a == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -254,7 +258,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans3b != null)
+                                                @if ($bans3b == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -279,7 +283,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans3c != null)
+                                                @if ($bans3c == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -296,7 +300,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans3d != null)
+                                                @if ($bans3d == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -322,7 +326,7 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans4a != null)
+                                                @if ($bans4a == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -339,7 +343,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans4b != null)
+                                                @if ($bans4b == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -364,7 +368,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans4c != null)
+                                                @if ($bans4c == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -381,7 +385,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans4d != null)
+                                                @if ($bans4d == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -402,7 +406,7 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans5a != null)
+                                                @if ($bans5a == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -419,7 +423,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans5b != null)
+                                                @if ($bans5b == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -444,7 +448,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans5c != null)
+                                                @if ($bans5c == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -461,7 +465,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans5d != null)
+                                                @if ($bans5d == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -487,7 +491,7 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans6a != null)
+                                                @if ($bans6a == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -504,7 +508,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans6b != null)
+                                                @if ($bans6b == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -529,7 +533,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group" style="text-align: center;">
-                                                @if ($bans6c != null)
+                                                @if ($bans6c == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -546,7 +550,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group ml-1" style="text-align: center;">
-                                                @if ($bans6d != null)
+                                                @if ($bans6d == null)
                                                     <img class=""
                                                         src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
@@ -600,20 +604,9 @@
                                 <td>{{ $ban->merek->nama_merek }}</td>
                                 <td>{{ $ban->kondisi_ban }}</td>
                                 <td class="text-center">
-                                @if ($ban->klaim_ban->first())
-                                <a href="{{ url('admin/lihat_klaim/' . $ban->id) }}"
-                                    class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            @else
-                            <a href="#"
-                                    class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                            @endif
                                     <a class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#modal-hapus1-{{ $ban->id }}">
-                                        <i class="fas fa-trash"></i>
+                                        <i class="fas fa-trash"></i> Hapus
                                     </a>
                                 </td>
                                 <div class="modal fade" id="modal-hapus1-{{ $ban->id }}">
@@ -843,16 +836,9 @@
                                                     console.log(harga);
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
                                                     // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga').val(hasil_harga_formatted);
                                                     $('#saldo_keluar').val(hasil_harga_formatted);
@@ -1122,16 +1108,9 @@
                                                     console.log(harga);
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
-                                                   // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
                                                     // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga1b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar1b').val(hasil_harga_formatted);
@@ -1398,16 +1377,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                    // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2a').val(hasil_harga_formatted);
@@ -1677,16 +1648,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                    // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2b').val(hasil_harga_formatted);
@@ -1960,16 +1923,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2c').val(hasil_harga_formatted);
@@ -2242,16 +2197,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                    // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga2d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar2d').val(hasil_harga_formatted);
@@ -2528,16 +2475,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3a').val(hasil_harga_formatted);
@@ -2814,16 +2753,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                    // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3b').val(hasil_harga_formatted);
@@ -3101,16 +3032,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3c').val(hasil_harga_formatted);
@@ -3388,16 +3311,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga3d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar3d').val(hasil_harga_formatted);
@@ -3674,16 +3589,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4a').val(hasil_harga_formatted);
@@ -3961,16 +3868,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4b').val(hasil_harga_formatted);
@@ -4247,16 +4146,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4c').val(hasil_harga_formatted);
@@ -4534,16 +4425,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga4d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar4d').val(hasil_harga_formatted);
@@ -4817,16 +4700,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5a').val(hasil_harga_formatted);
@@ -5099,16 +4974,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5b').val(hasil_harga_formatted);
@@ -5380,16 +5247,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5c').val(hasil_harga_formatted);
@@ -5660,16 +5519,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                    // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga5d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar5d').val(hasil_harga_formatted);
@@ -5936,16 +5787,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6a').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6a').val(hasil_harga_formatted);
@@ -6216,16 +6059,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6b').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6b').val(hasil_harga_formatted);
@@ -6496,16 +6331,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                     // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6c').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6c').val(hasil_harga_formatted);
@@ -6776,16 +6603,8 @@
                                                     var hasil_persen = km_terpakai / km_target * 100;
                                                     var hasil_harga = harga * hasil_persen / 100;
                                                     // Memperoleh hasil harga yang dibulatkan
-                                                    // Pastikan hasil_harga tidak negatif
-                                                    hasil_harga = Math.max(0, hasil_harga);
-
-                                                    // Memperoleh hasil harga yang dibulatkan
                                                     var hasil_harga_bulat = Math.round(hasil_harga);
                                                     var sisa_harga = harga - hasil_harga_bulat;
-
-                                                    // Pastikan sisa_harga tidak negatif
-                                                    sisa_harga = Math.max(0, sisa_harga);
-
                                                     var hasil_harga_formatted = sisa_harga.toLocaleString('id-ID');
                                                     $('#sisa_harga6d').val(hasil_harga_formatted);
                                                     $('#saldo_keluar6d').val(hasil_harga_formatted);
@@ -6862,7 +6681,7 @@
             </div>
         @endif
 
-        <div class="modal fade" id="tableSopir" data-backdrop="static">
+       <div class="modal fade" id="tableSopir" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
