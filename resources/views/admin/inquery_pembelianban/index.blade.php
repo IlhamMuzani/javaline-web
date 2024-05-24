@@ -316,7 +316,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_ban') }}";
+            form.action = "{{ url('admin/inquery_pembelianban') }}";
             form.submit();
         }
     </script>
