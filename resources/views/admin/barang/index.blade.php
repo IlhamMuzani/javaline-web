@@ -3,8 +3,23 @@
 @section('title', 'Barang Return')
 
 @section('content')
+
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 2000); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -21,7 +36,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -37,9 +52,9 @@
                     <h3 class="card-title">Barang Return</h3>
                     <div class="float-right">
                         @if (auth()->check() && auth()->user()->fitur['barang return create'])
-                        <a href="{{ url('admin/barang/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
+                            <a href="{{ url('admin/barang/create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
                         @endif
                     </div>
                 </div>
@@ -73,16 +88,16 @@
                                     </td>
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['barang return update'])
-                                        <a href="{{ url('admin/barang/' . $barang->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
+                                            <a href="{{ url('admin/barang/' . $barang->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
                                         @endif
                                         @if (auth()->check() && auth()->user()->fitur['barang return delete'])
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $barang->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $barang->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
                                         @endif
                                     </td>
                                 </tr>
