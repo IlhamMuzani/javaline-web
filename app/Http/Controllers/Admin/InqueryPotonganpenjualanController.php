@@ -114,7 +114,7 @@ class InqueryPotonganpenjualanController extends Controller
         $item->update(['status' => 'posting']);
 
         // Redirect kembali dengan pesan sukses
-        return back()->with('success', 'Penerimaan berhasil di-"Posting"');
+        return back()->with('success', 'Potongan berhasil di-"Posting"');
     }
 
     public function hapuspotongan($id)

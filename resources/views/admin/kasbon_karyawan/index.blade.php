@@ -3,8 +3,22 @@
 @section('title', 'Kasbon Karyawan')
 
 @section('content')
+
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 2000); // Adjust the delay time as needed
+        });
+    </script>
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -21,7 +35,7 @@
     </div>
 
 
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
@@ -95,8 +109,7 @@
                                     <div class="form-group">
                                         <label for="nominal">Nominal</label>
                                         <input type="text" class="form-control" id="nominals" name="nominal"
-                                            placeholder="Masukan nominal"
-                                            value="{{ old('nominal') }}"
+                                            placeholder="Masukan nominal" value="{{ old('nominal') }}"
                                             onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                     </div>
                                 </div>

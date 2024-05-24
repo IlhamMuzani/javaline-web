@@ -96,41 +96,41 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($tagihanekspedisi->status == 'unpost')
                                                 @if (auth()->check() && auth()->user()->fitur['posting invoice ekspedisi'])
-                                                <a href="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}"
-                                                    class="dropdown-item">Posting</a>
+                                                    <a href="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}"
+                                                        class="dropdown-item">Posting</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['update invoice ekspedisi'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['delete invoice ekspedisi'])
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
                                                 @endif
                                             @endif
                                             @if ($tagihanekspedisi->status == 'posting')
                                                 @if (auth()->check() && auth()->user()->fitur['unpost invoice ekspedisi'])
-                                                <a href="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}"
-                                                    class="dropdown-item">Unpost</a>
+                                                    <a href="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}"
+                                                        class="dropdown-item">Unpost</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
                                                 @endif
                                             @endif
                                             @if ($tagihanekspedisi->status == 'selesai')
                                                 @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
                                                 @endif
                                             @endif
                                         </div>
@@ -155,69 +155,6 @@
             </div>
         </div>
     </section>
-
-    {{-- unpost memo  --}}
-    <script>
-        $(document).ready(function() {
-            $('.unpost-btn').click(function() {
-                var memoId = $(this).data('memo-id');
-
-                // Kirim permintaan AJAX untuk melakukan unpost
-                $.ajax({
-                    url: "{{ url('admin/inquery_fakturekspedisi/unpostfaktur/') }}/" + memoId,
-                    type: 'GET',
-                    data: {
-                        id: memoId
-                    },
-                    success: function(response) {
-                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(response);
-
-                        // Tutup modal setelah berhasil unpost
-                        $('#modal-posting-' + memoId).modal('hide');
-
-                        // Reload the page to refresh the table
-                        location.reload();
-                    },
-                    error: function(error) {
-                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
-    {{-- posting memo --}}
-    <script>
-        $(document).ready(function() {
-            $('.posting-btn').click(function() {
-                var memoId = $(this).data('memo-id');
-
-                // Kirim permintaan AJAX untuk melakukan unpost
-                $.ajax({
-                    url: "{{ url('admin/inquery_fakturekspedisi/postingfaktur/') }}/" + memoId,
-                    type: 'GET',
-                    data: {
-                        id: memoId
-                    },
-                    success: function(response) {
-                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(response);
-
-                        // Tutup modal setelah berhasil unpost
-                        $('#modal-posting-' + memoId).modal('hide');
-
-                        // Reload the page to refresh the table
-                        location.reload();
-                    },
-                    error: function(error) {
-                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
@@ -243,33 +180,8 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_fakturekspedisi') }}";
+            form.action = "{{ url('admin/inquery_tagihanekspedisi') }}";
             form.submit();
-        }
-    </script>
-
-    <script>
-        $(function(e) {
-            $("#select_all_ids").click(function() {
-                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
-            })
-        });
-
-        function printSelectedData() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum mencetak.");
-            } else {
-                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                var selectedIds = [];
-                selectedCheckboxes.forEach(function(checkbox) {
-                    selectedIds.push(checkbox.value);
-                });
-                document.getElementById('selectedIds').value = selectedIds.join(',');
-                var selectedIdsString = selectedIds.join(',');
-                window.location.href = "{{ url('admin/cetak_fakturekspedisifilter') }}?ids=" + selectedIdsString;
-                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
-            }
         }
     </script>
 
@@ -409,5 +321,4 @@
             });
         });
     </script>
-
 @endsection
