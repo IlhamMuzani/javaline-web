@@ -24,6 +24,7 @@ class Ban extends Model
         'no_seri',
         'ukuran_id',
         'kondisi_ban',
+        'km_umur',
         'merek_id',
         'typeban_id',
         'harga',

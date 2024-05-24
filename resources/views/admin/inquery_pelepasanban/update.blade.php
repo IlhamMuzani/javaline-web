@@ -6692,7 +6692,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan1" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6743,7 +6743,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan2" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6794,7 +6794,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan3" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6845,7 +6845,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan4" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6896,7 +6896,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan5" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6947,7 +6947,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan6" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6998,7 +6998,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan7" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7049,7 +7049,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan8" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7100,7 +7100,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan9" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7151,7 +7151,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan10" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7202,7 +7202,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan11" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7253,7 +7253,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan12" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7304,7 +7304,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan13" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7355,7 +7355,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan14" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7406,7 +7406,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan15" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7457,7 +7457,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan16" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7508,7 +7508,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan17" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7559,7 +7559,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan18" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7610,7 +7610,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan19" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7661,7 +7661,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan20" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7712,7 +7712,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan21" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7763,7 +7763,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan22" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -8943,5 +8943,72 @@
         }
     </script>
 
-
+    <script>
+        $(document).ready(function() {
+            $('#pelepasan1').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan2').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan3').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan4').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan5').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan6').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan7').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan8').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan9').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan10').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan11').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan12').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan13').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan14').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan15').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan16').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan17').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan18').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan19').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan20').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan21').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan22').DataTable();
+        });
+    </script>
 @endsection

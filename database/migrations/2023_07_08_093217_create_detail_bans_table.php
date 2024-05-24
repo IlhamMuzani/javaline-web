@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('umur_ban')->nullable();
             $table->string('km_pemasangan')->nullable();
             $table->string('jumlah_km')->nullable();
+            $table->string('km_umur')->nullable();
             $table->string('km_pelepasan')->nullable();
             $table->string('target_km_ban')->nullable();
             $table->string('posisi_ban')->nullable();

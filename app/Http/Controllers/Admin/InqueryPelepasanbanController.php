@@ -292,10 +292,22 @@ class InqueryPelepasanbanController extends Controller
                 ->latest()
                 ->value('umur_ban') ?? 0;
 
+
+            // Ambil semua data km_ban yang diurutkan berdasarkan waktu atau ID
+            $kmBanRecords = Km_ban::where('ban_id', $ban->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+            // Ambil umur_ban terakhir kedua
+            $umurBanTerakhirKedua = $kmBanRecords->skip(1)->first();
+            $kmUmr = $umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0;
+
+            
             // Update Ban dengan nilai jumlah_km
             $ban->update([
                 'status' => 'stok',
                 'status_pelepasan' => 'true',
+                'km_umur' => $kmUmr,
                 'pelepasan_ban_id' => $id,
                 'jumlah_km' => $jumlahKm + ($ban->km_terpakai ?? 0)
             ]);
@@ -317,9 +329,16 @@ class InqueryPelepasanbanController extends Controller
         // Loop melalui setiap Ban dan update dengan jumlah_km dari Km_ban
         foreach ($bans as $ban) {
 
+            $umurBanTerakhir = Km_ban::where('ban_id', $ban->id)
+                ->orderBy('created_at', 'desc')
+                ->first();
+
+            $kmUmr2 = $umurBanTerakhir ? $umurBanTerakhir->umur_ban : 0;
+
             $ban->update([
                 'status' => 'non aktif',
                 'status_pelepasan' => 'true',
+                'km_umur' => $kmUmr2,
                 'pelepasan_ban_id' => $id,
             ]);
 

@@ -714,7 +714,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -980,7 +981,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bansb->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bansb->target_km_ban }}">
                                             </div>
 
                                             <div class="form-group" hidden>
@@ -992,7 +994,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai1b" readonly
-                                                    name="km_terpakai" value="{{ $bansb->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bansb->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -1243,7 +1246,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans2a->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans2a->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -1254,7 +1258,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai2a" readonly
-                                                    name="km_terpakai" value="{{ $bans2a->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans2a->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -1271,8 +1276,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id2a" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id2a"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir2a(this.value)"
                                                                     class="form-control" id="kode_karyawan2a"
@@ -1289,8 +1295,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo2a"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo2a" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -1299,8 +1305,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap2a" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap2a" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1319,7 +1325,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1510,7 +1517,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans2b->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans2b->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -1521,7 +1529,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai2b" readonly
-                                                    name="km_terpakai" value="{{ $bans2b->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans2b->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -1538,8 +1547,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id2b" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id2b"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir2b(this.value)"
                                                                     class="form-control" id="kode_karyawan2b"
@@ -1556,8 +1566,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo2b"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo2b" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -1566,8 +1576,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap2b" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap2b" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1586,7 +1596,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1784,7 +1795,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans2c->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans2c->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -1795,7 +1807,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai2c" readonly
-                                                    name="km_terpakai" value="{{ $bans2c->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans2c->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -1812,8 +1825,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id2c" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id2c"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir2c(this.value)"
                                                                     class="form-control" id="kode_karyawan2c"
@@ -1830,8 +1844,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo2c"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo2c" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -1840,8 +1854,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap2c" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap2c" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -1860,7 +1874,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2053,7 +2068,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans2d->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans2d->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -2064,7 +2080,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai2d" readonly
-                                                    name="km_terpakai" value="{{ $bans2d->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans2d->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -2081,8 +2098,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id2d" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id2d"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir2d(this.value)"
                                                                     class="form-control" id="kode_karyawan2d"
@@ -2099,8 +2117,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo2d"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo2d" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -2109,8 +2127,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap2d" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap2d" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2129,7 +2147,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2145,7 +2164,7 @@
                                                 </div>
                                             </div>
 
-                                         </div>
+                                        </div>
                                         <script>
                                             $(document).ready(function() {
                                                 // Definisikan fungsi perhitungan
@@ -2326,7 +2345,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans3a->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans3a->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -2337,7 +2357,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai3a" readonly
-                                                    name="km_terpakai" value="{{ $bans3a->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans3a->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -2354,8 +2375,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id3a" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id3a"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir3a(this.value)"
                                                                     class="form-control" id="kode_karyawan3a"
@@ -2372,8 +2394,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo3a"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo3a" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -2382,8 +2404,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap3a" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap3a" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2402,7 +2424,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2589,7 +2612,7 @@
                                                     Stok</option>
                                             </select>
                                         </div>
-                                         <div class="form-group" id="perhitungan_klaim3b">
+                                        <div class="form-group" id="perhitungan_klaim3b">
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Harga Ban</label>
                                                 <input type="text" class="form-control" id="harga3b" readonly
@@ -2599,7 +2622,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans3b->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans3b->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -2610,7 +2634,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai3b" readonly
-                                                    name="km_terpakai" value="{{ $bans3b->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans3b->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -2627,8 +2652,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id3b" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id3b"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir3b(this.value)"
                                                                     class="form-control" id="kode_karyawan3b"
@@ -2645,8 +2671,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo3b"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo3b" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -2655,8 +2681,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap3b" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap3b" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2675,7 +2701,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2870,7 +2897,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans3c->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans3c->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -2881,7 +2909,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai3c" readonly
-                                                    name="km_terpakai" value="{{ $bans3c->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans3c->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -2898,8 +2927,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id3c" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id3c"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir3c(this.value)"
                                                                     class="form-control" id="kode_karyawan3c"
@@ -2916,8 +2946,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo3c"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo3c" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -2926,8 +2956,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap3c" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap3c" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -2946,7 +2976,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3143,7 +3174,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans3d->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans3d->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -3154,7 +3186,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai3d" readonly
-                                                    name="km_terpakai" value="{{ $bans3d->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans3d->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -3171,8 +3204,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id3d" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id3d"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir3d(this.value)"
                                                                     class="form-control" id="kode_karyawan3d"
@@ -3189,8 +3223,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo3d"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo3d" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -3199,8 +3233,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap3d" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap3d" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3219,7 +3253,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3416,7 +3451,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans4a->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans4a->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -3427,7 +3463,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai4a" readonly
-                                                    name="km_terpakai" value="{{ $bans4a->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans4a->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -3444,8 +3481,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id4a" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id4a"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir4a(this.value)"
                                                                     class="form-control" id="kode_karyawan4a"
@@ -3462,8 +3500,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo4a"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo4a" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
                                                             </div>
                                                         </div>
@@ -3471,8 +3509,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap4a" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap4a" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3491,7 +3529,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3685,7 +3724,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans4b->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans4b->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -3696,7 +3736,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai4b" readonly
-                                                    name="km_terpakai" value="{{ $bans4b->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans4b->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -3713,8 +3754,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id4b" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id4b"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir4b(this.value)"
                                                                     class="form-control" id="kode_karyawan4b"
@@ -3731,8 +3773,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo4b"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo4b" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -3741,8 +3783,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap4b" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap4b" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3761,7 +3803,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -3957,7 +4000,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans4c->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans4c->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -3968,7 +4012,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai4c" readonly
-                                                    name="km_terpakai" value="{{ $bans4c->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans4c->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -3985,8 +4030,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id4c" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id4c"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir4c(this.value)"
                                                                     class="form-control" id="kode_karyawan4c"
@@ -4003,8 +4049,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo4c"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo4c" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -4013,8 +4059,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap4c" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap4c" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4033,7 +4079,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4219,7 +4266,7 @@
                                                     Stok</option>
                                             </select>
                                         </div>
-                                         <div class="form-group" id="perhitungan_klaim4a">
+                                        <div class="form-group" id="perhitungan_klaim4a">
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Harga Ban</label>
                                                 <input type="text" class="form-control" id="harga4d" readonly
@@ -4229,7 +4276,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans4d->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans4d->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -4240,7 +4288,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai4d" readonly
-                                                    name="km_terpakai" value="{{ $bans4d->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans4d->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -4257,8 +4306,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id4d" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id4d"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir4d(this.value)"
                                                                     class="form-control" id="kode_karyawan4d"
@@ -4275,8 +4325,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo4d"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo4d" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -4285,8 +4335,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap4d" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap4d" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4305,7 +4355,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4497,7 +4548,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans5a->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans5a->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -4508,7 +4560,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai5a" readonly
-                                                    name="km_terpakai" value="{{ $bans5a->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans5a->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -4525,8 +4578,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id5a" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id5a"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir5a(this.value)"
                                                                     class="form-control" id="kode_karyawan5a"
@@ -4543,8 +4597,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo5a"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo5a" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -4553,8 +4607,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap5a" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap5a" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4573,7 +4627,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4765,7 +4820,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans5b->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans5b->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -4776,7 +4832,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai5b" readonly
-                                                    name="km_terpakai" value="{{ $bans5b->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans5b->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -4793,8 +4850,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id5b" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id5b"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir5b(this.value)"
                                                                     class="form-control" id="kode_karyawan5b"
@@ -4811,8 +4869,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo5b"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo5b" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
                                                             </div>
                                                         </div>
@@ -4820,8 +4878,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap5b" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap5b" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -4840,7 +4898,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5028,7 +5087,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans5c->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans5c->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -5039,7 +5099,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai5c" readonly
-                                                    name="km_terpakai" value="{{ $bans5c->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans5c->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -5056,8 +5117,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id5c" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id5c"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir5c(this.value)"
                                                                     class="form-control" id="kode_karyawan5c"
@@ -5074,8 +5136,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo5c"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo5c" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -5084,8 +5146,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap5c" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap5c" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5104,7 +5166,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5283,7 +5346,7 @@
                                                     Stok</option>
                                             </select>
                                         </div>
-                                         <div class="form-group" id="perhitungan_klaim5d">
+                                        <div class="form-group" id="perhitungan_klaim5d">
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Harga Ban</label>
                                                 <input type="text" class="form-control" id="harga5d" readonly
@@ -5293,7 +5356,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans5d->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans5d->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -5304,7 +5368,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai5d" readonly
-                                                    name="km_terpakai" value="{{ $bans5d->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans5d->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -5321,8 +5386,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id5d" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id5d"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir5d(this.value)"
                                                                     class="form-control" id="kode_karyawan5d"
@@ -5339,8 +5405,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo5d"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo5d" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -5349,8 +5415,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap5d" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap5d" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5369,7 +5435,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5556,7 +5623,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans6a->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans6a->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -5567,7 +5635,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai6a" readonly
-                                                    name="km_terpakai" value="{{ $bans6a->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans6a->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -5584,8 +5653,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id6a" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id6a"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir6a(this.value)"
                                                                     class="form-control" id="kode_karyawan6a"
@@ -5602,8 +5672,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo6a"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo6a" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
                                                             </div>
                                                         </div>
@@ -5611,8 +5681,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap6a" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap6a" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5631,7 +5701,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5810,7 +5881,7 @@
                                                     Stok</option>
                                             </select>
                                         </div>
-                                         <div class="form-group" id="perhitungan_klaim6b">
+                                        <div class="form-group" id="perhitungan_klaim6b">
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Harga Ban</label>
                                                 <input type="text" class="form-control" id="harga6b" readonly
@@ -5820,7 +5891,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans6b->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans6b->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -5831,7 +5903,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai6b" readonly
-                                                    name="km_terpakai" value="{{ $bans6b->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans6b->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -5848,8 +5921,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id6b" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id6b"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir6b(this.value)"
                                                                     class="form-control" id="kode_karyawan6b"
@@ -5866,8 +5940,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo6b"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo6b" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -5876,8 +5950,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap6b" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap6b" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -5896,7 +5970,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -6075,7 +6150,7 @@
                                                     Stok</option>
                                             </select>
                                         </div>
-                                         <div class="form-group" id="perhitungan_klaim6c">
+                                        <div class="form-group" id="perhitungan_klaim6c">
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Harga Ban</label>
                                                 <input type="text" class="form-control" id="harga6c" readonly
@@ -6085,7 +6160,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans6c->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans6c->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -6096,7 +6172,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai6c" readonly
-                                                    name="km_terpakai" value="{{ $bans6c->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans6c->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -6113,8 +6190,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id6c" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id6c"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopi6cr(this.value)"
                                                                     class="form-control" id="kode_karyawan6c"
@@ -6131,8 +6209,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo6c"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo6c" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -6141,8 +6219,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap6c" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap6c" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -6161,7 +6239,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -6350,7 +6429,8 @@
                                             <div class="form-group">
                                                 <label for="km_pemasangan">Target Km</label>
                                                 <input type="text" class="form-control" id="" readonly
-                                                    name="target_km_ban" placeholder="" value="{{ $bans6d->target_km_ban }}">
+                                                    name="target_km_ban" placeholder=""
+                                                    value="{{ $bans6d->target_km_ban }}">
                                             </div>
                                             <div class="form-group" hidden>
                                                 <label for="km_pemasangan">KM target</label>
@@ -6361,7 +6441,8 @@
                                             <div class="form-group">
                                                 <label for="km_terpakai">KM Terpakai</label>
                                                 <input type="text" class="form-control" id="km_terpakai6d" readonly
-                                                    name="km_terpakai" value="{{ $bans6d->km_terpakai }}" placeholder="">
+                                                    name="km_terpakai" value="{{ $bans6d->km_terpakai }}"
+                                                    placeholder="">
                                             </div>
                                             <div class="form-group">
                                                 <label for="sisa_harga">Harga Klaim</label>
@@ -6378,8 +6459,9 @@
                                                         <div class="col-lg-6">
                                                             <label for="sisa_saldo">Kode Sopir</label>
                                                             <div class="form-group d-flex">
-                                                                <input readonly type="text" hidden class="form-control"
-                                                                    id="karyawan_id6d" name="karyawan_id" placeholder=""
+                                                                <input readonly type="text" hidden
+                                                                    class="form-control" id="karyawan_id6d"
+                                                                    name="karyawan_id" placeholder=""
                                                                     value="{{ old('karyawan_id') }}">
                                                                 <input onclick="showSopir6d(this.value)"
                                                                     class="form-control" id="kode_karyawan6d"
@@ -6396,8 +6478,8 @@
                                                             <div class="form-group">
                                                                 <label for="sisa_saldo">Sisa Saldo</label>
                                                                 <input style="text-align: end;margin:right:10px"
-                                                                    type="text" class="form-control" id="sisa_saldo6d"
-                                                                    readonly name="sisa_saldo"
+                                                                    type="text" class="form-control"
+                                                                    id="sisa_saldo6d" readonly name="sisa_saldo"
                                                                     value="{{ old('sisa_saldo') }}" placeholder="">
 
                                                             </div>
@@ -6406,8 +6488,8 @@
                                                             <div class="form-group">
                                                                 <label for="nama_lengkap">Nama Sopir</label>
                                                                 <input readonly type="text" class="form-control"
-                                                                    id="nama_lengkap6d" name="nama_lengkap" placeholder=""
-                                                                    value="{{ old('nama_lengkap') }}">
+                                                                    id="nama_lengkap6d" name="nama_lengkap"
+                                                                    placeholder="" value="{{ old('nama_lengkap') }}">
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -6426,7 +6508,8 @@
                                                         <div class="col-lg-6">
                                                             <div class="form-group">
                                                                 <label for="alamat">Keterangan</label>
-                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                                                <textarea type="text" class="form-control" id="keterangans" name="keterangans"
+                                                                    placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -6547,7 +6630,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan1" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6598,7 +6681,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan2" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6649,7 +6732,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan3" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6700,7 +6783,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan4" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6751,7 +6834,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan5" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6802,7 +6885,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan6" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6853,7 +6936,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan7" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6904,7 +6987,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan8" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -6955,7 +7038,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan9" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7006,7 +7089,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan10" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7057,7 +7140,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan11" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7108,7 +7191,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan12" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7159,7 +7242,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan13" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7210,7 +7293,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan14" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7261,7 +7344,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan15" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7312,7 +7395,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan16" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7363,7 +7446,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan17" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7414,7 +7497,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan18" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7465,7 +7548,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan19" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7516,7 +7599,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan20" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7567,7 +7650,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan21" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -7618,7 +7701,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive scrollbar m-2">
-                            <table id="datatables1" class="table table-bordered table-striped">
+                            <table id="pelepasan22" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -8800,4 +8883,72 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#pelepasan1').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan2').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan3').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan4').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan5').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan6').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan7').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan8').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan9').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan10').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan11').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan12').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan13').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan14').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan15').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan16').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan17').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan18').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan19').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan20').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan21').DataTable();
+        });
+        $(document).ready(function() {
+            $('#pelepasan22').DataTable();
+        });
+    </script>
 @endsection

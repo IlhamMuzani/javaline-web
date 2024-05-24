@@ -24,6 +24,7 @@ class Detail_ban extends Model
         'pembelian_ban_id',
         'no_seri',
         'ukuran_id',
+        'km_umur',
         'kondisi_ban',
         'merek_id',
         'typeban_id',

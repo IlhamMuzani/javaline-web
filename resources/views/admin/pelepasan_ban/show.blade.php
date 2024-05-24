@@ -313,14 +313,14 @@
                     <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
                         Umur Awal Ban :
                     </td>
-                    @php
+                    {{-- @php
                         // Ambil semua data km_ban yang diurutkan berdasarkan waktu atau ID
                         $kmBanRecords = $item->ban->km_ban()->orderBy('created_at', 'desc')->get();
                         // Ambil umur_ban terakhir kedua
                         $umurBanTerakhirKedua = $kmBanRecords->skip(1)->first();
-                    @endphp
+                    @endphp --}}
                     <td class="td" style="text-align: right;padding: 0px; font-size: 12px;">
-                        {{ number_format($umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0, 0, ',', '.') }} +
+                        {{ number_format($item->km_umur, 0, ',', '.') }} +
                     </td>
                 </tr>
             @else
@@ -353,7 +353,7 @@
                         Umur Awal Ban :
                     </td>
                     <td class="td" style="text-align: right;padding: 0px; font-size: 12px;">
-                        {{ number_format(optional($item->ban->km_ban()->latest()->first())->umur_ban ?? 0, 0, ',', '.') }} +
+                        {{ number_format($item->km_umur, 0, ',', '.') }} +
                     </td>
                 </tr>
             @endif
@@ -391,9 +391,9 @@
                 </td>
                 <td class="td" style="text-align: right;padding-right: 10px; font-size: 12px;">
                     @if ($item->keterangan == 'Stok')
-                        {{ number_format($selisih + ($umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0), 0, ',', '.') }}
+                        {{ number_format($selisih + $item->km_umur, 0, ',', '.') }}
                     @else
-                        {{ number_format($selisih + (optional($item->ban->km_ban()->latest()->first())->umur_ban ?? 0), 0, ',', '.') }}
+                        {{ number_format($selisih + $item->km_umur, 0, ',', '.') }}
                     @endif
                 </td>
             </tr>
