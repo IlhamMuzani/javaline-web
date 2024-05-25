@@ -57,16 +57,6 @@
                 <form action="{{ url('admin/user') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                     @csrf
                     <div class="card-body">
-                        {{-- <div class="form-group">
-                            <label for="">Pilih Kode Karyawan</label>
-                            <select class="custom-select form-control" id="kode_karyawan" name="karyawan_id"
-                                onchange="getData(0)">
-                                <option value="">- Pilih -</option>
-                                @foreach ($karyawans as $karyawan)
-                                    <option value="{{ $karyawan->id }}">{{ $karyawan->kode_karyawan }}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
                         <div class="form-group" style="flex: 8;"> <!-- Adjusted flex value -->
                             <label for="karyawan_id">Pilih Kode Karyawan</label>
                             <select class="select2bs4 select2-hidden-accessible" name="karyawan_id"

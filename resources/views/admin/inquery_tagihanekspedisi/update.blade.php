@@ -719,8 +719,9 @@
             }
 
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + key + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + key + '</td>';
+            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + urutan +
+                '</td>';
 
             // faktur_ekspedisi_id 
             item_pembelian += '<td hidden>';
