@@ -137,6 +137,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::post('inquerypelepasan1/{id}', [\App\Http\Controllers\Admin\InqueryPelepasanbanController::class, 'inquerypelepasan1']);
 
     Route::put('admin/update_km/{id}', [\App\Http\Controllers\Admin\KmController::class, 'updateKM'])->name('update_km.update');
+    Route::get('bukti_potongpajak/cetak-pdf/{id}', [\App\Http\Controllers\Admin\BuktipotongpajakController::class, 'cetakpdf']);
+    Route::get('bukti_potongpajak/get_item/{id}', [\App\Http\Controllers\Admin\BuktipotongpajakController::class, 'get_item']);
+    Route::get('print_buktipotongpajak', [\App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class, 'print_buktipotongpajak']);
 
     Route::get('ban', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'index']);
     Route::get('unpostban/{id}', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'unpostban'])->name('unpostban');
@@ -562,6 +565,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('saldo_ujs', \App\Http\Controllers\Admin\LaporanSaldoujsController::class);
     Route::resource('saldo_kasbon', \App\Http\Controllers\Admin\LaporanSaldokasbonController::class);
 
+    Route::get('inquery_buktipotongpajak/unpostbukti/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'unpostbukti']);
+    Route::get('inquery_buktipotongpajak/postingbukti/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'postingbukti']);
+    Route::get('inquery_buktipotongpajak/delete_item/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'delete_item']);
+    Route::get('hapusbukti/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'hapusbukti'])->name('hapusbukti');
+
     Route::resource('karyawan', \App\Http\Controllers\Admin\KaryawanController::class);
     Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('departemen', \App\Http\Controllers\Admin\DepartemenController::class);
@@ -679,6 +687,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_perhitungangajibulanan', \App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class);
     Route::resource('report_slipgajibulanan', \App\Http\Controllers\Admin\ReportgajibulananController::class);
     Route::resource('report_slipgajimingguan', \App\Http\Controllers\Admin\ReportgajimingguanController::class);
+    Route::resource('bukti_potongpajak', \App\Http\Controllers\Admin\BuktipotongpajakController::class);
+    Route::resource('inquery_buktipotongpajak', \App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class);
+    Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
 
 
 });

@@ -41,6 +41,9 @@ return new class extends Migration
             $table->string('potongan_ke')->nullable();
             $table->string('kasbon_backup')->nullable();
             $table->string('potongan_backup')->nullable();
+            $table->string('nama_bank')->nullable();
+            $table->string('atas_nama')->nullable();
+            $table->string('norek')->nullable();
             $table->string('status')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();

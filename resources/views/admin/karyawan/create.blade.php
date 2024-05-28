@@ -34,13 +34,10 @@
                     @endforeach
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Tambah Karyawan</h3>
-                </div>
-                <!-- /.card-header -->
-                <form action="{{ url('admin/karyawan') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
-                    @csrf
+            <!-- /.card-header -->
+            <form action="{{ url('admin/karyawan') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+                @csrf
+                <div class="card">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="departemen_id">Departemen</label>
@@ -128,8 +125,7 @@
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
-                            <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat"
-                                >{{ old('alamat') }}</textarea>
+                            <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="gambar">Gambar <small>(Kosongkan saja jika tidak
@@ -141,12 +137,65 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informasi Bank</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="nama_bank">Nama Bank</label>
+                            <select class="form-control" id="nama_bank" name="nama_bank">
+                                <option value="">- Pilih -</option>
+                                <option value="BRI" {{ old('nama_bank') == 'BRI' ? 'selected' : null }}>
+                                    BRI</option>
+                                <option value="MANDIRI" {{ old('nama_bank') == 'MANDIRI' ? 'selected' : null }}>
+                                    MANDIRI</option>
+                                <option value="BNI" {{ old('nama_bank') == 'BNI' ? 'selected' : null }}>
+                                    BNI</option>
+                                <option value="BTN" {{ old('nama_bank') == 'BTN' ? 'selected' : null }}>
+                                    BTN</option>
+                                <option value="DANAMON" {{ old('nama_bank') == 'DANAMON' ? 'selected' : null }}>
+                                    DANAMON</option>
+                                <option value="BCA" {{ old('nama_bank') == 'BCA' ? 'selected' : null }}>
+                                    BCA</option>
+                                <option value="PERMATA" {{ old('nama_bank') == 'PERMATA' ? 'selected' : null }}>
+                                    PERMATA</option>
+                                <option value="PAN" {{ old('nama_bank') == 'PAN' ? 'selected' : null }}>
+                                    PAN</option>
+                                <option value="CIMB NIAGA" {{ old('nama_bank') == 'CIMB NIAGA' ? 'selected' : null }}>
+                                    CIMB NIAGA</option>
+                                <option value="UOB" {{ old('nama_bank') == 'UOB' ? 'selected' : null }}>
+                                    UOB</option>
+                                <option value="ARTHA GRAHA" {{ old('nama_bank') == 'ARTHA GRAHA' ? 'selected' : null }}>
+                                    ARTHA GRAHA</option>
+                                <option value="BUMI ARTHA" {{ old('nama_bank') == 'BUMI ARTHA' ? 'selected' : null }}>
+                                    BUMI ARTHA</option>
+                                <option value="MEGA" {{ old('nama_bank') == 'MEGA' ? 'selected' : null }}>
+                                    MEGA</option>
+                                <option value="SYARIAH" {{ old('nama_bank') == 'SYARIAH' ? 'selected' : null }}>
+                                    SYARIAH</option>
+                                <option value="MEGA SYARIAH" {{ old('nama_bank') == 'MEGA SYARIAH' ? 'selected' : null }}>
+                                    MEGA SYARIAH</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="atas_nama">Atas nama</label>
+                            <input type="text" class="form-control" id="atas_nama" name="atas_nama"
+                                placeholder="Masukan atas nama" value="{{ old('atas_nama') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="norek">No. Rekening</label>
+                            <input type="number" class="form-control" id="norek" name="norek"
+                                placeholder="Masukan no rekening" value="{{ old('norek') }}">
+                        </div>
+                    </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary">Reset</button>
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+            </form>
     </section>
 @endsection

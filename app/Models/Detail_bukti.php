@@ -20,6 +20,7 @@ class Detail_bukti extends Model
         'kode_tagihan',
         'tanggal',
         'nama_pelanggan',
+        'pph',
         'total',
         'tanggal_awal',
         'tanggal_akhir',

@@ -34,6 +34,7 @@ class Tagihan_ekspedisi extends Model
         'tanggal_awal',
         'tanggal_akhir',
         'status',
+        'status_terpakai',
         'periode_awal',
         'periode_akhir',
         'status_notif',

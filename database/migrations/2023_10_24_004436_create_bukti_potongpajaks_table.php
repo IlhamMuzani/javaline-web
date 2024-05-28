@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('kategori')->nullable();
             $table->string('kategoris')->nullable();
             $table->string('grand_total')->nullable();
-            $table->string('tanggal')->nullable();
+            $table->string('periode_awal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
             $table->string('status')->nullable();

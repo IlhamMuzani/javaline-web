@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('periode_awal')->nullable();
             $table->string('periode_akhir')->nullable();
             $table->string('status')->nullable();
+            $table->string('status_terpakai')->nullable();
             $table->string('status_notif')->nullable();
             $table->timestamp('deleted_at')->nullable();
             $table->timestamps();

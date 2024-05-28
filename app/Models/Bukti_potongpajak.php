@@ -22,7 +22,7 @@ class Bukti_potongpajak extends Model
         'kategori',
         'kategoris',
         'grand_total',
-        'tanggal',
+        'periode_awal',
         'tanggal_awal',
         'tanggal_akhir',
         'status',

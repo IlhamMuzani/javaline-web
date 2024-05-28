@@ -4,11 +4,12 @@
 
 @section('content')
 
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    {{-- <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-    </div>
+    </div> --}}
 
-    <div class="content-header" style="display: none;" id="mainContent">
+    {{-- <div class="content-header" style="display: none;" id="mainContent"> --}}
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -22,7 +23,8 @@
             </div>
         </div>
     </div>
-    <section class="content" style="display: none;" id="mainContentSection">
+    {{-- <section class="content" style="display: none;" id="mainContentSection"> --}}
+    <section class="content">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
