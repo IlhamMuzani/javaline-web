@@ -91,7 +91,7 @@
         </div>
         <table width="100%">
             <tr>
-                <td style="width:60%;">
+                <td style="width:70%;">
                     <table>
                         <tr>
                             <td class="info-column">
@@ -116,30 +116,65 @@
                                 <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->kode_memo }}</span>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 13px;">No. Kabin</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 13px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->no_kabin }}</span>
+                            </td>
+                        </tr>
                     </table>
                 </td>
-                <td style="width: 70%; text-align: left;">
-                    <table style="width: 100%;">
+
+                <td style="width: 50%; text-align: left;">
+                    <table style="width: 100%; margin-top:4px">
                         <tr>
                             <td style="width: 40%;">
                                 <span class="info-item"
-                                    style="font-size: 13px; text-align: left; display: inline-block;">No. Kabin</span>
+                                    style="font-size: 13px; text-align: left; display: inline-block;">Nama bank</span>
                             </td>
                             <td style="width: 60%;">
                                 <span class="info-item"
                                     style="font-size: 13px; text-align: left; display: inline-block;">:
-                                    {{ $cetakpdf->no_kabin }}</span>
+                                    @if ($cetakpdf->user->karyawan->nama_bank != null)
+                                        {{ $cetakpdf->user->karyawan->nama_bank }}
+                                    @else
+                                    @endif
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td style="width: 40%;">
                                 <span class="info-item"
-                                    style="font-size: 13px; text-align: left; display: inline-block;">Km Awal</span>
+                                    style="font-size: 13px; text-align: left; display: inline-block;">No Rekening</span>
                             </td>
                             <td style="width: 60%;">
                                 <span class="info-item"
                                     style="font-size: 13px; text-align: left; display: inline-block;">:
-                                    {{ $cetakpdf->km_awal }}</span>
+                                    @if ($cetakpdf->user->karyawan->norek != null)
+                                        {{ $cetakpdf->user->karyawan->norek }}
+                                    @else
+                                    @endif
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%;">
+                                <span class="info-item"
+                                    style="font-size: 13px; text-align: left; display: inline-block;">Atas Nama</span>
+                            </td>
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 13px; text-align: left; display: inline-block;">:
+                                    @if ($cetakpdf->user->karyawan->atas_nama != null)
+                                        {{ $cetakpdf->user->karyawan->atas_nama }}
+                                    @else
+                                    @endif
+                                </span>
                             </td>
                         </tr>
                     </table>
@@ -360,7 +395,7 @@
         </div>
         <table width="100%">
             <tr>
-                <td style="width:60%;">
+                {{-- <td style="width:60%;">
                     <table>
                         <tr>
                             <td class="info-column">
@@ -396,18 +431,45 @@
                                 <span class="info-item" style="font-size: 11px;">{{ $cetakpdf->kode_memo }}</span>
                             </td>
                         </tr>
-                        {{-- <tr style="color: white">
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 11px;">Nama Pelanggan</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 11px;">:</span>
-                            </td>
-                            <td class="info-column">
+                    </table>
+                </td> --}}
+                <td style="width: 60%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 40%;">
                                 <span class="info-item"
-                                    style="font-size: 11px;">{{ $cetakpdf->nama_pelanggan }}</span>
+                                    style="font-size: 11px; text-align: left; display: inline-block;">No Kabin</span>
                             </td>
-                        </tr> --}}
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">:
+                                    {{ $cetakpdf->no_kabin }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">Tanggal</span>
+                            </td>
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">:
+                                    {{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">No. Memo</span>
+                            </td>
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">:
+                                    {{ $cetakpdf->kode_memo }}</span>
+                            </td>
+                        </tr>
                     </table>
                 </td>
                 <td style="width: 70%; text-align: left;">
@@ -446,6 +508,56 @@
                                 <span class="info-item"
                                     style="font-size: 11px; text-align: left; display: inline-block;">:
                                     {{ $cetakpdf->telp }}</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td style="width: 70%; text-align: left;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td style="width: 40%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">Nama Bank</span>
+                            </td>
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">:
+                                    @if ($cetakpdf->user->karyawan->nama_bank != null)
+                                        {{ $cetakpdf->user->karyawan->nama_bank }}
+                                    @else
+                                    @endif
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">No
+                                    Rekening</span>
+                            </td>
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">:
+                                    @if ($cetakpdf->user->karyawan->norek != null)
+                                        {{ $cetakpdf->user->karyawan->norek }}
+                                    @else
+                                    @endif
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 40%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">Atas Nama</span>
+                            </td>
+                            <td style="width: 60%;">
+                                <span class="info-item"
+                                    style="font-size: 11px; text-align: left; display: inline-block;">:
+                                    @if ($cetakpdf->user->karyawan->atas_nama != null)
+                                        {{ $cetakpdf->user->karyawan->atas_nama }}
+                                    @else
+                                    @endif
+                                </span>
                             </td>
                         </tr>
                     </table>
