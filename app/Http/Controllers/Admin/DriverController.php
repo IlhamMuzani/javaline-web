@@ -220,6 +220,9 @@ class DriverController extends Controller
         $karyawan->kasbon = $request->kasbon;
         $karyawan->bayar_kasbon = $request->bayar_kasbon;
         $karyawan->tabungan = $request->tabungan;
+        $karyawan->nama_bank = $request->nama_bank;
+        $karyawan->atas_nama = $request->atas_nama;
+        $karyawan->norek = $request->norek;
         $karyawan->save();
 
         return redirect('admin/driver')->with('success', 'Berhasil mengubah deposit');
