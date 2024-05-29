@@ -78,7 +78,7 @@
                 </tr>
             </table>
             <div style="text-align: center;">
-                <span style="font-weight: bold; font-size: 20px;">PT JAVA LINE LOGISTICS</span>
+                <span style="font-weight: bold; font-size: 17px;">PT JAVA LINE LOGISTICS</span>
                 <br>
                 <span style=" font-size: 13px;">JL. HOS COKRO AMINOTO NO 5 SLAWI TEGAL
                 </span>
@@ -90,7 +90,7 @@
 
             @if ($cetakpdf->kategori == 'Memo Perjalanan')
                 <div style="text-align: center;">
-                    <span style="font-weight: bold; font-size: 17px;">MEMO PERJALANAN</span>
+                    <span style="font-weight: bold; font-size: 16px;">MEMO PERJALANAN</span>
                 </div>
                 <table width="100%">
                     <tr>
@@ -354,8 +354,8 @@
                     </table>
                 </div>
             @endif
-            <br>
-            <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 150 : 27 }}px">
+            {{-- <br> --}}
+            <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 150 : 12 }}px">
                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                     <tr>
                         <td style="text-align: center;">

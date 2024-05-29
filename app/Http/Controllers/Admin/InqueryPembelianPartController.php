@@ -94,6 +94,7 @@ class InqueryPembelianPartController extends Controller
             for ($i = 0; $i < count($request->kategori); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
                     'kategori.' . $i => 'required',
+                    'sparepart_id.' . $i => 'required',
                     'kode_partdetail.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
                     'satuan.' . $i => 'required',
@@ -108,6 +109,7 @@ class InqueryPembelianPartController extends Controller
 
 
                 $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
+                $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
                 $kode_partdetail = is_null($request->kode_partdetail[$i]) ? '' : $request->kode_partdetail[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
@@ -117,6 +119,7 @@ class InqueryPembelianPartController extends Controller
 
                 $data_pembelians->push([
                     'detail_id' => $request->detail_ids[$i] ?? null,
+                    'sparepart_id' => $sparepart_id,
                     'kategori' => $kategori,
                     'kode_partdetail' => $kode_partdetail,
                     'nama_barang' => $nama_barang,
@@ -170,68 +173,120 @@ class InqueryPembelianPartController extends Controller
 
         $detailIds = $request->input('detail_ids');
 
+        // foreach ($data_pembelians as $data_pesanan) {
+        //     $detailId = $data_pesanan['detail_id'];
+
+        //     if ($detailId) {
+        //         // Mendapatkan data Detail_pembelianpart yang akan diupdate
+        //         $detailToUpdate = Detail_pembelianpart::find($detailId);
+
+        //         if ($detailToUpdate) {
+        //             // Menghitung jumlah baru berdasarkan perubahan
+        //             $jumlahLamaDetail = $detailToUpdate->jumlah;
+        //             $jumlahBaruDetail = $data_pesanan['jumlah'];
+        //             $jumlahSparepart = $jumlahLamaDetail - $jumlahBaruDetail + $jumlahBaruDetail;
+
+        //             // Update Detail_pembelianpart
+        //             $detailToUpdate->update([
+        //                 'pembelian_part_id' => $transaksi->id,
+        //                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+        //                 'kategori' => $data_pesanan['kategori'],
+        //                 'kode_partdetail' => $data_pesanan['kode_partdetail'],
+        //                 'nama_barang' => $data_pesanan['nama_barang'],
+        //                 'hargasatuan' => $data_pesanan['hargasatuan'],
+        //                 'jumlah' => $jumlahBaruDetail,
+        //                 'satuan' => $data_pesanan['satuan'],
+        //                 'harga' => $data_pesanan['harga'],
+        //             ]);
+
+        //             // Temukan semua Detail_pembelianpart dengan sparepart_id yang sama
+        //             $detailParts = Detail_pembelianpart::where('sparepart_id', $detailToUpdate->sparepart_id)->get();
+
+        //             // Update jumlah dan harga di Sparepart untuk semua Detail_pembelianpart yang sesuai
+        //             foreach ($detailParts as $detail) {
+        //                 $sparepart = Sparepart::find($detail->sparepart_id);
+
+        //                 if ($sparepart) {
+        //                     // Menghitung jumlah baru untuk Sparepart
+        //                     $jumlahLamaSparepart = $sparepart->jumlah;
+        //                     $jumlahBaruSparepart = $data_pesanan['jumlah'];
+        //                     $jumlahTotalSparepart = $jumlahLamaSparepart - $jumlahLamaDetail + $jumlahBaruSparepart;
+
+        //                     // Update jumlah dan harga di Sparepart
+        //                     $sparepart->update([
+        //                         'jumlah' => $jumlahTotalSparepart,
+        //                         'harga' => $data_pesanan['harga'],
+        //                     ]);
+        //                 }
+        //             }
+        //         }
+        //     } else {
+        //         Detail_pembelianpart::create([
+        //             'pembelian_part_id' => $transaksi->id,
+        //             'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+        //             'kategori' => $data_pesanan['kategori'],
+        //             'kode_partdetail' => $data_pesanan['kode_partdetail'],
+        //             'nama_barang' => $data_pesanan['nama_barang'],
+        //             'hargasatuan' => $data_pesanan['hargasatuan'],
+        //             'jumlah' => $data_pesanan['jumlah'],
+        //             'satuan' => $data_pesanan['satuan'],
+        //             'harga' => $data_pesanan['harga'],
+        //         ]);
+        //     }
+        // }
+
         foreach ($data_pembelians as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                // Mendapatkan data Detail_pembelianpart yang akan diupdate
-                $detailToUpdate = Detail_pembelianpart::find($detailId);
-
-                if ($detailToUpdate) {
-                    // Menghitung jumlah baru berdasarkan perubahan
-                    $jumlahLamaDetail = $detailToUpdate->jumlah;
-                    $jumlahBaruDetail = $data_pesanan['jumlah'];
-                    $jumlahSparepart = $jumlahLamaDetail - $jumlahBaruDetail + $jumlahBaruDetail;
-
-                    // Update Detail_pembelianpart
-                    $detailToUpdate->update([
-                        'pembelian_part_id' => $transaksi->id,
-                        'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                        'kategori' => $data_pesanan['kategori'],
-                        'kode_partdetail' => $data_pesanan['kode_partdetail'],
-                        'nama_barang' => $data_pesanan['nama_barang'],
-                        'hargasatuan' => $data_pesanan['hargasatuan'],
-                        'jumlah' => $jumlahBaruDetail,
-                        'satuan' => $data_pesanan['satuan'],
-                        'harga' => $data_pesanan['harga'],
-                    ]);
-
-                    // Temukan semua Detail_pembelianpart dengan sparepart_id yang sama
-                    $detailParts = Detail_pembelianpart::where('sparepart_id', $detailToUpdate->sparepart_id)->get();
-
-                    // Update jumlah dan harga di Sparepart untuk semua Detail_pembelianpart yang sesuai
-                    foreach ($detailParts as $detail) {
-                        $sparepart = Sparepart::find($detail->sparepart_id);
-
-                        if ($sparepart) {
-                            // Menghitung jumlah baru untuk Sparepart
-                            $jumlahLamaSparepart = $sparepart->jumlah;
-                            $jumlahBaruSparepart = $data_pesanan['jumlah'];
-                            $jumlahTotalSparepart = $jumlahLamaSparepart - $jumlahLamaDetail + $jumlahBaruSparepart;
-
-                            // Update jumlah dan harga di Sparepart
-                            $sparepart->update([
-                                'jumlah' => $jumlahTotalSparepart,
-                                'harga' => $data_pesanan['harga'],
-                            ]);
-                        }
-                    }
-                }
-            } else {
-                Detail_pembelianpart::create([
+                // Update Detailpembelian
+                Detail_pembelianpart::where('id', $detailId)->update([
                     'pembelian_part_id' => $transaksi->id,
+                    'sparepart_id' => $data_pesanan['sparepart_id'],
                     'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                     'kategori' => $data_pesanan['kategori'],
                     'kode_partdetail' => $data_pesanan['kode_partdetail'],
                     'nama_barang' => $data_pesanan['nama_barang'],
-                    'hargasatuan' => $data_pesanan['hargasatuan'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
+                    'hargasatuan' => $data_pesanan['hargasatuan'],
                     'harga' => $data_pesanan['harga'],
                 ]);
-            }
-        }
+            } else {
+                // Check if the detail already exists
+                $existingDetail = Detail_pembelianpart::where([
+                    'pembelian_part_id' => $transaksi->id,
+                    'sparepart_id' => $data_pesanan['sparepart_id'],
+                    'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                    'kategori' => $data_pesanan['kategori'],
+                    'kode_partdetail' => $data_pesanan['kode_partdetail'],
+                    'nama_barang' => $data_pesanan['nama_barang'],
+                    'jumlah' => $data_pesanan['jumlah'],
+                    'satuan' => $data_pesanan['satuan'],
+                    'hargasatuan' => $data_pesanan['hargasatuan'],
+                    'harga' => $data_pesanan['harga'],
+                ])->first();
 
+                // If the detail does not exist, create a new one
+                if (!$existingDetail) {
+                    Detail_pembelianpart::create([
+                        'pembelian_part_id' => $transaksi->id,
+                        'sparepart_id' => $data_pesanan['sparepart_id'],
+                        'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                        'kategori' => $data_pesanan['kategori'],
+                        'kode_partdetail' => $data_pesanan['kode_partdetail'],
+                        'nama_barang' => $data_pesanan['nama_barang'],
+                        'jumlah' => $data_pesanan['jumlah'],
+                        'satuan' => $data_pesanan['satuan'],
+                        'hargasatuan' => $data_pesanan['hargasatuan'],
+                        'harga' => $data_pesanan['harga'],
+                    ]);
+                }
+            }
+
+            // Increment the quantity of the barang
+            Sparepart::where('id', $data_pesanan['sparepart_id'])->increment('jumlah', $data_pesanan['jumlah']);
+        }
 
         $pembelians = Pembelian_part::find($transaksi_id);
 
@@ -278,16 +333,6 @@ class InqueryPembelianPartController extends Controller
         }
     }
 
-    public function unpostpart($id)
-    {
-        $ban = Pembelian_part::where('id', $id)->first();
-
-        $ban->update([
-            'status' => 'unpost'
-        ]);
-
-        return back()->with('success', 'Berhasil');
-    }
 
     public function kode_supp()
     {
@@ -307,11 +352,63 @@ class InqueryPembelianPartController extends Controller
         return $kode_supplier;
     }
 
+    // public function postingpart($id)
+    // {
+    //     $ban = Pembelian_part::where('id', $id)->first();
+
+    //     $ban->update([
+    //         'status' => 'posting'
+    //     ]);
+
+    //     return back()->with('success', 'Berhasil');
+    // }
+
+    // public function unpostpart($id)
+    // {
+    //     $ban = Pembelian_part::where('id', $id)->first();
+
+    //     $ban->update([
+    //         'status' => 'unpost'
+    //     ]);
+
+    //     return back()->with('success', 'Berhasil');
+    // }
+
+
+    public function unpostpart($id)
+    {
+        $pembelian = Pembelian_part::where('id', $id)->first();
+        $detailpembelian = Detail_pembelianpart::where('pembelian_part_id', $id)->get();
+
+        foreach ($detailpembelian as $detail) {
+            $barangId = $detail->sparepart_id;
+            $barang = Sparepart::find($barangId);
+
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $barang->jumlah - $detail->jumlah;
+            $barang->update(['jumlah' => $newQuantity]);
+        }
+        $pembelian->update([
+            'status' => 'unpost'
+        ]);
+
+        return back()->with('success', 'Berhasil');
+    }
+
     public function postingpart($id)
     {
-        $ban = Pembelian_part::where('id', $id)->first();
+        $pembelian = Pembelian_part::where('id', $id)->first();
+        $detailpembelian = Detail_pembelianpart::where('pembelian_part_id', $id)->get();
 
-        $ban->update([
+        foreach ($detailpembelian as $detail) {
+            $barangId = $detail->sparepart_id;
+            $barang = Sparepart::find($barangId);
+
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $barang->jumlah + $detail->jumlah;
+            $barang->update(['jumlah' => $newQuantity]);
+        }
+        $pembelian->update([
             'status' => 'posting'
         ]);
 

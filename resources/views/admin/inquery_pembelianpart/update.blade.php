@@ -135,6 +135,13 @@
                                                     value="{{ $detail['kategori'] }}">
                                             </div>
                                         </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" readonly class="form-control"
+                                                    id="sparepart_id-{{ $loop->index }}" name="sparepart_id[]"
+                                                    value="{{ $detail['sparepart_id'] }}">
+                                            </div>
+                                        </td>
                                         <td>
                                             <div class="form-group">
                                                 <input type="text" readonly class="form-control"
@@ -446,17 +453,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        {{-- <div class="float-right">
-                            <button type="button" data-toggle="modal" data-target="#modal-part"
-                                class="btn btn-primary btn-sm mb-3" data-dismiss="modal">
-                                Tambah
-                            </button>
-                        </div> --}}
                         <button type="button" data-toggle="modal" data-target="#modal-part"
                             class="btn btn-primary btn-sm mb-2" data-dismiss="modal">
                             Tambah
                         </button>
-                        <table id="datatables66" class="table table-bordered table-striped">
+                        <div class="m-2">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tables" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -469,7 +473,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($spareparts as $part)
-                                    <tr data-kategori="{{ $part->kategori }}"
+                                    <tr data-kategori="{{ $part->kategori }}" data-sparepart_id="{{ $part->id }}"
                                         data-kode_partdetail="{{ $part->kode_partdetail }}"
                                         data-nama_barang="{{ $part->nama_barang }}" data-satuan="{{ $part->satuan }}"
                                         data-param="{{ $loop->index }}">
@@ -508,6 +512,35 @@
             });
         }
 
+        function filterTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tables");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 3; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInput").addEventListener("input", filterTable);
+
+
         var activeSpecificationIndex = 0;
 
         function barang(param) {
@@ -517,14 +550,16 @@
         }
 
         function getBarang(rowIndex) {
-            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var kategori = selectedRow.data('kategori');
+            var sparepart_id = selectedRow.data('sparepart_id');
             var kode_partdetail = selectedRow.data('kode_partdetail');
             var nama_barang = selectedRow.data('nama_barang');
             var satuan = selectedRow.data('satuan');
 
             // Update the form fields for the active specification
             $('#kategori-' + activeSpecificationIndex).val(kategori);
+            $('#sparepart_id-' + activeSpecificationIndex).val(sparepart_id);
             $('#kode_partdetail-' + activeSpecificationIndex).val(kode_partdetail);
             $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
@@ -608,6 +643,7 @@
 
         function itemPembelian(identifier, key, value = null) {
             var kategori = '';
+            var sparepart_id = '';
             var kode_partdetail = '';
             var nama_barang = '';
             var satuan = '';
@@ -619,6 +655,7 @@
 
             if (value !== null) {
                 kategori = value.kategori;
+                sparepart_id = value.sparepart_id;
                 kode_partdetail = value.kode_partdetail;
                 nama_barang = value.nama_barang;
                 satuan = value.satuan;
@@ -644,6 +681,15 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            //sparepart_id
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + key +
+                '" name="sparepart_id[]" value="' +
+                sparepart_id +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             //kode barang
             item_pembelian += '<td>';

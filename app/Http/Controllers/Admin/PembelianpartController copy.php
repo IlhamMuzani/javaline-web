@@ -153,7 +153,6 @@ class PembelianpartController extends Controller
             for ($i = 0; $i < count($request->kategori); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
                     'kategori.' . $i => 'required',
-                    'sparepart_id.' . $i => 'required',
                     'kode_partdetail.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
                     'satuan.' . $i => 'required',
@@ -168,7 +167,6 @@ class PembelianpartController extends Controller
 
 
                 $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
-                $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
                 $kode_partdetail = is_null($request->kode_partdetail[$i]) ? '' : $request->kode_partdetail[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
@@ -178,7 +176,6 @@ class PembelianpartController extends Controller
 
                 $data_pembelians->push([
                     'kategori' => $kategori,
-                    'sparepart_id' => $sparepart_id,
                     'kode_partdetail' => $kode_partdetail,
                     'nama_barang' => $nama_barang,
                     'satuan' => $satuan,
@@ -217,22 +214,55 @@ class PembelianpartController extends Controller
 
         if ($transaksi) {
             foreach ($data_pembelians as $data_pesanan) {
-                // Create a new Detailpembelian
-                Detail_pembelianpart::create([
-                    'pembelian_part_id' => $transaksi->id,
-                    'sparepart_id' => $data_pesanan['sparepart_id'],
-                    'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                    'kategori' => $data_pesanan['kategori'],
-                    'kode_partdetail' => $data_pesanan['kode_partdetail'],
-                    'nama_barang' => $data_pesanan['nama_barang'],
-                    'jumlah' => $data_pesanan['jumlah'],
-                    'satuan' => $data_pesanan['satuan'],
-                    'hargasatuan' => $data_pesanan['hargasatuan'],
-                    'harga' => $data_pesanan['harga'],
-                ]);
+                if (array_key_exists('kode_partdetail', $data_pesanan)) {
+                    $kodePembelianPart = $data_pesanan['kode_partdetail'];
 
-                // Increment the quantity of the barang
-                Sparepart::where('id', $data_pesanan['sparepart_id'])->increment('jumlah', $data_pesanan['jumlah']);
+                    $spareparts = Sparepart::where('kode_partdetail', $kodePembelianPart)->get();
+
+                    if ($spareparts->count() > 0) {
+                        foreach ($spareparts as $sparepart) {
+                            $jumlahLama = $sparepart->jumlah;
+
+                            $jumlahBaru = $data_pesanan['jumlah'];
+
+                            $jumlahTotal = $jumlahLama + $jumlahBaru;
+
+                            $sparepart->update([
+                                'pembelian_part_id' => $transaksi->id,
+                                'jumlah' => $jumlahTotal,
+                                'harga' => $data_pesanan['harga'],
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if ($transaksi) {
+            foreach ($data_pembelians as $data_pesanan) {
+                if (array_key_exists('kode_partdetail', $data_pesanan)) {
+                    $kodePembelianPart = $data_pesanan['kode_partdetail'];
+
+                    // Cari Sparepart yang memiliki kode_partdetail yang sesuai
+                    $sparepart = Sparepart::where('kode_partdetail', $kodePembelianPart)->first();
+
+                    if ($sparepart) {
+                        // Buat Detail_pembelianpart dan hubungkan dengan Sparepart yang sesuai
+                        Detail_pembelianpart::create([
+                            'pembelian_part_id' => $transaksi->id,
+                            'sparepart_id' => $sparepart->id, // Mengambil sparepart_id dari hasil pencarian di atas
+                            'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                            'kategori' => $data_pesanan['kategori'],
+                            'kode_partdetail' => $data_pesanan['kode_partdetail'],
+                            'nama_barang' => $data_pesanan['nama_barang'],
+                            'jumlah' => $data_pesanan['jumlah'],
+                            'satuan' => $data_pesanan['satuan'],
+                            'hargasatuan' => $data_pesanan['hargasatuan'],
+                            'harga' => $data_pesanan['harga'],
+                        ]);
+                    }
+                }
             }
         }
 

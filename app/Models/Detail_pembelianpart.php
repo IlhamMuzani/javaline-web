@@ -43,10 +43,10 @@ class Detail_pembelianpart extends Model
         return $this->belongsTo(Pembelian_part::class);
     }
 
-    public function detail_part()
-    {
-        return $this->hasMany(Detail_pemasanganpartdua::class);
-    }
+    // public function detail_part()
+    // {
+    //     return $this->hasMany(Detail_pemasanganpartdua::class);
+    // }
 
 
 }
