@@ -123,6 +123,29 @@
                                         style="font-size: 13px;">{{ $cetakpdf->kode_tambahan }}</span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td class="info-column">
+                                    <span class="info-item" style="font-size: 13px;">No. Kabin</span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-titik" style="font-size: 13px;">:</span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-item" style="font-size: 13px;"> {{ $cetakpdf->no_kabin }}</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="info-column">
+                                    <span class="info-item" style="font-size: 13px;">Nama
+                                        Sopir</span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-titik" style="font-size: 13px;">:</span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->nama_driver }}</span>
+                                </td>
+                            </tr>
                         </table>
                     </td>
                     <td style="width: 70%; text-align: left;">
@@ -130,25 +153,60 @@
                             <tr>
                                 <td style="width: 40%;">
                                     <span class="info-item"
-                                        style="font-size: 13px; text-align: left; display: inline-block;">No.
-                                        Kabin</span>
+                                        style="font-size: 13px; text-align: left; display: inline-block;">Nama
+                                        Bank</span>
                                 </td>
                                 <td style="width: 60%;">
                                     <span class="info-item"
                                         style="font-size: 13px; text-align: left; display: inline-block;">:
-                                        {{ $cetakpdf->no_kabin }}</span>
+                                        @if ($cetakpdf->memo_ekspedisi->user->karyawan->nama_bank != null)
+                                            {{ $cetakpdf->memo_ekspedisi->user->karyawan->nama_bank }}
+                                        @else
+                                        @endif
+                                    </span>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 40%;">
                                     <span class="info-item"
-                                        style="font-size: 13px; text-align: left; display: inline-block;">Nama
-                                        Sopir</span>
+                                        style="font-size: 13px; text-align: left; display: inline-block;">No
+                                        Rekening</span>
                                 </td>
                                 <td style="width: 60%;">
                                     <span class="info-item"
                                         style="font-size: 13px; text-align: left; display: inline-block;">:
-                                        {{ $cetakpdf->nama_driver }}</span>
+                                        @if ($cetakpdf->memo_ekspedisi->user->karyawan->norek != null)
+                                            {{ $cetakpdf->memo_ekspedisi->user->karyawan->norek }}
+                                        @else
+                                        @endif
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 40%;">
+                                    <span class="info-item"
+                                        style="font-size: 13px; text-align: left; display: inline-block;">Atas
+                                        Nama</span>
+                                </td>
+                                <td style="width: 60%;">
+                                    <span class="info-item"
+                                        style="font-size: 13px; text-align: left; display: inline-block;">:
+                                        @if ($cetakpdf->memo_ekspedisi->user->karyawan->atas_nama != null)
+                                            {{ $cetakpdf->memo_ekspedisi->user->karyawan->atas_nama }}
+                                        @else
+                                        @endif
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width: 40%;">
+                                    <span class="info-item"
+                                        style="font-size: 13px; text-align: left; display: inline-block; color:white">a</span>
+                                </td>
+                                <td style="width: 60%;">
+                                    <span class="info-item"
+                                        style="font-size: 13px; text-align: left; display: inline-block; color:white">
+                                        a</span>
                                 </td>
                             </tr>
                         </table>
@@ -217,7 +275,7 @@
                     </tr>
                 </table>
 
-                <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 100 : 23 }}px">
+                <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 50 : 0 }}px">
 
                     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                         <tr>
