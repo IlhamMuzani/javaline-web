@@ -154,7 +154,7 @@
                                     <td>
                                         {{ $memotambahan->tanggal_awal }}</td>
                                     <td>
-                                        {{ substr($memotambahan->nama_driver, 0, 7) }} ..
+                                        {{ substr($memotambahan->nama_driver, 0, 10) }} ..
                                     </td>
                                     <td>
                                         {{ $memotambahan->no_kabin }}

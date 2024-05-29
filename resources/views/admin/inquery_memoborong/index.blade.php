@@ -156,7 +156,7 @@
                                     <td>
                                         {{ $memoborong->tanggal_awal }}</td>
                                     <td>
-                                        {{ substr($memoborong->nama_driver, 0, 7) }} ..
+                                        {{ substr($memoborong->nama_driver, 0, 10) }} ..
                                     </td>
                                     <td>
                                         {{ $memoborong->no_kabin }}

@@ -160,7 +160,7 @@
                                     <td>
                                         {{ $memoekspedisi->tanggal_awal }}</td>
                                     <td>
-                                        {{ substr($memoekspedisi->nama_driver, 0, 7) }} ..
+                                        {{ substr($memoekspedisi->nama_driver, 0, 10) }} ..
                                     </td>
                                     <td>
                                         {{ $memoekspedisi->no_kabin }}
