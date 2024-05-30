@@ -119,11 +119,11 @@ class InqueryPengeluaranujsController extends Controller
             'status' => 'unpost',
         ]);
 
-        // Total_ujs::create([
-        //     'tanggal' => Carbon::now('Asia/Jakarta'),
-        //     'sisa_ujs' => $hasil,
-        //     'status' => 'inquery',
-        // ]);
+        Total_ujs::create([
+            'tanggal' => Carbon::now('Asia/Jakarta'),
+            'sisa_ujs' => $hasil,
+            'status' => 'inquery',
+        ]);
 
         $cetakpdf = Pengeluaran_ujs::where('id', $id)->first();
 

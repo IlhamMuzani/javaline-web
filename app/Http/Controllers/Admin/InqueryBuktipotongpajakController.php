@@ -64,7 +64,10 @@ class InqueryBuktipotongpajakController extends Controller
             )
             ->get();
         $detail_id_data = Detail_bukti::where('bukti_potongpajak_id', $id)->pluck('id', 'tagihan_ekspedisi_id')->toArray();
-        $tagihan_ekspedisis = Tagihan_ekspedisi::where(['kategori' => 'PPH', 'status' => 'posting', 'status_terpakai' => null])->get();
+        $tagihanEkspedisis = Tagihan_ekspedisi::where(function ($query) {
+            $query->where('status', 'posting')
+                ->orWhere('status', 'selesai');
+        })->where(['kategori' => 'PPH', 'status_terpakai' => null])->get();
 
         return view('admin.inquery_buktipotongpajak.update', compact('details', 'detail_id_data', 'buktipotongpajak', 'tagihan_ekspedisis'));
     }

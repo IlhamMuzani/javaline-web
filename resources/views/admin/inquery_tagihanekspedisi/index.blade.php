@@ -114,8 +114,13 @@
                                                         data-memo-id="{{ $tagihanekspedisi->id }}">Posting</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                    @if ($tagihanekspedisi->kategori == 'PPH')
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                    @else
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/editnonpph/' . $tagihanekspedisi->id) }}">Update</a>
+                                                    @endif
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
                                                     <a class="dropdown-item"

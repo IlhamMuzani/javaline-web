@@ -98,7 +98,6 @@ class PenerimaankaskecilController extends Controller
 
         $cetakpdf = Penerimaan_kaskecil::find($penerimaans);
 
-
         return view('admin.penerimaan_kaskecil.show', compact('cetakpdf'));
     }
 

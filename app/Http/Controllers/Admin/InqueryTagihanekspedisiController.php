@@ -75,9 +75,19 @@ class InqueryTagihanekspedisiController extends Controller
         $inquery = Tagihan_ekspedisi::where('id', $id)->first();
         $details  = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
         // $pelanggans = Pelanggan::all();
-        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting'])->get();
+        $fakturs = Faktur_ekspedisi::where(['kategori' => 'PPH', 'status_tagihan' => null, 'status' => 'posting'])->get();
         $tarifs = Tarif::all();
         return view('admin.inquery_tagihanekspedisi.update', compact('details', 'tarifs', 'fakturs', 'inquery'));
+    }
+
+    public function editnonpph($id)
+    {
+        $inquery = Tagihan_ekspedisi::where('id', $id)->first();
+        $details  = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
+        // $pelanggans = Pelanggan::all();
+        $fakturs = Faktur_ekspedisi::where(['kategori' => 'NON PPH', 'status_tagihan' => null, 'status' => 'posting'])->get();
+        $tarifs = Tarif::all();
+        return view('admin.inquery_tagihanekspedisi.updatenon', compact('details', 'tarifs', 'fakturs', 'inquery'));
     }
 
     public function update(Request $request, $id)

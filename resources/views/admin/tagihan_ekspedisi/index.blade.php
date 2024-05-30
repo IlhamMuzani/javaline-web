@@ -75,7 +75,7 @@
                             <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
                             <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
-                                <option value="PPH" {{ old('kategori') == 'PPH' ? 'selected' : null }}>
+                                <option value="PPH" {{ old('kategori') == 'PPH' ? 'selected' : null }} selected>
                                     PPH</option>
                                 <option value="NON PPH" {{ old('kategori') == 'NON PPH' ? 'selected' : null }}>
                                     NON PPH</option>
@@ -932,6 +932,35 @@
             var today = new Date().toISOString().split('T')[0];
             tanggalAkhir.value = today;
             tanggalAkhir.setAttribute('min', this.value);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#kategori').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'PPH':
+                        window.location.href = "{{ url('admin/tagihan_ekspedisi') }}";
+                        break;
+                    case 'NON PPH':
+                        window.location.href = "{{ url('admin/indexnon') }}";
+                        break;
+                        // case 'akun':
+                        //     window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
+                        //     break;
+                        // case 'memo_tambahan':
+                        //     window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                        //     break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
         });
     </script>
 

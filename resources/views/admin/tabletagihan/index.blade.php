@@ -100,8 +100,13 @@
                                                         class="dropdown-item">Posting</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['update invoice ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                    @if ($tagihanekspedisi->kategori == 'PPH')
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                    @else
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/editnonpph/' . $tagihanekspedisi->id) }}">Update</a>
+                                                    @endif
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
                                                     <a class="dropdown-item"

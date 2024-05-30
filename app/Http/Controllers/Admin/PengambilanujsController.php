@@ -45,6 +45,9 @@ class PengambilanujsController extends Controller
         $subTotalInput = $request->input('grand_total');
         $cleanedSubTotal = (int) str_replace(['Rp', '.'], '', $subTotalInput);
 
+        // Ubah koma menjadi titik
+        $cleanedSubTotal = str_replace(',', '.', $cleanedSubTotal);
+
         $saldoTerakhir = Total_ujs::latest()->first();
         $saldo = $saldoTerakhir->id;
         $tanggal1 = Carbon::now('Asia/Jakarta');
@@ -64,23 +67,23 @@ class PengambilanujsController extends Controller
                 'jam' => $tanggal1->format('H:i:s'),
                 'tanggal' =>  $format_tanggal,
                 'tanggal_awal' =>  $tanggal,
-                'status' => 'unpost',
+                'status' => 'posting',
             ]
         ));
 
         $penerimaans = $penerimaan->id;
 
 
-        // $saldoSebelumnya = Total_ujs::latest()->first(); // Mendapatkan saldo terakhir
-        // $saldoSisa = $saldoSebelumnya->sisa_ujs - $cleanedSubTotal;
+        $saldoSebelumnya = Total_ujs::latest()->first(); // Mendapatkan saldo terakhir
+        $saldoSisa = $saldoSebelumnya->sisa_ujs - $cleanedSubTotal;
 
-        // // Menambahkan data ke tabel Saldo
-        // Total_ujs::create([
-        //     'jam' => $tanggal1->format('H:i:s'),
-        //     'tanggal' => Carbon::now('Asia/Jakarta'),
-        //     'sisa_ujs' => $cleanedSubTotal,
-        //     'status' => 'unpost',
-        // ]);
+        // Menambahkan data ke tabel Saldo
+        Total_ujs::create([
+            'jam' => $tanggal1->format('H:i:s'),
+            'tanggal' => Carbon::now('Asia/Jakarta'),
+            'sisa_ujs' => $cleanedSubTotal,
+            'status' => 'saldo keluar',
+        ]);
 
         $cetakpdf = Pengeluaran_ujs::find($penerimaans);
 

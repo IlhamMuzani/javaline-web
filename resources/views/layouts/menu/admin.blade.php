@@ -487,6 +487,7 @@
     request()->is('admin/pengeluaran_kaskecil*') ||
     request()->is('admin/pilih_deposit*') ||
     request()->is('admin/klaim_ban*') ||
+    request()->is('admin/indexnon*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
         : '' }}">
@@ -513,6 +514,7 @@
         request()->is('admin/pengeluaran_kaskecil*') ||
         request()->is('admin/pilih_deposit*') ||
         request()->is('admin/klaim_ban*') ||
+        request()->is('admin/indexnon*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">
@@ -611,7 +613,7 @@
         @if (auth()->check() && auth()->user()->menu['invoice faktur ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/tabletagihan') }}"
-                    class="nav-link {{ request()->is('admin/tabletagihan*') || request()->is('admin/tagihan_ekspedisi*') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('admin/tabletagihan*') || request()->is('admin/tagihan_ekspedisi*') || request()->is('admin/indexnon*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Invoice Faktur Ekspedisi</p>
                 </a>

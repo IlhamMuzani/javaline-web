@@ -51,6 +51,7 @@
 <body class="hold-transition sidebar-mini @if (request()->is('admin/inquery_tagihanekspedisi*') ||
         // request()->is('admin/ban*') ||
         request()->is('admin/tagihan_ekspedisi*') ||
+        request()->is('admin/indexnon*') ||
         request()->is('admin/faktur_ekspedisi*') ||
         request()->is('admin/inquery_fakturekspedisi*') ||
         request()->is('admin/tablememo*') ||
