@@ -65,6 +65,8 @@
                                 <th>Status</th>
                                 <th>Kategori</th>
                                 <th>Total</th>
+                                <th>Pph</th>
+                                <th>Grand Total</th>
                                 <th class="text-center" width="20">Opsi</th>
                             </tr>
                         </thead>
@@ -94,7 +96,13 @@
                                     <td>
                                         {{ $buktipotongpajak->kategoris }}
                                     </td>
-                                    <td class="text-right">{{ number_format($buktipotongpajak->grand_total, 2, ',', '.') }}
+                                      <td class="text-right">{{ number_format($buktipotongpajak->grand_total, 2, ',', '.') }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
                                     </td>
                                     <td class="text-center">
                                         @if ($buktipotongpajak->status == 'posting')

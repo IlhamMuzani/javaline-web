@@ -66,6 +66,8 @@
         request()->is('admin/faktur_penjualanreturn*') ||
         request()->is('admin/inquery_fakturpenjualanreturn*') ||
         request()->is('admin/inquery_fakturpelunasan*') ||
+        request()->is('admin/bukti_potongpajak*') ||
+        request()->is('admin/inquery_buktipotongpajak*') ||
         request()->is('admin/laporan_memotambahan*')) sidebar-open sidebar-collapse @endif">
     <div class="wrapper">
         {{-- <div class="preloader flex-column justify-content-center align-items-center">

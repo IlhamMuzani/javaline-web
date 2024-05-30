@@ -64,7 +64,7 @@ class InqueryBuktipotongpajakController extends Controller
             )
             ->get();
         $detail_id_data = Detail_bukti::where('bukti_potongpajak_id', $id)->pluck('id', 'tagihan_ekspedisi_id')->toArray();
-        $tagihanEkspedisis = Tagihan_ekspedisi::where(function ($query) {
+        $tagihan_ekspedisis = Tagihan_ekspedisi::where(function ($query) {
             $query->where('status', 'posting')
                 ->orWhere('status', 'selesai');
         })->where(['kategori' => 'PPH', 'status_terpakai' => null])->get();
@@ -118,7 +118,7 @@ class InqueryBuktipotongpajakController extends Controller
                     'tanggal' => $tagihan->tanggal,
                     'nama_pelanggan' => $tagihan->nama_pelanggan,
                     'pph' => $tagihan->pph,
-                    'total' => $tagihan->grand_total,
+                    'total' => $tagihan->sub_total,
                 ]);
             }
         }
@@ -153,7 +153,7 @@ class InqueryBuktipotongpajakController extends Controller
                     'tanggal' => $request->tanggal[$tagihan_ekspedisi_id],
                     'nama_pelanggan' => $request->nama_pelanggan[$tagihan_ekspedisi_id],
                     'pph' => $request->pph[$tagihan_ekspedisi_id],
-                    'total' => $request->total[$tagihan_ekspedisi_id]
+                    'total' => $request->total[$tagihan_ekspedisi_id],
                 ]);
             } else {
                 $tagihan = Tagihan_ekspedisi::find($tagihan_ekspedisi_id);
@@ -164,7 +164,7 @@ class InqueryBuktipotongpajakController extends Controller
                     'tanggal' => $tagihan->tanggal,
                     'nama_pelanggan' => $tagihan->nama_pelanggan,
                     'pph' => $tagihan->pph,
-                    'total' => $tagihan->grand_total,
+                    'total' => $tagihan->sub_total,
                 ]);
             }
 

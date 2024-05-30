@@ -82,7 +82,7 @@
         <br>
         <br>
     </div>
-    <table style="border-top: 1px solid black; margin:0;" cellpadding="2" cellspacing="0">
+    <table cellpadding="2" cellspacing="0">
         <tr>
             <td class="text-align: left" style="font-size: 15px; display: block;">Kode Bukti</td>
             <td style="text-align: left; font-size: 15px;">
@@ -123,12 +123,12 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Kode Invoice</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Tanggal</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Nama Pelanggan</td>
-            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Pph</td>
+            {{-- <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Pph</td> --}}
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
         <tr>
-            <td colspan="10" style="padding: 0px;">
+            <td colspan="9" style="padding: 0px;">
                 <hr style="border-top: 1px solid black; margin: 5px 0;">
             </td>
         </tr>
@@ -148,9 +148,9 @@
                 <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
                     {{ $item->nama_pelanggan }}
                 </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                {{-- <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
                     {{ number_format($item->pph, 2, ',', '.') }}
-                </td>
+                </td> --}}
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
                     {{ number_format($item->total, 2, ',', '.') }}
                 </td>
@@ -163,7 +163,7 @@
         <tr>
         </tr>
     </table>
-    <td colspan="6" style="padding: 0px; position: relative;">
+    <td colspan="5" style="padding: 0px; position: relative;">
         <hr
             style="border-top: 1px solid black; margin: 3px 0; display: inline-block; width: calc(100% - 25px); vertical-align: middle;">
         <span>
@@ -194,72 +194,47 @@
         </tr>
         <!-- Add horizontal line below this row -->
 
-        @if ($cetakpdf->kategori == 'PPH')
-            <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+        <tr>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    DPP :
-                </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($totalRuteSum, 2, ',', '.') }}
-                </td>
-            </tr>
+            </td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                Dasar Pengenaan Pajak (DPP) :
+            </td>
+            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                {{ number_format($totalRuteSum, 2, ',', '.') }}
+            </td>
+        </tr>
 
-            <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+        <tr>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
 
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    PPH23 = 2% :
-                </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($cetakpdf->pph, 2, ',', '.') }}
-                </td>
-            </tr>
-
-            <tr style="color: white">
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    .
-                </td>
-            </tr>
-        @endif
-
-
+            </td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                PPH23 = 2% * Dasar Pengenaan Pajak :
+            </td>
+            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                {{ number_format($totalRuteSum * 0.02, 2, ',', '.') }}
+            </td>
+        </tr>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="6"></td>
@@ -281,7 +256,7 @@
                 Grand Total :
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                {{ number_format($totalRuteSum, 2, ',', '.') }}
+                {{ number_format($totalRuteSum - $totalRuteSum * 0.02, 2, ',', '.') }}
 
             </td>
         </tr>
@@ -369,6 +344,5 @@
     <a href="{{ url('admin/bukti_potongpajak') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/bukti_potongpajak/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
-
 
 </html>

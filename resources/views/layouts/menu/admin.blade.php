@@ -709,6 +709,8 @@
     request()->is('admin/inquery_potonganpenjualan*') ||
     request()->is('admin/inquery_penambahansaldokasbon*') ||
     request()->is('admin/inqueryklaim_ban*') ||
+    request()->is('admin/bukti_potongpajak*') ||
+    request()->is('admin/inquery_buktipotongpajak*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -742,6 +744,8 @@
         request()->is('admin/inquery_potonganpenjualan*') ||
         request()->is('admin/inquery_penambahansaldokasbon*') ||
         request()->is('admin/inqueryklaim_ban*') ||
+        request()->is('admin/bukti_potongpajak*') ||
+        request()->is('admin/inquery_buktipotongpajak*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">

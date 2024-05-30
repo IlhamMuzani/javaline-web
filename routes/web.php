@@ -398,7 +398,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hakaksesdriver', [\App\Http\Controllers\Admin\AksesController::class, 'indexdriver']);
 
     Route::get('indexnon', [\App\Http\Controllers\Admin\TagihanekspedisiController::class, 'indexnonpph']);
-    Route::get('inquery_tagihanekspedisi/editnonpph/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'editnonpph']);
     Route::get('inquery_depositdriver/unpostdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostdeposit']);
     Route::get('inquery_depositdriver/postingdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingdeposit']);
     Route::get('hapusdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'hapusdeposit'])->name('hapusdeposit');
@@ -413,6 +412,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'print_depositdriver']);
     Route::get('cetak_depositdriver', [\App\Http\Controllers\Admin\LaporanDepositdriverController::class, 'cetak_depositdriver']);
     Route::get('print_kasbonkaryawan', [\App\Http\Controllers\Admin\LaporanKasbonkaryawanController::class, 'print_kasbonkaryawan']);
+    Route::get('inquery_tagihanekspedisi/editnonpph/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'editnonpph']);
 
     Route::get('postingtagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'postingtagihan'])->name('postingtagihan');
     Route::get('unposttagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'unposttagihan'])->name('unposttagihan');
@@ -692,4 +692,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('bukti_potongpajak', \App\Http\Controllers\Admin\BuktipotongpajakController::class);
     Route::resource('inquery_buktipotongpajak', \App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class);
     Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
+
+
 });

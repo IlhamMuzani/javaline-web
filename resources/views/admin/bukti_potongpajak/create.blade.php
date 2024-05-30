@@ -211,7 +211,7 @@
                                             <td>{{ $tagihan->nama_pelanggan }}</td>
                                             <td class="text-right">{{ number_format($tagihan->pph, 2, ',', '.') }}
                                             </td>
-                                            <td class="text-right">{{ number_format($tagihan->grand_total, 2, ',', '.') }}
+                                            <td class="text-right">{{ number_format($tagihan->sub_total, 2, ',', '.') }}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -259,7 +259,7 @@
             var tanggal = data.tanggal;
             var nama_pelanggan = data.nama_pelanggan;
             var pph = data.pph;
-            var total = is_session ? data.total : data.grand_total; // Correctly fetch the total
+            var total = is_session ? data.total : data.sub_total; // Correctly fetch the total
 
             var col = '<tr id="tr-barang-' + data.id + '">';
             col += '<td class="text-center" id="urutan">' + urutan + '</td>';

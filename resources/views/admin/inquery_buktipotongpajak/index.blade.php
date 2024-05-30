@@ -93,6 +93,8 @@
                                 <th>Status</th>
                                 <th>Kategori</th>
                                 <th>Total</th>
+                                <th>Pph</th>
+                                <th>Grand Total</th>
                                 <th class="text-center" width="20">Opsi</th>
                             </tr>
                         </thead>
@@ -124,6 +126,12 @@
                                     </td>
                                     <td class="text-right">{{ number_format($buktipotongpajak->grand_total, 2, ',', '.') }}
                                     </td>
+                                    <td class="text-right">
+                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                    </td>
                                     <td class="text-center">
                                         @if ($buktipotongpajak->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
@@ -131,8 +139,8 @@
                                             </button>
                                         @endif
                                         @if ($buktipotongpajak->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                height="40" width="40" alt="Roda Mobil">
+                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Roda Mobil">
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($buktipotongpajak->status == 'unpost')
