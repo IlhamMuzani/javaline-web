@@ -474,7 +474,7 @@
         <tr>
             <td class="td"
                 style="text-align: left; padding: 0px; font-size: 12px; white-space: nowrap; width: 50%;">
-                Ket Memo
+                Keterangan
             </td>
             <td class="td" style="text-align: center; padding-right: 10px; font-size: 12px; width: 25%;">
                 Grand Total

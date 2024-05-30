@@ -489,7 +489,7 @@
                 <table>
                     <tr>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px;">Ket Memo</span>
+                            <span class="info-item" style="font-size: 15px;">Keterangan</span>
                         </td>
                         <td class="info-column">
                             <span class="info-titik" style="font-size: 15px;"></span>

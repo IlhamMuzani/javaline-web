@@ -128,6 +128,8 @@
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
+                    <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search..">
+
                     <div class="table-responsive">
                         <!-- Hapus class "overflow-x-auto" -->
                         <table class="table table-bordered table-striped">
@@ -1325,6 +1327,33 @@
                 startDrag(event);
             }
         });
+    </script>
+
+
+    <script>
+        function searchTable() {
+            // Declare variables
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            table = document.querySelector(".table.table-bordered.table-striped");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, except for the first one which contains table headers
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none"; // Hide the row initially
+
+                // Loop through all input elements in the current row
+                var inputs = tr[i].querySelectorAll('input[type="text"]');
+                for (j = 0; j < inputs.length; j++) {
+                    txtValue = inputs[j].value.toLowerCase();
+                    if (txtValue.indexOf(filter) > -1) {
+                        tr[i].style.display = ""; // Show the row if a match is found in any input
+                        break; // Stop checking other inputs in the row
+                    }
+                }
+            }
+        }
     </script>
 
 @endsection
