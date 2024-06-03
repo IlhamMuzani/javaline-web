@@ -355,8 +355,8 @@
                                             <label style="font-size: 14px" for="tinggi">Nominal</label>
                                             <input style="font-size: 14px" type="text" class="form-control"
                                                 id="nominal" placeholder="masukkan nominal" name="nominal"
-                                                value="{{ old('nominal') }}" oninput="formatRupiahsx(this)"
-                                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                                value="{{ old('nominal') }}"
+                                                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
                                         </div>
                                     </div>
                                     <div class="col-md-6" style="margin-left: 89px">
