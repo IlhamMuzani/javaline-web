@@ -571,7 +571,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_buktipotongpajak/postingbukti/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'postingbukti']);
     Route::get('inquery_buktipotongpajak/delete_item/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'delete_item']);
     Route::get('hapusbukti/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'hapusbukti'])->name('hapusbukti');
+    Route::get('bukti_potongpajak/cetak-pdf/{id}', [\App\Http\Controllers\Admin\BuktipotongController::class, 'cetakpdf']);
+    Route::post('updatebuktitagihan/{id}', [\App\Http\Controllers\Admin\BuktipotongController::class, 'updatebuktitagihan'])->name('updatebuktitagihan');
 
+    Route::resource('buktipotong', \App\Http\Controllers\Admin\BuktipotongController::class);
     Route::resource('karyawan', \App\Http\Controllers\Admin\KaryawanController::class);
     Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('departemen', \App\Http\Controllers\Admin\DepartemenController::class);

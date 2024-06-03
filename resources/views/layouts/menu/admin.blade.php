@@ -668,6 +668,15 @@
                 </a>
             </li>
         @endif
+        @if (auth()->check() && auth()->user()->menu['faktur pelunasan ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/buktipotong') }}"
+                    class="nav-link {{ request()->is('admin/buktipotong*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Bukti Potong</p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['pengambilan kas kecil'])
             <li class="nav-item">
                 <a href="{{ url('admin/tablepengeluaran') }}"

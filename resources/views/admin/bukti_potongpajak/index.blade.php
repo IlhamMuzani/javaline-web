@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bukti Potong Pajak')
+@section('title', 'List Invoice PPH23')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Bukti Potong Pajak</h1>
+                    <h1 class="m-0">List Invoice PPH23</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Bukti Potong Pajak</li>
+                        <li class="breadcrumb-item active">List Invoice PPH23</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -32,155 +32,226 @@
                     {{ session('success') }}
                 </div>
             @endif
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5>
-                        <i class="icon fas fa-ban"></i> Error!
-                    </h5>
-                    {{ session('error') }}
-                </div>
-            @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Bukti Potong Pajak</h3>
-                    <div class="float-right">
-                        {{-- @if (auth()->check() && auth()->user()->fitur['creates buktipotongpajak ekspedisi']) --}}
-                        <a href="{{ url('admin/bukti_potongpajak/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
-                        {{-- @endif --}}
-                    </div>
+                    <h3 class="card-title">Data List Invoice PPH23</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
+                    <form method="GET" id="form-action">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label for="created_at">Status</label>
+                                <select class="custom-select form-control" id="status" name="status">
+                                    <option value="">- Pilih Laporan -</option>
+                                    <option value="pemasukan" selected>Pemasukan</option>
+                                    <option value="pengeluaran">Pengeluaran</option>
+                                    {{-- <option value="akun">Laporan Kas Keluar Group by Akun</option>
+                                    <option value="memo_tambahan">Saldo Kas</option> --}}
+                                </select>
+                            </div>
+                            {{-- <div class="col-md-3 mb-3">
+                                <label for="created_at">Status</label>
+                                <select class="custom-select form-control" id="kategori" name="kategori">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="memo" {{ Request::get('kategori') == 'memo' ? 'selected' : '' }}>
+                                        MEMO
+                                    </option>
+                                    <option value="non memo"
+                                        {{ Request::get('kategori') == 'non memo' ? 'selected' : '' }}>
+                                        NON MEMO</option>
+                                </select>
+                            </div> --}}
+                            <div class="col-md-3 mb-3">
+                                <label for="created_at">Tanggal Awal</label>
+                                <input class="form-control" id="created_at" name="created_at" type="date"
+                                    value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="tanggal_akhir">Tanggal Akhir</label>
+                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
+                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                {{-- @if (auth()->check() && auth()->user()->fitur['laporan pengambilan kas kecil cari']) --}}
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                                {{-- @endif
+                                @if (auth()->check() && auth()->user()->fitur['laporan pengambilan kas kecil cetak']) --}}
+                                <button id="toggle-all" type="button" class="btn btn-info btn-block">
+                                    All Toggle Detail
+                                </button>
+                                {{-- <button id="toggle-all" class="btn btn-info float-right">Buka Semua Detail</button> --}}
+
+                                {{-- @endif --}}
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Tabel Faktur Utama -->
+                    <table class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead>
                             <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Bukti</th>
+                                <th>Kode Invoice</th>
                                 <th>Tanggal</th>
-                                <th>Bag.inp</th>
-                                <th>Status</th>
-                                <th>Kategori</th>
-                                <th>Total</th>
-                                <th>Pph</th>
-                                <th>Grand Total</th>
-                                <th class="text-center" width="20">Opsi</th>
+                                <th>Pelanggan</th>
+                                <th>DPP</th>
+                                <th>PPH23</th>
+                                <th class="text-center" style="width:12%">Actions</th>
+                                <!-- Tambahkan kolom aksi untuk collapse/expand -->
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($buktipotongpajaks as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->kode_bukti }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->user)
-                                            {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->kategori }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->kategoris }}
-                                    </td>
-                                      <td class="text-right">{{ number_format($buktipotongpajak->grand_total, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
+                            @foreach ($inquery as $index => $faktur)
+                                <!-- Gunakan index untuk ID unik -->
+                                <!-- Baris Faktur Utama -->
+                                <tr data-target="#faktur-{{ $index }}"
+                                    class="accordion-toggle" style="background: rgb(156, 156, 156)">
+                                    <td>{{ $faktur->kode_tagihan }}</td>
+                                    <td>{{ $faktur->created_at }}</td>
+                                    <td>{{ $faktur->nama_pelanggan }}</td>
+                                    <td class="text-right">{{ number_format($faktur->sub_total, 2, ',', '.') }}</td>
+                                    <td class="text-right">{{ number_format($faktur->pph, 2, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($buktipotongpajak->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($buktipotongpajak->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/buktipotongpajak.png') }}"
-                                                height="40" width="40" alt="Roda Mobil">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($buktipotongpajak->status == 'unpost')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['postings buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['updates buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/bukti_potongpajak/' . $buktipotongpajak->id) }}">Show</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['deletes buktipotongpajak ekspedisi']) --}}
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusbukti', ['id' => $buktipotongpajak->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
-                                                {{-- @endif --}}
-                                            @endif
-                                            @if ($buktipotongpajak->status == 'posting')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['unposts buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/bukti_potongpajak/' . $buktipotongpajak->id) }}">Show</a>
-                                                {{-- @endif --}}
-                                            @endif
-                                            @if ($buktipotongpajak->status == 'selesai')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/bukti_potongpajak/' . $buktipotongpajak->id) }}">Show</a>
-                                                {{-- @endif --}}
-                                            @endif
+                                        <button class="btn btn-info btn-sm" data-toggle="collapse"
+                                            data-target="#faktur-{{ $index }}"><i
+                                                class="fas fa-eye"></i></button>
+                                        <button class="btn btn-primary ml-2 btn-sm" data-toggle="modal"
+                                            data-target="#modal-add-{{ $faktur->id }}"><i
+                                                class="fas fa-plus"></i></button>
+                                    </td>
+                                </tr>
+                                <div class="modal fade" id="modal-add-{{ $faktur->id }}">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Masukkan Nomor Bukti</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div style="text-align: left;">
+                                                    <form action="{{ url('admin/updatebuktitagihan/' . $faktur->id) }}"
+                                                        method="POST" enctype="multipart/form-data" autocomplete="off">
+                                                        @csrf
+                                                        <div class="card-body">
+                                                            <h2>Invoice</h2>
+                                                            <div class="row">
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label for="nomor invoice">Invoice
+                                                                            {{ $faktur->kode_tagihan }}</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="nomor_buktitagihan"
+                                                                            name="nomor_buktitagihan"
+                                                                            value="{{ old('nomor_buktitagihan', $faktur->nomor_buktitagihan) }}">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6">
+                                                                    <div class="form-group">
+                                                                        <label for="nomor invoice">Tanggal Bukti</label>
+                                                                        <input type="date" class="form-control"
+                                                                            id="tanggal_nomortagihan"
+                                                                            name="tanggal_nomortagihan"
+                                                                            value="{{ old('tanggal_nomortagihan', $faktur->tanggal_nomortagihan) }}">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+                                                            <br>
+                                                            <h2>Faktur</h2>
+                                                            @foreach ($faktur->detail_tagihan as $item)
+                                                                <div class="row">
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label for="nomor faktur">Faktur
+                                                                                {{ $item->kode_faktur }}</label>
+                                                                            <input type="text" class="form-control"
+                                                                                id="nomor_buktifaktur"
+                                                                                name="nomor_buktifaktur[{{ $item->id }}]"
+                                                                                placeholder=""
+                                                                                value="{{ $item->nomor_buktifaktur }}">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6">
+                                                                        <div class="form-group">
+                                                                            <label for="nomor faktur">Tanggal
+                                                                                {{ $item->kode_faktur }}</label>
+                                                                            <input type="date" id="tanggal_nomorfaktur"
+                                                                                name="tanggal_nomorfaktur[{{ $item->id }}]"
+                                                                                placeholder="d M Y"
+                                                                                value="{{ old('tanggal_nomorfaktur.' . $item->id, $item->tanggal_nomorfaktur) }}"
+                                                                                class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                        <div class="card-footer text-right">
+                                                            <button type="reset"
+                                                                class="btn btn-secondary">Reset</button>
+                                                            <button type="submit" class="btn btn-primary">Simpan</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Baris Detail Faktur -->
+                                <tr>
+                                    <td colspan="6"> <!-- Gabungkan kolom untuk detail -->
+                                        <div id="faktur-{{ $index }}" class="collapse">
+                                            <table class="table table-sm" style="margin: 0;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Kode Faktur</th>
+                                                        <th>Tanggal</th>
+                                                        <th>Nama Pelanggan</th>
+                                                        <th>DPP</th>
+                                                        <th>PPH23</th>
+                                                        <th>Nomor Bukti</th>
+                                                        <th>Tanggal Bukti</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($faktur->detail_tagihan as $faktur)
+                                                        <tr>
+                                                            <td>{{ $faktur->kode_faktur }}</td>
+                                                            <td>{{ $faktur->created_at }}</td>
+                                                            <td>{{ $faktur->nama_rute }}</td>
+                                                            <td class="text-right">
+                                                                {{ number_format($faktur->faktur_ekspedisi->pph, 2, ',', '.') }}
+                                                            </td>
+                                                            <td class="text-right">
+                                                                {{ number_format($faktur->faktur_ekspedisi->harga_tarif, 2, ',', '.') }}
+                                                            </td>
+                                                            <td>{{ $faktur->nomor_buktifaktur }}</td>
+                                                            <td>{{ $faktur->tanggal_nomorfaktur }}</td>
+
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
-                        aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                            <div class="modal-content">
-                                <div class="modal-body text-center">
-                                    <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
-                                    <h4 class="mt-2">Sedang Menyimpan...</h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                <!-- /.card-body -->
             </div>
         </div>
     </section>
-
     <!-- /.card -->
     <script>
-        var tanggalAwal = document.getElementById('tanggal_awal');
+        var tanggalAwal = document.getElementById('created_at');
         var tanggalAkhir = document.getElementById('tanggal_akhir');
+        var kendaraanId = document.getElementById('kendaraan_id');
+        var form = document.getElementById('form-action');
 
         if (tanggalAwal.value == "") {
             tanggalAkhir.readOnly = true;
@@ -192,181 +263,97 @@
             } else {
                 tanggalAkhir.readOnly = false;
             }
-
             tanggalAkhir.value = "";
             var today = new Date().toISOString().split('T')[0];
             tanggalAkhir.value = today;
             tanggalAkhir.setAttribute('min', this.value);
         });
 
-        var form = document.getElementById('form-action');
-
         function cari() {
-            form.action = "{{ url('admin/bukti_potongpajak') }}";
-            form.submit();
-        }
-    </script>
+            // Dapatkan nilai tanggal awal dan tanggal akhir
+            var startDate = tanggalAwal.value;
+            var endDate = tanggalAkhir.value;
+            var Kendaraanid = kendaraanId.value;
 
-    <script>
-        $(function(e) {
-            $("#select_all_ids").click(function() {
-                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
-            })
-        });
-
-        function printSelectedData() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum mencetak.");
+            // Cek apakah tanggal awal dan tanggal akhir telah diisi
+            if (startDate && endDate && Kendaraanid) {
+                form.action = "{{ url('admin/laporan_mobillogistik') }}";
+                form.submit();
             } else {
-                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                var selectedIds = [];
-                selectedCheckboxes.forEach(function(checkbox) {
-                    selectedIds.push(checkbox.value);
-                });
-                document.getElementById('selectedIds').value = selectedIds.join(',');
-                var selectedIdsString = selectedIds.join(',');
-                window.location.href = "{{ url('admin/cetak_fakturekspedisifilter') }}?ids=" + selectedIdsString;
-                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
+                alert("Silakan pilih kendaraan dan isi kedua tanggal sebelum mencetak.");
+            }
+        }
+
+
+        function printReport() {
+            var startDate = tanggalAwal.value;
+            var endDate = tanggalAkhir.value;
+
+            if (startDate && endDate) {
+                form.action = "{{ url('admin/print_mobillogistik') }}" + "?start_date=" + startDate + "&end_date=" +
+                    endDate;
+                form.submit();
+            } else {
+                alert("Silakan isi kedua tanggal sebelum mencetak.");
             }
         }
     </script>
 
-    {{-- unpost memo  --}}
     <script>
         $(document).ready(function() {
-            $('.unpost-btn').click(function() {
-                var memoId = $(this).data('memo-id');
+            // Detect the change event on the 'status' dropdown
+            $('#status').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
 
-                // Tampilkan modal loading saat permintaan AJAX diproses
-                $('#modal-loading').modal('show');
-
-                // Kirim permintaan AJAX untuk melakukan unpost
-                $.ajax({
-                    url: "{{ url('admin/inquery_buktipotongpajak/unpostbukti/') }}/" + memoId,
-                    type: 'GET',
-                    data: {
-                        id: memoId
-                    },
-                    success: function(response) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(response);
-
-                        // Tutup modal setelah berhasil unpost
-                        $('#modal-posting-' + memoId).modal('hide');
-
-                        // Reload the page to refresh the table
-                        location.reload();
-                    },
-                    error: function(error) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
-    {{-- posting memo --}}
-    <script>
-        $(document).ready(function() {
-            $('.posting-btn').click(function() {
-                var memoId = $(this).data('memo-id');
-
-                // Tampilkan modal loading saat permintaan AJAX diproses
-                $('#modal-loading').modal('show');
-
-                // Kirim permintaan AJAX untuk melakukan posting
-                $.ajax({
-                    url: "{{ url('admin/inquery_buktipotongpajak/postingbukti/') }}/" + memoId,
-                    type: 'GET',
-                    data: {
-                        id: memoId
-                    },
-                    success: function(response) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(response);
-
-                        // Tutup modal setelah berhasil posting
-                        $('#modal-posting-' + memoId).modal('hide');
-
-                        // Reload the page to refresh the table
-                        location.reload();
-                    },
-                    error: function(error) {
-                        // Sembunyikan modal loading setelah permintaan selesai
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('tbody tr.dropdown').click(function(e) {
-                // Memeriksa apakah yang diklik adalah checkbox
-                if ($(e.target).is('input[type="checkbox"]')) {
-                    return; // Jika ya, hentikan eksekusi
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'pemasukan':
+                        window.location.href = "{{ url('admin/laporan_mobillogistik') }}";
+                        break;
+                    case 'pengeluaran':
+                        window.location.href = "{{ url('admin/laporan_mobillogistikglobal') }}";
+                        break;
+                        // case 'akun':
+                        //     window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
+                        //     break;
+                        // case 'memo_tambahan':
+                        //     window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                        //     break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
                 }
-
-                // Menghapus kelas 'selected' dan mengembalikan warna latar belakang ke warna default dari semua baris
-                $('tr.dropdown').removeClass('selected').css('background-color', '');
-
-                // Menambahkan kelas 'selected' ke baris yang dipilih dan mengubah warna latar belakangnya
-                $(this).addClass('selected').css('background-color', '#b0b0b0');
-
-                // Menyembunyikan dropdown pada baris lain yang tidak dipilih
-                $('tbody tr.dropdown').not(this).find('.dropdown-menu').hide();
-
-                // Mencegah event klik menyebar ke atas (misalnya, saat mengklik dropdown)
-                e.stopPropagation();
             });
+        });
+    </script>
 
-            $('tbody tr.dropdown').contextmenu(function(e) {
-                // Memeriksa apakah baris ini memiliki kelas 'selected'
-                if ($(this).hasClass('selected')) {
-                    // Menampilkan dropdown saat klik kanan
-                    var dropdownMenu = $(this).find('.dropdown-menu');
-                    dropdownMenu.show();
+    <script>
+        $(document).ready(function() {
+            var toggleAll = $("#toggle-all");
+            var isExpanded = false; // Status untuk melacak apakah semua detail telah dibuka
 
-                    // Mendapatkan posisi td yang diklik
-                    var clickedTd = $(e.target).closest('td');
-                    var tdPosition = clickedTd.position();
-
-                    // Menyusun posisi dropdown relatif terhadap td yang di klik
-                    dropdownMenu.css({
-                        'position': 'absolute',
-                        'top': tdPosition.top + clickedTd
-                            .height(), // Menempatkan dropdown sedikit di bawah td yang di klik
-                        'left': tdPosition
-                            .left // Menempatkan dropdown di sebelah kiri td yang di klik
-                    });
-
-                    // Mencegah event klik kanan menyebar ke atas (misalnya, saat mengklik dropdown)
-                    e.stopPropagation();
-                    e.preventDefault(); // Mencegah munculnya konteks menu bawaan browser
+            toggleAll.click(function() {
+                if (isExpanded) {
+                    $(".collapse").collapse("hide");
+                    toggleAll.text("All Toggle Detail");
+                    isExpanded = false;
+                } else {
+                    $(".collapse").collapse("show");
+                    toggleAll.text("All Close Detail");
+                    isExpanded = true;
                 }
             });
 
-            // Menyembunyikan dropdown saat klik di tempat lain
-            $(document).click(function() {
-                $('.dropdown-menu').hide();
-                $('tr.dropdown').removeClass('selected').css('background-color',
-                    ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
+            // Event listener untuk mengubah status jika ada interaksi manual
+            $(".accordion-toggle").click(function() {
+                var target = $(this).data("target");
+                if ($("#" + target).hasClass("show")) {
+                    $("#" + target).collapse("hide");
+                } else {
+                    $("#" + target).collapse("show");
+                }
             });
         });
     </script>
-
 @endsection
