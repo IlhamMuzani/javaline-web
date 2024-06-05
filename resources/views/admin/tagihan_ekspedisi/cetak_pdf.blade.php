@@ -285,7 +285,7 @@
                     {{ $item->kode_faktur }}
                 </td>
                 <td class="td" style="text-align: left; padding: 0px; font-size: 10px;">
-                    {{ $item->no_do }}
+                    {{ substr($item->no_do, 0, 20) }}
                 </td>
                 {{-- <td class="td" style="text-align: left; padding: 0px; font-size: 10px;">
                     {{ $item->no_po }}
