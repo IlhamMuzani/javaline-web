@@ -107,6 +107,10 @@
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
+                                        @if ($faktur->status == 'selesai')
+                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Roda Mobil">
+                                        @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($tagihanekspedisi->status == 'unpost')
                                                 @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi posting'])

@@ -264,10 +264,11 @@
                                                 <input style="font-size:14px" type="text"
                                                     class="form-control hari_kerja" id="hari_kerja-{{ $loop->index }}"
                                                     name="hari_kerja[]" data-row-id="0"
-                                                    value="{{ $detail['hari_kerja'] }}"
-                                                    onkeypress="return isNumberKey(event)">
+                                                    value="{{ str_replace('.', ',', $detail['hari_kerja']) }}"
+                                                    oninput="this.value = this.value.replace('.', ',')"onkeypress="return isNumberKey(event)">
                                             </div>
                                         </td>
+
                                         <td style="width: 150px;">
                                             <div class="form-group">
                                                 <input type="text" style="font-size:14px" readonly
