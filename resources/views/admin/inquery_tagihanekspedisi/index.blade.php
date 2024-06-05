@@ -107,7 +107,7 @@
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
-                                        @if ($faktur->status == 'selesai')
+                                        @if ($tagihanekspedisi->status == 'selesai')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Roda Mobil">
                                         @endif
