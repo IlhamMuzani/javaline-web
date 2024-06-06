@@ -272,12 +272,12 @@
                 No.</td>
             <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:15%">
                 Kode Barang</td>
-            <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:60%">
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:65%">
                 Nama Barang</td>
             <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:10%">
                 Qty</td>
             <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold; width:10%">Harga</td>
-            <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold; width:10%">Total</td>
+            <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold; width:15%">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
         <tr>
@@ -302,7 +302,7 @@
                 <td class="td" style="text-align: left; padding: 1px; font-size: 13px;">
                     {{ $item->jumlah }}
                 </td>
-                <td class="td" style="text-align: right; padding-right: 7px; font-size: 13px;">
+                <td class="td" style="text-align: right; padding-right: 0px; font-size: 13px;">
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; font-size: 13px;">
@@ -322,7 +322,7 @@
         <tr>
             <td>
             </td>
-            <td style="text-align: right;font-size: 13px;  font-weight:bold">
+            <td style="text-align: right;font-size: 13px;  font-weight:bold; padding-right: 2px">
                 {{ number_format($totalRuteSum, 2, ',', '.') }}
             </td>
         </tr>
