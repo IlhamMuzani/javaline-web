@@ -27,7 +27,7 @@
         html,
         body {
             margin-top: 30px;
-            margin-right: 50px;
+            margin-right: 20px;
             margin-left: 20px;
             font-family: Arial, sans-serif;
             color: black;
@@ -266,63 +266,64 @@
         </tr>
     </table>
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
-    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
+    <table style="width: 100%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
-            <td class="td" style="text-align: left;  font-size: 13px;">Kode Barang</td>
-            <td class="td" style="text-align: left;  font-size: 13px;">Nama Barang</td>
-            <td class="td" style="text-align: right; font-size: 13px;">Qty</td>
-            <td class="td" style="text-align: right; font-size: 13px;">Harga</td>
-            <td class="td" style="text-align: right; font-size: 13px;">Total</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;  font-weight:bold; width:4%">
+                No.</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:15%">
+                Kode Barang</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:60%">
+                Nama Barang</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; width:10%">
+                Qty</td>
+            <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold; width:10%">Harga</td>
+            <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold; width:10%">Total</td>
         </tr>
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="5" style="padding: 0px;"></td>
+        <!-- Add horizontal line below this row -->
+        <tr>
+            <td colspan="6" style="padding: 0px;">
+                <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
+                <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
+            </td>
         </tr>
         @php
-            $totalQuantity = 0;
-            $totalHarga = 0;
-
-            $diskonquantity = 0;
-            $totalDiskon = 0;
+            $totalRuteSum = 0;
         @endphp
         @foreach ($details as $item)
             <tr>
-                <td class="td" style="text-align: center;  font-size: 13px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
+                    {{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: left;  font-size: 13px;">{{ $item->kode_barang }}</td>
-                <td class="info-text info-left" style="font-size: 13px; text-align: left;">
+                <td class="td" style="text-align: left; padding: 2px; font-size: 13px;">
+                    {{ $item->kode_barang }}</td>
+                <td class="td" style="text-align: left; padding: 1px; font-size: 13px;">
                     {{ $item->nama_barang }}
                 </td>
-                <td class="td" style="text-align: right; font-size: 13px;">
+                <td class="td" style="text-align: left; padding: 1px; font-size: 13px;">
                     {{ $item->jumlah }}
                 </td>
-                <td class="td" style="text-align: right;  font-size: 13px;">
+                <td class="td" style="text-align: right; padding-right: 7px; font-size: 13px;">
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: right;  font-size: 13px;">
+                <td class="td" style="text-align: right; font-size: 13px;">
                     {{ number_format($item->total, 2, ',', '.') }}
                 </td>
             </tr>
             @php
-                $totalQuantity += 1;
-                $totalHarga += $item->total;
-
-                $diskonquantity = 1;
-                $totalDiskon += $item->diskon;
+                $totalRuteSum += $item->total;
             @endphp
         @endforeach
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="6" style="padding: 0px;"></td>
-        </tr>
+
+
         <tr>
-            <td colspan="4"
-                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
+        </tr>
+    </table>
+    <table style="width: 100%; border-top: 1px solid #000;">
+        <tr>
+            <td>
             </td>
-            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
-                Sub Total
-            </td>
-            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
-                {{ number_format($totalHarga, 2, ',', '.') }}
+            <td style="text-align: right;font-size: 13px;  font-weight:bold">
+                {{ number_format($totalRuteSum, 2, ',', '.') }}
             </td>
         </tr>
     </table>

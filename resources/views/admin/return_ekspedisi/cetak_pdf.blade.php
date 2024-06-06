@@ -299,41 +299,50 @@
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
     </table>
-    {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
-    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
+    <hr style="border-top: 0.5px solid black; margin: 3px 0;">
+    <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Kode Barang</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Nama Barang</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Satuan</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Qty</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px; width:4%">No.</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px; width:15%">Kode Barang</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px; width:60%">Nama Barang</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 13px; width:10%">Satuan</td>
+            <td class="td" style="text-align: right; font-size: 13px; width:10%; padding-right:7px">Qty</td>
         </tr>
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="8" style="padding: 0px;"></td>
+        <!-- Add horizontal line below this row -->
+        <tr>
+            <td colspan="5" style="padding: 0px;">
+                <hr style="border-top: 0.1px  solid black; margin:0px;">
+            </td>
         </tr>
-
+        @php
+            $totalRuteSum = 0;
+        @endphp
         @foreach ($details as $item)
             <tr>
-                <td class="td" style="text-align: center;  font-size: 13px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
+                    {{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: center;  font-size: 13px;">{{ $item->kode_barang }}</td>
-                <td class="info-text info-left" style="font-size: 13px; text-align: center;">
+                <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
+                    {{ $item->kode_barang }}
+                </td>
+                <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
                     {{ $item->nama_barang }}
                 </td>
-                <td class="info-text info-left" style="font-size: 13px; text-align: center;">
+                <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
                     {{ $item->satuan }}
                 </td>
-                <td class="td" style="text-align: center; font-size: 13px;">
+                <td class="td" style="text-align: right; font-size: 13px; padding-right:7px">
                     {{ $item->jumlah }}
                 </td>
-                </td>
             </tr>
+            @php
+                $totalRuteSum += $item->nominal;
+            @endphp
         @endforeach
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="8" style="padding: 0px;"></td>
+        <tr>
         </tr>
-
     </table>
+    <hr style="border-top: 0.1px solid black; margin: 3px 0;">
     <br><br><br>
 
     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
