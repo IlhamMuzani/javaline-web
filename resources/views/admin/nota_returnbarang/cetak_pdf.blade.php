@@ -27,7 +27,7 @@
         html,
         body {
             margin-top: 30px;
-            margin-right: 20px;
+            margin-right: 50px;
             margin-left: 20px;
             font-family: Arial, sans-serif;
             color: black;
