@@ -195,6 +195,7 @@ class InqueryNotareturnController extends Controller
                     ]);
                 }
             }
+            Barang::where('id', $data_pesanan['barang_id'])->increment('jumlah', $data_pesanan['jumlah']);
         }
         $details = Detail_nota::where('nota_return_id', $cetakpdf->id)->get();
 
@@ -212,7 +213,16 @@ class InqueryNotareturnController extends Controller
     public function unpostnota($id)
     {
         $item = Nota_return::where('id', $id)->first();
+        $detailpembelian = Detail_nota::where('nota_return_id', $id)->get();
 
+        foreach ($detailpembelian as $detail) {
+            $barangId = $detail->barang_id;
+            $barang = Barang::find($barangId);
+
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $barang->jumlah - $detail->jumlah;
+            $barang->update(['jumlah' => $newQuantity]);
+        }
         $item->update([
             'status' => 'unpost'
         ]);
@@ -223,7 +233,16 @@ class InqueryNotareturnController extends Controller
     public function postingnota($id)
     {
         $item = Nota_return::where('id', $id)->first();
+        $detailpembelian = Detail_nota::where('nota_return_id', $id)->get();
 
+        foreach ($detailpembelian as $detail) {
+            $barangId = $detail->barang_id;
+            $barang = Barang::find($barangId);
+
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $barang->jumlah + $detail->jumlah;
+            $barang->update(['jumlah' => $newQuantity]);
+        }
         $item->update([
             'status' => 'posting'
         ]);

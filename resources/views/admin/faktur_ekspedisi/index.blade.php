@@ -1419,7 +1419,6 @@
             var nama_drivertambahans = selectedRow.data('nama_drivertambahans');
             var nama_rutetambahans = selectedRow.data('nama_rutetambahans');
 
-
             kode_memo = kode_memo.trim();
 
             // Check if there is already an entry with the 'MP' prefix

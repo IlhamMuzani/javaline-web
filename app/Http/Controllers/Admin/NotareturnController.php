@@ -135,6 +135,7 @@ class NotareturnController extends Controller
                     'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                     'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]);
+                Barang::where('id', $data_pesanan['barang_id'])->increment('jumlah', $data_pesanan['jumlah']);
             }
         }
 
