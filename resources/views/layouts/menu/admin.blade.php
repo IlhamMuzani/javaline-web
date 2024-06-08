@@ -668,7 +668,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['faktur pelunasan ekspedisi'])
+        @if (auth()->check() && auth()->user()->menu['laporan invoice ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/buktipotong') }}"
                     class="nav-link {{ request()->is('admin/buktipotong*') ? 'active' : '' }}">
@@ -1064,7 +1064,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['faktur pelunasan ekspedisi'])
+        @if (auth()->check() && auth()->user()->menu['laporan invoice ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/bukti_potongpajak') }}"
                     class="nav-link {{ request()->is('admin/bukti_potongpajak*') ? 'active' : '' }}">
