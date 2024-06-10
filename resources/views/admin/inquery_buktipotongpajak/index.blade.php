@@ -90,6 +90,7 @@
                                 <th>Kode Bukti</th>
                                 <th>Tanggal</th>
                                 <th>Bag.inp</th>
+                                <th>Nama Pelanggan</th>
                                 <th>Status</th>
                                 <th>Kategori</th>
                                 <th>Total</th>
@@ -114,6 +115,13 @@
                                     <td>
                                         @if ($buktipotongpajak->user)
                                             {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
+                                        @else
+                                            tidak ada
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($buktipotongpajak->detail_bukti->first())
+                                            {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->nama_pelanggan }}
                                         @else
                                             tidak ada
                                         @endif
@@ -372,6 +380,31 @@
                     ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
             });
         });
+    </script>
+
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        function printSelectedData() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum mencetak.");
+            } else {
+                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                document.getElementById('selectedIds').value = selectedIds.join(',');
+                var selectedIdsString = selectedIds.join(',');
+                window.location.href = "{{ url('admin/cetak_buktifilter') }}?ids=" + selectedIdsString;
+                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
+            }
+        }
     </script>
 
 @endsection
