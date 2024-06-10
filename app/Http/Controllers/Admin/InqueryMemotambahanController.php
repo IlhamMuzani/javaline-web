@@ -725,14 +725,36 @@ class InqueryMemotambahanController extends Controller
         }
     }
 
+    // public function hapusmemotambahan($id)
+    // {
+    //     $ban = Memotambahan::where('id', $id)->first();
+
+    //     $ban->detail_memotambahan()->delete();
+    //     $ban->pengeluaran_kaskecil()->delete();
+    //     $ban->delete();
+    //     return back()->with('success', 'Berhasil');
+    // }
+
     public function hapusmemotambahan($id)
     {
-        $ban = Memotambahan::where('id', $id)->first();
+        // Cari Memotambahan berdasarkan ID
+        $item = Memotambahan::find($id);
 
-        $ban->detail_memotambahan()->delete();
-        $ban->pengeluaran_kaskecil()->delete();
-        $ban->delete();
-        return back()->with('success', 'Berhasil');
+        if ($item) {
+            // Jika Memotambahan ditemukan, perbarui status_memotambahan di Memo_ekspedisi
+            Memo_ekspedisi::where('id', $item->memo_ekspedisi_id)->update(['status_memotambahan' => null]);
+
+            // Hapus detail_memotambahan dan pengeluaran_kaskecil yang terkait
+            $item->detail_memotambahan()->delete();
+            $item->pengeluaran_kaskecil()->delete();
+            $item->delete();
+
+            // Kembalikan respon sukses
+            return back()->with('success', 'Berhasil');
+        } else {
+            // Jika Memotambahan tidak ditemukan, kembalikan pesan kesalahan
+            return back()->with('error', 'Memotambahan tidak ditemukan');
+        }
     }
 
     public function cetakpdf($id)
