@@ -1074,7 +1074,7 @@
                 </a>
             </li>
         @endif --}}
-        @if (auth()->check() && auth()->user()->menu['faktur pelunasan ekspedisi'])
+        @if (auth()->check() && auth()->user()->menu['laporan invoice ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_buktipotongpajak') }}"
                     class="nav-link {{ request()->is('admin/inquery_buktipotongpajak*') ? 'active' : '' }}">

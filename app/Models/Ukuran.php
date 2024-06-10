@@ -39,10 +39,10 @@ class Ukuran extends Model
         return $getId = DB::table('ukurans')->orderBy('id', 'DESC')->take(1)->get();
     }
 
-    public function merek_ban()
-    {
-        return $this->belongsTo(Merek_ban::class);
-    }
+    // public function merek_ban()
+    // {
+    //     return $this->belongsTo(merek_ban::class);
+    // }
 
     public function ban()
     {

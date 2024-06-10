@@ -14,8 +14,8 @@
             color: black;
 
             margin-top: 0px;
-            margin-right: 12px;
-            margin-left: 12px;
+            margin-right: 13px;
+            margin-left: 13px;
             /* Margin kiri sebesar 20 piksel */
 
             /* font-weight: bold; */
@@ -29,7 +29,7 @@
         }
 
         .blue-button {
-            padding: 12px 20px;
+            padding: 13px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -56,7 +56,7 @@
         }
 
         .separator {
-            padding-top: 12px;
+            padding-top: 13px;
             text-align: center;
         }
 
@@ -108,7 +108,7 @@ function terbilang($angka)
                 $cetakpdf = $buktis[$j];
             @endphp
 
-            <div id="logo-container" style="margin-top:10px">
+            <div id="logo-container" style="margin-top:15px">
                 <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
                     height="50">
             </div>
@@ -119,32 +119,32 @@ function terbilang($angka)
             </div>
             <table cellpadding="2" cellspacing="0">
                 <tr>
-                    <td class="text-align: left" style="font-size: 12px; display: block;">Kode Bukti</td>
-                    <td style="text-align: left; font-size: 12px;">
+                    <td class="text-align: left" style="font-size: 13px; display: block;">Kode Bukti</td>
+                    <td style="text-align: left; font-size: 13px;">
                         <span class="content2">
                             : <span>{{ $cetakpdf->kode_bukti }}</span></span>
                         <br>
                     </td>
-                    <td class="text-align: left" style="font-size: 12px; margin-left: 5px; display: block;">Kategori
+                    <td class="text-align: left" style="font-size: 13px; margin-left: 5px; display: block;">Kategori
                     </td>
-                    <td style="text-align: left; font-size: 12px;">
+                    <td style="text-align: left; font-size: 13px;">
                         <span class="content2">
                             <span>:{{ $cetakpdf->kategoris }}</span></span>
                         <br>
                     </td>
                 </tr>
                 <tr>
-                    <td class="text-align: left" style="font-size: 12px; display: block;">Tanggal</td>
-                    <td style="text-align: left; font-size: 12px;">
+                    <td class="text-align: left" style="font-size: 13px; display: block;">Tanggal</td>
+                    <td style="text-align: left; font-size: 13px;">
                         <span class="content2">
                             :
                             <span>{{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</span></span>
                         <br>
                     </td>
-                    <td class="info-text-align: left" style="font-size: 12px; margin-left: 5px; display: block;">Nomor
+                    <td class="info-text-align: left" style="font-size: 13px; margin-left: 5px; display: block;">Nomor
                         Bukti
                     </td>
-                    <td style="text-align: left; font-size: 12px;">
+                    <td style="text-align: left; font-size: 13px;">
                         <span class="content2">
                             <span>:{{ $cetakpdf->nomor_faktur }}</span></span>
                     </td>
@@ -153,16 +153,16 @@ function terbilang($angka)
             <br>
             <table style="width: 100%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
                 <tr>
-                    <td class="td" style="text-align: left; padding: 0px; font-size: 12px;  font-weight:bold;">
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold;">
                         No.</td>
-                    <td class="td" style="text-align: left; padding: 0px; font-size: 12px;  font-weight:bold; ">
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; ">
                         Kode Invoice</td>
-                    <td class="td" style="text-align: left; padding: 0px; font-size: 12px;  font-weight:bold; ">
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; ">
                         Tanggal</td>
-                    <td class="td" style="text-align: left; padding: 0px; font-size: 12px;  font-weight:bold; ">
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 13px;  font-weight:bold; ">
                         Nama Pelanggan</td>
-                    {{-- <td class="td" style="text-align: right; font-size: 12px;  font-weight:bold;">Pph</td> --}}
-                    <td class="td" style="text-align: right; font-size: 12px;  font-weight:bold;">Total</td>
+                    {{-- <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold;">Pph</td> --}}
+                    <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold;">Total</td>
                 </tr>
                 <!-- Add horizontal line below this row -->
                 <tr>
@@ -176,22 +176,22 @@ function terbilang($angka)
                 @endphp
                 @foreach ($cetakpdf->detail_bukti as $item)
                     <tr>
-                        <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
+                        <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
                             {{ $loop->iteration }}
                         </td>
-                        <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
+                        <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
                             {{ $item->kode_tagihan }}
                         </td>
-                        <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
+                        <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
                             {{ $item->tanggal }}
                         </td>
-                        <td class="td" style="text-align: left; padding: 0px; font-size: 12px;">
+                        <td class="td" style="text-align: left; padding: 0px; font-size: 13px;">
                             {{ $item->nama_pelanggan }}
                         </td>
-                        {{-- <td class="td" style="text-align: right; font-size: 12px;">
+                        {{-- <td class="td" style="text-align: right; font-size: 13px;">
                     {{ number_format($item->pph, 2, ',', '.') }}
                 </td> --}}
-                        <td class="td" style="text-align: right; font-size: 12px;">
+                        <td class="td" style="text-align: right; font-size: 13px;">
                             {{ number_format($item->total, 2, ',', '.') }}
                         </td>
                     </tr>
@@ -207,7 +207,7 @@ function terbilang($angka)
                     <td>
 
                     </td>
-                    <td style="text-align: right;font-size: 12px;  font-weight:bold">
+                    <td style="text-align: right;font-size: 13px;  font-weight:bold">
                         {{ number_format($totalRuteSum, 2, ',', '.') }}
                     </td>
                 </tr>
@@ -215,74 +215,74 @@ function terbilang($angka)
 
             <table style="width: 100%;" cellpadding="2" cellspacing="0">
                 <tr style="color: white">
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">No.</td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">Nama Tarif</td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">Harga</td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">Qty</td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">Satuan</td>
-                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">Total</td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">No.</td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Nama Tarif</td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Harga</td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Qty</td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Satuan</td>
+                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 13px;">Total</td>
                 </tr>
                 <!-- Add horizontal line below this row -->
 
                 <tr style="color: white">
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                         .
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                         .
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                         .
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                         .
                     </td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 13px;">
                         .
                     </td>
-                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
+                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 13px;">
                         .
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 13px;">
                         Dasar Pengenaan Pajak (DPP) :
                     </td>
-                    <td class="td" style="text-align: right; font-size: 12px;  font-weight:bold">
+                    <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold">
                         {{ number_format($totalRuteSum, 2, ',', '.') }}
                     </td>
                 </tr>
 
                 <tr>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 13px;">
                         PPH23 = 2% * Dasar Pengenaan Pajak :
                     </td>
-                    <td class="td" style="text-align: right; font-size: 12px;  font-weight:bold">
+                    <td class="td" style="text-align: right; font-size: 13px;  font-weight:bold">
                         {{ number_format($totalRuteSum * 0.02, 2, ',', '.') }}
                     </td>
                 </tr>
@@ -294,22 +294,22 @@ function terbilang($angka)
                     <td colspan="4"></td>
                 </tr>
                 <tr>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
 
                     </td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 13px;">
                         Grand Total :
                     </td>
-                    <td class="td" style="text-align: right; font-size: 12px; font-weight:bold">
+                    <td class="td" style="text-align: right; font-size: 13px; font-weight:bold">
                         {{ number_format($totalRuteSum - $totalRuteSum * 0.02, 2, ',', '.') }}
 
                     </td>
@@ -320,7 +320,7 @@ function terbilang($angka)
             </table>
 
 
-            <div style="font-size: 12px">
+            <div style="font-size: 13px">
                 Terbilang : <span style="font-weight: bold; font-style: italic; margin-right:250px ">
                     ({{ terbilang($totalRuteSum) }}
                     Rupiah)
@@ -330,7 +330,7 @@ function terbilang($angka)
             <br>
             <br>
 
-            <div style=" margin-top:12px; font-size:12px">
+            <div style=" margin-top:13px; font-size:13px">
                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                     <tr>
                         <td style="text-align: center;">
@@ -361,7 +361,7 @@ function terbilang($angka)
                         </td>
                     </tr>
                 </table>
-                <div style="text-align: right; font-size:12px">
+                <div style="text-align: right; font-size:13px; margin-bottom:5px;">
                     <span style="font-style: italic;">Printed Date
                         {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
                 </div>

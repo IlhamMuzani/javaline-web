@@ -280,7 +280,7 @@ class InqueryBuktipotongpajakController extends Controller
         $buktis = Bukti_potongpajak::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
 
         $pdf = PDF::loadView('admin.inquery_buktipotongpajak.cetak_pdffilter', compact('buktis'));
-        $pdf->setPaper('letter', 'portrait');
+        $pdf->setPaper('a4');
 
         return $pdf->stream('Bukti_Potong_pajak.pdf');
     }
