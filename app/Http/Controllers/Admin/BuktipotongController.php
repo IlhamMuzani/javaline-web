@@ -9,20 +9,33 @@ use App\Http\Controllers\Controller;
 use App\Models\Bukti_potongpajak;
 use App\Models\Detail_bukti;
 use App\Models\Detail_tagihan;
+use App\Models\Pelanggan;
 use App\Models\Tagihan_ekspedisi;
 use Illuminate\Support\Facades\Validator;
 
 class BuktipotongController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $pelanggans = Pelanggan::whereHas('tagihan_ekspedisi', function ($query) {
+            $query->where('kategori', 'PPH');
+        })->get();
+        $pelanggan_id = $request->pelanggan_id; // Terima pelanggan_id dari permintaan
+
+        // Kueri data tagihan berdasarkan kategori, status, dan pelanggan_id
         $inquery = Tagihan_ekspedisi::where(function ($query) {
             $query->where('status', 'posting')
                 ->orWhere('status', 'selesai');
-        })->where(['kategori' => 'PPH', 'status_terpakai' => null])->get();
+        })->where('kategori', 'PPH')
+            ->where('status_terpakai', null)
+            ->when($pelanggan_id, function ($query, $pelanggan_id) {
+                return $query->where('pelanggan_id', $pelanggan_id);
+            })
+            ->get();
 
-        return view('admin.bukti_potongpajak.index', compact('inquery'));
+        return view('admin.bukti_potongpajak.index', compact('inquery', 'pelanggans'));
     }
+
 
     // public function updatebuktitagihan(Request $request, $id)
     // {

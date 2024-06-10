@@ -62,12 +62,26 @@
                                         NON MEMO</option>
                                 </select>
                             </div> --}}
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
+                                <label for="status">Cari Pelanggan</label>
+                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select2-id="23" tabindex="-1"
+                                    aria-hidden="true" id="pelanggan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($pelanggans as $pelanggan)
+                                        <option value="{{ $pelanggan->id }}"
+                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                            {{ $pelanggan->nama_pell }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
                                 <label for="created_at">Tanggal Awal</label>
                                 <input class="form-control" id="created_at" name="created_at" type="date"
                                     value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
@@ -105,8 +119,8 @@
                             @foreach ($inquery as $index => $faktur)
                                 <!-- Gunakan index untuk ID unik -->
                                 <!-- Baris Faktur Utama -->
-                                <tr data-target="#faktur-{{ $index }}"
-                                    class="accordion-toggle" style="background: rgb(156, 156, 156)">
+                                <tr data-target="#faktur-{{ $index }}" class="accordion-toggle"
+                                    style="background: rgb(156, 156, 156)">
                                     <td>{{ $faktur->kode_tagihan }}</td>
                                     <td>{{ $faktur->created_at }}</td>
                                     <td>{{ $faktur->nama_pelanggan }}</td>
@@ -114,8 +128,7 @@
                                     <td class="text-right">{{ number_format($faktur->pph, 2, ',', '.') }}</td>
                                     <td class="text-center">
                                         <button class="btn btn-info btn-sm" data-toggle="collapse"
-                                            data-target="#faktur-{{ $index }}"><i
-                                                class="fas fa-eye"></i></button>
+                                            data-target="#faktur-{{ $index }}"><i class="fas fa-eye"></i></button>
                                         <button class="btn btn-primary ml-2 btn-sm" data-toggle="modal"
                                             data-target="#modal-add-{{ $faktur->id }}"><i
                                                 class="fas fa-plus"></i></button>
@@ -231,7 +244,6 @@
                                                             </td>
                                                             <td>{{ $faktur->nomor_buktifaktur }}</td>
                                                             <td>{{ $faktur->tanggal_nomorfaktur }}</td>
-
                                                         </tr>
                                                     @endforeach
                                                 </tbody>
@@ -250,7 +262,7 @@
     <script>
         var tanggalAwal = document.getElementById('created_at');
         var tanggalAkhir = document.getElementById('tanggal_akhir');
-        var kendaraanId = document.getElementById('kendaraan_id');
+        var kendaraanId = document.getElementById('pelanggan_id');
         var form = document.getElementById('form-action');
 
         if (tanggalAwal.value == "") {
@@ -276,11 +288,11 @@
             var Kendaraanid = kendaraanId.value;
 
             // Cek apakah tanggal awal dan tanggal akhir telah diisi
-            if (startDate && endDate && Kendaraanid) {
-                form.action = "{{ url('admin/laporan_mobillogistik') }}";
+            if (Kendaraanid) {
+                form.action = "{{ url('admin/buktipotong') }}";
                 form.submit();
             } else {
-                alert("Silakan pilih kendaraan dan isi kedua tanggal sebelum mencetak.");
+                alert("pilih pelanggan.");
             }
         }
 
