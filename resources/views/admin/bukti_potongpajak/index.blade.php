@@ -180,8 +180,10 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
-                                                                            <label for="nomor faktur">Faktur
-                                                                                {{ $item->kode_faktur }}</label>
+                                                                            <label for="nomor faktur">DPP
+                                                                                {{ number_format($faktur->sub_total, 2, ',', '.') }}</label>
+                                                                            <label style="margin-left:40px" for="nomor faktur">PPH
+                                                                                {{ number_format($faktur->pph, 2, ',', '.') }}</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="nomor_buktifaktur"
                                                                                 name="nomor_buktifaktur[{{ $item->id }}]"
