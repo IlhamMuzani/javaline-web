@@ -181,9 +181,10 @@
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
                                                                             <label for="nomor faktur">DPP
-                                                                                {{ number_format($faktur->sub_total, 2, ',', '.') }}</label>
-                                                                            <label style="margin-left:40px" for="nomor faktur">PPH
-                                                                                {{ number_format($faktur->pph, 2, ',', '.') }}</label>
+                                                                                {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}</label>
+                                                                            <label style="margin-left:40px"
+                                                                                for="nomor faktur">PPH
+                                                                                {{ number_format($item->faktur_ekspedisi->pph, 2, ',', '.') }}</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="nomor_buktifaktur"
                                                                                 name="nomor_buktifaktur[{{ $item->id }}]"
@@ -241,7 +242,7 @@
                                                             <td>{{ $faktur->created_at }}</td>
                                                             <td>{{ $faktur->nama_rute }}</td>
                                                             <td class="text-right">
-                                                                {{ number_format($faktur->faktur_ekspedisi->harga_tarif, 2, ',', '.') }}
+                                                                {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}
                                                             </td>
                                                             <td class="text-right">
                                                                 {{ number_format($faktur->faktur_ekspedisi->pph, 2, ',', '.') }}
