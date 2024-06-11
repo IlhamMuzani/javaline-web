@@ -239,10 +239,10 @@
                                                             <td>{{ $faktur->created_at }}</td>
                                                             <td>{{ $faktur->nama_rute }}</td>
                                                             <td class="text-right">
-                                                                {{ number_format($faktur->faktur_ekspedisi->pph, 2, ',', '.') }}
+                                                                {{ number_format($faktur->faktur_ekspedisi->harga_tarif, 2, ',', '.') }}
                                                             </td>
                                                             <td class="text-right">
-                                                                {{ number_format($faktur->faktur_ekspedisi->harga_tarif, 2, ',', '.') }}
+                                                                {{ number_format($faktur->faktur_ekspedisi->pph, 2, ',', '.') }}
                                                             </td>
                                                             <td>{{ $faktur->nomor_buktifaktur }}</td>
                                                             <td>{{ $faktur->tanggal_nomorfaktur }}</td>
