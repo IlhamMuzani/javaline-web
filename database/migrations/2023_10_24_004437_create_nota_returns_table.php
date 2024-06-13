@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('return_ekspedisi_id')->nullable();
             $table->foreign('return_ekspedisi_id')->references('id')->on('return_ekspedisis');
             $table->string('kode_return')->nullable();
+            $table->string('nomor_suratjalan')->nullable();
             $table->string('admin')->nullable();
             $table->string('kode_nota')->nullable();
             $table->string('qrcode_nota')->nullable();

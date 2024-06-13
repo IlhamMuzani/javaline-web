@@ -20,6 +20,7 @@ class Return_ekspedisi extends Model
         'user_id',
         'admin',
         'kode_return',
+        'nomor_suratjalan',
         'qrcode_return',
         'pelanggan_id',
         'kode_pelanggan',

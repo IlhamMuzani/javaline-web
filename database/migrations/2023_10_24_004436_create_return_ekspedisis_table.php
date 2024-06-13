@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('pelanggan_id')->references('id')->on('pelanggans');
             $table->string('admin')->nullable();
             $table->string('kode_return')->nullable();
+            $table->string('nomor_suratjalan')->nullable();
             $table->string('qrcode_return')->nullable();
             $table->string('kode_pelanggan')->nullable();
             $table->string('nama_pelanggan')->nullable();

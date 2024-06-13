@@ -19,6 +19,7 @@ class Nota_return extends Model
         'user_id',
         'return_ekspedisi_id',
         'kode_return',
+        'nomor_suratjalan',
         'admin',
         'kode_nota',
         'qrcode_nota',
