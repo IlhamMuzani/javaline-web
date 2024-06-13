@@ -140,6 +140,7 @@ class InqueryReturnekspedisiController extends Controller
         $cetakpdf->update([
             'pelanggan_id' => $request->pelanggan_id,
             'kode_pelanggan' => $request->kode_pelanggan,
+            'nomor_suratjalan' => $request->nomor_suratjalan,
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat_pelanggan' => $request->alamat_pelanggan,
             'telp_pelanggan' => $request->telp_pelanggan,

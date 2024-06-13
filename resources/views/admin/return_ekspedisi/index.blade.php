@@ -76,6 +76,15 @@
                 autocomplete="off">
                 @csrf
                 <div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="nama">Nomor Surat Jalan</label>
+                                <input type="text" class="form-control" id="nomor_suratjalan" name="nomor_suratjalan"
+                                    placeholder="Masukan nomor surat jalan" value="{{ old('nomor_suratjalan') }}">
+                            </div>
+                        </div>
+                    </div>
                     <div>
                         <div class="row">
                             <div class="col-md-4">

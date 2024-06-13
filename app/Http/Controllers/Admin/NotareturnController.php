@@ -98,6 +98,7 @@ class NotareturnController extends Controller
         $cetakpdf = Nota_return::create([
             'admin' => auth()->user()->karyawan->nama_lengkap,
             'kode_nota' => $this->kode(),
+            'nomor_suratjalan' => $request->nomor_suratjalan,
             'return_ekspedisi_id' => $request->return_ekspedisi_id,
             'kode_return' => $request->kode_return,
             'pelanggan_id' => $request->pelanggan_id,

@@ -82,6 +82,12 @@
                             <input class="form-control" id="kode_return" name="kode_return" type="text" placeholder=""
                                 value="{{ old('kode_return', $inquery->kode_return) }}" readonly style="font-size:14px" />
                         </div>
+                        <label style="font-size:14px" class="form-label" for="kode_return">Nomor Surat Jalan</label>
+                        <div class="form-group d-flex">
+                            <input class="form-control" id="nomor_suratjalan" name="nomor_suratjalan" type="text"
+                                placeholder="" value="{{ old('nomor_suratjalan', $inquery->nomor_suratjalan) }}" readonly
+                                style="margin-right: 0px; font-size:14px" />
+                        </div>
                     </div>
                 </div>
                 <div class="row">

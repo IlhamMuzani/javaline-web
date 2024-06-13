@@ -135,6 +135,7 @@ class InqueryNotareturnController extends Controller
         $cetakpdf->update([
             'return_ekspedisi_id' => $request->return_ekspedisi_id,
             'kode_return' => $request->kode_return,
+            'nomor_suratjalan' => $request->nomor_suratjalan,
             'pelanggan_id' => $request->pelanggan_id,
             'pelanggan_id' => $request->pelanggan_id,
             'kode_pelanggan' => $request->kode_pelanggan,

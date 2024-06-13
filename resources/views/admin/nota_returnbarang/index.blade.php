@@ -81,6 +81,12 @@
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
+                        <label style="font-size:14px" class="form-label" for="kode_return">Nomor Surat Jalan</label>
+                        <div class="form-group d-flex">
+                            <input class="form-control" id="nomor_suratjalan" name="nomor_suratjalan" type="text"
+                                placeholder="" value="{{ old('nomor_suratjalan') }}" readonly
+                                style="margin-right: 0px; font-size:14px" />
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -250,6 +256,7 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>Kode Penerimaan</th>
+                                    <th>Nomor Surat Jalan</th>
                                     <th>Tanggal</th>
                                     <th>Pelanggan</th>
                                     <th>No Kabin</th>
@@ -262,6 +269,7 @@
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $return->kode_return }}</td>
+                                        <td>{{ $return->nomor_suratjalan }}</td>
                                         <td>{{ $return->tanggal }}</td>
                                         <td>{{ $return->nama_pelanggan }}</td>
                                         <td>{{ $return->no_kabin }}</td>
@@ -271,6 +279,7 @@
                                                 onclick="GetReturn(
                                                 '{{ $return->id }}',
                                                 '{{ $return->kode_return }}',
+                                                '{{ $return->nomor_suratjalan }}',
                                                 '{{ $return->pelanggan_id }}',
                                                 '{{ $return->kode_pelanggan }}',
                                                 '{{ $return->nama_pelanggan }}',
@@ -417,12 +426,14 @@
             }
         }
 
-        function GetReturn(Return_id, KodeReturn, Pelanggan_id, KodePelanggan, NamaPell, Telpel, AlamatPelanggan,
+        function GetReturn(Return_id, KodeReturn, NomorSuratjalan, Pelanggan_id, KodePelanggan, NamaPell, Telpel,
+            AlamatPelanggan,
             Kendaraan_id, Nokabin,
             Nopol, JenisKen, User_id, KodeDriv, NamaDriv, Telpdriv, Barang_id, KodeBarang, NamaBarang, Satuan, Jumlah) {
 
             document.getElementById('return_id').value = Return_id;
             document.getElementById('kode_return').value = KodeReturn;
+            document.getElementById('nomor_suratjalan').value = NomorSuratjalan;
             document.getElementById('pelanggan_id').value = Pelanggan_id;
             document.getElementById('kode_pelanggan').value = KodePelanggan;
             document.getElementById('nama_pelanggan').value = NamaPell;

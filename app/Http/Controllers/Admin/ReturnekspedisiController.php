@@ -104,6 +104,7 @@ class ReturnekspedisiController extends Controller
         $cetakpdf = Return_ekspedisi::create([
             'admin' => auth()->user()->karyawan->nama_lengkap,
             'kode_return' => $this->kode(),
+            'nomor_suratjalan' => $request->nomor_suratjalan,
             'pelanggan_id' => $request->pelanggan_id,
             'kode_pelanggan' => $request->kode_pelanggan,
             'nama_pelanggan' => $request->nama_pelanggan,

@@ -81,7 +81,8 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>No Surat Return</th>
+                                <th>Kode Surat Return</th>
+                                <th>No Surat Jalan</th>
                                 <th>Tanggal</th>
                                 <th>Admin</th>
                                 <th>Pelanggan</th>
