@@ -61,13 +61,24 @@ class DriverController extends Controller
     {
         // if (auth()->check() && auth()->user()->menu['karyawan']) {
 
-        $karyawan = Karyawan::where('id', $id)->first();
-        return view('admin/driver.show', compact('karyawan'));
+        $cetakpdf = Karyawan::where('id', $id)->first();
+        return view('admin/driver.show', compact('cetakpdf'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
         // }
     }
+
+    public function cetakpdf($id)
+    {
+        $cetakpdf = Karyawan::where('id', $id)->first();
+
+        $pdf = PDF::loadView('admin.driver.cetak_pdf', compact('cetakpdf'));
+        $pdf->setPaper('letter', 'portrait');
+
+        return $pdf->stream('Saldo_deposit_sopir.pdf');
+    }
+
 
     public function create()
     {

@@ -87,7 +87,7 @@
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 16px;
+            font-size: 15px;
             margin: 5px 0;
         }
 
@@ -149,7 +149,7 @@
 
         .tdd1 td {
             text-align: center;
-            font-size: 17px;
+            font-size: 15px;
             position: relative;
             padding-top: 10px;
             /* Sesuaikan dengan kebutuhan Anda */
@@ -167,7 +167,7 @@
         .info-1 {}
 
         .label {
-            font-size: 17px;
+            font-size: 15px;
             text-align: center;
             /* Teks menjadi berada di tengah */
 
@@ -194,16 +194,14 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVALINE" width="70" height="35">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="Java Line" width="150" height="50">
     </div>
     <br>
-
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 23px;">SALDO DEPOSIT SOPIR</span>
+        <span style="font-weight: bold; font-size: 23px;">Saldo Deposit Driver</span>
         <br>
         <br>
     </div>
-
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
     </div>
     <?php
@@ -245,15 +243,13 @@
                             <td class="info-catatan2">Tanggal</td>
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
-                                <?php echo strftime('%d %B %Y', time()); ?>
-                            </td>
+                                <?php echo strftime('%d %B %Y', time()); ?> </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2">Kode Sopir</td>
                             <td class="info-item">:</td>
                             <td style="font-weight:bold" class="info-text info-left">
-                                {{ $cetakpdf->kode_karyawan }}
-                            </td>
+                                {{ $cetakpdf->kode_karyawan }} </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2">Nama Sopir</td>
@@ -286,12 +282,7 @@
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
 
     <br><br><br>
+
 </body>
-
-
-<div class="container">
-    <a href="{{ url('admin/driver') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/driver/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
-</div>
 
 </html>

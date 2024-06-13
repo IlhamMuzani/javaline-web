@@ -574,6 +574,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapusbukti/{id}', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'hapusbukti'])->name('hapusbukti');
     Route::get('bukti_potongpajak/cetak-pdf/{id}', [\App\Http\Controllers\Admin\BuktipotongController::class, 'cetakpdf']);
     Route::post('updatebuktitagihan/{id}', [\App\Http\Controllers\Admin\BuktipotongController::class, 'updatebuktitagihan'])->name('updatebuktitagihan');
+    Route::get('driver/cetak-pdf/{id}', [\App\Http\Controllers\Admin\DriverController::class, 'cetakpdf']);
 
     Route::resource('faktur_pelunasanperinvoice', \App\Http\Controllers\Admin\FakturpelunasanperinvoiceController::class);
     Route::resource('faktur_pelunasanperfaktur', \App\Http\Controllers\Admin\FakturpelunasanperfakturController::class);

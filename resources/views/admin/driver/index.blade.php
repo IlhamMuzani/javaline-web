@@ -87,7 +87,7 @@
                                 <th class="text-right">Kasbon</th>
                                 <th class="text-right">Bayar Kasbon</th>
                                 <th class="text-right">Saldo Deposit</th>
-                                {{-- <th class="text-center" width="50">Opsi</th> --}}
+                                <th class="text-center" width="50">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -109,13 +109,13 @@
                                         {{ number_format($driver->tabungan, 0, ',', '.') }}
                                     </td>
                                     {{-- <td>{{  number_format($driver->tabungan, 0, ',', '.')}}</td> --}}
-                                    {{-- <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['driver show'])
+                                    <td class="text-center">
+                                        {{-- @if (auth()->check() && auth()->user()->fitur['driver show']) --}}
                                         <a href="{{ url('admin/driver/' . $driver->id) }}"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                        @endif --}}
+                                        {{-- @endif --}}
                                     {{-- @if (auth()->check() && auth()->user()->fitur['driver update']) --}}
                                     {{-- <td>
                                         <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
@@ -130,7 +130,7 @@
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         @endif --}}
-                                    {{-- </td> --}}
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
