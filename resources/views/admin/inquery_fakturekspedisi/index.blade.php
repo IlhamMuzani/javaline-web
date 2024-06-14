@@ -79,6 +79,9 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
+                                <button type="button" class="btn btn-outline-danger btn-block" onclick="confirmDelete()">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -234,6 +237,29 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Konfirmasi Hapus -->
+                <div class="modal fade" id="modal-confirm-delete" tabindex="-1" role="dialog"
+                    aria-labelledby="modal-confirm-delete-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal-confirm-delete-label">Konfirmasi Hapus</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Apakah Anda yakin ingin menghapus faktur yang dipilih?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-danger" id="btn-confirm-delete">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- /.card-body -->
             </div>
         </div>
@@ -294,6 +320,67 @@
             }
         }
     </script>
+
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        function deleteSelectedData() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum menghapus.");
+            } else {
+                // Tampilkan modal konfirmasi
+                $('#modal-confirm-delete').modal('show');
+
+                // Ketika tombol Hapus di modal konfirmasi diklik
+                $('#btn-confirm-delete').click(function() {
+                    var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                    var selectedIds = [];
+                    selectedCheckboxes.forEach(function(checkbox) {
+                        selectedIds.push(checkbox.value);
+                    });
+                    document.getElementById('selectedIds').value = selectedIds.join(',');
+                    var selectedIdsString = selectedIds.join(',');
+                    window.location.href = "{{ url('admin/deletefakturfilter') }}?ids=" + selectedIdsString;
+
+                    // Sembunyikan modal konfirmasi setelah penghapusan dilakukan
+                    $('#modal-confirm-delete').modal('hide');
+                });
+            }
+        }
+    </script>
+
+    <script>
+        function confirmDelete() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum menghapus.");
+            } else {
+                // Tampilkan modal konfirmasi
+                $('#modal-confirm-delete').modal('show');
+
+                // Ketika tombol Hapus di modal konfirmasi diklik
+                $('#btn-confirm-delete').click(function() {
+                    var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                    var selectedIds = [];
+                    selectedCheckboxes.forEach(function(checkbox) {
+                        selectedIds.push(checkbox.value);
+                    });
+                    document.getElementById('selectedIds').value = selectedIds.join(',');
+                    var selectedIdsString = selectedIds.join(',');
+                    window.location.href = "{{ url('admin/deletefakturfilter') }}?ids=" + selectedIdsString;
+
+                    // Sembunyikan modal konfirmasi setelah penghapusan dilakukan
+                    $('#modal-confirm-delete').modal('hide');
+                });
+            }
+        }
+    </script>
+
 
     {{-- unpost memo  --}}
     <script>

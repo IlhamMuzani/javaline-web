@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
-    <div class="modal fade" id="modal-pilihkabin">
+    <div class="modal fade" id="modal-pilihkabin">v
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

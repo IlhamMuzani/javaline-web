@@ -541,6 +541,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('cetak_memoborongfilter', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'cetak_memoborongfilter']);
     Route::get('cetak_memotambahanfilter', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'cetak_memotambahanfilter']);
     Route::get('cetak_fakturekspedisifilter', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'cetak_fakturekspedisifilter']);
+    Route::get('deletefakturfilter', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'deletefakturfilter']);
+
     Route::get('cetak_gajibulananfilter', [\App\Http\Controllers\Admin\InqueryslipgajibulananController::class, 'cetak_gajibulananfilter']);
     Route::get('cetak_gajifilter', [\App\Http\Controllers\Admin\InqueryslipgajiController::class, 'cetak_gajifilter']);
 
@@ -699,6 +701,4 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('bukti_potongpajak', \App\Http\Controllers\Admin\BuktipotongpajakController::class);
     Route::resource('inquery_buktipotongpajak', \App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class);
     Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
-
-
 });
