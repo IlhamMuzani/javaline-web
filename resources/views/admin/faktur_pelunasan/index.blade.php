@@ -69,17 +69,17 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        {{-- <div class="form-group" style="flex: 8;">
+                        <div class="form-group" style="flex: 8;">
                             <div class="col-md-0 mb-3">
                                 <label>Kategori</label>
                                 <select class="custom-select form-control" id="kategori" name="kategori">
                                     <option value="">- Pilih Kategori -</option>
                                     <option value="pelunasan1">Pelunasan Per Faktur</option>
-                                    <option value="pelunasan2">Pelunasan Per Invoice</option>
+                                    {{-- <option value="pelunasan2">Pelunasan Per Invoice</option> --}}
                                     <option value="pelunasan3" selected>Pelunasan lebih dari 1 kali</option>
                                 </select>
                             </div>
-                        </div> --}}
+                        </div>
                         <label style="font-size:14px" class="form-label" for="kode_tagihan">Kode invoice</label>
                         <div class="form-group d-flex">
                             <input class="form-control" hidden id="tagihan_ekspedisi_id" name="tagihan_ekspedisi_id"
@@ -1345,9 +1345,9 @@
                     case 'pelunasan1':
                         window.location.href = "{{ url('admin/faktur_pelunasanperfaktur') }}";
                         break;
-                    case 'pelunasan2':
-                        window.location.href = "{{ url('admin/faktur_pelunasanperinvoice') }}";
-                        break;
+                    // case 'pelunasan2':
+                    //     window.location.href = "{{ url('admin/faktur_pelunasanperinvoice') }}";
+                    //     break;
                     case 'pelunasan3':
                         window.location.href = "{{ url('admin/faktur_pelunasan') }}";
                         break;

@@ -79,7 +79,7 @@
                                     <select class="custom-select form-control" id="kategori" name="kategori">
                                         <option value="">- Pilih Kategori -</option>
                                         <option value="pelunasan1"selected>Pelunasan Per Faktur</option>
-                                        <option value="pelunasan2">Pelunasan Per Invoice</option>
+                                        {{-- <option value="pelunasan2">Pelunasan Per Invoice</option> --}}
                                         <option value="pelunasan3">Pelunasan lebih dari 1 kali</option>
                                     </select>
                                 </div>
@@ -1191,9 +1191,9 @@
                     case 'pelunasan1':
                         window.location.href = "{{ url('admin/faktur_pelunasanperfaktur') }}";
                         break;
-                    case 'pelunasan2':
-                        window.location.href = "{{ url('admin/faktur_pelunasanperinvoice') }}";
-                        break;
+                    // case 'pelunasan2':
+                    //     window.location.href = "{{ url('admin/faktur_pelunasanperinvoice') }}";
+                    //     break;
                     case 'pelunasan3':
                         window.location.href = "{{ url('admin/faktur_pelunasan') }}";
                         break;
