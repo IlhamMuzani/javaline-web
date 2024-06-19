@@ -65,6 +65,6 @@ class LaporanBuktipotongpajakController extends Controller
         $inquery = $query->orderBy('id', 'DESC')->get();
 
         $pdf = PDF::loadView('admin.laporan_buktipotongpajak.print', compact('inquery'));
-        return $pdf->stream('Laporan_Deposit_Sopir.pdf');
+        return $pdf->stream('Laporan_bukti_potong_pajak.pdf');
     }
 }

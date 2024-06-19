@@ -87,11 +87,15 @@
             $startDate = request()->query('tanggal_awal');
             $endDate = request()->query('tanggal_akhir');
             $kategori = request()->query('kategori');
+            $status_terpakai = request()->query('status_terpakai');
         @endphp
-        <span style="font-weight: bold; font-size: 22px;">LAPORAN BUKTI POTONG PAJAK - RANGKUMAN</span>
+        @if ($status_terpakai == 'digunakan')
+            <span style="font-weight: bold; font-size: 18px;">LAPORAN BUKTI POTONG PAJAK LUNAS - RANGKUMAN</span>
+        @else
+            <span style="font-weight: bold; font-size: 18px;">LAPORAN BUKTI POTONG PAJAK BELUM LUNAS - RANGKUMAN</span>
+        @endif
         <br>
         <div class="text">
-
             @if ($startDate && $endDate)
                 <p>Periode:{{ $startDate }} s/d {{ $endDate }}</p>
             @else
@@ -99,6 +103,7 @@
             @endif
         </div>
     </div>
+
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
 
     </div>
@@ -106,15 +111,13 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Tanggal
-            </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Kode Bukti
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Nomor Bukti
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Tanggal
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">DPP
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">PPH
-            </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">Grand Total
             </td>
         </tr>
         <!-- Separator row -->
@@ -124,15 +127,15 @@
         <!-- Data rows -->
         @foreach ($inquery as $item)
             <tr>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->kode_tagihan }}
+                </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->periode_awal }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->kode_bukti }}</td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->nomor_faktur }}
                 <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
-                    {{ number_format($item->grand_total * 0.02, 2, ',', '.') }}
+                    {{ number_format($item->sub_total, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
-                    {{ number_format($item->grand_total - $item->grand_total * 0.02, 2, ',', '.') }}
+                    {{ number_format($item->pph, 2, ',', '.') }}
                 </td>
             </tr>
         @endforeach
@@ -155,8 +158,6 @@
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px;">Rp.
                 {{ number_format($total, 0, ',', '.') }}
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-size: 15px; color:white">
-                a</td>
         </tr>
     </table>
     <br>

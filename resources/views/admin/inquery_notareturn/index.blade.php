@@ -82,6 +82,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>No Nota Return</th>
+                                <th>Kode Surat Return</th>
                                 <th>Tanggal</th>
                                 <th>Admin</th>
                                 <th>Pelanggan</th>
@@ -95,6 +96,7 @@
                                     data-target="#modal-posting-{{ $nota->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $nota->kode_nota }}</td>
+                                    <td>{{ $nota->nomor_suratjalan }}</td>
                                     <td>{{ $nota->tanggal_awal }}</td>
                                     <td>
                                         {{ $nota->admin }}

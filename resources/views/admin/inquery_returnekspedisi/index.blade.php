@@ -95,6 +95,7 @@
                                     data-target="#modal-posting-{{ $returnekspedisi->id }}" style="cursor: pointer;">
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $returnekspedisi->kode_return }}</td>
+                                    <td>{{ $returnekspedisi->nomor_suratjalan }}</td>
                                     <td>{{ $returnekspedisi->tanggal_awal }}</td>
                                     <td>
                                         {{ $returnekspedisi->admin }}

@@ -140,6 +140,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('bukti_potongpajak/cetak-pdf/{id}', [\App\Http\Controllers\Admin\BuktipotongpajakController::class, 'cetakpdf']);
     Route::get('bukti_potongpajak/get_item/{id}', [\App\Http\Controllers\Admin\BuktipotongpajakController::class, 'get_item']);
     Route::get('print_buktipotongpajak', [\App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class, 'print_buktipotongpajak']);
+    Route::get('print_buktipotongpajakglobal', [\App\Http\Controllers\Admin\LaporanBuktipotongpajakglobalController::class, 'print_buktipotongpajakglobal']);
 
     Route::get('ban', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'index']);
     Route::get('unpostban/{id}', [\App\Http\Controllers\Admin\InqueryPembelianBanController::class, 'unpostban'])->name('unpostban');
@@ -685,6 +686,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_pengeluaranujs', \App\Http\Controllers\Admin\InqueryPengeluaranujsController::class);
     Route::resource('laporan_kasbonkaryawan', \App\Http\Controllers\Admin\LaporanKasbonkaryawanController::class);
     Route::resource('pelunasan_deposit', \App\Http\Controllers\Admin\PelunasandepositController::class);
+    Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
+    Route::resource('laporan_buktipotongpajakglobal', \App\Http\Controllers\Admin\LaporanBuktipotongpajakglobalController::class);
 
     Route::resource('gaji_karyawan', \App\Http\Controllers\Admin\GajikaryawanController::class);
     Route::resource('perhitungan_gaji', \App\Http\Controllers\Admin\PerhitungangajiController::class);

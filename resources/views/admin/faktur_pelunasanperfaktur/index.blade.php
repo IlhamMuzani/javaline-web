@@ -438,10 +438,8 @@
                                             @else
                                                 tidak ada
                                                 @endif"
-
                                         </td>
                                         <td>{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
-
                                         {{-- <td>{{ $faktur->detail_faktur->first()->memo_ekspedisi->kode_memo }}</td> --}}
                                         <td class="text-center">
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"

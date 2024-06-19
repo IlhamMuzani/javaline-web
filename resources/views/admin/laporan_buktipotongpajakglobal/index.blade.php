@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Bukti Potong Pajak')
+@section('title', 'Laporan Bukti Potong Pajak Global')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Laporan Bukti Potong Pajak</h1>
+                    <h1 class="m-0">Laporan Bukti Potong Pajak Global</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Bukti Potong Pajak</li>
+                        <li class="breadcrumb-item active">Laporan Bukti Potong Pajak Global</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,7 +34,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Bukti Potong Pajak</h3>
+                    <h3 class="card-title">Data Laporan Bukti Potong Pajak Global</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -44,16 +44,29 @@
                                 <label for="created_at">Kategori</label>
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Pilih Laporan -</option>
-                                    <option value="buktipotong" selected>Laporan Bukti Potong Pajak</option>
-                                    <option value="buktipotongglobal">Laporan Bukti Potong Pajak Global</option>
+                                    <option value="buktipotong">Laporan Bukti Potong Pajak</option>
+                                    <option value="buktipotongglobal" selected>Laporan Bukti Potong Pajak Global</option>
                                 </select>
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
+                                <label for="created_at">Kategori</label>
+                                <select class="custom-select form-control" id="status_terpakai" name="status_terpakai">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="digunakan"
+                                        {{ Request::get('status_terpakai') == 'digunakan' ? 'selected' : '' }}>
+                                        Lunas
+                                    </option>
+                                    <option value="" {{ Request::get('status_terpakai') == null ? 'selected' : '' }}>
+                                        Belum Lunas</option>
+                                </select>
+
+                            </div>
+                            <div class="col-md-2 mb-3">
                                 <label for="tanggal_awal">Tanggal Awal</label>
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
                                     value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
@@ -76,36 +89,34 @@
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
-                                <th>Kode Bukti</th>
-                                <th>Nomor Bukti</th>
+                                <th>No Faktur</th>
                                 <th>Tanggal</th>
-                                <th>Pph</th>
-                                <th>Grand Total</th>
+                                <th>Kategori</th>
+                                <th>Admin</th>
+                                <th>Pelanggan</th>
+                                <th>DPP</th>
+                                <th>PPH</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
-                                    </td>
+                            @foreach ($inquery as $tagihanekspedisi)
+                                <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
+                                    <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                    <td>{{ $tagihanekspedisi->kategori }}</td>
                                     <td>
-                                        {{ $buktipotongpajak->kode_bukti }}
+                                        {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
                                     </td>
                                     <td>
-                                        {{ $buktipotongpajak->nomor_faktur }}
+                                        {{ $tagihanekspedisi->nama_pelanggan }}
                                     </td>
-                                    <td>
-                                        {{ $buktipotongpajak->tanggal_awal }}
+                                    <td style="text-align: end">
+                                        {{ number_format($tagihanekspedisi->sub_total, 0, ',', '.') }}
                                     </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                    <td style="text-align: end">
+                                        {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -137,7 +148,7 @@
         var form = document.getElementById('form-action')
 
         function cari() {
-            form.action = "{{ url('admin/laporan_buktipotongpajak') }}";
+            form.action = "{{ url('admin/laporan_buktipotongpajakglobal') }}";
             form.submit();
         }
 
@@ -146,7 +157,7 @@
             var endDate = tanggalAkhir.value;
 
             if (startDate && endDate) {
-                form.action = "{{ url('admin/print_buktipotongpajak') }}" + "?start_date=" + startDate + "&end_date=" +
+                form.action = "{{ url('admin/print_buktipotongpajakglobal') }}" + "?start_date=" + startDate + "&end_date=" +
                     endDate;
                 form.submit();
             } else {
