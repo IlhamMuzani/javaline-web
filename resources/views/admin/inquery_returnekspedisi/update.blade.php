@@ -325,7 +325,7 @@
                                                     </button>
                                                     <button style="margin-left:5px" type="button"
                                                         class="btn btn-danger btn-sm"
-                                                        onclick="removeBan({{ $loop->index }})">
+                                                        onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
@@ -710,7 +710,7 @@
             row.remove();
 
             $.ajax({
-                url: "{{ url('admin/ban/') }}/" + detailId,
+                url: "{{ url('admin/inquery_returnekspedisi/deletedetailsurat/') }}/" + detailId,
                 type: "POST",
                 data: {
                     _method: 'DELETE',

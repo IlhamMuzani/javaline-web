@@ -236,4 +236,11 @@ class InqueryReturnekspedisiController extends Controller
 
         return back()->with('success', 'Berhasil');
     }
+
+    public function deletedetailsurat($id)
+    {
+        $item = Detail_return::find($id);
+        $item->delete();
+        return response()->json(['message' => 'Detail Faktur not found'], 404);
+    }
 }
