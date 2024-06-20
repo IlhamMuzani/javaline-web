@@ -77,7 +77,7 @@
                                 <option value="">- Pilih -</option>
                                 <option value="PPH" {{ old('kategori') == 'PPH' ? 'selected' : null }}>
                                     PPH</option>
-                                <option value="NON PPH" {{ old('kategori') == 'NON PPH' ? 'selected' : null }} selected>
+                                <option value="NON PPH" {{ old('kategori') == 'NON PPH' ? 'selected' : null }}selected>
                                     NON PPH</option>
                             </select>
                         </div>
@@ -88,7 +88,7 @@
                                     <i class="fas fa-plus mr-2"></i> Pilih Pelanggan
                                 </button>
                             </div> --}}
-                                <div class="form-group" hidden>
+                                <div hidden class="form-group">
                                     <label for="pelanggan_id">pelanggan Id</label>
                                     <input type="text" class="form-control" id="pelanggan_id" readonly
                                         name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
@@ -437,50 +437,18 @@
                                     <th>Pelanggan</th>
                                     <th>Rute</th>
                                     <th>Kategori</th>
-                                    {{-- <th>kode memo</th> --}}
-                                    {{-- <th>kabin</th>
-                                    <th>nopol</th> --}}
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($fakturs as $faktur)
-                                    <tr onclick="getFaktur({{ $loop->index }})" data-id="{{ $faktur->id }}"
-                                        data-kode_faktur="{{ $faktur->kode_faktur }}"
-                                        data-nama_rute="{{ $faktur->nama_tarif }}"
-                                        data-kode_memo="{{ $faktur->kode_memo }}"
-                                        data-tanggal_awal="{{ $faktur->tanggal_memo }}"
-                                        data-no_kabin="{{ $faktur->no_kabin }}" data-no_pol="{{ $faktur->no_pol }}"
-                                        data-jumlah="{{ $faktur->jumlah }}" data-satuan="{{ $faktur->satuan }}"
-                                        data-harga_tarif="{{ $faktur->harga_tarif }}"
-                                        data-total_tarif="{{ (float) $faktur->total_tarif + (float) $faktur->biaya_tambahan }}"
-                                        data-param="{{ $loop->index }}">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td hidden>{{ $faktur->pelanggan->id }}</td>
-                                        <td>{{ $faktur->kode_faktur }}</td>
-                                        <td>{{ $faktur->tanggal }}</td>
-                                        <td>{{ $faktur->pelanggan->nama_pell }}</td>
-                                        <td>
-                                            {{ $faktur->nama_tarif }}
-                                        </td>
-                                        <td>{{ $faktur->kategori }}</td>
-                                        {{-- <td>{{ $faktur->detail_faktur->first()->kode_memo }}</td> --}}
-                                        {{-- <td>{{ $faktur->detail_faktur->first()->no_kabin }}</td> --}}
-                                        {{-- <td>{{ $faktur->detail_faktur->first()->no_pol }}</td> --}}
-                                        <td class="text-center">
-                                            <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                onclick="getFaktur({{ $loop->index }})">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <!-- Faktur data will be populated here via JavaScript -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
+
     </section>
 
     <script>
@@ -524,6 +492,9 @@
             document.getElementById('nama_pelanggan').value = NamaPell;
             document.getElementById('alamat_pelanggan').value = AlamatPel;
             document.getElementById('telp_pelanggan').value = Telpel;
+
+            $('#pelanggan_id').trigger('input');
+
             // Close the modal (if needed)
             $('#tablePelanggan').modal('hide');
         }
@@ -764,16 +735,7 @@
 
         function MemoEkspedisi(param) {
             activeSpecificationIndex = param;
-            var nomorId = $('#pelanggan_id').val(); // Ambil nilai dari form nomor_id
-            // Filter data pelanggan yang memiliki nomor_id yang sesuai
-            $('#tablefaktur tbody tr').each(function() {
-                var idPelanggan = $(this).find('td:eq(1)').text(); // Ambil nomor_id dari setiap baris
-                if (idPelanggan === nomorId) {
-                    $(this).show(); // Tampilkan baris jika nomor_id sesuai
-                } else {
-                    $(this).hide(); // Sembunyikan baris jika nomor_id tidak sesuai
-                }
-            });
+            // Show the modal and filter rows if necessary
             $('#tableMemo').modal('show');
         }
 
@@ -961,6 +923,80 @@
                         break;
                 }
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#pelanggan_id').on('input', function() {
+                var pelangganID = $(this).val();
+
+                if (pelangganID) {
+                    $.ajax({
+                        url: "{{ url('admin/tagihan_ekspedisi/get_fakturtagihannonpph') }}" + '/' +
+                            pelangganID,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#tablefaktur tbody').empty();
+                            if (data.length > 0) {
+                                $.each(data, function(index, faktur) {
+                                    var row = '<tr data-id="' + faktur.id +
+                                        '" data-kode_faktur="' + faktur.kode_faktur +
+                                        '" data-nama_rute="' + faktur.nama_tarif +
+                                        '" data-kode_memo="' + faktur.kode_memo +
+                                        '" data-tanggal_awal="' + faktur.tanggal_memo +
+                                        '" data-no_kabin="' + faktur.no_kabin +
+                                        '" data-no_pol="' + faktur.no_pol +
+                                        '" data-jumlah="' + faktur.jumlah +
+                                        '" data-satuan="' + faktur.satuan +
+                                        '" data-harga_tarif="' + faktur.harga_tarif +
+                                        '" data-total_tarif="' + (parseFloat(faktur
+                                            .total_tarif) + parseFloat(faktur
+                                            .biaya_tambahan)) +
+                                        '" data-param="' + index + '">' +
+                                        '<td class="text-center">' + (index + 1) +
+                                        '</td>' +
+                                        '<td>' + faktur.kode_faktur + '</td>' +
+                                        '<td>' + faktur.tanggal + '</td>' +
+                                        '<td>' + faktur.pelanggan.nama_pell + '</td>' +
+                                        '<td>' + faktur.nama_tarif + '</td>' +
+                                        '<td>' + faktur.kategori + '</td>' +
+                                        '<td class="text-center">' +
+                                        '<button type="button" id="btnTambah" class="btn btn-primary btn-sm" onclick="getFaktur(' +
+                                        index + ')">' +
+                                        '<i class="fas fa-plus"></i>' +
+                                        '</button>' +
+                                        '</td>' +
+                                        '</tr>';
+                                    $('#tablefaktur tbody').append(row);
+                                });
+                            } else {
+                                $('#tablefaktur tbody').append(
+                                    '<tr><td colspan="7" class="text-center">No data available</td></tr>'
+                                );
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error:", status, error);
+                            $('#tablefaktur tbody').empty();
+                            $('#tablefaktur tbody').append(
+                                '<tr><td colspan="7" class="text-center">Error loading data</td></tr>'
+                            );
+                        }
+                    });
+                } else {
+                    $('#tablefaktur tbody').empty();
+                    $('#tablefaktur tbody').append(
+                        '<tr><td colspan="7" class="text-center">No data available</td></tr>'
+                    );
+                }
+            });
+
+            // Trigger the input event manually on page load if there's a value in the pelanggan_id field
+            if ($('#pelanggan_id').val()) {
+                $('#pelanggan_id').trigger('input');
+            }
         });
     </script>
 

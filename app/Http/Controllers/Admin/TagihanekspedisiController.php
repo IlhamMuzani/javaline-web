@@ -33,6 +33,23 @@ class TagihanekspedisiController extends Controller
         return view('admin.tagihan_ekspedisi.indexnonpph', compact('fakturs', 'tarifs'));
     }
 
+    public function get_fakturtagihan($pelanggan_id)
+    {
+        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'PPH', 'pelanggan_id' => $pelanggan_id])
+            ->with('pelanggan')
+            ->with('detail_faktur')
+            ->get();
+        return response()->json($fakturs);
+    }
+
+    public function get_fakturtagihannonpph($pelanggan_id)
+    {
+        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'NON PPH', 'pelanggan_id' => $pelanggan_id])
+            ->with('pelanggan')
+            ->with('detail_faktur')
+            ->get();
+        return response()->json($fakturs);
+    }
 
     public function store(Request $request)
     {
@@ -191,7 +208,7 @@ class TagihanekspedisiController extends Controller
 
         // Mendapatkan tagihan terbaru dengan kode pelanggan yang sama
         $lastBarang = Tagihan_ekspedisi::where('kode_tagihan', 'like', 'IF%')
-        ->where('kode_pelanggan', $kodePelanggan)
+            ->where('kode_pelanggan', $kodePelanggan)
             ->latest()
             ->first();
 

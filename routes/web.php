@@ -524,6 +524,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::delete('inquery_fakturpelunasan/deletedetailpelunasanreturn/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'deletedetailpelunasanreturn']);
     Route::delete('inquery_fakturpelunasan/deletedetailpelunasanpotongan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'deletedetailpelunasanpotongan']);
 
+    Route::get('tagihan_ekspedisi/get_fakturtagihan/{id}', [\App\Http\Controllers\Admin\TagihanekspedisiController::class, 'get_fakturtagihan']);
+    Route::get('tagihan_ekspedisi/get_fakturtagihannonpph/{id}', [\App\Http\Controllers\Admin\TagihanekspedisiController::class, 'get_fakturtagihannonpph']);
+    Route::get('inquery_tagihanekspedisi/get_fakturtagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'get_fakturtagihan']);
+    Route::get('inquery_tagihanekspedisi/get_fakturtagihannonpph/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'get_fakturtagihannonpph']);
+
     Route::get('postingfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'postingfilter']);
     Route::get('unpostfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'unpostfilter']);
     Route::post('delete-row', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'deleteRow'])->name('delete.row');

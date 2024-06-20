@@ -90,6 +90,25 @@ class InqueryTagihanekspedisiController extends Controller
         return view('admin.inquery_tagihanekspedisi.updatenon', compact('details', 'tarifs', 'fakturs', 'inquery'));
     }
 
+    public function get_fakturtagihan($pelanggan_id)
+    {
+        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'PPH', 'pelanggan_id' => $pelanggan_id])
+            ->with('pelanggan')
+            ->with('detail_faktur')
+            ->get();
+        return response()->json($fakturs);
+    }
+
+    public function get_fakturtagihannonpph($pelanggan_id)
+    {
+        $fakturs = Faktur_ekspedisi::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'NON PPH', 'pelanggan_id' => $pelanggan_id])
+            ->with('pelanggan')
+            ->with('detail_faktur')
+            ->get();
+        return response()->json($fakturs);
+    }
+
+
     public function update(Request $request, $id)
     {
         $validasi_pelanggan = Validator::make(
