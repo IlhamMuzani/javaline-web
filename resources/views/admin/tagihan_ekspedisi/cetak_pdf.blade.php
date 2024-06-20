@@ -149,7 +149,7 @@
         </div>
     </div>
 
-    <div style="text-align: left; margin-top:15px">
+    <div style="text-align: left; margin-top:7px">
         <table width="100%">
             <tr>
                 <td style="width:40%;">
@@ -237,8 +237,7 @@
     <div style="text-align: center;">
         <span style="font-size: 10px;">Daftar Rincian Sebagai Berikut :</span>
     </div> --}}
-    <br>
-    <table style="width: 100%; border-top: 1px solid #000;" cellpadding="2" cellspacing="0">
+    <table style="width: 100%; border-top: 1px solid #000; margin-top:5px" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 10px;  font-weight:bold; width:3%">
                 No.</td>
@@ -566,9 +565,6 @@
                                             Mengetahui,
                                         </span>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
                                 </tr>
                                 <tr>
                                     <td style="color:white" class="">.</td>
