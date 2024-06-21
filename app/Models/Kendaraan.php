@@ -54,6 +54,7 @@ class Kendaraan extends Model
         'status_perjalanan',
         'nama_security',
         'gambar_barcodesolar',
+        'gambar_stnk',
         'timer',
         'kota_id',
     ];

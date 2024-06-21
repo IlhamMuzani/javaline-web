@@ -217,6 +217,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('supplier/cetak-pdf/{id}', [\App\Http\Controllers\Admin\SupplierController::class, 'cetakpdf']);
     Route::get('pelanggan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PelangganController::class, 'cetakpdf']);
     Route::get('kendaraan/cetak-pdfsolar/{id}', [\App\Http\Controllers\Admin\KendaraanController::class, 'cetakpdfsolar']);
+    Route::get('kendaraan/cetak-pdfstnk/{id}', [\App\Http\Controllers\Admin\KendaraanController::class, 'cetakpdfstnk']);
     Route::get('kendaraan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\KendaraanController::class, 'cetakpdf']);
     Route::get('ban/cetak-pdf/{id}', [\App\Http\Controllers\Admin\BanController::class, 'cetakpdf']);
     Route::get('divisi/cetak-pdf/{id}', [\App\Http\Controllers\Admin\DivisiController::class, 'cetakpdf']);
@@ -528,6 +529,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('tagihan_ekspedisi/get_fakturtagihannonpph/{id}', [\App\Http\Controllers\Admin\TagihanekspedisiController::class, 'get_fakturtagihannonpph']);
     Route::get('inquery_tagihanekspedisi/get_fakturtagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'get_fakturtagihan']);
     Route::get('inquery_tagihanekspedisi/get_fakturtagihannonpph/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'get_fakturtagihannonpph']);
+    Route::get('faktur_ekspedisi/get_faktur/{id}', [\App\Http\Controllers\Admin\FakturekspedisiController::class, 'get_faktur']);
 
     Route::get('postingfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'postingfilter']);
     Route::get('unpostfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'unpostfilter']);

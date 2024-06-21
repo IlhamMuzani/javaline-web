@@ -42,7 +42,7 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <strong>Kode Kendaraan</strong>
+                                <strong>Barcode Solar</strong>
                             </div>
                             <div class="col-md-6">
                                 @if ($kendaraan->gambar_barcodesolar)
@@ -116,6 +116,20 @@
                             </div>
                             <div class="col-md-6">
                                 {{ $kendaraan->expired_stnk }}
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <strong>Foto Stnk</strong>
+                            </div>
+                            <div class="col-md-6">
+                                @if ($kendaraan->gambar_stnk)
+                                    <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_stnk) }}"
+                                        alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                        alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
+                                @endif
                             </div>
                         </div>
                         <div class="row mb-3">

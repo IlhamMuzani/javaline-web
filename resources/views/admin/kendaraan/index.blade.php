@@ -89,7 +89,8 @@
                                 <th>No. Kabin</th>
                                 <th>No. Registrasi</th>
                                 <th>Jenis Kendaraan</th>
-                                <th>Driver</th>
+                                {{-- <th>Driver</th> --}}
+                                <th>Foto Stnk</th>
                                 <th>Barcode Solar</th>
                                 <th class="text-center">Qr Code</th>
                                 <th class="text-center" width="150">Opsi</th>
@@ -109,11 +110,21 @@
                                             data tidak ada
                                         @endif
                                     </td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($kendaraan->user)
                                             {{ $kendaraan->user->karyawan->nama_lengkap }}
                                         @else
                                             data tidak ada
+                                        @endif
+                                    </td> --}}
+                                    <td data-toggle="modal" data-target="#modal-stnk-{{ $kendaraan->id }}"
+                                        class="text-center">
+                                        @if ($kendaraan->gambar_stnk)
+                                            <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_stnk) }}"
+                                                alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
+                                        @else
+                                            <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                                alt="{{ $kendaraan->kode_kendaraan }}" width="50" height="50">
                                         @endif
                                     </td>
                                     <td data-toggle="modal" data-target="#modal-solar-{{ $kendaraan->id }}"
@@ -221,7 +232,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
+                                                <h4 class="modal-title">Gambar QR Code Solar</h4>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
@@ -252,6 +263,49 @@
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
                                                     <a href="{{ url('admin/kendaraan/cetak-pdfsolar/' . $kendaraan->id) }}"
+                                                        class="btn btn-primary btn-sm">
+                                                        <i class=""></i> Cetak
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="modal-stnk-{{ $kendaraan->id }}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Foto Stnk</h4>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {{-- <p>Yakin hapus kendaraan
+                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
+                                                </p> --}}
+                                                <div style="text-align: center;">
+                                                    <p style="font-size:15px; font-weight: bold;">
+                                                        {{ $kendaraan->kode_kendaraan }}</p>
+                                                    <div style="display: inline-block;">
+                                                        @if ($kendaraan->gambar_stnk)
+                                                            <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_stnk) }}"
+                                                                alt="{{ $kendaraan->kode_kendaraan }}" width="400"
+                                                                height="220">
+                                                        @else
+                                                            <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                                                alt="{{ $kendaraan->kode_kendaraan }}" width="200"
+                                                                height="200">
+                                                        @endif
+                                                    </div>
+                                                    <p style="font-size:15px; font-weight: bold;">
+                                                        {{ $kendaraan->no_kabin }} / {{ $kendaraan->no_pol }}</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <a href="{{ url('admin/kendaraan/cetak-pdfstnk/' . $kendaraan->id) }}"
                                                         class="btn btn-primary btn-sm">
                                                         <i class=""></i> Cetak
                                                     </a>

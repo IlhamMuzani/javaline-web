@@ -191,14 +191,28 @@
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="gambar_barcodesolar">Gambar Barcode Solar <small>(Kosongkan saja jika tidak
-                                    ingin menambahkan)</small></label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="gambar_barcodesolar" name="gambar_barcodesolar"
-                                    accept="image/*">
-                                <label class="custom-file-label" for="gambar_barcodesolar">Masukkan gambar</label>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="gambar_barcodesolar">Gambar Barcode Solar <small>(Kosongkan saja jika tidak
+                                            ingin menambahkan)</small></label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="gambar_barcodesolar"
+                                            name="gambar_barcodesolar" accept="image/*">
+                                        <label class="custom-file-label" for="gambar_barcodesolar">Masukkan gambar</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="gambar_stnk">Gambar STNK <small>(Kosongkan saja jika tidak
+                                            ingin menambahkan)</small></label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="gambar_stnk"
+                                            name="gambar_stnk" accept="image/*">
+                                        <label class="custom-file-label" for="gambar_stnk">Masukkan gambar</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -56,6 +56,15 @@ class FakturekspedisiController extends Controller
         ));
     }
 
+    public function get_faktur($pelanggan_id)
+    {
+        $fakturs = Faktur_ekspedisi::where('pelanggan_id', $pelanggan_id)
+            ->with('pelanggan')
+            ->with('detail_faktur')
+            ->get();
+        return response()->json($fakturs);
+    }
+
     public function store(Request $request)
     {
         $validasi_pelanggan = Validator::make(

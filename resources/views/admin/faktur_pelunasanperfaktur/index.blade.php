@@ -85,10 +85,26 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="form-group" hidden>
-                                    <label for="pelanggan_id">pelanggan Id</label>
-                                    <input type="text" class="form-control" id="pelanggan_id" readonly
-                                        name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
+                                {{-- <div class="col-md-2 mb-3">
+                                    <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select2-id="24"
+                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($pelanggans as $pelanggan)
+                                            <option value="{{ $pelanggan->id }}"
+                                                {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ $pelanggan->nama_pell }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="pelanggan_id">(Cari Pelanggan)</label>
+                                </div> --}}
+                                <div class="col-lg-6" hidden>
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="pelanggan_id">Pelanggan Id</label>
+                                        <input style="font-size:14px" type="text" class="form-control" id="pelanggan_id"
+                                            readonly name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
+                                    </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
@@ -411,44 +427,11 @@
                                     <th>Pelanggan</th>
                                     <th>Rute</th>
                                     <th>Total</th>
-                                    {{-- <th>kode memo</th> --}}
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($fakturs as $faktur)
-                                    <tr data-id="{{ $faktur->id }}" data-kode_faktur="{{ $faktur->kode_faktur }}"
-                                        data-tanggal_awal="{{ $faktur->tanggal_awal }}"
-                                        data-total_tarif="{{ $faktur->grand_total }}"
-                                        data-tanggal_awal="{{ $faktur->tanggal_awal }}"
-                                        data-no_kabin="@if ($faktur->detail_faktur->first()) {{ $faktur->detail_faktur->first()->no_kabin }}@else tidak ada @endif"
-                                        {{-- data-no_pol="{{ $faktur->detail_faktur->first()->no_pol }}" --}}
-                                        data-no_pol="@if ($faktur->detail_faktur->first()) {{ $faktur->detail_faktur->first()->no_pol }}@else tidak ada @endif"
-                                        data-jumlah="{{ $faktur->jumlah }}" data-satuan="{{ $faktur->satuan }}"
-                                        data-harga_tarif="{{ $faktur->harga_tarif }}"
-                                        data-total_tarif="{{ $faktur->grand_total }}" data-param="{{ $loop->index }}">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $faktur->kode_faktur }}</td>
-                                        <td>{{ $faktur->tanggal }}</td>
-                                        <td>{{ $faktur->pelanggan->nama_pell }}</td>
-                                        <td>
-                                            {{-- {{ $faktur->detail_faktur->first()->nama_rute }} --}}
-                                            @if ($faktur->detail_faktur->first())
-                                                {{ $faktur->detail_faktur->first()->nama_rute }}
-                                            @else
-                                                tidak ada
-                                                @endif"
-                                        </td>
-                                        <td>{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
-                                        {{-- <td>{{ $faktur->detail_faktur->first()->memo_ekspedisi->kode_memo }}</td> --}}
-                                        <td class="text-center">
-                                            <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                onclick="getFaktur({{ $loop->index }})">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <!-- Data will be appended here by AJAX -->
                             </tbody>
                         </table>
                     </div>
@@ -466,7 +449,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="datatables6" class="table table-bordered table-striped">
+                        <div class="m-2">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tablereturnss" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -549,6 +535,9 @@
             document.getElementById('nama_pelanggan').value = NamaPell;
             document.getElementById('alamat_pelanggan').value = AlamatPel;
             document.getElementById('telp_pelanggan').value = Telpel;
+
+            $('#pelanggan_id').trigger('input');
+
             // Close the modal (if needed)
             $('#tablePelanggan').modal('hide');
         }
@@ -775,6 +764,33 @@
             $('#tableFaktur').modal('hide');
         }
 
+        function filterTablefaktur() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablereturnss");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 4; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInput").addEventListener("input", filterTablefaktur);
+
         var activeSpecificationIndexs = 0;
 
         function Return(param) {
@@ -784,7 +800,7 @@
         }
 
         function getReturn(rowIndex) {
-            var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tablereturnss tbody tr:eq(' + rowIndex + ')');
             var nota_return_id = selectedRow.data('id');
             var kode_return = selectedRow.data('kode_return');
             var tanggal_awal = selectedRow.data('tanggal_awal');
@@ -820,7 +836,7 @@
         }
 
         // function getReturn(rowIndex) {
-        //     var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+        //     var selectedRow = $('#tablereturnss tbody tr:eq(' + rowIndex + ')');
         //     var nota_return_id = selectedRow.data('id');
         //     var kode_return = selectedRow.data('kode_return');
         //     var tanggal_awal = selectedRow.data('tanggal_awal');
@@ -1232,6 +1248,73 @@
                         break;
                 }
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#pelanggan_id').on('input', function() {
+                var pelangganID = $(this).val();
+                if (pelangganID) {
+                    $.ajax({
+                        url: "{{ url('admin/faktur_ekspedisi/get_faktur') }}" + '/' + pelangganID,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#tablefaktur tbody').empty();
+                            if (data.length > 0) {
+                                $.each(data, function(index, faktur) {
+                                    var row = '<tr data-id="' + faktur.id +
+                                        '" data-kode_faktur="' + faktur.kode_faktur +
+                                        '" data-tanggal_awal="' + faktur.tanggal_awal +
+                                        '" data-total_tarif="' + faktur.grand_total +
+                                        '">' +
+                                        '<td class="text-center">' + (index + 1) +
+                                        '</td>' +
+                                        '<td>' + faktur.kode_faktur + '</td>' +
+                                        '<td>' + faktur.tanggal + '</td>' +
+                                        '<td>' + faktur.pelanggan.nama_pell + '</td>' +
+                                        '<td>' + (faktur.detail_faktur.length > 0 ?
+                                            faktur.detail_faktur[0].nama_rute :
+                                            'tidak ada') + '</td>' +
+                                        '<td>' + faktur.grand_total.toLocaleString(
+                                            'id-ID', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) + '</td>' +
+                                        '<td class="text-center">' +
+                                        '<button type="button" id="btnTambah" class="btn btn-primary btn-sm" onclick="getFaktur(' +
+                                        index + ')">' +
+                                        '<i class="fas fa-plus"></i>' +
+                                        '</button>' +
+                                        '</td>' +
+                                        '</tr>';
+                                    $('#tablefaktur tbody').append(row);
+                                });
+                            } else {
+                                $('#tablefaktur tbody').append(
+                                    '<tr><td colspan="7" class="text-center">No data available</td></tr>'
+                                );
+                            }
+                        },
+                        error: function() {
+                            $('#tablefaktur tbody').empty();
+                            $('#tablefaktur tbody').append(
+                                '<tr><td colspan="7" class="text-center">Error loading data</td></tr>'
+                            );
+                        }
+                    });
+                } else {
+                    $('#tablefaktur tbody').empty();
+                    $('#tablefaktur tbody').append(
+                        '<tr><td colspan="7" class="text-center">No data available</td></tr>');
+                }
+            });
+
+            // Trigger the input event manually on page load if there's a value in the pelanggan_id field
+            if ($('#pelanggan_id').val()) {
+                $('#pelanggan_id').trigger('input');
+            }
         });
     </script>
 

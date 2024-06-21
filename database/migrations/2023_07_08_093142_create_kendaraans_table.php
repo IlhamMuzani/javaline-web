@@ -42,6 +42,7 @@ return new class extends Migration
             $table->string('km_olitransmisi')->nullable()->nullable();
             $table->string('status')->nullable();
             $table->string('gambar_barcodesolar')->nullable();
+            $table->string('gambar_stnk')->nullable();
             $table->string('qrcode_kendaraan')->nullable();
             $table->string('status_pemasangan')->nullable();
             $table->string('kode_pemasangan')->nullable();
