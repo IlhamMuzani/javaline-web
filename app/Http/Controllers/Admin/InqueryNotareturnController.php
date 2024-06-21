@@ -9,6 +9,7 @@ use App\Models\Barang;
 use App\Models\Detail_nota;
 use App\Models\Pelanggan;
 use App\Models\Nota_return;
+use App\Models\Return_ekspedisi;
 use App\Models\Satuan;
 use Illuminate\Support\Facades\Validator;
 
@@ -55,7 +56,8 @@ class InqueryNotareturnController extends Controller
     {
         $inquery = Nota_return::where('id', $id)->first();
         $details  = Detail_nota::where('nota_return_id', $id)->get();
-        return view('admin.inquery_notareturn.update', compact('details', 'inquery'));
+        $returnbarangs = Return_ekspedisi::all();
+        return view('admin.inquery_notareturn.update', compact('returnbarangs', 'details', 'inquery'));
     }
 
     public function update(Request $request, $id)
@@ -92,7 +94,7 @@ class InqueryNotareturnController extends Controller
                 ]);
 
                 if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Barang nomor " . ($i + 1) . " belum dilengkapi!"); // Corrected the syntax for concatenation and indexing
+                    array_push($error_pesanans, "Barang nomor " . ($i + 1) . " belum dilengkapi!");
                 }
 
                 $barang_id = is_null($request->barang_id[$i]) ? '' : $request->barang_id[$i];
@@ -116,7 +118,6 @@ class InqueryNotareturnController extends Controller
             }
         }
 
-
         if ($error_pelanggans || $error_pesanans) {
             return back()
                 ->withInput()
@@ -137,7 +138,6 @@ class InqueryNotareturnController extends Controller
             'kode_return' => $request->kode_return,
             'nomor_suratjalan' => $request->nomor_suratjalan,
             'pelanggan_id' => $request->pelanggan_id,
-            'pelanggan_id' => $request->pelanggan_id,
             'kode_pelanggan' => $request->kode_pelanggan,
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat_pelanggan' => $request->alamat_pelanggan,
@@ -155,7 +155,12 @@ class InqueryNotareturnController extends Controller
         ]);
 
         $transaksi_id = $cetakpdf->id;
-        $detailIds = $request->input('detail_ids');
+        $detailIds = $request->input('detail_ids', []);
+
+        // Hapus detail nota yang tidak ada di array detailIds
+        Detail_nota::where('nota_return_id', $cetakpdf->id)
+            ->whereNotIn('id', $detailIds)
+            ->delete();
 
         foreach ($data_pembelians as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
@@ -168,8 +173,8 @@ class InqueryNotareturnController extends Controller
                     'nama_barang' => $data_pesanan['nama_barang'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
-                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
-                    'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
+                    'harga' => str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]);
             } else {
                 $existingDetail = Detail_nota::where([
@@ -179,8 +184,8 @@ class InqueryNotareturnController extends Controller
                     'nama_barang' => $data_pesanan['nama_barang'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
-                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
-                    'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
+                    'harga' => str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ])->first();
 
                 if (!$existingDetail) {
@@ -191,18 +196,22 @@ class InqueryNotareturnController extends Controller
                         'nama_barang' => $data_pesanan['nama_barang'],
                         'jumlah' => $data_pesanan['jumlah'],
                         'satuan' => $data_pesanan['satuan'],
-                        'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
-                        'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
+                        'harga' => str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                        'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                     ]);
                 }
             }
+
+            // Increment the stock after ensuring the record is either updated or created
             Barang::where('id', $data_pesanan['barang_id'])->increment('jumlah', $data_pesanan['jumlah']);
         }
+
         $details = Detail_nota::where('nota_return_id', $cetakpdf->id)->get();
 
         return view('admin.inquery_notareturn.show', compact('cetakpdf', 'details'));
     }
 
+    
     public function show($id)
     {
         $cetakpdf = Nota_return::where('id', $id)->first();

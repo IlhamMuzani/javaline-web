@@ -190,7 +190,7 @@ class KendaraanController extends Controller
             }
             $pdf = PDF::loadView('admin.kendaraan.cetak_pdfstnk', compact('cetakpdf'));
             $pdf->setPaper('letter', 'portrait');
-            return $pdf->stream('Barcode_Solar.pdf');
+            return $pdf->stream('Foto_Stnk.pdf');
         }
         $pdf = PDF::loadView('admin.kendaraan.cetak_pdfstnk', compact('cetakpdf'));
         $pdf->setPaper('letter', 'portrait');

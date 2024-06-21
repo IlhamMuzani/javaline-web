@@ -73,14 +73,18 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <label style="font-size:14px" class="form-label" for="kode_penerimaan">Kode Penerimaan Return
+                        <label style="font-size:14px" class="form-label" for="kode_return">Kode Penerimaan Return
                             Barang</label>
-                        <div class="form-group">
+                        <div class="form-group d-flex">
                             <input class="form-control" hidden id="return_id" name="return_ekspedisi_id" type="text"
                                 placeholder="" value="{{ old('return_ekspedisi_id', $inquery->return_ekspedisi_id) }}"
                                 readonly style="margin-right: 10px; font-size:14px" />
                             <input class="form-control" id="kode_return" name="kode_return" type="text" placeholder=""
-                                value="{{ old('kode_return', $inquery->kode_return) }}" readonly style="font-size:14px" />
+                                value="{{ old('kode_return', $inquery->kode_return) }}" readonly
+                                style="margin-right: 10px; font-size:14px" />
+                            <button class="btn btn-primary" type="button" onclick="showCategoryModalPelanggan(this.value)">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                         <label style="font-size:14px" class="form-label" for="kode_return">Nomor Surat Jalan</label>
                         <div class="form-group d-flex">
@@ -219,7 +223,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div id="barang_utama" class="card">
                     <div class="card-header">
                         <h3 class="card-title">Barang <span>
                             </span></h3>
@@ -311,6 +315,7 @@
                 </div>
                 <div>
                     <div>
+                        <div id="forms-container"></div>
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-group">
@@ -328,6 +333,77 @@
                         </div>
                     </div>
             </form>
+        </div>
+
+        <div class="modal fade" id="tableReturn" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Pelanggan</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="datatables4" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Penerimaan</th>
+                                    <th>Nomor Surat Jalan</th>
+                                    <th>Tanggal</th>
+                                    <th>Pelanggan</th>
+                                    <th>No Kabin</th>
+                                    <th>Sopir</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($returnbarangs as $return)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $return->kode_return }}</td>
+                                        <td>{{ $return->nomor_suratjalan }}</td>
+                                        <td>{{ $return->tanggal }}</td>
+                                        <td>{{ $return->nama_pelanggan }}</td>
+                                        <td>{{ $return->no_kabin }}</td>
+                                        <td>{{ $return->nama_driver }}</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onclick="GetReturn(
+                                                '{{ $return->id }}',
+                                                '{{ $return->kode_return }}',
+                                                '{{ $return->nomor_suratjalan }}',
+                                                '{{ $return->pelanggan_id }}',
+                                                '{{ $return->kode_pelanggan }}',
+                                                '{{ $return->nama_pelanggan }}',
+                                                '{{ $return->telp_pelanggan }}',
+                                                '{{ $return->alamat_pelanggan }}',
+                                                '{{ $return->kendaraan_id }}',
+                                                '{{ $return->no_kabin }}',
+                                                '{{ $return->no_pol }}',
+                                                '{{ $return->jenis_kendaraan }}',
+                                                '{{ $return->user_id }}',
+                                                '{{ $return->kode_driver }}',
+                                                '{{ $return->nama_driver }}',
+                                                '{{ $return->telp }}',
+                                                '{{ $return->detail_return->pluck('barang_id')->implode(', ') }}',
+                                                '{{ $return->detail_return->pluck('kode_barang')->implode(', ') }}',
+                                                '{{ $return->detail_return->pluck('nama_barang')->implode(', ') }}',
+                                                '{{ $return->detail_return->pluck('satuan')->implode(', ') }}',
+                                                '{{ $return->detail_return->pluck('jumlah')->implode(', ') }}'
+                                                )">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -528,5 +604,235 @@
             updateGrandTotal();
         });
     </script>
+
+
+    <script>
+        function showCategoryModalPelanggan(selectedCategory) {
+            $('#tableReturn').modal('show');
+        }
+
+        $(document).ready(function() {
+            // Call updateTotal function for each existing row to initialize totals
+            for (var i = 0; i < barangIds.length; i++) {
+                updateTotal(i);
+                attachInputEventListeners(i);
+            }
+        });
+
+
+        function updateTotal(index) {
+            var jumlah = parseFloat($('#jumlah_' + index).val()) || 0;
+            var harga = parseFloat($('#harga_' + index).val()) || 0;
+            var total = jumlah * harga;
+
+            $('#total_' + index).val(formatNumber(total));
+            // Update the grand total
+            updateGrandTotal();
+        }
+
+        function onHargaChange(index) {
+            // Update the total based on harga and jumlah
+            var harga = parseFloat($('#harga_' + index).val()) || 0;
+            var jumlah = parseFloat($('#jumlah_' + index).val()) || 0;
+            var total = harga * jumlah;
+
+            // Update the total field
+            $('#total_' + index).val(total.toLocaleString('id-ID'));
+
+            // Update the grand total
+            updateGrandTotal();
+        }
+
+        function attachInputEventListeners(index) {
+            // Attach input event listener for both "jumlah" and "harga" fields
+            $('#jumlah_' + index + ', #harga_' + index).on('input', function() {
+                updateTotal(index);
+            });
+        }
+
+        function saveFormDataToSessionStorage() {
+            var formData = $('#forms-container').html();
+            sessionStorage.setItem('formData', formData);
+        }
+
+        // Call this function when the page is loaded to retrieve and display the saved form data
+        // Call this function when the page is loaded to retrieve and display the saved form data
+        function loadFormDataFromSessionStorage() {
+            var formData = sessionStorage.getItem('formData');
+            var returnId = $('#return_id').val(); // Get the value of return_id
+
+            // Check if formData exists and return_id is not empty
+            if (formData && returnId.trim() !== "") {
+                $('#forms-container').html(formData);
+                attachInputEventListenersAfterLoad();
+            } else {
+                // If formData doesn't exist or return_id is empty, clear forms-container
+                $('#forms-container').html('');
+            }
+        }
+
+        // Call loadFormDataFromSessionStorage() on document ready
+        $(document).ready(function() {
+            loadFormDataFromSessionStorage();
+        });
+
+        $(document).ready(function() {
+            loadFormDataFromSessionStorage();
+        });
+        // Attach input event listeners after loading the form data
+        function attachInputEventListenersAfterLoad() {
+            for (var i = 0; i < barangIds.length; i++) {
+                attachInputEventListeners(i);
+            }
+        }
+
+        function updateGrandTotal() {
+            var grandTotal = 0;
+            $('.total').each(function() {
+                // Remove dots and parse as float
+                var totalValue = parseFloat($(this).val().replace(/\./g, '')) || 0;
+                grandTotal += totalValue;
+            });
+
+            // Format the grandTotal as currency in Indonesian Rupiah
+            var formattedGrandTotal = grandTotal.toLocaleString('id-ID');
+
+            $('#grand_total').val(formattedGrandTotal);
+            saveFormDataToSessionStorage(); // Save the form data to sessionStorage
+        }
+
+
+        // function formatNumber(number) {
+        //     // Format the number with dots for thousands separator
+        //     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        // }
+
+
+        function formatNumber(value) {
+            // Check if the value is an integer or has decimal places
+            if (value === parseInt(value, 10)) {
+                return value.toFixed(0); // If it's an integer, remove decimal places
+            } else {
+                return value.toFixed(2); // If it has decimal places, keep two decimal places
+            }
+        }
+
+        function GetReturn(Return_id, KodeReturn, NomorSuratjalan, Pelanggan_id, KodePelanggan, NamaPell, Telpel,
+            AlamatPelanggan,
+            Kendaraan_id, Nokabin,
+            Nopol, JenisKen, User_id, KodeDriv, NamaDriv, Telpdriv, Barang_id, KodeBarang, NamaBarang, Satuan, Jumlah) {
+
+            document.getElementById('return_id').value = Return_id;
+            document.getElementById('kode_return').value = KodeReturn;
+            document.getElementById('nomor_suratjalan').value = NomorSuratjalan;
+            document.getElementById('pelanggan_id').value = Pelanggan_id;
+            document.getElementById('kode_pelanggan').value = KodePelanggan;
+            document.getElementById('nama_pelanggan').value = NamaPell;
+            document.getElementById('telp_pelanggan').value = Telpel;
+            document.getElementById('alamat_pelanggan').value = AlamatPelanggan;
+            document.getElementById('kendaraan_id').value = Kendaraan_id;
+            document.getElementById('no_kabin').value = Nokabin;
+            document.getElementById('no_pol').value = Nopol;
+            document.getElementById('jenis_kendaraan').value = JenisKen;
+            document.getElementById('user_id').value = User_id;
+            document.getElementById('kode_driver').value = KodeDriv;
+            document.getElementById('nama_driver').value = NamaDriv;
+            document.getElementById('telp').value = Telpdriv;
+
+            var barangIds = Barang_id.split(', ');
+            var kodeBarangs = KodeBarang.split(', ');
+            var namaBarangs = NamaBarang.split(', ');
+            var satuans = Satuan.split(', ');
+            var jumlahs = Jumlah.split(', ');
+
+            $('#forms-container').html('');
+
+            // Create forms for each barang
+            var formHtml = '<div class="card mb-3">' +
+                '<div class="card-header">' +
+                '<h3 class="card-title">Form Barang</h3>' +
+                '</div>' +
+                '<div class="card-body">' +
+                '<table class="table table-bordered table-striped">' +
+                '<thead>' +
+                '<tr>' +
+                '<th style="font-size:14px" class="text-center">No</th>' +
+                '<th style="font-size:14px">Kode Barang</th>' +
+                '<th style="font-size:14px">Nama Barang</th>' +
+                '<th style="font-size:14px">Satuan</th>' +
+                '<th style="font-size:14px">Jumlah</th>' +
+                '<th style="font-size:14px">Harga</th>' +
+                '<th style="font-size:14px">Total</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody id="tabel-pembelian">';
+
+            for (var i = 0; i < barangIds.length; i++) {
+                formHtml += '<tr>' +
+                    '<td style="width: 70px; font-size:14px" class="text-center urutan">' + (i + 1) + '</td>' +
+                    '<td hidden>' +
+                    '   <div class="form-group">' +
+                    '       <input type="text" class="form-control" name="barang_id[]" value="' + barangIds[i] +
+                    '" readonly>' +
+                    '   </div>' +
+                    '</td>' +
+                    '<td>' +
+                    '   <div class="form-group">' +
+                    '       <input style="font-size:14px" readonly type="text" class="form-control kode_barang" name="kode_barang[]" value="' +
+                    kodeBarangs[i] + '">' +
+                    '   </div>' +
+                    '</td>' +
+                    '<td>' +
+                    '   <div class="form-group">' +
+                    '       <input style="font-size:14px" readonly type="text" class="form-control nama_barang" name="nama_barang[]" value="' +
+                    namaBarangs[i] + '">' +
+                    '   </div>' +
+                    '</td>' +
+                    '<td>' +
+                    '   <div class="form-group">' +
+                    '       <input style="font-size:14px" readonly type="text" class="form-control satuan" name="satuan[]" value="' +
+                    satuans[i] + '">' +
+                    '   </div>' +
+                    '</td>' +
+                    '<td>' +
+                    '   <div class="form-group">' +
+                    '       <input style="font-size:14px" type="number" readonly class="form-control jumlah" name="jumlah[]" id="jumlah_' +
+                    i + '" value="' + jumlahs[i] + '" onchange="updateTotal(' + i + ')">' +
+                    '   </div>' +
+                    '</td>' +
+                    '<td>' +
+                    '   <div class="form-group">' +
+                    '       <input style="font-size:14px" type="number" class="form-control harga" name="harga[]" id="harga_' +
+                    i + '" value="" oninput="onHargaChange(' + i + ')">' +
+                    '   </div>' +
+                    '</td>' +
+                    '<td>' +
+                    '   <div class="form-group">' +
+                    '       <input style="font-size:14px" type="text" readonly class="form-control total" name="total[]" id="total_' +
+                    i + '" value="">' +
+                    '   </div>' +
+                    '</td>' +
+                    '</tr>';
+                $('#harga_' + i).on('input', function() {
+                    var index = this.id.split('_')[1];
+                    onHargaChange(index);
+                });
+            }
+
+            formHtml += '</tbody>' +
+                '</table>' +
+                '</div>' +
+                '</div>';
+
+            $('#forms-container').append(formHtml);
+
+            
+            $('#barang_utama').empty(); // Clear all content within the element with id "barang_utama"
+            updateGrandTotal();
+            $('#tableReturn').modal('hide');
+            attachInputEventListenersAfterLoad();
+        }
+    </script>
+
 
 @endsection
