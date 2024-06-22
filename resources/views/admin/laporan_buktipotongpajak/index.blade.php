@@ -78,6 +78,7 @@
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
+                                <th>Kode Invoice</th>
                                 <th>Kode Bukti</th>
                                 <th>Nomor Bukti</th>
                                 <th>Nama Pelanggan</th>
@@ -93,6 +94,14 @@
                                             value="{{ $buktipotongpajak->id }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>
+                                        @if ($buktipotongpajak->detail_bukti->first())
+                                            {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->kode_tagihan }}
+                                        @else
+                                            tidak ada
+                                        @endif
+
+                                    </td>
                                     <td>
                                         {{ $buktipotongpajak->kode_bukti }}
                                     </td>

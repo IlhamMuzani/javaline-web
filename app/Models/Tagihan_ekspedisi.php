@@ -71,4 +71,9 @@ class Tagihan_ekspedisi extends Model
     {
         return $this->hasMany(Detail_tagihan::class);
     }
+    
+    public function detail_bukti()
+    {
+        return $this->hasMany(Detail_bukti::class);
+    }
 }
