@@ -129,7 +129,7 @@
             <tr>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->kode_tagihan }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->periode_awal }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->tanggal_awal }}
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
                     {{ number_format($item->sub_total, 2, ',', '.') }}

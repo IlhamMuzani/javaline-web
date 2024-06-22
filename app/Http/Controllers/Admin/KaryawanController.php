@@ -179,36 +179,6 @@ class KaryawanController extends Controller
         return $newCode;
     }
 
-    // public function kode()
-    // {
-    //     $lastBarang = Karyawan::latest()->first();
-    //     if (!$lastBarang) {
-    //         $num = 1;
-    //     } else {
-    //         $lastCode = $lastBarang->kode_karyawan;
-    //         $num = (int) substr($lastCode, strlen('AA')) + 1;
-    //     }
-    //     $formattedNum = sprintf("%06s", $num);
-    //     $prefix = 'AA';
-    //     $newCode = $prefix . $formattedNum;
-    //     return $newCode;
-    // }
-
-    // public function kodedriver()
-    // {
-    //     $lastBarang = Karyawan::latest()->first();
-    //     if (!$lastBarang) {
-    //         $num = 1;
-    //     } else {
-    //         $lastCode = $lastBarang->kode_karyawan;
-    //         $num = (int) substr($lastCode, strlen('AD')) + 1;
-    //     }
-    //     $formattedNum = sprintf("%06s", $num);
-    //     $prefix = 'AD';
-    //     $newCode = $prefix . $formattedNum;
-    //     return $newCode;
-    // }
-
     public function cetakpdf($id)
     {
         $cetakpdf = Karyawan::where('id', $id)->first();
@@ -227,7 +197,7 @@ class KaryawanController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
 
-            $karyawan = Karyawan::where('id', $id)->first();
+            $karyawan = Karyawan::with('departemen')->where('id', $id)->first();
             return view('admin/karyawan.show', compact('karyawan'));
         } else {
             // tidak memiliki akses

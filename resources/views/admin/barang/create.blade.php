@@ -47,11 +47,11 @@
                             <input type="text" class="form-control" id="nama_barang" name="nama_barang"
                                 placeholder="masukkan nama barang" value="{{ old('nama_barang') }}">
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="jumlah">Stok</label>
                             <input type="number" class="form-control" id="jumlah" name="jumlah"
                                 placeholder="masukkan stok" value="{{ old('jumlah') }}">
-                        </div>
+                        </div> --}}
                         <div class="form-group">
                             <label for="harga_beli">Harga Beli</label>
                             <input type="number" class="form-control" id="harga_beli" name="harga_beli"
