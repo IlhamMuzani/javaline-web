@@ -69,6 +69,11 @@ class Faktur_pelunasan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function tagihan_ekspedisi()
+    {
+        return $this->belongsTo(Tagihan_ekspedisi::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('faktur_pelunasans')->orderBy('id', 'DESC')->take(1)->get();

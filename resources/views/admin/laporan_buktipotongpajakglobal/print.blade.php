@@ -21,7 +21,7 @@
         .td {
             text-align: center;
             padding: 5px;
-            font-size: 15px;
+            font-size: 12px;
             /* border: 1px solid black; */
         }
 
@@ -58,7 +58,7 @@
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 12px;
             text-align: center;
         }
 
@@ -87,13 +87,11 @@
             $startDate = request()->query('tanggal_awal');
             $endDate = request()->query('tanggal_akhir');
             $kategori = request()->query('kategori');
+            $status = request()->query('status');
             $status_terpakai = request()->query('status_terpakai');
+            $pelanggan_id = request()->query('pelanggan_id');
         @endphp
-        @if ($status_terpakai == 'digunakan')
-            <span style="font-weight: bold; font-size: 18px;">LAPORAN BUKTI POTONG PAJAK LUNAS - RANGKUMAN</span>
-        @else
-            <span style="font-weight: bold; font-size: 18px;">LAPORAN BUKTI POTONG PAJAK BELUM LUNAS - RANGKUMAN</span>
-        @endif
+        <span style="font-weight: bold; font-size: 18px;">LAPORAN INVOICE EKSPEDISI - RANGKUMAN</span>
         <br>
         <div class="text">
             @if ($startDate && $endDate)
@@ -102,6 +100,50 @@
                 <p>Periode: Tidak ada tanggal awal dan akhir yang diteruskan.</p>
             @endif
         </div>
+        <table width="100%">
+            <tr>
+                <td>
+                    <div class="info-catatan" style="max-width: 570px;">
+                        <table>
+                            <tr>
+                                <td class="info-catatan2" style="font-size: 13px;">Nama Pelanggan</td>
+                                <td class="info-item" style="font-size: 13px;">:</td>
+                                <td class="info-text info-left" style="font-size: 13px;">
+                                    @if ($pelanggan_id == null)
+                                        All Pelanggan
+                                    @else
+                                        {{ $pelanggans->nama_pell }}
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="info-catatan2" style="font-size: 13px;">Status Pelunasan</td>
+                                <td class="info-item" style="font-size: 13px;">:</td>
+                                <td class="info-text info-left" style="font-size: 13px;">
+                                    @if ($status == 'selesai')
+                                        Lunas
+                                    @else
+                                        Belum Lunas
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="info-catatan2" style="font-size: 13px;">Status Potong Pajak</td>
+                                <td class="info-item" style="font-size: 13px;">:</td>
+                                <td class="info-text info-left" style="font-size: 13px;">
+                                    @if ($status_terpakai == 'digunakan')
+                                        Sudah Potong Pajak
+                                    @else
+                                        Belum Potong Pajak
+                                    @endif
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
@@ -111,13 +153,17 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Kode Bukti
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">No.
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Tanggal
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">Kode Invoice
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">DPP
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">Tanggal
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">PPH
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">Nama Pelanggan
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;">DPP
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;">PPH
             </td>
         </tr>
         <!-- Separator row -->
@@ -127,14 +173,18 @@
         <!-- Data rows -->
         @foreach ($inquery as $item)
             <tr>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->kode_tagihan }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->tanggal_awal }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->kode_tagihan }}
                 </td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->tanggal_awal }}
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->nama_pelanggan }}
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ number_format($item->sub_total, 2, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ number_format($item->pph, 2, ',', '.') }}
                 </td>
             </tr>
@@ -153,9 +203,9 @@
             @endphp
         @endforeach
         <tr>
-            <td colspan="3" style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px;">Sub Total
+            <td colspan="5" style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">Sub Total
             </td>
-            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px;">Rp.
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">Rp.
                 {{ number_format($total, 0, ',', '.') }}
             </td>
         </tr>

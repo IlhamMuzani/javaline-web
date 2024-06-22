@@ -16,6 +16,7 @@ class LaporanBuktipotongpajakglobalController extends Controller
 {
     public function index(Request $request)
     {
+        $status = $request->input('status');
         $status_terpakai = $request->input('status_terpakai');
         $tanggal_awal = $request->input('tanggal_awal');
         $tanggal_akhir = $request->input('tanggal_akhir');
@@ -25,10 +26,16 @@ class LaporanBuktipotongpajakglobalController extends Controller
             $query->where('kategori', 'PPH');
         })->get();
 
-        $inquery = Tagihan_ekspedisi::orderBy('id', 'DESC');
+        $inquery = Tagihan_ekspedisi::whereNotIn('status', ['unpost'])->orderBy('id', 'DESC');
+
+        if ($status) {
+            $inquery->where('status', $status);
+        }
 
         if ($status_terpakai) {
             $inquery->where('status_terpakai', $status_terpakai);
+        } else {
+            $inquery->whereNull('status_terpakai');
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -40,10 +47,9 @@ class LaporanBuktipotongpajakglobalController extends Controller
             $inquery->where('pelanggan_id', $pelanggan_id);
         }
 
-        $inquery->whereIn('status', ['posting', 'elesai'])
-            ->where('kategori', 'PPH');
+        $inquery->where(['kategori' => 'PPH']);
 
-        $hasSearch = $status_terpakai || ($tanggal_awal && $tanggal_akhir) || $pelanggan_id;
+        $hasSearch = $status || $status_terpakai || ($tanggal_awal && $tanggal_akhir) || $pelanggan_id;
         $inquery = $hasSearch ? $inquery->get() : collect();
 
         return view('admin.laporan_buktipotongpajakglobal.index', compact('inquery', 'pelanggans'));
@@ -52,19 +58,23 @@ class LaporanBuktipotongpajakglobalController extends Controller
 
     public function print_buktipotongpajakglobal(Request $request)
     {
-        // if (auth()->check() && auth()->user()->menu['laporan penggantian oli']) {
+        $status = $request->input('status');
+        $status_terpakai = $request->input('status_terpakai');
+        $tanggal_awal = $request->input('tanggal_awal');
+        $tanggal_akhir = $request->input('tanggal_akhir');
+        $pelanggan_id = $request->input('pelanggan_id');
+        
+        $pelanggans = Pelanggan::where('id', $pelanggan_id)->first();
+        $query = Tagihan_ekspedisi::whereNotIn('status', ['unpost'])->orderBy('id', 'DESC');
 
-        $status_terpakai = $request->status_terpakai;
-        $tanggal_awal = $request->tanggal_awal;
-        $tanggal_akhir = $request->tanggal_akhir;
-        $pelanggan_id = $request->pelanggan_id;
+        if ($status) {
+            $query->where('status', $status);
+        }
 
-        $query = Tagihan_ekspedisi::orderBy('id', 'DESC');
-
-        if ($status_terpakai == "digunakan") {
+        if ($status_terpakai) {
             $query->where('status_terpakai', $status_terpakai);
         } else {
-            $query->where('status_terpakai', null);
+            $query->whereNull('status_terpakai');
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -76,9 +86,11 @@ class LaporanBuktipotongpajakglobalController extends Controller
             $query->where('pelanggan_id', $pelanggan_id);
         }
 
-        $inquery = $query->orderBy('id', 'DESC')->get();
+        $query->where(['kategori' => 'PPH'])->orderBy('id', 'DESC');
 
-        $pdf = PDF::loadView('admin.laporan_buktipotongpajakglobal.print', compact('inquery'));
+        $inquery = $query->get();
+
+        $pdf = PDF::loadView('admin.laporan_buktipotongpajakglobal.print', compact('inquery', 'pelanggans'));
         return $pdf->stream('Laporan_bukti_potong_pajak.pdf');
     }
 }

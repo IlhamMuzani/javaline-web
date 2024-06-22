@@ -41,7 +41,7 @@
                     <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-3 mb-3">
-                                <label for="created_at">Kategori</label>
+                                <label for="created_at">Jenis Laporan</label>
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Pilih Laporan -</option>
                                     <option value="buktipotong" selected>Laporan Bukti Potong Pajak</option>
