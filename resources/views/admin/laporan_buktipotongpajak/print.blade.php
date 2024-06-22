@@ -108,10 +108,10 @@
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">No.
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:3%">Kode
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:5%">Kode
                 Bukti
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:15%">
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:12%">
                 Tanggal
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:15%">Nomor
