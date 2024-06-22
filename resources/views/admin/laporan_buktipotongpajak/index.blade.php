@@ -80,6 +80,7 @@
                                 <th class="text-center">No</th>
                                 <th>Kode Bukti</th>
                                 <th>Nomor Bukti</th>
+                                <th>Nama Pelanggan</th>
                                 <th>Tanggal</th>
                                 <th>Pph</th>
                                 <th>Grand Total</th>
@@ -97,6 +98,14 @@
                                     </td>
                                     <td>
                                         {{ $buktipotongpajak->nomor_faktur }}
+                                    </td>
+                                    <td>
+                                        @if ($buktipotongpajak->detail_bukti->first())
+                                            {{ $buktipotongpajak->detail_bukti->first()->nama_pelanggan }}
+                                        @else
+                                            tidak ada
+                                        @endif
+
                                     </td>
                                     <td>
                                         {{ $buktipotongpajak->tanggal_awal }}

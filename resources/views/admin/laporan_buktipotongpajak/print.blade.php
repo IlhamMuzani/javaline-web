@@ -21,7 +21,7 @@
         .td {
             text-align: center;
             padding: 5px;
-            font-size: 15px;
+            font-size: 12px;
             /* border: 1px solid black; */
         }
 
@@ -58,7 +58,7 @@
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 12px;
             text-align: center;
         }
 
@@ -106,15 +106,24 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Tanggal
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">No.
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Kode Bukti
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:3%">Kode
+                Bukti
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 15px;">Nomor Bukti
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:15%">
+                Tanggal
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">PPH
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:15%">Nomor
+                Bukti
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 15px;">Grand Total
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:25%">Nama
+                Pelanggan
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;width:20%">PPH
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;width:20%">
+                Grand Total
             </td>
         </tr>
         <!-- Separator row -->
@@ -124,14 +133,19 @@
         <!-- Data rows -->
         @foreach ($inquery as $item)
             <tr>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->periode_awal }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $loop->iteration }}</td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->kode_bukti }}</td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->periode_awal }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->kode_bukti }}</td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->nomor_faktur }}
-                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->nomor_faktur }}
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
+                    {{ $item->detail_bukti->first()->nama_pelanggan }}
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ number_format($item->grand_total * 0.02, 2, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ number_format($item->grand_total - $item->grand_total * 0.02, 2, ',', '.') }}
                 </td>
             </tr>
@@ -150,12 +164,12 @@
             @endphp
         @endforeach
         <tr>
-            <td colspan="3" style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px;">Sub Total
+            <td colspan="6" style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">Sub Total
             </td>
-            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px;">Rp.
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">
                 {{ number_format($total, 0, ',', '.') }}
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-size: 15px; color:white">
+            <td class="td" style="text-align: right; padding: 5px; font-size: 12px; color:white">
                 a</td>
         </tr>
     </table>
