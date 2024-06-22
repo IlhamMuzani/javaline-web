@@ -3,8 +3,22 @@
 @section('title', 'Memo Ekspedisi')
 
 @section('content')
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -21,7 +35,7 @@
     </div>
 
 
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
@@ -102,14 +116,15 @@
                             </div>
 
                             <div class="form-group">
-                                <label style="font-size:14px"  for="nopol">No Memo</label>
+                                <label style="font-size:14px" for="nopol">No Memo</label>
                                 <input style="font-size:14px" readonly type="text" class="form-control" id="kode_memosa"
                                     name="kode_memosa" placeholder="" value="{{ old('kode_memosa') }}">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">Nama Sopir</label>
-                                <input style="font-size:14px" readonly type="text" class="form-control" name="nama_driversa"
-                                    id="nama_driversa" placeholder="" value="{{ old('nama_driversa') }}">
+                                <input style="font-size:14px" readonly type="text" class="form-control"
+                                    name="nama_driversa" id="nama_driversa" placeholder=""
+                                    value="{{ old('nama_driversa') }}">
                             </div>
                             <div class="form-group" hidden>
                                 <label style="font-size:14px" for="nopol">Telp</label>
@@ -125,8 +140,9 @@
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" style="font-size:14px" for="nama">No Kabin</label>
-                                <input style="font-size:14px" readonly style="font-size:14px" type="text" class="form-control"
-                                    name="no_kabinsa" id="no_kabinsa" placeholder="" value="{{ old('no_kabinsa') }}">
+                                <input style="font-size:14px" readonly style="font-size:14px" type="text"
+                                    class="form-control" name="no_kabinsa" id="no_kabinsa" placeholder=""
+                                    value="{{ old('no_kabinsa') }}">
                             </div>
                             <div class="form-group" hidden>
                                 <label style="font-size:14px" style="font-size:14px" for="nama">No Pol</label>
@@ -135,8 +151,9 @@
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nama">Rute Perjalanan</label>
-                                <input style="font-size:14px" readonly type="text" class="form-control" name="nama_rutesa"
-                                    id="nama_rutesa" placeholder="" value="{{ old('nama_rutesa') }}">
+                                <input style="font-size:14px" readonly type="text" class="form-control"
+                                    name="nama_rutesa" id="nama_rutesa" placeholder=""
+                                    value="{{ old('nama_rutesa') }}">
                             </div>
                         </div>
                     </div>

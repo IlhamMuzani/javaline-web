@@ -488,6 +488,7 @@
     request()->is('admin/pilih_deposit*') ||
     request()->is('admin/klaim_ban*') ||
     request()->is('admin/indexnon*') ||
+    request()->is('admin/buktipotong*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
         : '' }}">
@@ -515,6 +516,7 @@
         request()->is('admin/pilih_deposit*') ||
         request()->is('admin/klaim_ban*') ||
         request()->is('admin/indexnon*') ||
+        request()->is('admin/buktipotong*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">

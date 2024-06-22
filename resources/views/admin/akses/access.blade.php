@@ -3,8 +3,22 @@
 @section('title', 'Hak Akses')
 
 @section('content')
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-5">
                 <div class="col-sm-6">
@@ -23,7 +37,7 @@
     </div>
     <!-- /.content-header -->
 
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
@@ -85,11 +99,13 @@
                                     $loop->iteration === 25)
                                 <div id="master">
                                     @if ($loop->iteration === 1)
-                                        <label style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
+                                        <label
+                                            style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
                                             class="form-check-label">MASTER</label>
-                                            <input type="checkbox" style="margin-left:10px" id="option-all" onchange="checkAllmaster(this)">
-                                            <label for="option-all" >Select All</label>
-                                            <br>
+                                        <input type="checkbox" style="margin-left:10px" id="option-all"
+                                            onchange="checkAllmaster(this)">
+                                        <label for="option-all">Select All</label>
+                                        <br>
                                     @endif
                                     <div class="form-check mb-3">
                                         {{-- <input class="form-check-input" type="checkbox" name="menu[]"
@@ -98,7 +114,7 @@
                                             @if ($loop->iteration === 1)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
                                                     data-category="karyawan" value="{{ $menu }}"
-                                                     data-show="show_{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChange('karyawan', this)"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> DATA KARYAWAN
                                             @elseif ($loop->iteration === 2)
@@ -340,8 +356,8 @@
                                                 @foreach ($fiturs as $fitur)
                                                     @if ($loop->iteration === 242)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input"
-                                                                type="checkbox" name="fitur[]" data-category="gaji_karyawan"
+                                                            <input class="form-check-input" type="checkbox"
+                                                                name="fitur[]" data-category="gaji_karyawan"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChange('gaji_karyawan')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}
@@ -1301,11 +1317,13 @@
                                     $loop->iteration === 33)
                                 <div id="operasional">
                                     @if ($loop->iteration === 26)
-                                        <label style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
+                                        <label
+                                            style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
                                             class="form-check-label">OPERASIONAL</label>
-                                            <input type="checkbox" style="margin-left:10px" id="option-all" onchange="checkAlloperasional(this)">
-                                            <label for="option-all" >Select All</label>
-                                            <br>
+                                        <input type="checkbox" style="margin-left:10px" id="option-all"
+                                            onchange="checkAlloperasional(this)">
+                                        <label for="option-all">Select All</label>
+                                        <br>
                                     @endif
                                     <div class="form-check mb-3">
                                         {{-- <input class="form-check-input" type="checkbox" name="menu[]"
@@ -1371,8 +1389,9 @@
                                                 @foreach ($fiturs as $fitur)
                                                     @if ($loop->iteration == 76)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="perpanjangan_stnk"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="perpanjangan_stnk"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangeoperasional('perpanjangan_stnk')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -1404,8 +1423,9 @@
                                                 @foreach ($fiturs as $fitur)
                                                     @if ($loop->iteration == 76)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="perpanjangan_kir"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="perpanjangan_kir"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangeoperasional('perpanjangan_kir')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -1469,11 +1489,13 @@
                                     $loop->iteration === 47)
                                 <div id="transaksi">
                                     @if ($loop->iteration === 34)
-                                        <label style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
+                                        <label
+                                            style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
                                             class="form-check-label">TRANSAKSI</label>
-                                            <input type="checkbox" style="margin-left:10px" id="option-all" onchange="checkAlltransaksi(this)">
-                                            <label for="option-all" >Select All</label>
-                                            <br>
+                                        <input type="checkbox" style="margin-left:10px" id="option-all"
+                                            onchange="checkAlltransaksi(this)">
+                                        <label for="option-all">Select All</label>
+                                        <br>
                                     @endif
                                     <div class="form-check mb-3">
                                         {{-- <input class="form-check-input" type="checkbox" name="menu[]"
@@ -1513,7 +1535,8 @@
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> FAKTUR EKSPEDISI
                                             @elseif ($loop->iteration === 40)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="invoice_ekspedisi" data-show="show_{{ $menu }}" value="{{ $menu }}"
+                                                    data-category="invoice_ekspedisi"
+                                                    data-show="show_{{ $menu }}" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('invoice_ekspedisi')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INVOICE FAKTUR EKSPEDISI
                                             @elseif ($loop->iteration === 41)
@@ -1524,37 +1547,40 @@
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> RETURN BARANG EKSPEDISI
                                             @elseif ($loop->iteration === 42)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="pelunasan_faktur_ekspedisi" data-show="show_{{ $menu }}"
-                                                    value="{{ $menu }}"
+                                                    data-category="pelunasan_faktur_ekspedisi"
+                                                    data-show="show_{{ $menu }}" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('pelunasan_faktur_ekspedisi')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> PELUNASAN FAKTUR EKSPEDISI
                                             @elseif ($loop->iteration === 43)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="pelunasan_faktur_pembelianban" data-show="show_{{ $menu }}"
-                                                    value="{{ $menu }}"
+                                                    data-category="pelunasan_faktur_pembelianban"
+                                                    data-show="show_{{ $menu }}" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('pelunasan_faktur_pembelianban')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> PELUNASAN FAKTUR PEMBELIAN
                                                 BAN
                                             @elseif ($loop->iteration === 44)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="pelunasan_faktur_pembelianpart" data-show="show_{{ $menu }}"
-                                                    value="{{ $menu }}"
+                                                    data-category="pelunasan_faktur_pembelianpart"
+                                                    data-show="show_{{ $menu }}" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('pelunasan_faktur_pembelianpart')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> PELUNASAN FAKTUR PEMBELIAN
                                                 PART
                                             @elseif ($loop->iteration === 45)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="penerimaan_kaskecil" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="penerimaan_kaskecil" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('penerimaan_kaskecil')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> PENERIMAAN KAS KECIL
                                             @elseif ($loop->iteration === 46)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="pengambilan_kaskecil" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="pengambilan_kaskecil" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('pengambilan_kaskecil')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> PENGAMBILAN KAS KECIL
                                             @elseif ($loop->iteration === 47)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="deposit_sopir" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="deposit_sopir" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangetransaksi('deposit_sopir')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> DEPOSIT SOPIR
                                             @endif
@@ -1593,8 +1619,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 248)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="memo_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="memo_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('memo_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -1737,8 +1764,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 257)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="faktur_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="faktur_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('faktur_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -1806,8 +1834,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 263)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="invoice_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="invoice_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('invoice_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -1878,8 +1907,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 269)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="pelunasan_faktur_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('pelunasan_faktur_ekspedisi')"
@@ -1954,8 +1983,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 275)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="pelunasan_faktur_pembelianban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('pelunasan_faktur_pembelianban')"
@@ -2030,8 +2059,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 281)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="pelunasan_faktur_pembelianpart"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('pelunasan_faktur_pembelianpart')"
@@ -2103,8 +2132,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 287)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="pengambilan_kaskecil"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="pengambilan_kaskecil"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangetransaksi('pengambilan_kaskecil')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2170,11 +2200,13 @@
                                     $loop->iteration === 69)
                                 <div id="finance">
                                     @if ($loop->iteration === 49)
-                                        <label style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
+                                        <label
+                                            style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
                                             class="form-check-label">FINANCE</label>
-                                            <input type="checkbox" style="margin-left:10px" id="option-all" onchange="checkAllfinance(this)">
-                                            <label for="option-all" >Select All</label>
-                                            <br>
+                                        <input type="checkbox" style="margin-left:10px" id="option-all"
+                                            onchange="checkAllfinance(this)">
+                                        <label for="option-all">Select All</label>
+                                        <br>
                                     @endif
                                     <div class="form-check mb-3">
                                         {{-- <input class="form-check-input" type="checkbox" name="menu[]"
@@ -2208,32 +2240,38 @@
                                                 KECIL
                                             @elseif ($loop->iteration === 53)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="inquery_deposit_sopir" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="inquery_deposit_sopir" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_deposit_sopir')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY DEPOSIT SOPIR
                                             @elseif ($loop->iteration === 54)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="inquery_update_km" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="inquery_update_km" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_update_km')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY UPDATE KM
                                             @elseif ($loop->iteration === 55)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="inquery_pembelian_ban" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="inquery_pembelian_ban" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_pembelian_ban')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PEMBELIAN BAN
                                             @elseif ($loop->iteration === 56)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="inquery_pembelian_part" value="{{ $menu }}" data-show="show_{{ $menu }}"
+                                                    data-category="inquery_pembelian_part" value="{{ $menu }}"
+                                                    data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_pembelian_part')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PEMBELIAN PART
                                             @elseif ($loop->iteration === 57)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="inquery_pemasangan_ban" value="{{ $menu }}"data-show="show_{{ $menu }}"
+                                                    data-category="inquery_pemasangan_ban"
+                                                    value="{{ $menu }}"data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_pemasangan_ban')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PEMASANGAN BAN
                                             @elseif ($loop->iteration === 58)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
-                                                    data-category="inquery_pelepasan_ban" value="{{ $menu }}"data-show="show_{{ $menu }}"
+                                                    data-category="inquery_pelepasan_ban"
+                                                    value="{{ $menu }}"data-show="show_{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_pelepasan_ban')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PELEPASAN BAN
                                             @elseif ($loop->iteration === 59)
@@ -2243,25 +2281,29 @@
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_pemasangan_part')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PEMASANGAN PART
                                             @elseif ($loop->iteration === 60)
-                                                <input class="form-check-input" type="checkbox" name="menu[]"data-show="show_{{ $menu }}"
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="menu[]"data-show="show_{{ $menu }}"
                                                     data-category="inquery_penggantian_oli"
                                                     value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_penggantian_oli')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PENGGANTIAN OLI
                                             @elseif ($loop->iteration === 61)
-                                                <input class="form-check-input" type="checkbox" name="menu[]"data-show="show_{{ $menu }}"
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="menu[]"data-show="show_{{ $menu }}"
                                                     data-category="inquery_perpanjangan_stnk"
                                                     value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_perpanjangan_stnk')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PERPANJANGAN STNK
                                             @elseif ($loop->iteration === 62)
-                                                <input class="form-check-input" type="checkbox" name="menu[]"data-show="show_{{ $menu }}"
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="menu[]"data-show="show_{{ $menu }}"
                                                     data-category="inquery_perpanjangan_kir"
                                                     value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_perpanjangan_kir')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY PERPANJANGAN KIR
                                             @elseif ($loop->iteration === 63)
-                                                <input class="form-check-input" type="checkbox" name="menu[]"data-show="show_{{ $menu }}"
+                                                <input class="form-check-input" type="checkbox"
+                                                    name="menu[]"data-show="show_{{ $menu }}"
                                                     data-category="inquery_memo_ekspedisi" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangefinance('inquery_memo_ekspedisi')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> INQUERY MEMO EKSPEDISI
@@ -2360,8 +2402,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 295)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_perhitungan_gaji"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_perhitungan_gaji"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_perhitungan_gaji')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2417,8 +2460,8 @@
                                                             </div>
                                                         @elseif ($loop->iteration == 300)
                                                             <div class="form-check ml-5 mb-3">
-                                                                <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                    name="fitur[]"
+                                                                <input class="form-check-input show_{{ $menu }}"
+                                                                    type="checkbox" name="fitur[]"
                                                                     data-category="inquery_perhitungan_gaji"
                                                                     value="{{ $fitur }}"
                                                                     onchange="handleIndividualCheckboxChangefinance('inquery_perhitungan_gaji')"
@@ -2480,8 +2523,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 305)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_kasbon_karyawan"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_kasbon_karyawan"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_kasbon_karyawan')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2545,8 +2589,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 85)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="inquery_penerimaan_kaskecil"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_penerimaan_kaskecil')"
@@ -2611,8 +2655,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 90)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="inquery_pengambilan_kaskecil"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pengambilan_kaskecil')"
@@ -2672,8 +2716,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 95)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_deposit_sopir"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_deposit_sopir"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_deposit_sopir')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2732,8 +2777,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 100)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_update_km"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_update_km"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_update_km')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2792,8 +2838,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 105)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_pembelian_ban"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_pembelian_ban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pembelian_ban')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2853,8 +2900,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 110)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_pembelian_part"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_pembelian_part"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pembelian_part')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2914,8 +2962,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 115)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_pemasangan_ban"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_pemasangan_ban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pemasangan_ban')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -2974,8 +3023,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 120)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_pelepasan_ban"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_pelepasan_ban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pelepasan_ban')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3035,8 +3085,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 125)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_pemasangan_part"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_pemasangan_part"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pemasangan_part')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3096,8 +3147,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 130)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_penggantian_oli"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_penggantian_oli"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_penggantian_oli')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3157,8 +3209,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 135)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_perpanjangan_stnk"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_perpanjangan_stnk"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_perpanjangan_stnk')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3218,8 +3271,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 140)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_perpanjangan_kir"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_perpanjangan_kir"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_perpanjangan_kir')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3280,8 +3334,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 145)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_memo_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_memo_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_memo_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3340,8 +3395,9 @@
                                                                 </div>
                                                             @elseif ($loop->iteration == 150)
                                                                 <div class="form-check ml-5 mb-3">
-                                                                    <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                        name="fitur[]"
+                                                                    <input
+                                                                        class="form-check-input show_{{ $menu }}"
+                                                                        type="checkbox" name="fitur[]"
                                                                         data-category="inquery_memo_ekspedisi"
                                                                         value="{{ $fitur }}"
                                                                         onchange="handleIndividualCheckboxChangefinance('inquery_memo_ekspedisi')"
@@ -3403,8 +3459,9 @@
                                                                 </div>
                                                             @elseif ($loop->iteration == 155)
                                                                 <div class="form-check ml-5 mb-3">
-                                                                    <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                        name="fitur[]"
+                                                                    <input
+                                                                        class="form-check-input show_{{ $menu }}"
+                                                                        type="checkbox" name="fitur[]"
                                                                         data-category="inquery_memo_ekspedisi"
                                                                         value="{{ $fitur }}"
                                                                         onchange="handleIndividualCheckboxChangefinance('inquery_memo_ekspedisi')"
@@ -3467,8 +3524,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 160)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_faktur_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_faktur_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_faktur_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3528,8 +3586,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 165)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_invoice_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_invoice_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_invoice_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3591,8 +3650,9 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 170)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]" data-category="inquery_return_ekspedisi"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
+                                                                data-category="inquery_return_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_return_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -3651,8 +3711,9 @@
                                                                 </div>
                                                             @elseif ($loop->iteration == 175)
                                                                 <div class="form-check ml-5 mb-3">
-                                                                    <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                        name="fitur[]"
+                                                                    <input
+                                                                        class="form-check-input show_{{ $menu }}"
+                                                                        type="checkbox" name="fitur[]"
                                                                         data-category="inquery_return_ekspedisi"
                                                                         value="{{ $fitur }}"
                                                                         onchange="handleIndividualCheckboxChangefinance('inquery_return_ekspedisi')"
@@ -3714,8 +3775,9 @@
                                                                 </div>
                                                             @elseif ($loop->iteration == 180)
                                                                 <div class="form-check ml-5 mb-3">
-                                                                    <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                        name="fitur[]"
+                                                                    <input
+                                                                        class="form-check-input show_{{ $menu }}"
+                                                                        type="checkbox" name="fitur[]"
                                                                         data-category="inquery_return_ekspedisi"
                                                                         value="{{ $fitur }}"
                                                                         onchange="handleIndividualCheckboxChangefinance('inquery_return_ekspedisi')"
@@ -3782,8 +3844,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 185)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="inquery_pelunasan_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pelunasan_ekspedisi')"
@@ -3848,8 +3910,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 190)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="inquery_pelunasan_faktur_pembelian_ban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pelunasan_faktur_pembelian_ban')"
@@ -3914,8 +3976,8 @@
                                                         </div>
                                                     @elseif ($loop->iteration == 195)
                                                         <div class="form-check ml-5 mb-3">
-                                                            <input class="form-check-input show_{{ $menu }}" type="checkbox"
-                                                                name="fitur[]"
+                                                            <input class="form-check-input show_{{ $menu }}"
+                                                                type="checkbox" name="fitur[]"
                                                                 data-category="inquery_pelunasan_faktur_pembelian_part"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangefinance('inquery_pelunasan_faktur_pembelian_part')"
@@ -3956,11 +4018,13 @@
                                     $loop->iteration === 92)
                                 <div id="laporan">
                                     @if ($loop->iteration === 70)
-                                        <label style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
+                                        <label
+                                            style="font-weight: bold; margin-bottom:20px; margin-top:20px; font-size:17px"
                                             class="form-check-label">LAPORAN</label>
-                                            <input type="checkbox" style="margin-left:10px" id="option-all" onchange="checkAlllaporan(this)">
-                                            <label for="option-all" >Select All</label>
-                                            <br>
+                                        <input type="checkbox" style="margin-left:10px" id="option-all"
+                                            onchange="checkAlllaporan(this)">
+                                        <label for="option-all">Select All</label>
+                                        <br>
                                     @endif
                                     <div class="form-check mb-3">
                                         {{-- <input class="form-check-input" type="checkbox" name="menu[]"
@@ -4015,12 +4079,12 @@
                                                     data-category="laporan_update_km" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangelaporan('laporan_update_km')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> LAPORAN UPDATE KM
-                                                    @elseif ($loop->iteration === 79)
+                                            @elseif ($loop->iteration === 79)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
                                                     data-category="laporan_kas_kecil" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangelaporan('laporan_kas_kecil')"
                                                     {{ $akses->menu[$menu] ? 'checked' : '' }}> LAPORAN KAS KECIL
-                                                    @elseif ($loop->iteration === 80)
+                                            @elseif ($loop->iteration === 80)
                                                 <input class="form-check-input" type="checkbox" name="menu[]"
                                                     data-category="laporan_mobil_logistik" value="{{ $menu }}"
                                                     onchange="handleIndividualCheckboxChangelaporan('laporan_mobil_logistik')"
@@ -4689,8 +4753,7 @@
                                                 <input class="form-check-input" type="checkbox"
                                                     id="select-laporan_pph"
                                                     onchange="checkAllCategorylaporan('laporan_pph')">
-                                                <label for="select-laporan_pph"
-                                                    style="margin-left:5px">Select
+                                                <label for="select-laporan_pph" style="margin-left:5px">Select
                                                     All</label>
                                             </div>
                                             <div class="mb-3" style="display: flex; flex-wrap: wrap;">
@@ -4770,7 +4833,8 @@
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_return_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
-                                                            <label class="form-check-label">Cari Surat Penerimaan Return Barang</label>
+                                                            <label class="form-check-label">Cari Surat Penerimaan Return
+                                                                Barang</label>
                                                         </div>
                                                     @elseif ($loop->iteration == 231)
                                                         <div class="form-check ml-5 mb-3">
@@ -4799,7 +4863,8 @@
                                                                             value="{{ $fitur }}"
                                                                             onchange="handleIndividualCheckboxChangelaporan('laporan_return_ekspedisi')"
                                                                             {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
-                                                                        <label class="form-check-label">Cari Nota Return Barang</label>
+                                                                        <label class="form-check-label">Cari Nota Return
+                                                                            Barang</label>
                                                                     </div>
                                                                 @elseif ($loop->iteration == 233)
                                                                     <div class="form-check ml-5 mb-3">
@@ -4832,7 +4897,8 @@
                                                                             value="{{ $fitur }}"
                                                                             onchange="handleIndividualCheckboxChangelaporan('laporan_return_ekspedisi')"
                                                                             {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
-                                                                        <label class="form-check-label">Cari Penjualan Return Barang</label>
+                                                                        <label class="form-check-label">Cari Penjualan
+                                                                            Return Barang</label>
                                                                     </div>
                                                                 @elseif ($loop->iteration == 235)
                                                                     <div class="form-check ml-5 mb-3">
@@ -4866,7 +4932,8 @@
                                                     @if ($loop->iteration == 236)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="fitur[]" data-category="laporan_pelunasan_ekspedisi"
+                                                                name="fitur[]"
+                                                                data-category="laporan_pelunasan_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_pelunasan_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -4875,7 +4942,8 @@
                                                     @elseif ($loop->iteration == 237)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="fitur[]" data-category="laporan_pelunasan_ekspedisi"
+                                                                name="fitur[]"
+                                                                data-category="laporan_pelunasan_ekspedisi"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_pelunasan_ekspedisi')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -4885,7 +4953,6 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        
                                     @elseif ($loop->iteration === 91)
                                         <div class="row">
                                             <div class="form-check" style="margin-left:28px">
@@ -4901,7 +4968,8 @@
                                                     @if ($loop->iteration == 238)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="fitur[]" data-category="laporan_pelunasan_pembelian_ban"
+                                                                name="fitur[]"
+                                                                data-category="laporan_pelunasan_pembelian_ban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_pelunasan_pembelian_ban')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -4910,7 +4978,8 @@
                                                     @elseif ($loop->iteration == 239)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="fitur[]" data-category="laporan_pelunasan_pembelian_ban"
+                                                                name="fitur[]"
+                                                                data-category="laporan_pelunasan_pembelian_ban"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_pelunasan_pembelian_ban')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -4920,7 +4989,6 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        
                                     @elseif ($loop->iteration === 92)
                                         <div class="row">
                                             <div class="form-check" style="margin-left:28px">
@@ -4936,7 +5004,8 @@
                                                     @if ($loop->iteration == 240)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="fitur[]" data-category="laporan_pelunasan_pembelian_part"
+                                                                name="fitur[]"
+                                                                data-category="laporan_pelunasan_pembelian_part"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_pelunasan_pembelian_part')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -4945,7 +5014,8 @@
                                                     @elseif ($loop->iteration == 241)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="fitur[]" data-category="laporan_pelunasan_pembelian_part"
+                                                                name="fitur[]"
+                                                                data-category="laporan_pelunasan_pembelian_part"
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangelaporan('laporan_pelunasan_pembelian_part')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
@@ -4955,7 +5025,6 @@
                                                 @endforeach
                                             </div>
                                         </div>
-                                        
                                     @endif
                                 </div>
                             @endif
@@ -5135,10 +5204,9 @@
                                 });
                             });
                         </script>
-                        
+
                         {{-- operasional --}}
                         <script>
-
                             function checkAlloperasional(myCheckbox) {
                                 var checkboxesInMaster = document.querySelectorAll("#operasional input[type='checkbox']");
 
@@ -5194,7 +5262,6 @@
 
                         {{-- transaksi --}}
                         <script>
-
                             function checkAlltransaksi(myCheckbox) {
                                 var checkboxesInMaster = document.querySelectorAll("#transaksi input[type='checkbox']");
 
@@ -5257,6 +5324,7 @@
                                     checkbox.checked = myCheckbox.checked;
                                 });
                             }
+
                             function checkAllCategoryfinance(category) {
                                 var checkboxes = document.querySelectorAll('#finance input[type="checkbox"][data-category="' + category +
                                     '"]');

@@ -3,8 +3,22 @@
 @section('title', 'Laporan Mobil Logistik Global')
 
 @section('content')
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -21,7 +35,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <div class="container-fluid">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -434,73 +448,73 @@
                 </div>
             </div>
         </div>
-    </section>
-    <!-- /.card -->
-    <script>
-        var tanggalAwal = document.getElementById('created_at');
-        var tanggalAkhir = document.getElementById('tanggal_akhir');
-        if (tanggalAwal.value == "") {
-            tanggalAkhir.readOnly = true;
-        }
-        tanggalAwal.addEventListener('change', function() {
-            if (this.value == "") {
+        </section>
+        <!-- /.card -->
+        <script>
+            var tanggalAwal = document.getElementById('created_at');
+            var tanggalAkhir = document.getElementById('tanggal_akhir');
+            if (tanggalAwal.value == "") {
                 tanggalAkhir.readOnly = true;
-            } else {
-                tanggalAkhir.readOnly = false;
-            };
-            tanggalAkhir.value = "";
-            var today = new Date().toISOString().split('T')[0];
-            tanggalAkhir.value = today;
-            tanggalAkhir.setAttribute('min', this.value);
-        });
-        var form = document.getElementById('form-action')
-
-        function cari() {
-            form.action = "{{ url('admin/laporan_mobillogistikglobal') }}";
-            form.submit();
-        }
-
-        function printReport() {
-            var startDate = tanggalAwal.value;
-            var endDate = tanggalAkhir.value;
-
-            if (startDate && endDate) {
-                form.action = "{{ url('admin/print_mobillogistikglobal') }}" + "?start_date=" + startDate + "&end_date=" +
-                    endDate;
-                form.submit();
-            } else {
-                alert("Silakan isi kedua tanggal sebelum mencetak.");
             }
-        }
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            // Detect the change event on the 'status' dropdown
-            $('#statusx').on('change', function() {
-                // Get the selected value
-                var selectedValue = $(this).val();
-
-                // Check the selected value and redirect accordingly
-                switch (selectedValue) {
-                    case 'memo_perjalanan':
-                        window.location.href = "{{ url('admin/laporan_mobillogistik') }}";
-                        break;
-                    case 'memo_borong':
-                        window.location.href = "{{ url('admin/laporan_mobillogistikglobal') }}";
-                        break;
-                        // case 'akun':
-                        //     window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
-                        //     break;
-                        // case 'memo_tambahan':
-                        //     window.location.href = "{{ url('admin/laporan_saldokas') }}";
-                        //     break;
-                    default:
-                        // Handle other cases or do nothing
-                        break;
-                }
+            tanggalAwal.addEventListener('change', function() {
+                if (this.value == "") {
+                    tanggalAkhir.readOnly = true;
+                } else {
+                    tanggalAkhir.readOnly = false;
+                };
+                tanggalAkhir.value = "";
+                var today = new Date().toISOString().split('T')[0];
+                tanggalAkhir.value = today;
+                tanggalAkhir.setAttribute('min', this.value);
             });
-        });
-    </script>
+            var form = document.getElementById('form-action')
 
-@endsection
+            function cari() {
+                form.action = "{{ url('admin/laporan_mobillogistikglobal') }}";
+                form.submit();
+            }
+
+            function printReport() {
+                var startDate = tanggalAwal.value;
+                var endDate = tanggalAkhir.value;
+
+                if (startDate && endDate) {
+                    form.action = "{{ url('admin/print_mobillogistikglobal') }}" + "?start_date=" + startDate + "&end_date=" +
+                        endDate;
+                    form.submit();
+                } else {
+                    alert("Silakan isi kedua tanggal sebelum mencetak.");
+                }
+            }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                // Detect the change event on the 'status' dropdown
+                $('#statusx').on('change', function() {
+                    // Get the selected value
+                    var selectedValue = $(this).val();
+
+                    // Check the selected value and redirect accordingly
+                    switch (selectedValue) {
+                        case 'memo_perjalanan':
+                            window.location.href = "{{ url('admin/laporan_mobillogistik') }}";
+                            break;
+                        case 'memo_borong':
+                            window.location.href = "{{ url('admin/laporan_mobillogistikglobal') }}";
+                            break;
+                            // case 'akun':
+                            //     window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
+                            //     break;
+                            // case 'memo_tambahan':
+                            //     window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                            //     break;
+                        default:
+                            // Handle other cases or do nothing
+                            break;
+                    }
+                });
+            });
+        </script>
+
+    @endsection
