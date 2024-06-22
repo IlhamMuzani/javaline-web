@@ -254,6 +254,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapusperhitunganbulanan/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'hapusperhitunganbulanan'])->name('hapusperhitunganbulanan');
 
     Route::get('karyawan/search', [\App\Http\Controllers\Admin\KaryawanController::class, 'search']);
+    Route::get('pelanggan/search', [\App\Http\Controllers\Admin\PelangganController::class, 'search']);
 
     Route::get('inquery_memoekspedisi/search', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'search']);
 

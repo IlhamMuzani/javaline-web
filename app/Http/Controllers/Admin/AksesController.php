@@ -17,17 +17,16 @@ class AksesController extends Controller
     public function index()
     {
         if (auth()->check() && auth()->user()->menu['akses']) {
-            // Ambil semua karyawan dengan departemen_id 2
-            $drivers = Karyawan::where('departemen_id', 1)->get();
-
-            // Ambil user yang terkait dengan karyawan yang memiliki departemen_id 2
-            $aksess = User::where(['cek_hapus' => 'tidak'])
-                ->whereIn('karyawan_id', $drivers->pluck('id'))
+            $drivers = Karyawan::where('departemen_id', 1)
+            ->select('id')
                 ->get();
+
+            $aksess = User::where('cek_hapus', 'tidak')
+            ->whereIn('karyawan_id', $drivers->pluck('id'))
+            ->get();
 
             return view('admin.akses.index', compact('aksess'));
         } else {
-            // Tidak memiliki akses
             return back()->with('error', 'Anda tidak memiliki akses');
         }
     }

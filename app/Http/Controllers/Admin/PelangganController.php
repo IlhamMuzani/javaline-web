@@ -13,18 +13,41 @@ use Illuminate\Support\Facades\Validator;
 
 class PelangganController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['pelanggan']) {
+            $query = Pelanggan::select('id', 'kode_pelanggan', 'nama_pell', 'nama_person', 'telp', 'qrcode_pelanggan');
 
-            $pelanggans = Pelanggan::select('id', 'kode_pelanggan', 'nama_pell', 'nama_person', 'telp', 'qrcode_pelanggan')
-            ->get(); 
-            return view('admin/pelanggan.index', compact('pelanggans'));
+            if ($request->has('keyword')) {
+                $keyword = $request->input('keyword');
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('kode_pelanggan', 'like', "%$keyword%")
+                        ->orWhere('nama_pell', 'like', "%$keyword%")
+                        ->orWhere('nama_person', 'like', "%$keyword%")
+                        ->orWhere('telp', 'like', "%$keyword%");
+                });
+            }
+
+            $pelanggans = $query->orderBy('created_at', 'desc')->paginate(10);
+
+            return view('admin.pelanggan.index', compact('pelanggans'));
         } else {
-            // tidak memiliki akses
-            return back()->with('error', array('Anda tidak memiliki akses'));
+            return back()->with('error', 'Anda tidak memiliki akses');
         }
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+
+        // Ensure the query is properly formed
+        $karyawans = Pelanggan::where('nama_pell', 'like', "%$keyword%")
+            ->orWhere('kode_pelanggan', 'like', "%$keyword%")
+            ->paginate(10);
+
+        return response()->json($karyawans);
+    }
+
 
     public function create()
     {
@@ -197,7 +220,6 @@ class PelangganController extends Controller
         $pelanggan->save();
 
         return redirect('admin/pelanggan')->with('success', 'Berhasil memperbarui pelanggan');
-
     }
 
     public function destroy($id)

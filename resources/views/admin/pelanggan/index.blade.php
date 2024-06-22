@@ -14,7 +14,7 @@
                 document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 document.getElementById("mainContentSection").style.display = "block";
-            }, 2000); // Adjust the delay time as needed
+            }, 100); // Adjust the delay time as needed
         });
     </script>
     <!-- Content Header (Page header) -->
@@ -57,9 +57,28 @@
                         @endif
                     </div>
                 </div>
-                <!-- /.card-header -->
+                <form action="{{ url('admin/pelanggan') }}" method="GET" id="get-keyword" autocomplete="off">
+                    @csrf
+                    <div class="row p-3">
+                        <div class="col-0 col-md-8"></div>
+                        <div class="col-md-4">
+                            <label for="keyword">Cari Pelanggan :</label>
+                            <div class="input-group">
+                                <input type="search" class="form-control" name="keyword" id="keyword"
+                                    value="{{ Request::get('keyword') }}"
+                                    onsubmit="event.preventDefault();
+                                        document.getElementById('get-keyword').submit();">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
@@ -69,7 +88,7 @@
                                 <th>Nama</th>
                                 <th>Telepon</th>
                                 <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="90">Opsi</th>
+                                <th class="text-center" width="130">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -176,6 +195,13 @@
                         </tbody>
                     </table>
                 </div>
+                @if ($pelanggans->total() > 10)
+                    <div class="card-footer">
+                        <div class="pagination float-right">
+                            {{ $pelanggans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
+                        </div>
+                    </div>
+                @endif
                 <!-- /.card-body -->
             </div>
         </div>

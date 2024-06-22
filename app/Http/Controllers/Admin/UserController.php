@@ -43,9 +43,9 @@ class UserController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['user']) {
 
-            $departemens = Departemen::all();
-            $karyawans = Karyawan::where(['status' => 'null'])->get();
-            return view('admin/user.create', compact('departemens', 'karyawans'));
+            $karyawans = Karyawan::with('departemen')
+                ->select('id', 'kode_karyawan')->where(['status' => 'null'])->get();
+            return view('admin/user.create', compact('karyawans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -100,19 +100,11 @@ class UserController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
-        $number = mt_rand(1000000000, 9999999999);
-        if ($this->qrcodeUserExists($number)) {
-            $number = mt_rand(1000000000, 9999999999);
-        }
-
         User::create(array_merge(
             $request->all(),
             [
-                // 'menu' => '-',
-                // 'password' => '-',
                 'cek_hapus' => 'tidak',
                 'kode_user' => $this->kode(),
-                'qrcode_user' => $number,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 'menu' => [
                     'karyawan' => false,
@@ -706,11 +698,6 @@ class UserController extends Controller
         return redirect('admin/user')->with('success', 'Berhasil mengubah User');
     }
 
-    public function qrcodeUserExists($number)
-    {
-        return User::whereQrcodeUser($number)->exists();
-    }
-
     public function cetakpdf($id)
     {
         $cetakpdf = User::where('id', $id)->first();
@@ -755,7 +742,6 @@ class UserController extends Controller
         }
 
         User::where('id', $request->id)->update([
-            // 'menu' => $menu,
             'menu' => [
                 'kendaraan' => $kendaraan,
                 'pelanggan' => $pelanggan

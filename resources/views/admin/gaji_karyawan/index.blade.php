@@ -4,7 +4,7 @@
 
 @section('content')
 
- <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
     </div>
 
@@ -14,7 +14,7 @@
                 document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 document.getElementById("mainContentSection").style.display = "block";
-            }, 2000); // Adjust the delay time as needed
+            }, 100); // Adjust the delay time as needed
         });
     </script>
 

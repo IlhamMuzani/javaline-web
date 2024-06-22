@@ -14,7 +14,7 @@
                 document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 document.getElementById("mainContentSection").style.display = "block";
-            }, 2000); // Adjust the delay time as needed
+            }, 100); // Adjust the delay time as needed
         });
     </script>
 
@@ -123,7 +123,7 @@
                                 <th>Ukuran</th>
                                 <th class="text-center">Qr Code</th>
                                 <th>Keterangan</th>
-                                <th class="text-center">Opsi</th>
+                                <th class="text-center" style="width:120px">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>

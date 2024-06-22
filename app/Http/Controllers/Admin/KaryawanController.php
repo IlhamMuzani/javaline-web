@@ -56,7 +56,7 @@ class KaryawanController extends Controller
     public function create()
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
-            $departemens = Departemen::all();
+            $departemens = Departemen::select('id', 'nama')->get();
             return view('admin/karyawan.create', compact('departemens'));
         } else {
             // tidak memiliki akses
@@ -77,7 +77,6 @@ class KaryawanController extends Controller
                 'gender' => 'required',
                 'tanggal_lahir' => 'required',
                 'tanggal_gabung' => 'required',
-                // 'jabatan' => 'required',
                 'telp' => 'required',
                 'alamat' => 'required',
                 'gambar' => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
@@ -91,7 +90,6 @@ class KaryawanController extends Controller
                 'gender.required' => 'Pilih gender',
                 'tanggal_lahir.required' => 'Masukkan tanggal lahir',
                 'tanggal_gabung.required' => 'Masukkan tanggal gabung',
-                // 'jabatan.required' => 'Pilih jabatan',
                 'telp.required' => 'Masukkan no telepon',
                 'alamat.required' => 'Masukkan alamat',
                 'gambar.image' => 'Gambar yang dimasukan salah!',
@@ -103,51 +101,48 @@ class KaryawanController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
-        if ($request->gambar) {
+        $namaGambar = '';
+        if ($request->hasFile('gambar')) {
             $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
             $namaGambar = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
             $request->gambar->storeAs('public/uploads/', $namaGambar);
-        } else {
-            $namaGambar = '';
         }
 
         $kode = $this->kode();
         $kodedriver = $this->kodedriver();
-        $departemen = $request->departemen_id;
 
-        if ($departemen == 1) {
-            $kode_karyawan = $kode;
-        } elseif ($departemen == 2) {
-            $kode_karyawan = $kodedriver;
-        } else {
-            // Handle other cases if needed
-            $kode_karyawan =  $kode;
-        }
+        $kode_karyawan = ($request->departemen_id == 1) ? $kode : (($request->departemen_id == 2) ? $kodedriver : $kode);
 
-        Karyawan::create(array_merge(
-            $request->all(),
-            [
-                'gambar' => $namaGambar,
-                'tanggal_keluar' => '-',
-                'gaji' => 0,
-                'pembayaran' => 0,
-                'tabungan' => 0,
-                'kasbon' => 0,
-                'bayar_kasbon' => 0,
-                'deposit' => 0,
-                'bayar_kasbon' => 0,
-                'pembayaran' => 0,
-                'status' => 'null',
-                'kode_karyawan' => $kode_karyawan,
-                'qrcode_karyawan' => 'https://javaline.id/karyawan/' . $kode,
-                // 'qrcode_karyawan' => 'http://192.168.1.46/javaline/karyawan/' . $kode
-                'tanggal' => Carbon::now('Asia/Jakarta'),
-
-            ]
-        ));
+        Karyawan::create([
+            'departemen_id' => $request->departemen_id,
+            'no_ktp' => $request->no_ktp,
+            'no_sim' => $request->no_sim,
+            'nama_lengkap' => $request->nama_lengkap,
+            'nama_kecil' => $request->nama_kecil,
+            'gender' => $request->gender,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'tanggal_gabung' => $request->tanggal_gabung,
+            'telp' => $request->telp,
+            'alamat' => $request->alamat,
+            'nama_bank' => $request->nama_bank,
+            'atas_nama' => $request->atas_nama,
+            'norek' => $request->norek,
+            'gambar' => $namaGambar,
+            'gaji' => 0,
+            'pembayaran' => 0,
+            'tabungan' => 0,
+            'kasbon' => 0,
+            'bayar_kasbon' => 0,
+            'deposit' => 0,
+            'status' => 'null',
+            'kode_karyawan' => $kode_karyawan,
+            'qrcode_karyawan' => 'https://javaline.id/karyawan/' . $kode,
+            'tanggal' => Carbon::now('Asia/Jakarta'),
+        ]);
 
         return redirect('admin/karyawan')->with('success', 'Berhasil menambahkan karyawan');
     }
+
 
     public function kode()
     {
@@ -196,14 +191,22 @@ class KaryawanController extends Controller
     public function show($id)
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
+            $karyawan = Karyawan::with('departemen')
+                ->select('id', 'kode_karyawan', 'nama_lengkap','no_ktp','no_sim','alamat', 'tanggal_lahir','tanggal_gabung', 'telp', 'departemen_id', 'qrcode_karyawan')
+                ->where('id', $id)
+                ->first();
 
-            $karyawan = Karyawan::with('departemen')->where('id', $id)->first();
-            return view('admin/karyawan.show', compact('karyawan'));
+            if (!$karyawan) {
+                return back()->with('error', 'Karyawan tidak ditemukan');
+            }
+
+            return view('admin.karyawan.show', compact('karyawan'));
         } else {
             // tidak memiliki akses
-            return back()->with('error', array('Anda tidak memiliki akses'));
+            return back()->with('error', 'Anda tidak memiliki akses');
         }
     }
+
 
     public function edit($id)
     {

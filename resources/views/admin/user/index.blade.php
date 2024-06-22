@@ -4,7 +4,7 @@
 
 @section('content')
 
- <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
     </div>
     <!-- Content Header (Page header) -->
@@ -65,7 +65,7 @@
                     </div>
                 </form>
                 <div class="card-body">
-                    <table  class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
@@ -169,13 +169,13 @@
         </div>
     </section>
 
-     <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 document.getElementById("loadingSpinner").style.display = "none";
                 document.getElementById("mainContent").style.display = "block";
                 document.getElementById("mainContentSection").style.display = "block";
-            }, 2000); // Adjust the delay time as needed
+            }, 100); // Adjust the delay time as needed
         });
     </script>
     <!-- /.card -->

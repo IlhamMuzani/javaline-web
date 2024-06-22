@@ -14,11 +14,9 @@ class DepartemenController extends Controller
     public function index()
     {
         if (auth()->check() && auth()->user()->menu['departemen']) {
-
-            $departemens = Departemen::all();
+            $departemens = Departemen::select('id', 'nama', 'qrcode_departemen')->get();
             return view('admin/departemen.index', compact('departemens'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
