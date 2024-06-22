@@ -76,10 +76,10 @@
                                     <option value="">- Semua Status -</option>
                                     <option value="digunakan"
                                         {{ Request::get('status_terpakai') == 'digunakan' ? 'selected' : '' }}>
-                                        Sudah Potong Pajak
+                                        Sudah Ada Bukti Potong
                                     </option>
                                     <option value="" {{ Request::get('status_terpakai') == null ? 'selected' : '' }}>
-                                        Belum Potong Pajak</option>
+                                        Belum Ada Bukti Potong</option>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">

@@ -132,9 +132,9 @@
                                 <td class="info-item" style="font-size: 13px;">:</td>
                                 <td class="info-text info-left" style="font-size: 13px;">
                                     @if ($status_terpakai == 'digunakan')
-                                        Sudah Potong Pajak
+                                        Sudah Ada Bukti Potong
                                     @else
-                                        Belum Potong Pajak
+                                        Belum Ada Bukti Potong
                                     @endif
                                 </td>
                             </tr>
