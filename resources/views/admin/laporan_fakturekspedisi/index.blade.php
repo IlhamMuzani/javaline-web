@@ -35,7 +35,7 @@
         <!-- /.content-header -->
 
         <!-- Main content -->
-        <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
             <div class="container-fluid">
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible">
