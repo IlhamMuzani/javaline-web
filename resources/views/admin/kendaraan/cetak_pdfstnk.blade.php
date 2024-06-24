@@ -10,9 +10,9 @@
 
     <style type="text/css">
         .invoice-box {
-            max-width: 800px;
+            max-width: 400px;
             margin: auto;
-            padding: 30px;
+            padding: 0px;
             border: 1px solid #eee;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
             font-size: 16px;
@@ -22,14 +22,23 @@
 
 
         .invoice-box table {
-            max-width: 800px;
+            max-width: 400px;
             margin: auto;
-            padding: 30px;
+            padding: 10px;
             border: 1px solid #eee;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
             font-size: 16px;
             line-height: 24px;
             font-family: Arial, sans-serif;
+        }
+
+        .portrait-img {
+            width: auto;
+            height: 600px;
+            /* Adjust this value to your desired height */
+            display: block;
+            margin: 0 auto;
+            object-fit: cover;
         }
     </style>
 
@@ -43,7 +52,7 @@
                 <div style="display: inline-block;">
                     @if ($cetakpdf->gambar_stnk)
                         <img src="{{ public_path('storage/uploads/' . $cetakpdf->gambar_stnk) }}"
-                            alt="{{ $cetakpdf->kode_kendaraan }}" width="400" height="220">
+                            alt="{{ $cetakpdf->kode_kendaraan }}" class="portrait-img">
                     @else
                         <img src="{{ public_path('adminlte/dist/img/img-placeholder.jpg') }}"
                             alt="{{ $cetakpdf->kode_kendaraan }}" width="200" height="200">

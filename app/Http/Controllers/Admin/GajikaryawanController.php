@@ -26,16 +26,7 @@ class GajikaryawanController extends Controller
 
         return view('admin.gaji_karyawan.index', compact('gajis'));
     }
-
-    // public function indexteknisi()
-    // {
-    //     $gajis = Karyawan::whereNotIn('departemen_id', [2])
-    //         ->orderBy('nama_lengkap')
-    //         ->get();
-
-    //     return view('admin.gaji_karyawan.index', compact('gajis'));
-    // }
-
+    
     public function show($id)
     {
 

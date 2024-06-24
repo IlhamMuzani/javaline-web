@@ -290,9 +290,18 @@
                                                         {{ $kendaraan->kode_kendaraan }}</p>
                                                     <div style="display: inline-block;">
                                                         @if ($kendaraan->gambar_stnk)
+                                                            <style>
+                                                                .portrait-img {
+                                                                    width: auto;
+                                                                    height: 450px;
+                                                                    /* Adjust this value to your desired height */
+                                                                    display: block;
+                                                                    margin: 0 auto;
+                                                                    object-fit: cover;
+                                                                }
+                                                            </style>
                                                             <img src="{{ asset('storage/uploads/' . $kendaraan->gambar_stnk) }}"
-                                                                alt="{{ $kendaraan->kode_kendaraan }}" width="400"
-                                                                height="220">
+                                                                alt="{{ $kendaraan->kode_kendaraan }}"class="portrait-img">
                                                         @else
                                                             <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
                                                                 alt="{{ $kendaraan->kode_kendaraan }}" width="200"
