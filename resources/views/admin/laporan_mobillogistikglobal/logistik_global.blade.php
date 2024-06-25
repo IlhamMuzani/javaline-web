@@ -108,13 +108,17 @@
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
-                <td>{{ $kendaraan->user->karyawan->nama_lengkap ?? 'tidak ada' }}</td>
+                <td>
+                    @if ($kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
+                        {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
+                    @endif
+                </td>
                 <td>{{ number_format($ritase, 0, ',', '.') }}</td>
-                <td>{{ number_format($faktur, 2, ',', '.') }}</td>
-                <td>{{ number_format($memo + $memotambahan, 2, ',', '.') }}</td>
-                <td>{{ number_format($operasional, 2, ',', '.') }}</td>
-                <td>{{ number_format($perbaikan, 2, ',', '.') }}</td>
-                <td>{{ number_format($totalSubtotal, 2, ',', '.') }}</td>
+                <td>Rp. {{ number_format($faktur, 2, ',', '.') }}</td>
+                <td>Rp. {{ number_format($memo + $memotambahan, 2, ',', '.') }}</td>
+                <td>Rp. {{ number_format($operasional, 2, ',', '.') }}</td>
+                <td>Rp. {{ number_format($perbaikan, 2, ',', '.') }}</td>
+                <td>Rp. {{ number_format($totalSubtotal, 2, ',', '.') }}</td>
             </tr>
         @endforeach
     </tbody>

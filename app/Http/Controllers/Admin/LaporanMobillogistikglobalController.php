@@ -60,7 +60,7 @@ class LaporanMobillogistikglobalController extends Controller
         $hasSearch = $status || ($created_at && $tanggal_akhir);
         $inquery = $hasSearch ? $faktur_ekspedisis : collect();
 
-        return view('admin.laporan_mobillogistikglobal.index', compact('kendaraans', 'created_at', 'tanggal_akhir', 'kategoris'));
+        return view('admin.laporan_mobillogistikglobal.index', compact('inquery', 'kendaraans', 'created_at', 'tanggal_akhir', 'kategoris'));
     }
 
     public function print_mobillogistikglobal(Request $request)

@@ -138,10 +138,8 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
                                     <td>
-                                        @if ($kendaraan->user)
-                                            {{ $kendaraan->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
+                                        @if ($kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
+                                            {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
                                         @endif
                                     </td>
                                     <td class="text-right">

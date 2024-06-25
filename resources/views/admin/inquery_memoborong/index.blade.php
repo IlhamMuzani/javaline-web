@@ -4,7 +4,7 @@
 
 @section('content')
     <!-- Content Header (Page header) -->
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+    {{-- <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
     </div>
 
@@ -16,10 +16,10 @@
                 document.getElementById("mainContentSection").style.display = "block";
             }, 100); // Adjust the delay time as needed
         });
-    </script>
+    </script> --}}
 
     <!-- Content Header (Page header) -->
-    <div class="content-header" style="display: none;" id="mainContent">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -36,7 +36,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">

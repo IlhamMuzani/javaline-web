@@ -164,10 +164,8 @@
                     {{ $ritase->no_kabin }} </td>
                 <td class="td"
                     style="text-align: left; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    @if ($ritase->user)
-                        {{ $ritase->user->karyawan->nama_lengkap }}
-                    @else
-                        tidak ada
+                    @if ($ritase->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
+                        {{ $ritase->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
                     @endif
                 </td>
                 <td class="td"
@@ -451,9 +449,9 @@
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                 @if ($kategoris == 'mon memo')
-                0
+                    0
                 @else
-                {{ number_format($totalMemo + $totalMemotambahan, 2, ',', '.') }}
+                    {{ number_format($totalMemo + $totalMemotambahan, 2, ',', '.') }}
                 @endif
             </td>
             {{-- <td
