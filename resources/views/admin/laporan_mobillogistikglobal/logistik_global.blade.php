@@ -118,7 +118,7 @@
             </tr>
         @endforeach
     </tbody>
-    {{-- <tfoot>
+    <tfoot>
         <tr>
             <td colspan="3"></td>
             <td>{{ number_format($totalRitase, 0, ',', '.') }}</td>
@@ -128,5 +128,5 @@
             <td>{{ number_format($totalPerbaikan, 2, ',', '.') }}</td>
             <td>{{ number_format($totalSubtotal, 2, ',', '.') }}</td>
         </tr>
-    </tfoot> --}}
+    </tfoot>
 </table>
