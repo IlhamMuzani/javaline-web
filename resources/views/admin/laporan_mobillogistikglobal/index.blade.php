@@ -95,6 +95,9 @@
                                     target="_blank">
                                     <i class="fas fa-print"></i> Cetak
                                 </button>
+                                <button type="button" class="btn btn-success btn-block" onclick="printExportexcel()">
+                                    <i class="fas fa-file-excel"></i> Export Excel
+                                </button>
                                 {{-- @endif --}}
                             </div>
                         </div>
@@ -484,6 +487,21 @@
                     form.submit();
                 } else {
                     alert("Silakan isi kedua tanggal sebelum mencetak.");
+                }
+            }
+        </script>
+
+        <script>
+            function printExportexcel() {
+                var startDate = tanggalAwal.value;
+                var endDate = tanggalAkhir.value;
+
+                if (startDate && endDate) {
+                    var form = document.getElementById('form-action');
+                    form.action = "{{ url('admin/laporan_mobillogistikglobal/rekapexportlaporanlogistik') }}";
+                    form.submit();
+                } else {
+                    alert("Silakan isi kedua tanggal sebelum mengeksport.");
                 }
             }
         </script>

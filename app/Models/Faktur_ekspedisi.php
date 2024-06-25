@@ -87,7 +87,6 @@ class Faktur_ekspedisi extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function kendaraan()
     {
         return $this->belongsTo(Kendaraan::class);

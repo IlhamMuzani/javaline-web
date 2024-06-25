@@ -443,7 +443,7 @@
                 </td>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
                 </td>
-                <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
+                {{-- <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
                     @foreach ($cetakpdf->detail_tariftambahan as $item)
                         @if ($item->qty_tambahan == null)
                         @else
@@ -455,6 +455,25 @@
                     @foreach ($cetakpdf->detail_tariftambahan as $item)
                         {{ $item->satuan_tambahan }}
                     @endforeach
+                </td> --}}
+                <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
+                    @php
+                        $totalQtyTambahan = 0;
+                    @endphp
+                    @foreach ($cetakpdf->detail_tariftambahan as $item)
+                        @if ($item->qty_tambahan != null)
+                            @php
+                                $totalQtyTambahan += $item->qty_tambahan;
+                            @endphp
+                        @endif
+                    @endforeach
+
+                    {{ number_format($cetakpdf->jumlah + $totalQtyTambahan, 2, ',', '.') }}
+                </td>
+                <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
+                    @if ($cetakpdf->detail_tariftambahan->isNotEmpty())
+                        {{ $cetakpdf->detail_tariftambahan->first()->satuan_tambahan }}
+                    @endif
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
                     {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 2, ',', '.') }}

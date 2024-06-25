@@ -91,7 +91,7 @@
                 $kendaraan = request()->query('kendaraan_id');
             @endphp
             @if ($startDate && $endDate)
-                <p>Periode:{{ $startDate }} s/d {{ $endDate }} {{ $inquery->first()->kendaraan->no_pol }}
+                <p>Periode:{{ $startDate }} s/d {{ $endDate }}
                 </p>
             @else
                 <p>Periode: Tidak ada tanggal awal dan akhir yang diteruskan.</p>
@@ -136,7 +136,7 @@
             <tr style="background:rgb(181, 181, 181)">
                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">{{ $faktur->kode_faktur }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">{{ $faktur->created_at }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">{{ $faktur->tanggal_awal }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                     {{ $faktur->nama_pelanggan }}
