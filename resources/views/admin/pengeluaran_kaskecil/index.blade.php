@@ -122,7 +122,6 @@
                                     <tr id="pembelian-0">
                                         <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
                                         </td>
-
                                         <td hidden>
                                             <div class="form-group">
                                                 <input style="font-size:14px" type="text" class="form-control"

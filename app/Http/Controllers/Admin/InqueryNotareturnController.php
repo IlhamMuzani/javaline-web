@@ -56,7 +56,8 @@ class InqueryNotareturnController extends Controller
     {
         $inquery = Nota_return::where('id', $id)->first();
         $details  = Detail_nota::where('nota_return_id', $id)->get();
-        $returnbarangs = Return_ekspedisi::all();
+        $returnbarangs = Return_ekspedisi::orderBy('created_at', 'desc')->get();
+
         return view('admin.inquery_notareturn.update', compact('returnbarangs', 'details', 'inquery'));
     }
 
@@ -211,7 +212,7 @@ class InqueryNotareturnController extends Controller
         return view('admin.inquery_notareturn.show', compact('cetakpdf', 'details'));
     }
 
-    
+
     public function show($id)
     {
         $cetakpdf = Nota_return::where('id', $id)->first();

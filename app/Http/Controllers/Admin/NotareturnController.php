@@ -19,7 +19,7 @@ class NotareturnController extends Controller
 {
     public function index()
     {
-        $returnbarangs = Return_ekspedisi::all();
+        $returnbarangs = Return_ekspedisi::orderBy('created_at', 'desc')->get();
 
         return view('admin.nota_returnbarang.index', compact('returnbarangs'));
     }

@@ -172,7 +172,7 @@
                 var slipId = $(this).closest('tr').data('id');
 
                 // Pesan yang ingin Anda kirim
-                var pesan = 'Ini adalah gaji yang Anda terima. Silakan lihat detailnya disini: ' +
+                var pesan = 'Ini adalah gaji yang Anda terima. Silakan lihat detailnya disini dengan cara login terlebih dahulu menggunakan akun anda di web, kemudian klik link ini: ' +
                     'https://javaline.id/admin/report_slipgajibulanan/' + slipId;
 
                 // Membuat URL dengan format URL Scheme WhatsApp

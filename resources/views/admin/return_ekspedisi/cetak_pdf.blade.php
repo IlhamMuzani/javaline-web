@@ -296,6 +296,8 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">No.
                 Faktur:{{ $cetakpdf->kode_return }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
+                No.Surat Jalan:{{ $cetakpdf->nomor_suratjalan }}</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
     </table>
