@@ -3,6 +3,7 @@
 @section('title', 'Laporan Faktur Pelunasan')
 
 @section('content')
+    <!-- Content Header (Page header) -->
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
         <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
     </div>
@@ -35,7 +36,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-        <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">

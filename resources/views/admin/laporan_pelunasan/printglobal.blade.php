@@ -72,8 +72,22 @@
         }
 
         @page {
-            /* size: A4; */
             margin: 1cm;
+            counter-increment: page;
+            counter-reset: page 1;
+        }
+
+        /* Define the footer with page number */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: start;
+            font-size: 10px;
+        }
+
+        footer::after {
+            content: counter(page);
         }
     </style>
 </head>
@@ -321,11 +335,14 @@
                     </tr>
                 </table>
             </td>
-
         </tr>
     </table>
-    <br>
-    <br>
+    <footer style="position: fixed; bottom: 0; right: 20px; width: auto; text-align: end; font-size: 10px;">Page
+    </footer>
+    {{-- <?php
+    $totalPages = count($inquery);
+    echo '<div style="position: fixed; bottom: 0; right: 0px; font-size: 10px;">of ' . $totalPages . '</div>';
+    ?> --}}
 
 </body>
 

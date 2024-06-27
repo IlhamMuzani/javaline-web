@@ -140,10 +140,5 @@ class LaporanPelunasanController extends Controller
 
         $pdf->loadView('admin.laporan_pelunasan.printglobal', compact('inquery'));
         return $pdf->stream('Laporan_Pelunasan.pdf');
-
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 }

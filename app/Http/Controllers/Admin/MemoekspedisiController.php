@@ -42,7 +42,9 @@ class MemoekspedisiController extends Controller
         $kendaraans = Kendaraan::all();
         $drivers = User::whereHas('karyawan', function ($query) {
             $query->where('departemen_id', '2');
-        })->get();
+        })->with(['karyawan' => function ($query) {
+            $query->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'tabungan');
+        }])->get();
         $ruteperjalanans = Rute_perjalanan::all();
         $biayatambahan = Biaya_tambahan::all();
         $potonganmemos = Potongan_memo::all();

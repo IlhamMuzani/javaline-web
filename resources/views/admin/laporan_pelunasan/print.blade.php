@@ -79,7 +79,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN PELUNASAN EKSPEDISI - RANGKUMAN</span>
@@ -169,20 +170,7 @@
             </td>
         </tr>
     </table>
-
-
-
-
     <br>
-
-    <!-- Tampilkan sub-total di bawah tabel -->
-    {{-- <div style="text-align: right;">
-        <strong>Sub Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong>
-    </div> --}}
-
-
-    {{-- <br> --}}
-
     <br>
     <br>
 
