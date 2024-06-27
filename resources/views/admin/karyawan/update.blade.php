@@ -121,14 +121,9 @@
                             </select>
                         </div> --}}
                         <div class="form-group">
-                            <label for="telp">No. Telepon</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">+62</span>
-                                </div>
-                                <input type="text" id="telp" name="telp" class="form-control"
-                                    placeholder="Masukan nomor telepon" value="{{ old('telp', $karyawan->telp) }}">
-                            </div>
+                            <label for="nama">No Telp</label>
+                            <input type="text" class="form-control" id="telp" name="telp"
+                                placeholder="Masukan no Telp" value="{{ old('telp', $karyawan->telp) }}">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
