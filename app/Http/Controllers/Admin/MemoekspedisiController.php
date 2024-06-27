@@ -39,13 +39,17 @@ class MemoekspedisiController extends Controller
 {
     public function index()
     {
-        $kendaraans = Kendaraan::all();
+        $kendaraans = Kendaraan::select('id', 'kode_kendaraan', 'no_kabin', 'no_pol', 'km', 'golongan_id') // tambahkan 'golongan_id'
+            ->with(['golongan' => function ($query) {
+                $query->select('id', 'nama_golongan'); // pastikan untuk memilih 'id' karena relasi membutuhkan kunci asing
+            }])
+            ->get();
         $drivers = User::whereHas('karyawan', function ($query) {
             $query->where('departemen_id', '2');
         })->with(['karyawan' => function ($query) {
             $query->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'tabungan');
         }])->get();
-        $ruteperjalanans = Rute_perjalanan::all();
+        $ruteperjalanans = Rute_perjalanan::select('id', 'kode_rute', 'nama_rute', 'golongan1', 'golongan2', 'golongan3', 'golongan4', 'golongan5')->get();
         $biayatambahan = Biaya_tambahan::all();
         $potonganmemos = Potongan_memo::all();
         $pelanggans = Pelanggan::all();
@@ -53,7 +57,14 @@ class MemoekspedisiController extends Controller
         //     $query->where(['status_memo' => null, 'status' => 'posting'])
         //         ->orWhere(['status_memo' => null, 'status' => 'unpost']);
         // })->get();
-        $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_memotambahan' => null])->get();
+        $memos = Memo_ekspedisi::whereNull('status_memo')
+            ->where('status', 'posting')
+            ->whereNull('status_memotambahan')
+            ->select('id', 'kode_memo', 'nama_driver', 'telp', 'kendaraan_id', 'no_kabin', 'nama_rute')
+            ->with(['kendaraan' => function ($query) {
+                $query->select('id', 'no_pol'); // pastikan untuk memilih 'id' karena relasi membutuhkan kunci asing
+            }])
+            ->get();
         $saldoTerakhir = Saldo::latest()->first();
         return view('admin.memo_ekspedisi.index', compact('memos', 'pelanggans', 'kendaraans', 'drivers', 'ruteperjalanans', 'biayatambahan', 'saldoTerakhir', 'potonganmemos'));
     }
