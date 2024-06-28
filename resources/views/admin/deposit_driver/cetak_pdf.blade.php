@@ -258,7 +258,7 @@
     <table width="100%">
         <tr>
             <td>
-                <div class="info-catatan" style="max-width: 230px;">
+                <div class="info-catatan">
                     <table>
                         <tr>
                             <td class="info-catatan2">Kode Sopir</td>
@@ -283,11 +283,17 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2">Terbilang</td>
-                            <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
-                                ({{ terbilang($cetakpdf->nominal) }}
-                                Rupiah)</td>
+                            <td style="text-align: left; padding: 0px; font-size: 16px; font-weight:bold">
+                                Terbilang
+                            </td>
+                            <td style="text-align: center; padding: 0px; font-size: 16px; font-weight:bold">
+                                :
+                            </td>
+                            <td
+                                style="text-align: left; padding-top: 5px; font-size: 16px; font-style:italic; font-weight:bold">
+                                ({{ terbilang($cetakpdf->nominal) }} Rupiah)
+                            </td>
+
                         </tr>
                     </table>
                 </div>
