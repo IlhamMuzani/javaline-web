@@ -60,7 +60,7 @@ class MemoekspedisiController extends Controller
         $memos = Memo_ekspedisi::whereNull('status_memo')
             ->where('status', 'posting')
             ->whereNull('status_memotambahan')
-            ->select('id', 'kode_memo', 'nama_driver', 'telp', 'kendaraan_id', 'no_kabin', 'nama_rute')
+            ->select('id', 'kode_memo', 'nama_driver', 'telp', 'kendaraan_id', 'no_kabin', 'nama_rute', 'tanggal_awal')
             ->with(['kendaraan' => function ($query) {
                 $query->select('id', 'no_pol'); // pastikan untuk memilih 'id' karena relasi membutuhkan kunci asing
             }])
