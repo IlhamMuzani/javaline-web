@@ -103,7 +103,7 @@
             <td style="text-align: left; font-size: 15px;">
                 <span class="content2">
                     :
-                    <span>{{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</span></span>
+                    <span>{{ \Carbon\Carbon::parse($cetakpdf->periode_awal)->locale('id')->isoFormat('D MMMM YYYY') }}</span></span>
                 <br>
             </td>
             <td class="info-text-align: left" style="font-size: 15px; margin-left: 5px; display: block;">Nomor Bukti
