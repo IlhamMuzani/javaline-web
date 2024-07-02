@@ -359,14 +359,26 @@
     </script>
 
     <script>
+        function formatCurrencys2(value) {
+            // Menghilangkan "Rp"
+            value = value.replace(/Rp\s*/g, '');
+            // Menghilangkan semua titik
+            value = value.replace(/[.]/g, '');
+            // Mengubah koma menjadi titik
+            value = value.replace(/,/g, '.');
+
+            return parseFloat(value) || 0;
+        }
+
         $(document).ready(function() {
             function calculateTotal() {
                 // Ambil nilai input dan hapus titik pemisah ribuan
                 var nominalCicilan = parseFloat($('#nominal_cicilan').val().replace(/[.]/g, '')) || 0;
                 var jumlahCicilan = parseFloat($('#jumlah_cicilan').val().replace(/[.]/g, '')) || 0;
                 var nominalTambahan = parseFloat($('#nominal_lebih').val().replace(/[.]/g, '')) || 0;
-                var subTotals = parseFloat($('#nominals').val().replace(/[.]/g, '')) || 0;
+                var subTotals = formatCurrency($('#sub_totals').val());
 
+                console.log(subTotals);
                 // Lakukan perkalian dan penjumlahan
                 var grandTotal = (nominalCicilan * jumlahCicilan) + nominalTambahan;
 
