@@ -52,32 +52,124 @@ class InqueryBuktipotongpajakController extends Controller
     public function edit($id)
     {
         $buktipotongpajak = Bukti_potongpajak::where('id', $id)->first();
+        $details = Detail_bukti::where('bukti_potongpajak_id', $id)
+            ->select(
+                'id as detail_id',
+                'tagihan_ekspedisi_id as id',
+                'kode_tagihan',
+                'tanggal',
+                'nama_pelanggan',
+                'pph',
+                'total',
+            )
+            ->get();
+        $detail_id_data = Detail_bukti::where('bukti_potongpajak_id', $id)->pluck('id', 'tagihan_ekspedisi_id')->toArray();
+        $tagihan_ekspedisis = Tagihan_ekspedisi::where(function ($query) {
+            $query->where('status', 'posting')
+                ->orWhere('status', 'selesai');
+        })->where(['kategori' => 'PPH', 'status_terpakai' => null])->get();
 
-        return view('admin.inquery_buktipotongpajak.update', compact('buktipotongpajak'));
+        return view('admin.inquery_buktipotongpajak.update', compact('details', 'detail_id_data', 'buktipotongpajak', 'tagihan_ekspedisis'));
     }
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'nomor_faktur' => 'required',
-            ],
-            [
-                'nomor_faktur.required' => 'Masukkan nomor faktur',
-            ]
-        );
+        $validasi_pelanggan = Validator::make($request->all(), [
+            'kategori' => 'required',
+            'kategoris' => 'required',
+            'nomor_faktur' => 'required',
+            'tanggal' => 'required',
+            'grand_total' => 'required',
+        ], [
+            'kategori.required' => 'Pilih Status',
+            'kategoris.required' => 'Pilih Kategori',
+            'nomor_faktur.required' => 'Masukkan nomor faktur',
+            'tanggal.required' => 'Pilih Tanggal',
+            'grand_total.required' => 'Grand total kosong',
+        ]);
 
-        if ($validator->fails()) {
-            $error = $validator->errors()->all();
-            return back()->withInput()->with('error', $error);
+
+        $error_pelanggans = array();
+        $error_pesanans = array();
+        $data_pembelians = collect();
+
+        if ($validasi_pelanggan->fails()) {
+            array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
+        }
+
+        if ($request->has('id')) {
+            foreach ($request->id as $key => $tagihan_ekspedisi_id) {
+                $validator_produk = Validator::make($request->all(), []);
+
+                if ($validator_produk->fails()) {
+                    $error_pesanans[] = "Invoce nomor " . ($key + 1) . " belum dilengkapi!";
+                }
+
+                // $harga = $request->harga[$tagihan_ekspedisi_id] ?? '';
+                // $satuan = $request->satuan[$tagihan_ekspedisi_id] ?? '';
+                // $jumlah = $request->jumlah[$tagihan_ekspedisi_id] ?? '';
+                // $total = $request->total[$tagihan_ekspedisi_id] ?? '';
+
+                $tagihan = Tagihan_ekspedisi::where('id', $tagihan_ekspedisi_id)->first();
+
+                $data_pembelians->push([
+                    'id' => $tagihan_ekspedisi_id,
+                    'kode_tagihan' => $tagihan->kode_tagihan,
+                    'tanggal' => $tagihan->tanggal,
+                    'nama_pelanggan' => $tagihan->nama_pelanggan,
+                    'pph' => $tagihan->pph,
+                    'total' => $tagihan->sub_total,
+                ]);
+            }
+        }
+
+        if ($validasi_pelanggan->fails() || $error_pesanans) {
+            return back()
+                ->withInput()
+                ->with('error_pelanggans', $error_pelanggans)
+                ->with('error_pesanans', $error_pesanans)
+                ->with('data_pembelians', $data_pembelians);
         }
 
         Bukti_potongpajak::where('id', $id)->update([
+            'kategori' => $request->kategori,
+            'kategoris' => $request->kategoris,
             'nomor_faktur' => $request->nomor_faktur,
             'periode_awal' => $request->periode_awal,
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'status' => 'posting',
         ]);
+
+        // Update or create Detail_bukti records and update Tagihan_ekspedisi status
+        foreach ($request->id as $tagihan_ekspedisi_id) {
+            $detail = Detail_bukti::where([
+                ['bukti_potongpajak_id', $id],
+                ['tagihan_ekspedisi_id', $tagihan_ekspedisi_id]
+            ])->first();
+
+            if ($detail) {
+                $detail->update([
+                    'kode_tagihan' => $request->kode_tagihan[$tagihan_ekspedisi_id],
+                    'tanggal' => $request->tanggal[$tagihan_ekspedisi_id],
+                    'nama_pelanggan' => $request->nama_pelanggan[$tagihan_ekspedisi_id],
+                    'pph' => $request->pph[$tagihan_ekspedisi_id],
+                    'total' => $request->total[$tagihan_ekspedisi_id],
+                ]);
+            } else {
+                $tagihan = Tagihan_ekspedisi::find($tagihan_ekspedisi_id);
+                Detail_bukti::create([
+                    'bukti_potongpajak_id' => $id,
+                    'tagihan_ekspedisi_id' => $tagihan->id,
+                    'kode_tagihan' => $tagihan->kode_tagihan,
+                    'tanggal' => $tagihan->tanggal,
+                    'nama_pelanggan' => $tagihan->nama_pelanggan,
+                    'pph' => $tagihan->pph,
+                    'total' => $tagihan->sub_total,
+                ]);
+            }
+
+            Tagihan_ekspedisi::where('id', $tagihan_ekspedisi_id)->update(['status_terpakai' => 'digunakan']);
+        }
 
         $cetakpdf = Bukti_potongpajak::where('id', $id)->first();
         $details = Detail_bukti::where('bukti_potongpajak_id', $id)->get();

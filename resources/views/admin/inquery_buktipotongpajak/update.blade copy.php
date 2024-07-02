@@ -65,6 +65,38 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="form-group">
+                                        <label style="font-size:14px" class="form-label" for="kategori">Pilih
+                                            Status</label>
+                                        <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
+                                            <option value="">- Pilih -</option>
+                                            <option value="MASUKAN"
+                                                {{ old('kategori', $buktipotongpajak->kategori) == 'MASUKAN' ? 'selected' : null }}>
+                                                MASUKAN</option>
+                                            <option value="PENGELUARAN"
+                                                {{ old('kategori', $buktipotongpajak->kategori) == 'PENGELUARAN' ? 'selected' : null }}>
+                                                PENGELUARAN</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" class="form-label" for="kategoris">Pilih
+                                            Kategori</label>
+                                        <select style="font-size:14px" class="form-control" id="kategoris" name="kategoris">
+                                            <option value="">- Pilih -</option>
+                                            <option value="PPH 23"
+                                                {{ old('kategoris', $buktipotongpajak->kategoris) == 'PPH 23' ? 'selected' : null }}>
+                                                PPH 23</option>
+                                            <option value="PPN"
+                                                {{ old('kategoris', $buktipotongpajak->kategoris) == 'PPN' ? 'selected' : null }}>
+                                                PPN</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
                                         <label style="font-size:14px" class="form-label" for="kategori">Nomor Bukti
                                             Penerimaan</label>
                                         <input class="form-control" type="text" placeholder="masukkan nomor penerimaan"
@@ -91,10 +123,10 @@
                         <h3 class="card-title">Invoice <span>
                             </span></h3>
                         <div class="float-right">
-                            {{-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
+                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                 data-target="#modal-barang">
                                 Pilih Invoice
-                            </button> --}}
+                            </button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -102,32 +134,32 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th style="width: 40px" class="text-center">No</th>
                                     <th>Kode tagihan</th>
                                     <th>Tanggal</th>
                                     <th>Nama Pelanggan</th>
                                     <th>PPH</th>
                                     <th style="width: 220px;">Total</th>
+                                    <th class="text-center" style="width: 40px;">Opsi</th>
                                 </tr>
                             </thead>
                             <tbody id="tabel-barang">
-                                <tr>
-                                    <td>{{ $buktipotongpajak->kode_bukti }}</td>
-                                    <td>{{ $buktipotongpajak->tanggal_awal }}</td>
-                                    <td>
-                                        @if ($buktipotongpajak->detail_bukti->first())
-                                            {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->nama_pelanggan }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                <tr id="tabel-barang-kosong" style="display: none">
+                                    <td class="text-center" colspan="7">
+                                        - Belum ada invoice yang dipilih -
                                     </td>
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4">Grand Total</th>
+                                    <th class="text-right" colspan="3"> <!-- Added text-right class -->
+                                        <span style="margin-right: 55px" id="span-grand-total">0</span>
+                                        <input type="hidden" class="form-control" name="grand_total" id="grand-total"
+                                            value="0">
+                                    </th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -136,8 +168,7 @@
                 </div>
             </form>
         </div>
-
-        {{-- <div class="modal fade" id="modal-barang" data-backdrop="static">
+        <div class="modal fade" id="modal-barang" data-backdrop="static">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -193,10 +224,10 @@
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
     </section>
 
-    {{-- <script>
+    <script>
         var item_id = [];
 
         function add_item(id, detail_id) {
@@ -366,7 +397,7 @@
                 });
             }
         }
-    </script> --}}
+    </script>
 
 
 @endsection
