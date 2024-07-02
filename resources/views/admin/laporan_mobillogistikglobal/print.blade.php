@@ -152,13 +152,42 @@
             $totalOperasional = 0; // Initialize the total variable
             $totalPerbaikan = 0; // Initialize the total variable
             $totalSubtotal = 0; // Initialize the total variable
+            $nomorUrut = 1; // Initialize the counter for row number
         @endphp
 
         @foreach ($kendaraans as $ritase)
+            @php
+                // Calculate necessary values
+                $kategoriMemo =
+                    optional($ritase->faktur_ekspedisi)
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->where('kategoris', 'memo')
+                        ->sum('grand_total') ?? 0;
+
+                $kategoriNonMemo =
+                    optional($ritase->faktur_ekspedisi)
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->where('kategoris', 'non memo')
+                        ->sum('grand_total') ?? 0;
+
+                // Calculate the total faktur for the kendaraan
+                $totalFakturKendaraan = $kategoriMemo + $kategoriNonMemo;
+
+                // Skip rendering if total faktur is 0
+                if ($totalFakturKendaraan <= 0) {
+                    continue;
+                }
+            @endphp
             <tr>
                 <td class="td"
                     style="text-align: left; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ $loop->iteration }}</td>
+                    {{ $nomorUrut }}</td>
                 <td class="td"
                     style="text-align: left; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
                     {{ $ritase->no_kabin }} </td>
@@ -235,20 +264,6 @@
                         ) }}
                     @endif
                 </td>
-                {{-- <td class="td"
-                    style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ number_format(
-                        $ritase->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                            return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                    Carbon\Carbon::parse($created_at)->startOfDay(),
-                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                ])->sum('grand_total');
-                        }),
-                        0,
-                        ',',
-                        '.',
-                    ) }}
-                </td> --}}
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
                     {{ number_format(
@@ -344,6 +359,7 @@
             </tr>
 
             @php
+                $nomorUrut++;
                 // Accumulate the grand_total for each $ritase
                 $totalFaktur +=
                     optional($ritase->faktur_ekspedisi)

@@ -23,6 +23,7 @@
             $totalOperasional = 0;
             $totalPerbaikan = 0;
             $totalSubtotal = 0;
+            $nomorUrut = 1; // Initialize the counter for row number
         @endphp
 
         @foreach ($kendaraans as $kendaraan)
@@ -34,6 +35,35 @@
 
                 // Menambahkan 23:59:59 hanya sekali
                 $tanggal_akhir = Carbon\Carbon::parse($tanggal_akhir)->endOfDay();
+
+                // Calculate necessary values
+                $kategoriMemo =
+                    optional($kendaraan->faktur_ekspedisi)
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->where('kategoris', 'memo')
+                        ->sum('grand_total') ?? 0;
+
+                $kategoriNonMemo =
+                    optional($kendaraan->faktur_ekspedisi)
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->where('kategoris', 'non memo')
+                        ->sum('grand_total') ?? 0;
+
+                // Calculate the total faktur for the kendaraan
+                $totalFakturKendaraan = $kategoriMemo + $kategoriNonMemo;
+
+                // Skip rendering if total faktur is 0
+                if ($totalFakturKendaraan <= 0) {
+                    continue;
+                }
+
+                
 
                 // Hitung ritase
                 $ritase =
@@ -106,7 +136,7 @@
             @endphp
 
             <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td> {{ $nomorUrut }}</td>
                 <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
                 <td>
                     @if ($kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
@@ -120,6 +150,9 @@
                 <td>Rp. {{ number_format($perbaikan, 2, ',', '.') }}</td>
                 <td>Rp. {{ number_format($totalSubtotal, 2, ',', '.') }}</td>
             </tr>
+            @php
+                $nomorUrut++;
+            @endphp
         @endforeach
     </tbody>
     <tfoot>

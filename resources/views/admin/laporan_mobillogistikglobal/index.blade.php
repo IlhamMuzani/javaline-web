@@ -131,12 +131,41 @@
                                 $totalOperasional = 0; // Initialize the total variable
                                 $totalPerbaikan = 0; // Initialize the total variable
                                 $totalSubtotal = 0; // Initialize the total variable
+                                $nomorUrut = 1; // Initialize the counter for row number
                             @endphp
 
                             @foreach ($kendaraans as $kendaraan)
+                                @php
+                                    // Calculate necessary values
+                                    $kategoriMemo =
+                                        optional($kendaraan->faktur_ekspedisi)
+                                            ->whereBetween('created_at', [
+                                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                            ])
+                                            ->where('kategoris', 'memo')
+                                            ->sum('grand_total') ?? 0;
+
+                                    $kategoriNonMemo =
+                                        optional($kendaraan->faktur_ekspedisi)
+                                            ->whereBetween('created_at', [
+                                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                            ])
+                                            ->where('kategoris', 'non memo')
+                                            ->sum('grand_total') ?? 0;
+
+                                    // Calculate the total faktur for the kendaraan
+                                    $totalFakturKendaraan = $kategoriMemo + $kategoriNonMemo;
+
+                                    // Skip rendering if total faktur is 0
+                                    if ($totalFakturKendaraan <= 0) {
+                                        continue;
+                                    }
+                                @endphp
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
+                                    <td class="text-center">{{ $nomorUrut }}</td> {{-- Menampilkan nomor urut --}} <td>
+                                        {{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
                                     <td>
                                         @if ($kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
                                             {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
@@ -295,6 +324,8 @@
                                     </td>
                                 </tr>
                                 @php
+                                    $nomorUrut++;
+
                                     $totalRitase +=
                                         optional($kendaraan->memo_ekspedisi)
                                             ->whereBetween('created_at', [$created_at, $tanggal_akhir])
