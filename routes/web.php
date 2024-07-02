@@ -554,6 +554,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('cetak_memotambahanfilter', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'cetak_memotambahanfilter']);
     Route::get('cetak_fakturekspedisifilter', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'cetak_fakturekspedisifilter']);
     Route::get('deletefakturfilter', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'deletefakturfilter']);
+    Route::get('deletememotambahanfilter', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'deletememotambahanfilter']);
 
     Route::get('cetak_gajibulananfilter', [\App\Http\Controllers\Admin\InqueryslipgajibulananController::class, 'cetak_gajibulananfilter']);
     Route::get('cetak_gajifilter', [\App\Http\Controllers\Admin\InqueryslipgajiController::class, 'cetak_gajifilter']);

@@ -784,179 +784,6 @@ class InqueryMemotambahanController extends Controller
         return $pdf->stream('SelectedMemoTambahan.pdf');
     }
 
-    //  public function unpostmemotambahan($id)
-    //     {
-    //         $item = Memotambahan::where('id', $id)->first();
-    //         if (!$item) {
-    //             return back()->with('error', 'Memo tidak ditemukan');
-    //         }
-
-    //         // Assuming there's a foreign key relationship between Memo_ekspedisi and Memotambahan
-    //         $biayatambahan = Memotambahan::where('id', $id)->first();
-    //         if (!$biayatambahan) {
-    //             return back()->with('error', 'Biaya tambahan tidak ditemukan');
-    //         }
-
-    //         $totaltambahan = $biayatambahan->grand_total;
-
-    //         $lastSaldo = Saldo::latest()->first();
-    //         if (!$lastSaldo) {
-    //             return back()->with('error', 'Saldo tidak ditemukan');
-    //         }
-
-    //         $sisaSaldo = $lastSaldo->sisa_saldo + $totaltambahan;
-    //         Saldo::create([
-    //             'sisa_saldo' => $sisaSaldo,
-    //         ]);
-
-    //         $memoekspedisi = Memo_ekspedisi::where('id', $id)->first();
-    //         $user = User::where('id', $memoekspedisi->user_id)->first();
-    //         if (!$user) {
-    //             return back()->with('error', 'User tidak ditemukan');
-    //         }
-    //         $karyawan = Karyawan::where('id', $user->id)->first();
-    //         if (!$karyawan) {
-    //             return back()->with('error', 'Karyawan tidak ditemukan');
-    //         }
-    //         $tabungans = $karyawan->tabungan;
-    //         $deposits = $karyawan->deposit;
-    //         $karyawan->update([
-    //             'deposit' => $deposits - $item->deposit_driver,
-    //             'tabungan' => $tabungans - $item->deposit_driver,
-    //         ]);
-
-    //         Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
-    //             'status' => 'pending'
-    //         ]);
-
-    //         // Update the Memo_ekspedisi status
-    //         $item->update([
-    //             'status' => 'unpost'
-    //         ]);
-
-    //         return back()->with('success', 'Berhasil');
-    //     }
-
-    // public function unpostmemotambahanselesai($id)
-    // {
-    //     $item = Memotambahan::where('id', $id)->first();
-    //     if (!$item) {
-    //         return back()->with('error', 'Memo tidak ditemukan');
-    //     }
-
-    //     // Assuming there's a foreign key relationship between Memo_ekspedisi and Memotambahan
-    //     $biayatambahan = Memotambahan::where('id', $id)->first();
-    //     if (!$biayatambahan) {
-    //         return back()->with('error', 'Biaya tambahan tidak ditemukan');
-    //     }
-
-    //     $totaltambahan = $biayatambahan->grand_total;
-
-    //     $lastSaldo = Saldo::latest()->first();
-    //     if (!$lastSaldo) {
-    //         return back()->with('error', 'Saldo tidak ditemukan');
-    //     }
-
-    //     $sisaSaldo = $lastSaldo->sisa_saldo + $totaltambahan;
-    //     Saldo::create([
-    //         'sisa_saldo' => $sisaSaldo,
-    //     ]);
-
-    //     $memoekspedisi = Memo_ekspedisi::where('id', $id)->first();
-    //     $user = User::where('id', $memoekspedisi->user_id)->first();
-    //     if (!$user) {
-    //         return back()->with('error', 'User tidak ditemukan');
-    //     }
-    //     $karyawan = Karyawan::where('id', $user->id)->first();
-    //     if (!$karyawan) {
-    //         return back()->with('error', 'Karyawan tidak ditemukan');
-    //     }
-
-    //     $tabungans = $karyawan->tabungan;
-    //     $deposits = $karyawan->deposit;
-    //     $karyawan->update([
-    //         'deposit' => $deposits - $item->deposit_driver,
-    //         'tabungan' => $tabungans - $item->deposit_driver,
-    //     ]);
-
-
-    //     Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
-    //         'status' => 'pending'
-    //     ]);
-
-    //     $detail_faktur = Detail_faktur::where('memotambahan_id', $id)->first();
-
-    //     if ($detail_faktur) {
-    //         $faktur_id = $detail_faktur->faktur_ekspedisi_id;
-
-    //         Faktur_ekspedisi::where('id', $faktur_id)->update([
-    //             'status' => 'unpost'
-    //         ]);
-
-    //         $item->update([
-    //             'status' => 'unpost',
-    //             'status_memo' => null
-    //         ]);
-
-    //         return back()->with('success', 'Berhasil');
-    //     } else {
-    //         // Handle the case where $detail_faktur is not found based on the provided $id
-    //         return back()->with('error', 'Detail Faktur not found for the given ID');
-    //     }
-    // }
-
-    // public function postingmemotambahan($id)
-    // {
-    //     $item = Memotambahan::where('id', $id)->first();
-    //     if (!$item) {
-    //         return back()->with('error', 'Memo tidak ditemukan');
-    //     }
-
-    //     // Assuming there's a foreign key relationship between Memo_ekspedisi and Memotambahan
-    //     $biayatambahan = Memotambahan::where('id', $id)->first();
-    //     if (!$biayatambahan) {
-    //         return back()->with('error', 'Biaya tambahan tidak ditemukan');
-    //     }
-    //     $totaltambahan = $biayatambahan->grand_total;
-
-    //     $lastSaldo = Saldo::latest()->first();
-    //     if (!$lastSaldo) {
-    //         return back()->with('error', 'Saldo tidak ditemukan');
-    //     }
-
-    //     $sisaSaldo = $lastSaldo->sisa_saldo - $totaltambahan;
-    //     Saldo::create([
-    //         'sisa_saldo' => $sisaSaldo,
-    //     ]);
-
-    //     $memoekspedisi = Memo_ekspedisi::where('id', $id)->first();
-    //     $user = User::where('id', $memoekspedisi->user_id)->first();
-    //     if (!$user) {
-    //         return back()->with('error', 'User tidak ditemukan');
-    //     }
-    //     $karyawan = Karyawan::where('id', $user->id)->first();
-    //     if (!$karyawan) {
-    //         return back()->with('error', 'Karyawan tidak ditemukan');
-    //     }
-    //     $tabungans = $karyawan->tabungan;
-    //     $deposits = $karyawan->deposit;
-    //     $karyawan->update([
-    //         'deposit' => $deposits + $item->deposit_driver,
-    //         'tabungan' => $tabungans + $item->deposit_driver,
-    //     ]);
-
-    //     Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
-    //         'status' => 'posting'
-    //     ]);
-
-    //     // Update the Memo_ekspedisi status
-    //     $item->update([
-    //         'status' => 'posting'
-    //     ]);
-
-    //     return back()->with('success', 'Berhasil');
-    // }
-
     public function destroy($id)
     {
         $ban = Memotambahan::find($id);
@@ -992,5 +819,31 @@ class InqueryMemotambahanController extends Controller
         } else {
             return response()->json(['message' => 'Detail memo not found'], 404);
         }
+    }
+
+    public function deletememotambahanfilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        // Mengambil faktur berdasarkan id yang dipilih
+        $memotambahans = Memotambahan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($memotambahans as $memotambahan) {
+            // Pastikan memotambahan memiliki status 'unpost' sebelum dihapus
+            if ($memotambahan && $memotambahan->status == 'unpost') {
+
+                Memo_ekspedisi::where('id', $memotambahan->memo_ekspedisi_id)->update(['status_memotambahan' => null]);
+
+                // Hapus detail_memotambahan dan pengeluaran_kaskecil yang terkait
+                $memotambahan->detail_memotambahan()->delete();
+                $memotambahan->pengeluaran_kaskecil()->delete();
+                $memotambahan->delete();
+
+                // Delete the main Memotambahan instance
+                $memotambahan->delete();
+            }
+        }
+
+        return back()->with('success', 'Berhasil menghapus Memo tambahan');
     }
 }
