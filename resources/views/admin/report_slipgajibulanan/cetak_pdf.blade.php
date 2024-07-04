@@ -603,7 +603,13 @@
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center; font-size:14px">
-                            <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                            <td class="label">
+                                @if ($cetakpdf->perhitungan_gajikaryawan)
+                                    {{ $cetakpdf->perhitungan_gajikaryawan->user->karyawan->nama_lengkap }}
+                                @else
+                                    tidak ada
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td class="separator" colspan="2"><span></span></td>
