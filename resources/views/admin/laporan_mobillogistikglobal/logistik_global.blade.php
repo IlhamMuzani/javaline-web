@@ -58,7 +58,7 @@
                 // Hitung ritase
                 $ritase =
                     optional($kendaraan->memo_ekspedisi)
-                        ->whereIn('status', ['posting', 'selesai'])
+                        ->where('status', 'selesai')
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                         ->count() ?? 0;
                 $totalRitase += $ritase;
@@ -95,14 +95,14 @@
                 // Hitung total memo
                 $memo =
                     optional($kendaraan->memo_ekspedisi)
-                        ->whereIn('status', ['posting', 'selesai'])
+                        ->where('status', 'selesai')
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                         ->sum('hasil_jumlah') ?? 0;
                 $totalMemo += $memo;
 
                 // Hitung total memo tambahan
                 $memotambahan = $kendaraan->memo_ekspedisi
-                    ->whereIn('status', ['posting', 'selesai'])
+                    ->where('status', 'selesai')
                     ->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
                         return $memoEkspedisi
                             ->memotambahan()
@@ -136,8 +136,8 @@
                 <td> {{ $nomorUrut }}</td>
                 <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
                 <td>
-                    @if ($kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
-                        {{ $kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
+                    @if ($kendaraan->memo_ekspedisi->where('status', 'selesai')->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
+                        {{ $kendaraan->memo_ekspedisi->where('status', 'selesai')->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
                     @endif
                 </td>
                 <td>{{ number_format($ritase, 0, ',', '.') }}</td>
