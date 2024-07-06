@@ -345,11 +345,6 @@
     </table>
     <footer style="position: fixed; bottom: 0; right: 20px; width: auto; text-align: end; font-size: 10px;">Page
     </footer>
-    {{-- <?php
-    $totalPages = count($inquery);
-    echo '<div style="position: fixed; bottom: 0; right: 0px; font-size: 10px;">of ' . $totalPages . '</div>';
-    ?> --}}
-
 </body>
 
 </html>

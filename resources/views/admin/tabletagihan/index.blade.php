@@ -77,8 +77,9 @@
                                 <th>Kategori</th>
                                 <th>Admin</th>
                                 <th>Pelanggan</th>
-                                <th>PPH</th>
                                 <th>Total</th>
+                                <th>PPH</th>
+                                <th>Sub total</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
@@ -96,7 +97,14 @@
                                         {{ $tagihanekspedisi->nama_pelanggan }}
                                     </td>
                                     <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
+                                        {{ number_format($tagihanekspedisi->sub_total, 0, ',', '.') }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        @if ($tagihanekspedisi->kategori == 'PPH')
+                                            {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
+                                        @else
+                                            0
+                                        @endif
                                     </td>
                                     <td style="text-align: end">
                                         {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}

@@ -99,7 +99,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $inquerys->kode_perpanjangan }}</td>
                                     <td>
-                                        @if ($inquerys->nokir->kendaraan)
+                                        @if ($inquerys->nokir)
                                             {{ $inquerys->nokir->kendaraan->no_pol }}
                                         @else
                                             tidak ada

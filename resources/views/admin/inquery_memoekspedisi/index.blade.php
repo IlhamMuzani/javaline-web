@@ -114,7 +114,9 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
-
+                                {{-- <button type="button" class="btn btn-success btn-block" onclick="printExportexcel()">
+                                    <i class="fas fa-file-excel"></i> Export Excel
+                                </button> --}}
                             </div>
                         </div>
                     </form>
