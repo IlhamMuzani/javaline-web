@@ -16,7 +16,6 @@ class LaporanFakturekspedisiController extends Controller
     {
         // Mengambil parameter dari request
         $kategoris = $request->kategoris;
-        $status_pelunasan = $request->status_pelunasan;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
@@ -33,11 +32,11 @@ class LaporanFakturekspedisiController extends Controller
         }
 
         // Menerapkan filter berdasarkan status_pelunasan
-        if ($status_pelunasan == null || $status_pelunasan == "aktif") {
-            $inquery->where('status_pelunasan', $status_pelunasan);
-        } else {
-            $inquery->whereIn('status_pelunasan', [null, 'aktif']);
-        }
+        // if ($status_pelunasan == null || $status_pelunasan == "aktif") {
+        //     $inquery->where('status_pelunasan', $status_pelunasan);
+        // } else {
+        //     $inquery->whereIn('status_pelunasan', [null, 'aktif']);
+        // }
 
         // Menerapkan filter berdasarkan rentang tanggal
         if ($tanggal_awal && $tanggal_akhir) {
@@ -49,7 +48,8 @@ class LaporanFakturekspedisiController extends Controller
         $inquery = $inquery->get();
 
         // Mengecek apakah telah dilakukan pencarian
-        $hasSearch = $status_pelunasan || ($tanggal_awal && $tanggal_akhir);
+        // $hasSearch = $status_pelunasan || ($tanggal_awal && $tanggal_akhir);
+        $hasSearch = ($tanggal_awal && $tanggal_akhir);
 
         // Jika telah dilakukan pencarian, simpan hasil query. Jika tidak, variabel $inquery diisi dengan koleksi kosong.
         $inquery = $hasSearch ? $inquery : collect();
@@ -81,12 +81,12 @@ class LaporanFakturekspedisiController extends Controller
             }
         }
 
-        // Menerapkan filter berdasarkan status_pelunasan
-        if ($status_pelunasan == null || $status_pelunasan == "aktif") {
-            $query->where('status_pelunasan', $status_pelunasan);
-        } else {
-            $query->whereIn('status_pelunasan', [null, 'aktif']);
-        }
+        // // Menerapkan filter berdasarkan status_pelunasan
+        // if ($status_pelunasan == null || $status_pelunasan == "aktif") {
+        //     $query->where('status_pelunasan', $status_pelunasan);
+        // } else {
+        //     $query->whereIn('status_pelunasan', [null, 'aktif']);
+        // }
 
         // Menerapkan filter berdasarkan rentang tanggal
         if ($tanggal_awal && $tanggal_akhir) {

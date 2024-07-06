@@ -58,28 +58,16 @@
                                 <label for="created_at">Kategori</label>
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih Laporan -</option>
-                                    <option value="memo_perjalanan">Laporan Detail</option>
-                                    <option value="memo_borong" selected>Laporan Global</option>
+                                    <option value="perfaktur">Laporan Detail</option>
+                                    <option value="global" selected>Laporan Global</option>
                                 </select>
                             </div>
-                            <div class="col-md-2 mb-2">
-                                <label for="created_at">Status</label>
-                                <select class="custom-select form-control" id="kategoris" name="kategoris">
-                                    <option value="">- Semua Status -</option>
-                                    <option value="memo" {{ Request::get('kategoris') == 'memo' ? 'selected' : '' }}>
-                                        MEMO
-                                    </option>
-                                    <option value="non memo"
-                                        {{ Request::get('kategoris') == 'non memo' ? 'selected' : '' }}>
-                                        NON MEMO</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="created_at">Tanggal Awal</label>
                                 <input class="form-control" id="created_at" name="created_at" type="date"
                                     value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="tanggal_akhir">Tanggal Akhir</label>
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
@@ -110,8 +98,9 @@
                                 <th>Sopir</th>
                                 <th>Ritase</th>
                                 <th>Total Faktur</th>
+                                {{-- <th>Total Tambahan</th>
+                                <th>Total PPH</th> --}}
                                 <th>Total Memo</th>
-                                {{-- <th>Total Tambahan</th> --}}
                                 <th>Total Operasional</th>
                                 <th>Total Perbaikan</th>
                                 <th>Sub Total</th>
@@ -122,9 +111,10 @@
                                 $created_at = isset($created_at) ? $created_at : null;
                                 $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir . ' 23:59:59' : null;
                                 $kategoris = $kategoris ?? null;
-                                $totalFaktur = 0; // Initialize the total
+                                $totalFakturawal = 0; // Initialize the total
+                                $totalFakturtambahan = 0; // Initialize the total
+                                $totalFakturpph = 0; // Initialize the total
                                 $totalFakturmemo = 0; // Initialize the total
-                                $totalFakturnonmemo = 0; // Initialize the total
                                 $totalMemo = 0; // Initialize the total variable
                                 $totalMemotambahan = 0; // Initialize the total variable
                                 $totalRitase = 0; // Initialize the total variable
@@ -139,25 +129,15 @@
                                     // Calculate necessary values
                                     $kategoriMemo =
                                         optional($kendaraan->faktur_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
                                             ->whereBetween('created_at', [
                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                             ])
                                             ->where('kategoris', 'memo')
                                             ->sum('grand_total') ?? 0;
-
-                                    $kategoriNonMemo =
-                                        optional($kendaraan->faktur_ekspedisi)
-                                            ->whereBetween('created_at', [
-                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                            ])
-                                            ->where('kategoris', 'non memo')
-                                            ->sum('grand_total') ?? 0;
-
                                     // Calculate the total faktur for the kendaraan
-                                    $totalFakturKendaraan = $kategoriMemo + $kategoriNonMemo;
-
+                                    $totalFakturKendaraan = $kategoriMemo;
                                     // Skip rendering if total faktur is 0
                                     if ($totalFakturKendaraan <= 0) {
                                         continue;
@@ -167,71 +147,95 @@
                                     <td class="text-center">{{ $nomorUrut }}</td> {{-- Menampilkan nomor urut --}} <td>
                                         {{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
                                     <td>
-                                        @if ($kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
-                                            {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
+                                        @if ($kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
+                                            {{ $kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
                                         @endif
                                     </td>
                                     <td class="text-right">
-                                        @if ($kategoris == 'non memo')
-                                            0
-                                        @else
-                                            {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->count() }}
-                                        @endif
+                                        {{ $kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->count() }}
                                     </td>
                                     <td class="text-right">
                                         @php
-                                            $kategoriMemo =
+                                            $totalTarifMemo =
                                                 optional($kendaraan->faktur_ekspedisi)
+                                                    ->whereIn('status', ['posting', 'selesai'])
                                                     ->whereBetween('created_at', [
                                                         Carbon\Carbon::parse($created_at)->startOfDay(),
                                                         Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                                     ])
                                                     ->where('kategoris', 'memo')
-                                                    ->sum('grand_total') ?? 0;
+                                                    ->sum('total_tarif') ?? 0;
 
-                                            $kategoriNonMemo =
+                                            $biayaTambahanMemo =
                                                 optional($kendaraan->faktur_ekspedisi)
+                                                    ->whereIn('status', ['posting', 'selesai'])
                                                     ->whereBetween('created_at', [
                                                         Carbon\Carbon::parse($created_at)->startOfDay(),
                                                         Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                                     ])
-                                                    ->where('kategoris', 'non memo')
-                                                    ->sum('grand_total') ?? 0;
+                                                    ->where('kategoris', 'memo')
+                                                    ->sum('biaya_tambahan') ?? 0;
 
-                                        @endphp
-                                        @if ($kategoris == 'memo')
-                                            @if ($kategoriMemo > 0)
-                                                {{ number_format($kategoriMemo, 2, ',', '.') }}
-                                            @endif
-                                        @elseif ($kategoris == 'non memo')
-                                            @if ($kategoriNonMemo > 0)
-                                                {{ number_format($kategoriNonMemo, 2, ',', '.') }}
-                                            @endif
-                                        @else
-                                            {{ number_format($kategoriMemo + $kategoriNonMemo, 2, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        @if ($kategoris == 'non memo')
-                                            0
-                                        @else
-                                            {{ number_format(
-                                                (optional($kendaraan->memo_ekspedisi)->whereBetween('created_at', [
+                                            $pphMemo =
+                                                optional($kendaraan->faktur_ekspedisi)
+                                                    ->whereIn('status', ['posting', 'selesai'])
+                                                    ->whereBetween('created_at', [
                                                         Carbon\Carbon::parse($created_at)->startOfDay(),
                                                         Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                    ])->sum('hasil_jumlah') ??
-                                                    0) +
-                                                    $kendaraan->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                                    ])
+                                                    ->where('kategoris', 'memo')
+                                                    ->sum('pph') ?? 0;
+
+                                            $fakawal = $totalTarifMemo - $biayaTambahanMemo - $pphMemo;
+                                        @endphp
+                                        {{ number_format($fakawal, 2, ',', '.') }}
+                                    </td>
+                                    {{-- <td class="text-right">
+                                        @php
+                                            $faktambahan =
+                                                optional($kendaraan->faktur_ekspedisi)
+                                                    ->whereIn('status', ['posting', 'selesai'])
+                                                    ->whereBetween('created_at', [
+                                                        Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                                    ])
+                                                    ->where('kategoris', 'memo')
+                                                    ->sum('biaya_tambahan') ?? 0;
+                                        @endphp
+
+                                        {{ number_format($faktambahan, 2, ',', '.') }}
+                                    </td> --}}
+                                    {{-- <td class="text-right">
+                                        @php
+                                            $fakpph =
+                                                optional($kendaraan->faktur_ekspedisi)
+                                                    ->whereIn('status', ['posting', 'selesai'])
+                                                    ->whereBetween('created_at', [
+                                                        Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                                    ])
+                                                    ->where('kategoris', 'memo')
+                                                    ->sum('pph') ?? 0;
+                                        @endphp
+                                        {{ number_format($fakpph, 2, ',', '.') }}
+                                    </td> --}}
+                                    <td class="text-right">
+                                        {{ number_format(
+                                            (optional($kendaraan->memo_ekspedisi)->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [
+                                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                                ])->sum('hasil_jumlah') ??
+                                                0) +
+                                                $kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
                                                         return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
                                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                                             ])->sum('grand_total');
                                                     }),
-                                                2,
-                                                ',',
-                                                '.',
-                                            ) }}
-                                        @endif
+                                            2,
+                                            ',',
+                                            '.',
+                                        ) }}
                                     </td>
                                     <td class="text-right">
                                         {{ number_format(
@@ -256,66 +260,22 @@
                                         ) }}
                                     </td>
                                     <td class="text-right">
-                                        @if ($kategoris == 'memo')
-                                            @if ($kategoriMemo > 0)
-                                                {{ number_format(
-                                                    optional($kendaraan->faktur_ekspedisi)->whereBetween('created_at', [
-                                                            Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                        ])->where('kategoris', 'memo')->sum('grand_total') -
-                                                        optional($kendaraan->memo_ekspedisi)->whereBetween('created_at', [
-                                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                            ])->sum('hasil_jumlah') -
-                                                        $kendaraan->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                                                            return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                                                    Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                                ])->sum('grand_total');
-                                                        }),
-                                                    2,
-                                                    ',',
-                                                    '.',
-                                                ) }}
-                                            @endif
-                                        @elseif ($kategoris == 'non memo')
-                                            @if ($kategoriNonMemo > 0)
-                                                {{ number_format(
-                                                    optional($kendaraan->faktur_ekspedisi)->whereBetween('created_at', [
-                                                            Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                        ])->where('kategoris', 'non memo')->sum('grand_total') -
-                                                        optional($kendaraan->memo_ekspedisi)->whereBetween('created_at', [
-                                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                            ])->sum('hasil_jumlah') -
-                                                        $kendaraan->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                                                            return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                                                    Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                                ])->sum('grand_total');
-                                                        }),
-                                                    2,
-                                                    ',',
-                                                    '.',
-                                                ) }}
-                                            @endif
-                                        @else
+                                        @if ($kategoriMemo > 0)
                                             {{ number_format(
-                                                optional($kendaraan->faktur_ekspedisi)->whereBetween('created_at', [
+                                                optional($kendaraan->faktur_ekspedisi)->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [
                                                         Carbon\Carbon::parse($created_at)->startOfDay(),
                                                         Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                    ])->sum('grand_total') -
-                                                    optional($kendaraan->memo_ekspedisi)->whereBetween('created_at', [
+                                                    ])->where('kategoris', 'memo')->sum('grand_total') -
+                                                    optional($kendaraan->memo_ekspedisi)->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [
                                                             Carbon\Carbon::parse($created_at)->startOfDay(),
                                                             Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                                         ])->sum('hasil_jumlah') -
-                                                    $kendaraan->memo_ekspedisi->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                                                        return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                                            ])->sum('grand_total');
-                                                    }),
+                                                    $kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                                            return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
+                                                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                                                ])->sum('grand_total');
+                                                        }),
                                                 2,
                                                 ',',
                                                 '.',
@@ -328,54 +288,69 @@
 
                                     $totalRitase +=
                                         optional($kendaraan->memo_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
                                             ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                                             ->count() ?? 0;
-                                    // Accumulate the grand_total for each $kendaraan
-                                    $totalFaktur +=
+
+                                    $totalFakturawal +=
                                         optional($kendaraan->faktur_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
                                             ->whereBetween('created_at', [
                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                             ])
-                                            ->sum('grand_total') ?? 0;
+                                            ->where('kategoris', 'memo')
+                                            ->sum('total_tarif') ?? 0;
 
+                                    $totalFakturtambahan +=
+                                        optional($kendaraan->faktur_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
+                                            ->whereBetween('created_at', [
+                                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                            ])
+                                            ->where('kategoris', 'memo')
+                                            ->sum('biaya_tambahan') ?? 0;
+
+                                    $totalFakturpph +=
+                                        optional($kendaraan->faktur_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
+                                            ->whereBetween('created_at', [
+                                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                            ])
+                                            ->where('kategoris', 'memo')
+                                            ->sum('pph') ?? 0;
+                                    // Accumulate the grand_total for each $kendaraan
                                     $totalFakturmemo +=
                                         optional($kendaraan->faktur_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
                                             ->whereBetween('created_at', [
                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                             ])
                                             ->where('kategoris', 'memo')
                                             ->sum('grand_total') ?? 0;
-
-                                    $totalFakturnonmemo +=
-                                        optional($kendaraan->faktur_ekspedisi)
-                                            ->whereBetween('created_at', [
-                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                            ])
-                                            ->where('kategoris', 'non memo')
-                                            ->sum('grand_total') ?? 0;
-
                                     $totalMemo +=
                                         optional($kendaraan->memo_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
                                             ->whereBetween('created_at', [
                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                             ])
                                             ->sum('hasil_jumlah') ?? 0;
 
-                                    $totalMemotambahan += $kendaraan->memo_ekspedisi->sum(function (
-                                        $memoEkspedisi,
-                                    ) use ($created_at, $tanggal_akhir) {
-                                        return $memoEkspedisi
-                                            ->memotambahan()
-                                            ->whereBetween('created_at', [
-                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                            ])
-                                            ->sum('grand_total');
-                                    });
+                                    $totalMemotambahan += $kendaraan->memo_ekspedisi
+                                        ->whereIn('status', ['posting', 'selesai'])
+                                        ->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                                            return $memoEkspedisi
+                                                ->memotambahan()
+                                                ->whereBetween('created_at', [
+                                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                                ])
+                                                ->sum('grand_total');
+                                        });
 
                                     $totalOperasional +=
                                         optional($kendaraan->detail_pengeluaran)
@@ -397,14 +372,18 @@
 
                                     $subtotalDifference =
                                         optional($kendaraan->faktur_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
+
                                             ->whereBetween('created_at', [
                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                                             ])
+                                            ->where('kategoris', 'memo')
                                             ->sum('grand_total') ?? 0;
 
                                     $subtotalDifference -=
                                         optional($kendaraan->memo_ekspedisi)
+                                            ->whereIn('status', ['posting', 'selesai'])
                                             ->whereBetween('created_at', [
                                                 Carbon\Carbon::parse($created_at)->startOfDay(),
                                                 Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
@@ -420,33 +399,21 @@
                             <tr>
                                 <td colspan="3"></td>
                                 <td class="text-right" style="font-weight: bold;">
-                                    @if ($kategoris == 'non memo')
-                                        0
-                                    @else
-                                        {{ number_format($totalRitase, 0, ',', '.') }}
-                                    @endif
+                                    {{ number_format($totalRitase, 0, ',', '.') }}
                                 </td>
                                 {{-- <td><strong>Total Deposit:</strong></td> --}}
                                 <td class="text-right" style="font-weight: bold;">
-                                    @if ($kategoris == 'memo')
-                                        @if ($totalFakturmemo > 0)
-                                            Rp.{{ number_format($totalFakturmemo, 2, ',', '.') }}
-                                        @endif
-                                    @elseif ($kategoris == 'non memo')
-                                        @if ($totalFakturnonmemo > 0)
-                                            Rp.{{ number_format($totalFakturnonmemo, 2, ',', '.') }}
-                                        @endif
-                                    @else
-                                        Rp.{{ number_format($totalFaktur, 2, ',', '.') }}
-                                    @endif
+                                    Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph, 2, ',', '.') }}
                                 </td>
+                                {{-- <td class="text-right" style="font-weight: bold;">
+                                    Rp.{{ number_format($totalFakturtambahan, 2, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    Rp.{{ number_format($totalFakturpph, 2, ',', '.') }}
+                                </td> --}}
                                 {{-- <td><strong>Total Saldo:</strong></td> --}}
                                 <td class="text-right" style="font-weight: bold;">
-                                    @if ($kategoris == 'non memo')
-                                        0
-                                    @else
-                                        Rp.{{ number_format($totalMemo + $totalMemotambahan, 2, ',', '.') }}
-                                    @endif
+                                    Rp.{{ number_format($totalMemo + $totalMemotambahan, 2, ',', '.') }}
                                 </td>
                                 {{-- <td class="text-right" style="font-weight: bold;">
                                     Rp.{{ number_format($totalMemotambahan, 0, ',', '.') }}
@@ -460,19 +427,7 @@
                                     {{ number_format($totalPerbaikan, 2, ',', '.') }}
                                 </td>
                                 <td class="text-right" style="font-weight: bold;">
-
-                                    @if ($kategoris == 'memo')
-                                        @if ($totalFakturmemo > 0)
-                                            Rp.{{ number_format($totalFakturmemo - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
-                                        @endif
-                                    @elseif ($kategoris == 'non memo')
-                                        @if ($totalFakturnonmemo > 0)
-                                            Rp.{{ number_format($totalFakturnonmemo - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
-                                        @endif
-                                    @else
-                                        Rp.{{ number_format($totalFaktur - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
-                                    @endif
-
+                                    Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
                                 </td>
                             </tr>
                         </tbody>
@@ -544,10 +499,10 @@
 
                     // Check the selected value and redirect accordingly
                     switch (selectedValue) {
-                        case 'memo_perjalanan':
+                        case 'perfaktur':
                             window.location.href = "{{ url('admin/laporan_mobillogistik') }}";
                             break;
-                        case 'memo_borong':
+                        case 'global':
                             window.location.href = "{{ url('admin/laporan_mobillogistikglobal') }}";
                             break;
                             // case 'akun':

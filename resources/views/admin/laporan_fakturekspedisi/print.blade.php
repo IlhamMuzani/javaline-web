@@ -79,7 +79,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">FAKTUR EKSPEDISI - RANGKUMAN</span>
@@ -102,7 +103,7 @@
 
     </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
-     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
+    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:27%">
@@ -119,6 +120,7 @@
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:25%">
                 Total
             </td>
+           
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:25%">
                 Pph
             </td>
@@ -132,6 +134,10 @@
             <td colspan="5" style="padding: 0px;"></td>
         </tr>
         <!-- Data rows -->
+        @php
+            $totalGrandTotal = 0;
+            $pph23 = 0;
+        @endphp
         @foreach ($inquery as $faktur)
             <tr style="background:rgb(181, 181, 181)">
                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">{{ $faktur->kode_faktur }}
@@ -182,24 +188,22 @@
                 </tr>
                 </tr>
             @endforeach
+            @php
+                $totalGrandTotal += $faktur->total_tarif + $faktur->biaya_tambahan;
+                $pph23 += $faktur->pph;
+                // $Selisih = $totalGrandTotal - $pph23;
+                // $Totals = $totalGrandTotal - $pph23;
+            @endphp
+
+            @php
+                $Totals = $totalGrandTotal - $pph23;
+            @endphp
         @endforeach
         <!-- Separator row -->
         <tr style="border-bottom: 1px solid black;">
             <td colspan="" style="padding: 0px;"></td>
         </tr>
         <!-- Subtotal row -->
-        @php
-            $totaltarif = 0;
-            $total = 0;
-            $totalpph = 0;
-        @endphp
-        @foreach ($inquery as $item)
-            @php
-                $totaltarif += $item->total_tarif;
-                $total += $item->grand_total;
-                $totalpph += $item->pph;
-            @endphp
-        @endforeach
         <tr>
             <td colspan="6" style="text-align: right; font-weight: bold; padding: 5px; font-size: 11px;">
                 {{-- Sub Total --}}
@@ -222,14 +226,14 @@
                         <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">
                             Total</td>
                         <td class="td" style="text-align: right; font-size: 11px;">
-                            {{ number_format($totaltarif, 2, ',', '.') }}
+                            {{ number_format($totalGrandTotal, 2, ',', '.') }}
                         </td>
                     </tr>
                     <tr>
                         <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">Pph
                         </td>
                         <td class="td" style="text-align: right; font-size: 11px;">
-                            {{ number_format($totalpph, 2, ',', '.') }}</td>
+                            {{ number_format($pph23, 2, ',', '.') }}</td>
                     </tr>
                     <tr>
                         <td colspan="6" style="padding: 0px;">
@@ -242,7 +246,7 @@
                         <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">Sub Total
                         </td>
                         <td class="td" style="text-align: right; padding-right: 6px; font-size: 11px;">
-                            {{ number_format($totaltarif - $totalpph, 2, ',', '.') }}</td>
+                            {{ number_format($totalGrandTotal - $pph23, 2, ',', '.') }}</td>
                     </tr>
 
                     <tr>
@@ -255,11 +259,8 @@
                     </tr>
                 </table>
             </td>
-
         </tr>
     </table>
-
-
     <br>
 
     <!-- Tampilkan sub-total di bawah tabel -->

@@ -51,7 +51,6 @@ class PemasanganbanController extends Controller
         return redirect('admin/pemasangan_ban/' . $kendaraan_id . '/edit');
     }
 
-
     public function kode()
     {
         $pemasangan = Pemasangan_ban::all();

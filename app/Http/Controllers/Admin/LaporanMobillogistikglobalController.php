@@ -32,13 +32,15 @@ class LaporanMobillogistikglobalController extends Controller
         $inquery = Faktur_ekspedisi::orderBy('id', 'DESC');
 
 
-        if ($kategoris) {
-            if ($kategoris == 'memo') {
-                $inquery->where('kategoris', 'memo');
-            } elseif ($kategoris == 'non memo') {
-                $inquery->where('kategoris', 'non memo');
-            }
-        }
+        // if ($kategoris) {
+        //     if ($kategoris == 'memo') {
+        //         $inquery->where('kategoris', 'memo');
+        //     } elseif ($kategoris == 'non memo') {
+        //         $inquery->where('kategoris', 'non memo');
+        //     } else {
+        //         // Tidak ada filter tambahan untuk kategori selain 'memo' dan 'non memo'
+        //     }
+        // }
 
         if ($status == "posting") {
             $inquery->where('status', $status);
@@ -172,5 +174,4 @@ class LaporanMobillogistikglobalController extends Controller
 
         return Excel::download(new LogistikglobalExport($created_at, $tanggal_akhir, $kategoris), 'logistik_global.xlsx');
     }
-
 }

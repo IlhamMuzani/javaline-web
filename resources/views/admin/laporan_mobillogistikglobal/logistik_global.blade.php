@@ -14,9 +14,11 @@
     </thead>
     <tbody>
         @php
-            $totalFaktur = 0;
+            $totalFakturawal = 0; // Initialize the total
+            $totalFakturtambahan = 0; // Initialize the total
+            $totalFakturpph = 0; // Initialize the total
             $totalFakturmemo = 0;
-            $totalFakturnonmemo = 0;
+            $totalFaktur = 0;
             $totalMemo = 0;
             $totalMemotambahan = 0;
             $totalRitase = 0;
@@ -39,35 +41,24 @@
                 // Calculate necessary values
                 $kategoriMemo =
                     optional($kendaraan->faktur_ekspedisi)
+                        ->whereIn('status', ['posting', 'selesai'])
                         ->whereBetween('created_at', [
                             Carbon\Carbon::parse($created_at)->startOfDay(),
                             Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
                         ])
                         ->where('kategoris', 'memo')
                         ->sum('grand_total') ?? 0;
-
-                $kategoriNonMemo =
-                    optional($kendaraan->faktur_ekspedisi)
-                        ->whereBetween('created_at', [
-                            Carbon\Carbon::parse($created_at)->startOfDay(),
-                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                        ])
-                        ->where('kategoris', 'non memo')
-                        ->sum('grand_total') ?? 0;
-
                 // Calculate the total faktur for the kendaraan
-                $totalFakturKendaraan = $kategoriMemo + $kategoriNonMemo;
-
+                $totalFakturKendaraan = $kategoriMemo;
                 // Skip rendering if total faktur is 0
                 if ($totalFakturKendaraan <= 0) {
                     continue;
                 }
 
-                
-
                 // Hitung ritase
                 $ritase =
                     optional($kendaraan->memo_ekspedisi)
+                        ->whereIn('status', ['posting', 'selesai'])
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                         ->count() ?? 0;
                 $totalRitase += $ritase;
@@ -75,43 +66,49 @@
                 // Hitung total faktur
                 $faktur =
                     optional($kendaraan->faktur_ekspedisi)
+                        ->whereIn('status', ['posting', 'selesai'])
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
-                        ->sum('grand_total') ?? 0;
+                        ->where('kategoris', 'memo')
+                        ->sum('total_tarif') +
+                        optional($kendaraan->faktur_ekspedisi)
+                            ->whereIn('status', ['posting', 'selesai'])
+                            ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                            ->where('kategoris', 'memo')
+                            ->sum('biaya_tambahan') -
+                        optional($kendaraan->faktur_ekspedisi)
+                            ->whereIn('status', ['posting', 'selesai'])
+                            ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                            ->where('kategoris', 'memo')
+                            ->sum('pph') ??
+                    0;
                 $totalFaktur += $faktur;
 
                 // Hitung total faktur memo
                 $fakturmemo =
                     optional($kendaraan->faktur_ekspedisi)
+                        ->whereIn('status', ['posting', 'selesai'])
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                         ->where('kategoris', 'memo')
                         ->sum('grand_total') ?? 0;
                 $totalFakturmemo += $fakturmemo;
 
-                // Hitung total faktur non memo
-                $fakturnonmemo =
-                    optional($kendaraan->faktur_ekspedisi)
-                        ->whereBetween('created_at', [$created_at, $tanggal_akhir])
-                        ->where('kategoris', 'non memo')
-                        ->sum('grand_total') ?? 0;
-                $totalFakturnonmemo += $fakturnonmemo;
-
                 // Hitung total memo
                 $memo =
                     optional($kendaraan->memo_ekspedisi)
+                        ->whereIn('status', ['posting', 'selesai'])
                         ->whereBetween('created_at', [$created_at, $tanggal_akhir])
                         ->sum('hasil_jumlah') ?? 0;
                 $totalMemo += $memo;
 
                 // Hitung total memo tambahan
-                $memotambahan = $kendaraan->memo_ekspedisi->sum(function ($memoEkspedisi) use (
-                    $created_at,
-                    $tanggal_akhir,
-                ) {
-                    return $memoEkspedisi
-                        ->memotambahan()
-                        ->whereBetween('created_at', [$created_at, $tanggal_akhir])
-                        ->sum('grand_total');
-                });
+                $memotambahan = $kendaraan->memo_ekspedisi
+                    ->whereIn('status', ['posting', 'selesai'])
+                    ->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
+                        return $memoEkspedisi
+                            ->memotambahan()
+                            ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                            ->sum('grand_total');
+                    });
                 $totalMemotambahan += $memotambahan;
 
                 // Hitung total operasional
@@ -139,8 +136,8 @@
                 <td> {{ $nomorUrut }}</td>
                 <td>{{ $kendaraan->no_kabin }} {{ $kendaraan->no_pol }}</td>
                 <td>
-                    @if ($kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
-                        {{ $kendaraan->memo_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
+                    @if ($kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->first())
+                        {{ $kendaraan->memo_ekspedisi->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
                     @endif
                 </td>
                 <td>{{ number_format($ritase, 0, ',', '.') }}</td>

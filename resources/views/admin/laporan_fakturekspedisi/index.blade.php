@@ -55,7 +55,7 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <label for="created_at">Status</label>
                                 <select class="custom-select form-control" id="kategoris" name="kategoris">
                                     <option value="">- Semua Status -</option>
@@ -65,18 +65,6 @@
                                     <option value="non memo"
                                         {{ Request::get('kategoris') == 'non memo' ? 'selected' : '' }}>
                                         NON MEMO</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <label for="created_at">Kategori</label>
-                                <select class="custom-select form-control" id="status_pelunasan" name="status_pelunasan">
-                                    <option value="">- Semua Status -</option>
-                                    <option value="" {{ Request::get('status_pelunasan') == '' ? 'selected' : '' }}>
-                                        Belum Lunas
-                                    </option>
-                                    <option value="aktif"
-                                        {{ Request::get('status_pelunasan') == 'aktif' ? 'selected' : '' }}>
-                                        Lunas</option>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -89,7 +77,7 @@
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
@@ -119,7 +107,7 @@
                         <tbody>
                             @php
                                 $totalGrandTotal = 0;
-                                $totalGrandTotalMemo = 0;
+                                $pph23 = 0;
                             @endphp
                             @foreach ($inquery as $faktur)
                                 <tr style="background: rgb(193, 193, 193)">
@@ -173,14 +161,14 @@
                                 @endforeach
 
                                 @php
-                                    $totalGrandTotal += $faktur->total_tarif;
-                                    $totalGrandTotalMemo += $faktur->pph;
-                                    // $Selisih = $totalGrandTotal - $totalGrandTotalMemo;
-                                    // $Totals = $totalGrandTotal - $totalGrandTotalMemo;
+                                    $totalGrandTotal += $faktur->total_tarif + $faktur->biaya_tambahan;
+                                    $pph23 += $faktur->pph;
+                                    // $Selisih = $totalGrandTotal - $pph23;
+                                    // $Totals = $totalGrandTotal - $pph23;
                                 @endphp
 
                                 @php
-                                    $Totals = $totalGrandTotal - $totalGrandTotalMemo;
+                                    $Totals = $totalGrandTotal - $pph23;
                                 @endphp
                             @endforeach
                         </tbody>
@@ -223,7 +211,7 @@
                                             <div class="form-group">
                                                 <input style="text-align: end; font-size:14px;" type="text"
                                                     class="form-control" readonly
-                                                    value="{{ number_format($totalGrandTotalMemo, 2, ',', '.') }}">
+                                                    value="{{ number_format($pph23, 2, ',', '.') }}">
                                             </div>
                                         </div>
                                         <hr
@@ -243,7 +231,7 @@
                                             <div class="form-group">
                                                 <input style="text-align: end; font-size:14px;" type="text"
                                                     class="form-control" readonly
-                                                    value="{{ Request::get('tanggal_awal') ? number_format($totalGrandTotal - $totalGrandTotalMemo, 2, ',', '.') : 0 }}">
+                                                    value="{{ Request::get('tanggal_awal') ? number_format($totalGrandTotal - $pph23, 2, ',', '.') : 0 }}">
                                             </div>
                                         </div>
                                     </div>
