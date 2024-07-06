@@ -128,7 +128,8 @@
             $totalReturnEkspe += $faktur->detail_pelunasanreturn->sum('nominal_potongan');
             $totalPotongan += $faktur->potonganselisih;
             // $totalOngkosBongkar  += $faktur->
-            $totaljumlahbayar += $faktur->saldo_masuk;
+            $saldo_masuk = trim($faktur->saldo_masuk) === '' ? 0 : (int) $faktur->saldo_masuk;
+            $totaljumlahbayar += $saldo_masuk;
         @endphp
         <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
             <!-- Header row -->
@@ -250,9 +251,14 @@
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                     0,00
                 </td>
+                @php
+                    // Hilangkan spasi dan cek jika kosong, set menjadi nol
+                    $saldo_masuk = trim($faktur->saldo_masuk) === '' ? 0 : (float) $faktur->saldo_masuk;
+                    $totaljumlahbayar += $saldo_masuk;
+                @endphp
                 <td
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                    {{ number_format($faktur->saldo_masuk, 2, ',', '.') }}
+                    {{ number_format($saldo_masuk, 2, ',', '.') }}
                 </td>
                 <td
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">

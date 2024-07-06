@@ -71,8 +71,22 @@
         }
 
         @page {
-            /* size: A4; */
             margin: 1cm;
+            counter-increment: page;
+            counter-reset: page 1;
+        }
+
+        /* Define the footer with page number */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: start;
+            font-size: 10px;
+        }
+
+        footer::after {
+            content: counter(page);
         }
     </style>
 </head>
@@ -120,7 +134,7 @@
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:25%">
                 Total
             </td>
-           
+
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:25%">
                 Pph
             </td>
@@ -263,13 +277,12 @@
     </table>
     <br>
 
-    <!-- Tampilkan sub-total di bawah tabel -->
-    {{-- <div style="text-align: right;">
-        <strong>Sub Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong>
-    </div> --}}
-
-
-    {{-- <br> --}}
+    <footer style="position: fixed; bottom: 0; right: 20px; width: auto; text-align: end; font-size: 10px;">Page
+    </footer>
+    {{-- <?php
+    $totalPages = count($inquery);
+    echo '<div style="position: fixed; bottom: 0; right: 0px; font-size: 10px;">of ' . $totalPages . '</div>';
+    ?> --}}
 
     <br>
     <br>
