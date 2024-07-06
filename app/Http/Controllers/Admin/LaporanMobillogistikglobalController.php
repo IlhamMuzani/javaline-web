@@ -4,13 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\LaporanlogistikExport;
 use App\Exports\LogistikglobalExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Kendaraan;
 use App\Models\Pengeluaran_kaskecil;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RekapExport;
 
 class LaporanMobillogistikglobalController extends Controller

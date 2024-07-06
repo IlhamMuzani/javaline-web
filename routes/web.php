@@ -160,6 +160,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('driver/rekapexport', [\App\Http\Controllers\Admin\DriverController::class, 'rekapexport']);
 
     Route::get('laporan_mobillogistikglobal/rekapexportlaporanlogistik', [\App\Http\Controllers\Admin\LaporanMobillogistikglobalController::class, 'rekapexportlaporanlogistik']);
+    Route::get('inquery_memoperjalanan/rekapexportmemoperjalanan', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'rekapexportmemoperjalanan']);
 
     Route::get('laporan_pelepasanban', [\App\Http\Controllers\Admin\LaporanpelepasanbanController::class, 'index']);
     Route::get('print_pelepasanban', [\App\Http\Controllers\Admin\LaporanpelepasanbanController::class, 'print_pelepasanban']);
