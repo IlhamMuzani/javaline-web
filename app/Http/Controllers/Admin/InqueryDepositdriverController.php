@@ -163,7 +163,7 @@ class InqueryDepositdriverController extends Controller
                 'kode_sopir' => $request->kode_sopir,
                 'nama_sopir' => $request->nama_sopir,
                 'saldo_keluar' => $request->saldo_keluar,
-                'sisa_saldo' => $request->sisa_saldos,
+                'sisa_saldo' => str_replace('.', '', $request->sisa_saldos), // Menghapus titik dari nilai sisa_saldo
                 'sub_total' => $request->sub_total2,
                 'status' => 'unpost',
             ]);

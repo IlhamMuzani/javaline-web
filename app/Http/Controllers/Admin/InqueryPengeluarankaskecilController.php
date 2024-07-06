@@ -429,7 +429,6 @@ class InqueryPengeluarankaskecilController extends Controller
             }
         }
 
-
         $GajiKaryawanss = $item->perhitungan_gajikaryawan_id;
         if ($GajiKaryawanss) {
             $GajiKaryawan = Perhitungan_gajikaryawan::where('id', $item->perhitungan_gajikaryawan_id)->first();

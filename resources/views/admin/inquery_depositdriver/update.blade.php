@@ -276,9 +276,8 @@
 
             // Format number as currency with period as thousands separator and comma as decimal separator
             const formattedNumber = new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
                 minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             }).format(Math.abs(number)); // Use Math.abs() to work with the absolute value
 
             // Add a minus sign for negative numbers
@@ -467,18 +466,34 @@
             }
         });
 
-        // Fungsi untuk mengonversi sisa saldo ke format rupiah saat dokumen selesai dimuat
+        function formatRupiahmin(angka) {
+            var numberString = angka.toString().replace(/[^,\d-]/g, '');
+            var negative = false;
+
+            // Cek apakah angka adalah negatif
+            if (numberString.startsWith('-')) {
+                negative = true;
+                numberString = numberString.substr(1);
+            }
+
+            var split = numberString.split(',');
+            var sisa = split[0].length % 3;
+            var rupiah = split[0].substr(0, sisa);
+            var ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if (ribuan) {
+                var separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] !== undefined ? rupiah + ',' + split[1] : rupiah;
+            return negative ? '-' + rupiah : rupiah;
+        }
+
         $(document).ready(function() {
-            // Mengambil nilai sisa saldo dari elemen dengan id sisa_saldo
             var sisaSaldoValue = $('#sisa_saldos').val();
-
-            // Mengonversi nilai ke format rupiah
-            var sisaSaldoRupiah = formatRupiah(sisaSaldoValue);
-
-            // Menetapkan nilai ke input sisa saldo
+            var sisaSaldoRupiah = formatRupiahmin(sisaSaldoValue);
             $('#sisa_saldos').val(sisaSaldoRupiah);
-
-            // Memperbarui nilai sub total saat dokumen selesai dimuat
             updateSubTotals();
         });
 

@@ -105,6 +105,7 @@ class UserController extends Controller
             [
                 'cek_hapus' => 'tidak',
                 'kode_user' => $this->kode(),
+                'qrcode_user' => "-",
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 'menu' => [
                     'karyawan' => false,
