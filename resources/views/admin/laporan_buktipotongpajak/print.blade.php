@@ -120,6 +120,8 @@
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:25%">Nama
                 Pelanggan
             </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;width:20%">DPP
+            </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;width:20%">PPH
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;width:20%">
@@ -141,6 +143,10 @@
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
                     {{ $item->detail_bukti->first()->nama_pelanggan }}
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
+                    {{ number_format($item->detail_bukti->first()->tagihan_ekspedisi->sub_total, 2, ',', '.') }}
+
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ number_format($item->grand_total * 0.02, 2, ',', '.') }}
