@@ -186,7 +186,7 @@
                                                     ->where('kategoris', 'memo')
                                                     ->sum('pph') ?? 0;
 
-                                            $fakawal = $totalTarifMemo - $biayaTambahanMemo - $pphMemo;
+                                            $fakawal = $totalTarifMemo + $biayaTambahanMemo - $pphMemo;
                                         @endphp
                                         {{ number_format($fakawal, 2, ',', '.') }}
                                     </td>
