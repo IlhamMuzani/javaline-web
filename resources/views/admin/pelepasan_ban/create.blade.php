@@ -696,9 +696,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="km_pelepasan1">Km Pelepasan</label>
-                                            <input type="text" class="form-control" id="km_pelepasan1"
+                                            <input type="number" class="form-control" id="km_pelepasan1"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan">Keterangan</label>
@@ -965,7 +965,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan1b"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan1b">Keterangan</label>
@@ -1230,7 +1230,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan2a"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="warna">Keterangan</label>
@@ -1500,7 +1500,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan2b"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="warna">Keterangan</label>
@@ -1779,7 +1779,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan2c"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="warna">Keterangan</label>
@@ -2052,7 +2052,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan2d"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="warna">Keterangan</label>
@@ -2328,7 +2328,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan3a"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -2605,7 +2605,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan3b"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -2880,7 +2880,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan3c"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -3157,7 +3157,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan3d"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -3434,7 +3434,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan4a"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -3707,7 +3707,7 @@
                                             <label for="km_pemasangan">Km Pelepsan</label>
                                             <input type="text" class="form-control" id="km_pelepasan4b"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -3984,7 +3984,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan4c"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="warna">Keterangan</label>
@@ -4259,7 +4259,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan4d"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
 
                                         <div class="form-group">
@@ -4532,7 +4532,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan5a"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan5a">Keterangan</label>
@@ -4804,7 +4804,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan5b"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan5b">Keterangan</label>
@@ -5071,7 +5071,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan5c"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan5c">Keterangan</label>
@@ -5340,7 +5340,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan5d"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan5d">Keterangan</label>
@@ -5607,7 +5607,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan6a"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan6a">Keterangan</label>
@@ -5875,7 +5875,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan6b"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan6b">Keterangan</label>
@@ -6144,7 +6144,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan6c"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan6c">Keterangan</label>
@@ -6413,7 +6413,7 @@
                                             <label for="km_pemasangan">Km Pelepasan</label>
                                             <input type="text" class="form-control" id="km_pelepasan6d"
                                                 name="km_pelepasan" placeholder="Masukan km pelepasan"
-                                                value="{{ old('km_pelepasan') }}">
+                                                value="{{ old('km_pelepasan') }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                         </div>
                                         <div class="form-group">
                                             <label class="form-label" for="keterangan6d">Keterangan</label>

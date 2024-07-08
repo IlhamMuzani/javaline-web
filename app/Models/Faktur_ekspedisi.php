@@ -102,6 +102,11 @@ class Faktur_ekspedisi extends Model
         return $this->hasMany(Detail_tariftambahan::class);
     }
 
+    public function detail_pelunasan()
+    {
+        return $this->hasMany(Detail_pelunasan::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('faktur_ekspedisis')->orderBy('id', 'DESC')->take(1)->get();

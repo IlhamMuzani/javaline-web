@@ -153,22 +153,29 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">No.
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:3%">No.
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">Kode Invoice
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:10%">Kode
+                Invoice
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">Tanggal
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:10%">
+                Tanggal
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;">Nama Pelanggan
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; width:10%">
+                Tanggal
+                Pelunasan
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;">DPP
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width:27%">Nama
+                Pelanggan
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px;">PPH
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px; width:10%">DPP
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 12px; width:20%">PPH
             </td>
         </tr>
         <!-- Separator row -->
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="5" style="padding: 0px;"></td>
+            <td colspan="6" style="padding: 0px;"></td>
         </tr>
         <!-- Data rows -->
         @foreach ($inquery as $item)
@@ -178,6 +185,13 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->kode_tagihan }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->tanggal_awal }}
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
+                    @if ($item->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first())
+                        {{ $item->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first()->faktur_pelunasan->tanggal_transfer }}
+                    @else
+                        -
+                    @endif
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->nama_pelanggan }}
                 </td>
@@ -203,11 +217,12 @@
             @endphp
         @endforeach
         <tr>
-            <td colspan="5" style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">Sub Total
-            </td>
-            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">Rp.
+            <td colspan="7" style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">
                 {{ number_format($total, 0, ',', '.') }}
             </td>
+            {{-- <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 12px;">Rp.
+
+            </td> --}}
         </tr>
     </table>
     <br>

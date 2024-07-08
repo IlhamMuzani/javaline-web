@@ -127,6 +127,7 @@
                                 <th class="text-center">No</th>
                                 <th>No Invoice</th>
                                 <th>Tanggal</th>
+                                <th>Tanggal Pelunasan</th>
                                 <th>Pelanggan</th>
                                 <th>DPP</th>
                                 <th>PPH</th>
@@ -138,6 +139,13 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
                                     <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                    <td>
+                                        @if ($tagihanekspedisi->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first())
+                                            {{ $tagihanekspedisi->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first()->faktur_pelunasan->tanggal_transfer }}
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
                                     <td>
                                         {{ $tagihanekspedisi->nama_pelanggan }}
                                     </td>
