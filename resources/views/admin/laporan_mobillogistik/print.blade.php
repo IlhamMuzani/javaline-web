@@ -11,6 +11,7 @@
         body {
             font-family: 'DOSVGA', Arial, Helvetica, sans-serif;
             color: black;
+            margin: 20px;
         }
 
         table {
@@ -83,7 +84,7 @@
             height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">FAKTUR EKSPEDISI MOBIL LOGISTIK - RANGKUMAN</span>
+        <span style="font-weight: bold; font-size: 20px;">FAKTUR EKSPEDISI MOBIL LOGISTIK - RANGKUMAN</span>
         <br>
         <div class="text">
             @php
@@ -108,25 +109,33 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:20%">
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:27%">
                 Faktur
                 Ekspedisi</td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:15%">
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:18%">
                 Tanggal
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:30%">
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:40%">
                 Pelanggan</td>
-            <td class="td" style="text-align: center; padding: 5px; font-weight:bold; font-size: 11px; width:39%">No
-                Polisi
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 11px; width:40%">
+                Nama Driver
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:25%">
+                No. Polisi
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:25%">
+
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 11px; width:15% ">
                 Sub Total
             </td>
 
         </tr>
+        <!-- Separator row -->
         <tr style="border-bottom: 1px solid black;">
             <td colspan="5" style="padding: 0px;"></td>
         </tr>
+        <!-- Data rows -->
         @php
             $created_at = isset($created_at) ? $created_at : null;
             $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
@@ -143,15 +152,19 @@
                     <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                         {{ $faktur->nama_pelanggan }}
                     </td>
-                    <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
+                    <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                         @if ($faktur->detail_faktur->first())
                             {{ $faktur->detail_faktur->first()->nama_driver }}
                         @else
                         @endif
+                    </td>
+                    <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
                         @if ($faktur->kendaraan)
                             ({{ $faktur->kendaraan->no_pol }})
                         @else
                         @endif
+                    </td>
+                    <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
                     </td>
                     <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
                         {{ number_format($faktur->grand_total, 2, ',', '.') }}
@@ -161,67 +174,71 @@
                     <tr>
                         <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                             {{ $memo->kode_memo }}
+
                         </td>
                         <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                            {{ $memo->created_at->format('Y-m-d') }}
+                            {{ $memo->memo_ekspedisi->tanggal_awal }}
                         </td>
                         <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                             {{ $memo->nama_rute }}
                         </td>
                         <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
-                            <span style="margin-right:30px">
+                            @if ($memo->memo_ekspedisi->kategori == 'Memo Perjalanan')
                                 @if ($memo->memo_ekspedisi)
                                     {{ number_format($memo->memo_ekspedisi->uang_jalan, 2, ',', '.') }}
                                 @else
                                     tidak ada
                                 @endif
-                            </span>
-                            <span style="margin-right:30px">
+                            @else
                                 @if ($memo->memo_ekspedisi)
-                                    {{ number_format($memo->memo_ekspedisi->biaya_tambahan, 2, ',', '.') }}
+                                    {{ number_format($memo->memo_ekspedisi->totalrute, 2, ',', '.') }}
                                 @else
                                     tidak ada
                                 @endif
-                            </span>
-                            <span>
-                                @if ($memo->memo_ekspedisi)
-                                    {{ number_format($memo->memo_ekspedisi->deposit_driver, 2, ',', '.') }}
-                                @else
-                                    tidak ada
-                                @endif
-                            </span>
+                            @endif
+                        </td>
+                        <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
+                            @if ($memo->memo_ekspedisi)
+                                {{ number_format($memo->memo_ekspedisi->biaya_tambahan, 2, ',', '.') }}
+                            @else
+                                tidak ada
+                            @endif
+                        </td>
+                        <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
+                            @if ($memo->memo_ekspedisi)
+                                {{ number_format($memo->memo_ekspedisi->deposit_driver, 2, ',', '.') }}
+                            @else
+                                tidak ada
+                            @endif
                         </td>
                         <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
                             @if ($memo->memo_ekspedisi)
                                 {{ number_format($memo->memo_ekspedisi->hasil_jumlah, 2, ',', '.') }}
-                            @elseif($memo->memo_ekspedisi && $memo->memotambahan)
-                                {{ number_format($memo->memotambahan->grand_total, 2, ',', '.') }}
                             @else
-                                <!-- Handle kondisi ketika tidak memenuhi kedua kondisi di atas -->
+                                tidak ada
                             @endif
-
                         </td>
                     </tr>
-
                     @foreach ($faktur->detail_faktur as $item)
                     @endforeach
-
                     @if ($memo->memo_ekspedisi && $memo->memo_ekspedisi->memotambahan->isNotEmpty())
                         @foreach ($memo->memo_ekspedisi->memotambahan as $memoTambahan)
                             <tr>
                                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                                    {{ $memoTambahan->kode_tambahan }} </td>
-                                <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                                    {{ $memoTambahan->created_at->format('Y-m-d') }}
+                                    {{ $memoTambahan->kode_tambahan }}
                                 </td>
+                                <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
+                                    {{ $memoTambahan->tanggal_awal }} </td>
                                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                                     {{ $memoTambahan->memo_ekspedisi->nama_rute }} </td>
                                 <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
-                                    <span style="margin-right:34px">
-                                        {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
-                                    </span>
-                                    <span style="margin-right:10px">0,00</span>
-                                    <span style="margin-right:4px">0,00</span>
+                                    {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
+                                </td>
+                                <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
+                                    0,00
+                                </td>
+                                <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
+                                    0,00
                                 </td>
                                 <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
                                     {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
@@ -232,12 +249,13 @@
                 @endforeach
             @endif
         @endforeach
-
+        <!-- Separator row -->
         <tr style="border-bottom: 1px solid black;">
             <td colspan="" style="padding: 0px;"></td>
         </tr>
+        <!-- Subtotal row -->
         <tr>
-            <td colspan="4" style="text-align: right; font-weight: bold; padding: 5px; font-size: 11px;">
+            <td colspan="6" style="text-align: right; font-weight: bold; padding: 5px; font-size: 11px;">
                 {{-- Sub Total --}}
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 11px;">
@@ -245,7 +263,6 @@
             </td>
         </tr>
     </table>
-
 
     @php
         $totalGrandTotal = 0;
@@ -292,8 +309,7 @@
                     <tr>
                         <td colspan="6" style="padding: 0px;">
                             <hr style="border-top: 0.1px solid black; margin: 5px 0;">
-                            {{-- <span
-                                    style="position: absolute; top: 50%; transform: translateY(-50%); background-color: white; padding: 0 5px; font-size: 12px;">+</span> --}}
+
                         </td>
                     </tr>
                     <tr>
@@ -339,8 +355,7 @@
                     <tr>
                         <td colspan="6" style="padding: 0px;">
                             <hr style="border-top: 0.1px solid black; margin: 5px 0;">
-                            {{-- <span
-                                    style="position: absolute; top: 50%; transform: translateY(-50%); background-color: white; padding: 0 5px; font-size: 12px;">+</span> --}}
+
                         </td>
                     </tr>
                     <tr>
