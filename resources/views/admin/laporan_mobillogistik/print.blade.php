@@ -94,6 +94,7 @@
             @endphp
             @if ($startDate && $endDate)
                 <p>Periode:{{ $startDate }} s/d {{ $endDate }} {{ $inquery->first()->kendaraan->no_pol }}
+                    ({{ $inquery->first()->kendaraan->no_kabin }})
                 </p>
             @else
                 <p>Periode: Tidak ada tanggal awal dan akhir yang diteruskan.</p>
@@ -137,7 +138,7 @@
                         {{ $faktur->kode_faktur }}
                     </td>
                     <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                        {{ $faktur->created_at }}
+                        {{ $faktur->created_at->format('Y-m-d') }}
                     </td>
                     <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                         {{ $faktur->nama_pelanggan }}
@@ -162,7 +163,7 @@
                             {{ $memo->kode_memo }}
                         </td>
                         <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                            {{ $memo->created_at }}
+                            {{ $memo->created_at->format('Y-m-d') }}
                         </td>
                         <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                             {{ $memo->nama_rute }}
@@ -211,7 +212,8 @@
                                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                                     {{ $memoTambahan->kode_tambahan }} </td>
                                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                                    {{ $memoTambahan->created_at }} </td>
+                                    {{ $memoTambahan->created_at->format('Y-m-d') }}
+                                </td>
                                 <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
                                     {{ $memoTambahan->memo_ekspedisi->nama_rute }} </td>
                                 <td class="td" style="text-align: right; padding: 5px; font-size: 11px;">
