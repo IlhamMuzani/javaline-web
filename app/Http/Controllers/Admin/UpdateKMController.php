@@ -77,10 +77,6 @@ class UpdateKMController extends Controller
         $kendaraan->status_post = 'posting';
         $kendaraan->status_notif = false;
 
-        $kendaraan->ban()->update([
-            'umur_ban' => DB::raw('CAST(' . $kendaraan->km . ' AS SIGNED) - CAST(km_pemasangan AS SIGNED) + CAST(jumlah_km AS SIGNED)')
-        ]);
-
         $kms = $request->km;
 
         // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
@@ -97,6 +93,13 @@ class UpdateKMController extends Controller
         if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi) {
             $status_olimesins = "belum penggantian";
             $kendaraan->status_olitransmisi = $status_olimesins;
+        }
+
+        // Update umur_ban for related ban
+        foreach ($kendaraan->ban as $ban) {
+            $ban->update([
+                'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
+            ]);
         }
 
         // Simpan perubahan
