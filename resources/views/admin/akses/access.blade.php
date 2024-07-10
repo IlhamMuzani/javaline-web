@@ -1395,7 +1395,7 @@
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangeoperasional('perpanjangan_stnk')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
-                                                            <label class="form-check-label">Show</label>
+                                                            <label class="form-check-label">{{ ucfirst($fitur) }}</label>
                                                         </div>
                                                     @elseif ($loop->iteration == 77)
                                                         <div class="form-check ml-5 mb-3">
@@ -1404,7 +1404,7 @@
                                                                 value="{{ $fitur }}"
                                                                 onchange="handleIndividualCheckboxChangeoperasional('perpanjangan_stnk')"
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
-                                                            <label class="form-check-label">Create</label>
+                                                            <label class="form-check-label">{{ ucfirst($fitur) }}</label>
                                                         </div>
                                                     @endif
                                                 @endforeach
@@ -1421,7 +1421,7 @@
                                             </div>
                                             <div class="mb-3" style="display: flex; flex-wrap: wrap;">
                                                 @foreach ($fiturs as $fitur)
-                                                    @if ($loop->iteration == 76)
+                                                    @if ($loop->iteration == 78)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input show_{{ $menu }}"
                                                                 type="checkbox" name="fitur[]"
@@ -1431,7 +1431,7 @@
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                             <label class="form-check-label">Show</label>
                                                         </div>
-                                                    @elseif ($loop->iteration == 77)
+                                                    @elseif ($loop->iteration == 79)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
                                                                 name="fitur[]" data-category="perpanjangan_kir"
@@ -4247,7 +4247,7 @@
                                             </div>
                                             <div class="mb-3" style="display: flex; flex-wrap: wrap;">
                                                 @foreach ($fiturs as $fitur)
-                                                    @if ($loop->iteration == 310)
+                                                    @if ($loop->iteration == 196)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
                                                                 name="fitur[]" data-category="laporan_pembelian_ban"
@@ -4256,7 +4256,7 @@
                                                                 {{ $akses->fitur[$fitur] ? 'checked' : '' }}>
                                                             <label class="form-check-label">Cari</label>
                                                         </div>
-                                                    @elseif ($loop->iteration == 311)
+                                                    @elseif ($loop->iteration == 197)
                                                         <div class="form-check ml-5 mb-3">
                                                             <input class="form-check-input" type="checkbox"
                                                                 name="fitur[]" data-category="laporan_pembelian_ban"
