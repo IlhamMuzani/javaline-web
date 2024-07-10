@@ -481,11 +481,11 @@
                                                 '{{ $return->nama_pelanggan }}',
                                                 '{{ $return->telp_pelanggan }}',
                                                 '{{ $return->alamat_pelanggan }}',
-                                                '{{ $return->detail_tagihan->pluck('faktur_ekspedisi_id')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('kode_faktur')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('tanggal_memo')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('faktur_ekspedisi.grand_total')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('total_faktur')->implode(', ') }}'
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('faktur_ekspedisi_id')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('kode_faktur')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('tanggal_memo')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('faktur_ekspedisi.grand_total')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('total_faktur')->implode(', ') }}'
                                                 )">
                                                 <i class="fas fa-plus"></i>
                                             </button>

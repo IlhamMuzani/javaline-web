@@ -115,8 +115,7 @@
                                 <div class="form-group">
                                     <label style="font-size:14px" for="nama_pelanggan">Nama Pelanggan</label>
                                     <input style="font-size:14px" type="text" class="form-control" id="nama_pelanggan"
-                                        readonly name="nama_pelanggan" placeholder=""
-                                        value="{{ old('nama_pelanggan') }}">
+                                        readonly name="nama_pelanggan" placeholder="" value="{{ old('nama_pelanggan') }}">
                                 </div>
                                 <div class="form-group" hidden>
                                     <div class="form-group">
@@ -468,11 +467,11 @@
                                                 '{{ $return->nama_pelanggan }}',
                                                 '{{ $return->telp_pelanggan }}',
                                                 '{{ $return->alamat_pelanggan }}',
-                                                '{{ $return->detail_tagihan->pluck('faktur_ekspedisi_id')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('kode_faktur')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('tanggal_memo')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('faktur_ekspedisi.grand_total')->implode(', ') }}',
-                                                '{{ $return->detail_tagihan->pluck('total_faktur')->implode(', ') }}'
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('faktur_ekspedisi_id')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('kode_faktur')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('tanggal_memo')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('faktur_ekspedisi.grand_total')->implode(', ') }}',
+                                                '{{ $return->detail_tagihan->where('faktur_ekspedisi.status_pelunasan', null)->pluck('total_faktur')->implode(', ') }}'
                                                 )">
                                                 <i class="fas fa-plus"></i>
                                             </button>
@@ -1345,9 +1344,9 @@
                     case 'pelunasan1':
                         window.location.href = "{{ url('admin/faktur_pelunasanperfaktur') }}";
                         break;
-                    // case 'pelunasan2':
-                    //     window.location.href = "{{ url('admin/faktur_pelunasanperinvoice') }}";
-                    //     break;
+                        // case 'pelunasan2':
+                        //     window.location.href = "{{ url('admin/faktur_pelunasanperinvoice') }}";
+                        //     break;
                     case 'pelunasan3':
                         window.location.href = "{{ url('admin/faktur_pelunasan') }}";
                         break;
