@@ -151,6 +151,31 @@
                                                         @csrf
                                                         <div class="card-body">
                                                             <h2>Invoice</h2>
+
+                                                            <div class="form-group mb-3">
+                                                                @if ($faktur->gambar_bukti == null)
+                                                                    <img class="mt-3"
+                                                                        src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                                                        alt="tigerload" height="180" width="200">
+                                                                @else
+                                                                    <img class="mt-3"
+                                                                        src="{{ asset('storage/uploads/' . $faktur->gambar_bukti) }}"
+                                                                        alt="tigerload" height="180" width="200">
+                                                                @endif
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="gambar">Foto bukti <small>(Kosongkan saja
+                                                                        jika
+                                                                        tidak
+                                                                        ingin menambahkan)</small></label>
+                                                                <div class="custom-file">
+                                                                    <input type="file" class="custom-file-input"
+                                                                        id="gambar_bukti" name="gambar_bukti"
+                                                                        accept="image/*">
+                                                                    <label class="custom-file-label"
+                                                                        for="gambar_bukti">Masukkan gambar</label>
+                                                                </div>
+                                                            </div>
                                                             <div class="row">
                                                                 <div class="col-lg-6">
                                                                     <div class="form-group">
@@ -159,6 +184,7 @@
                                                                         <input type="text" class="form-control"
                                                                             id="nomor_buktitagihan"
                                                                             name="nomor_buktitagihan"
+                                                                            placeholder="masukkan nomor bukti"
                                                                             value="{{ old('nomor_buktitagihan', $faktur->nomor_buktitagihan) }}"
                                                                             maxlength="10">
                                                                     </div>
@@ -177,6 +203,32 @@
                                                             <br>
                                                             <h2>Faktur</h2>
                                                             @foreach ($faktur->detail_tagihan as $item)
+                                                                <div class="form-group mb-3">
+                                                                    @if ($item->gambar_buktifaktur == null)
+                                                                        <img class="mt-3"
+                                                                            src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                                                            alt="tigerload" height="180"
+                                                                            width="200">
+                                                                    @else
+                                                                        <img class="mt-3"
+                                                                            src="{{ asset('storage/uploads/' . $item->gambar_buktifaktur) }}"
+                                                                            alt="tigerload" height="180"
+                                                                            width="200">
+                                                                    @endif
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="gambar">Foto bukti <small>(Kosongkan saja
+                                                                            jika tidak ingin menambahkan)</small></label>
+                                                                    <div class="custom-file">
+                                                                        <input type="file" class="custom-file-input"
+                                                                            id="gambar_buktifaktur_{{ $item->id }}"
+                                                                            name="gambar_buktifaktur[{{ $item->id }}]"
+                                                                            accept="image/*">
+                                                                        <label class="custom-file-label"
+                                                                            for="gambar_buktifaktur_{{ $item->id }}">Masukkan
+                                                                            gambar</label>
+                                                                    </div>
+                                                                </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
@@ -187,6 +239,7 @@
                                                                                 {{ number_format($item->faktur_ekspedisi->pph, 2, ',', '.') }}</label>
                                                                             <input type="text" class="form-control"
                                                                                 id="nomor_buktifaktur"
+                                                                                placeholder="masukkan nomor bukti"
                                                                                 name="nomor_buktifaktur[{{ $item->id }}]"
                                                                                 placeholder=""
                                                                                 value="{{ $item->nomor_buktifaktur }}"

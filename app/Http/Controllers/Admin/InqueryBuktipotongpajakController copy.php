@@ -284,4 +284,17 @@ class InqueryBuktipotongpajakController extends Controller
 
         return $pdf->stream('Bukti_Potong_pajak.pdf');
     }
+
+    public function cetak_buktifilterfoto(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        // Mengambil faktur berdasarkan id yang dipilih
+        $buktis = Bukti_potongpajak::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        $pdf = PDF::loadView('admin.inquery_buktipotongpajak.cetak_pdffilterfoto', compact('buktis'));
+        $pdf->setPaper('a4');
+
+        return $pdf->stream('Bukti_Potong_pajak.pdf');
+    }
 }

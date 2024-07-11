@@ -906,6 +906,12 @@
             $('#tableMemo').modal('show');
         }
 
+        function getWeekOfMonth(date) {
+            var adjustedDate = date.getDate() + date.getDay();
+            var prefixes = [0, 1, 2, 3, 4, 5];
+            return Math.ceil(adjustedDate / 7);
+        }
+
         function getMemos(rowIndex) {
             var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var karyawan_id = selectedRow.data('id');
@@ -916,11 +922,23 @@
             var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
             var nol = 0;
 
+
+            // Get current date and week of the month
+            var currentDate = new Date();
+            var currentWeek = getWeekOfMonth(currentDate);
+
+            // Check if it's the second week of the month
+            if (currentWeek === 2) {
+                $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            } else {
+                $('#potongan_bpjs-' + activeSpecificationIndex).val(nol);
+            }
+
             // Update the form fields for the active specification
             $('#karyawan_id-' + activeSpecificationIndex).val(karyawan_id);
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
-            $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            // $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
             $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon.toLocaleString('id-ID'));
             $('#gaji-' + activeSpecificationIndex).val(gaji);
 

@@ -868,6 +868,12 @@
             $('#tableMemo').modal('show');
         }
 
+        function getWeekOfMonth(date) {
+            var adjustedDate = date.getDate() + date.getDay();
+            var prefixes = [0, 1, 2, 3, 4, 5];
+            return Math.ceil(adjustedDate / 7);
+        }
+
         function getMemos(rowIndex) {
             var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var karyawan_id = selectedRow.data('id');
@@ -878,11 +884,23 @@
             var gaji = parseFloat(selectedRow.data('gaji')).toLocaleString('id-ID');
             var nol = 0;
 
+
+            // Get current date and week of the month
+            var currentDate = new Date();
+            var currentWeek = getWeekOfMonth(currentDate);
+
+            // Check if it's the second week of the month
+            if (currentWeek === 2) {
+                $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            } else {
+                $('#potongan_bpjs-' + activeSpecificationIndex).val(nol);
+            }
+
             // Update the form fields for the active specification
             $('#karyawan_id-' + activeSpecificationIndex).val(karyawan_id);
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
-            $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            // $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
             $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon.toLocaleString('id-ID'));
             $('#gaji-' + activeSpecificationIndex).val(gaji);
 
@@ -902,19 +920,19 @@
             $('#gajinol_pelunasan-' + activeSpecificationIndex).val(nol);
 
             // Check if bpjs is not null or has a value
-            if (bpjs !== null && bpjs !== '') {
-                // Jika ada nilai bpjs
-                if (bpjs === 65735) {
-                    // Jika nilai bpjs adalah 65735, tandai checkbox potongan_bpjs dan atur nilainya menjadi 65735
-                    $('#potongan_bpjs-' + activeSpecificationIndex).val((65735).toLocaleString('id-ID'));
-                } else if (bpjs === 43823) {
-                    // Jika nilai bpjs adalah 43823, tandai checkbox potongan_bpjs dan atur nilainya menjadi 43823
-                    $('#potongan_bpjs-' + activeSpecificationIndex).val((43823).toLocaleString('id-ID'));
-                }
-            } else {
-                // Jika tidak ada nilai bpjs, pastikan checkbox potongan_bpjs tidak dicentang dan biarkan nilainya kosong
-                $('#potongan_bpjs-' + activeSpecificationIndex).val("");
-            }
+            // if (bpjs !== null && bpjs !== '') {
+            //     // Jika ada nilai bpjs
+            //     if (bpjs === 65735) {
+            //         // Jika nilai bpjs adalah 65735, tandai checkbox potongan_bpjs dan atur nilainya menjadi 65735
+            //         $('#potongan_bpjs-' + activeSpecificationIndex).val((65735).toLocaleString('id-ID'));
+            //     } else if (bpjs === 43823) {
+            //         // Jika nilai bpjs adalah 43823, tandai checkbox potongan_bpjs dan atur nilainya menjadi 43823
+            //         $('#potongan_bpjs-' + activeSpecificationIndex).val((43823).toLocaleString('id-ID'));
+            //     }
+            // } else {
+            //     // Jika tidak ada nilai bpjs, pastikan checkbox potongan_bpjs tidak dicentang dan biarkan nilainya kosong
+            //     $('#potongan_bpjs-' + activeSpecificationIndex).val("");
+            // }
 
             // Hide the modal after updating the form fields
             $('#tableMemo').modal('hide');

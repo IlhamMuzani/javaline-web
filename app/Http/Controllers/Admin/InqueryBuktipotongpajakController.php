@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Bukti_potongpajak;
 use App\Models\Detail_bukti;
+use App\Models\Detail_tagihan;
 use App\Models\Tagihan_ekspedisi;
 use Illuminate\Support\Facades\Validator;
 
@@ -192,4 +193,30 @@ class InqueryBuktipotongpajakController extends Controller
 
         return $pdf->stream('Bukti_Potong_pajak.pdf');
     }
+
+    public function cetak_buktifilterfoto(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        // Mengambil faktur berdasarkan id yang dipilih
+        $buktis = Bukti_potongpajak::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        $detail_buktis = Detail_bukti::whereIn('bukti_potongpajak_id', $buktis->pluck('id'))->get();
+
+        // Mengambil semua ID tagihan_ekspedisi yang terkait dengan detail_bukti yang dipilih
+        $tagihanEkspedisiIds = $detail_buktis->pluck('tagihan_ekspedisi_id')->unique();
+
+        // Mengambil semua tagihan ekspedisi yang terkait
+        $tagihan_ekspedisis = Tagihan_ekspedisi::whereIn('id', $tagihanEkspedisiIds)->get();
+
+        // Mengambil semua detail tagihan yang terkait
+        $detail_tagihans = Detail_tagihan::whereIn('tagihan_ekspedisi_id', $tagihanEkspedisiIds)->get();
+
+        // Load the view and pass the data
+        $pdf = PDF::loadView('admin.inquery_buktipotongpajak.cetak_pdffilterfoto', compact('buktis', 'detail_buktis', 'tagihan_ekspedisis', 'detail_tagihans'));
+        $pdf->setPaper('a4');
+
+        return $pdf->stream('Bukti_Potong_pajak.pdf');
+    }
+
 }

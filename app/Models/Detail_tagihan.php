@@ -29,6 +29,7 @@ class Detail_tagihan extends Model
         'satuan',
         'harga',
         'total',
+        'gambar_buktifaktur',
         'nomor_buktifaktur',
         'tanggal_nomorfaktur',
         'tanggal_awal',

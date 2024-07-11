@@ -12,6 +12,7 @@ use App\Models\Detail_tagihan;
 use App\Models\Pelanggan;
 use App\Models\Tagihan_ekspedisi;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class BuktipotongController extends Controller
 {
@@ -36,33 +37,22 @@ class BuktipotongController extends Controller
         return view('admin.bukti_potongpajak.index', compact('inquery', 'pelanggans'));
     }
 
-
-    // public function updatebuktitagihan(Request $request, $id)
-    // {
-    //     // Memperbarui nomor bukti tagihan utama
-    //     $tagihan = Tagihan_ekspedisi::findOrFail($id);
-    //     $tagihan->update([
-    //         'nomor_buktitagihan' => $request->nomor_buktitagihan,
-    //         'tanggal_nomortagihan' => $request->tanggal_nomortagihan
-    //     ]);
-
-    //     // Memperbarui detail tagihan
-    //     foreach ($request->nomor_buktifaktur as $detailId => $nomorBuktiFaktur) {
-    //         $detail = Detail_tagihan::findOrFail($detailId);
-    //         $detail->update([
-    //             'nomor_buktifaktur' => $nomorBuktiFaktur,
-    //             'tanggal_nomorfaktur' => $request->tanggal_nomorfaktur[$detailId] // Adding the update for tanggal_buktifaktur
-    //         ]);
-    //     }
-
-    //     return redirect()->back()->with('success', 'Data berhasil diperbarui');
-    // }
-
     public function updatebuktitagihan(Request $request, $id)
     {
+        $tagihan_ekspedisi = Tagihan_ekspedisi::findOrFail($id);
+        if ($request->gambar_bukti) {
+            Storage::disk('local')->delete('public/uploads/' . $tagihan_ekspedisi->gambar_bukti);
+            $gambar = str_replace(' ', '', $request->gambar_bukti->getClientOriginalName());
+            $namaGambar = 'tagihan_ekspedisi/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+            $request->gambar_bukti->storeAs('public/uploads/', $namaGambar);
+        } else {
+            $namaGambar = $tagihan_ekspedisi->gambar_bukti;
+        }
+
         // Memperbarui nomor bukti tagihan utama
         $tagihan = Tagihan_ekspedisi::findOrFail($id);
         $tagihan->update([
+            'gambar_bukti' => $namaGambar,
             'nomor_buktitagihan' => $request->nomor_buktitagihan,
             'tanggal_nomortagihan' => $request->tanggal_nomortagihan
         ]);
@@ -70,7 +60,18 @@ class BuktipotongController extends Controller
         // Memperbarui detail tagihan
         foreach ($request->nomor_buktifaktur as $detailId => $nomorBuktiFaktur) {
             $detail = Detail_tagihan::findOrFail($detailId);
+            
+            if ($request->hasFile("gambar_buktifaktur.$detailId")) {
+                Storage::disk('local')->delete('public/uploads/' . $detail->gambar_buktifaktur);
+                $gambar2 = str_replace(' ', '', $request->file("gambar_buktifaktur.$detailId")->getClientOriginalName());
+                $namaGambarfaktur = 'detail_tagihan/' . date('mYdHs') . rand(1, 10) . '_' . $gambar2;
+                $request->file("gambar_buktifaktur.$detailId")->storeAs('public/uploads/', $namaGambarfaktur);
+            } else {
+                $namaGambarfaktur = $detail->gambar_buktifaktur;
+            }
+
             $detail->update([
+                'gambar_buktifaktur' => $namaGambarfaktur,
                 'nomor_buktifaktur' => $nomorBuktiFaktur,
                 'tanggal_nomorfaktur' => $request->tanggal_nomorfaktur[$detailId] // Adding the update for tanggal_buktifaktur
             ]);

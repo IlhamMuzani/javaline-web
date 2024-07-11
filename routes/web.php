@@ -549,6 +549,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('unpostpengeluaranfilter', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'unpostpengeluaranfilter']);
     // Route::get('cetak_pengeluaranfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'cetak_pengeluaranfilter']);
     Route::get('cetak_buktifilter', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'cetak_buktifilter']);
+    Route::get('cetak_buktifilterfoto', [\App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class, 'cetak_buktifilterfoto']);
 
     Route::get('cetak_memoekspedisifilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'cetak_memoekspedisifilter']);
     Route::get('cetak_memoborongfilter', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'cetak_memoborongfilter']);

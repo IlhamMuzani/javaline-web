@@ -31,6 +31,9 @@ return new class extends Migration
             $table->string('sisa')->nullable();
             $table->string('keterangan')->nullable();
             $table->string('grand_total')->nullable();
+            $table->string('gambar_bukti')->nullable();
+            $table->string('nomor_buktitagihan')->nullable();
+            $table->string('tanggal_nomortagihan')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();

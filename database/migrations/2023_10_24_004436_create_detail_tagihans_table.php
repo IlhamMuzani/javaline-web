@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('satuan')->nullable();
             $table->string('harga')->nullable();
             $table->string('total')->nullable();
+            $table->string('gambar_buktifaktur')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();
             $table->timestamp('deleted_at')->nullable();

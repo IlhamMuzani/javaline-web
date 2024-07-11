@@ -30,6 +30,7 @@ class Tagihan_ekspedisi extends Model
         'pph',
         'sisa',
         'grand_total',
+        'gambar_bukti',
         'nomor_buktitagihan',
         'tanggal_nomortagihan',
         'tanggal',
