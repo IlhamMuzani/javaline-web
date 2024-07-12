@@ -156,11 +156,11 @@
                                                                 @if ($faktur->gambar_bukti == null)
                                                                     <img class="mt-3"
                                                                         src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
-                                                                        alt="tigerload" height="180" width="200">
+                                                                        alt="javaline" height="180" width="200">
                                                                 @else
                                                                     <img class="mt-3"
                                                                         src="{{ asset('storage/uploads/' . $faktur->gambar_bukti) }}"
-                                                                        alt="tigerload" height="180" width="200">
+                                                                        alt="javaline" height="180" width="200">
                                                                 @endif
                                                             </div>
                                                             <div class="form-group">
@@ -207,12 +207,12 @@
                                                                     @if ($item->gambar_buktifaktur == null)
                                                                         <img class="mt-3"
                                                                             src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
-                                                                            alt="tigerload" height="180"
+                                                                            alt="javaline" height="180"
                                                                             width="200">
                                                                     @else
                                                                         <img class="mt-3"
                                                                             src="{{ asset('storage/uploads/' . $item->gambar_buktifaktur) }}"
-                                                                            alt="tigerload" height="180"
+                                                                            alt="javaline" height="180"
                                                                             width="200">
                                                                     @endif
                                                                 </div>

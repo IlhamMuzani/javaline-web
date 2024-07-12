@@ -117,6 +117,7 @@
                                 $totalFakturmemo = 0; // Initialize the total
                                 $totalMemo = 0; // Initialize the total variable
                                 $totalMemotambahan = 0; // Initialize the total variable
+                                $totalRitase = 0; // Initialize the total variable
                                 $totalOperasional = 0; // Initialize the total variable
                                 $totalPerbaikan = 0; // Initialize the total variable
                                 $totalSubtotal = 0; // Initialize the total variable
@@ -162,7 +163,7 @@
                                     </td> --}}
 
                                     @php
-                                        $totalRitase = 0;
+                                        $totalMemo = 0;
                                     @endphp
                                     <td class="text-right">
                                         @foreach ($kendaraan->faktur_ekspedisi->whereBetween('created_at', [$created_at, $tanggal_akhir]) as $faktur)
@@ -172,14 +173,14 @@
                                                 @if ($memo = $detail->memo_ekspedisi->first())
                                                     {{-- Memo Ekspedisi ID: {{ $memo->id }} --}}
                                                     @php
-                                                        $totalRitase++;
+                                                        $totalMemo++;
                                                     @endphp
                                                 @else
                                                     Tidak ada memo ekspedisi
                                                 @endif
                                             @endforeach
                                         @endforeach
-                                        {{ $totalRitase }}
+                                        {{ $totalMemo }}
                                     </td>
 
                                     <td class="text-right">
@@ -335,9 +336,16 @@
                                         @endif
                                     </td>
                                 </tr>
-
+                                
                                 @php
                                     $nomorUrut++;
+
+                                    $totalRitase +=
+                                        optional($kendaraan->memo_ekspedisi)
+                                            ->where('status', 'selesai')
+                                            ->whereBetween('created_at', [$created_at, $tanggal_akhir])
+                                            ->count() ?? 0;
+
                                     $totalFakturawal +=
                                         optional($kendaraan->faktur_ekspedisi)
                                             ->whereIn('status', ['posting', 'selesai'])
@@ -444,32 +452,8 @@
                         <tbody>
                             <tr>
                                 <td colspan="3"></td>
-                                @php
-                                    $totalSemuaRitase = 0; // Inisialisasi variabel untuk total ritase semua kendaraan
-                                    $totalHasilJumlahall = 0;
-                                    $totalHasilJumlahtambahanall = 0;
-                                @endphp
-                                @foreach ($kendaraans as $kendaraan)
-                                    @php
-                                        $totalRitaseKendaraan = 0;
-                                        foreach (
-                                            $kendaraan->faktur_ekspedisi->whereBetween('created_at', [
-                                                $created_at,
-                                                $tanggal_akhir,
-                                            ])
-                                            as $faktur
-                                        ) {
-                                            foreach ($faktur->detail_faktur as $detail) {
-                                                if ($memo = $detail->memo_ekspedisi->first()) {
-                                                    $totalRitaseKendaraan++;
-                                                }
-                                            }
-                                        }
-                                        $totalSemuaRitase += $totalRitaseKendaraan;
-                                    @endphp
-                                @endforeach
                                 <td class="text-right" style="font-weight: bold;">
-                                    {{ $totalSemuaRitase }}
+                                    {{ number_format($totalRitase, 0, ',', '.') }}
                                 </td>
                                 {{-- <td><strong>Total Deposit:</strong></td> --}}
                                 <td class="text-right" style="font-weight: bold;">
@@ -482,46 +466,8 @@
                                     Rp.{{ number_format($totalFakturpph, 2, ',', '.') }}
                                 </td> --}}
                                 {{-- <td><strong>Total Saldo:</strong></td> --}}
-
-                                @foreach ($kendaraans as $kendaraan)
-                                    @php
-                                        $totalRitaseKendaraan = 0;
-                                        foreach (
-                                            $kendaraan->faktur_ekspedisi->whereBetween('created_at', [
-                                                $created_at,
-                                                $tanggal_akhir,
-                                            ])
-                                            as $faktur
-                                        ) {
-                                            foreach ($faktur->detail_faktur as $detail) {
-                                                if ($memo = $detail->memo_ekspedisi->first()) {
-                                                    $totalRitaseKendaraan++;
-                                                }
-                                            }
-                                        }
-                                        $totalSemuaRitase += $totalRitaseKendaraan;
-
-                                        // Hitung total hasil jumlah dan total tambahan semua kendaraan
-                                        foreach (
-                                            $kendaraan->faktur_ekspedisi->whereBetween('created_at', [
-                                                $created_at,
-                                                $tanggal_akhir,
-                                            ])
-                                            as $faktur
-                                        ) {
-                                            foreach ($faktur->detail_faktur as $detail) {
-                                                $totalHasilJumlahall += $detail->memo_ekspedisi->hasil_jumlah;
-
-                                                foreach ($detail->memo_ekspedisi->memotambahan as $item) {
-                                                    $totalHasilJumlahtambahanall += $item->grand_total;
-                                                }
-                                            }
-                                        }
-                                    @endphp
-                                    {{-- Iterasi lainnya seperti yang telah Anda implementasikan --}}
-                                @endforeach
                                 <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalHasilJumlahall + $totalHasilJumlahtambahanall, 2, ',', '.') }}
+                                    Rp.{{ number_format($totalMemo + $totalMemotambahan, 2, ',', '.') }}
                                 </td>
                                 {{-- <td class="text-right" style="font-weight: bold;">
                                     Rp.{{ number_format($totalMemotambahan, 0, ',', '.') }}
@@ -535,7 +481,7 @@
                                     {{ number_format($totalPerbaikan, 2, ',', '.') }}
                                 </td>
                                 <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalHasilJumlahall - $totalHasilJumlahtambahanall, 2, ',', '.') }}
+                                    Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalMemo - $totalMemotambahan, 2, ',', '.') }}
                                 </td>
                             </tr>
                         </tbody>
