@@ -322,7 +322,7 @@
                                         <td style="width: 150px;">
                                             <div class="form-group">
                                                 <input type="text" style="font-size:14px"
-                                                    class="form-control potongan_bpjs" readonly
+                                                    class="form-control potongan_bpjs"
                                                     id="potongan_bpjs-{{ $loop->index }}" name="potongan_bpjs[]"
                                                     value="{{ number_format($detail['potongan_bpjs'], 0, ',', '.') }}"
                                                     data-row-id="0">
@@ -830,7 +830,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="text" class="form-control potongan_bpjs" style="font-size:14px" readonly id="potongan_bpjs-' +
+                '<input type="text" class="form-control potongan_bpjs" style="font-size:14px" id="potongan_bpjs-' +
                 key +
                 '" name="potongan_bpjs[]" value="' + potongan_bpjs + '" ';
             item_pembelian += '</div>';

@@ -79,7 +79,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN PENERIMAAN KAS KECIL - RANGKUMAN</span>
@@ -117,6 +118,9 @@
             <td colspan="5" style="padding: 0px;"></td>
         </tr>
         <!-- Data rows -->
+        @php
+            $total = 0;
+        @endphp
         @foreach ($inquery as $item)
             <tr>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->tanggal }}</td>
@@ -129,20 +133,20 @@
                 <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
                     {{ number_format($item->sub_total, 0, ',', '.') }}</td>
             </tr>
+            @php
+                $total += $item->nominal;
+            @endphp
         @endforeach
         <!-- Separator row -->
         <tr style="border-bottom: 1px solid black;">
             <td colspan="" style="padding: 0px;"></td>
         </tr>
         <!-- Subtotal row -->
-        @php
+        {{-- @php
             $total = 0;
         @endphp
         @foreach ($inquery as $item)
-            @php
-                $total += $item->nominal;
-            @endphp
-        @endforeach
+        @endforeach --}}
         {{-- <tr style="color: white">
             <td colspan="2" style="text-align: right; font-weight: bold; padding: 5px; font-size: 15px;">a
             </td>
