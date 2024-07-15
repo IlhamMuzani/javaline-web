@@ -158,7 +158,9 @@
                 </td>
                 <td>Rp. {{ number_format($operasional, 2, ',', '.') }}</td>
                 <td>Rp. {{ number_format($perbaikan, 2, ',', '.') }}</td>
-                <td>Rp. {{ number_format($totalSubtotal, 2, ',', '.') }}</td>
+                <td>Rp.
+                    {{ number_format($faktursx - $totalHasilJumlah - $totalHasilJumlahtambahan - $operasional - $perbaikan, 2, ',', '.') }}
+                </td>
             </tr>
             @php
                 $nomorUrut++;
@@ -220,7 +222,7 @@
             </td>
             <td>{{ number_format($totalOperasional, 2, ',', '.') }}</td>
             <td>{{ number_format($totalPerbaikan, 2, ',', '.') }}</td>
-            <td>{{ number_format($totalSubtotal - $totalHasilJumlahall - $totalHasilJumlahtambahanall, 2, ',', '.') }}
+            <td>{{ number_format($totalSubtotal - $totalHasilJumlahall - $totalHasilJumlahtambahanall - $totalOperasional - $totalPerbaikan, 2, ',', '.') }}
             </td>
         </tr>
     </tfoot>

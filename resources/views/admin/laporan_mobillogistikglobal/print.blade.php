@@ -251,6 +251,24 @@
                                 ->where('kategoris', 'memo')
                                 ->sum('pph') ?? 0;
 
+                        $operasional =
+                            optional($kendaraan->detail_pengeluaran)
+                                ->where('kode_akun', 'KA000029')
+                                ->whereBetween('created_at', [
+                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                ])
+                                ->sum('nominal') ?? 0;
+
+                        $perbaikan =
+                            optional($kendaraan->detail_pengeluaran)
+                                ->where('kode_akun', 'KA000015')
+                                ->whereBetween('created_at', [
+                                    Carbon\Carbon::parse($created_at)->startOfDay(),
+                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                                ])
+                                ->sum('nominal') ?? 0;
+
                         $fakawal = $totalTarifMemo + $biayaTambahanMemo - $pphMemo;
                     @endphp
                     {{ number_format($fakawal, 2, ',', '.') }}
@@ -282,51 +300,15 @@
                 </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ number_format(
-                        optional($kendaraan->detail_pengeluaran)->where('kode_akun', 'KA000029')->whereBetween('created_at', [
-                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                            ])->sum('nominal') ?? 0,
-                        2,
-                        ',',
-                        '.',
-                    ) }}
+                    {{ number_format($operasional, 2, ',', '.') }}
                 </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
-                    {{ number_format(
-                        optional($kendaraan->detail_pengeluaran)->where('kode_akun', 'KA000015')->whereBetween('created_at', [
-                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                            ])->sum('nominal') ?? 0,
-                        2,
-                        ',',
-                        '.',
-                    ) }}
+                    {{ number_format($perbaikan, 2, ',', '.') }}
                 </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black; background:rgb(206, 206, 206)">
-                    @if ($kategoriMemo > 0)
-                        {{ number_format(
-                            optional($kendaraan->faktur_ekspedisi)->whereIn('status', ['posting', 'selesai'])->whereBetween('created_at', [
-                                    Carbon\Carbon::parse($created_at)->startOfDay(),
-                                    Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                ])->where('kategoris', 'memo')->sum('grand_total') -
-                                optional($kendaraan->memo_ekspedisi)->where('status', 'selesai')->whereBetween('created_at', [
-                                        Carbon\Carbon::parse($created_at)->startOfDay(),
-                                        Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                    ])->sum('hasil_jumlah') -
-                                $kendaraan->memo_ekspedisi->where('status', 'selesai')->sum(function ($memoEkspedisi) use ($created_at, $tanggal_akhir) {
-                                        return $memoEkspedisi->memotambahan()->whereBetween('created_at', [
-                                                Carbon\Carbon::parse($created_at)->startOfDay(),
-                                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
-                                            ])->sum('grand_total');
-                                    }),
-                            2,
-                            ',',
-                            '.',
-                        ) }}
-                    @endif
+                    {{ number_format($fakawal - $totalHasilJumlah - $totalHasilJumlahtambahan - $operasional - $perbaikan, 2, ',', '.') }}
                 </td>
             </tr>
 
@@ -527,7 +509,7 @@
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                 {{-- {{ number_format($totalFaktur - $totalMemo - $totalMemotambahan, 0, ',', '.') }} --}}
-                Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalHasilJumlahall - $totalHasilJumlahtambahanall, 2, ',', '.') }}
+                Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalHasilJumlahall - $totalHasilJumlahtambahanall - $totalOperasional - $totalPerbaikan, 2, ',', '.') }}
             </td>
         </tr>
     </table>
