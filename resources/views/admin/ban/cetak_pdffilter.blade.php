@@ -14,9 +14,9 @@
             padding: 0;
         }
 
-      .box1 {
-             margin-left: 6px;
-            margin-top: 6px; 
+        .box1 {
+            margin-left: 6px;
+            margin-top: 6px;
         }
 
         .text-container {

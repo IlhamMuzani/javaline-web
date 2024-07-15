@@ -18,6 +18,7 @@ class Detail_ban extends Model
         'kode_ban',
         'kendaraan_id',
         // 'supplier_id',
+        'kategori',
         'pemasangan_ban_id',
         'km_terpakai',
         'pelepasan_ban_id',

@@ -18,6 +18,7 @@ class Ban extends Model
         'kendaraan_id',
         // 'supplier_id',
         'pemasangan_ban_id',
+        'kategori',
         'km_terpakai',
         'pelepasan_ban_id',
         'pembelian_ban_id',

@@ -254,7 +254,6 @@
                                                 value="{{ number_format($totalGrandTotal, 2, ',', '.') }}" readonly>
                                         </div>
                                     </div>
-
                                     <!-- Total Memo -->
                                     <div class="row mb-3">
                                         <div class="col-md-6">

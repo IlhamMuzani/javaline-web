@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-10px">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Laporan Pengambilan Kas Kecil</title>
@@ -11,7 +11,7 @@
         body {
             font-family: 'DOSVGA', Arial, Helvetica, sans-serif;
             color: black;
-            font-weight: bold
+            font-weight: bold;
         }
 
         table {
@@ -23,7 +23,6 @@
             text-align: center;
             padding: 5px;
             font-size: 10px;
-            /* border: 1px solid black; */
         }
 
         .container {
@@ -45,12 +44,10 @@
             text-overflow: ellipsis;
         }
 
-
         .info-catatan2 {
             font-weight: bold;
             margin-right: 5px;
             min-width: 120px;
-            /* Menetapkan lebar minimum untuk kolom pertama */
         }
 
         .alamat,
@@ -72,15 +69,30 @@
         }
 
         @page {
-            /* size: A4; */
             margin: 1cm;
+            counter-increment: page;
+            counter-reset: page 1;
+        }
+
+        /* Define the footer with page number */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: start;
+            font-size: 10px;
+        }
+
+        footer::after {
+            content: counter(page);
         }
     </style>
 </head>
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">LAPORAN PENGAMBILAN KAS KECIL</span>
@@ -96,15 +108,17 @@
             @endif
         </div>
     </div>
-    {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
-    </div>
+
+    @php
+        $grandTotal = 0; // Initialize grandTotal
+    @endphp
+
     @for ($date = $startDate; $date <= $endDate; $date = date('Y-m-d', strtotime($date . ' + 1 day')))
         @php
             $counter = 1; // Counter for each date
             $totalForDate = 0; // Variable to store total for each date
         @endphp
         <table style="width: 100%; border-top: 1px solid black;" cellspacing="0">
-            <!-- Header row -->
             <tr>
                 <td colspan="1"
                     style="text-align: left; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
@@ -112,19 +126,15 @@
                 </td>
                 <td colspan="2"
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
                 </td>
                 <td colspan="3"
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
                 </td>
                 <td colspan="4"
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
                 </td>
                 <td colspan="5"
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; background:rgb(190, 190, 190)">
-
                 </td>
                 <td
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
@@ -132,73 +142,64 @@
             </tr>
         </table>
         <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
-            <!-- Header row -->
             <tr>
                 <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 5%">
+                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 5%">
                     No</td>
                 <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 15%">
+                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 15%">
                     Kode Pengeluaran</td>
                 <td class="td"
-                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 60%">
+                    style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 60%">
                     Keterangan</td>
                 <td class="td"
-                    style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;  width: 20%">
+                    style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 20%">
                     Nominal</td>
             </tr>
             <tr style="border-bottom: 1px solid black;">
                 <td colspan="4" style="padding: 0px;"></td>
             </tr>
-            <!-- Data rows -->
             @foreach ($inquery as $item)
                 @if ($item->tanggal_awal == $date)
                     <tr>
-                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                            {{ $counter++ }}</td>
-                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                            {{ $item->kode_pengeluaran }}
+                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">{{ $counter++ }}
                         </td>
                         <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                            {{ $item->keterangan }}
-                        </td>
-                        <td class="td" style="text-align: right; padding: 5px; font-size: 10px; ">
-                            {{ number_format($item->grand_total, 0, ',', '.') }}
-                            @php
-                                $totalForDate += $item->grand_total; // Accumulate total for each date
-                            @endphp
-                        </td>
+                            {{ $item->kode_pengeluaran }}</td>
+                        <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                            {{ $item->keterangan }}</td>
+                        <td class="td" style="text-align: right; padding: 5px; font-size: 10px;">
+                            {{ number_format($item->grand_total, 0, ',', '.') }}</td>
+                        @php
+                            $totalForDate += $item->grand_total; // Accumulate total for each date
+                        @endphp
                     </tr>
                 @endif
             @endforeach
-            <!-- Separator row -->
             <tr style="border-bottom: 1px solid black;">
                 <td colspan="4" style="padding: 0px;"></td>
             </tr>
             <tr>
-                <td colspan="3" style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px; ">
-                </td>
+                <td colspan="3" style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;"></td>
                 <td
                     style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
-                    {{ number_format($totalForDate, 0, ',', '.') }}
-                </td>
+                    {{ number_format($totalForDate, 0, ',', '.') }}</td>
             </tr>
         </table>
         <br>
+        @php
+            $grandTotal += $totalForDate; // Accumulate the grand total
+        @endphp
     @endfor
     <br>
-
-    <!-- Tampilkan sub-total di bawah tabel -->
-    {{-- <div style="text-align: right;">
-        <strong>Sub Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong>
-    </div> --}}
-
-
-    {{-- <br> --}}
-
+    <div style="text-align: right;">
+        <strong>Sub Total: Rp. {{ number_format($grandTotal, 0, ',', '.') }}</strong>
+    </div>
     <br>
     <br>
 
+    <footer style="position: fixed; bottom: 0; right: 20px; width: auto; text-align: end; font-size: 10px;">Page
+    </footer>
 </body>
 
 </html>

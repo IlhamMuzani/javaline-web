@@ -276,6 +276,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -335,6 +336,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -394,6 +396,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -454,6 +457,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -513,6 +517,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -572,6 +577,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -631,6 +637,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -690,6 +697,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -749,6 +757,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -809,6 +818,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -868,6 +878,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -927,6 +938,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -986,6 +998,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1045,6 +1058,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1104,6 +1118,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1163,6 +1178,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1222,6 +1238,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1281,6 +1298,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1340,6 +1358,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1400,6 +1419,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1459,6 +1479,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 
@@ -1516,6 +1537,7 @@ class InqueryPemasanganbanController extends Controller
 
         $detailBanData = $ban->toArray();
         $detailBanData['ban_id'] = $ban->id;
+        $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
         Detail_ban::create($detailBanData);
 

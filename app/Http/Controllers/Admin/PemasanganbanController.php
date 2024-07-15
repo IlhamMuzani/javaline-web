@@ -169,6 +169,7 @@ class PemasanganbanController extends Controller
             // Duplicate ban to Detail_ban
             $detailBanData = $ban->toArray();
             $detailBanData['ban_id'] = $ban->id;
+            $detailBanData['pelepasan_ban_id'] = null; // Set pelepasan_ban to null
 
             Detail_ban::create($detailBanData);
         }
@@ -178,6 +179,7 @@ class PemasanganbanController extends Controller
 
         return view('admin.pemasangan_ban.show', compact('bans', 'kendaraan', 'pemasangan_ban'));
     }
+
 
 
     public function update_1a(Request $request, $id)
