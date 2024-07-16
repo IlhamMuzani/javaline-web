@@ -211,14 +211,18 @@
                                                                     @else
                                                                         <p class="mt-3">
                                                                             <a href="{{ asset('storage/uploads/' . $item->gambar_buktifaktur) }}"
-                                                                                target="_blank">Lihat
-                                                                                PDF yang diunggah</a>
+                                                                                target="_blank">
+                                                                                Lihat PDF yang diunggah
+                                                                            </a>
                                                                         </p>
                                                                     @endif
                                                                 </div>
                                                                 <div class="form-group">
-                                                                    <label for="gambar">Dokumen bukti <small>(Kosongkan saja
-                                                                            jika tidak ingin menambahkan)</small></label>
+                                                                    <label
+                                                                        for="gambar_buktifaktur_{{ $item->id }}">Dokumen
+                                                                        bukti
+                                                                        <small>(Kosongkan saja jika tidak ingin
+                                                                            menambahkan)</small></label>
                                                                     <div class="custom-file">
                                                                         <input type="file" class="custom-file-input"
                                                                             id="gambar_buktifaktur_{{ $item->id }}"
@@ -226,33 +230,33 @@
                                                                             accept="application/pdf">
                                                                         <label class="custom-file-label"
                                                                             for="gambar_buktifaktur_{{ $item->id }}">Pilih
-                                                                            Bukti PDF</label>
+                                                                            PDF</label>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
-                                                                            <label for="nomor faktur">DPP
+                                                                            <label
+                                                                                for="nomor_buktifaktur_{{ $item->id }}">DPP
                                                                                 {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}</label>
                                                                             <label style="margin-left:40px"
-                                                                                for="nomor faktur">PPH
+                                                                                for="pph_{{ $item->id }}">PPH
                                                                                 {{ number_format($item->faktur_ekspedisi->pph, 2, ',', '.') }}</label>
                                                                             <input type="text" class="form-control"
-                                                                                id="nomor_buktifaktur"
-                                                                                placeholder="masukkan nomor bukti"
+                                                                                id="nomor_buktifaktur_{{ $item->id }}"
                                                                                 name="nomor_buktifaktur[{{ $item->id }}]"
-                                                                                placeholder=""
                                                                                 value="{{ $item->nomor_buktifaktur }}"
                                                                                 maxlength="10">
                                                                         </div>
                                                                     </div>
                                                                     <div class="col-lg-6">
                                                                         <div class="form-group">
-                                                                            <label for="nomor faktur">Tanggal
+                                                                            <label
+                                                                                for="tanggal_nomorfaktur_{{ $item->id }}">Tanggal
                                                                                 {{ $item->kode_faktur }}</label>
-                                                                            <input type="date" id="tanggal_nomorfaktur"
+                                                                            <input type="date"
+                                                                                id="tanggal_nomorfaktur_{{ $item->id }}"
                                                                                 name="tanggal_nomorfaktur[{{ $item->id }}]"
-                                                                                placeholder="d M Y"
                                                                                 value="{{ old('tanggal_nomorfaktur.' . $item->id, $item->tanggal_nomorfaktur) }}"
                                                                                 class="form-control">
                                                                         </div>

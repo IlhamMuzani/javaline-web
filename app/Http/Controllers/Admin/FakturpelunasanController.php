@@ -65,12 +65,13 @@ class FakturpelunasanController extends Controller
         }
 
         $error_pesanans = array();
-        $data_pembelians1 = collect();
+        $data_pembelians = collect();
         $data_pembelians2 = collect();
         $data_pembelians3 = collect();
 
         if ($request->has('faktur_ekspedisi_id')) {
             for ($i = 0; $i < count($request->faktur_ekspedisi_id); $i++) {
+
                 $validasi_produk = Validator::make($request->all(), [
                     'faktur_ekspedisi_id.' . $i => 'required',
                     'kode_faktur.' . $i => 'required',
@@ -86,7 +87,7 @@ class FakturpelunasanController extends Controller
                 $tanggal_faktur = is_null($request->tanggal_faktur[$i]) ? '' : $request->tanggal_faktur[$i];
                 $total = is_null($request->total[$i]) ? '' : $request->total[$i];
 
-                $data_pembelians1->push([
+                $data_pembelians->push([
                     'faktur_ekspedisi_id' => $faktur_ekspedisi_id,
                     'kode_faktur' => $kode_faktur,
                     'tanggal_faktur' => $tanggal_faktur,
@@ -169,7 +170,7 @@ class FakturpelunasanController extends Controller
                 ->withInput()
                 ->with('error_pelanggans', $error_pelanggans)
                 ->with('error_pesanans', $error_pesanans)
-                ->with('data_pembelians1', $data_pembelians1)
+                ->with('data_pembelians', $data_pembelians)
                 ->with('data_pembelians2', $data_pembelians2)
                 ->with('data_pembelians3', $data_pembelians3);
         }
@@ -215,10 +216,8 @@ class FakturpelunasanController extends Controller
         Tagihan_ekspedisi::where('id', $request->tagihan_ekspedisi_id)->update([
             'status' => 'selesai',
         ]);
-
         $transaksi_id = $cetakpdf->id;
-
-        foreach ($data_pembelians1 as $data_pesanan) {
+        foreach ($data_pembelians as $data_pesanan) {
             $detailPelunasan = Detail_pelunasan::create([
                 'faktur_pelunasan_id' => $cetakpdf->id,
                 'faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id'],

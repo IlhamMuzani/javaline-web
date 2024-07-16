@@ -39,14 +39,19 @@ class BuktipotongController extends Controller
 
     public function updatebuktitagihan(Request $request, $id)
     {
+
         $validator = Validator::make(
             $request->all(),
             [
                 'gambar_bukti' => 'nullable|mimes:pdf|max:2048',
+                'gambar_buktifaktur' => 'nullable|mimes:pdf|max:2048',
             ],
             [
                 'gambar_bukti.mimes' => 'Hanya file PDF yang diperbolehkan!',
                 'gambar_bukti.max' => 'Ukuran file PDF maksimal 2MB!',
+
+                'gambar_buktifaktur.mimes' => 'Hanya file PDF yang diperbolehkan!',
+                'gambar_buktifaktur.max' => 'Ukuran file PDF maksimal 2MB!',
             ]
         );
 

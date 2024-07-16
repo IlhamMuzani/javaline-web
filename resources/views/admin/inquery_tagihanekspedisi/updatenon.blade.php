@@ -466,7 +466,7 @@
                 </div>
             </div>
         </div>
-        
+
     </section>
 
     <script>
@@ -520,7 +520,6 @@
 
     {{-- filter kategori  --}}
     <script>
-
         $(document).ready(function() {
             // Define a function to handle category filtering
             function filterCategory(selectedCategory) {
@@ -971,6 +970,11 @@
             $('#pelanggan_id').on('input', function() {
                 var pelangganID = $(this).val();
 
+                // Jika pelangganID tidak ada, ambil dari nilai pelanggan_id
+                if (!pelangganID) {
+                    pelangganID = $('#pelanggan_id').attr('data-id');
+                }
+                
                 if (pelangganID) {
                     $.ajax({
                         url: "{{ url('admin/inquery_tagihanekspedisi/get_fakturtagihannonpph') }}" +
