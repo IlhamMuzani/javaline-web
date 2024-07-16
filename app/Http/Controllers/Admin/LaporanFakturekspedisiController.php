@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Memo_ekspedisi;
+use App\Models\Pelanggan;
 use App\Models\Penggantian_oli;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -14,12 +15,13 @@ class LaporanFakturekspedisiController extends Controller
 {
     public function index(Request $request)
     {
-        // Mengambil parameter dari request
         $kategoris = $request->kategoris;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
+        $pelanggan_id = $request->input('pelanggan_id');
 
-        // Membuat query untuk model Faktur_ekspedisi yang diurutkan berdasarkan id secara ascending (ASC)
+        $pelanggans = Pelanggan::get();
+
         $inquery = Faktur_ekspedisi::orderBy('id', 'ASC')
             ->whereIn('status', ['posting', 'selesai']);
 
@@ -38,24 +40,20 @@ class LaporanFakturekspedisiController extends Controller
         //     $inquery->whereIn('status_pelunasan', [null, 'aktif']);
         // }
 
-        // Menerapkan filter berdasarkan rentang tanggal
         if ($tanggal_awal && $tanggal_akhir) {
             $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
         }
 
-        // Melakukan eksekusi query dan menyimpan hasilnya dalam variabel $inquery
+        if ($pelanggan_id) {
+            $inquery->where('pelanggan_id', $pelanggan_id);
+        }
         $inquery = $inquery->get();
-
-        // Mengecek apakah telah dilakukan pencarian
         // $hasSearch = $status_pelunasan || ($tanggal_awal && $tanggal_akhir);
-        $hasSearch = ($tanggal_awal && $tanggal_akhir);
-
-        // Jika telah dilakukan pencarian, simpan hasil query. Jika tidak, variabel $inquery diisi dengan koleksi kosong.
+        $hasSearch = ($tanggal_awal && $tanggal_akhir) || $pelanggan_id;
         $inquery = $hasSearch ? $inquery : collect();
 
-        // Mengembalikan view 'admin.laporan_fakturekspedisi.index' dengan menyertakan data hasil query
-        return view('admin.laporan_fakturekspedisi.index', compact('inquery'));
+        return view('admin.laporan_fakturekspedisi.index', compact('inquery', 'pelanggans'));
     }
 
     public function print_fakturekspedisi(Request $request)
@@ -65,8 +63,9 @@ class LaporanFakturekspedisiController extends Controller
         $status_pelunasan = $request->status_pelunasan;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
+        $pelanggan_id = $request->input('pelanggan_id');
 
-        // Membuat query untuk model Faktur_ekspedisi yang diurutkan berdasarkan id secara descending
+        $pelanggans = Pelanggan::where('id', $pelanggan_id)->first();
         $query = Faktur_ekspedisi::orderBy(
             'id',
             'ASC'
@@ -88,7 +87,10 @@ class LaporanFakturekspedisiController extends Controller
         //     $query->whereIn('status_pelunasan', [null, 'aktif']);
         // }
 
-        // Menerapkan filter berdasarkan rentang tanggal
+        if ($pelanggan_id) {
+            $query->where('pelanggan_id', $pelanggan_id);
+        }
+        
         if ($tanggal_awal && $tanggal_akhir) {
             $query->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);

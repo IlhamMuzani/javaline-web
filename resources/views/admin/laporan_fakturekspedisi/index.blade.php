@@ -55,7 +55,7 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
                                 <label for="created_at">Status</label>
                                 <select class="custom-select form-control" id="kategoris" name="kategoris">
                                     <option value="">- Semua Status -</option>
@@ -65,6 +65,20 @@
                                     <option value="non memo"
                                         {{ Request::get('kategoris') == 'non memo' ? 'selected' : '' }}>
                                         NON MEMO</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <label for="status">Cari Pelanggan</label>
+                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select2-id="23"
+                                    tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($pelanggans as $pelanggan)
+                                        <option value="{{ $pelanggan->id }}"
+                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                            {{ $pelanggan->nama_pell }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -77,7 +91,7 @@
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-2 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
