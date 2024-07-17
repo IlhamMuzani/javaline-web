@@ -525,26 +525,37 @@
         }
 
         function removeBan(params) {
+            // Mengurangi jumlah ban
             jumlah_ban = jumlah_ban - 1;
 
             var tabel_pesanan = document.getElementById('tabel-pembelian');
             var pembelian = document.getElementById('pembelian-' + params);
 
+            // Mengambil kode faktur yang akan dihapus
+            var kode_faktur = pembelian.querySelector('[id^="kode_faktur"]').value;
+
+            // Memanggil fungsi removeFaktur untuk menghapus kode faktur dari daftar yang sudah dipilih
+            removeFaktur(kode_faktur);
+
+            // Menghapus elemen baris dari tabel
             tabel_pesanan.removeChild(pembelian);
 
+            // Jika jumlah ban menjadi 0, tambahkan baris yang menyatakan memo belum ditambahkan
             if (jumlah_ban === 0) {
                 var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Memo belum ditambahkan -</td>';
+                item_pembelian += '<td class="text-center" colspan="10">- Faktur belum ditambahkan -</td>';
                 item_pembelian += '</tr>';
                 $('#tabel-pembelian').html(item_pembelian);
             } else {
+                // Memperbarui urutan item yang tersisa
                 var urutan = document.querySelectorAll('#urutan');
                 for (let i = 0; i < urutan.length; i++) {
                     urutan[i].innerText = i + 1;
                 }
             }
 
-            updateGrandTotal()
+            // Memperbarui total keseluruhan
+            updateGrandTotal();
         }
 
         function itemPembelian(urutan, key, value = null) {
@@ -776,6 +787,14 @@
             updateGrandTotal();
 
             $('#tableMemo').modal('hide');
+        }
+
+
+        function removeFaktur(kode_faktur) {
+            var index = fakturAlreadySelected.indexOf(kode_faktur);
+            if (index > -1) {
+                fakturAlreadySelected.splice(index, 1); // Menghapus kode faktur dari daftar
+            }
         }
 
 
