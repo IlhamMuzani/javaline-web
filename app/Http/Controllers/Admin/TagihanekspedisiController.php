@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_tagihan;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Pelanggan;
+use App\Models\Spk;
 use App\Models\Tagihan_ekspedisi;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
@@ -50,6 +51,7 @@ class TagihanekspedisiController extends Controller
             ->get();
         return response()->json($fakturs);
     }
+
 
     public function store(Request $request)
     {
@@ -190,8 +192,17 @@ class TagihanekspedisiController extends Controller
                     'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
 
                 ]);
+                // Update status faktur
+                $faktur = Faktur_ekspedisi::find($detailTagihan->faktur_ekspedisi_id);
+                if ($faktur) {
+                    $faktur->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
 
-                Faktur_ekspedisi::where('id', $detailTagihan->faktur_ekspedisi_id)->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
+                    // Update status spk
+                    $spk = Spk::find($faktur->spk_id);
+                    if ($spk) {
+                        $spk->update(['status_spk' => 'invoice']);
+                    }
+                }
             }
         }
 

@@ -3,21 +3,8 @@
 @section('title', 'Memo Ekspedisi')
 
 @section('content')
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
-                document.getElementById("mainContentSection").style.display = "block";
-            }, 100); // Adjust the delay time as needed
-        });
-    </script>
     <!-- Content Header (Page header) -->
-    <div class="content-header" style="display: none;" id="mainContent">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -34,7 +21,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -59,7 +46,7 @@
                     <h3 class="card-title">Data Memo Ekspedisi</h3>
                     <div class="float-right">
                         @if (auth()->check() && auth()->user()->fitur['create memo ekspedisi'])
-                            <a href="{{ url('admin/memo_ekspedisi') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('admin/memo_ekspedisispk') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         @endif
@@ -192,11 +179,11 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($memo->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $memo->uang_jalan)
-                                                    <a class="dropdown-item">Saldo tidak cukup</a>
-                                                @else
-                                                @endif
                                                 @if ($memo->kategori == 'Memo Perjalanan')
+                                                    @if ($saldoTerakhir->sisa_saldo < $memo->uang_jalan)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                    @endif
                                                     @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
                                                         <a class="dropdown-item posting-btn"
                                                             data-memo-id="{{ $memo->id }}">Posting</a>
@@ -206,8 +193,13 @@
                                                             href="{{ url('admin/inquery_memoekspedisi/' . $memo->id) }}">Show</a>
                                                     @endif
                                                     @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memo->id . '/edit') }}">Update</a>
+                                                        @if ($memo->spk_id == null)
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoekspedisi/' . $memo->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoekspedisispk/' . $memo->id . '/edit') }}">Update</a>
+                                                        @endif
                                                     @endif
                                                     @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
                                                         <form style="margin-top:5px" method="GET"
@@ -232,8 +224,13 @@
                                                             href="{{ url('admin/inquery_memoborong/' . $memo->id) }}">Show</a>
                                                     @endif
                                                     @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoborong/' . $memo->id . '/edit') }}">Update</a>
+                                                        @if ($memo->spk_id == null)
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoborong/' . $memo->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoborongspk/' . $memo->id . '/edit') }}">Update</a>
+                                                        @endif
                                                     @endif
                                                     @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
                                                         <form style="margin-top:5px" method="GET"

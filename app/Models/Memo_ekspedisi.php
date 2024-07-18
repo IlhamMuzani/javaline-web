@@ -18,6 +18,7 @@ class Memo_ekspedisi extends Model
     [
         'memotambahan_id',
         'admin',
+        'spk_id',
         'kode_memo',
         'kategori',
         'qrcode_memo',
@@ -86,6 +87,12 @@ class Memo_ekspedisi extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
+
+    public function spk()
+    {
+        return $this->belongsTo(Spk::class);
+    }
+
 
     public function user()
     {

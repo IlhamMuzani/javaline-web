@@ -40,7 +40,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
-class InqueryMemoekspedisiController extends Controller
+class InqueryMemoekspedisispkController extends Controller
 {
 
     public function index(Request $request)
@@ -130,72 +130,25 @@ class InqueryMemoekspedisiController extends Controller
         return response()->json($users);
     }
 
-
-
-
-    // public function index(Request $request)
-    // {
-    //     Memo_ekspedisi::where('status', 'posting')->update(['status_notif' => true]);
-
-    //     $kategori = $request->kategori;
-    //     $status = $request->status;
-    //     $tanggal_awal = $request->tanggal_awal;
-    //     $tanggal_akhir = $request->tanggal_akhir;
-
-    //     if ($kategori === 'Memo Tambahan') {
-    //         $inquery = Memotambahan::query();
-    //     } else {
-    //         $inquery = Memo_ekspedisi::where('kategori', 'Memo Perjalanan'); // Memilih hanya Memo Perjalanan di sini
-    //     }
-
-    //     if ($kategori) {
-    //         $inquery->where('kategori', $kategori);
-    //     }
-
-    //     if ($status) {
-    //         $inquery->where('status', $status);
-    //     }
-
-    //     if ($tanggal_awal && $tanggal_akhir) {
-    //         $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
-    //     } elseif ($tanggal_awal) {
-    //         $inquery->where('tanggal_awal', '>=', $tanggal_awal);
-    //     } elseif ($tanggal_akhir) {
-    //         $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
-    //     } else {
-    //         // Jika tidak ada filter tanggal, hari ini
-    //         $inquery->whereDate('tanggal_awal', Carbon::today());
-    //     }
-
-    //     $inquery->orderBy('id', 'DESC');
-    //     $inquery = $inquery->get();
-
-    //     $saldoTerakhir = Saldo::latest()->first();
-
-    //     if ($kategori === 'Memo Perjalanan') {
-    //         $memoekspedisi = Memo_ekspedisi::get();
-    //         $memoekspedisiJson = json_encode($memoekspedisi);
-    //         return view('admin.inquery_memoekspedisi.index', compact('memoekspedisiJson', 'saldoTerakhir', 'inquery'));
-    //     } elseif ($kategori === 'Memo Borong') {
-    //         return view('admin.inquery_memoborong.index', compact('inquery', 'saldoTerakhir'));
-    //     } elseif ($kategori === 'Memo Tambahan') {
-    //         // Anda harus menyesuaikan ini sesuai dengan tampilan dan data yang diperlukan untuk "Memo Tambahan"
-    //         // Misalnya:
-    //         return view('admin.inquery_memotambahan.index', compact('inquery', 'saldoTerakhir'));
-    //     } else {
-    //         // Jika kategori tidak sesuai, tampilkan Memo Perjalanan saja
-    //         $memoekspedisi = Memo_ekspedisi::where('kategori', 'Memo Perjalanan')->get();
-    //         $memoekspedisiJson = json_encode($memoekspedisi);
-    //         return view('admin.inquery_memoekspedisi.index', compact('memoekspedisiJson', 'saldoTerakhir', 'inquery'));
-    //     }
-    // }
-
-
     public function edit($id)
     {
         // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
 
         $inquery = Memo_ekspedisi::where('id', $id)->first();
+
+        $spks = Spk::where(
+            'voucher',
+            '<',
+            2
+        )
+            ->where(function ($query) {
+                $query->where('status_spk', '!=', 'faktur')
+                    ->where('status_spk', '!=', 'invoice')
+                    ->where('status_spk', '!=', 'pelunasan')
+                    ->orWhereNull('status_spk');
+            })
+            ->orderBy('created_at', 'desc') // Change 'created_at' to the appropriate timestamp column
+            ->get();
 
         $kendaraans = Kendaraan::all();
         $drivers = User::whereHas('karyawan', function ($query) {
@@ -209,7 +162,7 @@ class InqueryMemoekspedisiController extends Controller
         $detailstambahan = Detail_tambahan::where('memo_ekspedisi_id', $id)->get();
         $details = Detail_potongan::where('memo_ekspedisi_id', $id)->get();
         $memos = Memo_ekspedisi::where('status_memo', null)->get();
-        return view('admin.inquery_memoekspedisi.update', compact(
+        return view('admin.inquery_memoekspedisispk.update', compact(
             'inquery',
             'pelanggans',
             'kendaraans',
@@ -220,6 +173,7 @@ class InqueryMemoekspedisiController extends Controller
             'memos',
             'detailstambahan',
             'details',
+            'spks',
             'saldoTerakhir'
         ));
 
@@ -259,6 +213,7 @@ class InqueryMemoekspedisiController extends Controller
         $validasi_pelanggan = Validator::make(
             $request->all(),
             [
+                'spk_id' => 'required',
                 'kategori' => 'required',
                 'kendaraan_id' => 'required',
                 'user_id' => 'required',
@@ -284,6 +239,7 @@ class InqueryMemoekspedisiController extends Controller
                 }],
             ],
             [
+                'spk_id.required' => 'Pilih spk',
                 'kategori.required' => 'Pilih kategori',
                 'kendaraan_id.required' => 'Pilih no kabin',
                 'user_id.required' => 'Pilih driver',
@@ -401,6 +357,7 @@ class InqueryMemoekspedisiController extends Controller
         $cetakpdf = Memo_ekspedisi::findOrFail($id);
         $cetakpdf->update(
             [
+                'spk_id' => $request->spk_id,
                 'kategori' => $request->kategori,
                 'kendaraan_id' => $request->kendaraan_id,
                 'no_kabin' => $request->no_kabin,
@@ -571,6 +528,109 @@ class InqueryMemoekspedisiController extends Controller
     {
         $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
         return view('admin.inquery_memoekspedisi.show', compact('cetakpdf'));
+    }
+
+    public function postingmemo($id)
+    {
+        try {
+            $item = Memo_ekspedisi::findOrFail($id);
+            $user = $item->user;
+
+            // Hitung jumlah memo ekspedisi yang telah diposting dengan nama driver yang sama
+            $postedCount = Memo_ekspedisi::where('nama_driver', $item->nama_driver)
+                ->where('status', 'posting')
+                ->count();
+
+            // Jika jumlahnya sudah mencapai atau melebihi 3, lewati memo ekspedisi ini
+            if ($postedCount >= 3) {
+                return response()->json(['error' => 'Memo Perjalanan telah mencapai batas maksimal']);
+            }
+
+            $uangJalan = $item->uang_jalan;
+            $BiayaTambahan = $item->biaya_tambahan;
+            $PotonganMemo = $item->potongan_memo;
+
+            $lastSaldo = Saldo::latest()->first();
+            if (!$lastSaldo) {
+                return response()->json(['error' => 'Saldo tidak ditemukan']);
+            }
+
+            if ($lastSaldo->sisa_saldo < $uangJalan) {
+                return response()->json(['error' => 'Saldo tidak mencukupi']);
+            }
+
+            $UangUJS = $item->uang_jaminan; // Mengambil nilai dari objek atau model $item
+            $UangUJS = round($UangUJS); // Mem-bulatkan nilai
+            $lastUjs = Total_ujs::latest()->first();
+            if (!$lastUjs) {
+                return response()->json(['error' => 'Ujs tidak ditemukan']);
+            }
+
+            $sisaUjs = $lastUjs->sisa_ujs + $UangUJS;
+            $lastUjs->update(['sisa_ujs' => $sisaUjs]);
+
+            // Hitung sisa saldo setelah dipotong
+            $sisaSaldo = $lastSaldo->sisa_saldo - $uangJalan - $BiayaTambahan + $PotonganMemo;
+            // Update saldo
+            $lastSaldo->update(['sisa_saldo' => $sisaSaldo]);
+
+            // Update informasi karyawan
+            $karyawan = $user->karyawan;
+            $tabungans = $karyawan->tabungan;
+            $deposits = $karyawan->deposit;
+            $karyawan->update([
+                'deposit' => $deposits + $item->deposit_driver,
+                'tabungan' => $tabungans + $item->deposit_driver,
+            ]);
+
+            // Update status pengeluaran
+            Pengeluaran_kaskecil::where('memo_ekspedisi_id', $id)->update(['status' => 'posting']);
+            Detail_pengeluaran::where('memo_ekspedisi_id', $id)->update(['status' => 'posting']);
+
+            Uangjaminan::where('memo_ekspedisi_id', $id)->update([
+                'status' => 'posting'
+            ]);
+            // Tambahkan atau perbarui record deposit driver
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $depositDriverRecord = Deposit_driver::where('memo_ekspedisi_id', $item->id)->first();
+
+            if ($depositDriverRecord) {
+                // Jika record sudah ada, lakukan update
+                $depositDriverRecord->update([
+                    'sub_total' => $tabungans + $item->deposit_driver,
+                    'nominal' => $item->deposit_driver,
+                    'sisa_saldo' => $tabungans + $item->deposit_driver,
+                    'status' => 'posting memo',
+                ]);
+            } else {
+                // Jika record belum ada, lakukan create
+                Deposit_driver::create([
+                    'kode_deposit' => $this->kodedeposit(),
+                    'kategori' => 'Pemasukan Deposit',
+                    'memo_ekspedisi_id' => $item->id,
+                    'nama_sopir' => $item->nama_driver,
+                    'sub_total' => $tabungans + $item->deposit_driver,
+                    'nominal' => $item->deposit_driver,
+                    'saldo_masuk' => $item->deposit_driver,
+                    'keterangan' => "Deposit Memo",
+                    'sisa_saldo' => $tabungans + $item->deposit_driver,
+                    'tanggal' => $format_tanggal,
+                    'tanggal_awal' => $tanggal,
+                    'status' => 'posting memo',
+                ]);
+            }
+
+            Spk::where('id', $item->spk_id)->update(['status_spk' => 'memo', 'status' => 'selesai']);
+            // Update status Memo_ekspedisi
+            $item->update(['status' => 'posting']);
+
+            return response()->json(['success' => 'Berhasil memposting memo']);
+            // return back()->with('success', 'Berhasil');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'Gagal memposting memo: Memo tidak ditemukan']);
+        }
     }
 
     public function unpostmemo($id)
@@ -955,6 +1015,7 @@ class InqueryMemoekspedisiController extends Controller
                         ]);
                     }
 
+                    // Update status_spk
                     $spk = Spk::where(
                         'id',
                         $item->spk_id
@@ -975,111 +1036,6 @@ class InqueryMemoekspedisiController extends Controller
             return back()->with('error', 'Terdapat memo yang tidak ditemukan');
         }
     }
-
-    public function postingmemo($id)
-    {
-        try {
-            $item = Memo_ekspedisi::findOrFail($id);
-            $user = $item->user;
-
-            // Hitung jumlah memo ekspedisi yang telah diposting dengan nama driver yang sama
-            $postedCount = Memo_ekspedisi::where('nama_driver', $item->nama_driver)
-                ->where('status', 'posting')
-                ->count();
-
-            // Jika jumlahnya sudah mencapai atau melebihi 3, lewati memo ekspedisi ini
-            if ($postedCount >= 3) {
-                return response()->json(['error' => 'Memo Perjalanan telah mencapai batas maksimal']);
-            }
-
-            $uangJalan = $item->uang_jalan;
-            $BiayaTambahan = $item->biaya_tambahan;
-            $PotonganMemo = $item->potongan_memo;
-
-            $lastSaldo = Saldo::latest()->first();
-            if (!$lastSaldo) {
-                return response()->json(['error' => 'Saldo tidak ditemukan']);
-            }
-
-            if ($lastSaldo->sisa_saldo < $uangJalan) {
-                return response()->json(['error' => 'Saldo tidak mencukupi']);
-            }
-
-            $UangUJS = $item->uang_jaminan; // Mengambil nilai dari objek atau model $item
-            $UangUJS = round($UangUJS); // Mem-bulatkan nilai
-            $lastUjs = Total_ujs::latest()->first();
-            if (!$lastUjs) {
-                return response()->json(['error' => 'Ujs tidak ditemukan']);
-            }
-
-            $sisaUjs = $lastUjs->sisa_ujs + $UangUJS;
-            $lastUjs->update(['sisa_ujs' => $sisaUjs]);
-
-            // Hitung sisa saldo setelah dipotong
-            $sisaSaldo = $lastSaldo->sisa_saldo - $uangJalan - $BiayaTambahan + $PotonganMemo;
-            // Update saldo
-            $lastSaldo->update(['sisa_saldo' => $sisaSaldo]);
-
-            // Update informasi karyawan
-            $karyawan = $user->karyawan;
-            $tabungans = $karyawan->tabungan;
-            $deposits = $karyawan->deposit;
-            $karyawan->update([
-                'deposit' => $deposits + $item->deposit_driver,
-                'tabungan' => $tabungans + $item->deposit_driver,
-            ]);
-
-            // Update status pengeluaran
-            Pengeluaran_kaskecil::where('memo_ekspedisi_id', $id)->update(['status' => 'posting']);
-            Detail_pengeluaran::where('memo_ekspedisi_id', $id)->update(['status' => 'posting']);
-
-            Uangjaminan::where('memo_ekspedisi_id', $id)->update([
-                'status' => 'posting'
-            ]);
-            // Tambahkan atau perbarui record deposit driver
-            $tanggal1 = Carbon::now('Asia/Jakarta');
-            $format_tanggal = $tanggal1->format('d F Y');
-            $tanggal = Carbon::now()->format('Y-m-d');
-            $depositDriverRecord = Deposit_driver::where('memo_ekspedisi_id', $item->id)->first();
-
-            if ($depositDriverRecord) {
-                // Jika record sudah ada, lakukan update
-                $depositDriverRecord->update([
-                    'sub_total' => $tabungans + $item->deposit_driver,
-                    'nominal' => $item->deposit_driver,
-                    'sisa_saldo' => $tabungans + $item->deposit_driver,
-                    'status' => 'posting memo',
-                ]);
-            } else {
-                // Jika record belum ada, lakukan create
-                Deposit_driver::create([
-                    'kode_deposit' => $this->kodedeposit(),
-                    'kategori' => 'Pemasukan Deposit',
-                    'memo_ekspedisi_id' => $item->id,
-                    'nama_sopir' => $item->nama_driver,
-                    'sub_total' => $tabungans + $item->deposit_driver,
-                    'nominal' => $item->deposit_driver,
-                    'saldo_masuk' => $item->deposit_driver,
-                    'keterangan' => "Deposit Memo",
-                    'sisa_saldo' => $tabungans + $item->deposit_driver,
-                    'tanggal' => $format_tanggal,
-                    'tanggal_awal' => $tanggal,
-                    'status' => 'posting memo',
-                ]);
-            }
-
-            Spk::where('id', $item->spk_id)->update(['status_spk' => 'memo', 'status' => 'selesai']);
-
-            // Update status Memo_ekspedisi
-            $item->update(['status' => 'posting']);
-
-            return response()->json(['success' => 'Berhasil memposting memo']);
-            // return back()->with('success', 'Berhasil');
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['error' => 'Gagal memposting memo: Memo tidak ditemukan']);
-        }
-    }
-
 
     public function hapusmemo($id)
     {

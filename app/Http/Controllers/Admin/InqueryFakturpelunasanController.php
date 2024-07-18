@@ -17,6 +17,7 @@ use App\Models\Nota_return;
 use App\Models\Potongan_penjualan;
 use App\Models\Return_ekspedisi;
 use App\Models\Satuan;
+use App\Models\Spk;
 use App\Models\Tagihan_ekspedisi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -282,9 +283,36 @@ class InqueryFakturpelunasanController extends Controller
         Detail_pelunasan::whereNotIn('faktur_ekspedisi_id', $updatedFakturEkspedisiIds)->delete();
         // Perbarui status pelunasan menjadi aktif untuk faktur yang dipanggil di detail pelunasan
         Faktur_ekspedisi::whereIn('id', $updatedFakturEkspedisiIds)->update(['status_pelunasan' => 'aktif']);
+
+        // Perbarui status spk yang terkait dengan faktur yang diperbarui
+        foreach ($updatedFakturEkspedisiIds as $fakturId) {
+            $faktur = Faktur_ekspedisi::find($fakturId);
+            if ($faktur) {
+                $spk = Spk::find($faktur->spk_id);
+                if ($spk) {
+                    $spk->update(['status_spk' => 'pelunasan']);
+                }
+            }
+        }
+
+        // Ambil ID faktur ekspedisi yang detail pelunasannya dihapus
+        $deletedFakturEkspedisiIds = Faktur_ekspedisi::whereNotIn('id', $updatedFakturEkspedisiIds)
+            ->pluck('id');
+
         // Perbarui status pelunasan menjadi null untuk faktur yang detail pelunasannya dihapus
-        Faktur_ekspedisi::whereNotIn('id', $updatedFakturEkspedisiIds)
+        Faktur_ekspedisi::whereIn('id', $deletedFakturEkspedisiIds)
             ->update(['status_pelunasan' => null]);
+
+        // Perbarui status spk yang terkait dengan faktur yang pelunasannya dihapus
+        foreach ($deletedFakturEkspedisiIds as $fakturId) {
+            $faktur = Faktur_ekspedisi::find($fakturId);
+            if ($faktur) {
+                $spk = Spk::find($faktur->spk_id);
+                if ($spk) {
+                    $spk->update(['status_spk' => 'invoice']);
+                }
+            }
+        }
 
         foreach ($data_pembelians2 as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
@@ -366,7 +394,6 @@ class InqueryFakturpelunasanController extends Controller
 
         return view('admin.inquery_fakturpelunasan.show', compact('cetakpdf', 'details'));
     }
-
     public function show($id)
     {
         $cetakpdf = Faktur_pelunasan::where('id', $id)->first();
@@ -397,6 +424,10 @@ class InqueryFakturpelunasanController extends Controller
                 // Jika Faktur_ekspedisi ditemukan dan status_pelunasan == 'YA', perbarui status_pelunasan menjadi null
                 if ($fakturEkspedisi && $fakturEkspedisi->status_pelunasan == 'aktif') {
                     $fakturEkspedisi->update(['status_pelunasan' => null]);
+                    $spk = Spk::find($fakturEkspedisi->spk_id);
+                    if ($spk) {
+                        $spk->update(['status_spk' => 'invoice']);
+                    }
                 }
             }
         }
@@ -409,12 +440,14 @@ class InqueryFakturpelunasanController extends Controller
         // Memperbarui status pelunasan potongan menjadi 'unpost'
         foreach (Detail_pelunasanpotongan::where('faktur_pelunasan_id', $id)->get() as $detail) {
             $detail->update(['status' => 'unpost']);
+
             Potongan_penjualan::where(['id' => $detail->potongan_penjualan_id, 'status' => 'selesai'])->update(['status' => 'posting']);
         }
 
         Tagihan_ekspedisi::where('id', $item->tagihan_ekspedisi_id)->update([
             'status' => 'posting',
         ]);
+
 
         try {
             // Memperbarui status Faktur_pelunasan menjadi 'unpost'
@@ -457,6 +490,12 @@ class InqueryFakturpelunasanController extends Controller
                 // Jika Faktur_ekspedisi ditemukan dan status_pelunasan == null, perbarui status_pelunasan menjadi null
                 if ($fakturEkspedisi && $fakturEkspedisi->status_pelunasan == null) {
                     $fakturEkspedisi->update(['status_pelunasan' => 'aktif']);
+
+                    // Update status_spk hanya jika fakturEkspedisi diupdate
+                    $spk = Spk::find($fakturEkspedisi->spk_id);
+                    if ($spk) {
+                        $spk->update(['status_spk' => 'pelunasan']);
+                    }
                 }
             }
         }
@@ -469,12 +508,14 @@ class InqueryFakturpelunasanController extends Controller
         // Memperbarui status pelunasan potongan menjadi 'posting'
         foreach (Detail_pelunasanpotongan::where('faktur_pelunasan_id', $id)->get() as $detail) {
             $detail->update(['status' => 'posting']);
+
             Potongan_penjualan::where(['id' => $detail->potongan_penjualan_id, 'status' => 'posting'])->update(['status' => 'selesai']);
         }
 
         Tagihan_ekspedisi::where('id', $item->tagihan_ekspedisi_id)->update([
             'status' => 'selesai',
         ]);
+
 
         try {
             // Memperbarui status Faktur_pelunasan menjadi 'posting'
@@ -492,6 +533,7 @@ class InqueryFakturpelunasanController extends Controller
             return back()->with('error', 'Gagal posting pelunasan: ' . $e->getMessage());
         }
     }
+
 
 
     public function hapuspelunasan($id)

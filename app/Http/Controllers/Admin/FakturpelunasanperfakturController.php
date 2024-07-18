@@ -27,10 +27,13 @@ class FakturpelunasanperfakturController extends Controller
     public function index()
     {
         $pelanggans = Pelanggan::all();
-        $fakturs = Faktur_ekspedisi::where(['status_pelunasan' => null, 'status' => 'posting'])->get();
+        $fakturs = Faktur_ekspedisi::where('status_pelunasan', null)
+            ->whereIn('status', ['posting', 'selesai'])
+            ->get();
         $returns = Nota_return::all();
+        $potonganlains = Potongan_penjualan::where('status', 'posting')->get();
 
-        return view('admin.faktur_pelunasanperfaktur.index', compact('pelanggans', 'fakturs', 'returns'));
+        return view('admin.faktur_pelunasanperfaktur.index', compact('potonganlains', 'pelanggans', 'fakturs', 'returns'));
     }
 
 }

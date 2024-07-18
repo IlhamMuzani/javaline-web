@@ -3,22 +3,8 @@
 @section('title', 'Inquery Memo Perjalanan')
 
 @section('content')
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
-                document.getElementById("mainContentSection").style.display = "block";
-            }, 100); // Adjust the delay time as needed
-        });
-    </script>
-
     <!-- Content Header (Page header) -->
-    <div class="content-header" style="display: none;" id="mainContent">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -35,7 +21,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -114,9 +100,7 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
-                                <button type="button" class="btn btn-success btn-block" onclick="printExportexcel()">
-                                    <i class="fas fa-file-excel"></i> Export Excel
-                                </button>
+
                             </div>
                         </div>
                     </form>
@@ -270,13 +254,7 @@
                                             @if ($memoekspedisi->detail_faktur->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
                                                     Ekspedisi
-                                                    <strong>
-                                                        @if ($memoekspedisi->detail_faktur->first()->faktur_ekspedisi)
-                                                            {{ $memoekspedisi->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}
-                                                        @else
-                                                            tidak ada
-                                                        @endif
-                                                    </strong>
+                                                    <strong>{{ $memoekspedisi->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
                                                 </p>
                                             @else
                                                 <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
@@ -685,18 +663,5 @@
         });
     </script>
 
-    <script>
-        function printExportexcel() {
-            var startDate = tanggalAwal.value;
-            var endDate = tanggalAkhir.value;
 
-            if (startDate && endDate) {
-                var form = document.getElementById('form-action');
-                form.action = "{{ url('admin/inquery_memoperjalanan/rekapexportmemoperjalanan') }}";
-                form.submit();
-            } else {
-                alert("Silakan isi kedua tanggal sebelum mengeksport.");
-            }
-        }
-    </script>
 @endsection

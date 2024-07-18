@@ -3,22 +3,8 @@
 @section('title', 'Memo Ekspedisi')
 
 @section('content')
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
-                document.getElementById("mainContentSection").style.display = "block";
-            }, 100); // Adjust the delay time as needed
-        });
-    </script>
-
     <!-- Content Header (Page header) -->
-    <div class="content-header" style="display: none;" id="mainContent">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -35,7 +21,7 @@
     </div>
 
 
-    <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content">
         <div class="container-fluid">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
@@ -85,16 +71,6 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group" style="flex: 8;">
-                            <div class="col-md-0 mb-3">
-                                <label>Status</label>
-                                <select class="custom-select form-control" id="kategoris" name="kategoris">
-                                    <option value="">- Pilih Status -</option>
-                                    <option value="spk">SPK</option>
-                                    <option value="non_spk"selected>NON SPK</option>
-                                </select>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
                             <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
@@ -127,14 +103,13 @@
 
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">No Memo</label>
-                                <input style="font-size:14px" readonly type="text" class="form-control" id="kode_memosa"
+                                <input style="font-size:14px" type="text" class="form-control" id="kode_memosa"
                                     name="kode_memosa" placeholder="" value="{{ old('kode_memosa') }}">
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">Nama Sopir</label>
-                                <input style="font-size:14px" readonly type="text" class="form-control"
-                                    name="nama_driversa" id="nama_driversa" placeholder=""
-                                    value="{{ old('nama_driversa') }}">
+                                <input style="font-size:14px" type="text" class="form-control" name="nama_driversa"
+                                    id="nama_driversa" placeholder="" value="{{ old('nama_driversa') }}">
                             </div>
                             <div class="form-group" hidden>
                                 <label style="font-size:14px" for="nopol">Telp</label>
@@ -150,9 +125,8 @@
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" style="font-size:14px" for="nama">No Kabin</label>
-                                <input style="font-size:14px" readonly style="font-size:14px" type="text"
-                                    class="form-control" name="no_kabinsa" id="no_kabinsa" placeholder=""
-                                    value="{{ old('no_kabinsa') }}">
+                                <input style="font-size:14px" style="font-size:14px" type="text" class="form-control"
+                                    name="no_kabinsa" id="no_kabinsa" placeholder="" value="{{ old('no_kabinsa') }}">
                             </div>
                             <div class="form-group" hidden>
                                 <label style="font-size:14px" style="font-size:14px" for="nama">No Pol</label>
@@ -161,9 +135,8 @@
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nama">Rute Perjalanan</label>
-                                <input style="font-size:14px" readonly type="text" class="form-control"
-                                    name="nama_rutesa" id="nama_rutesa" placeholder=""
-                                    value="{{ old('nama_rutesa') }}">
+                                <input style="font-size:14px" type="text" class="form-control" name="nama_rutesa"
+                                    id="nama_rutesa" placeholder="" value="{{ old('nama_rutesa') }}">
                             </div>
                         </div>
                     </div>
@@ -457,14 +430,15 @@
                                                         data-row-id="0">
                                                 </div>
                                             </td>
+
                                             <td>
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" type="text"
+                                                    <input style="font-size:14px" type="number"
                                                         class="form-control jumlah" id="jumlah" name="jumlah"
-                                                        value="{{ old('jumlah') }}" data-row-id="0"
-                                                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46">
+                                                        value="{{ old('jumlah') }}" data-row-id="0">
                                                 </div>
                                             </td>
+
                                             <td>
                                                 <div class="form-group">
                                                     <select style="font-size:14px" class="form-control" id="satuan"
@@ -519,9 +493,6 @@
                                 <h3 class="card-title">Biaya Tambahan <span>
                                     </span></h3>
                                 <div class="float-right">
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="addTambahan()">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
                                 </div>
                             </div>
                             <!-- /.card-header -->
@@ -542,37 +513,38 @@
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="biaya_tambahan_id-0"
-                                                        name="biaya_tambahan_id[]">
+                                                    <input type="text" class="form-control" id="biaya_id"
+                                                        name="biaya_id" value="{{ old('biaya_id') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input onclick="biayatambah(0)" style="font-size:14px" type="text"
-                                                        class="form-control" readonly id="kode_biaya-0"
-                                                        name="kode_biaya[]">
+                                                    <input onclick="biayatambah(this.value)" style="font-size:14px"
+                                                        type="text" class="form-control" readonly id="kode_biaya"
+                                                        name="kode_biaya" value="{{ old('kode_biaya') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input onclick="biayatambah(0)" style="font-size:14px" type="text"
-                                                        class="form-control" readonly id="nama_biaya-0"
-                                                        name="nama_biaya[]">
+                                                    <input onclick="biayatambah(this.value)" style="font-size:14px"
+                                                        type="text" class="form-control" readonly id="nama_biaya"
+                                                        name="nama_biaya" value="{{ old('nama_biaya') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input onclick="biayatambah(0)" style="font-size:14px" type="text"
-                                                        class="form-control" id="nominal-0" readonly name="nominal[]">
+                                                    <input onclick="biayatambah(this.value)" style="font-size:14px"
+                                                        type="text" class="form-control" id="nominal" readonly
+                                                        name="nominal" value="{{ old('nominal') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 100px">
                                                 <button style="margin-left:5px" type="button"
-                                                    class="btn btn-danger btn-sm" onclick="removeTambahan(0)">
+                                                    class="btn btn-danger btn-sm" onclick="removeTambahan()">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="biayatambah(0)">
+                                                    onclick="biayatambah(this.value)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -588,9 +560,6 @@
                                 <h3 class="card-title">Potongan Memo <span>
                                     </span></h3>
                                 <div class="float-right">
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -611,38 +580,39 @@
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" id="potongan_memo_id-0"
-                                                        name="potongan_memo_id[]">
+                                                    <input type="text" class="form-control" id="potongan_id"
+                                                        name="potongan_id" value="{{ old('potongan_id') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input onclick="potonganmemo(0)" style="font-size:14px"
-                                                        type="text" class="form-control" readonly id="kode_potongan-0"
-                                                        name="kode_potongan[]">
+                                                    <input onclick="potonganmemo(this.value)" style="font-size:14px"
+                                                        type="text" class="form-control" readonly id="kode_potongan"
+                                                        name="kode_potongan" value="{{ old('kode_potongan') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input onclick="potonganmemo(0)" style="font-size:14px"
+                                                    <input onclick="potonganmemo(this.value)" style="font-size:14px"
                                                         type="text" class="form-control" readonly
-                                                        id="keterangan_potongan-0" name="keterangan_potongan[]">
+                                                        id="keteranganpotongan" name="keterangan_potongan"
+                                                        value="{{ old('keterangan_potongan') }}">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input onclick="potonganmemo(0)" style="font-size:14px"
-                                                        type="text" class="form-control" id="nominal_potongan-0"
-                                                        readonly name="nominal_potongan[]">
+                                                    <input onclick="potonganmemo(this.value)" style="font-size:14px"
+                                                        type="text" class="form-control" id="nominalpotongan" readonly
+                                                        name="nominal_potongan" value="{{ old('nominal_potongan') }}">
                                                 </div>
                                             </td>
                                             <td style="width: 100px">
                                                 <button style="margin-left:5px" type="button"
-                                                    class="btn btn-danger btn-sm" onclick="removeBan(0)">
+                                                    class="btn btn-danger btn-sm" onclick="removePotongan()">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="potonganmemo(0)">
+                                                    onclick="potonganmemo(this.value)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -1113,7 +1083,7 @@
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" class="form-control qty"
                                                         id="qty-0" name="qty[]" data-row-id="0"
-                                                        onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
+                                                        onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                                 </div>
                                             </td>
                                             <td>
@@ -1832,7 +1802,7 @@
     <script>
         function removeTambahan() {
             // Clear the values of the specified form elements
-            $('#biaya_tambahan_id').val('');
+            $('#biaya_id').val('');
             $('#kode_biaya').val('');
             $('#nama_biaya').val('');
             $('#nominal').val('');
@@ -1846,10 +1816,10 @@
 
         function removePotongan() {
             // Clear the values of the specified form elements
-            $('#potongan_memo_id').val('');
+            $('#potongan_id').val('');
             $('#kode_potongan').val('');
-            $('#keterangan_potongan').val('');
-            $('#nominal_potongan').val('');
+            $('#keteranganpotongan').val('');
+            $('#nominalpotongan').val('');
             $('#potongan_memo').val('0');
 
             // You can add additional code here if needed
@@ -2194,15 +2164,9 @@
                 }
                 updateSubTotals();
             } else if (kategori === 'Memo Borong') {
-                // document.getElementById('depositsopir').value = 100000;
-                // document.getElementById('depositsopir2').value = (100000).toLocaleString('id-ID');
-                // // depositsopir
-                // updateSubTotal();
-                if (parseFloat(SaldoDP) < 0) {
-                    document.getElementById('depositsopir').value = 100000;
-                    document.getElementById('depositsopir2').value = (100000).toLocaleString('id-ID');
-                    // depositsopir
-                }
+                document.getElementById('depositsopir').value = 100000;
+                document.getElementById('depositsopir2').value = (100000).toLocaleString('id-ID');
+                // depositsopir
                 updateSubTotal();
             }
 
@@ -2364,8 +2328,6 @@
             $('#tableRutes').modal('hide');
         }
 
-        var activeSpecificationIndex = 0;
-
         function potonganmemo(param) {
             activeSpecificationIndex = param;
             // Show the modal and filter rows if necessary
@@ -2380,16 +2342,17 @@
             var Nominal = selectedRow.data('nominal');
 
             // Update the form fields for the active specification
-            $('#potongan_memo_id-' + activeSpecificationIndex).val(Potongan_id);
-            $('#kode_potongan-' + activeSpecificationIndex).val(KodePotongan);
-            $('#keterangan_potongan-' + activeSpecificationIndex).val(Keterangan);
-            $('#nominal_potongan-' + activeSpecificationIndex).val(Nominal.toLocaleString('id-ID'));
+            $('#potongan_id' + activeSpecificationIndex).val(Potongan_id);
+            $('#kode_potongan' + activeSpecificationIndex).val(KodePotongan);
+            $('#keteranganpotongan' + activeSpecificationIndex).val(Keterangan);
+            // $('#nominalpotongan' + activeSpecificationIndex).val(Nominal);
 
-            // var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
-            // document.getElementById('nominal_potongan-').value = formattedNominal;
+            var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
+            // Assuming 'biaya_tambahan' is an input element
+            document.getElementById('nominalpotongan').value = formattedNominal;
+            document.getElementById('potongan_memo').value = formattedNominal;
 
             $('#tablePotongans').modal('hide');
-            updateTotalpotongan()
             updateSubTotals()
         }
         var activeSpecificationIndex = 0;
@@ -2409,25 +2372,22 @@
             var kategori = $('#kategori').val(); // Get the value of the 'kategori' select element
 
             // Update the form fields for the active specification
-            $('#biaya_tambahan_id-' + activeSpecificationIndex).val(Biaya_id);
-            $('#kode_biaya-' + activeSpecificationIndex).val(KodeBiaya);
-            $('#nama_biaya-' + activeSpecificationIndex).val(NamabIaya);
-            $('#nominal-' + activeSpecificationIndex).val(Nominal.toLocaleString('id-ID'));
+            $('#biaya_id' + activeSpecificationIndex).val(Biaya_id);
+            $('#kode_biaya' + activeSpecificationIndex).val(KodeBiaya);
+            $('#nama_biaya' + activeSpecificationIndex).val(NamabIaya);
 
-            // var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
-            // // Assuming 'biaya_tambahan' is an input element
-            // document.getElementById('nominal').value = formattedNominal;
-            // document.getElementById('harga_tambahan').value = formattedNominal;
-            // document.getElementById('harga_tambahanborong').value = formattedNominal;
+            var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
+            // Assuming 'biaya_tambahan' is an input element
+            document.getElementById('nominal').value = formattedNominal;
+            document.getElementById('harga_tambahan').value = formattedNominal;
+            document.getElementById('harga_tambahanborong').value = formattedNominal;
 
             $('#tableBiaya').modal('hide');
 
             // Check the value of 'kategori' and call the appropriate function
             if (kategori === 'Memo Perjalanan') {
-                updateTotaltambahan()
                 updateSubTotals();
             } else if (kategori === 'Memo Borong') {
-                updateTotaltambahan()
                 updateSubTotal();
             }
         }
@@ -2566,7 +2526,7 @@
             var urutan = 0;
             $.each(data_pembelian, function(key, value) {
                 urutan = urutan + 1;
-                itemPembelianx(urutan, key, value);
+                itemPembelian(urutan, key, value);
             });
         }
 
@@ -2577,7 +2537,7 @@
                 $('#tabel-memotambahan').empty();
             }
 
-            itemPembelianx(jumlah_ban, jumlah_ban - 1);
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
         }
 
         function removememotambahans(params) {
@@ -2602,7 +2562,7 @@
             updateGrandTotal()
         }
 
-        function itemPembelianx(urutan, key, value = null) {
+        function itemPembelian(urutan, key, value = null) {
             var keterangan_tambahan = '';
             var qty = '';
             var satuans = '';
@@ -2639,7 +2599,7 @@
             item_pembelian += '<input type="text" class="form-control qty" style="font-size:14px" id="qty-' +
                 urutan +
                 '" name="qty[]" value="' + qty + '" ';
-            item_pembelian += 'onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">';
+            item_pembelian += 'onkeypress="return event.charCode >= 48 && event.charCode <= 57">';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -2731,10 +2691,54 @@
             var harga = hargasatuan * jumlah;
             currentRow.find(".nominal_tambahan").val(harga.toLocaleString('id-ID'));
 
+
+
             updateGrandTotal()
         });
     </script>
 
+    {{-- <script>
+        function updateGrandTotal() {
+            var grandTotal = 0;
+
+            // Loop through all elements with name "nominal_tambahan[]"
+            $('input[name^="nominal_tambahan"]').each(function() {
+                var nominalInput = $(this);
+                var nominalValue = parseFloat(nominalInput.val()) || 0;
+
+                // Check if the nominalValue exceeds 2 million
+                if (nominalValue > 2000000) {
+                    // If it exceeds, set it to 2 million
+                    nominalValue = 2000000;
+                    // Update the value in the input field
+                    nominalInput.val(nominalValue);
+                }
+
+                grandTotal += nominalValue;
+            });
+
+            // Check if the grand total exceeds 2 million
+            if (grandTotal > 2000000) {
+                // If it exceeds, set it to 2 million
+                grandTotal = 2000000;
+
+                // Reset the values of all "nominal_tambahan" inputs to 0
+                $('input[name^="nominal_tambahan"]').val(0);
+            }
+
+            // Set the grand total without using toLocaleString
+            $('#grand_total').val(grandTotal.toLocaleString('id-ID'));
+        }
+
+        // Panggil fungsi saat ada perubahan pada input "nominal_tambahan[]"
+        $('body').on('input', 'input[name^="nominal_tambahan"]', function() {
+            updateGrandTotal();
+        });
+
+        $(document).ready(function() {
+            updateGrandTotal();
+        });
+    </script> --}}
 
     <script>
         function updateGrandTotal() {
@@ -2769,325 +2773,4 @@
         }
     </script>
 
-
-
-    <script>
-        var data_pembelian = @json(session('data_pembelians4'));
-        var jumlah_ban = 1;
-
-        if (data_pembelian != null) {
-            jumlah_ban = data_pembelian.length;
-            $('#tabel-potongan').empty();
-            var urutan = 0;
-            $.each(data_pembelian, function(key, value) {
-                urutan = urutan + 1;
-                itemPembelian(urutan, key, value);
-            });
-        }
-
-        function addPesanan() {
-            jumlah_ban = jumlah_ban + 1;
-
-            if (jumlah_ban === 1) {
-                $('#tabel-potongan').empty();
-            }
-
-            itemPembelian(jumlah_ban, jumlah_ban - 1);
-        }
-
-        function removeBan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-potongan');
-            var pembelian = document.getElementById('potongan-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Potongan belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-potongan').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutanpotongan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
-            updateTotalpotongan()
-            updateSubTotals()
-        }
-
-        function itemPembelian(urutan, key, value = null) {
-            var potongan_memo_id = '';
-            var kode_potongan = '';
-            var keterangan_potongan = '';
-            var nominal_potongan = '';
-
-            if (value !== null) {
-                potongan_memo_id = value.potongan_memo_id;
-                kode_potongan = value.kode_potongan;
-                keterangan_potongan = value.keterangan_potongan;
-                nominal_potongan = value.nominal_potongan;
-
-            }
-
-            // urutan 
-            var item_pembelian = '<tr id="potongan-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutanpotongan-' + urutan +
-                '">' +
-                urutan + '</td>';
-
-            // potongan_memo_id 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="potongan_memo_id-' + urutan +
-                '" name="potongan_memo_id[]" value="' + potongan_memo_id + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kode_potongan 
-            item_pembelian += '<td onclick="potonganmemo(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_potongan-' +
-                urutan +
-                '" name="kode_potongan[]" value="' + kode_potongan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // keterangan_potongan 
-            item_pembelian += '<td onclick="potonganmemo(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" readonly style="font-size:14px" id="keterangan_potongan-' +
-                urutan +
-                '" name="keterangan_potongan[]" value="' + keterangan_potongan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nominal_potongan 
-            item_pembelian += '<td onclick="potonganmemo(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nominal_potongan-' +
-                urutan +
-                '" name="nominal_potongan[]" value="' + nominal_potongan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            item_pembelian += '<td style="width: 100px">';
-            item_pembelian +=
-                '<button type="button" style="margin-left:5px" class="btn btn-danger btn-sm" onclick="removeBan(' +
-                urutan + ')">';
-            item_pembelian += '<i class="fas fa-trash"></i>';
-            item_pembelian += '</button>';
-            item_pembelian +=
-                '<button style="margin-left:3px" type="button" class="btn btn-primary btn-sm" onclick="potonganmemo(' +
-                urutan +
-                ')">';
-            item_pembelian += '<i class="fas fa-plus"></i>';
-            item_pembelian += '</button>';
-            item_pembelian += '</td>';
-            item_pembelian += '</tr>';
-
-            $('#tabel-potongan').append(item_pembelian);
-        }
-    </script>
-
-
-    <script>
-        function updateTotalpotongan() {
-            var grandTotal = 0;
-
-            // Iterate through all input elements with IDs starting with 'total-'
-            $('input[id^="nominal_potongan-"]').each(function() {
-                // Remove dots and replace comma with dot, then parse as float
-                var nilaiTotal = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
-                grandTotal += nilaiTotal;
-            });
-
-            // Format grandTotal as currency in Indonesian Rupiah
-            var formattedGrandTotal = grandTotal.toLocaleString('id-ID');
-            console.log(formattedGrandTotal);
-            // Set the formatted grandTotal to the target element
-            $('#potongan_memo').val(formattedGrandTotal);
-        }
-    </script>
-
-    <script>
-        function updateTotaltambahan() {
-            var grandTotal = 0;
-
-            // Iterate through all input elements with IDs starting with 'total-'
-            $('input[id^="nominal-"]').each(function() {
-                // Remove dots and replace comma with dot, then parse as float
-                var nilaiTotal = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
-                grandTotal += nilaiTotal;
-            });
-
-            // Format grandTotal as currency in Indonesian Rupiah
-            var formattedGrandTotal = grandTotal.toLocaleString('id-ID');
-            console.log(formattedGrandTotal);
-            // Set the formatted grandTotal to the target element
-            $('#harga_tambahan').val(formattedGrandTotal);
-            $('#harga_tambahanborong').val(formattedGrandTotal);
-        }
-    </script>
-
-
-
-
-    <script>
-        var data_pembelian = @json(session('data_pembelians'));
-        var jumlah_ban = 1;
-
-        if (data_pembelian != null) {
-            jumlah_ban = data_pembelian.length;
-            $('#tabel-pembelian').empty();
-            var urutan = 0;
-            $.each(data_pembelian, function(key, value) {
-                urutan = urutan + 1;
-                itemPembelians(urutan, key, value);
-            });
-        }
-
-        function addTambahan() {
-            jumlah_ban = jumlah_ban + 1;
-
-            if (jumlah_ban === 1) {
-                $('#tabel-pembelian').empty();
-            }
-
-            itemPembelians(jumlah_ban, jumlah_ban - 1);
-        }
-
-        function removeTambahan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Biaya belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
-            // updateTotalpotongan()
-            updateTotaltambahan()
-            updateSubTotal()
-            updateSubTotals()
-        }
-
-        function itemPembelians(urutan, key, value = null) {
-            var biaya_tambahan_id = '';
-            var kode_biaya = '';
-            var nama_biaya = '';
-            var nominal = '';
-
-            if (value !== null) {
-                biaya_tambahan_id = value.biaya_tambahan_id;
-                kode_biaya = value.kode_biaya;
-                nama_biaya = value.nama_biaya;
-                nominal = value.nominal;
-
-            }
-
-            // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan +
-                '">' +
-                urutan + '</td>';
-
-            // biaya_tambahan_id 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="biaya_tambahan_id-' + urutan +
-                '" name="biaya_tambahan_id[]" value="' + biaya_tambahan_id + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kode_biaya 
-            item_pembelian += '<td onclick="biayatambah(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_biaya-' +
-                urutan +
-                '" name="kode_biaya[]" value="' + kode_biaya + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_biaya 
-            item_pembelian += '<td onclick="biayatambah(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" readonly style="font-size:14px" id="nama_biaya-' +
-                urutan +
-                '" name="nama_biaya[]" value="' + nama_biaya + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nominal 
-            item_pembelian += '<td onclick="biayatambah(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nominal-' +
-                urutan +
-                '" name="nominal[]" value="' + nominal + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            item_pembelian += '<td style="width: 100px">';
-            item_pembelian +=
-                '<button type="button" style="margin-left:5px" class="btn btn-danger btn-sm" onclick="removeTambahan(' +
-                urutan + ')">';
-            item_pembelian += '<i class="fas fa-trash"></i>';
-            item_pembelian += '</button>';
-            item_pembelian +=
-                '<button style="margin-left:3px" type="button" class="btn btn-primary btn-sm" onclick="biayatambah(' +
-                urutan +
-                ')">';
-            item_pembelian += '<i class="fas fa-plus"></i>';
-            item_pembelian += '</button>';
-            item_pembelian += '</td>';
-            item_pembelian += '</tr>';
-
-            $('#tabel-pembelian').append(item_pembelian);
-        }
-    </script>
-
-
-    <script>
-        $(document).ready(function() {
-            // Detect the change event on the 'status' dropdown
-            $('#kategoris').on('change', function() {
-                // Get the selected value
-                var selectedValue = $(this).val();
-
-                // Check the selected value and redirect accordingly
-                switch (selectedValue) {
-                    case 'spk':
-                        window.location.href = "{{ url('admin/memo_ekspedisispk') }}";
-                        break;
-                    case 'non_spk':
-                        window.location.href = "{{ url('admin/memo_ekspedisi') }}";
-                        break;
-                    default:
-                        break;
-                }
-            });
-        });
-    </script>
 @endsection

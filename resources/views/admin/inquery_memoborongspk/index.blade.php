@@ -1,32 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Memo Perjalanan')
+@section('title', 'Inquery Memo Borong')
 
 @section('content')
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
-                document.getElementById("mainContentSection").style.display = "block";
-            }, 100); // Adjust the delay time as needed
-        });
-    </script>
-
     <!-- Content Header (Page header) -->
-    <div class="content-header" style="display: none;" id="mainContent">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Memo Perjalanan</h1>
+                    <h1 class="m-0">Inquery Memo Borong</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Memo Perjalanan</li>
+                        <li class="breadcrumb-item active">Inquery Memo Borong</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -35,7 +21,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -57,7 +43,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Memo Perjalanan</h3>
+                    <h3 class="card-title">Data Inquery Memo Borong</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -100,11 +86,6 @@
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
                                 <label for="tanggal_awal">(Tanggal Akhir)</label>
                             </div>
-                            {{-- <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
-                                    <i class="fas fa-search"></i> Cari
-                                </button>
-                            </div> --}}
                             <div class="col-md-2 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
@@ -114,17 +95,13 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
-                                <button type="button" class="btn btn-success btn-block" onclick="printExportexcel()">
-                                    <i class="fas fa-file-excel"></i> Export Excel
-                                </button>
                             </div>
                         </div>
                     </form>
                     {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 4 || auth()->user()->id == 31) --}}
-                    {{-- @if (Request::get('kategori') == 'Memo Perjalanan') --}}
                     <form method="GET" id="form-action">
                         <div class="row">
-                            @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan posting'])
+                            @if (auth()->check() && auth()->user()->fitur['inquery memo borong posting'])
                                 <div class="col-md-2 mb-3">
                                     <input type="hidden" name="ids" id="selectedIds" value="">
                                     <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
@@ -133,7 +110,7 @@
                                     </button>
                                 </div>
                             @endif
-                            @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan unpost'])
+                            @if (auth()->check() && auth()->user()->fitur['inquery memo borong unpost'])
                                 <div class="col-md-2 mb-3">
                                     <input type="hidden" name="ids" id="selectedIdss" value="">
                                     <button type="button" class="btn btn-warning btn-block mt-1" id="unpostfilter"
@@ -156,94 +133,105 @@
                                 <th>Sopir</th>
                                 <th>No Kabin</th>
                                 <th>Rute</th>
-                                <th>U. Jalan</th>
-                                <th>U. Tambah</th>
-                                <th>Deposit</th>
-                                {{-- <th>Adm</th> --}}
-                                <th>Total</th>
+                                <th style="text-align: center">Harga</th>
+                                <th style="text-align: center">qty</th>
+                                <th style="text-align: center">Total</th>
+                                <th style="text-align: center">PPH</th>
+                                {{-- <th style="text-align: center">Adm</th> --}}
+                                <th style="text-align: center">Deposit Sopir</th>
+                                <th style="text-align: center">Grand Total</th>
+                                <th style="text-align: center" hidden>Hasil Jumlah</th>
                                 <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $memoekspedisi)
-                                <tr class="dropdown"{{ $memoekspedisi->id }}>
+                            @foreach ($inquery as $memoborong)
+                                <tr class="dropdown"{{ $memoborong->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $memoekspedisi->id }}">
+                                            value="{{ $memoborong->id }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $memoekspedisi->kode_memo }}</td>
+                                        {{ $memoborong->kode_memo }}</td>
                                     <td>
-                                        {{ $memoekspedisi->tanggal_awal }}</td>
+                                        {{ $memoborong->tanggal_awal }}</td>
                                     <td>
-                                        {{ substr($memoekspedisi->nama_driver, 0, 10) }} ..
+                                        {{ substr($memoborong->nama_driver, 0, 10) }} ..
                                     </td>
                                     <td>
-                                        {{ $memoekspedisi->no_kabin }}
+                                        {{ $memoborong->no_kabin }}
                                     </td>
                                     <td>
-                                        @if ($memoekspedisi->nama_rute == null)
-                                            rute tidak ada
+                                        @if ($memoborong->nama_rute == null)
+                                            {{ $memoborong->detail_memo->first()->nama_rutes }}
                                         @else
-                                            {{ $memoekspedisi->nama_rute }}
+                                            {{ $memoborong->nama_rute }}
                                         @endif
                                     </td>
-                                    <td class="text-right">
-                                        {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->harga_rute, 0, ',', '.') }}
                                     </td>
-                                    <td class="text-right">
-                                        @if ($memoekspedisi->biaya_tambahan == null)
+                                    <td style="text-align: end">
+                                        {{ $memoborong->jumlah }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        @if ($memoborong->totalrute == null)
                                             0
                                         @else
-                                            {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
+                                            {{ number_format($memoborong->totalrute, 0, ',', '.') }}
                                         @endif
                                     </td>
-                                    <td class="text-right">
-                                        @if ($memoekspedisi->deposit_driver == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
-                                        @endif
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->pphs, 0, ',', '.') }}
                                     </td>
-                                    <td class="text-right">
-                                        {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
+                                    {{-- <td style="text-align: end">
+                                        {{ number_format($memoborong->uang_jaminans, 0, ',', '.') }}
+                                    </td> --}}
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($memoborong->sub_total, 0, ',', '.') }}
+                                    </td>
+                                    <td hidden style="text-align: end">
+                                        {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
                                     </td>
                                     <td class="text-center">
-                                        @if ($memoekspedisi->status == 'posting')
+                                        @if ($memoborong->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
-                                        @if ($memoekspedisi->status == 'selesai')
+                                        @if ($memoborong->status == 'selesai')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="faktur">
+                                                width="40" alt="Faktur">
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($memoekspedisi->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $memoekspedisi->uang_jalan)
+                                            @if ($memoborong->status == 'unpost')
+                                                @if ($saldoTerakhir->sisa_saldo < $memoborong->hasil_jumlah)
                                                     <a class="dropdown-item">Saldo tidak cukup</a>
                                                 @else
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan posting'])
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong posting'])
                                                         <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $memoekspedisi->id }}">Posting</a>
+                                                            data-memo-id="{{ $memoborong->id }}">Posting</a>
                                                     @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan update'])
-                                                    @if ($memoekspedisi->spk_id == null)
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong update'])
+                                                    @if ($memoborong->spk_id == null)
                                                         <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id . '/edit') }}">Update</a>
+                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}">Update</a>
                                                     @else
                                                         <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisispk/' . $memoekspedisi->id . '/edit') }}">Update</a>
+                                                            href="{{ url('admin/inquery_memoborongspk/' . $memoborong->id . '/edit') }}">Update</a>
                                                     @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong delete'])
                                                     <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusmemo', ['id' => $memoekspedisi->id]) }}">
+                                                        action="{{ route('hapusmemo', ['id' => $memoborong->id]) }}">
                                                         <button type="submit"
                                                             class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                             </i> Delete
@@ -251,32 +239,26 @@
                                                     </form>
                                                 @endif
                                             @endif
-                                            @if ($memoekspedisi->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan unpost'])
+                                            @if ($memoborong->status == 'posting')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong unpost'])
                                                     <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $memoekspedisi->id }}">Unpost</a>
+                                                        data-memo-id="{{ $memoborong->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
                                                 @endif
                                             @endif
-                                            @if ($memoekspedisi->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                            @if ($memoborong->status == 'selesai')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
                                                 @endif
                                             @endif
-                                            @if ($memoekspedisi->detail_faktur->first())
+                                            @if ($memoborong->detail_faktur->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
                                                     Ekspedisi
-                                                    <strong>
-                                                        @if ($memoekspedisi->detail_faktur->first()->faktur_ekspedisi)
-                                                            {{ $memoekspedisi->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}
-                                                        @else
-                                                            tidak ada
-                                                        @endif
-                                                    </strong>
+                                                    <strong>{{ $memoborong->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
                                                 </p>
                                             @else
                                                 <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
@@ -328,7 +310,6 @@
         </div>
     </section>
 
-
     {{-- unpost memo  --}}
     <script>
         $(document).ready(function() {
@@ -341,7 +322,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_memoekspedisi/unpostmemo/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_memoborong/unpostmemoborong/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -370,19 +351,17 @@
             });
         });
     </script>
-
-
+    {{-- posting memo --}}
     <script>
         $(document).ready(function() {
             $('.posting-btn').click(function() {
-
                 var memoId = $(this).data('memo-id');
 
                 $(this).addClass('disabled');
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_memoekspedisi/postingmemo/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_memoborong/postingmemoborong/') }}/" + memoId,
                     type: 'GET',
                     success: function(response) {
                         // Periksa apakah ada pesan success dalam respons
@@ -414,8 +393,6 @@
         });
     </script>
 
-
-
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
@@ -441,7 +418,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_memoekspedisi') }}";
+            form.action = "{{ url('admin/inquery_memoborong') }}";
             form.submit();
         }
     </script>
@@ -472,6 +449,7 @@
         });
     </script>
 
+
     <script>
         $(function(e) {
             $("#select_all_ids").click(function() {
@@ -482,7 +460,8 @@
         function printSelectedData() {
             var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
             if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum mencetak.");
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum mencetak.');
+                $('#validationModal').modal('show');
             } else {
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
                 var selectedIds = [];
@@ -491,7 +470,7 @@
                 });
                 document.getElementById('selectedIds').value = selectedIds.join(',');
                 var selectedIdsString = selectedIds.join(',');
-                window.location.href = "{{ url('admin/cetak_memoekspedisifilter') }}?ids=" + selectedIdsString;
+                window.location.href = "{{ url('admin/cetak_memoborongfilter') }}?ids=" + selectedIdsString;
                 // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
             }
         }
@@ -504,51 +483,39 @@
             })
         });
 
+        function getTotalGrandTotal() {
+            var totalGrandTotal = 0;
+            var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+
+            selectedCheckboxes.forEach(function(checkbox) {
+                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(14)').textContent
+                    .replace(/\D/g, ''));
+                totalGrandTotal += grandTotal;
+            });
+
+            return totalGrandTotal;
+        }
+
+
         function postingSelectedData() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                // Tampilkan modal peringatan jika tidak ada item yang dipilih
-                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+            var totalGrandTotal = getTotalGrandTotal();
+            var saldoTerakhir = parseFloat("{{ $saldoTerakhir->sisa_saldo }}");
+
+            console.log(totalGrandTotal);
+
+            if (totalGrandTotal > saldoTerakhir) {
+                $('#validationMessage').text('Saldo tidak mencukupi untuk melakukan posting.');
                 $('#validationModal').modal('show');
             } else {
-                var totalUangJalan = 0; // Tambahkan variabel untuk menyimpan total uang jalan
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                var selectedIds = [];
-                var driverCounts = {}; // Object untuk menyimpan jumlah kemunculan setiap nama sopir
-                selectedCheckboxes.forEach(function(checkbox) {
-                    selectedIds.push(checkbox.value);
-                    var driverName = checkbox.parentNode.parentNode.querySelector("td:nth-child(5)").innerText
-                        .trim();
-                    driverCounts[driverName] = (driverCounts[driverName] || 0) +
-                        1; // Menambah jumlah kemunculan nama sopir
-
-                    // Tambahkan uang jalan dari setiap item yang dicentang ke total
-                    totalUangJalan += parseInt(checkbox.parentNode.parentNode.querySelector("td:nth-child(8)")
-                        .innerText.replace(/\./g, ''));
-                });
-
-                // Lakukan pengecekan total uang jalan dengan saldo terakhir
-                if (totalUangJalan > parseInt("{{ $saldoTerakhir->sisa_saldo }}")) {
-                    // Tampilkan pesan kesalahan jika total uang jalan melebihi saldo terakhir
-                    $('#validationMessage').text('Saldo tidak mencukupi untuk melakukan posting.');
+                if (selectedCheckboxes.length === 0) {
+                    $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
                     $('#validationModal').modal('show');
-                    return; // Hentikan proses posting jika saldo tidak mencukupi
-                }
-
-                // Lakukan pengecekan untuk setiap nama sopir
-                var hasError = false;
-                Object.keys(driverCounts).forEach(function(driverName) {
-                    if (driverCounts[driverName] >= 4) {
-                        // Tampilkan modal peringatan jika terdapat 4 atau lebih item dengan nama sopir yang sama
-                        $('#validationMessage').text(
-                            'Anda tidak dapat melakukan posting karena terdapat 4 atau lebih item dengan nama sopir yang sama: ' +
-                            driverName);
-                        $('#validationModal').modal('show');
-                        hasError = true;
-                    }
-                });
-
-                if (!hasError) {
+                } else {
+                    var selectedIds = [];
+                    selectedCheckboxes.forEach(function(checkbox) {
+                        selectedIds.push(checkbox.value);
+                    });
                     document.getElementById('postingfilter').value = selectedIds.join(',');
                     var selectedIdsString = selectedIds.join(',');
 
@@ -556,7 +523,7 @@
                     $('#modal-loading').modal('show');
 
                     $.ajax({
-                        url: "{{ url('admin/postingfilter') }}?ids=" + selectedIdsString,
+                        url: "{{ url('admin/postingmemoborongfilter') }}?ids=" + selectedIdsString,
                         type: 'GET',
                         success: function(response) {
                             // Sembunyikan modal loading setelah permintaan selesai
@@ -591,7 +558,8 @@
         function unpostSelectedData() {
             var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
             if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum unpost.");
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum unpost.');
+                $('#validationModal').modal('show');
             } else {
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
                 var selectedIds = [];
@@ -605,7 +573,7 @@
                 $('#modal-loading').modal('show');
 
                 $.ajax({
-                    url: "{{ url('admin/unpostfilter') }}?ids=" + selectedIdsString,
+                    url: "{{ url('admin/unpostmemoborongfilter') }}?ids=" + selectedIdsString,
                     type: 'GET',
                     success: function(response) {
                         // Sembunyikan modal loading setelah permintaan selesai
@@ -628,6 +596,7 @@
             }
         }
     </script>
+
 
     <script>
         $(document).ready(function() {
@@ -685,18 +654,4 @@
         });
     </script>
 
-    <script>
-        function printExportexcel() {
-            var startDate = tanggalAwal.value;
-            var endDate = tanggalAkhir.value;
-
-            if (startDate && endDate) {
-                var form = document.getElementById('form-action');
-                form.action = "{{ url('admin/inquery_memoperjalanan/rekapexportmemoperjalanan') }}";
-                form.submit();
-            } else {
-                alert("Silakan isi kedua tanggal sebelum mengeksport.");
-            }
-        }
-    </script>
 @endsection

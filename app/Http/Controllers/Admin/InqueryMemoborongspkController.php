@@ -37,7 +37,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
-class InqueryMemoborongController extends Controller
+class InqueryMemoborongspkController extends Controller
 {
     public function index(Request $request)
     {
@@ -100,6 +100,21 @@ class InqueryMemoborongController extends Controller
 
         $inquery = Memo_ekspedisi::where('id', $id)->first();
         $kendaraans = Kendaraan::all();
+
+        $spks = Spk::where(
+            'voucher',
+            '<',
+            2
+        )
+            ->where(function ($query) {
+                $query->where('status_spk', '!=', 'faktur')
+                    ->where('status_spk', '!=', 'invoice')
+                    ->where('status_spk', '!=', 'pelunasan')
+                    ->orWhereNull('status_spk');
+            })
+            ->orderBy('created_at', 'desc') // Change 'created_at' to the appropriate timestamp column
+            ->get();
+
         $drivers = User::whereHas('karyawan', function ($query) {
             $query->where('departemen_id', '2');
         })->get();
@@ -108,7 +123,7 @@ class InqueryMemoborongController extends Controller
         $saldoTerakhir = Saldo::latest()->first();
         $detailstambahan = Detail_tambahan::where('memo_ekspedisi_id', $id)->get();
         $memos = Memo_ekspedisi::all();
-        return view('admin.inquery_memoborong.update', compact(
+        return view('admin.inquery_memoborongspk.update', compact(
             'inquery',
             'kendaraans',
             'biayatambahan',
@@ -116,6 +131,7 @@ class InqueryMemoborongController extends Controller
             'ruteperjalanans',
             'memos',
             'detailstambahan',
+            'spks',
             'saldoTerakhir'
         ));
 
@@ -131,6 +147,7 @@ class InqueryMemoborongController extends Controller
         $validasi_pelanggan = Validator::make(
             $request->all(),
             [
+                'spk_id' => 'required',
                 'kategori' => 'required',
                 'kendaraan_id' => 'required',
                 'user_id' => 'required',
@@ -148,6 +165,7 @@ class InqueryMemoborongController extends Controller
                 }],
             ],
             [
+                'spk_id.required' => 'Pilih spk',
                 'kategori.required' => 'Pilih kategori',
                 'kendaraan_id.required' => 'Pilih no kabin',
                 'user_id.required' => 'Pilih driver',
@@ -248,6 +266,7 @@ class InqueryMemoborongController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf->update(
             [
+                'spk_id' => $request->spk_id,
                 'kategori' => $request->kategori,
                 'kendaraan_id' => $request->kendaraan_id,
                 'no_kabin' => $request->no_kabin,
@@ -289,12 +308,6 @@ class InqueryMemoborongController extends Controller
                 'jumlah' => $request->jumlah,
                 'satuan' => $request->satuan,
                 'totalrute' => str_replace(',', '.', str_replace('.', '', $request->totalrute)),
-
-                // 'biaya_id' => $request->biaya_id,
-                // 'kode_biaya' => $request->kode_biaya,
-                // 'nama_biaya' => $request->nama_biaya,
-                // 'nominal' => $request->has('nominal') ? ($request->nominal != 0 ? str_replace('.', '', $request->nominal) : null) : null,
-
             ]
         );
 
@@ -721,11 +734,16 @@ class InqueryMemoborongController extends Controller
                         ]);
                     }
 
+
                     // Update status_spk
                     $spk = Spk::where('id', $item->spk_id)->first();
                     if ($spk) {
                         $spk->update(['status_spk' => 'memo', 'status' => 'selesai']);
                     }
+                    // Update the Memo_ekspedisi status
+                    $item->update([
+                        'status' => 'posting'
+                    ]);
 
                     // Update the Memo_ekspedisi status
                     $item->update([
@@ -831,7 +849,7 @@ class InqueryMemoborongController extends Controller
                             'status' => 'pending',
                         ]);
                     }
-
+                    // Update status_spk
                     $spk = Spk::where(
                         'id',
                         $item->spk_id
@@ -839,7 +857,11 @@ class InqueryMemoborongController extends Controller
                     if ($spk) {
                         $spk->update(['status_spk' => null, 'status' => 'posting']);
                     }
-
+                    // Update the Memo_ekspedisi status
+                    $item->update([
+                        'status' => 'unpost'
+                    ]);
+                    
                     // Update the Memo_ekspedisi status
                     $item->update([
                         'status' => 'unpost'

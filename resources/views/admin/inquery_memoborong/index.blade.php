@@ -232,8 +232,13 @@
                                                     @endif
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery memo borong update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}">Update</a>
+                                                    @if ($memoborong->spk_id == null)
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}">Update</a>
+                                                    @else
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborongspk/' . $memoborong->id . '/edit') }}">Update</a>
+                                                    @endif
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
                                                     <a class="dropdown-item"

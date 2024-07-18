@@ -3,22 +3,8 @@
 @section('title', 'Faktur Ekspedisi')
 
 @section('content')
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
-                document.getElementById("mainContentSection").style.display = "block";
-            }, 100); // Adjust the delay time as needed
-        });
-    </script>
-
     <!-- Content Header (Page header) -->
-    <div class="content-header" style="display: none;" id="mainContent">
+    <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -26,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/faktur_ekspedisi') }}">Faktur Ekspedisi</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/faktur_ekspedisispk') }}">Faktur Ekspedisi</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div>
@@ -35,7 +21,7 @@
     </div>
 
 
-    <section class="content" style="display: none;" id="mainContentSection">
+    <section class="content">
         <div class="container-fluid">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
@@ -76,7 +62,7 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/faktur_ekspedisi') }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ url('admin/faktur_ekspedisispk') }}" method="POST" enctype="multipart/form-data"
                 autocomplete="off">
                 @csrf
                 <div class="card">
@@ -91,8 +77,8 @@
                                     <label>Status</label>
                                     <select class="custom-select form-control" id="status" name="status">
                                         <option value="">- Pilih Status -</option>
-                                        <option value="spk">SPK</option>
-                                        <option value="non_spk" selected>NON SPK</option>
+                                        <option value="spk" selected>SPK</option>
+                                        <option value="non_spk">NON SPK</option>
                                     </select>
                                 </div>
                             </div>
@@ -126,6 +112,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <label style="font-size:14px" class="form-label" for="kode_spk">Pilih SPK</label>
+                            <div class="form-group d-flex">
+                                <input hidden class="form-control" id="spk_id" name="spk_id" type="text"
+                                    placeholder="" value="{{ old('spk_id') }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <input onclick="showCategoryModalSPK(this.value)" class="form-control" id="kode_spk"
+                                    name="kode_spk" type="text" placeholder="" value="{{ old('kode_spk') }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <button class="btn btn-primary" type="button" onclick="showCategoryModalSPK(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                             <div class="row">
                                 <div hidden class="form-group">
                                     <label for="pelanggan_id">pelanggan Id</label>
@@ -135,39 +133,33 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
-                                        <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="kode_pelanggan" readonly
-                                            name="kode_pelanggan" placeholder="" value="{{ old('kode_pelanggan') }}">
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="kode_pelanggan" readonly name="kode_pelanggan" placeholder=""
+                                            value="{{ old('kode_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
                                         Pelanggan</label>
                                     <div class="form-group d-flex">
-                                        <input onclick="showCategoryModalPelanggan(this.value)" class="form-control"
-                                            id="nama_pelanggan" name="nama_pelanggan" type="text" placeholder=""
-                                            value="{{ old('nama_pelanggan') }}" readonly
-                                            style="margin-right: 10px; font-size:14px" />
-                                        <button class="btn btn-primary" type="button"
-                                            onclick="showCategoryModalPelanggan(this.value)">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                                        <input class="form-control" id="nama_pelanggan" name="nama_pelanggan"
+                                            type="text" placeholder="" value="{{ old('nama_pelanggan') }}" readonly
+                                            style="margin-right: 0px; font-size:14px" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
-                                        <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="telp_pelanggan" readonly
-                                            name="telp_pelanggan" placeholder="" value="{{ old('telp_pelanggan') }}">
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
+                                            value="{{ old('telp_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="alamat_pelanggan">Alamat</label>
-                                        <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="alamat_pelanggan" readonly
-                                            name="alamat_pelanggan" placeholder=""
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
                                             value="{{ old('alamat_pelanggan') }}">
                                     </div>
                                 </div>
@@ -175,170 +167,235 @@
                         </div>
                     </div>
                 </div>
-                <div id="memo_label" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Memo Ekspedisi <span>
-                            </span></h3>
-                        <div class="float-right">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="font-size:14px" class="text-center">No</th>
-                                    <th style="font-size:14px">No Memo</th>
-                                    <th style="font-size:14px">Nama Sopir</th>
-                                    <th style="font-size:14px">Rute Perjalanan</th>
-                                    <th style="font-size:14px">MT</th>
-                                    <th style="font-size:14px">Nama Sopir</th>
-                                    <th style="font-size:14px">Rute</th>
-                                    <th style="font-size:14px">MT 2</th>
-                                    <th style="font-size:14px">Nama Sopir 2</th>
-                                    <th style="font-size:14px">Rute 2</th>
-                                    <th style="font-size:14px; text-align:center">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabel-pembelian">
-                                <tr id="pembelian-0">
-                                    <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="memo_ekspedisi_id-0"
-                                                name="memo_ekspedisi_id[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" type="text"
-                                                readonly class="form-control" id="kode_memo-0" name="kode_memo[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" type="text"
-                                                readonly class="form-control" id="tanggal_memo-0" name="tanggal_memo[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="nama_driver-0"
-                                                name="nama_driver[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="telp_driver-0"
-                                                name="telp_driver[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="nama_rute-0" name="nama_rute[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="kendaraan_id-0"
-                                                name="kendaraan_id[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="no_kabin-0" name="no_kabin[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="no_pol-0" name="no_pol[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="memotambahan_id-0"
-                                                name="memotambahan_id[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" type="text"
-                                                readonly class="form-control" id="kode_memotambahan-0"
-                                                name="kode_memotambahan[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" type="text"
-                                                readonly class="form-control" id="tanggal_memotambahan-0"
-                                                name="tanggal_memotambahan[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="nama_drivertambahan-0"
-                                                name="nama_drivertambahan[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="nama_rutetambahan-0"
-                                                name="nama_rutetambahan[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" type="text"
-                                                readonly class="form-control" id="kode_memotambahans-0"
-                                                name="kode_memotambahans[]">
-                                        </div>
-                                    </td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" type="text"
-                                                readonly class="form-control" id="tanggal_memotambahans-0"
-                                                name="tanggal_memotambahans[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="nama_drivertambahans-0"
-                                                name="nama_drivertambahans[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="nama_rutetambahans-0"
-                                                name="nama_rutetambahans[]">
-                                        </div>
-                                    </td>
-                                    <td style="width: 100px">
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(0)">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                        <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                            onclick="removeBan(0)">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
 
-                            </tbody>
-                        </table>
+                <div id="memo_label" class="card">
+                    <div id="memo_label" class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Memo Ekspedisi <span>
+                                </span></h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:14px" class="text-center">No</th>
+                                        <th style="font-size:14px">No Memo</th>
+                                        <th style="font-size:14px">Nama Sopir</th>
+                                        <th style="font-size:14px">Rute Perjalanan</th>
+                                        <th style="font-size:14px">MT</th>
+                                        <th style="font-size:14px">Nama Sopir</th>
+                                        <th style="font-size:14px">Rute</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabel-pembelians">
+                                    <tr>
+                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1</td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="memo_ekspedisi_id-0"
+                                                    name="memo_ekspedisi_id[0]" value="{{ old('memo_ekspedisi_id.0') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="kode_memo-0" name="kode_memo[0]"
+                                                    value="{{ old('kode_memo.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="tanggal_memo-0" name="tanggal_memo[0]"
+                                                    value="{{ old('tanggal_memo.0') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_driver-0" name="nama_driver[0]"
+                                                    value="{{ old('nama_driver.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="telp_driver-0" name="telp_driver[0]"
+                                                    value="{{ old('telp_driver.0') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_rute-0" name="nama_rute[0]"
+                                                    value="{{ old('nama_rute.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="kendaraan_id-0" name="kendaraan_id[0]"
+                                                    value="{{ old('kendaraan_id.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="no_kabin-0" name="no_kabin[0]"
+                                                    value="{{ old('no_kabin.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="no_pol-0" name="no_pol[0]"
+                                                    value="{{ old('no_pol.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="memotambahan_id-0"
+                                                    name="memotambahan_id[0]" value="{{ old('memotambahan_id.0') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="kode_memotambahan-0"
+                                                    name="kode_memotambahan[0]" value="{{ old('kode_memotambahan.0') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="tanggal_memotambahan-0"
+                                                    name="tanggal_memotambahan[0]"
+                                                    value="{{ old('tanggal_memotambahan.0') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_drivertambahan-0"
+                                                    name="nama_drivertambahan[0]"
+                                                    value="{{ old('nama_drivertambahan.0') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_rutetambahan-0"
+                                                    name="nama_rutetambahan[0]" value="{{ old('nama_rutetambahan.0') }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">2</td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="memo_ekspedisi_id-1"
+                                                    name="memo_ekspedisi_id[1]" value="{{ old('memo_ekspedisi_id.1') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="kode_memo-1" name="kode_memo[1]"
+                                                    value="{{ old('kode_memo.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="tanggal_memo-1" name="tanggal_memo[1]"
+                                                    value="{{ old('tanggal_memo.1') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_driver-1" name="nama_driver[1]"
+                                                    value="{{ old('nama_driver.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="telp_driver-1" name="telp_driver[1]"
+                                                    value="{{ old('telp_driver.1') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_rute-1" name="nama_rute[1]"
+                                                    value="{{ old('nama_rute.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="kendaraan_id-1" name="kendaraan_id[1]"
+                                                    value="{{ old('kendaraan_id.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="no_kabin-1" name="no_kabin[1]"
+                                                    value="{{ old('no_kabin.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="no_pol-1" name="no_pol[1]"
+                                                    value="{{ old('no_pol.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="memotambahan_id-1"
+                                                    name="memotambahan_id[1]" value="{{ old('memotambahan_id.1') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="kode_memotambahan-1"
+                                                    name="kode_memotambahan[1]" value="{{ old('kode_memotambahan.1') }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="tanggal_memotambahan-1"
+                                                    name="tanggal_memotambahan[1]"
+                                                    value="{{ old('tanggal_memotambahan.1') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_drivertambahan-1"
+                                                    name="nama_drivertambahan[1]"
+                                                    value="{{ old('nama_drivertambahan.1') }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" readonly type="text"
+                                                    class="form-control" id="nama_rutetambahan-1"
+                                                    name="nama_rutetambahan[1]" value="{{ old('nama_rutetambahan.1') }}">
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
                 <div id="non_memo" class="card">
@@ -685,6 +742,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="card-footer text-right">
                             <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
                             <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
@@ -695,6 +753,92 @@
                     </div>
             </form>
         </div>
+
+        <div class="modal fade" id="tableSpk" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Spk</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="datatables7" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>No. Spk</th>
+                                        <th>Tanggal</th>
+                                        <th>Pelanggan</th>
+                                        <th>No Kabin</th>
+                                        <th>Golongan</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($spks as $spk)
+                                        <tr
+                                            onclick="getSelectedDataspk(
+    '{{ $spk->id }}',
+    '{{ $spk->kode_spk }}',
+    '{{ $spk->pelanggan_id }}',
+    '{{ $spk->kode_pelanggan }}',
+    '{{ $spk->nama_pelanggan }}',
+    '{{ $spk->telp }}',
+    '{{ $spk->alamat_pelanggan }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('id')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('id')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kode_memo')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kode_memo')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('tanggal_awal')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('tanggal_awal')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_driver')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_driver')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('telp')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('telp')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_rute')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_rute')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kendaraan_id')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kendaraan_id')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_kabin')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_kabin')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_pol')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_pol')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('id');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('id');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('kode_tambahan');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('kode_tambahan');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('tanggal_awal');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('tanggal_awal');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_driver');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_driver');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(1) ?? '' }}'
+)">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $spk->kode_spk }}</td>
+                                            <td>{{ $spk->tanggal_awal }}</td>
+                                            <td>{{ $spk->nama_pelanggan }}</td>
+                                            <td>{{ $spk->no_kabin }}</td>
+                                            <td>{{ $spk->golongan }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataspk('{{ $spk->id }}', '{{ $spk->kode_spk }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <div class="modal fade" id="tablePelanggan" data-backdrop="static">
             <div class="modal-dialog modal-lg">
@@ -774,7 +918,7 @@
                                     
                                     ?>
                                     <tr onclick="getMemos({{ $loop->index }})" data-id="{{ $memo->id }}"
-                                        data-kode_memo="{{ $memo->kode_memo }}"
+                                        data-spk_id="{{ $memo->spk_id }}" data-kode_memo="{{ $memo->kode_memo }}"
                                         data-nama_driver="{{ $memo->nama_driver }}"
                                         data-tanggal_awal="{{ $memo->tanggal_awal }}"
                                         data-telp_driver="{{ $memo->telp }}" data-nama_rute="{{ $memo->nama_rute }}"
@@ -962,294 +1106,7 @@
         }
     </script>
 
-    <script>
-        var data_pembelian = @json(session('data_pembelians'));
-        var jumlah_ban = 1;
 
-        if (data_pembelian != null) {
-            jumlah_ban = data_pembelian.length;
-            $('#tabel-pembelian').empty();
-            var urutan = 0;
-            $.each(data_pembelian, function(key, value) {
-                urutan = urutan + 1;
-                itemPembelian(urutan, key, value);
-            });
-        }
-
-        function addPesanan() {
-            jumlah_ban = jumlah_ban + 1;
-
-            if (jumlah_ban === 1) {
-                $('#tabel-pembelian').empty();
-            }
-
-            itemPembelian(jumlah_ban, jumlah_ban - 1);
-        }
-
-        function removeBan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="11">- Memo belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
-            } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
-            }
-        }
-
-        function itemPembelian(urutan, key, value = null) {
-            var memo_ekspedisi_id = '';
-            var kode_memo = '';
-            var tanggal_memo = '';
-            var nama_driver = '';
-            var telp_driver = '';
-            var nama_rute = '';
-            var kendaraan_id = '';
-            var no_kabin = '';
-            var no_pol = '';
-            var memotambahan_id = '';
-            var kode_memotambahan = '';
-            var tanggal_memotambahan = '';
-            var nama_drivertambahan = '';
-            var nama_rutetambahan = '';
-            var kode_memotambahans = '';
-            var tanggal_memotambahans = '';
-            var nama_drivertambahans = '';
-            var nama_rutetambahans = '';
-
-            if (value !== null) {
-                memo_ekspedisi_id = value.memo_ekspedisi_id;
-                kode_memo = value.kode_memo;
-                tanggal_memo = value.tanggal_memo;
-                nama_driver = value.nama_driver;
-                telp_driver = value.telp_driver;
-                nama_rute = value.nama_rute;
-                kendaraan_id = value.kendaraan_id;
-                no_kabin = value.no_kabin;
-                no_pol = value.no_pol;
-                memotambahan_id = value.memotambahan_id;
-                kode_memotambahan = value.kode_memotambahan;
-                tanggal_memotambahan = value.tanggal_memotambahan;
-                nama_drivertambahan = value.nama_drivertambahan;
-                nama_rutetambahan = value.nama_rutetambahan;
-                kode_memotambahans = value.kode_memotambahans;
-                tanggal_memotambahans = value.tanggal_memotambahans;
-                nama_drivertambahans = value.nama_drivertambahans;
-                nama_rutetambahans = value.nama_rutetambahans;
-            }
-
-            // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan + '">' +
-                urutan + '</td>';
-
-            // memo_ekspedisi 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="memo_ekspedisi_id-' + urutan +
-                '" name="memo_ekspedisi_id[]" value="' + memo_ekspedisi_id + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kode_memo 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_memo-' +
-                urutan +
-                '" name="kode_memo[]" value="' + kode_memo + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // tanggal_memo 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="tanggal_memo-' +
-                urutan +
-                '" name="tanggal_memo[]" value="' + tanggal_memo + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_driver 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_driver-' +
-                urutan +
-                '" name="nama_driver[]" value="' + nama_driver + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // telp_driver 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="telp_driver-' +
-                urutan +
-                '" name="telp_driver[]" value="' + telp_driver + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_rute 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rute-' +
-                urutan +
-                '" name="nama_rute[]" value="' + nama_rute + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kendaraan_id 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="kendaraan_id-' +
-                urutan +
-                '" name="kendaraan_id[]" value="' + kendaraan_id + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // no_kabin 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="no_kabin-' +
-                urutan +
-                '" name="no_kabin[]" value="' + no_kabin + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // no_pol 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="no_pol-' +
-                urutan +
-                '" name="no_pol[]" value="' + no_pol + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // memotambahan_id 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="memotambahan_id-' + urutan +
-                '" name="memotambahan_id[]" value="' + memotambahan_id + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kode_memotambahan 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_memotambahan-' +
-                urutan +
-                '" name="kode_memotambahan[]" value="' + kode_memotambahan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // tanggal_memotambahan 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" readonly style="font-size:14px" id="tanggal_memotambahan-' +
-                urutan +
-                '" name="tanggal_memotambahan[]" value="' + tanggal_memotambahan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_drivertambahan 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_drivertambahan-' +
-                urutan +
-                '" name="nama_drivertambahan[]" value="' + nama_drivertambahan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_rutetambahan 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rutetambahan-' +
-                urutan +
-                '" name="nama_rutetambahan[]" value="' + nama_rutetambahan + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // kode_memotambahans 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_memotambahans-' +
-                urutan +
-                '" name="kode_memotambahans[]" value="' + kode_memotambahans + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // tanggal_memotambahans 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" readonly style="font-size:14px" id="tanggal_memotambahans-' +
-                urutan +
-                '" name="tanggal_memotambahans[]" value="' + tanggal_memotambahans + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_drivertambahans 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_drivertambahans-' +
-                urutan +
-                '" name="nama_drivertambahans[]" value="' + nama_drivertambahans + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // nama_rutetambahans 
-            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rutetambahans-' +
-                urutan +
-                '" name="nama_rutetambahans[]" value="' + nama_rutetambahans + '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            item_pembelian += '<td style="width: 100px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(' + urutan +
-                ')">';
-            item_pembelian += '<i class="fas fa-plus"></i>';
-            item_pembelian += '</button>';
-            item_pembelian +=
-                '<button style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
-                urutan + ')">';
-            item_pembelian += '<i class="fas fa-trash"></i>';
-            item_pembelian += '</button>';
-            item_pembelian += '</td>';
-            item_pembelian += '</tr>';
-
-            $('#tabel-pembelian').append(item_pembelian);
-        }
-    </script>
 
     <script>
         var data_pembelian = @json(session('data_pembelians4'));
@@ -1424,6 +1281,7 @@
         function getMemos(rowIndex) {
             var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var memo_ekspedisi_id = selectedRow.data('id');
+            var spk_id = selectedRow.data('spk_id');
             var kode_memo = selectedRow.data('kode_memo');
             var tanggal_awal = selectedRow.data('tanggal_awal');
             var nama_driver = selectedRow.data('nama_driver');
@@ -1442,6 +1300,7 @@
             var tanggal_awaltambahans = selectedRow.data('tanggal_awaltambahans');
             var nama_drivertambahans = selectedRow.data('nama_drivertambahans');
             var nama_rutetambahans = selectedRow.data('nama_rutetambahans');
+
 
             kode_memo = kode_memo.trim();
 
@@ -1513,6 +1372,7 @@
 
             // Update the form fields for the active specification
             $('#memo_ekspedisi_id-' + activeSpecificationIndex).val(memo_ekspedisi_id);
+            $('#spk_id-' + activeSpecificationIndex).val(spk_id);
             $('#kode_memo-' + activeSpecificationIndex).val(kode_memo);
             $('#tanggal_memo-' + activeSpecificationIndex).val(tanggal_awal);
             $('#nama_driver-' + activeSpecificationIndex).val(nama_driver);
@@ -1760,6 +1620,84 @@
                 $('#nama_sopir').val('');
             });
         });
+    </script>
+
+    <script>
+        function showCategoryModalSPK(selectedCategory) {
+            $('#tableSpk').modal('show');
+        }
+
+        function getSelectedDataspk(Spk_id, Kode_spk, Pelanggan_id, KodePelanggan, NamaPelanggan, Telp, Alamat,
+            MemoEkspedisi_id_0, MemoEkspedisi_id_1, KodeMemo_0, KodeMemo_1, Tanggal_0, Tanggal_1, NamaDriver_0,
+            NamaDriver_1,
+            TelpDriver_0, TelpDriver_1, NamaRute_0, NamaRute_1, Kendaraan_id_0, Kendaraan_id_1, NoKabin_0, NoKabin_1,
+            Nopol_0, Nopol_1, Memotambahan_id_0, Memotambahan_id_1, KodeMemotambahan_0, KodeMemotambahan_1,
+            TanggalAwaltambahan_0, TanggalAwaltambahan_1, NamaDrivertambahan_0, NamaDrivertambahan_1, NamaRutetambahan_0,
+            NamaRutetambahan_1) {
+
+            // Assign the values to the corresponding input fields
+            document.getElementById('spk_id').value = Spk_id;
+            document.getElementById('kode_spk').value = Kode_spk;
+            document.getElementById('pelanggan_id').value = Pelanggan_id;
+            document.getElementById('kode_pelanggan').value = KodePelanggan;
+            document.getElementById('nama_pelanggan').value = NamaPelanggan;
+            document.getElementById('telp_pelanggan').value = Telp;
+            document.getElementById('alamat_pelanggan').value = Alamat;
+
+            document.getElementById('memo_ekspedisi_id-0').value = MemoEkspedisi_id_0;
+            document.getElementById('memo_ekspedisi_id-1').value = MemoEkspedisi_id_1;
+            document.getElementById('kode_memo-0').value = KodeMemo_0;
+            document.getElementById('kode_memo-1').value = KodeMemo_1;
+            document.getElementById('tanggal_memo-0').value = Tanggal_0;
+            document.getElementById('tanggal_memo-1').value = Tanggal_1;
+            document.getElementById('nama_driver-0').value = NamaDriver_0;
+            document.getElementById('nama_driver-1').value = NamaDriver_1;
+            document.getElementById('telp_driver-0').value = TelpDriver_0;
+            document.getElementById('telp_driver-1').value = TelpDriver_1;
+            document.getElementById('nama_rute-0').value = NamaRute_0;
+            document.getElementById('nama_rute-1').value = NamaRute_1;
+            document.getElementById('kendaraan_id-0').value = Kendaraan_id_0;
+            document.getElementById('kendaraan_id-1').value = Kendaraan_id_1;
+            document.getElementById('no_kabin-0').value = NoKabin_0;
+            document.getElementById('no_kabin-1').value = NoKabin_1;
+            document.getElementById('no_pol-0').value = Nopol_0;
+            document.getElementById('no_pol-1').value = Nopol_1;
+            document.getElementById('memotambahan_id-0').value = Memotambahan_id_0;
+            document.getElementById('memotambahan_id-1').value = Memotambahan_id_1;
+            document.getElementById('kode_memotambahan-0').value = KodeMemotambahan_0;
+            document.getElementById('kode_memotambahan-1').value = KodeMemotambahan_1;
+            document.getElementById('tanggal_memotambahan-0').value = TanggalAwaltambahan_0;
+            document.getElementById('tanggal_memotambahan-1').value = TanggalAwaltambahan_1;
+            document.getElementById('nama_drivertambahan-0').value = NamaDrivertambahan_0;
+            document.getElementById('nama_drivertambahan-1').value = NamaDrivertambahan_1;
+            document.getElementById('nama_rutetambahan-0').value = NamaRutetambahan_0;
+            document.getElementById('nama_rutetambahan-1').value = NamaRutetambahan_1;
+
+            $('#tableSpk').modal('hide');
+        }
+    </script>
+
+    <script>
+        // Mendapatkan data dari setiap baris dalam tabel
+        var data_pembelians = [];
+        $('#tabel-pembelians tr').each(function(index, row) {
+            var data_pembelian = {};
+            // Mendapatkan nilai dari setiap input dalam baris
+            $(this).find('input').each(function() {
+                var id = $(this).attr('id');
+                var value = $(this).val();
+                // Membuang nilai kosong dan kolom yang tersembunyi
+                if (value !== "" && !$(this).parent().parent().is(':hidden')) {
+                    // Menyimpan nilai ke dalam objek data_pembelian
+                    data_pembelian[id] = value;
+                }
+            });
+            // Menyimpan objek data_pembelian ke dalam array data_pembelians
+            data_pembelians.push(data_pembelian);
+        });
+
+        // Menyimpan data_pembelians dalam format JSON ke dalam variabel atau sesuai kebutuhan Anda
+        var json_data_pembelians = JSON.stringify(data_pembelians);
     </script>
 
     <script>

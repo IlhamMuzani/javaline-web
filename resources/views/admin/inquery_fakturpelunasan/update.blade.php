@@ -1338,7 +1338,7 @@
 
                 if (pelangganID) {
                     $.ajax({
-                        url: "{{ url('admin/tagihan_ekspedisi/get_fakturtagihan') }}" + '/' +
+                        url: "{{ url('admin/faktur_pelunasan/get_fakturpelunasan') }}" + '/' +
                             pelangganID,
                         type: "GET",
                         dataType: "json",

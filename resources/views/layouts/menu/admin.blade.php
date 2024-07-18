@@ -489,6 +489,9 @@
     request()->is('admin/klaim_ban*') ||
     request()->is('admin/indexnon*') ||
     request()->is('admin/buktipotong*') ||
+    request()->is('admin/status_spk*') ||
+    request()->is('admin/spk*') ||
+    request()->is('admin/penerimaan_sj*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
         : '' }}">
@@ -517,6 +520,9 @@
         request()->is('admin/klaim_ban*') ||
         request()->is('admin/indexnon*') ||
         request()->is('admin/buktipotong*') ||
+        request()->is('admin/status_spk*') ||
+        request()->is('admin/spk*') ||
+        request()->is('admin/penerimaan_sj*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">
@@ -595,10 +601,37 @@
         @endif --}}
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
+                <a href="{{ url('admin/status_spk') }}"
+                    class="nav-link {{ request()->is('admin/status_spk*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Status Pemesanan Kendaraan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/spk') }}" class="nav-link {{ request()->is('admin/spk*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">SPK</p>
+                </a>
+            </li>
+        @endif
+
+        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+            <li class="nav-item">
                 <a href="{{ url('admin/tablememo') }}"
                     class="nav-link {{ request()->is('admin/tablememo*') || request()->is('admin/memo_ekspedisi*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Memo Ekspedisi</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['faktur ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/penerimaan_sj') }}"
+                    class="nav-link {{ request()->is('admin/penerimaan_sj*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Penerimaan Surat Jalan</p>
                 </a>
             </li>
         @endif
@@ -722,6 +755,7 @@
     request()->is('admin/inqueryklaim_ban*') ||
     request()->is('admin/bukti_potongpajak*') ||
     request()->is('admin/inquery_buktipotongpajak*') ||
+    request()->is('admin/inquery_spk*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -757,6 +791,7 @@
         request()->is('admin/inqueryklaim_ban*') ||
         request()->is('admin/bukti_potongpajak*') ||
         request()->is('admin/inquery_buktipotongpajak*') ||
+        request()->is('admin/inquery_spk*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">

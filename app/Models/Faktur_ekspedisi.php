@@ -17,6 +17,7 @@ class Faktur_ekspedisi extends Model
     protected $fillable =
     [
         'user_id',
+        'spk_id',
         'kode_faktur',
         'kategori',
         'kategoris',
@@ -71,6 +72,12 @@ class Faktur_ekspedisi extends Model
     {
         return $this->belongsTo(Pelanggan::class);
     }
+
+    public function spk()
+    {
+        return $this->belongsTo(Spk::class);
+    }
+
 
     public function detail_tagihan()
     {
