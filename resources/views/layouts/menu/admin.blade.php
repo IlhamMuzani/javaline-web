@@ -1011,6 +1011,17 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
             <li class="nav-item">
+                <a href="{{ url('admin/inquery_spk') }}"
+                    class="nav-link {{ request()->is('admin/inquery_spk*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Inquery SPK
+                    </p>
+                </a>
+            </li>
+        @endif
+
+        @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+            <li class="nav-item">
                 <a href="{{ url('admin/inquery_memoekspedisi') }}"
                     class="nav-link {{ request()->is('admin/inquery_memoekspedisi*') || request()->is('admin/inquery_memoborong*') || request()->is('admin/inquery_memotambahan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>

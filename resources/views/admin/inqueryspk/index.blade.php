@@ -141,7 +141,7 @@
                                         {{ $buktipotongpajak->nama_rute }}
                                     </td>
                                     <td class="text-center">
-                                        @if ($buktipotongpajak->status == 'posting')
+                                        {{-- @if ($buktipotongpajak->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
@@ -149,12 +149,12 @@
                                         @if ($buktipotongpajak->status == 'selesai')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Selesai">
-                                        @endif
+                                        @endif --}}
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($buktipotongpajak->status == 'unpost')
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['postings buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                                {{-- <a class="dropdown-item posting-btn"
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a> --}}
                                                 {{-- @endif
                                                 @if (auth()->check() && auth()->user()->fitur['updates buktipotongpajak ekspedisi']) --}}
                                                 <a class="dropdown-item"
@@ -176,8 +176,19 @@
                                             @endif
                                             @if ($buktipotongpajak->status == 'posting')
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['unposts buktipotongpajak ekspedisi']) --}}
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                {{-- <a class="dropdown-item unpost-btn"
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a> --}}
+
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+
+                                                <form style="margin-top:5px" method="GET"
+                                                    action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
+                                                    <button type="submit"
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                        </i> Delete
+                                                    </button>
+                                                </form>
                                                 {{-- @endif
                                                 @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
                                                 {{-- <a class="dropdown-item"
@@ -185,6 +196,16 @@
                                                 {{-- @endif --}}
                                             @endif
                                             @if ($buktipotongpajak->status == 'selesai')
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+
+                                                <form style="margin-top:5px" method="GET"
+                                                    action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
+                                                    <button type="submit"
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                        </i> Delete
+                                                    </button>
+                                                </form>
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
                                                 {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}

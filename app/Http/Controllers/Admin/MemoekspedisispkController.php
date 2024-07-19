@@ -1129,25 +1129,30 @@ class MemoekspedisispkController extends Controller
 
     public function tambah_spk(Request $request)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'kode_spk' => 'unique:spks,kode_spk',
-                'kendaraan_id' => 'required',
-                'pelanggan_id' => 'required',
-                'user_id' => 'required',
-                'rute_perjalanan_id' => 'required',
-                'uang_jalan' => 'required',
-            ],
-            [
-                'kode_spk.unique' => 'Kode spk sudah ada',
-                'kendaraan_id.required' => 'Pilih no kabin',
-                'user_id.required' => 'Pilih driver',
-                'pelanggan_id.required' => 'Pilih Pelanggan',
-                'rute_perjalanan_id.required' => 'Pilih rute perjalanan',
-                'uang_jalan.*' => 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid',
-            ]
-        );
+        $rules = [
+            'kode_spk' => 'unique:spks,kode_spk',
+        ];
+
+        // Define base validation messages
+        $messages = [
+            'kode_spk.unique' => 'Kode spk sudah ada',
+        ];
+
+        // Add additional rules if kategori is not 'non memo'
+        if ($request->kategori !== 'non memo') {
+            $rules['user_id'] = 'required';
+            // $rules['rute_perjalanan_id'] = 'required';
+            $rules['kendaraan_id'] = 'required';
+            // $rules['uang_jalan'] = 'required';
+
+            $messages['user_id.required'] = 'Pilih driver';
+            $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';
+            $messages['kendaraan_id.required'] = 'Pilih No Kabin';
+            $messages['uang_jalan.*'] = 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid';
+        }
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
