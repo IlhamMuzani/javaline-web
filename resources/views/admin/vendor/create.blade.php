@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Pelanggan')
+@section('title', 'Tambah Vendor')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Pelanggan</h1>
+                    <h1 class="m-0">Vendor</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/pelanggan') }}">Pelanggan</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/vendor') }}">Vendor</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div><!-- /.col -->
@@ -50,22 +50,22 @@
             @endif
             {{-- <div class="card"> --}}
             {{-- <div class="card-header">
-                    <h3 class="card-title">Tambah Pelanggan</h3>
+                    <h3 class="card-title">Tambah Vendor</h3>
                 </div> --}}
             <!-- /.card-header -->
-            <form action="{{ url('admin/pelanggan') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <form action="{{ url('admin/vendor') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Pelanggan</h3>
+                        <h3 class="card-title">Tambah Vendor</h3>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <label for="nama_pell">Nama Pelanggan</label>
-                                    <input type="text" class="form-control" id="nama_pell" name="nama_pell"
-                                        placeholder="Masukan nama pelanggan" value="{{ old('nama_pell') }}">
+                                    <label for="nama_vendor">Nama Vendor</label>
+                                    <input type="text" class="form-control" id="nama_vendor" name="nama_vendor"
+                                        placeholder="Masukan nama vendor" value="{{ old('nama_vendor') }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">

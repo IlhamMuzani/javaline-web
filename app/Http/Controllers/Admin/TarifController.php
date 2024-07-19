@@ -62,7 +62,7 @@ class TarifController extends Controller
             $request->all(),
             [
                 'kode_tarif' => $this->kode(),
-                'nominal' => str_replace('.', '', $request->nominal),
+                'nominal' =>str_replace(',', '.', str_replace('.', '', $request->nominal)),
                 // 'qrcode_rute' => 'https://javaline.id/tarif/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ],
@@ -132,7 +132,7 @@ class TarifController extends Controller
 
         $tarifs->pelanggan_id = $request->pelanggan_id;
         $tarifs->nama_tarif = $request->nama_tarif;
-        $tarifs->nominal = str_replace('.', '', $request->nominal);
+        $tarifs->nominal = str_replace(',', '.', str_replace('.', '', $request->nominal));
 
         $tarifs->save();
 

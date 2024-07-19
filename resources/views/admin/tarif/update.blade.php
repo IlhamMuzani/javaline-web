@@ -67,9 +67,9 @@
                             <label for="nominal">Nominal</label>
                             <input type="text" class="form-control" id="nominal" name="nominal"
                                 placeholder="masukkan nominal"
-                                value="{{ old('nominal', number_format($tarifs->nominal, 0, ',', '.')) }}"
-                                oninput="formatRupiah(this)"
-                                onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                                value="{{ old('nominal', number_format($tarifs->nominal, 2, ',', '.')) }}"
+                                oninput="formatRupiah(this)">
+                                {{-- onkeypress="return event.charCode >= 48 && event.charCode <= 57" --}}
                         </div>
                     </div>
                     <div class="card-footer text-right">
@@ -83,14 +83,17 @@
 
     <script>
         function formatRupiah(input) {
-            // Hapus karakter selain angka
-            var value = input.value.replace(/\D/g, "");
+            // Hapus karakter selain angka dan koma
+            var value = input.value.replace(/[^\d,]/g, "");
 
-            // Format angka dengan menambahkan titik sebagai pemisah ribuan
-            value = new Intl.NumberFormat('id-ID').format(value);
+            // Pisahkan bagian desimal jika ada
+            var parts = value.split(',');
 
-            // Tampilkan nilai yang sudah diformat ke dalam input
-            input.value = value;
+            // Format angka dengan menambahkan titik sebagai pemisah ribuan untuk bagian pertama
+            parts[0] = new Intl.NumberFormat('id-ID').format(parts[0]);
+
+            // Gabungkan kembali bagian pertama dengan bagian desimal jika ada
+            input.value = parts.join(',');
         }
     </script>
 @endsection

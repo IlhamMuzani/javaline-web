@@ -11,6 +11,7 @@ use App\Models\Pelanggan;
 use App\Models\Rute_perjalanan;
 use App\Models\Spk;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
 class InquerySpkController extends Controller
@@ -55,6 +56,7 @@ class InquerySpkController extends Controller
         })->get();
         $ruteperjalanans = Rute_perjalanan::all();
         $pelanggans = Pelanggan::all();
+        $vendors = Vendor::all();
 
 
         $spks = Spk::whereDate('created_at', $today)
@@ -65,7 +67,7 @@ class InquerySpkController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.inqueryspk.update', compact('inquery', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
+        return view('admin.inqueryspk.update', compact('vendors', 'inquery', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
     }
 
 
@@ -91,6 +93,9 @@ class InquerySpkController extends Controller
             $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';
             $messages['kendaraan_id.required'] = 'Pilih No Kabin';
             $messages['uang_jalan.*'] = 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid';
+        } else {
+            $rules['vendor_id'] = 'required';
+            $messages['vendor_id.required'] = 'Pilih Vendor';
         }
 
         // Validate the request
@@ -109,6 +114,15 @@ class InquerySpkController extends Controller
 
         $spk->kategori = $request->kategori;
         $spk->pelanggan_id = $request->pelanggan_id;
+        $spk->kode_pelanggan = $request->kode_pelanggan;
+        $spk->nama_pelanggan = $request->nama_pelanggan;
+        $spk->telp_pelanggan = $request->telp_pelanggan;
+        $spk->alamat_pelanggan = $request->alamat_pelanggan;
+        $spk->vendor_id = $request->vendor_id;
+        $spk->kode_vendor = $request->kode_vendor;
+        $spk->nama_vendor = $request->nama_vendor;
+        $spk->telp_vendor = $request->telp_vendor;
+        $spk->alamat_vendor = $request->alamat_vendor;
         $spk->kendaraan_id = $request->kendaraan_id;
         $spk->no_kabin = $request->no_kabin;
         $spk->golongan = $request->golongan;

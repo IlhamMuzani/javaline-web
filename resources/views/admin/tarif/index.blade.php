@@ -86,7 +86,7 @@
                                         @endif
                                     </td>
                                     <td class="text-right">
-                                        {{ number_format($tarif->nominal, 0, ',', '.') }}
+                                        {{ number_format($tarif->nominal, 2, ',', '.') }}
                                     </td>
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['tarif update'])

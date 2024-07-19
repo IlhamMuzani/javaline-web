@@ -258,6 +258,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('karyawan/search', [\App\Http\Controllers\Admin\KaryawanController::class, 'search']);
     Route::get('pelanggan/search', [\App\Http\Controllers\Admin\PelangganController::class, 'search']);
+    Route::get('vendor/search', [\App\Http\Controllers\Admin\VendorController::class, 'search']);
 
     Route::get('inquery_memoekspedisi/search', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'search']);
 
@@ -602,6 +603,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('departemen', \App\Http\Controllers\Admin\DepartemenController::class);
     Route::resource('supplier', \App\Http\Controllers\Admin\SupplierController::class);
     Route::resource('pelanggan', \App\Http\Controllers\Admin\PelangganController::class);
+    Route::resource('vendor', \App\Http\Controllers\Admin\VendorController::class);
     Route::resource('kendaraan', \App\Http\Controllers\Admin\KendaraanController::class);
     Route::resource('ban', \App\Http\Controllers\Admin\BanController::class);
     Route::resource('golongan', \App\Http\Controllers\Admin\GolonganController::class);
@@ -719,7 +721,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('bukti_potongpajak', \App\Http\Controllers\Admin\BuktipotongpajakController::class);
     Route::resource('inquery_buktipotongpajak', \App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class);
     Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
-
     
     Route::get('postingfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'postingfilterpenerimaansj']);
     Route::get('unpostfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'unpostfilterpenerimaansj']);

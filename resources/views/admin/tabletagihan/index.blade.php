@@ -67,6 +67,8 @@
                     </div>
                 </div>
                 <!-- /.card-header -->
+
+
                 <div class="card-body">
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
@@ -348,4 +350,6 @@
             });
         });
     </script>
+
+   
 @endsection

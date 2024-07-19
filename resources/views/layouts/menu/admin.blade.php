@@ -37,6 +37,7 @@
     request()->is('admin/departemen*') ||
     request()->is('admin/supplier*') ||
     request()->is('admin/pelanggan*') ||
+    request()->is('admin/vendor*') ||
     request()->is('admin/kendaraan') ||
     request()->is('admin/ban') ||
     request()->is('admin/golongan') ||
@@ -66,6 +67,7 @@
         request()->is('admin/departemen*') ||
         request()->is('admin/supplier*') ||
         request()->is('admin/pelanggan*') ||
+        request()->is('admin/vendor*') ||
         request()->is('admin/kendaraan') ||
         request()->is('admin/ban') ||
         request()->is('admin/golongan') ||
@@ -145,6 +147,15 @@
                     class="nav-link {{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Pelanggan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelanggan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/vendor') }}"
+                    class="nav-link {{ request()->is('admin/vendor*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Vendor</p>
                 </a>
             </li>
         @endif

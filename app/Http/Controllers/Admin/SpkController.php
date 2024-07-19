@@ -12,6 +12,7 @@ use App\Models\Pelanggan;
 use App\Models\Rute_perjalanan;
 use App\Models\Spk;
 use App\Models\User;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -42,6 +43,7 @@ class SpkController extends Controller
         })->get();
         $ruteperjalanans = Rute_perjalanan::all();
         $pelanggans = Pelanggan::all();
+        $vendors = Vendor::all();
 
 
         $spks = Spk::whereDate('created_at', $today)
@@ -52,7 +54,7 @@ class SpkController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.spk.create', compact('kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
+        return view('admin.spk.create', compact('vendors', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
     }
 
     public function store(Request $request)
@@ -77,7 +79,12 @@ class SpkController extends Controller
             $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';
             $messages['kendaraan_id.required'] = 'Pilih No Kabin';
             $messages['uang_jalan.*'] = 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid';
+        } else {
+            $rules['vendor_id'] = 'required';
+            $messages['vendor_id.required'] = 'Pilih Vendor';
         }
+
+
 
         // Validate the request
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -105,6 +112,7 @@ class SpkController extends Controller
                 'voucher' => '0',
                 'user_id' => $request->user_id,
                 'pelanggan_id' => $request->pelanggan_id,
+                'vendor_id' => $request->vendor_id,
                 'kendaraan_id' => $request->kendaraan_id,
                 'no_kabin' => $request->no_kabin,
                 'no_pol' => $request->no_pol,
