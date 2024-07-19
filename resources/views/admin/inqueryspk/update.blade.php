@@ -69,6 +69,13 @@
                                         <input type="text" class="form-control" id="vendor_id" readonly name="vendor_id"
                                             placeholder="" value="{{ old('vendor_id', $inquery->vendor_id) }}">
                                     </div>
+
+                                    <div class="form-group" hidden>
+                                        <label for="kode_vendor">kode Vendor</label>
+                                        <input type="text" class="form-control" id="kode_vendor" readonly
+                                            name="kode_vendor" placeholder=""
+                                            value="{{ old('kode_vendor', $inquery->kode_vendor) }}">
+                                    </div>
                                     <div class="form-group" hidden>
                                         <label for="kode_vendor">kode Vendor</label>
                                         <input type="text" class="form-control" id="kode_vendor" readonly
@@ -96,8 +103,9 @@
                                     <div class="form-group">
                                         <label style="font-size:14px" for="telp_vendor">No. Telp</label>
                                         <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="telp_vendor" readonly name="telp_vendor"
-                                            placeholder="" value="{{ old('telp_vendor', $inquery->telp_vendor) }}">
+                                            type="text" class="form-control" id="telp_vendor" readonly
+                                            name="telp_vendor" placeholder=""
+                                            value="{{ old('telp_vendor', $inquery->telp_vendor) }}">
                                     </div>
                                     <div class="form-check" style="color:white">
                                         <label class="form-check-label">

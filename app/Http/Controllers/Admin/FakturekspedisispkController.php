@@ -54,7 +54,9 @@ class FakturekspedisispkController extends Controller
     public function index()
     {
         $pelanggans = Pelanggan::all();
-        $spks = Spk::where('status_spk', 'sj')->get();
+        $spks = Spk::where('status_spk', 'sj')
+            ->orderBy('created_at', 'desc')
+            ->get();
         $memoEkspedisi = Memo_ekspedisi::whereHas('spk', function ($query) {
             $query->where('status_spk', 'sj');
         })->where(['status_memo' => null, 'status' => 'posting'])->get();
@@ -84,7 +86,14 @@ class FakturekspedisispkController extends Controller
             [
                 'kode_faktur' => 'unique:faktur_ekspedisis,kode_faktur',
                 'kategori' => 'required',
-                'pelanggan_id' => 'required',
+                'pelanggan_id' => [
+                    'required_without:vendor_id',
+                    'nullable',
+                ],
+                'vendor_id' => [
+                    'required_without:pelanggan_id',
+                    'nullable',
+                ],
                 'tarif_id' => 'required',
                 'jumlah' => 'required|numeric',
                 'satuan' => 'required',
@@ -92,7 +101,8 @@ class FakturekspedisispkController extends Controller
             [
                 'kode_faktur.unique' => 'Kode Memo sudah ada, silakan coba lagi',
                 'kategori.required' => 'Pilih kategori',
-                'pelanggan_id.required' => 'Pilih Pelanggan',
+                'pelanggan_id.required_without' => 'Pilih Pelanggan atau Vendor, tetapi tidak keduanya',
+                'vendor_id.required_without' => 'Pilih Pelanggan atau Vendor, tetapi tidak keduanya',
                 'tarif_id.required' => 'Pilih Tarif',
                 'jumlah.required' => 'Masukkan Qty',
                 'jumlah.numeric' => 'Qty harus berupa angka',
@@ -238,6 +248,11 @@ class FakturekspedisispkController extends Controller
             'nama_pelanggan' => $request->nama_pelanggan,
             'alamat_pelanggan' => $request->alamat_pelanggan,
             'telp_pelanggan' => $request->telp_pelanggan,
+            'vendor_id' => $request->vendor_id,
+            'kode_vendor' => $request->kode_vendor,
+            'nama_vendor' => $request->nama_vendor,
+            'alamat_vendor' => $request->alamat_vendor,
+            'telp_vendor' => $request->telp_vendor,
             'kode_tarif' => $request->kode_tarif,
             'nama_tarif' => $request->nama_tarif,
             'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),

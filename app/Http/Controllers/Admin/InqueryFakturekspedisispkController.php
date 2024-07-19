@@ -97,20 +97,29 @@ class InqueryFakturekspedisispkController extends Controller
             $request->all(),
             [
                 'kategori' => 'required',
-                'pelanggan_id' => 'required',
+                'pelanggan_id' => [
+                    'required_without:vendor_id',
+                    'nullable',
+                ],
+                'vendor_id' => [
+                    'required_without:pelanggan_id',
+                    'nullable',
+                ],
                 'tarif_id' => 'required',
                 'jumlah' => 'required|numeric',
                 'satuan' => 'required',
             ],
             [
                 'kategori.required' => 'Pilih kategori',
-                'pelanggan_id.required' => 'Pilih Pelanggan',
+                'pelanggan_id.required_without' => 'Pilih Pelanggan atau Vendor, tetapi tidak keduanya',
+                'vendor_id.required_without' => 'Pilih Pelanggan atau Vendor, tetapi tidak keduanya',
                 'tarif_id.required' => 'Pilih Tarif',
                 'jumlah.required' => 'Masukkan Qty',
                 'jumlah.numeric' => 'Qty harus berupa angka',
                 'satuan.required' => 'Pilih satuan',
             ]
         );
+
 
         $error_pelanggans = array();
 

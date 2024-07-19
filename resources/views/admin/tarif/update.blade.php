@@ -44,19 +44,39 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group" style="flex: 8;">
-                            <label for="pelanggan_id">Nama Pelanggan</label>
-                            <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
-                                data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
-                                tabindex="-1" aria-hidden="true" id="pelanggan_id">
-                                <option value="">- Pilih -</option>
-                                @foreach ($pelanggans as $pelanggan)
-                                    <option value="{{ $pelanggan->id }}"
-                                        {{ old('pelanggan_id', $tarifs->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
-                                        {{ $pelanggan->nama_pell }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group" style="flex: 8;">
+                                    <label for="pelanggan_id">Nama Pelanggan</label>
+                                    <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
+                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
+                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($pelanggans as $pelanggan)
+                                            <option value="{{ $pelanggan->id }}"
+                                                {{ old('pelanggan_id', $tarifs->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ $pelanggan->nama_pell }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group" style="flex: 8;">
+                                    <label for="vendor_id">Nama Vendor</label>
+                                    <select class="select2bs4 select22-hidden-accessible" name="vendor_id"
+                                        data-placeholder="Cari Vendor.." style="width: 100%;" data-select22-id="23"
+                                        tabindex="-1" aria-hidden="true" id="vendor_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($vendors as $vendor)
+                                            <option value="{{ $vendor->id }}"
+                                                {{ old('vendor_id', $tarifs->vendor_id) == $vendor->id ? 'selected' : '' }}>
+                                                {{ $vendor->nama_vendor }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="nama_tarif">Nama Tarif</label>
@@ -69,7 +89,7 @@
                                 placeholder="masukkan nominal"
                                 value="{{ old('nominal', number_format($tarifs->nominal, 2, ',', '.')) }}"
                                 oninput="formatRupiah(this)">
-                                {{-- onkeypress="return event.charCode >= 48 && event.charCode <= 57" --}}
+                            {{-- onkeypress="return event.charCode >= 48 && event.charCode <= 57" --}}
                         </div>
                     </div>
                     <div class="card-footer text-right">

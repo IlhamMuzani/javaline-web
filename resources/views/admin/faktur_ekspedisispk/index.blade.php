@@ -124,13 +124,13 @@
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
-                            <div class="row">
+                            <div id="form_pelanggan">
                                 <div hidden class="form-group">
                                     <label for="pelanggan_id">pelanggan Id</label>
                                     <input type="text" class="form-control" id="pelanggan_id" readonly
                                         name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="form-group">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
                                         <input style="font-size:14px" type="text" class="form-control"
@@ -138,16 +138,16 @@
                                             value="{{ old('kode_pelanggan') }}">
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="form-group">
                                     <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
                                         Pelanggan</label>
                                     <div class="form-group d-flex">
                                         <input class="form-control" id="nama_pelanggan" name="nama_pelanggan"
                                             type="text" placeholder="" value="{{ old('nama_pelanggan') }}" readonly
-                                            style="margin-right: 0px; font-size:14px" />
+                                            style="font-size:14px" />
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="form-group">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
                                         <input style="font-size:14px" type="text" class="form-control"
@@ -155,12 +155,52 @@
                                             value="{{ old('telp_pelanggan') }}">
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="form-group">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="alamat_pelanggan">Alamat</label>
                                         <input style="font-size:14px" type="text" class="form-control"
                                             id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
                                             value="{{ old('alamat_pelanggan') }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="form_vendor">
+                                <div hidden class="form-group">
+                                    <label for="vendor_id">Vendor Id</label>
+                                    <input type="text" class="form-control" id="vendor_id" readonly name="vendor_id"
+                                        placeholder="" value="{{ old('vendor_id') }}">
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="kode_vendor">Kode Vendor</label>
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="kode_vendor" readonly name="kode_vendor" placeholder=""
+                                            value="{{ old('kode_vendor') }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label style="font-size:14px" class="form-label" for="nama_vendor">Nama
+                                        Vendor</label>
+                                    <div class="form-group d-flex">
+                                        <input class="form-control" id="nama_vendor" name="nama_vendor" type="text"
+                                            placeholder="" value="{{ old('nama_vendor') }}" readonly
+                                            style="font-size:14px" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="telp_vendor">No. Telp</label>
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="telp_vendor" readonly name="telp_vendor" placeholder=""
+                                            value="{{ old('telp_vendor') }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="alamat_vendor">Alamat</label>
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="alamat_vendor" readonly name="alamat_vendor" placeholder=""
+                                            value="{{ old('alamat_vendor') }}">
                                     </div>
                                 </div>
                             </div>
@@ -472,20 +512,20 @@
                                 <tr id="pembelian-0">
                                     <td hidden>
                                         <div class="form-group">
-                                            <input onclick="Tarifs(0)" type="text" class="form-control"
+                                            <input type="text" class="form-control"
                                                 id="tarif_id" value="{{ old('tarif_id') }}" name="tarif_id">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input onclick="Tarifs(0)" style="font-size:14px" type="text"
+                                            <input style="font-size:14px" type="text"
                                                 class="form-control" readonly id="kode_tarif" name="kode_tarif"
                                                 value="{{ old('kode_tarif') }}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input onclick="Tarifs(0)" style="font-size:14px" type="text"
+                                            <input style="font-size:14px" type="text"
                                                 class="form-control" readonly id="nama_tarif" name="nama_tarif"
                                                 value="{{ old('nama_tarif') }}">
                                         </div>
@@ -528,13 +568,18 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input onclick="Tarifs(0)" style="font-size:14px" type="text"
+                                            <input style="font-size:14px" type="text"
                                                 class="form-control total_tarif" readonly id="total_tarif"
                                                 name="total_tarif" value="{{ old('total_tarif') }}">
                                         </div>
                                     </td>
                                     <td style="width: 50px">
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="Tarifs(0)">
+                                        <button id="tarif_pelanggan" type="button" class="btn btn-primary btn-sm"
+                                            onclick="Tarifs(0)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button id="tarif_vendor" type="button" class="btn btn-primary btn-sm"
+                                            onclick="Tarifsvendor(0)">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </td>
@@ -815,7 +860,12 @@
     '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_driver');})->get(0) ?? '' }}',
     '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_driver');})->get(1) ?? '' }}',
     '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(0) ?? '' }}',
-    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(1) ?? '' }}'
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(1) ?? '' }}',
+    '{{ $spk->vendor_id }}',
+    '{{ $spk->kode_vendor }}',
+    '{{ $spk->nama_vendor }}',
+    '{{ $spk->telp_vendor }}',
+    '{{ $spk->alamat_vendor }}'
 )">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $spk->kode_spk }}</td>
@@ -825,7 +875,47 @@
                                             <td>{{ $spk->golongan }}</td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="getSelectedDataspk('{{ $spk->id }}', '{{ $spk->kode_spk }}')">
+                                                    onclick="getSelectedDataspk(
+    '{{ $spk->id }}',
+    '{{ $spk->kode_spk }}',
+    '{{ $spk->pelanggan_id }}',
+    '{{ $spk->kode_pelanggan }}',
+    '{{ $spk->nama_pelanggan }}',
+    '{{ $spk->telp }}',
+    '{{ $spk->alamat_pelanggan }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('id')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('id')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kode_memo')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kode_memo')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('tanggal_awal')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('tanggal_awal')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_driver')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_driver')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('telp')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('telp')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_rute')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('nama_rute')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kendaraan_id')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('kendaraan_id')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_kabin')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_kabin')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_pol')->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->pluck('no_pol')->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('id');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('id');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('kode_tambahan');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('kode_tambahan');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('tanggal_awal');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('tanggal_awal');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_driver');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_driver');})->get(1) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(0) ?? '' }}',
+    '{{ $spk->memo_ekspedisi->where('status', 'posting')->flatMap(function ($memo) {return $memo->memotambahan->where('status', 'posting')->pluck('nama_rute');})->get(1) ?? '' }}',
+    '{{ $spk->vendor_id }}',
+    '{{ $spk->kode_vendor }}',
+    '{{ $spk->nama_vendor }}',
+    '{{ $spk->telp_vendor }}',
+    '{{ $spk->alamat_vendor }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -986,6 +1076,7 @@
                                         onclick="getTarifs('{{ $tarif->id }}', '{{ $tarif->kode_tarif }}', '{{ $tarif->nama_tarif }}', '{{ $tarif->nominal }}')">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td hidden>{{ $tarif->pelanggan->id }}</td>
+                                        <td hidden>{{ $tarif->vendor->id ?? '' }}</td>
                                         <td>{{ $tarif->kode_tarif }}</td>
                                         <td>{{ $tarif->nama_tarif }}</td>
                                         <td>{{ number_format($tarif->nominal, 0, ',', '.') }}</td>
@@ -1468,6 +1559,20 @@
             $('#tableTarif').modal('show');
         }
 
+        function Tarifsvendor(selectedCategory) {
+            var nomorId = $('#vendor_id').val(); // Ambil nilai dari form nomor_id
+            // Filter data pelanggan yang memiliki nomor_id yang sesuai
+            $('#datatables3 tbody tr').each(function() {
+                var idPelanggan = $(this).find('td:eq(2)').text(); // Ambil nomor_id dari setiap baris
+                if (idPelanggan === nomorId) {
+                    $(this).show(); // Tampilkan baris jika nomor_id sesuai
+                } else {
+                    $(this).hide(); // Sembunyikan baris jika nomor_id tidak sesuai
+                }
+            });
+            $('#tableTarif').modal('show');
+        }
+
         function getTarifs(Tarif_id, Kodetarif, NamaTarif, Nominal) {
 
             // Set the values in the form fields
@@ -1577,13 +1682,25 @@
             var kategori = document.getElementById('kategoris');
             var memoLabel = document.getElementById('memo_label');
             var nonMemoLabel = document.getElementById('non_memo');
+            var Pelanggan = document.getElementById('form_pelanggan');
+            var Vendor = document.getElementById('form_vendor');
+            var TarifPelanggan = document.getElementById('tarif_pelanggan');
+            var TarifVendor = document.getElementById('tarif_vendor');
 
             if (kategori.value === 'memo') {
                 memoLabel.style.display = 'block';
+                Pelanggan.style.display = 'block';
+                TarifPelanggan.style.display = 'block';
                 nonMemoLabel.style.display = 'none';
+                Vendor.style.display = 'none';
+                TarifVendor.style.display = 'none';
             } else if (kategori.value === 'non memo') {
-                memoLabel.style.display = 'none';
                 nonMemoLabel.style.display = 'block';
+                Vendor.style.display = 'block';
+                TarifVendor.style.display = 'block';
+                memoLabel.style.display = 'none';
+                Pelanggan.style.display = 'none';
+                TarifPelanggan.style.display = 'none';
             }
         }
 
@@ -1633,7 +1750,7 @@
             TelpDriver_0, TelpDriver_1, NamaRute_0, NamaRute_1, Kendaraan_id_0, Kendaraan_id_1, NoKabin_0, NoKabin_1,
             Nopol_0, Nopol_1, Memotambahan_id_0, Memotambahan_id_1, KodeMemotambahan_0, KodeMemotambahan_1,
             TanggalAwaltambahan_0, TanggalAwaltambahan_1, NamaDrivertambahan_0, NamaDrivertambahan_1, NamaRutetambahan_0,
-            NamaRutetambahan_1) {
+            NamaRutetambahan_1, Vendor_id, KodeVendor, NamaVendor, TelpVendor, AlamatVendor) {
 
             // Assign the values to the corresponding input fields
             document.getElementById('spk_id').value = Spk_id;
@@ -1672,6 +1789,12 @@
             document.getElementById('nama_drivertambahan-1').value = NamaDrivertambahan_1;
             document.getElementById('nama_rutetambahan-0').value = NamaRutetambahan_0;
             document.getElementById('nama_rutetambahan-1').value = NamaRutetambahan_1;
+
+            document.getElementById('vendor_id').value = Vendor_id;
+            document.getElementById('kode_vendor').value = KodeVendor;
+            document.getElementById('nama_vendor').value = NamaVendor;
+            document.getElementById('telp_vendor').value = TelpVendor;
+            document.getElementById('alamat_vendor').value = AlamatVendor;
 
             $('#tableSpk').modal('hide');
         }

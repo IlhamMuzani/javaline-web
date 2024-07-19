@@ -163,8 +163,13 @@
                                                         data-memo-id="{{ $faktur->id }}">Posting</a>
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['updates faktur ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
+                                                    @if ($faktur->spk_id == null)
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
+                                                    @else
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturekspedisispk/' . $faktur->id . '/edit') }}">Update</a>
+                                                    @endif
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
                                                     <a class="dropdown-item"

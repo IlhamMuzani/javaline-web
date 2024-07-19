@@ -56,19 +56,39 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group" style="flex: 8;">
-                            <label for="pelanggan_id">Nama Pelanggan</label>
-                            <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
-                                data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
-                                tabindex="-1" aria-hidden="true" id="pelanggan_id">
-                                <option value="">- Pilih -</option>
-                                @foreach ($pelanggans as $pelanggan)
-                                    <option value="{{ $pelanggan->id }}"
-                                        {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
-                                        {{ $pelanggan->nama_pell }}
-                                    </option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group" style="flex: 8;">
+                                    <label for="pelanggan_id">Nama Pelanggan</label>
+                                    <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
+                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
+                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($pelanggans as $pelanggan)
+                                            <option value="{{ $pelanggan->id }}"
+                                                {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ $pelanggan->nama_pell }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group" style="flex: 8;">
+                                    <label for="vendor_id">Nama Vendor</label>
+                                    <select class="select2bs4 select22-hidden-accessible" name="vendor_id"
+                                        data-placeholder="Cari Vendor.." style="width: 100%;" data-select22-id="23"
+                                        tabindex="-1" aria-hidden="true" id="vendor_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($vendors as $vendor)
+                                            <option value="{{ $vendor->id }}"
+                                                {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>
+                                                {{ $vendor->nama_vendor }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="nama_tarif">Nama Tarif</label>
@@ -78,33 +98,49 @@
                         <div class="form-group">
                             <label for="harga">Nominal</label>
                             <input type="text" class="form-control" id="nominal" name="nominal"
-                                placeholder="masukkan nominal" value="{{ old('nominal') }}" oninput="formatRupiah(this)"
-                                >
+                                placeholder="masukkan nominal" value="{{ old('nominal') }}" oninput="formatRupiah(this)">
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </section>
 
-   <script>
-    function formatRupiah(input) {
-        // Hapus karakter selain angka dan koma
-        var value = input.value.replace(/[^\d,]/g, "");
+    <script>
+        function formatRupiah(input) {
+            // Hapus karakter selain angka dan koma
+            var value = input.value.replace(/[^\d,]/g, "");
 
-        // Pisahkan bagian desimal jika ada
-        var parts = value.split(',');
+            // Pisahkan bagian desimal jika ada
+            var parts = value.split(',');
 
-        // Format angka dengan menambahkan titik sebagai pemisah ribuan untuk bagian pertama
-        parts[0] = new Intl.NumberFormat('id-ID').format(parts[0]);
+            // Format angka dengan menambahkan titik sebagai pemisah ribuan untuk bagian pertama
+            parts[0] = new Intl.NumberFormat('id-ID').format(parts[0]);
 
-        // Gabungkan kembali bagian pertama dengan bagian desimal jika ada
-        input.value = parts.join(',');
-    }
-</script>
+            // Gabungkan kembali bagian pertama dengan bagian desimal jika ada
+            input.value = parts.join(',');
+        }
+    </script>
 
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
 @endsection

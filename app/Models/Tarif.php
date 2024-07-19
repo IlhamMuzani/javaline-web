@@ -17,6 +17,7 @@ class Tarif extends Model
     protected $fillable =
     [
         'pelanggan_id',
+        'vendor_id',
         'kode_tarif',
         'nama_tarif',
         'nominal',
@@ -35,6 +36,11 @@ class Tarif extends Model
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
     }
 
 

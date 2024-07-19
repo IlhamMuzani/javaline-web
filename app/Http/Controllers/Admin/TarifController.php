@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pelanggan;
 use App\Models\Tarif;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
 class TarifController extends Controller
@@ -27,8 +28,9 @@ class TarifController extends Controller
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
         $pelanggans = Pelanggan::all();
+        $vendors = Vendor::all();
 
-        return view('admin/tarif.create', compact('pelanggans'));
+        return view('admin/tarif.create', compact('pelanggans', 'vendors'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -41,11 +43,13 @@ class TarifController extends Controller
             $request->all(),
             [
                 'pelanggan_id' => 'required',
+                'vendor_id' => 'required',
                 'nama_tarif' => 'required',
                 'nominal' => 'required',
             ],
             [
                 'pelanggan_id.required' => 'Pilih nama pelanggan',
+                'vendor_id.required' => 'Pilih Vendor',
                 'nama_tarif.required' => 'Masukkan nama tarif',
                 'nominal.required' => 'Masukkan nominal',
             ]
@@ -99,8 +103,9 @@ class TarifController extends Controller
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
         $tarifs = Tarif::where('id', $id)->first();
         $pelanggans = Pelanggan::all();
+        $vendors = Vendor::all();
 
-        return view('admin/tarif.update', compact('tarifs', 'pelanggans'));
+        return view('admin/tarif.update', compact('vendors', 'tarifs', 'pelanggans'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -113,11 +118,13 @@ class TarifController extends Controller
             $request->all(),
             [
                 'pelanggan_id' => 'required',
+                'vendor_id' => 'required',
                 'nama_tarif' => 'required',
                 'nominal' => 'required',
             ],
             [
                 'pelanggan_id.required' => 'Pilih nama pelanggan',
+                'vendor_id.required' => 'Pilih nama vendor',
                 'nama_tarif.required' => 'Masukkan nama tarif',
                 'nominal.required' => 'Masukkan nominal',
             ]
@@ -131,6 +138,7 @@ class TarifController extends Controller
         $tarifs = Tarif::findOrFail($id);
 
         $tarifs->pelanggan_id = $request->pelanggan_id;
+        $tarifs->vendor_id = $request->vendor_id;
         $tarifs->nama_tarif = $request->nama_tarif;
         $tarifs->nominal = str_replace(',', '.', str_replace('.', '', $request->nominal));
 
