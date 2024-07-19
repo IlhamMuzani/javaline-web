@@ -69,9 +69,9 @@ class SpkController extends Controller
         // Add additional rules if kategori is not 'non memo'
         if ($request->kategori !== 'non memo') {
             $rules['user_id'] = 'required';
-            // $rules['rute_perjalanan_id'] = 'required';
+            $rules['rute_perjalanan_id'] = 'required';
             $rules['kendaraan_id'] = 'required';
-            // $rules['uang_jalan'] = 'required';
+            $rules['uang_jalan'] = 'required';
 
             $messages['user_id.required'] = 'Pilih driver';
             $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';

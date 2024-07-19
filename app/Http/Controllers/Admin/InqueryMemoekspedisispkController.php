@@ -217,17 +217,17 @@ class InqueryMemoekspedisispkController extends Controller
                 'kategori' => 'required',
                 'kendaraan_id' => 'required',
                 'user_id' => 'required',
-                // 'rute_perjalanan_id' => 'required',
+                'rute_perjalanan_id' => 'required',
                 'deposit_driver' => 'required|numeric',
-                'uang_jaminan' => 'required',
-                // 'uang_jaminan' => [
-                //     'required',
-                //     function ($attribute, $value, $fail) {
-                //         if ($value == 0) {
-                //             $fail('Uang jaminan tidak boleh 0.');
-                //         }
-                //     },
-                // ],
+                // 'uang_jaminan' => 'required',
+                'uang_jaminan' => [
+                    'required',
+                    function ($attribute, $value, $fail) {
+                        if ($value == 0) {
+                            $fail('Uang jaminan tidak boleh 0.');
+                        }
+                    },
+                ],
                 'sub_total' => 'required',
                 'uang_jalan' => ['nullable', function ($attribute, $value, $fail) {
                     // Remove non-numeric characters
@@ -244,7 +244,7 @@ class InqueryMemoekspedisispkController extends Controller
                 'kategori.required' => 'Pilih kategori',
                 'kendaraan_id.required' => 'Pilih no kabin',
                 'user_id.required' => 'Pilih driver',
-                // 'rute_perjalanan_id.required' => 'Pilih rute perjalanan',
+                'rute_perjalanan_id.required' => 'Pilih rute perjalanan',
                 'deposit_driver.numeric' => 'Deposit harus berupa angka',
                 'uang_jaminan.required' => 'Cek uang jaminan tidak boleh 0',
                 'uang_jalan.*' => 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid',
