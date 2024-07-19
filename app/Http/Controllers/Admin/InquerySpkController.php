@@ -71,24 +71,21 @@ class InquerySpkController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Define base validation rules
         $rules = [
             'kode_spk' => 'unique:spks,kode_spk',
-            'pelanggan_id' => 'required',
         ];
 
         // Define base validation messages
         $messages = [
             'kode_spk.unique' => 'Kode spk sudah ada',
-            'pelanggan_id.required' => 'Pilih Pelanggan',
         ];
 
         // Add additional rules if kategori is not 'non memo'
         if ($request->kategori !== 'non memo') {
             $rules['user_id'] = 'required';
-            $rules['rute_perjalanan_id'] = 'required';
+            // $rules['rute_perjalanan_id'] = 'required';
             $rules['kendaraan_id'] = 'required';
-            $rules['uang_jalan'] = 'required';
+            // $rules['uang_jalan'] = 'required';
 
             $messages['user_id.required'] = 'Pilih driver';
             $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';

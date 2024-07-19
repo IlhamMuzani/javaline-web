@@ -1131,31 +1131,6 @@
             $('#tableRute').modal('show');
         }
 
-        $(document).ready(function() {
-            // Tambahkan event click pada setiap baris dengan class 'selectable-row'
-            $('.selectable-row').on('click', function() {
-                // Dapatkan nilai-nilai yang diperlukan dari elemen-elemen dalam baris
-                var Rute_id = $(this).find('td:eq(0)').text().trim();
-                var KodeRute = $(this).find('td:eq(1)').text().trim();
-                var NamaRute = $(this).find('td:eq(2)').text().trim();
-                var Golongan1 = $(this).find('td:eq(3)').text().trim();
-                var Golongan2 = $(this).find('td:eq(4)').text().trim();
-                var Golongan3 = $(this).find('td:eq(5)').text().trim();
-                var Golongan4 = $(this).find('td:eq(6)').text().trim();
-                var Golongan5 = $(this).find('td:eq(7)').text().trim();
-                var Golongan6 = $(this).find('td:eq(8)').text().trim();
-                var Golongan7 = $(this).find('td:eq(9)').text().trim();
-                var Golongan8 = $(this).find('td:eq(10)').text().trim();
-                var Golongan9 = $(this).find('td:eq(11)').text().trim();
-                var Golongan10 = $(this).find('td:eq(12)').text().trim();
-
-                // Panggil fungsi dengan nilai-nilai yang telah Anda dapatkan
-                getSelectedDatarute(Rute_id, KodeRute, NamaRute, Golongan1, Golongan2, Golongan3, Golongan4,
-                    Golongan5,
-                    Golongan6, Golongan7, Golongan8, Golongan9, Golongan10);
-            });
-        });
-
         function getSelectedDatarute(Rute_id, KodeRute, NamaRute, Golongan1, Golongan2, Golongan3, Golongan4, Golongan5,
             Golongan6, Golongan7, Golongan8, Golongan9, Golongan10) {
 

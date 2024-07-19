@@ -57,21 +57,24 @@ class SpkController extends Controller
 
     public function store(Request $request)
     {
+        // Define base validation rules
         $rules = [
             'kode_spk' => 'unique:spks,kode_spk',
+            'pelanggan_id' => 'required',
         ];
 
         // Define base validation messages
         $messages = [
             'kode_spk.unique' => 'Kode spk sudah ada',
+            'pelanggan_id.required' => 'Pilih Pelanggan',
         ];
 
         // Add additional rules if kategori is not 'non memo'
         if ($request->kategori !== 'non memo') {
             $rules['user_id'] = 'required';
-            // $rules['rute_perjalanan_id'] = 'required';
+            $rules['rute_perjalanan_id'] = 'required';
             $rules['kendaraan_id'] = 'required';
-            // $rules['uang_jalan'] = 'required';
+            $rules['uang_jalan'] = 'required';
 
             $messages['user_id.required'] = 'Pilih driver';
             $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';
@@ -103,7 +106,6 @@ class SpkController extends Controller
                 'admin' => auth()->user()->karyawan->nama_lengkap,
                 'kode_spk' => $this->kode(),
                 'voucher' => '0',
-                'user_id' => $request->user_id,
                 'pelanggan_id' => $request->pelanggan_id,
                 'kendaraan_id' => $request->kendaraan_id,
                 'no_kabin' => $request->no_kabin,
