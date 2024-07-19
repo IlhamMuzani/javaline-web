@@ -126,22 +126,20 @@ class PelangganController extends Controller
 
     public function kode()
     {
-        $supplier = Pelanggan::all();
-        if ($supplier->isEmpty()) {
-            $num = "000001";
+        $lastBarang = Pelanggan::latest()->first();
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Pelanggan::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            $lastCode = $lastBarang->kode_pelanggan;
+            $num = (int) substr($lastCode, strlen('AP')) + 1;
         }
-
-        $data = 'AD';
-        $kode_pelanggan = $data . $num;
-        return $kode_pelanggan;
+        $formattedNum = sprintf("%06s", $num);
+        $prefix = 'AP';
+        $newCode = $prefix . $formattedNum;
+        return $newCode;
     }
 
+    
     public function show($id)
     {
         if (auth()->check() && auth()->user()->menu['pelanggan']) {
