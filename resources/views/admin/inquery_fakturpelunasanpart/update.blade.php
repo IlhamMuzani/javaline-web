@@ -410,7 +410,7 @@
                                     <tr onclick="getFaktur({{ $loop->index }})" data-id="{{ $faktur->id }}"
                                         data-kode_pembelianpart="{{ $faktur->kode_pembelianpart }}"
                                         data-tanggal_awal="{{ $faktur->tanggal_awal }}"
-                                        data-grand_total="{{ $faktur->grand_total ?? $faktur->detail_ban->sum('harga') }}"
+                                        data-grand_total="{{ $faktur->grand_total ?? $faktur->detail_part->sum('harga') }}"
                                         data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $faktur->kode_pembelianpart }}</td>
@@ -422,7 +422,7 @@
                                         <td>
                                         <td>
                                             @if ($faktur->grand_total === null)
-                                                {{ number_format($faktur->detail_ban->sum('harga'), 2, ',', '.') }}
+                                                {{ number_format($faktur->detail_part->sum('harga'), 2, ',', '.') }}
                                             @else
                                                 {{ number_format($faktur->grand_total, 2, ',', '.') }}
                                             @endif
