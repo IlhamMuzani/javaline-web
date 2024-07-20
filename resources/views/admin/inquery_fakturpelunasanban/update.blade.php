@@ -410,7 +410,8 @@
                                     <tr onclick="getFaktur({{ $loop->index }})" data-id="{{ $faktur->id }}"
                                         data-kode_pembelian_ban="{{ $faktur->kode_pembelian_ban }}"
                                         data-tanggal_awal="{{ $faktur->tanggal_awal }}"
-                                        data-grand_total="{{ $faktur->grand_total }}" data-param="{{ $loop->index }}">
+                                        data-grand_total="{{ $faktur->grand_total ?? $faktur->detail_ban->sum('harga') }}"
+                                        data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $faktur->kode_pembelian_ban }}</td>
                                         <td>{{ $faktur->tanggal }}</td>
@@ -418,7 +419,13 @@
                                         {{-- <td>
                                             {{ $faktur->kode_pembelian_ban }}
                                         </td> --}}
-                                        <td>{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
+                                        <td>
+                                            @if ($faktur->grand_total === null)
+                                                {{ number_format($faktur->detail_ban->sum('harga'), 2, ',', '.') }}
+                                            @else
+                                                {{ number_format($faktur->grand_total, 2, ',', '.') }}
+                                            @endif
+                                        </td>
 
                                         {{-- <td>{{ $faktur->detail_faktur->first()->memo_ekspedisi->kode_memo }}</td> --}}
                                         <td class="text-center">

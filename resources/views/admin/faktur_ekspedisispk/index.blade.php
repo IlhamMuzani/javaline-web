@@ -563,6 +563,8 @@
                                                     M&sup3;</option>
                                                 <option value="rit" {{ old('satuan') == 'rit' ? 'selected' : null }}>
                                                     rit</option>
+                                                <option value="hr" {{ old('satuan') == 'hr' ? 'selected' : null }}>
+                                                hr</option>
                                             </select>
                                         </div>
                                     </td>

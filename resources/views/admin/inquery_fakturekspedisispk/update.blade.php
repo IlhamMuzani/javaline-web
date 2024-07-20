@@ -915,6 +915,9 @@
                                                     <option value="rit"
                                                         {{ old('satuan', $inquery->satuan) == 'rit' ? 'selected' : null }}>
                                                         rit</option>
+                                                    <option value="hr"
+                                                        {{ old('satuan', $inquery->satuan) == 'hr' ? 'selected' : null }}>
+                                                        hr</option>
                                                 </select>
                                             </div>
                                         </td>
