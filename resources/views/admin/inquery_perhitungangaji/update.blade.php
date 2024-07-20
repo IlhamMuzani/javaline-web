@@ -101,7 +101,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="float-right mb-3">
-                        <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                        <button type="button" class="btn btn-primary btn-sm" id="addPesananBtn" onclick="addPesanan()">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
@@ -1211,5 +1211,14 @@
                 }
             }
         }
+    </script>
+
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById('addPesananBtn').click();
+            }
+        });
     </script>
 @endsection
