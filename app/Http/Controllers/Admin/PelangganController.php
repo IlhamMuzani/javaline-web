@@ -134,7 +134,7 @@ class PelangganController extends Controller
             $num = (int) substr($lastCode, strlen('AP')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'AP';
+        $prefix = 'AD';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }
