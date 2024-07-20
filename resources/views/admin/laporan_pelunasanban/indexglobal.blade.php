@@ -70,7 +70,7 @@
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
                                     <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
-                                        Piutang
+                                        Hutang
                                     </option>
                                     <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
                                         Lunas</option>
