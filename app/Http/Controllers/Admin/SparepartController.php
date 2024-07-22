@@ -51,7 +51,7 @@ class SparepartController extends Controller
             [
                 'kategori' => 'required',
                 'nama_barang' => 'required',
-                'keterangan' => 'required',
+                // 'keterangan' => 'required',
                 // 'harga' => 'required',
                 // 'jumlah' => 'required',
                 'satuan' => 'required',
@@ -59,7 +59,7 @@ class SparepartController extends Controller
             [
                 'kategori.required' => 'Pilih kategori',
                 'nama_barang.required' => 'Masukkan nama barang',
-                'keterangan.required' => 'Masukkan keterangan',
+                // 'keterangan.required' => 'Masukkan keterangan',
                 // 'harga_jual.required' => 'Masukkan harga jual',
                 // 'jumlah.required' => 'Masukkan stok',
                 'satuan.required' => 'Masukkan satuan',
@@ -70,7 +70,7 @@ class SparepartController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-        
+
         $kode = '';
         if ($request->kategori === 'oli') {
             $kode = $this->kodeoli();
@@ -80,6 +80,8 @@ class SparepartController extends Controller
             $kode = $this->kodebody();
         } elseif ($request->kategori === 'sasis') {
             $kode = $this->kodesasis();
+        } elseif ($request->kategori === 'peralatan') {
+            $kode = $this->kodeperalatan();
         }
         Sparepart::create(array_merge(
             $request->all(),
@@ -168,7 +170,25 @@ class SparepartController extends Controller
         return $kode_part;
     }
 
-    
+    public function kodeperalatan()
+    {
+        $part = Sparepart::all();
+        if ($part->isEmpty()) {
+            $num = "000001";
+        } else {
+            $id = Sparepart::getId();
+            foreach ($id as $value);
+            $idlm = $value->id;
+            $idbr = $idlm + 1;
+            $num = sprintf("%06s", $idbr);
+        }
+
+        $data = 'PR';
+        $kode_part = $data . $num;
+        return $kode_part;
+    }
+
+
     public function edit($id)
     {
         $part = Sparepart::where('id', $id)->first();
@@ -183,7 +203,7 @@ class SparepartController extends Controller
             [
                 'kategori' => 'required',
                 'nama_barang' => 'required',
-                'keterangan' => 'required',
+                // 'keterangan' => 'required',
                 // 'harga' => 'required',
                 // 'jumlah' => 'required',
                 'satuan' => 'required',
@@ -191,7 +211,7 @@ class SparepartController extends Controller
             [
                 'kategori.required' => 'Pilih kategori',
                 'nama_barang.required' => 'Masukkan nama barang',
-                'keterangan.required' => 'Masukkan keterangan',
+                // 'keterangan.required' => 'Masukkan keterangan',
                 // 'harga.required' => 'Masukkan harga',
                 // 'jumlah.required' => 'Masukkan stok',
                 'satuan.required' => 'Masukkan satuan',

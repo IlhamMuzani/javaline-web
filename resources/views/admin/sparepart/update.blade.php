@@ -49,14 +49,21 @@
                                 <label class="form-label" for="kategori">Kategori</label>
                                 <select class="form-control" id="kategori" name="kategori">
                                     <option value="">- Pilih -</option>
-                                    <option value="oli" {{ old('kategori', $part->kategori) == 'oli' ? 'selected' : null }}>
+                                    <option value="oli"
+                                        {{ old('kategori', $part->kategori) == 'oli' ? 'selected' : null }}>
                                         oli</option>
-                                    <option value="body" {{ old('kategori', $part->kategori) == 'body' ? 'selected' : null }}>
+                                    <option value="body"
+                                        {{ old('kategori', $part->kategori) == 'body' ? 'selected' : null }}>
                                         body</option>
-                                    <option value="mesin" {{ old('kategori', $part->kategori) == 'mesin' ? 'selected' : null }}>
+                                    <option value="mesin"
+                                        {{ old('kategori', $part->kategori) == 'mesin' ? 'selected' : null }}>
                                         mesin</option>
-                                    <option value="sasis" {{ old('kategori', $part->kategori) == 'sasis' ? 'selected' : null }}>
+                                    <option value="sasis"
+                                        {{ old('kategori', $part->kategori) == 'sasis' ? 'selected' : null }}>
                                         sasis</option>
+                                    <option value="peralatan"
+                                        {{ old('kategori', $part->kategori) == 'peralatan' ? 'selected' : null }}>
+                                        peralatan</option>
                                 </select>
                             </div>
                             <label for="nama">Nama Barang</label>

@@ -48,6 +48,7 @@
     request()->is('admin/type_ban') ||
     request()->is('admin/nokir') ||
     request()->is('admin/stnk') ||
+    request()->is('admin/inventory_peralatan') ||
     request()->is('admin/sparepart')
         ? 'menu-open'
         : '' }}">
@@ -78,6 +79,7 @@
         request()->is('admin/type_ban') ||
         request()->is('admin/nokir') ||
         request()->is('admin/stnk') ||
+        request()->is('admin/inventory_peralatan') ||
         request()->is('admin/sparepart')
             ? 'active'
             : '' }}">
@@ -329,6 +331,15 @@
                 </a>
             </li>
         @endif
+        @if (auth()->check() && auth()->user()->menu['akun'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inventory_peralatan') }}"
+                    class="nav-link {{ request()->is('admin/inventory_peralatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Inventory Peralatan</p>
+                </a>
+            </li>
+        @endif
     </ul>
 </li>
 @php
@@ -354,9 +365,29 @@
     })->get();
 @endphp
 <li
-    class="nav-item {{ request()->is('admin/km*') || request()->is('admin/perpanjangan_stnk*') || request()->is('admin/perpanjangan_kir*') || request()->is('admin/pemasangan_ban*') || request()->is('admin/pelepasan_ban*') || request()->is('admin/pemasangan_part*') || request()->is('admin/penggantian_oli*') || request()->is('admin/status_perjalanan*') ? 'menu-open' : '' }}">
+    class="nav-item {{ request()->is('admin/km*') ||
+    request()->is('admin/perpanjangan_stnk*') ||
+    request()->is('admin/perpanjangan_kir*') ||
+    request()->is('admin/pemasangan_ban*') ||
+    request()->is('admin/pelepasan_ban*') ||
+    request()->is('admin/pemasangan_part*') ||
+    request()->is('admin/penggantian_oli*') ||
+    request()->is('admin/status_perjalanan*') ||
+    request()->is('admin/pemakaian_peralatan*')
+        ? 'menu-open'
+        : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/km*') || request()->is('admin/perpanjangan_stnk*') || request()->is('admin/perpanjangan_kir*') || request()->is('admin/pemasangan_ban*') || request()->is('admin/pelepasan_ban*') || request()->is('admin/pemasangan_part*') || request()->is('admin/penggantian_oli*') || request()->is('admin/status_perjalanan*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/km*') ||
+        request()->is('admin/perpanjangan_stnk*') ||
+        request()->is('admin/perpanjangan_kir*') ||
+        request()->is('admin/pemasangan_ban*') ||
+        request()->is('admin/pelepasan_ban*') ||
+        request()->is('admin/pemasangan_part*') ||
+        request()->is('admin/penggantian_oli*') ||
+        request()->is('admin/status_perjalanan*') ||
+        request()->is('admin/pemakaian_peralatan*')
+            ? 'active'
+            : '' }}">
 
         <i class="nav-icon fas fa-users-cog"></i>
         <p>
@@ -461,6 +492,16 @@
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Status Perjalanan Kendaraan
                     </p>
+                </a>
+            </li>
+        @endif
+
+        @if (auth()->check() && auth()->user()->menu['pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pemakaian_peralatan') }}"
+                    class="nav-link {{ request()->is('admin/pemakaian_peralatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Pemakaian Peralatan</p>
                 </a>
             </li>
         @endif
@@ -621,7 +662,8 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
-                <a href="{{ url('admin/spk') }}" class="nav-link {{ request()->is('admin/spk*') ? 'active' : '' }}">
+                <a href="{{ url('admin/spk') }}"
+                    class="nav-link {{ request()->is('admin/spk*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">SPK</p>
                 </a>
@@ -767,6 +809,7 @@
     request()->is('admin/bukti_potongpajak*') ||
     request()->is('admin/inquery_buktipotongpajak*') ||
     request()->is('admin/inquery_spk*') ||
+    request()->is('admin/inquery_pemakaianperalatan*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -803,6 +846,7 @@
         request()->is('admin/bukti_potongpajak*') ||
         request()->is('admin/inquery_buktipotongpajak*') ||
         request()->is('admin/inquery_spk*') ||
+        request()->is('admin/inquery_pemakaianperalatan*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">
@@ -962,6 +1006,16 @@
                     <p style="font-size: 14px;">Inquery Pemasangan Part @if (count($pemasanganpart) > 0)
                             <span class="right badge badge-info">{{ count($pemasanganpart) }}</span>
                         @endif
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['inquery pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_pemakaianperalatan') }}"
+                    class="nav-link {{ request()->is('admin/inquery_pemakaianperalatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Inquery Pemakaian Peralatan
                     </p>
                 </a>
             </li>

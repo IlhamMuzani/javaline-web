@@ -721,6 +721,14 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('bukti_potongpajak', \App\Http\Controllers\Admin\BuktipotongpajakController::class);
     Route::resource('inquery_buktipotongpajak', \App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class);
     Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
+
+
+    Route::get('inquery_pemakaianperalatan/unpostpemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'unpostpemakaian']);
+    Route::get('inquery_pemakaianperalatan/postingpemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'postingpemakaian']);
+    Route::get('hapuspemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'hapuspemakaian'])->name('hapuspemakaian');
+    Route::delete('inquery_pemakaianperalatan/deletedetailpemakaians/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'deletedetailpemakaians']);
+    Route::get('pemakaian_peralatan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemakainperalatanController::class, 'cetakpdf']);
+
     
     Route::get('postingfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'postingfilterpenerimaansj']);
     Route::get('unpostfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'unpostfilterpenerimaansj']);
@@ -750,4 +758,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_spk/unpostspk/{id}', [\App\Http\Controllers\Admin\InquerySpkController::class, 'unpostspk']);
     Route::get('inquery_spk/postingspk/{id}', [\App\Http\Controllers\Admin\InquerySpkController::class, 'postingspk']);
     Route::resource('inquery_spk', \App\Http\Controllers\Admin\InquerySpkController::class);
+    Route::resource('inventory_peralatan', \App\Http\Controllers\Admin\InventoryperalatanController::class);
+    Route::resource('pemakaian_peralatan', \App\Http\Controllers\Admin\PemakainperalatanController::class);
+    Route::resource('inquery_pemakaianperalatan', \App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class);
 });

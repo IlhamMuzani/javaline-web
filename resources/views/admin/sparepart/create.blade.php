@@ -68,6 +68,8 @@
                                     mesin</option>
                                 <option value="sasis" {{ old('kategori') == 'sasis' ? 'selected' : null }}>
                                     sasis</option>
+                                <option value="peralatan" {{ old('kategori') == 'peralatan' ? 'selected' : null }}>
+                                    peralatan</option>
                             </select>
                         </div>
                         <div class="form-group">

@@ -9,25 +9,22 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Sparepart extends Model
+class Pemakaian_peralatan extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
-        'kode_partdetail',
-        'pembelian_part_id',
-        'qrcode_barang',
-        'kategori',
-        'nama_barang',
-        'jumlah',
-        'satuan',
-        'harga',
-        'keterangan',
-        'status',
+        'user_id',
+        'kode_pemakaian',
+        'kendaraan_id',
+        'tanggal_pemakaian',
         'tanggal_awal',
         'tanggal_akhir',
+        'status',
+        'status_notif',
     ];
+
 
     use SoftDeletes;
     protected $dates = ['deleted_at'];
@@ -38,20 +35,23 @@ class Sparepart extends Model
             ->logFillable('*');
     }
 
-
-    public function pembelian_part()
+    public function user()
     {
-        return $this->belongsTo(Pembelian_part::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function detail_inventory()
+    public function kendaraan()
     {
-        return $this->hasMany(Detail_inventory::class);
+        return $this->belongsTo(Kendaraan::class);
     }
-    
-    
+
+    public function detail_pemakaian()
+    {
+        return $this->hasMany(Detail_pemakaian::class);
+    }
+
     public static function getId()
     {
-        return $getId = DB::table('spareparts')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('pemakaian_peralatans')->orderBy('id', 'DESC')->take(1)->get();
     }
 }

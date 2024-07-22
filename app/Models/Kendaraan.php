@@ -136,6 +136,11 @@ class Kendaraan extends Model
         return $this->hasMany(Detail_pengeluaran::class, 'kendaraan_id');
     }
 
+    public function detail_inventories()
+    {
+        return $this->hasMany(Detail_inventory::class, 'kendaraan_id');
+    }
+
     public static function getId()
     {
         return $getId = DB::table('kendaraans')->orderBy('id', 'DESC')->take(1)->get();
