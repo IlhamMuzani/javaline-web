@@ -758,7 +758,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_spk/unpostspk/{id}', [\App\Http\Controllers\Admin\InquerySpkController::class, 'unpostspk']);
     Route::get('inquery_spk/postingspk/{id}', [\App\Http\Controllers\Admin\InquerySpkController::class, 'postingspk']);
     Route::resource('inquery_spk', \App\Http\Controllers\Admin\InquerySpkController::class);
-    Route::resource('inventory_peralatan', \App\Http\Controllers\Admin\InventoryperalatanController::class);
+    Route::resource('inventory_peralatan', \App\Http\Controllers\Admin\InventoryPeralatanController::class);
     Route::resource('pemakaian_peralatan', \App\Http\Controllers\Admin\PemakainperalatanController::class);
     Route::resource('inquery_pemakaianperalatan', \App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class);
 });

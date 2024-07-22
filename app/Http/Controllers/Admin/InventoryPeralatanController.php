@@ -11,7 +11,7 @@ use App\Models\Detail_inventory;
 use App\Models\Kendaraan;
 use Illuminate\Support\Facades\Validator;
 
-class InventoryperalatanController extends Controller
+class InventoryPeralatanController extends Controller
 {
     public function index(Request $request)
     {
