@@ -274,7 +274,6 @@
                                                 name="rute_perjalanan_id" placeholder=""
                                                 value="{{ old('rute_perjalanan_id') }}">
                                         </div>
-
                                         <label style="font-size:14px" class="form-label" for="kode_rute">Kode
                                             Rute</label>
                                         <div class="form-group d-flex">
