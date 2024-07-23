@@ -539,6 +539,7 @@
     request()->is('admin/pengeluaran_kaskecil*') ||
     request()->is('admin/pilih_deposit*') ||
     request()->is('admin/klaim_ban*') ||
+    request()->is('admin/klaim_peralatan*') ||
     request()->is('admin/indexnon*') ||
     request()->is('admin/buktipotong*') ||
     request()->is('admin/status_spk*') ||
@@ -570,6 +571,7 @@
         request()->is('admin/pengeluaran_kaskecil*') ||
         request()->is('admin/pilih_deposit*') ||
         request()->is('admin/klaim_ban*') ||
+        request()->is('admin/klaim_peralatan*') ||
         request()->is('admin/indexnon*') ||
         request()->is('admin/buktipotong*') ||
         request()->is('admin/status_spk*') ||
@@ -627,6 +629,16 @@
                     class="nav-link {{ request()->is('admin/klaim_ban*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Klaim Ban
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pembelian ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/klaim_peralatan') }}"
+                    class="nav-link {{ request()->is('admin/klaim_peralatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Klaim Peralatan
                     </p>
                 </a>
             </li>

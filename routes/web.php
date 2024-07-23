@@ -595,6 +595,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::post('updatebuktitagihan/{id}', [\App\Http\Controllers\Admin\BuktipotongController::class, 'updatebuktitagihan'])->name('updatebuktitagihan');
     Route::get('driver/cetak-pdf/{id}', [\App\Http\Controllers\Admin\DriverController::class, 'cetakpdf']);
 
+    Route::get('klaim_peralatan/get_detailinventory/{id}', [\App\Http\Controllers\Admin\KlaimperalatanController::class, 'get_detailinventory']);
+
     Route::resource('faktur_pelunasanperinvoice', \App\Http\Controllers\Admin\FakturpelunasanperinvoiceController::class);
     Route::resource('faktur_pelunasanperfaktur', \App\Http\Controllers\Admin\FakturpelunasanperfakturController::class);
     Route::resource('buktipotong', \App\Http\Controllers\Admin\BuktipotongController::class);
@@ -729,7 +731,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::delete('inquery_pemakaianperalatan/deletedetailpemakaians/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'deletedetailpemakaians']);
     Route::get('pemakaian_peralatan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemakainperalatanController::class, 'cetakpdf']);
 
-    
+
     Route::get('postingfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'postingfilterpenerimaansj']);
     Route::get('unpostfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'unpostfilterpenerimaansj']);
     Route::resource('memo_ekspedisispk', \App\Http\Controllers\Admin\MemoekspedisispkController::class);
@@ -761,4 +763,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inventory_peralatan', \App\Http\Controllers\Admin\InventoryPeralatanController::class);
     Route::resource('pemakaian_peralatan', \App\Http\Controllers\Admin\PemakainperalatanController::class);
     Route::resource('inquery_pemakaianperalatan', \App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class);
+    Route::resource('klaim_peralatan', \App\Http\Controllers\Admin\KlaimperalatanController::class);
 });

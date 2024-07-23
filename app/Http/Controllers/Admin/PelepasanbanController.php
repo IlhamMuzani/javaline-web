@@ -439,7 +439,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -633,7 +633,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -824,7 +824,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -1017,7 +1017,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -1210,7 +1210,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -1402,7 +1402,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -1594,7 +1594,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -1787,7 +1787,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -1979,7 +1979,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -2171,7 +2171,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -2362,7 +2362,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -2554,7 +2554,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -2746,7 +2746,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -2938,7 +2938,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -3129,7 +3129,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -3320,7 +3320,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -3511,7 +3511,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -3702,7 +3702,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -3893,7 +3893,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -4084,7 +4084,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -4275,7 +4275,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),
@@ -4466,7 +4466,7 @@ class PelepasanbanController extends Controller
             $format_tanggal = $tanggal1->format('d F Y');
 
             $tanggal = Carbon::now()->format('Y-m-d');
-            $depositdriver = Klaim_ban::create(array_merge(
+            $klaim_ban = Klaim_ban::create(array_merge(
                 $request->all(),
                 [
                     'kode_klaimban' => $this->kodeklaimban(),

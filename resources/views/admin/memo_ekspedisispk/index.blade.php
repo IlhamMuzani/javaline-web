@@ -278,10 +278,14 @@
                                         <label style="font-size:14px" class="form-label" for="kode_rute">Kode
                                             Rute</label>
                                         <div class="form-group d-flex">
-                                            <input class="form-control" id="kode_rute" name="kode_rute" type="text"
-                                                placeholder="" value="{{ old('kode_rute') }}" readonly
+                                            <input onclick="showCategoryModalrute(this.value)" class="form-control"
+                                                id="kode_rute" name="kode_rute" type="text" placeholder=""
+                                                value="{{ old('kode_rute') }}" readonly
                                                 style="margin-right: 10px; font-size:14px" />
-
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showCategoryModalrute(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
                                         </div>
                                         <div class="form-group">
                                             <label style="font-size:14px" for="rute_perjalanan">Rute Perjalanan</label>

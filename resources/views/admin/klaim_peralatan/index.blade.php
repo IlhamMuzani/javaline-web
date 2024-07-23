@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Klaim Peralatan')
+@section('title', 'Pemakaian Peralatan')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Klaim Peralatan</h1>
+                    <h1 class="m-0">Pemakaian Peralatan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Klaim Peralatan</li>
+                        <li class="breadcrumb-item active">Pemakaian Peralatan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -57,7 +57,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Klaim Peralatan</h3>
+                    <h3 class="card-title">Pemakaian Peralatan</h3>
                     <div class="float-right">
                         <a href="{{ url('admin/klaim_peralatan/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
@@ -71,7 +71,7 @@
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
-                                <th>Kode Klaim</th>
+                                <th>Kode Pemakaian</th>
                                 <th>Tanggal</th>
                                 <th>No Kabin</th>
                                 <th>No Registrasi</th>
@@ -80,70 +80,70 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $klaims)
-                                <tr class="dropdown"{{ $klaims->id }}>
+                            @foreach ($inquery as $pemakaian)
+                                <tr class="dropdown"{{ $pemakaian->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $klaims->id }}">
+                                            value="{{ $pemakaian->id }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $klaims->kode_pemakaian }}</td>
-                                    <td>{{ $klaims->tanggal_awal }}</td>
+                                    <td>{{ $pemakaian->kode_pemakaian }}</td>
+                                    <td>{{ $pemakaian->tanggal_awal }}</td>
                                     <td>
-                                        @if ($klaims->kendaraan)
-                                            {{ $klaims->kendaraan->no_kabin }}
+                                        @if ($pemakaian->kendaraan)
+                                            {{ $pemakaian->kendaraan->no_kabin }}
                                         @else
                                             Kabin tidak ada
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($klaims->kendaraan)
-                                            {{ $klaims->kendaraan->no_pol }}
+                                        @if ($pemakaian->kendaraan)
+                                            {{ $pemakaian->kendaraan->no_pol }}
                                         @else
                                             No pol tidak ada
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($klaims->kendaraan)
-                                            {{ $klaims->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                        @if ($pemakaian->kendaraan)
+                                            {{ $pemakaian->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
                                         @else
                                             nama tidak ada
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        @if ($klaims->status == 'posting')
+                                        @if ($pemakaian->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
-                                        @if ($klaims->status == 'selesai')
+                                        @if ($pemakaian->status == 'selesai')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Roda Mobil">
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($klaims->status == 'unpost')
+                                            @if ($pemakaian->status == 'unpost')
                                                 <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $klaims->id }}">Posting</a>
+                                                    data-memo-id="{{ $pemakaian->id }}">Posting</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pemakaianperalatan/' . $klaims->id . '/edit') }}">Update</a>
+                                                    href="{{ url('admin/inquery_pemakaianperalatan/' . $pemakaian->id . '/edit') }}">Update</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaims->id) }}">Show</a>
+                                                    href="{{ url('admin/klaim_peralatan/' . $pemakaian->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapuspemakaian', ['id' => $klaims->id]) }}">
+                                                    action="{{ route('hapuspemakaian', ['id' => $pemakaian->id]) }}">
                                                     <button type="submit"
                                                         class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                         </i> Delete
                                                     </button>
                                                 </form>
                                             @endif
-                                            @if ($klaims->status == 'posting')
+                                            @if ($pemakaian->status == 'posting')
                                                 <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $klaims->id }}">Unpost</a>
+                                                    data-memo-id="{{ $pemakaian->id }}">Unpost</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaims->id) }}">Show</a>
+                                                    href="{{ url('admin/klaim_peralatan/' . $pemakaian->id) }}">Show</a>
                                             @endif
-                                            @if ($klaims->status == 'selesai')
+                                            @if ($pemakaian->status == 'selesai')
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaims->id) }}">Show</a>
+                                                    href="{{ url('admin/klaim_peralatan/' . $pemakaian->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>
@@ -177,7 +177,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                Apakah Anda yakin ingin menghapus klaims yang dipilih?
+                                Apakah Anda yakin ingin menghapus pemakaian yang dipilih?
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
