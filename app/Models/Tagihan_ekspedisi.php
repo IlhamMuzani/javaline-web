@@ -80,6 +80,6 @@ class Tagihan_ekspedisi extends Model
 
     public function faktur_pelunasan()
     {
-        return $this->hasMany(faktur_pelunasan::class);
+        return $this->hasMany(Faktur_pelunasan::class);
     }
 }
