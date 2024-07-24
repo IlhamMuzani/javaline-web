@@ -187,8 +187,8 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->tanggal_awal }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
-                    @if ($item->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first())
-                        {{ $item->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first()->faktur_pelunasan->tanggal_transfer }}
+                    @if ($item->faktur_pelunasan->first())
+                        {{ $item->faktur_pelunasan->first()->tanggal_transfer }}
                     @else
                         -
                     @endif

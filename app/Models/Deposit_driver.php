@@ -65,6 +65,11 @@ class Deposit_driver extends Model
         return $this->hasMany(Klaim_ban::class);
     }
 
+    public function klaim_peralatan()
+    {
+        return $this->hasMany(Klaim_peralatan::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('deposit_drivers')->orderBy('id', 'DESC')->take(1)->get();

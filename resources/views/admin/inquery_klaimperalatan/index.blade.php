@@ -1,18 +1,32 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Deposit Sopir')
+@section('title', 'Klaim Pemakaian Peralatan')
 
 @section('content')
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Deposit Sopir</h1>
+                    <h1 class="m-0">Klaim Pemakaian Peralatan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Deposit Sopir</li>
+                        <li class="breadcrumb-item active">Klaim Pemakaian Peralatan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -21,7 +35,7 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
@@ -32,9 +46,18 @@
                     {{ session('success') }}
                 </div>
             @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-ban"></i> Error!
+                    </h5>
+                    {{ session('error') }}
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Deposit Sopir</h3>
+                    <h3 class="card-title">Klaim Pemakaian Peralatan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -62,78 +85,91 @@
                                 <label for="tanggal_awal">(Tanggal Akhir)</label>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
+                                <input type="hidden" name="ids" id="selectedIds" value="">
                             </div>
                         </div>
                     </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
+                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
-                                <th>Faktur Deposit Sopir</th>
+                                <th>Kode Klaim</th>
                                 <th>Tanggal</th>
-                                <th>Nama Sopir</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
+                                <th>No Kabin</th>
+                                <th>No Registrasi</th>
+                                <th>Jenis Kendaraan</th>
+                                <th class="text-center" width="40">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $deposit)
-                                <tr class="dropdown"{{ $deposit->id }}>
+                            @foreach ($inquery as $klaim)
+                                <tr class="dropdown"{{ $klaim->id }}>
+                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $klaim->id }}">
+                                    </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $klaim->kode_klaim }}</td>
+                                    <td>{{ $klaim->tanggal_awal }}</td>
                                     <td>
-                                        {{ $deposit->kode_deposit }}
+                                        @if ($klaim->kendaraan)
+                                            {{ $klaim->kendaraan->no_kabin }}
+                                        @else
+                                            Kabin tidak ada
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ $deposit->tanggal_awal }}
+                                        @if ($klaim->kendaraan)
+                                            {{ $klaim->kendaraan->no_pol }}
+                                        @else
+                                            No pol tidak ada
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ $deposit->nama_sopir }}
+                                        @if ($klaim->kendaraan)
+                                            {{ $klaim->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                        @else
+                                            nama tidak ada
+                                        @endif
                                     </td>
-                                    <td>
-                                        Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($deposit->status == 'posting')
+                                        @if ($klaim->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
+                                        @if ($klaim->status == 'selesai')
+                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Roda Mobil">
+                                        @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($deposit->status == 'unpost')
-                                                @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $deposit->id }}">Posting</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_depositdriver/' . $deposit->id . '/edit') }}">Update</a>
-                                                @endif
-
+                                            @if ($klaim->status == 'unpost')
+                                                <a class="dropdown-item posting-btn"
+                                                    data-memo-id="{{ $klaim->id }}">Posting</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
-                                                @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusdeposit', ['id' => $deposit->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($deposit->status == 'posting')
-                                                @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $deposit->id }}">Unpost</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($deposit->status == 'selesai')
+                                                    href="{{ url('admin/inquery_klaimperalatan/' . $klaim->id . '/edit') }}">Update</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
+                                                    href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
+                                                <form style="margin-top:5px" method="GET"
+                                                    action="{{ route('hapuspemakaian', ['id' => $klaim->id]) }}">
+                                                    <button type="submit"
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                        </i> Delete
+                                                    </button>
+                                                </form>
+                                            @endif
+                                            @if ($klaim->status == 'posting')
+                                                <a class="dropdown-item unpost-btn"
+                                                    data-memo-id="{{ $klaim->id }}">Unpost</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
+                                            @endif
+                                            @if ($klaim->status == 'selesai')
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>
@@ -141,6 +177,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -153,10 +190,35 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal Konfirmasi Hapus -->
+                <div class="modal fade" id="modal-confirm-delete" tabindex="-1" role="dialog"
+                    aria-labelledby="modal-confirm-delete-label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modal-confirm-delete-label">Konfirmasi Hapus</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Apakah Anda yakin ingin menghapus klaim yang dipilih?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                <button type="button" class="btn btn-danger" id="btn-confirm-delete">Hapus</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- /.card-body -->
             </div>
         </div>
     </section>
+
+
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
@@ -182,12 +244,11 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_depositdriver') }}";
+            form.action = "{{ url('admin/inquery_klaimperalatan') }}";
             form.submit();
         }
     </script>
 
-    {{-- unpost deposit  --}}
     <script>
         $(function(e) {
             $("#select_all_ids").click(function() {
@@ -195,18 +256,72 @@
             })
         });
 
+        function deleteSelectedData() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum menghapus.");
+            } else {
+                // Tampilkan modal konfirmasi
+                $('#modal-confirm-delete').modal('show');
+
+                // Ketika tombol Hapus di modal konfirmasi diklik
+                $('#btn-confirm-delete').click(function() {
+                    var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                    var selectedIds = [];
+                    selectedCheckboxes.forEach(function(checkbox) {
+                        selectedIds.push(checkbox.value);
+                    });
+                    document.getElementById('selectedIds').value = selectedIds.join(',');
+                    var selectedIdsString = selectedIds.join(',');
+                    window.location.href = "{{ url('admin/deletefakturfilter') }}?ids=" + selectedIdsString;
+
+                    // Sembunyikan modal konfirmasi setelah penghapusan dilakukan
+                    $('#modal-confirm-delete').modal('hide');
+                });
+            }
+        }
+    </script>
+
+    <script>
+        function confirmDelete() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum menghapus.");
+            } else {
+                // Tampilkan modal konfirmasi
+                $('#modal-confirm-delete').modal('show');
+
+                // Ketika tombol Hapus di modal konfirmasi diklik
+                $('#btn-confirm-delete').click(function() {
+                    var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                    var selectedIds = [];
+                    selectedCheckboxes.forEach(function(checkbox) {
+                        selectedIds.push(checkbox.value);
+                    });
+                    document.getElementById('selectedIds').value = selectedIds.join(',');
+                    var selectedIdsString = selectedIds.join(',');
+                    window.location.href = "{{ url('admin/deletefakturfilter') }}?ids=" + selectedIdsString;
+
+                    // Sembunyikan modal konfirmasi setelah penghapusan dilakukan
+                    $('#modal-confirm-delete').modal('hide');
+                });
+            }
+        }
+    </script>
+
+
+    {{-- unpost memo  --}}
+    <script>
         $(document).ready(function() {
             $('.unpost-btn').click(function() {
                 var memoId = $(this).data('memo-id');
-
-                $(this).addClass('disabled');
 
                 // Tampilkan modal loading saat permintaan AJAX diproses
                 $('#modal-loading').modal('show');
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_depositdriver/unpostdeposit/') }}/" +
+                    url: "{{ url('admin/inquery_klaimperalatan/unpostklaimperalatan/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {
@@ -236,19 +351,18 @@
             });
         });
     </script>
-    {{-- posting deposit --}}
+    {{-- posting memo --}}
     <script>
         $(document).ready(function() {
             $('.posting-btn').click(function() {
                 var memoId = $(this).data('memo-id');
 
-                $(this).addClass('disabled');
                 // Tampilkan modal loading saat permintaan AJAX diproses
                 $('#modal-loading').modal('show');
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_depositdriver/postingdeposit/') }}/" +
+                    url: "{{ url('admin/inquery_klaimperalatan/postingklaimperalatan/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {
@@ -334,4 +448,5 @@
             });
         });
     </script>
+
 @endsection

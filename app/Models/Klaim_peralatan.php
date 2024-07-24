@@ -55,6 +55,11 @@ class Klaim_peralatan extends Model
         return $this->belongsTo(Kendaraan::class);
     }
 
+    public function deposit_driver()
+    {
+        return $this->belongsTo(Deposit_driver::class);
+    }
+
     public function detail_klaimperalatan()
     {
         return $this->hasMany(Detail_klaimperalatan::class);

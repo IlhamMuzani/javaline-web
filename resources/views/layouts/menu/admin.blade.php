@@ -818,6 +818,7 @@
     request()->is('admin/inquery_potonganpenjualan*') ||
     request()->is('admin/inquery_penambahansaldokasbon*') ||
     request()->is('admin/inqueryklaim_ban*') ||
+    request()->is('admin/inquery_klaimperalatan*') ||
     request()->is('admin/bukti_potongpajak*') ||
     request()->is('admin/inquery_buktipotongpajak*') ||
     request()->is('admin/inquery_spk*') ||
@@ -855,6 +856,7 @@
         request()->is('admin/inquery_potonganpenjualan*') ||
         request()->is('admin/inquery_penambahansaldokasbon*') ||
         request()->is('admin/inqueryklaim_ban*') ||
+        request()->is('admin/inquery_klaimperalatan*') ||
         request()->is('admin/bukti_potongpajak*') ||
         request()->is('admin/inquery_buktipotongpajak*') ||
         request()->is('admin/inquery_spk*') ||
@@ -958,6 +960,16 @@
                     class="nav-link {{ request()->is('admin/inqueryklaim_ban*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Inquery Klaim Ban
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['inquery pembelian ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_klaimperalatan') }}"
+                    class="nav-link {{ request()->is('admin/inquery_klaimperalatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Inquery Klaim Peralatan
                     </p>
                 </a>
             </li>

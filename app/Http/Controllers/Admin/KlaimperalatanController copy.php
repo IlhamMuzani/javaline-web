@@ -186,32 +186,32 @@ class KlaimperalatanController extends Controller
         if ($transaksi) {
             foreach ($data_pembelians as $data_pesanan) {
                 // Find the corresponding Detail_inventory record based on sparepart_id
-                // $detail_inventory = Detail_inventory::where('sparepart_id', $data_pesanan['sparepart_id'])
-                //     ->where('kendaraan_id', $request->kendaraan_id)
-                //     ->first();
+                $detail_inventory = Detail_inventory::where('sparepart_id', $data_pesanan['sparepart_id'])
+                    ->where('kendaraan_id', $request->kendaraan_id)
+                    ->first();
 
-                // if ($detail_inventory) {
-                //     $jumlah_sparepart = $detail_inventory->jumlah - $data_pesanan['jumlah'];
+                if ($detail_inventory) {
+                    $jumlah_sparepart = $detail_inventory->jumlah - $data_pesanan['jumlah'];
 
-                //     // Ensure jumlah sparepart does not go below zero
-                //     $jumlah_sparepart = max(0, $jumlah_sparepart);
+                    // Ensure jumlah sparepart does not go below zero
+                    $jumlah_sparepart = max(0, $jumlah_sparepart);
 
-                //     // Update the jumlah in Detail_inventory
-                //     $detail_inventory->update(['jumlah' => $jumlah_sparepart]);
+                    // Update the jumlah in Detail_inventory
+                    $detail_inventory->update(['jumlah' => $jumlah_sparepart]);
 
-                // Create Detail_klaimperalatan
-                Detail_klaimperalatan::create([
-                    'klaim_peralatan_id' => $transaksi->id,
-                    'sparepart_id' => $data_pesanan['sparepart_id'],
-                    'kode_partdetail' => $data_pesanan['kode_partdetail'],
-                    'nama_barang' => $data_pesanan['nama_barang'],
-                    'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                    'keterangan' => $data_pesanan['keterangan'],
-                    'jumlah' => $data_pesanan['jumlah'],
-                    'harga' => $data_pesanan['harga'],
-                    'total' => $data_pesanan['total'],
-                ]);
-                // }
+                    // Create Detail_klaimperalatan
+                    Detail_klaimperalatan::create([
+                        'klaim_peralatan_id' => $transaksi->id,
+                        'sparepart_id' => $data_pesanan['sparepart_id'],
+                        'kode_partdetail' => $data_pesanan['kode_partdetail'],
+                        'nama_barang' => $data_pesanan['nama_barang'],
+                        'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                        'keterangan' => $data_pesanan['keterangan'],
+                        'jumlah' => $data_pesanan['jumlah'],
+                        'harga' => $data_pesanan['harga'],
+                        'total' => $data_pesanan['total'],
+                    ]);
+                }
             }
         }
 

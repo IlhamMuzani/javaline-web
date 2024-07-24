@@ -140,8 +140,8 @@
                                     <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
                                     <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
                                     <td>
-                                        @if ($tagihanekspedisi->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first())
-                                            {{ $tagihanekspedisi->detail_tagihan->first()->faktur_ekspedisi->detail_pelunasan->first()->faktur_pelunasan->tanggal_transfer }}
+                                        @if ($tagihanekspedisi->faktur_pelunasan->first())
+                                            {{ $tagihanekspedisi->faktur_pelunasan->first()->tanggal_transfer }}
                                         @else
                                         -
                                         @endif
