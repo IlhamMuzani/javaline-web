@@ -135,10 +135,7 @@
                         </td>
                         <td class="info-column">
                             <span class="info-item" style="font-size: 12px;">
-                                @if ($klaim_peralatan->karyawan)
-                                    {{ number_format($klaim_peralatan->karyawan->tabungan, 2, ',', '.') }}
-                                @else
-                                @endif
+                                {{ number_format($klaim_peralatan->sisa_saldo, 2, ',', '.') }}
                             </span>
                         </td>
                     </tr>
@@ -270,10 +267,7 @@
             <td class="td" colspan="6" style="text-align: right; padding: 5px; font-size: 12px;">Saldo Deposit
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
-                @if ($klaim_peralatan->karyawan)
-                    {{ number_format($klaim_peralatan->karyawan->tabungan, 2, ',', '.') }}
-                @else
-                @endif
+                {{ number_format($klaim_peralatan->sisa_saldo, 2, ',', '.') }}
             </td>
         </tr>
         <tr>
@@ -289,7 +283,7 @@
             <td class="td" colspan="6" style="text-align: right; padding: 5px; font-size: 12px;">Sisa Deposit
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
-                {{ number_format($klaim_peralatan->karyawan->tabungan - $grandTotal, 2, ',', '.') }}</td>
+                {{ number_format($klaim_peralatan->sisa_saldo - $grandTotal, 2, ',', '.') }}</td>
         </tr>
     </table>
 

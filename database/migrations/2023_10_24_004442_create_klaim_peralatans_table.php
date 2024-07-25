@@ -29,6 +29,7 @@ return new class extends Migration
             $table->longText('keterangan')->nullable();
             $table->string('qr_codeklaim')->nullable();
             $table->string('sisa_harga')->nullable();
+            $table->string('sisa_saldo')->nullable();
             $table->string('harga_klaim')->nullable();
             $table->string('grand_total')->nullable();
             $table->string('tanggal')->nullable();

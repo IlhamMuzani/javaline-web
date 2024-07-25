@@ -26,6 +26,7 @@ class Klaim_peralatan extends Model
         'qr_codeklaim',
         'sisa_harga',
         'harga_klaim',
+        'sisa_saldo',
         'grand_total',
         'tanggal',
         'tanggal_klaim',
