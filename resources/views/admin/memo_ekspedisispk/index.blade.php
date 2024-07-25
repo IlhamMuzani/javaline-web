@@ -1460,10 +1460,10 @@
                         </div>
                         <div class="modal-body">
                             <div class="m-2">
-                                <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                                <input type="text" id="searchInputts" class="form-control" placeholder="Search...">
                             </div>
                             <div class="table-responsive scrollbar m-2">
-                                <table id="tables" class="table table-bordered table-striped">
+                                <table id="tables1" class="table table-bordered table-striped">
                                     <thead class="bg-200 text-900">
                                         <tr>
                                             <th class="text-center">No</th>
@@ -1923,9 +1923,9 @@
         // filter rute 
         function filterTable() {
             var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInput");
+            input = document.getElementById("searchInputts");
             filter = input.value.toUpperCase();
-            table = document.getElementById("tables");
+            table = document.getElementById("tables1");
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
@@ -1940,7 +1940,7 @@
                 }
             }
         }
-        document.getElementById("searchInput").addEventListener("input", filterTable);
+        document.getElementById("searchInputts").addEventListener("input", filterTable);
     </script>
 
     <script>
