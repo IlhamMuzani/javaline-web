@@ -39,7 +39,7 @@ class FakturpelunasanController extends Controller
                 $query->whereNull('status_pelunasan');
             });
         })->get();
-        $returns = Faktur_penjualanreturn::where('status', 'posting')->get();
+        $returns = Nota_return::where('status', 'posting')->get();
         $potonganlains = Potongan_penjualan::where('status', 'posting')->get();
 
         return view('admin.faktur_pelunasan.index', compact('fakturs', 'invoices', 'returns', 'potonganlains'));

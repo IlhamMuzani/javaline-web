@@ -307,9 +307,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_pengeluarankaskecil/postingpengeluaran/{id}', [\App\Http\Controllers\Admin\InqueryPengeluarankaskecilController::class, 'postingpengeluaran']);
     Route::get('inqueryklaim_ban/unpost_klaimban/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'unpost_klaimban']);
     Route::get('inqueryklaim_ban/posting_klaimban/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'posting_klaimban']);
+    Route::get('klaim_peralatan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\KlaimperalatanController::class, 'cetakpdf']);
 
     Route::get('inquery_pengambilanujs/unpostpengeluaranujs/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranujsController::class, 'unpostpengeluaranujs']);
-    Route::get('inquery_pengambilanujs/postingpengeluaranujs/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranujsController::class, 'postingpengeluaran']);
+    Route::get('inquery_pengambilanujs/postingpengeluaranujs/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranujsController::class, 'postingpengeluaranujs']);
     Route::get('laporan_pemasanganpart', [\App\Http\Controllers\Admin\LaporanpemasanganpartController::class, 'index']);
     Route::get('print_pemasanganpart', [\App\Http\Controllers\Admin\LaporanpemasanganpartController::class, 'print_pemasanganpart']);
     Route::get('print_laporanstatusperjalanan', [\App\Http\Controllers\Admin\LaporanStatusPerjalananController::class, 'print_statusperjalanan']);
@@ -730,7 +731,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapuspemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'hapuspemakaian'])->name('hapuspemakaian');
     Route::delete('inquery_pemakaianperalatan/deletedetailpemakaians/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'deletedetailpemakaians']);
     Route::get('pemakaian_peralatan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemakainperalatanController::class, 'cetakpdf']);
-
+    Route::get('inquery_klaimperalatan/unpostklaimperalatan/{id}', [\App\Http\Controllers\Admin\InqueryKlaimperalatanController::class, 'unpostklaimperalatan']);
+    Route::get('inquery_klaimperalatan/postingklaimperalatan/{id}', [\App\Http\Controllers\Admin\InqueryKlaimperalatanController::class, 'postingklaimperalatan']);
 
     Route::get('postingfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'postingfilterpenerimaansj']);
     Route::get('unpostfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'unpostfilterpenerimaansj']);

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Klaim Pemakaian Peralatan')
+@section('title', 'Inquery Klaim Pemakaian Peralatan')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Klaim Pemakaian Peralatan</h1>
+                    <h1 class="m-0">Inquery Klaim Pemakaian Peralatan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Klaim Pemakaian Peralatan</li>
+                        <li class="breadcrumb-item active">Inquery Klaim Pemakaian Peralatan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -57,7 +57,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Klaim Pemakaian Peralatan</h3>
+                    <h3 class="card-title">Inquery Klaim Pemakaian Peralatan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -152,7 +152,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_klaimperalatan/' . $klaim->id . '/edit') }}">Update</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
+                                                    href="{{ url('admin/inquery_klaimperalatan/' . $klaim->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapuspemakaian', ['id' => $klaim->id]) }}">
                                                     <button type="submit"
@@ -165,11 +165,11 @@
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $klaim->id }}">Unpost</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
+                                                    href="{{ url('admin/inquery_klaimperalatan/' . $klaim->id) }}">Show</a>
                                             @endif
                                             @if ($klaim->status == 'selesai')
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
+                                                    href="{{ url('admin/inquery_klaimperalatan/' . $klaim->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>

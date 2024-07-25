@@ -220,24 +220,32 @@ class KlaimperalatanController extends Controller
         // $kendaraan = Kendaraan::where('id', $pembelians->id)->first();
         $parts = Detail_klaimperalatan::where('klaim_peralatan_id', $pembelians->id)->get();
 
-        return view('admin.pemasangan_part.show', compact('parts', 'pembelians'));
+        return view('admin.klaim_peralatan.show', compact('parts', 'pembelians'));
     }
 
     public function cetakpdf($id)
     {
         if (auth()->check() && auth()->user()->menu['pemasangan part']) {
 
-            $pemasangans = Klaim_peralatan::find($id);
-            $parts = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
+            $klaim_peralatan = Klaim_peralatan::find($id);
+            $details = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
             // Load the view and set the paper size to portrait letter
-            $pdf = PDF::loadView('admin.pemasangan_part.cetak_pdf', compact('parts', 'pemasangans'));
+            $pdf = PDF::loadView('admin.klaim_peralatan.cetak_pdf', compact('details', 'klaim_peralatan'));
             $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
-            return $pdf->stream('Surat_Pemasangan_Part.pdf');
+            return $pdf->stream('Surat_Pemasangan_Klaim_Peralatan.pdf');
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
+    }
+
+    public function show($id)
+    {
+        $klaim_peralatan = Klaim_peralatan::find($id);
+        $details = Detail_klaimperalatan::where('klaim_peralatan_id', $klaim_peralatan->id)->get();
+
+        return view('admin.klaim_peralatan.show', compact('details', 'klaim_peralatan'));
     }
 
     public function kode()

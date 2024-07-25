@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Pemakaian Peralatan Kendaraan</title>
+    <title>Klaim Peralatan</title>
     <style>
         html,
         body {
@@ -44,7 +44,6 @@
             transform: translateY(-50%);
 
         }
-
 
         .info-container {
             display: flex;
@@ -87,11 +86,12 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="100" height="35">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="150" height="50">
     </div>
     <br>
+    <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">SURAT PEMAKAIAN PERALATAN KENDARAAN</span>
+        <span style="font-weight: bold; font-size: 22px;">SURAT KLAIM PERALATAN</span>
         <br>
         <br>
     </div>
@@ -100,27 +100,26 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin: @if ($pemakaians->kendaraan)
-                    {{ $pemakaians->kendaraan->no_kabin }}
+                Kabin @if ($klaim_peralatan->kendaraan)
+                    {{ $klaim_peralatan->kendaraan->no_kabin }}
                 @else
                     NON KENDARAAN
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Registrasi: @if ($pemakaians->kendaraan)
-                    {{ $pemakaians->kendaraan->no_pol }}
+                Registrasi: @if ($klaim_peralatan->kendaraan)
+                    {{ $klaim_peralatan->kendaraan->no_pol }}
                 @else
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
-                Kendaraan: @if ($pemakaians->kendaraan)
-                    {{ $pemakaians->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                Kendaraan: @if ($klaim_peralatan->kendaraan)
+                    {{ $klaim_peralatan->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
                 @else
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
-                Tanggal:{{ \Carbon\Carbon::parse($pemakaians->tanggal_pemakaian)->locale('id')->isoFormat('D MMMM YYYY') }}
-            </td>
+                Tanggal:{{ $klaim_peralatan->tanggal_klaim }}</td>
         </tr>
     </table>
     </div>
@@ -137,7 +136,7 @@
             <td colspan="7" style="padding: 0px;">
             </td>
         </tr>
-        @foreach ($parts as $item)
+        @foreach ($details as $item)
             <tr>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
                 </td>
@@ -167,8 +166,8 @@
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
                         <td class="label">
-                            @if ($pemakaians->user)
-                                {{ $pemakaians->user->karyawan->nama_lengkap }}
+                            @if ($klaim_peralatan->user)
+                                {{ $klaim_peralatan->user->karyawan->nama_lengkap }}
                             @else
                                 user tidak ada
                             @endif
@@ -213,8 +212,8 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_pemakaianperalatan') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/pemakaian_peralatan/cetak-pdf/' . $pemakaians->id) }}" class="blue-button">Cetak</a>
+    <a href="{{ url('admin/klaim_peralatan') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/klaim_peralatan/cetak-pdf/' . $klaim_peralatan->id) }}" class="blue-button">Cetak</a>
 </div>
 
 </html>

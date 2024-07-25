@@ -490,13 +490,16 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Data Potongan</h4>
+                        <h4 class="modal-title">Data Return</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="datatables6" class="table table-bordered table-striped">
+                        <div class="m-2">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tables" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -509,12 +512,12 @@
                             <tbody>
                                 @foreach ($returns as $potongan)
                                     <tr onclick="getPotongan({{ $loop->index }})" data-id="{{ $potongan->id }}"
-                                        data-kode_penjualan="{{ $potongan->kode_penjualan }}"
+                                        data-kode_nota="{{ $potongan->kode_nota }}"
                                         data-tanggal_awal="{{ $potongan->tanggal_awal }}"
                                         data-grand_total="{{ $potongan->grand_total }}"
                                         data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $potongan->kode_penjualan }}</td>
+                                        <td>{{ $potongan->kode_nota }}</td>
                                         <td>{{ $potongan->tanggal_awal }}</td>
                                         <td>{{ number_format($potongan->grand_total, 0, ',', '.') }}</td>
                                         <td class="text-center">
@@ -639,6 +642,34 @@
                 updateSubTotal();
             });
         });
+
+        function filterTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tables");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 3; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInput").addEventListener("input", filterTable);
 
         function GetReturn(Return_id, KodeReturn, Pelanggan_id, KodePelanggan, NamaPell, Telpel, AlamatPelanggan,
             Faktur_ekspedisi_id, Kode_faktur, Tanggal_faktur, Total) {
@@ -973,9 +1004,9 @@
         }
 
         function getPotongan(rowIndex) {
-            var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var Potongan_id = selectedRow.data('id');
-            var KodePotongan = selectedRow.data('kode_penjualan');
+            var KodePotongan = selectedRow.data('kode_nota');
             var TanggalAwal = selectedRow.data('tanggal_awal');
             var GrandTotal = selectedRow.data('grand_total');
 

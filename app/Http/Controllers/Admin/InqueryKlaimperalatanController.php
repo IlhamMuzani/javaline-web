@@ -9,9 +9,11 @@ use App\Models\Deposit_driver;
 use App\Models\Detail_inventory;
 use App\Models\Detail_klaimperalatan;
 use App\Models\Karyawan;
+use App\Models\Kendaraan;
 use App\Models\Klaim_peralatan;
 use App\Models\Penerimaan_kaskecil;
 use App\Models\Saldo;
+use App\Models\Sparepart;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryKlaimperalatanController extends Controller
@@ -47,6 +49,16 @@ class InqueryKlaimperalatanController extends Controller
 
     public function edit($id)
     {
+        $inquery = Klaim_peralatan::where('id', $id)->first();
+
+        $kendaraans = Kendaraan::all();
+        $spareparts = Sparepart::where([
+            'kategori' => 'peralatan'
+        ])->get();
+        $SopirAll = Karyawan::where('departemen_id', '2')->get();
+        $details = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
+
+        return view('admin.inquery_klaimperalatan.update', compact('details', 'inquery', 'SopirAll', 'kendaraans', 'spareparts'));
     }
 
     public function update(Request $request, $id)
@@ -201,14 +213,35 @@ class InqueryKlaimperalatanController extends Controller
             ]);
         }
 
-
         // Update status pembelian menjadi 'posting'
         $pembelian->update(['status' => 'posting']);
 
         return back()->with('success', 'Klaim_peralatan berhasil di-posting kembali.');
     }
 
+
+    public function show($id)
+    {
+        $klaim_peralatan = Klaim_peralatan::find($id);
+        $details = Detail_klaimperalatan::where('klaim_peralatan_id', $klaim_peralatan->id)->get();
+
+        return view('admin.inquery_klaimperalatan.show', compact('details', 'klaim_peralatan'));
+    }
+
     public function hapusperalatan($id)
     {
+        $klaim_peralatan = Klaim_peralatan::where('id', $id)->first();
+
+        if ($klaim_peralatan) {
+            $detail_klaim = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
+            // Delete related Detail_tagihan instances
+            Detail_klaimperalatan::where('klaim_peralatan_id', $id)->delete();
+            $klaim_peralatan->delete();
+
+            return back()->with('success', 'Berhasil menghapus Klaim_peralatan');
+        } else {
+            // Handle the case where the Klaim_peralatan with the given ID is not found
+            return back()->with('error', 'Klaim_peralatan tidak ditemukan');
+        }
     }
 }

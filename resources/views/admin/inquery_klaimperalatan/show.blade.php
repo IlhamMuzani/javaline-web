@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Klaim Peralatan</title>
+    <title>Klaim Peralatan</title>
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
+            padding: 20px
         }
 
         table {
@@ -26,8 +27,22 @@
         }
 
         .container {
-            position: relative;
+            display: flex;
+            justify-content: space-between;
             margin-top: 7rem;
+        }
+
+        .blue-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            top: 50%;
+            border-radius: 5px;
+            transform: translateY(-50%);
+
         }
 
         .info-container {
@@ -71,9 +86,9 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
-            height="50">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="150" height="50">
     </div>
+    <br>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT KLAIM PERALATAN</span>
@@ -85,14 +100,18 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin: @if ($klaim_peralatan->kendaraan)
+                Kabin @if ($klaim_peralatan->kendaraan)
                     {{ $klaim_peralatan->kendaraan->no_kabin }}
                 @else
                     NON KENDARAAN
                 @endif
             </td>
-            {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Registrasi:{{ $klaim_peralatan->kendaraan->no_pol }}</td> --}}
+            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
+                Registrasi: @if ($klaim_peralatan->kendaraan)
+                    {{ $klaim_peralatan->kendaraan->no_pol }}
+                @else
+                @endif
+            </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
                 Kendaraan: @if ($klaim_peralatan->kendaraan)
                     {{ $klaim_peralatan->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
@@ -100,8 +119,7 @@
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
-                Tanggal:{{ \Carbon\Carbon::parse($klaim_peralatan->tanggal_klaim)->locale('id')->isoFormat('D MMMM YYYY') }}
-            </td>
+                Tanggal:{{ $klaim_peralatan->tanggal_klaim }}</td>
         </tr>
     </table>
     </div>
@@ -191,9 +209,11 @@
             </td>
         </tr>
     </table>
-    <div style="text-align: right; font-size:12px; margin-top:25px">
-        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
-    </div>
 </body>
+
+<div class="container">
+    <a href="{{ url('admin/inquery_klaimperalatan') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/klaim_peralatan/cetak-pdf/' . $klaim_peralatan->id) }}" class="blue-button">Cetak</a>
+</div>
 
 </html>

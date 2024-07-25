@@ -82,6 +82,11 @@ class Karyawan extends Model
         return $this->hasMany(Klaim_ban::class);
     }
 
+    public function klaim_peralatan()
+    {
+        return $this->hasMany(Klaim_peralatan::class);
+    }
+    
     public function user()
     {
         return $this->hasMany(User::class);

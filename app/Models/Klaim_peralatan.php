@@ -50,6 +50,11 @@ class Klaim_peralatan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class);
+    }
+
     public function kendaraan()
     {
         return $this->belongsTo(Kendaraan::class);

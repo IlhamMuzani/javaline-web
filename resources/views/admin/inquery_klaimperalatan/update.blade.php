@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Klaim Peralatan')
+@section('title', 'Inquery Klaim Peralatan')
 
 @section('content')
 
@@ -22,12 +22,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Klaim Peralatan</h1>
+                    <h1 class="m-0">Inquery Klaim Peralatan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/klaim_peralatan') }}">Transaksi</a></li>
-                        <li class="breadcrumb-item active">Klaim Peralatan</li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/inquery_klaimperalatan') }}">Transaksi</a></li>
+                        <li class="breadcrumb-item active">Inquery Klaim Peralatan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -75,11 +75,11 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/klaim_peralatan') }}" method="post" autocomplete="off">
+            <form action="{{ url('admin/inquery_klaimperalatan') }}" method="post" autocomplete="off">
                 @csrf
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Pemakaian Peralatan</h3>
+                        <h3 class="card-title">Inquery Inquery Klaim Peralatan</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -91,8 +91,8 @@
                                 <option value="">- Pilih -</option>
                                 @foreach ($kendaraans as $kendaraan_id)
                                     <option value="{{ $kendaraan_id->id }}"
-                                        {{ old('kendaraan_id') == $kendaraan_id->id ? 'selected' : '' }}>
-                                        {{ $kendaraan_id->no_kabin }}
+                                        {{ old('kendaraan_id', $inquery->kendaraan_id) == $kendaraan_id->id ? 'selected' : '' }}>
+                                        {{ $kendaraan_id->no_kabin }}</option>
                                     </option>
                                 @endforeach
                             </select>
@@ -100,19 +100,19 @@
                         <div class="form-group">
                             <label for="alamat">No Registrasi</label>
                             <input type="text" class="form-control" readonly id="no_pol" name="no_pol"
-                                value="{{ old('no_pol') }}">
+                                value="{{ $inquery->kendaraan->no_pol }}">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Jenis Kendaraan</label>
                             <input type="text" class="form-control" readonly id="jenis_kendaraan" name="jenis_kendaraan"
-                                value="{{ old('jenis_kendaraan') }}">
+                                value="{{ $inquery->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}">
                         </div>
                         <div class="form-group">
-                            <label>Tanggal Klaim:</label>
+                            <label>Tanggal Pemasangan:</label>
                             <div class="input-group date" id="reservationdatetime">
                                 <input type="date" id="tanggal_awal" name="tanggal_awal" placeholder="d M Y sampai d M Y"
                                     data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
-                                    value="{{ old('tanggal_awal', date('Y-m-d')) }}" max="{{ date('Y-m-d') }}"
+                                    value="{{ old('tanggal_awal', $inquery->tanggal_awal) }}" max = "{{ date('Y-m-d') }}"
                                     class="form-control datetimepicker-input" data-target="#reservationdatetime">
                             </div>
                         </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Klaim Peralatan</h3>
+                        <h3 class="card-title">Perbarui Klaim Peralatan</h3>
                         <div class="float-right">
                             <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
                                 <i class="fas fa-plus"></i>
@@ -143,71 +143,88 @@
                                 </tr>
                             </thead>
                             <tbody id="tabel-pembelian">
-                                <tr id="pembelian-0">
-                                    <td class="text-center" id="urutan">1</td>
-                                    <td hidden>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" readonly id="sparepart_id-0"
-                                                name="sparepart_id[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" readonly id="kode_partdetail-0"
-                                                name="kode_partdetail[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" readonly id="nama_barang-0"
-                                                name="nama_barang[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="form-control" id="keterangan-0" name="keterangan[]">
-                                                <option value="">Pilih</option>
-                                                <option value="Klaim Hilang"
-                                                    {{ old('keterangan') == 'Klaim Hilang' ? 'selected' : null }}>
-                                                    Klaim Hilang</option>
-                                                <option value="Klaim Rusak"
-                                                    {{ old('keterangan') == 'Klaim Rusak' ? 'selected' : null }}>
-                                                    Klaim Rusak</option>
-                                            </select>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="number" class="form-control harga" id="harga-0"
-                                                name="harga[]" data-row-id="0">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="number" class="form-control jumlah" id="jumlah-0"
-                                                name="jumlah[]" data-row-id="0">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" readonly class="form-control total" id="total-0"
-                                                name="total[]">
-                                        </div>
-                                    </td>
-                                    <td style="width: 120px">
-                                        <button type="button" class="btn btn-primary" onclick="barang(0)">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-danger" onclick="removeBan(0)">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+                                @foreach ($details as $detail)
+                                    <tr id="pembelian-{{ $loop->index }}">
+                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group" hidden>
+                                                <input type="text" class="form-control" name="detail_ids[]"
+                                                    value="{{ $detail['id'] }}">
+                                            </div>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" class="form-control"
+                                                    id="sparepart_id-{{ $loop->index }}" name="sparepart_id[]"
+                                                    value="{{ $detail['sparepart_id'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" readonly
+                                                    id="kode_partdetail-{{ $loop->index }}" name="kode_partdetail[]"
+                                                    value="{{ $detail['kode_partdetail'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" readonly
+                                                    id="nama_barang-{{ $loop->index }}" name="nama_barang[]"
+                                                    value="{{ $detail['nama_barang'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="form-control" id="keterangan-{{ $loop->index }}"
+                                                    name="keterangan[]" value="{{ $detail['keterangan'] }}">
+                                                    <option value="">- Pilih -</option>
+                                                    <option value="Klaim Hilang"
+                                                        {{ old('Klaim Hilang', $detail['keterangan']) == 'Klaim Hilang' ? 'selected' : null }}>
+                                                        Klaim Hilang</option>
+                                                    <option value="Klaim Rusak"
+                                                        {{ old('Klaim Rusak', $detail['keterangan']) == 'Klaim Rusak' ? 'selected' : null }}>
+                                                        Klaim Rusak</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control harga"
+                                                    id="harga-{{ $loop->index }}" name="harga[]" data-row-id="0"
+                                                    value="{{ $detail['harga'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control jumlah"
+                                                    id="jumlah-{{ $loop->index }}" name="jumlah[]" data-row-id="0"
+                                                    value="{{ $detail['jumlah'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="text" readonly class="form-control total"
+                                                    id="total-{{ $loop->index }}" name="total[]"
+                                                    value="{{ $detail['total'] }}">
+                                            </div>
+                                        </td>
+                                        <td style="width: 120px">
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="barang({{ $loop->index }})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Pengambilan Deposit</h3>
@@ -219,10 +236,10 @@
                                 <label for="sisa_saldo">Kode Sopir</label>
                                 <div class="form-group d-flex">
                                     <input readonly type="text" hidden class="form-control" id="karyawan_id"
-                                        name="karyawan_id" placeholder="" value="{{ old('karyawan_id') }}">
+                                        name="karyawan_id" placeholder="" value="{{ old('karyawan_id', $inquery->karyawan->id) }}">
                                     <input onclick="showSopir(this.value)" class="form-control" id="kode_karyawan"
                                         name="kode_karyawan" type="text" placeholder=""
-                                        value="{{ old('kode_karyawan') }}" readonly
+                                        value="{{ old('kode_karyawan', $inquery->karyawan->kode_karyawan) }}" readonly
                                         style="margin-right: 10px; font-size:14px" />
                                     <button class="btn btn-primary" type="button" onclick="showSopir(this.value)">
                                         <i class="fas fa-search"></i>
@@ -401,6 +418,7 @@
                     localStorage.setItem('jenisKendaraanValue', jenis_kendaraan.value);
                 },
             });
+            
         }
 
         // Saat halaman dimuat (misalnya dalam document ready)
@@ -408,6 +426,8 @@
             // Ambil nilai dari localStorage
             var noPolValue = localStorage.getItem('noPolValue');
             var jenisKendaraanValue = localStorage.getItem('jenisKendaraanValue');
+
+
         });
     </script>
 
@@ -480,40 +500,60 @@
             });
         }
 
+
+
+        var counter = 0;
+
         function addPesanan() {
-            console.log();
+            counter++;
             jumlah_part = jumlah_part + 1;
 
             if (jumlah_part === 1) {
                 $('#tabel-pembelian').empty();
-            }
-
-            itemPembelian(jumlah_part, jumlah_part - 1);
-        }
-
-        function removeBan(params) {
-            jumlah_part = jumlah_part - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_part === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="8">- Part belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
             } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-pembelian tr:last');
+                var lastRowIndex = lastRow.find('#urutan').text();
+                jumlah_part = parseInt(lastRowIndex) + 1;
             }
-            updateGrandTotal()
+
+            console.log('Current jumlah_part:', jumlah_part);
+            itemPembelian(jumlah_part, jumlah_part - 1);
+            updateUrutan();
         }
 
-        function itemPembelian(urutan, key, value = null) {
+        function updateUrutan() {
+            var urutan = document.querySelectorAll('#urutan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+
+        function removeBan(identifier, detailId) {
+            var row = document.getElementById('pembelian-' + identifier);
+            row.remove();
+
+            $.ajax({
+                url: "{{ url('admin/inquery_klaimperalatan/deletedetailklaim/') }}/" + detailId,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Data deleted successfully');
+                },
+                error: function(error) {
+                    console.error('Failed to delete data:', error);
+                }
+            });
+
+            updateGrandTotal();
+            updateUrutan();
+        }
+
+        function itemPembelian(identifier, key, value = null) {
             var sparepart_id = '';
             var kode_partdetail = '';
             var nama_barang = '';
@@ -538,13 +578,13 @@
 
             console.log(sparepart_id);
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-
+            var item_pembelian = '<tr id="pembelian-' + key + '">';
+            item_pembelian += '<td  style="width: 70px; font-size:14px" class="text-center" id="urutan">' + key +
+                '</td>';
             //sparepart_id
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + urutan +
+            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + key +
                 '" name="sparepart_id[]" value="' +
                 sparepart_id +
                 '" ';
@@ -554,7 +594,7 @@
             //kode barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + urutan +
+            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + key +
                 '" name="kode_partdetail[]" value="' +
                 kode_partdetail +
                 '" ';
@@ -564,7 +604,7 @@
             //nama barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + urutan +
+            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + key +
                 '" name="nama_barang[]" value="' +
                 nama_barang +
                 '" ';
@@ -574,7 +614,7 @@
             // keterangan
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control" id="keterangan-' + urutan +
+            item_pembelian += '<select class="form-control" id="keterangan-' + key +
                 '" name="keterangan[]">';
             item_pembelian += '<option value="">Pilih</option>';
             item_pembelian += '<option value="Klaim Hilang"' + (keterangan === 'Klaim Hilang' ? ' selected' : '') +
@@ -589,7 +629,7 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + urutan +
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
                 '" name="harga[]" value="' + harga + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -597,7 +637,7 @@
             // jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control jumlah" id="jumlah-' + urutan +
+            item_pembelian += '<input type="text" class="form-control jumlah" id="jumlah-' + key +
                 '" name="jumlah[]" value="' + jumlah + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -606,18 +646,18 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" readonly class="form-control total" id="total-' + urutan +
+            item_pembelian += '<input type="text" readonly class="form-control total" id="total-' + key +
                 '" name="total[]" value="' + total + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // opsi
             item_pembelian += '<td style="width: 120px">';
-            item_pembelian += '<button type="button" class="btn btn-primary" onclick="barang(' + urutan + ')">';
+            item_pembelian += '<button type="button" class="btn btn-primary" onclick="barang(' + key + ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             item_pembelian += '<button style="margin-left:5px" type="button" class="btn btn-danger" onclick="removeBan(' +
-                urutan + ')">';
+                key + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';
@@ -721,28 +761,39 @@
     <script>
         $(document).ready(function() {
             $('#kendaraan_id').on('input', function() {
-                var pelangganID = $(this).val();
+                var kendaraanID = $(this).val();
 
-                if (pelangganID) {
+                if (!kendaraanID) {
+                    kendaraanID = $('#kendaraan_id').attr('data-id');
+                }
+
+                if (kendaraanID) {
                     $.ajax({
-                        url: "{{ url('admin/klaim_peralatan/get_detailinventory') }}" + '/' +
-                            pelangganID,
+                        url: "{{ url('admin/klaim_peralatan/get_detailinventory') }}" +
+                            '/' +
+                            kendaraanID,
                         type: "GET",
                         dataType: "json",
                         success: function(data) {
                             $('#tables tbody').empty();
                             if (data.length > 0) {
                                 $.each(data, function(index, detail_inventory) {
-                                    var row = '<tr data-sparepart_id="' + detail_inventory.sparepart.id +
-                                        '" data-kode_partdetail="' + detail_inventory.sparepart.kode_partdetail +
-                                        '" data-nama_barang="' + detail_inventory.sparepart.nama_barang +
+                                    var row = '<tr data-sparepart_id="' +
+                                        detail_inventory.sparepart.id +
+                                        '" data-kode_partdetail="' + detail_inventory
+                                        .sparepart.kode_partdetail +
+                                        '" data-nama_barang="' + detail_inventory
+                                        .sparepart.nama_barang +
                                         '" data-param="' + index + '">' +
                                         '<td class="text-center">' + (index + 1) +
                                         '</td>' +
-                                        '<td>' + detail_inventory.sparepart.kode_partdetail + '</td>' +
-                                        '<td>' + detail_inventory.sparepart.nama_barang + '</td>' +
+                                        '<td>' + detail_inventory.sparepart
+                                        .kode_partdetail + '</td>' +
+                                        '<td>' + detail_inventory.sparepart
+                                        .nama_barang + '</td>' +
                                         '<td>' + detail_inventory.jumlah + '</td>' +
-                                        '<td>' + detail_inventory.sparepart.satuan + '</td>' +
+                                        '<td>' + detail_inventory.sparepart.satuan +
+                                        '</td>' +
                                         '<td class="text-center">' +
                                         '<button type="button" id="btnTambah" class="btn btn-primary btn-sm" onclick="getBarang(' +
                                         index + ')">' +
