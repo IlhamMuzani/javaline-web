@@ -215,12 +215,12 @@ class KlaimperalatanController extends Controller
             }
         }
 
-        $pembelians = Klaim_peralatan::find($transaksi_id);
+        $klaim_peralatan = Klaim_peralatan::find($transaksi_id);
 
-        // $kendaraan = Kendaraan::where('id', $pembelians->id)->first();
-        $parts = Detail_klaimperalatan::where('klaim_peralatan_id', $pembelians->id)->get();
+        // $kendaraan = Kendaraan::where('id', $klaim_peralatan->id)->first();
+        $parts = Detail_klaimperalatan::where('klaim_peralatan_id', $klaim_peralatan->id)->get();
 
-        return view('admin.klaim_peralatan.show', compact('parts', 'pembelians'));
+        return view('admin.klaim_peralatan.show', compact('parts', 'klaim_peralatan'));
     }
 
     public function cetakpdf($id)
