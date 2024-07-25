@@ -89,39 +89,151 @@
         <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="150" height="50">
     </div>
     <br>
+    {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
+    <table width="100%">
+        <tr>
+            <td style="width:50%;">
+                <table>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">Kode Driver</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->karyawan)
+                                    {{ $klaim_peralatan->karyawan->kode_karyawan }}
+                                @else
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">Nama Driver</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->karyawan)
+                                    {{ $klaim_peralatan->karyawan->nama_lengkap }}
+                                @else
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">Telp</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->karyawan)
+                                    {{ $klaim_peralatan->karyawan->telp }}
+                                @else
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">Saldo Deposit</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->karyawan)
+                                    {{ number_format($klaim_peralatan->karyawan->tabungan, 2, ',', '.') }}
+                                @else
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width:50%;">
+                <table>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">No. Kabin</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->kendaraan)
+                                    {{ $klaim_peralatan->kendaraan->no_kabin }}
+                                @else
+                                    NON KENDARAAN
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">No . Registrasi</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->kendaraan)
+                                    {{ $klaim_peralatan->kendaraan->no_pol }}
+                                @else
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">Jenis Kendaraan</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">
+                                @if ($klaim_peralatan->kendaraan)
+                                    {{ $klaim_peralatan->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                @else
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="info-column">
+                            <span class="info-item" style="font-size: 15px;">Tanggal Klaim</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-titik" style="font-size: 15px;">:</span>
+                        </td>
+                        <td class="info-column">
+                            <span class="info-item"
+                                style="font-size: 15px;">{{ $klaim_peralatan->tanggal_klaim }}</span>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 22px;">SURAT KLAIM PERALATAN</span>
         <br>
         <br>
-    </div>
-    {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
-
-    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
-        <tr>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin @if ($klaim_peralatan->kendaraan)
-                    {{ $klaim_peralatan->kendaraan->no_kabin }}
-                @else
-                    NON KENDARAAN
-                @endif
-            </td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Registrasi: @if ($klaim_peralatan->kendaraan)
-                    {{ $klaim_peralatan->kendaraan->no_pol }}
-                @else
-                @endif
-            </td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
-                Kendaraan: @if ($klaim_peralatan->kendaraan)
-                    {{ $klaim_peralatan->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                @else
-                @endif
-            </td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
-                Tanggal:{{ $klaim_peralatan->tanggal_klaim }}</td>
-        </tr>
-    </table>
     </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
@@ -131,32 +243,73 @@
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Nama Barang</td>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Keterangan</td>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Jumlah</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Harga</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">Total</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="7" style="padding: 0px;">
-            </td>
+            <td colspan="7" style="padding: 0px;"></td>
         </tr>
+        @php
+            $grandTotal = $details->sum('total');
+        @endphp
+
         @foreach ($details as $item)
             <tr>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
                 </td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
-                    {{ $item->sparepart->kode_partdetail }}
-                </td>
+                    {{ $item->sparepart->kode_partdetail }}</td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
-                    {{ $item->sparepart->nama_barang }}
-                </td>
+                    {{ $item->sparepart->nama_barang }}</td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->keterangan }}
                 </td>
+                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->jumlah }}
+                </td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
-                    {{ $item->jumlah }}</td>
+                    {{ number_format($item->harga, 2, ',', '.') }}</td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                    {{ number_format($item->total, 2, ',', '.') }}</td>
             </tr>
         @endforeach
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="8" style="padding: 0px;">
+            <td colspan="7" style="padding: 0px;"></td>
+        </tr>
+        <tr>
+            <td class="td" colspan="6" style="text-align: right; padding: 5px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                {{ number_format($grandTotal, 2, ',', '.') }}</td>
+        </tr>
+        <tr>
+            <td><br></td>
+        </tr>
+        <tr>
+            <td class="td" colspan="6" style="text-align: right; padding: 5px; font-size: 15px;">Saldo Deposit
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                @if ($klaim_peralatan->karyawan)
+                    {{ number_format($klaim_peralatan->karyawan->tabungan, 2, ',', '.') }}
+                @else
+                @endif
             </td>
         </tr>
+        <tr>
+            <td class="td" colspan="6" style="text-align: right; padding: 5px; font-size: 15px;">Nominal Klaim
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                {{ number_format($grandTotal, 2, ',', '.') }}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="7" style="padding: 0px;"></td>
+        </tr>
+        <tr>
+            <td class="td" colspan="6" style="text-align: right; padding: 5px; font-size: 15px;">Sisa Deposit
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                {{ number_format($klaim_peralatan->karyawan->tabungan - $grandTotal, 2, ',', '.') }}</td>
+        </tr>
     </table>
+
 
     <br><br><br>
 
@@ -165,19 +318,13 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">
-                            @if ($klaim_peralatan->user)
-                                {{ $klaim_peralatan->user->karyawan->nama_lengkap }}
-                            @else
-                                user tidak ada
-                            @endif
-                        </td>
+                        <td class="label">{{ $klaim_peralatan->karyawan->nama_lengkap }}</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Operasional</td>
+                        <td class="label">Driver</td>
                     </tr>
                 </table>
             </td>
@@ -190,20 +337,20 @@
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">SPV Sparepart</td>
+                        <td class="label">Finance</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Gudang</td>
+                        <td class="label">Admin</td>
                     </tr>
                 </table>
             </td>

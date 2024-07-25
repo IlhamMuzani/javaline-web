@@ -75,8 +75,9 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/inquery_klaimperalatan') }}" method="post" autocomplete="off">
+            <form action="{{ url('admin/inquery_klaimperalatan/' . $inquery->id) }}" method="post" autocomplete="off">
                 @csrf
+                @method('put')
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Inquery Inquery Klaim Peralatan</h3>
@@ -236,7 +237,8 @@
                                 <label for="sisa_saldo">Kode Sopir</label>
                                 <div class="form-group d-flex">
                                     <input readonly type="text" hidden class="form-control" id="karyawan_id"
-                                        name="karyawan_id" placeholder="" value="{{ old('karyawan_id', $inquery->karyawan->id) }}">
+                                        name="karyawan_id" placeholder=""
+                                        value="{{ old('karyawan_id', $inquery->karyawan->id) }}">
                                     <input onclick="showSopir(this.value)" class="form-control" id="kode_karyawan"
                                         name="kode_karyawan" type="text" placeholder=""
                                         value="{{ old('kode_karyawan', $inquery->karyawan->kode_karyawan) }}" readonly
@@ -250,7 +252,8 @@
                                 <div class="form-group">
                                     <label for="sisa_saldo">Sisa Saldo</label>
                                     <input style="text-align: end;margin:right:10px" type="text" class="form-control"
-                                        id="sisa_saldo" readonly name="sisa_saldo" value="{{ old('sisa_saldo') }}"
+                                        id="sisa_saldo" readonly name="sisa_saldo"
+                                        value="{{ old('sisa_saldo', $inquery->deposit_driver->sisa_saldo) }}"
                                         placeholder="">
 
                                 </div>
@@ -259,7 +262,7 @@
                                 <div class="form-group">
                                     <label for="nama_lengkap">Nama Sopir</label>
                                     <input readonly type="text" class="form-control" id="nama_lengkap"
-                                        name="nama_lengkap" placeholder="" value="{{ old('nama_lengkap') }}">
+                                        name="nama_lengkap" placeholder="" value="{{ old('nama_lengkap', $inquery->karyawan->nama_lengkap) }}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -267,7 +270,7 @@
                                     <label for="saldo_masuk">Potongan Saldo</label>
                                     <input style="text-align: end" type="text" class="form-control" readonly
                                         id="saldo_keluar" name="saldo_keluar" placeholder=""
-                                        value="{{ old('saldo_keluar') }}">
+                                        value="{{ old('saldo_keluar', $inquery->deposit_driver->saldo_keluar) }}">
                                 </div>
                                 <hr
                                     style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
@@ -277,7 +280,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="alamat">Keterangan</label>
-                                    <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans') }}</textarea>
+                                    <textarea type="text" class="form-control" id="keterangans" name="keterangans" placeholder="Masukan keterangan">{{ old('keterangans', $inquery->keterangan) }}</textarea>
                                 </div>
                             </div>
                             <div class="col-lg-6">
@@ -285,7 +288,7 @@
                                     <label for="sub_total">Sub Total</label>
                                     <input style="text-align: end; margin:right:10px" type="text" class="form-control"
                                         readonly id="sub_totals" name="sub_totals" placeholder=""
-                                        value="{{ old('sub_totals') }}">
+                                        value="{{ old('sub_totals', $inquery->deposit_driver->sub_total) }}">
                                 </div>
                             </div>
                         </div>
@@ -418,7 +421,7 @@
                     localStorage.setItem('jenisKendaraanValue', jenis_kendaraan.value);
                 },
             });
-            
+
         }
 
         // Saat halaman dimuat (misalnya dalam document ready)
@@ -680,16 +683,26 @@
 
         });
 
-
         function updateGrandTotal() {
             var grandTotal = 0;
 
-            // Loop through all elements with name "nominal_tambahan[]"
+            // Retrieve the value from the element with id "sisa_saldo"
+            var sisaSaldoValue = parseFloat($('#sisa_saldo').val().replace(/\./g, '').replace(',', '.')) || 0;
+
+            // Loop through all elements with name "total[]"
             $('input[name^="total"]').each(function() {
                 var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
                 grandTotal += nominalValue;
             });
+
+            // Format and set the value for "saldo_keluar"
             $('#saldo_keluar').val(formatCurrency(grandTotal));
+
+            // Calculate the remaining balance
+            var subTotals = sisaSaldoValue - grandTotal;
+
+            // Format the remaining balance and set it to the element with id "sub_totals"
+            $('#sub_totals').val(formatCurrency(subTotals));
         }
 
         $('body').on('input', 'input[name^="total"]', function() {
@@ -756,6 +769,25 @@
             // Close the modal (if needed)
             $('#tableSopir').modal('hide');
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Mengambil nilai sisa saldo dari elemen dengan id sisa_saldo
+            var sisaSaldoValue = $('#sisa_saldo').val();
+            var subTotal = $('#sub_totals').val();
+
+            // Mengonversi nilai ke format rupiah
+            var sisaSaldoRupiah = formatCurrency(sisaSaldoValue);
+            var SubtotalRUpiah = formatCurrency(subTotal);
+
+            // Menetapkan nilai ke input sisa saldo
+            $('#sisa_saldo').val(sisaSaldoRupiah);
+            $('#sub_totals').val(SubtotalRUpiah);
+
+            // Memperbarui nilai sub total saat dokumen selesai dimuat
+            updateGrandTotal();
+        });
     </script>
 
     <script>
