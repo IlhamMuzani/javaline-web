@@ -126,7 +126,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_pemakaianperalatan/' . $klaims->id . '/edit') }}">Update</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaims->id) }}">Show</a>
+                                                    href="{{ url('admin/pemakaian_peralatan/' . $klaims->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapuspemakaian', ['id' => $klaims->id]) }}">
                                                     <button type="submit"
@@ -139,11 +139,11 @@
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $klaims->id }}">Unpost</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaims->id) }}">Show</a>
+                                                    href="{{ url('admin/pemakaian_peralatan/' . $klaims->id) }}">Show</a>
                                             @endif
                                             @if ($klaims->status == 'selesai')
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/klaim_peralatan/' . $klaims->id) }}">Show</a>
+                                                    href="{{ url('admin/pemakaian_peralatan/' . $klaims->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>
