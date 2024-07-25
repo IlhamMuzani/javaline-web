@@ -128,7 +128,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/klaim_peralatan/' . $klaim->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapuspemakaian', ['id' => $klaim->id]) }}">
+                                                    action="{{ route('hapusperalatan', ['id' => $klaim->id]) }}">
                                                     <button type="submit"
                                                         class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                         </i> Delete

@@ -332,7 +332,7 @@ class InqueryPemakaianperalatanController extends Controller
             return back()->with('success', 'Berhasil menghapus Pemakaian_peralatan');
         } else {
             // Handle the case where the Pemakaian_peralatan with the given ID is not found
-            return back()->with('error', 'Pemakaian_peralatan tidak ditemukan');
+            return back()->with('error', 'Pemakaian peralatan tidak ditemukan');
         }
     }
 

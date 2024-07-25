@@ -382,7 +382,23 @@ class InqueryKlaimperalatanController extends Controller
 
     public function hapusperalatan($id)
     {
-        $klaim_peralatan = Klaim_peralatan::where('id', $id)->first();
+        $klaim_peralatan = Klaim_peralatan::find($id);
+
+        if (!$klaim_peralatan) {
+            return redirect()->back()->with('error', 'Data ban tidak ditemukan');
+        }
+
+        $depositdriver = Deposit_driver::where('id', $klaim_peralatan->deposit_driver_id)->first();
+        if ($depositdriver) {
+            // Hapus penerimaan_kaskecil yang terkait
+            $penerimaanKasKecil = $depositdriver->penerimaan_kaskecil();
+            if ($penerimaanKasKecil) {
+                $penerimaanKasKecil->delete();
+            }
+
+            // Hapus deposit_driver
+            $depositdriver->delete();
+        }
 
         if ($klaim_peralatan) {
             $detail_klaim = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
@@ -394,6 +410,18 @@ class InqueryKlaimperalatanController extends Controller
         } else {
             // Handle the case where the Klaim_peralatan with the given ID is not found
             return back()->with('error', 'Klaim_peralatan tidak ditemukan');
+        }
+    }
+
+    public function deletedetailklaim($id)
+    {
+        $item = Detail_klaimperalatan::find($id);
+
+        if ($item) {
+            $item->delete();
+            return response()->json(['message' => 'Data deleted successfully']);
+        } else {
+            return response()->json(['message' => 'Detail Faktur not found'], 404);
         }
     }
 }

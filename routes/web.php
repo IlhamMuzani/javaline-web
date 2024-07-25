@@ -282,6 +282,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('deleteban/{id}', [\App\Http\Controllers\Admin\PemasanganbanController::class, 'deleteban'])->name('deleteban');
     Route::get('ban', [\App\Http\Controllers\Admin\BanController::class, 'index']);
     Route::get('sparepart', [\App\Http\Controllers\Admin\SparepartController::class, 'sparepart']);
+    Route::delete('inquery_klaimperalatan/deletedetailklaim/{id}', [\App\Http\Controllers\Admin\InqueryKlaimperalatanController::class, 'deletedetailklaim']);
 
     Route::get('inquery_pemasanganpart', [\App\Http\Controllers\Admin\InqueryPemasanganpartController::class, 'index']);
     Route::get('unpostpemasanganpart/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganpartController::class, 'unpostpemasanganpart'])->name('unpostpemasanganpart');
@@ -375,6 +376,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'postingmemotambahan'])->name('postingmemotambahan');
     Route::get('hapusmemotambahan/{id}', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'hapusmemotambahan'])->name('hapusmemotambahan');
     Route::get('inqueryklaim_ban/cetak-pdf/{id}', [\App\Http\Controllers\Admin\InqueryKlaimbanController::class, 'cetakpdf']);
+    Route::get('hapusperalatan/{id}', [\App\Http\Controllers\Admin\InqueryKlaimperalatanController::class, 'hapusperalatan'])->name('hapusperalatan');
 
     Route::get('penambahan_saldokasbon/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenambahansaldokasbonController::class, 'cetakpdf']);
     Route::get('penerimaan_kaskecil/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenerimaankaskecilController::class, 'cetakpdf']);
