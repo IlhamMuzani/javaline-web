@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Klaim Peralatan')
+@section('title', 'Pemakaian Peralatan')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Klaim Peralatan</h1>
+                    <h1 class="m-0">Pemakaian Peralatan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Klaim Peralatan</li>
+                        <li class="breadcrumb-item active">Pemakaian Peralatan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -57,9 +57,9 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Klaim Peralatan</h3>
+                    <h3 class="card-title">Pemakaian Peralatan</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/klaim_peralatan/create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ url('admin/pemakaian_peralatan/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
                         </a>
                     </div>
@@ -71,7 +71,7 @@
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
-                                <th>Kode Klaim</th>
+                                <th>Kode Pemakaian</th>
                                 <th>Tanggal</th>
                                 <th>No Kabin</th>
                                 <th>No Registrasi</th>

@@ -767,4 +767,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_pemakaianperalatan', \App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class);
     Route::resource('klaim_peralatan', \App\Http\Controllers\Admin\KlaimperalatanController::class);
     Route::resource('inquery_klaimperalatan', \App\Http\Controllers\Admin\InqueryKlaimperalatanController::class);
+
+    Route::get('laporan_pemakaianperalatan', [\App\Http\Controllers\Admin\LaporanpemakaianperalatanController::class, 'index']);
+    Route::get('print_pemakaianperalatan', [\App\Http\Controllers\Admin\LaporanpemakaianperalatanController::class, 'print_pemakaianperalatan']);
+
+    Route::get('laporan_klaimperalatan', [\App\Http\Controllers\Admin\LaporanklaimperalatanController::class, 'index']);
+    Route::get('print_klaimperalatan', [\App\Http\Controllers\Admin\LaporanklaimperalatanController::class, 'print_klaimperalatan']);
+
+    Route::get('laporan_klaimban', [\App\Http\Controllers\Admin\LaporanklaimbanController::class, 'index']);
+    Route::get('print_klaimban', [\App\Http\Controllers\Admin\LaporanklaimbanController::class, 'print_klaimban']);
 });

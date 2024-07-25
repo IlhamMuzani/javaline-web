@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Pemasangan Part')
+@section('title', 'Laporan Klaim Peralatan')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Laporan Pemasangan Part</h1>
+                    <h1 class="m-0">Laporan Klaim Peralatan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Pemasangan Part</li>
+                        <li class="breadcrumb-item active">Laporan Klaim Peralatan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Pemasangan Part</h3>
+                    <h3 class="card-title">Data Laporan Klaim Peralatan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -83,11 +83,13 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode Pemasangan</th>
+                                <th>Kode Klaim</th>
+                                <th>Nama Driver</th>
                                 <th>Tanggal</th>
                                 <th>No Kabin</th>
                                 <th>No Registrasi</th>
                                 <th>Jenis Kendaraan</th>
+                                <th>Total Klaim</th>
                                 {{-- <th class="text-center" width="120">Opsi</th> --}}
                             </tr>
                         </thead>
@@ -95,11 +97,15 @@
                             @foreach ($inquery as $pemasangan_part)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pemasangan_part->kode_pemasanganpart }}</td>
+                                    <td>{{ $pemasangan_part->kode_klaim }}</td>
+                                    <td>{{ $pemasangan_part->karyawan->nama_lengkap }}</td>
                                     <td>{{ $pemasangan_part->tanggal_awal }}</td>
                                     <td>{{ $pemasangan_part->kendaraan->no_kabin }}</td>
                                     <td>{{ $pemasangan_part->kendaraan->no_pol }}</td>
                                     <td>{{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                    </td>
+                                    <td>
+                                        {{ number_format($pemasangan_part->harga_klaim, 2, ',', '.') }}
                                     </td>
                                 </tr>
                             @endforeach
@@ -131,7 +137,7 @@
         var form = document.getElementById('form-action')
 
         function cari() {
-            form.action = "{{ url('admin/laporan_pemasanganpart') }}";
+            form.action = "{{ url('admin/laporan_klaimperalatan') }}";
             form.submit();
         }
 
@@ -140,7 +146,7 @@
             var endDate = tanggalAkhir.value;
 
             if (startDate && endDate) {
-                form.action = "{{ url('admin/print_pemasanganpart') }}" + "?start_date=" + startDate + "&end_date=" +
+                form.action = "{{ url('admin/print_klaimperalatan') }}" + "?start_date=" + startDate + "&end_date=" +
                     endDate;
                 form.submit();
             } else {

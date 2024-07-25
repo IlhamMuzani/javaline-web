@@ -1255,6 +1255,9 @@
     request()->is('admin/laporan_updatekm*') ||
     request()->is('admin/laporan_statusperjalanan*') ||
     request()->is('admin/laporan_buktipotongpajak*') ||
+    request()->is('admin/laporan_klaimperalatan*') ||
+    request()->is('admin/laporan_pemakaianperalatan*') ||
+    request()->is('admin/laporan_klaimban*') ||
     request()->is('admin/laporan_pengeluaranujs*')
         ? 'menu-open'
         : '' }}">
@@ -1280,6 +1283,9 @@
         request()->is('admin/laporan_updatekm*') ||
         request()->is('admin/laporan_statusperjalanan*') ||
         request()->is('admin/laporan_buktipotongpajak*') ||
+        request()->is('admin/laporan_klaimperalatan*') ||
+        request()->is('admin/laporan_pemakaianperalatan*') ||
+        request()->is('admin/laporan_klaimban*') ||
         request()->is('admin/laporan_pengeluaranujs*')
             ? 'active'
             : '' }}">
@@ -1482,7 +1488,16 @@
                 </a>
             </li>
         @endif
-
+        @if (auth()->check() && auth()->user()->menu['laporan pelunasan pembelian ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_klaimban') }}"
+                    class="nav-link {{ request()->is('admin/laporan_klaimban*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan Klaim Ban
+                    </p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['laporan pelunasan pembelian part'])
             <li class="nav-item">
                 <a href="{{ url('admin/laporan_fakturpelunasanpart') }}"
@@ -1510,6 +1525,26 @@
                     class="nav-link {{ request()->is('admin/laporan_buktipotongpajak*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Laporan Bukti Potong Pajak
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['laporan pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_pemakaianperalatan') }}"
+                    class="nav-link {{ request()->is('admin/laporan_pemakaianperalatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Laporan Pemakaian Peralatan
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['laporan pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_klaimperalatan') }}"
+                    class="nav-link {{ request()->is('admin/laporan_klaimperalatan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan Klaim Peralatan
                     </p>
                 </a>
             </li>
