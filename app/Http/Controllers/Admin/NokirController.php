@@ -38,21 +38,21 @@ class NokirController extends Controller
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
                 $nokirs = Nokir::select('id', 'kode_kir', 'kendaraan_id', 'nama_pemilik', 'masa_berlaku', 'qrcode_kir')
-                ->where('status_kir', 'sudah perpanjang')
-                ->where(function ($query) use ($keyword) {
-                    $query->where('kode_kir', 'like', "%$keyword%")
-                        ->orWhereHas('kendaraan', function ($query) use ($keyword) {
-                            $query->where('no_pol', 'like', "%$keyword%")
-                                ->orWhere('no_kabin', 'like', "%$keyword%");
-                        });
-                })
+                    ->where('status_kir', 'sudah perpanjang')
+                    ->where(function ($query) use ($keyword) {
+                        $query->where('kode_kir', 'like', "%$keyword%")
+                            ->orWhereHas('kendaraan', function ($query) use ($keyword) {
+                                $query->where('no_pol', 'like', "%$keyword%")
+                                    ->orWhere('no_kabin', 'like', "%$keyword%");
+                            });
+                    })
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
             } else {
                 $nokirs = Nokir::select('id', 'kode_kir', 'kendaraan_id', 'nama_pemilik', 'masa_berlaku', 'qrcode_kir')
-                ->where('status_kir', 'sudah perpanjang')
-                ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                    ->where('status_kir', 'sudah perpanjang')
+                    ->orderBy('created_at', 'desc')
+                    ->paginate(10);
             }
 
             return view('admin/nokir.index', compact('nokirs'));
@@ -519,16 +519,27 @@ class NokirController extends Controller
     //     $dompdf->stream();
     // }
 
+    // public function cetakpdfnokir($id)
+    // {
+
+    //     $nokir = Nokir::where('id', $id)->first();
+
+    //     $pdf = PDF::loadView('admin/nokir.cetak_pdfnokir', compact('nokir'));
+    //     $pdf->setPaper('letter', 'portrait');
+
+    //     return $pdf->stream();
+    // }
+
     public function cetakpdfnokir($id)
     {
-
         $nokir = Nokir::where('id', $id)->first();
 
         $pdf = PDF::loadView('admin/nokir.cetak_pdfnokir', compact('nokir'));
-        $pdf->setPaper('letter', 'portrait');
+        $pdf->setPaper('folio', 'portrait'); // Mengubah ukuran kertas ke folio
 
         return $pdf->stream();
     }
+
 
 
     public function destroy($id)
