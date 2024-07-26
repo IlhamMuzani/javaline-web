@@ -75,6 +75,8 @@
                                             body</option>
                                         <option value="sasis" {{ Request::get('kategori') == 'sasis' ? 'selected' : '' }}>
                                             sasis</option>
+                                        <option value="peralatan" {{ Request::get('kategori') == 'peralatan' ? 'selected' : '' }}>
+                                            peralatan</option>
                                     </select>
                                     <div class="input-group-append">
                                         <button type="button" class="btn btn-outline-primary" onclick="cari()">

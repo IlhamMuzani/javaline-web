@@ -154,7 +154,7 @@
     }
 
     .judulll {
-        font-size: 8px;
+        font-size: 7px;
         text-align: center;
         color: black;
         margin-left: 65px
@@ -517,129 +517,129 @@
                 <div class="info-catatan">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 SPESIFIKASI TEKNIS KENDARAAN<br>
                                 <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal; text-align: left;">VEHICLE
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal; text-align: left;">VEHICLE
                                     TECHNICAL SPECIFICATIONS</span>
                             </td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Jenis <br>
                                 <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Purpase
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Purpase
                                     of vehicle
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->jenis_kendaraan }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Merek/tipe <br>
                                 <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Brand/type
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Brand/type
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->merek_kendaraan }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Tahun pembuatan/perakitan <br>
                                 <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Year
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Year
                                     manufactured assembled
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->tahun_kendaraan }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Bahan bakar/sumber energi <br>
-                                <span style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                <span style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                     Fuel/energy source
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->bahan_bakar }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Isi silinder <br>
-                                <span style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                <span style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                     Engine capacity
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->isi_silinder }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Daya motor <br>
-                                <span style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                <span style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                     Engine Power
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->daya_motor }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Ukuran ban <br>
-                                <span style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                <span style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                     Tyre size
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->ukuran_ban }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Konfigurasi sumbu<br>
-                                <span style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                <span style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                     Axle configuration
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->konfigurasi_sumbu }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Berat kosong kendaraan<br>
-                                <span style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                <span style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                     Curb weight
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->berat_kosongkendaraan }}
                             </td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Dimensi utama kendaraan bermotor(Vechicle main dimension)
                             </td>
                         </tr>
@@ -651,40 +651,40 @@
                                 <div>
                                     <table>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 Panjang <br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                                     Length</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold;">
+                                                style="font-size: 7px; font-weight: bold;">
                                                 {{ $nokir->panjang }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 Lebar <br>
                                                 <span
                                                     style="font-size: 10p8pxx; font-style: italic; color: #666; font-weight: normal;">Width</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold;">
+                                                style="font-size: 7px; font-weight: bold;">
                                                 {{ $nokir->lebar }}
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 Tinggi <br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Height</span>
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Height</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold;">
+                                                style="font-size: 7px; font-weight: bold;">
                                                 {{ $nokir->tinggi }}
                                             </td>
                                         </tr>
@@ -698,40 +698,40 @@
                                 <div>
                                     <table>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 Julur depan <br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                                     Front overhang</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold;">
+                                                style="font-size: 7px; font-weight: bold;">
                                                 {{ $nokir->julur_depan }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 Julur belakang <br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Rear
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Rear
                                                     overhang</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
                                                 {{ $nokir->julur_belakang }}
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 <br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;"></span>
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;"></span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;"></td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;"></td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
 
                                             </td>
                                         </tr>
@@ -742,58 +742,58 @@
                     </table>
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Jarak sumbu <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal; text-align: left;">
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal; text-align: left;">
                                     Wheel base</span>
                             </td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Sumbu I-II <br>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->sumbu_1_2 }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Sumbu II-III <br>
 
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                             <td class="info-text info-left"
-                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
                                 {{ $nokir->sumbu_2_3 }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Sumbu III-IV <br>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                             <td class="info-text info-left"
-                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
                                 {{ $nokir->sumbu_3_4 }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Dimensi bak muatan/tangki<br>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                             <td class="info-text info-left"
-                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
                                 {{ $nokir->dimensi_bakmuatan }}
                             </td>
                         </tr>
                     </table>
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Dimensi of cargo tub(lenght x width height)
                             </td>
                         </tr>
@@ -805,14 +805,14 @@
                                 <div>
                                     <table>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 JBB/JBKB <br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">GVWGVCW</span>
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">GVWGVCW</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold;">
+                                                style="font-size: 7px; font-weight: bold;">
                                                 {{ $nokir->jbb }}
                                             </td>
                                         </tr>
@@ -825,15 +825,15 @@
                                 <div>
                                     <table>
                                         <tr>
-                                            <td class="info-catatan2" style="font-size: 8px;">
+                                            <td class="info-catatan2" style="font-size: 7px;">
                                                 JBI/JBKI<br>
                                                 <span
-                                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
+                                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">
                                                     PVW/PVCW</span>
                                             </td>
-                                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                                             <td class="info-text info-left"
-                                                style="font-size: 8px; font-weight: bold;">
+                                                style="font-size: 7px; font-weight: bold;">
                                                 {{ $nokir->jbi }}
                                             </td>
                                         </tr>
@@ -845,40 +845,40 @@
                     </table>
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Daya angkut(orang/kg) <br>
                                 <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Purpase
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Purpase
                                     Payload (person(s)/kg(s))
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
-                            <td class="info-text info-left" style="font-size: 8px; font-weight: bold;">
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
+                            <td class="info-text info-left" style="font-size: 7px; font-weight: bold;">
                                 {{ $nokir->daya_angkutorang }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 Kelas jalan terendah yang boleh dilalui <br>
                                 <span
-                                    style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">Purpase
+                                    style="font-size: 6px; font-style: italic; color: #666; font-weight: normal;">Purpase
                                     Lowers road class permitted
                                 </span>
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;">:</td>
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;">:</td>
                             <td class="info-text info-left"
-                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
                                 {{ $nokir->kelas_jalan }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 8px;">
+                            <td class="info-catatan2" style="font-size: 7px;">
                                 <br>
 
                             </td>
-                            <td class="info-item" style="font-size: 8px; font-weight: bold;"></td>
+                            <td class="info-item" style="font-size: 7px; font-weight: bold;"></td>
                             <td class="info-text info-left"
-                                style="font-size: 8px; font-weight: bold; margin-bottom: 7px;">
+                                style="font-size: 7px; font-weight: bold; margin-bottom: 6px;">
 
                             </td>
                         </tr>
@@ -895,36 +895,36 @@
                                 <tr>
                                     <td valign="top">
                                         <table border="0" width="100%"
-                                            style="padding-left: 2px; padding-right: 7px;">
+                                            style="padding-left: 2px; padding-right: 6px;">
                                             <tbody>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 10px;">
+                                                    <td class="info-catatan2" style="font-size: 9px;">
                                                         Item Uji <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                                                             Testing
                                                         </span>
                                                     </td> hr
-                                                    <td class="info-catatan2" style="font-size: 10px;">
+                                                    <td class="info-catatan2" style="font-size: 9px;">
                                                         Ambang batas <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                                                             Thresshold
                                                         </span>
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 10px;">
+                                                    <td class="info-catatan2" style="font-size: 9px;">
                                                         Hasil Uji <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 8px; font-style: italic; color: #666; font-weight: normal;">
                                                             Test result
                                                         </span>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Rem Utama <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Brake
                                                         </span>
                                                     </td>
@@ -933,15 +933,15 @@
                                                         Total gaya pengereman >= 50%<br>
                                                         x total berat sumbu(kg)
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         : 6922 kg <br>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Lampu Utama <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Head Lamp
                                                         </span>
                                                     </td>
@@ -950,61 +950,61 @@
                                                         Kekuatan pancar lampu utama <br>
                                                         kanan 1200cd(lampu jauh)
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         : 25,500 cd <br>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                         Kekuatan pancar lampu utama <br>
                                                         kiri 1200cd(lampu jauh)
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         : 31,600 cd <br>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                         Penyimpangan ke kanan 0&deg;34' <br>
                                                         (lampu jauh)
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         : 0.00 <br>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                         Penyimpangan ke kiri 1&deg;09'(lampu <br>
                                                         jauh)
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         : 1.00 <br>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Emisi <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Emission
                                                         </span>
                                                     </td>
@@ -1013,93 +1013,93 @@
                                                         Bahan bakar solar <br>
                                                         tahun pembuatan >= 2010
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                         Opasitas :35%HSU
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                     <td class="info-catatan2"
                                                         style="font-size: 9px; color: #666; font-weight: normal;">
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Keterangan <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Impection result
                                                         </span>
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                         :{{ $nokir->keterangan }}
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Masa berlaku uji <br>
                                                         Berkala <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Periodical inspection expiry <br>
                                                             date
                                                         </span>
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                         :{{ strtoupper(\Carbon\Carbon::parse($nokir->masa_berlaku)->format('d M Y')) }}
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Nama petugas <br>
                                                         penguji <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Name of inspector/grade <br>
                                                             date
                                                         </span>
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                         :{{ $nokir->nama_petugas_penguji }}
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 8px;">
                                                         Tanda tangan<br>
                                                         petugas penguji <br>
                                                         <span
-                                                            style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                            style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                             Inspector authorization <br>
                                                         </span>
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                         <span
                                                             style="text-decoration: underline;">{{ $nokir->nama_petugas_penguji }}</span>
                                                         <br>
@@ -1107,17 +1107,17 @@
                                                         <br>
                                                         <span>{{ $nokir->nrp_petugas_penguji }}</span>
                                                     </td>
-                                                    <td class="info-catatan2" style="font-size: 9px;">
+                                                    <td class="info-catatan2" style="font-size: 7px;">
                                                     </td>
                                                 </tr>
                                             </tbody>
                                         </table>
                                         <table>
                                             <tr>
-                                                <td class="info-catatan2" style="font-size: 9px;">
+                                                <td class="info-catatan2" style="font-size: 7px;">
                                                     Nama unit utama pelaksanaan uji berkala kendaraan bermotor <br>
                                                     <span
-                                                        style="font-size: 9px; font-style: italic; color: #666; font-weight: normal;">
+                                                        style="font-size: 7px; font-style: italic; color: #666; font-weight: normal;">
                                                         Name of vehicle periodical inspection agency <br>
                                                     </span>
                                                 </td>
@@ -1125,7 +1125,7 @@
                                         </table>
                                         <table>
                                             <tr>
-                                                <td class="info-catatan2" style="font-size: 9px;">
+                                                <td class="info-catatan2" style="font-size: 7px;">
                                                     UNIT PELAKSANAAN TEKNIS DAERAH PENGUJIAN <br>
                                                     DINAS PERHUBUNGAN KABUPATEN TEGAL
                                                 </td>
@@ -1133,16 +1133,15 @@
                                         </table>
                                         <table class="tanda">
                                             <tr>
-                                                <td class="info-catatan2" style="font-size: 9px;">
+                                                <td class="info-catatan2" style="font-size: 8px;">
                                                     <span style="text-decoration: underline;">
                                                         MUHAMMAD BUDI EKO SETIAWAN, ST,<br>
                                                     </span
-                                                        style="font-size: 9px; color: #66rgb(28, 28, 28)ont-weight: normal;">
+                                                        style="font-size: 8px; color: #66rgb(28, 28, 28)ont-weight: normal;">
                                                     Pembina Tingkat I-IV/b <br>
                                                     <br>
-                                                    <br>
                                                     <span
-                                                        style="font-size: 9px; color: #66rgb(28, 28, 28)ont-weight: normal;">
+                                                        style="font-size: 8px; color: #66rgb(28, 28, 28)ont-weight: normal;">
                                                         {{ $nokir->nip_kepala_dinas }}
                                                         <br>
                                                         <br>
@@ -1159,5 +1158,4 @@
             </td>
         </tr>
     </table>
-
 </html>
