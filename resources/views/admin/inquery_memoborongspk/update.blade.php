@@ -935,7 +935,7 @@
             document.getElementById('kode_spk').value = KodeSpk;
             document.getElementById('kendaraan_id').value = Kendaraan_id;
             document.getElementById('no_kabin').value = NoKabin;
-            document.getElementById('no_pol').value = NoKabin;
+            document.getElementById('no_pol').value = Nopol;
             document.getElementById('golongan').value = Golongan;
             document.getElementById('km').value = KmAwal;
             document.getElementById('user_id').value = User_id;
