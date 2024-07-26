@@ -119,6 +119,10 @@
                                     pail</option>
                                 <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : null }}>
                                     kg</option>
+                                <option value="pasang" {{ old('satuan') == 'pasang' ? 'selected' : null }}>
+                                    pasang</option>
+                                <option value="set" {{ old('satuan') == 'set' ? 'selected' : null }}>
+                                    set</option>
                             </select>
                         </div>
                     </div>
