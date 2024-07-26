@@ -290,7 +290,13 @@
                     {{ $item->no_po }}
                 </td> --}}
                 <td class="td" style="text-align: left; padding: 1px; font-size: 10px;">
-                    {{ $item->no_pol }}
+                    @if ($item->faktur_ekspedisi)
+                        @if ($item->faktur_ekspedisi->kendaraan)
+                            {{ $item->faktur_ekspedisi->kendaraan->no_pol }}
+                        @endif
+                    @else
+                        -
+                    @endif
                 </td>
                 <td class="td" style="text-align: left; padding: 1px; font-size: 10px;">
                     {{ number_format($item->jumlah, 2, ',', '.') }} {{ $item->satuan }}

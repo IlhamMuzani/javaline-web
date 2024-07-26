@@ -65,7 +65,6 @@ class BuktipotongController extends Controller
             $namaPdf = $tagihan_ekspedisi->gambar_bukti;  // Retain existing file if no new file is uploaded
         }
 
-
         // Memperbarui nomor bukti tagihan utama
         $tagihan = Tagihan_ekspedisi::findOrFail($id);
         $tagihan->update([
@@ -86,7 +85,7 @@ class BuktipotongController extends Controller
             } else {
                 $namaGambarfaktur = $detail->gambar_buktifaktur;
             }
-
+            
             $detail->update([
                 'gambar_buktifaktur' => $namaGambarfaktur,
                 'nomor_buktifaktur' => $nomorBuktiFaktur,

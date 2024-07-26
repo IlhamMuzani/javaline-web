@@ -23,6 +23,7 @@ class InventoryPeralatanController extends Controller
         if ($kendaraan) {
             $inquery = Detail_inventory::query();
             $inquery->where('kendaraan_id', $kendaraan);
+            $inquery->where('jumlah', '>', 0); // Ensure the column 'jumlah' is greater than 0
             $inquery->orderBy('id', 'DESC');
             $detail_inventorys = $inquery->get();
         }

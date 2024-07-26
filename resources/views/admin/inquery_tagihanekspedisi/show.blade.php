@@ -241,7 +241,13 @@
                     {{ $item->no_po }}
                 </td>
                 <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
-                    {{ $item->no_pol }}
+                    @if ($item->faktur_ekspedisi)
+                        @if ($item->faktur_ekspedisi->kendaraan)
+                            {{ $item->faktur_ekspedisi->kendaraan->no_pol }}
+                        @endif
+                    @else
+                    -
+                    @endif
                 </td>
                 <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
                     {{ $item->jumlah }} {{ $item->satuan }}
