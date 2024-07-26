@@ -165,39 +165,6 @@
     .judulll .no-border {
         border: none;
     }
-
-    .qrcode-logo {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 20px;
-        /* Sesuaikan ukuran logo sesuai kebutuhan */
-        height: auto;
-        margin-left: -10px;
-        /* Sesuaikan nilai margin jika perlu */
-        margin-top: -10px;
-        /* Sesuaikan nilai margin jika perlu */
-    }
-
-    .qrcode-container {
-        position: relative;
-        display: inline-block;
-        width: 100px;
-        /* Sesuaikan lebar sesuai kebutuhan */
-        height: 100px;
-        /* Sesuaikan tinggi sesuai kebutuhan */
-    }
-
-    .qrcode-container img.qrcode-logo {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 17px;
-        /* Sesuaikan ukuran logo sesuai kebutuhan */
-        height: auto;
-    }
 </style>
 
 <body>
@@ -205,7 +172,7 @@
     <table class="gambar2">
         <tr>
             <td class="image-cell1">
-                <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.png') }}" height="40"
+                <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40"
                     width="35">
             </td>
         </tr>
@@ -271,14 +238,30 @@
             </td>
 
             {{-- tabel 2 --}}
-            <td style="width: 5%; max-width: 230px;">
-                <div class="qrcode-container">
-                    {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 3, 3) !!}
-                    <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
-                        class="qrcode-logo" alt="Logo">
+            <td style="width: 5%;" style="max-width: 230px;">
+                <div class="">
+                    <table>
+                        <tr>
+                            <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}"
+                                style="display: inline-block;">
+                                {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2.5, 2.5) !!}
+                            </td>
+                        </tr>
+                    </table>
+                    {{-- <table>
+                        <tr>
+                            <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}"
+                                style="display: inline-block;">
+                                <div class="qrcode-container">
+                                    {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2.5, 2.5) !!}
+                                    <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
+                                        class="qrcode-logo" alt="Logo">
+                                </div>
+                            </td>
+                        </tr>
+                    </table> --}}
                 </div>
             </td>
-
         </tr>
     </table>
 
@@ -1158,4 +1141,5 @@
             </td>
         </tr>
     </table>
+
 </html>

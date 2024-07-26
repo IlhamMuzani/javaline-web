@@ -34,6 +34,23 @@
     </div>
     <!-- /.content-header -->
 
+    <style>
+        .qrcode-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .qrcode-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            /* Atur ukuran logo sesuai kebutuhan */
+            height: auto;
+            /* Jaga proporsi gambar */
+        }
+    </style>
     <!-- Main content -->
     <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
@@ -118,10 +135,13 @@
 
                                     <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}"
                                         style="text-align: center;">
-                                        <div style="display: inline-block;">
+                                        <div class="qrcode-container" style="position: relative; display: inline-block;">
                                             {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2, 2) !!}
+                                            <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
+                                                class="qrcode-logo" alt="Logo">
                                         </div>
                                     </td>
+
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['nokir print'])
                                             <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}"
@@ -188,8 +208,11 @@
                                                 <div style="text-align: center;">
                                                     <p style="font-size:20px; font-weight: bold;">
                                                         {{ $nokir->kode_kir }}</p>
-                                                    <div style="display: inline-block;">
+                                                    <div class="qrcode-container"
+                                                        style="position: relative; display: inline-block;">
                                                         {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 15, 15) !!}
+                                                        <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
+                                                            class="qrcode-logo" alt="Logo">
                                                     </div>
                                                     <p style="font-size:20px; font-weight: bold;">
                                                         {{ $nokir->masa_berlaku }}</p>

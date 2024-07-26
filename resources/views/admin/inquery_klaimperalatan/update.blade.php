@@ -163,14 +163,14 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" readonly
+                                                <input type="text" class="form-control" onclick="barang(0)" readonly
                                                     id="kode_partdetail-{{ $loop->index }}" name="kode_partdetail[]"
                                                     value="{{ $detail['kode_partdetail'] }}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" readonly
+                                                <input type="text" class="form-control" onclick="barang(0)" readonly
                                                     id="nama_barang-{{ $loop->index }}" name="nama_barang[]"
                                                     value="{{ $detail['nama_barang'] }}">
                                             </div>
@@ -205,7 +205,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="text" readonly class="form-control total"
+                                                <input type="text" onclick="barang(0)" readonly class="form-control total"
                                                     id="total-{{ $loop->index }}" name="total[]"
                                                     value="{{ $detail['total'] }}">
                                             </div>
@@ -587,7 +587,7 @@
             //sparepart_id
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + key +
+            item_pembelian += '<input type="text" class="form-control" onclick="barang(0)" readonly id="sparepart_id-' + key +
                 '" name="sparepart_id[]" value="' +
                 sparepart_id +
                 '" ';
@@ -597,7 +597,7 @@
             //kode barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + key +
+            item_pembelian += '<input type="text" class="form-control" onclick="barang(0)" readonly id="kode_partdetail-' + key +
                 '" name="kode_partdetail[]" value="' +
                 kode_partdetail +
                 '" ';
@@ -607,7 +607,7 @@
             //nama barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + key +
+            item_pembelian += '<input type="text" class="form-control" onclick="barang(0)" readonly id="nama_barang-' + key +
                 '" name="nama_barang[]" value="' +
                 nama_barang +
                 '" ';
@@ -649,7 +649,7 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" readonly class="form-control total" id="total-' + key +
+            item_pembelian += '<input type="text" readonly onclick="barang(0)" class="form-control total" id="total-' + key +
                 '" name="total[]" value="' + total + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -810,7 +810,8 @@
                             $('#tables tbody').empty();
                             if (data.length > 0) {
                                 $.each(data, function(index, detail_inventory) {
-                                    var row = '<tr data-sparepart_id="' +
+                                    var row = '<tr onclick="getBarang(' +
+                                        index + ')" data-sparepart_id="' +
                                         detail_inventory.sparepart.id +
                                         '" data-kode_partdetail="' + detail_inventory
                                         .sparepart.kode_partdetail +

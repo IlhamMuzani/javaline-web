@@ -146,9 +146,9 @@
                                     <td style="width: 240px">
                                         <div class="form-group">
                                             <select class="select2bs4 select21-hidden-accessible" id="sparepart_id-0"
-                                                name="sparepart_id[]" data-placeholder="Cari Peralatan.." style="width: 100%;"
-                                                data-select21-id="23" tabindex="-1" aria-hidden="true"
-                                                onchange="getData1(0)">
+                                                name="sparepart_id[]" data-placeholder="Cari Peralatan.."
+                                                style="width: 100%;" data-select21-id="23" tabindex="-1"
+                                                aria-hidden="true" onchange="getData1(0)">
                                                 <option value="">- Pilih -</option>
                                                 @foreach ($spareparts as $sparepart_id)
                                                     <option value="{{ $sparepart_id->id }}">
@@ -269,7 +269,7 @@
             var urutan = 0;
             $.each(data_pembelian, function(key, value) {
                 urutan = urutan + 1;
-                itemPembelian(urutan, key, value);
+                itemPembelian(urutan, key, false, value);
             });
         }
 
@@ -280,7 +280,7 @@
                 $('#tabel-pembelian').empty();
             }
 
-            itemPembelian(jumlah_ban, jumlah_ban - 1);
+            itemPembelian(jumlah_ban, jumlah_ban - 1, true);
         }
 
         function removeBan(params) {
@@ -306,7 +306,7 @@
             }
         }
 
-        function itemPembelian(urutan, key, value = null) {
+        function itemPembelian(urutan, key, style, value = null) {
             var sparepart_id = '';
             var nama_barang = '';
             var keterangan = '';
@@ -328,7 +328,7 @@
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control select2bs4" id="sparepart_id-' + key +
                 '" name="sparepart_id[]"onchange="getDataarray(' + key + ')">';
-            item_pembelian += '<option value="">Cari Part..</option>';
+            item_pembelian += '<option value="">Cari Peralatan..</option>';
             item_pembelian += '@foreach ($spareparts as $sparepart_id)';
             item_pembelian +=
                 '<option value="{{ $sparepart_id->id }}" {{ $sparepart_id->id == ' + sparepart_id + ' ? 'selected' : '' }}>{{ $sparepart_id->nama_barang }}</option>';
@@ -379,7 +379,13 @@
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
+            if (style) {
+                select2(key);
+            }
+
             $('#tabel-pembelian').append(item_pembelian);
+
+            $('#sparepart_id-' + key + '').val(sparepart_id).attr('selected', true);
 
             if (value !== null) {
                 $('#sparepart_id-' + key).val(value.sparepart_id);
@@ -399,6 +405,14 @@
             var today = new Date().toISOString().split('T')[0];
             tanggalAkhir.value = today;
             tanggalAkhir.setAttribute('min', this.value);
+        }
+
+        function select2(id) {
+            $(function() {
+                $('#sparepart_id-' + id).select2({
+                    theme: 'bootstrap4'
+                });
+            });
         }
     </script>
 @endsection

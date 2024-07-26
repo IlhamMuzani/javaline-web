@@ -147,19 +147,19 @@
                                     <td class="text-center" id="urutan">1</td>
                                     <td hidden>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" readonly id="sparepart_id-0"
+                                            <input type="text" class="form-control" onclick="barang(0)" readonly id="sparepart_id-0"
                                                 name="sparepart_id[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" readonly id="kode_partdetail-0"
+                                            <input type="text" class="form-control" onclick="barang(0)" readonly id="kode_partdetail-0"
                                                 name="kode_partdetail[]">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" readonly id="nama_barang-0"
+                                            <input type="text" class="form-control" onclick="barang(0)" readonly id="nama_barang-0"
                                                 name="nama_barang[]">
                                         </div>
                                     </td>
@@ -190,7 +190,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" readonly class="form-control total" id="total-0"
+                                            <input type="text" onclick="barang(0)" readonly class="form-control total" id="total-0"
                                                 name="total[]">
                                         </div>
                                     </td>
@@ -544,7 +544,7 @@
             //sparepart_id
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + urutan +
+            item_pembelian += '<input type="text" class="form-control" onclick="barang(0)" readonly id="sparepart_id-' + urutan +
                 '" name="sparepart_id[]" value="' +
                 sparepart_id +
                 '" ';
@@ -554,7 +554,7 @@
             //kode barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + urutan +
+            item_pembelian += '<input type="text" class="form-control" onclick="barang(0)" readonly id="kode_partdetail-' + urutan +
                 '" name="kode_partdetail[]" value="' +
                 kode_partdetail +
                 '" ';
@@ -564,7 +564,7 @@
             //nama barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + urutan +
+            item_pembelian += '<input type="text" class="form-control" onclick="barang(0)" readonly id="nama_barang-' + urutan +
                 '" name="nama_barang[]" value="' +
                 nama_barang +
                 '" ';
@@ -606,7 +606,7 @@
             // total
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" readonly class="form-control total" id="total-' + urutan +
+            item_pembelian += '<input type="text" readonly onclick="barang(0)" class="form-control total" id="total-' + urutan +
                 '" name="total[]" value="' + total + '" readonly';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -733,7 +733,8 @@
                             $('#tables tbody').empty();
                             if (data.length > 0) {
                                 $.each(data, function(index, detail_inventory) {
-                                    var row = '<tr data-sparepart_id="' + detail_inventory.sparepart.id +
+                                    var row = '<tr onclick="getBarang(' +
+                                        index + ')" data-sparepart_id="' + detail_inventory.sparepart.id +
                                         '" data-kode_partdetail="' + detail_inventory.sparepart.kode_partdetail +
                                         '" data-nama_barang="' + detail_inventory.sparepart.nama_barang +
                                         '" data-param="' + index + '">' +
