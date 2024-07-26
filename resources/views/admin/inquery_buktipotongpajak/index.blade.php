@@ -167,6 +167,7 @@
                                                 @if (auth()->check() && auth()->user()->fitur['inquery buktipotongpajak ekspedisi show']) --}}
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
+
                                                 {{-- @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery buktipotongpajak ekspedisi delete']) --}}
                                                 <form style="margin-top:5px" method="GET"
@@ -179,14 +180,19 @@
                                                 {{-- @endif --}}
                                             @endif
                                             @if ($buktipotongpajak->status == 'posting')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery buktipotongpajak ekspedisi unpost']) --}}
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                                {{-- @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery buktipotongpajak ekspedisi show']) --}}
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
-                                                {{-- @endif --}}
+                                                <a class="dropdown-item" style="margin-left:0px; margin-right:15px;">
+                                                    @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti == null)
+                                                        <span class="text-muted">Tidak ada PDF yang diunggah.</span>
+                                                    @else
+                                                        <a style="margin-left:15px; margin-right:15px;"
+                                                            href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
+                                                            target="_blank" class="text-bold">Lihat Bukti Potong Pajak</a>
+                                                    @endif
+                                                </a>
                                             @endif
                                             @if ($buktipotongpajak->status == 'selesai')
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['inquery buktipotongpajak ekspedisi show']) --}}

@@ -338,6 +338,16 @@
         </tr>
     </table>
     <br>
+    {{-- <div class="form-group mb-3">
+        @if ($tagihan_ekspedisi->gambar_bukti == null)
+            <p class="mt-3">Tidak ada PDF yang diunggah.</p>
+        @else
+            <p class="mt-3">
+                <a href="{{ asset('storage/uploads/' . $tagihan_ekspedisi->gambar_bukti) }}" target="_blank" style="font-weight:bold">Lihat
+                    Bukti Potong Pajak</a>
+            </p>
+        @endif
+    </div> --}}
 </body>
 
 <div class="container">

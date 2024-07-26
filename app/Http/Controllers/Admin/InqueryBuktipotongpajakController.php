@@ -95,6 +95,23 @@ class InqueryBuktipotongpajakController extends Controller
     }
 
 
+    // public function show($id)
+    // {
+    //     $cetakpdf = Bukti_potongpajak::find($id);
+
+    //     // Retrieve all details related to the bukti_potongpajak
+    //     $details = Detail_bukti::where('bukti_potongpajak_id', $id)->get();
+
+    //     // Get the first detail to display the related tagihan_ekspedisi
+    //     $firstDetail = $details->first();
+    //     $tagihan_ekspedisi = null;
+    //     if ($firstDetail) {
+    //         $tagihan_ekspedisi = Tagihan_ekspedisi::where('id', $firstDetail->tagihan_ekspedisi_id)->first();
+    //     }
+
+    //     return view('admin.inquery_buktipotongpajak.show', compact('cetakpdf', 'details', 'tagihan_ekspedisi'));
+    // }
+
     public function unpostbukti($id)
     {
         $faktur = Bukti_potongpajak::find($id);
