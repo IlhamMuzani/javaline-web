@@ -274,7 +274,7 @@
             <td style="width: 5%; max-width: 230px;">
                 <div class="qrcode-container">
                     {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 3, 3) !!}
-                    <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
+                    <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
                         class="qrcode-logo" alt="Logo">
                 </div>
             </td>
