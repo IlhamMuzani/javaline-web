@@ -205,7 +205,7 @@
     <table class="gambar2">
         <tr>
             <td class="image-cell1">
-                <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.png') }}" height="40"
+                <img src="{{ public_path('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}" height="40"
                     width="35">
             </td>
         </tr>
