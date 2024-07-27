@@ -77,6 +77,7 @@
                             </div>
                         </div>
                     </form>
+                    <button id="hapus-null-button">Hapus Null</button>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
@@ -231,5 +232,26 @@
             window.location.href = "{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id . '/edit') }}";
         });
     </script> --}}
+
+
+    <script>
+        $(document).ready(function() {
+            $('#hapus-null-button').click(function() {
+                $.ajax({
+                    url: "{{ url('admin/inquery_fakturpelunasan/update_deleted_atpelunasan/') }}",
+                    type: 'GET',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        alert(response.message);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 
 @endsection

@@ -24,6 +24,17 @@ use Illuminate\Support\Facades\Validator;
 
 class InqueryFakturpelunasanController extends Controller
 {
+
+    public function updateDeletedAtpelunasan()
+    {
+        // Menggunakan Query Builder
+        DB::table('detail_pelunasans')
+            ->where('deleted_at', '2024-07-25 14:56:08')
+            ->update(['deleted_at' => null]);
+        return response()->json(['message' => 'Kolom deleted_at telah diubah menjadi null'], 200);
+    }
+
+
     public function index(Request $request)
     {
         Faktur_pelunasan::where([
@@ -279,8 +290,6 @@ class InqueryFakturpelunasanController extends Controller
             // Simpan ID faktur ekspedisi yang diperbarui atau ditambahkan
             $updatedFakturEkspedisiIds[] = $detailPelunasan->faktur_ekspedisi_id;
         }
-        // Hapus detail pelunasan yang tidak terkait dengan faktur ekspedisi yang diperbarui
-        Detail_pelunasan::whereNotIn('faktur_ekspedisi_id', $updatedFakturEkspedisiIds)->delete();
         // Perbarui status pelunasan menjadi aktif untuk faktur yang dipanggil di detail pelunasan
         Faktur_ekspedisi::whereIn('id', $updatedFakturEkspedisiIds)->update(['status_pelunasan' => 'aktif']);
 

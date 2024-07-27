@@ -431,6 +431,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapustagihan/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'hapustagihan'])->name('hapustagihan');
     Route::get('hapusstnk/{id}', [\App\Http\Controllers\Admin\InqueryPerpanjanganstnkController::class, 'hapusstnk'])->name('hapusstnk');
 
+    // Route::get('update_deleted_atpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'updateDeletedAtpelunasan']);
+    Route::get('inquery_fakturpelunasan/update_deleted_atpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'updateDeletedAtpelunasan']);
+
     // Route::get('unpostfakturselesai/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfakturselesai'])->name('unpostfakturselesai');
     Route::get('unpostfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'unpostfaktur'])->name('unpostfaktur');
     Route::get('postingfaktur/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisiController::class, 'postingfaktur'])->name('postingfaktur');
