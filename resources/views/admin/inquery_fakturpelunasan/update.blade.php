@@ -669,7 +669,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="datatables66" class="table table-bordered table-striped">
+                        <div class="m-2">
+                            <input type="text" id="searchInputpotongan" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tablepotonganpelunasan" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -1085,7 +1088,7 @@
         }
 
         function getBiaya(rowIndex) {
-            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tablepotonganpelunasan tbody tr:eq(' + rowIndex + ')');
             var PotonganId = selectedRow.data('id');
             var KodeBiaya = selectedRow.data('kode_potongan');
             var NamabIaya = selectedRow.data('keterangan');
@@ -1599,5 +1602,36 @@
             }).format(number);
             return formatted;
         }
+    </script>
+
+    <script>
+        function filterTableken() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInputpotongan");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablepotonganpelunasan");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 3; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+
+        document.getElementById("searchInputpotongan").addEventListener("input", filterTableken);
     </script>
 @endsection
