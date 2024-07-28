@@ -218,9 +218,9 @@ class KlaimperalatanController extends Controller
         $klaim_peralatan = Klaim_peralatan::find($transaksi_id);
 
         // $kendaraan = Kendaraan::where('id', $klaim_peralatan->id)->first();
-        $parts = Detail_klaimperalatan::where('klaim_peralatan_id', $klaim_peralatan->id)->get();
+        $details = Detail_klaimperalatan::where('klaim_peralatan_id', $klaim_peralatan->id)->get();
 
-        return view('admin.klaim_peralatan.show', compact('parts', 'klaim_peralatan'));
+        return view('admin.klaim_peralatan.show', compact('details', 'klaim_peralatan'));
     }
 
     public function cetakpdf($id)

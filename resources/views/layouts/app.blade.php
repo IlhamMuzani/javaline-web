@@ -78,11 +78,6 @@
             <img class="" src="{{ asset('storage/uploads/user/logo1.png') }}" alt="javaline" height="50"
                 width="100">
         </div> --}}
-
-        <div>
-
-        </div>
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -1002,10 +997,6 @@
                 </li>
             </ul>
         </nav>
-
-
-        <!-- /.navbar -->
-
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
@@ -1133,7 +1124,7 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('adminlte/dist/js/pages/dashboard.js') }}"></script>
+    {{-- <script src="{{ asset('adminlte/dist/js/pages/dashboard.js') }}"></script> --}}
 
     <!-- DataTables  & Plugins -->
     <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js') }}"></script>

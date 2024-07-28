@@ -230,7 +230,7 @@ class InqueryPemakaianperalatanController extends Controller
             ->where('status', 'unpost')
             ->delete();
 
-        return view('admin.inquery_pemakaianperalatan.show', compact('parts', 'pembelians'));
+        return view('admin.inquery_pemakaianperalatan.show', compact('parts', 'pemakaians'));
     }
 
 

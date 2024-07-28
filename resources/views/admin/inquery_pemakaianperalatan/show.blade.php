@@ -213,8 +213,8 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_pemasanganpart') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/pemakaians/cetak-pdf/' . $pemakaians->id) }}" class="blue-button">Cetak</a>
+    <a href="{{ url('admin/inquery_pemakaianperalatan') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/pemakaian_peralatan/cetak-pdf/' . $pemakaians->id) }}" class="blue-button">Cetak</a>
 </div>
 
 </html>

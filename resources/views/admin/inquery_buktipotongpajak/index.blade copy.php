@@ -53,10 +53,9 @@
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
                                     <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
-                                        Posting
+                                        Posting</option>
+                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>Unpost
                                     </option>
-                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
-                                        Unpost</option>
                                 </select>
                                 <label for="status">(Pilih Status)</label>
                             </div>
@@ -79,17 +78,17 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
-                                <button type="button" class="btn btn-outline-primary btn-block mt-1" id="checkfilter"
-                                    onclick="printSelectedDatafoto()" target="_blank">
-                                    <i class="fas fa-print"></i> Cetak Bukti Foto
+                                <button type="button" class="btn btn-success btn-block mt-1" onclick="viewSelectedPDFs()">
+                                    <i class="fas fa-file-pdf"></i> Lihat Bukti Potong Pajak
                                 </button>
                             </div>
                         </div>
                     </form>
+
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                <th><input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
                                 <th>Kode Bukti</th>
                                 <th>Tanggal</th>
@@ -105,16 +104,14 @@
                         <tbody>
                             @foreach ($inquery as $buktipotongpajak)
                                 <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
+                                    <td>
+                                        <input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $buktipotongpajak->id }}"
+                                            data-pdf-url="{{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur ? asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) : asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->kode_bukti }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->tanggal_awal }}
-                                    </td>
+                                    <td>{{ $buktipotongpajak->kode_bukti }}</td>
+                                    <td>{{ $buktipotongpajak->tanggal_awal }}</td>
                                     <td>
                                         @if ($buktipotongpajak->user)
                                             {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
@@ -129,15 +126,10 @@
                                             tidak ada
                                         @endif
                                     </td>
-                                    <td>
-                                        {{ $buktipotongpajak->kategori }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->kategoris }}
-                                    </td>
+                                    <td>{{ $buktipotongpajak->kategori }}</td>
+                                    <td>{{ $buktipotongpajak->kategoris }}</td>
                                     <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
+                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}</td>
                                     <td class="text-right">
                                         {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
                                     </td>
@@ -162,9 +154,7 @@
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusbukti', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">Delete</button>
                                                 </form>
                                             @endif
                                             @if ($buktipotongpajak->status == 'posting')
@@ -182,7 +172,6 @@
                                                                 target="_blank" class="text-bold">Lihat Bukti Potong
                                                                 Pajak</a>
                                                         @endif
-                                                        {{-- <span class="text-muted">Tidak ada PDF yang diunggah.</span> --}}
                                                     @else
                                                         <a style="margin-left:15px; margin-right:15px;"
                                                             href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
@@ -200,6 +189,84 @@
                             @endforeach
                         </tbody>
                     </table>
+
+                    <!-- Modal to view PDFs -->
+                    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"
+                        aria-labelledby="pdfModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="pdfModalLabel">Lihat Bukti Potong Pajak</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="pdfContainer" class="row"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pdfViewer" style="width: 100vw; height: 100vh; overflow-y: scroll;"></div>
+
+                    <script src="https://unpkg.com/pdf-lib@1.16.0/dist/pdf-lib.min.js"></script>
+
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
+                    <script>
+                        async function viewSelectedPDFs() {
+                            let selectedIds = [];
+                            document.querySelectorAll('.checkbox_ids:checked').forEach(checkbox => {
+                                selectedIds.push(checkbox.value);
+                            });
+
+                            if (selectedIds.length === 0) {
+                                alert('Pilih minimal satu bukti potong pajak.');
+                                return;
+                            }
+
+                            let pdfUrls = selectedIds.map(id => document.querySelector(`input[value="${id}"]`).dataset.pdfUrl);
+
+                            try {
+                                // Create a new PDF document
+                                const mergedPdf = await PDFLib.PDFDocument.create();
+
+                                for (const url of pdfUrls) {
+                                    const pdfBytes = await fetch(url).then(res => res.arrayBuffer());
+                                    const pdf = await PDFLib.PDFDocument.load(pdfBytes);
+                                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                                    copiedPages.forEach(page => mergedPdf.addPage(page));
+                                }
+
+                                // Serialize the PDFDocument to bytes
+                                const mergedPdfBytes = await mergedPdf.save();
+
+                                // Create a Blob and a URL for the merged PDF
+                                const blob = new Blob([mergedPdfBytes], {
+                                    type: 'application/pdf'
+                                });
+                                const url = URL.createObjectURL(blob);
+
+                                // Create a new iframe to display the merged PDF
+                                const iframe = document.createElement('iframe');
+                                iframe.src = url;
+                                iframe.style.width = '100%';
+                                iframe.style.height = '600px';
+                                iframe.style.border = 'none';
+
+                                // Append the iframe to the modal body
+                                const pdfContainer = document.getElementById('pdfContainer');
+                                pdfContainer.innerHTML = ''; // Clear previous content
+                                pdfContainer.appendChild(iframe);
+
+                                // Show the modal
+                                $('#pdfModal').modal('show');
+                            } catch (error) {
+                                console.error('Error merging PDFs:', error);
+                            }
+                        }
+                    </script>
+
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

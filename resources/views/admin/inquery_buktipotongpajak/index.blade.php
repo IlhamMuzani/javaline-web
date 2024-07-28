@@ -151,6 +151,22 @@
                                                     href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id . '/edit') }}">Update</a>
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
+                                                <a class="dropdown-item" style="margin-left:0px; margin-right:15px;">
+                                                    @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti == null)
+                                                        @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur == null)
+                                                            <span class="text-muted">Tidak ada PDF yang diunggah.</span>
+                                                        @else
+                                                            <a style="margin-left:15px; margin-right:15px;"
+                                                                href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) }}"
+                                                                target="_blank" class="text-bold">Lihat Bukti Potong
+                                                                Pajak</a>
+                                                        @endif
+                                                    @else
+                                                        <a style="margin-left:15px; margin-right:15px;"
+                                                            href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
+                                                            target="_blank" class="text-bold">Lihat Bukti Potong Pajak</a>
+                                                    @endif
+                                                </a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusbukti', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
@@ -210,62 +226,46 @@
 
                     <div id="pdfViewer" style="width: 100vw; height: 100vh; overflow-y: scroll;"></div>
 
-                    <script src="https://unpkg.com/pdf-lib@1.16.0/dist/pdf-lib.min.js"></script>
-
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.16.0/pdf-lib.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
                     <script>
                         async function viewSelectedPDFs() {
-                            let selectedIds = [];
-                            document.querySelectorAll('.checkbox_ids:checked').forEach(checkbox => {
-                                selectedIds.push(checkbox.value);
-                            });
+                            const selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                            const pdfUrls = Array.from(selectedCheckboxes).map(cb => cb.getAttribute('data-pdf-url'));
 
-                            if (selectedIds.length === 0) {
-                                alert('Pilih minimal satu bukti potong pajak.');
+                            if (pdfUrls.length === 0) {
+                                alert('Pilih salah satu data.');
                                 return;
                             }
 
-                            let pdfUrls = selectedIds.map(id => document.querySelector(`input[value="${id}"]`).dataset.pdfUrl);
+                            const {
+                                PDFDocument
+                            } = PDFLib;
+                            const mergedPdfDoc = await PDFDocument.create();
 
-                            try {
-                                // Create a new PDF document
-                                const mergedPdf = await PDFLib.PDFDocument.create();
+                            for (const pdfUrl of pdfUrls) {
+                                const existingPdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
+                                const pdfDoc = await PDFDocument.load(existingPdfBytes);
 
-                                for (const url of pdfUrls) {
-                                    const pdfBytes = await fetch(url).then(res => res.arrayBuffer());
-                                    const pdf = await PDFLib.PDFDocument.load(pdfBytes);
-                                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-                                    copiedPages.forEach(page => mergedPdf.addPage(page));
+                                // Copy all pages from the current PDF document to the merged document
+                                const pages = pdfDoc.getPages();
+                                for (let i = 0; i < pages.length; i++) {
+                                    const [copiedPage] = await mergedPdfDoc.copyPages(pdfDoc, [i]);
+                                    mergedPdfDoc.addPage(copiedPage);
                                 }
-
-                                // Serialize the PDFDocument to bytes
-                                const mergedPdfBytes = await mergedPdf.save();
-
-                                // Create a Blob and a URL for the merged PDF
-                                const blob = new Blob([mergedPdfBytes], {
-                                    type: 'application/pdf'
-                                });
-                                const url = URL.createObjectURL(blob);
-
-                                // Create a new iframe to display the merged PDF
-                                const iframe = document.createElement('iframe');
-                                iframe.src = url;
-                                iframe.style.width = '100%';
-                                iframe.style.height = '600px';
-                                iframe.style.border = 'none';
-
-                                // Append the iframe to the modal body
-                                const pdfContainer = document.getElementById('pdfContainer');
-                                pdfContainer.innerHTML = ''; // Clear previous content
-                                pdfContainer.appendChild(iframe);
-
-                                // Show the modal
-                                $('#pdfModal').modal('show');
-                            } catch (error) {
-                                console.error('Error merging PDFs:', error);
                             }
+
+                            const pdfBytes = await mergedPdfDoc.save();
+
+                            const blob = new Blob([pdfBytes], {
+                                type: 'application/pdf'
+                            });
+                            const url = URL.createObjectURL(blob);
+
+                            window.open(url, '_blank');
                         }
                     </script>
+
 
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
