@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
+use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
 use App\Models\Rute_perjalanan;
 use App\Models\Spk;
@@ -21,7 +22,7 @@ class StatusSpkController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $spks = Spk::query();
+        $spks = Memo_ekspedisi::whereNotNull('spk_id');
 
         if ($status) {
             $spks->where('status', $status);

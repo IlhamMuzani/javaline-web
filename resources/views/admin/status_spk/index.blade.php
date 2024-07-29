@@ -177,7 +177,7 @@
                         <tbody>
                             @foreach ($spks as $buktipotongpajak)
                                 @php
-                                    $status = $buktipotongpajak->status_spk;
+                                    $status = $buktipotongpajak->spk ? $buktipotongpajak->spk->status_spk : null;
                                     $isGreen = [
                                         'memo' => in_array($status, ['memo', 'sj', 'faktur', 'invoice', 'pelunasan']),
                                         'sj' => in_array($status, ['sj', 'faktur', 'invoice', 'pelunasan']),
@@ -190,9 +190,9 @@
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
                                             value="{{ $buktipotongpajak->id }}"></td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $buktipotongpajak->kode_spk }}</td>
+                                    <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
                                     <td>{{ $buktipotongpajak->tanggal_awal }}</td>
-                                    <td>{{ $buktipotongpajak->nama_pelanggan }}</td>
+                                    <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
                                     <td>
                                         <button type="button"
                                             class="btn {{ $isGreen['memo'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
