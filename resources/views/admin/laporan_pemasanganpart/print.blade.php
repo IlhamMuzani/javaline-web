@@ -129,10 +129,10 @@
             <tr>
                 <td class="kepala">{{ $pemasangan_part->kode_pemasanganpart }}</td>
                 <td class="kepala"> {{ $pemasangan_part->tanggal_awal }}</td>
-                <td class="kepala"> {{ $pemasangan_part->kendaraan->no_kabin }}</td>
-                <td class="kepala"> {{ $pemasangan_part->kendaraan->no_pol }}</td>
+                <td class="kepala"> {{ $pemasangan_part->kendaraan->no_kabin ?? null }}</td>
+                <td class="kepala"> {{ $pemasangan_part->kendaraan->no_pol ?? null }}</td>
                 {{-- <td> {{ $pemasangan_part->detail_part->count() }} Part</td> --}}
-                <td class="kepala"> {{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
+                <td class="kepala"> {{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan ?? null }}</td>
             </tr>
             <!-- Tambahkan baris untuk detail part di bawah setiap pemasangan_part -->
             <tr>

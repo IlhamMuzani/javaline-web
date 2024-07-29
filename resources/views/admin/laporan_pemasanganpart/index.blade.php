@@ -97,9 +97,9 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $pemasangan_part->kode_pemasanganpart }}</td>
                                     <td>{{ $pemasangan_part->tanggal_awal }}</td>
-                                    <td>{{ $pemasangan_part->kendaraan->no_kabin }}</td>
-                                    <td>{{ $pemasangan_part->kendaraan->no_pol }}</td>
-                                    <td>{{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                    <td>{{ $pemasangan_part->kendaraan->no_kabin ?? null }}</td>
+                                    <td>{{ $pemasangan_part->kendaraan->no_pol ?? null}}</td>
+                                    <td>{{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan ?? null}}
                                     </td>
                                 </tr>
                             @endforeach
