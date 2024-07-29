@@ -165,6 +165,7 @@
                                 <th><input type="checkbox" name="" id="select_all_ids"></th>
                                 <th>NO</th>
                                 <th>KODE SPK</th>
+                                <th>KODE MEMO</th>
                                 <th>TANGGAL</th>
                                 <th>PELANGGAN</th>
                                 <th style="width: 10%">MEMO</th>
@@ -191,6 +192,7 @@
                                             value="{{ $buktipotongpajak->id }}"></td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
+                                    <td>{{ $buktipotongpajak->kode_memo ?? null }}</td>
                                     <td>{{ $buktipotongpajak->tanggal_awal }}</td>
                                     <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
                                     <td>
