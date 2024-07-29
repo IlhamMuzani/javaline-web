@@ -16,7 +16,7 @@ class TarifController extends Controller
     public function index()
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
-        $tarifs = Tarif::all();
+        $tarifs = Tarif::orderBy('created_at', 'DESC')->get();
         return view('admin/tarif.index', compact('tarifs'));
         // } else {
         //     // tidak memiliki akses

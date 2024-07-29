@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Exports\MemoperjalananExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
 
 use Carbon\Carbon;
@@ -1135,4 +1137,17 @@ class InqueryMemoekspedisiController extends Controller
             return response()->json(['message' => 'Detail Faktur not found'], 404);
         }
     }
+
+    public function rekapexportmemoperjalanan(Request $request)
+    {
+        // Retrieve the validated inputs
+        $tanggal_awal = $request->input('tanggal_awal');
+        $tanggal_akhir = $request->input('tanggal_akhir');
+        $kategori = $request->input('kategori');
+        $status = $request->input('status');
+
+        // Return the Excel download
+        return Excel::download(new MemoperjalananExport($tanggal_awal, $tanggal_akhir, $kategori, $status), 'memo_ekspedisi.xlsx');
+    }
+
 }
