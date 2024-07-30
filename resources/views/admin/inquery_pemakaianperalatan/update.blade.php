@@ -374,10 +374,10 @@
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control" id="keterangan-' + key + '" name="keterangan[]">';
             item_pembelian += '<option value="">- Pilih Kondisi -</option>';
-            item_pembelian += '<option value="Pemasangan Baru"' + (keterangan === 'Pemasangan Baru' ? ' selected' : '') +
-                '>Pemasangan Baru</option>';
-            item_pembelian += '<option value="Pergantian Rusak"' + (keterangan === 'Pergantian Rusak' ? ' selected' : '') +
-                '>Pergantian Rusak</option>';
+            item_pembelian += '<option value="Pemakaian Baru"' + (keterangan === 'Pemakaian Baru' ? ' selected' : '') +
+                '>Pemakaian Baru</option>';
+            item_pembelian += '<option value="Pemakaian Bekas"' + (keterangan === 'Pemakaian Bekas' ? ' selected' : '') +
+                '>Pemakaian Bekas</option>';
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
