@@ -729,6 +729,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('bukti_potongpajak', \App\Http\Controllers\Admin\BuktipotongpajakController::class);
     Route::resource('inquery_buktipotongpajak', \App\Http\Controllers\Admin\InqueryBuktipotongpajakController::class);
     Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
+    Route::resource('alamat_muat', \App\Http\Controllers\Admin\AlamatmuatController::class);
+    Route::resource('alamat_bongkar', \App\Http\Controllers\Admin\AlamatbongkarController::class);
 
 
     Route::get('inquery_pemakaianperalatan/unpostpemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'unpostpemakaian']);

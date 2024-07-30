@@ -110,9 +110,9 @@
         <tr>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode Part</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Nama Barang</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Keterangan</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Jumlah</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Barang</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Keterangan</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">Jumlah</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -125,12 +125,12 @@
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
                     {{ $item->sparepart->kode_partdetail }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->sparepart->nama_barang }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->keterangan }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->keterangan }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
                     {{ $item->jumlah }}</td>
             </tr>
         @endforeach

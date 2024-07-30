@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('memo_ekspedisis', function (Blueprint $table) {
+        Schema::create('spks', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_memo')->nullable();
+            $table->string('kode_spk')->nullable();
             $table->string('kategori')->nullable();
             $table->string('admin')->nullable();
             $table->string('qrcode_memo')->nullable();
-            $table->unsignedBigInteger('spk_id')->nullable();
-            $table->foreign('spk_id')->references('id')->on('spks')->onDelete('set null');
+            $table->unsignedBigInteger('alamat_muat_id')->nullable();
+            $table->foreign('alamat_muat_id')->references('id')->on('alamat_muats')->onDelete('set null');
+            $table->unsignedBigInteger('alamat_bongkar_id')->nullable();
+            $table->foreign('alamat_bongkar_id')->references('id')->on('alamat_bongkars')->onDelete('set null');
             $table->unsignedBigInteger('kendaraan_id')->nullable();
             $table->foreign('kendaraan_id')->references('id')->on('kendaraans')->onDelete('set null');
             $table->string('no_kabin')->nullable();
@@ -96,6 +98,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('memo_ekspedisis');
+        Schema::dropIfExists('spks');
     }
 };

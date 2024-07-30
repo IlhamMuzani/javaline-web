@@ -49,6 +49,8 @@
     request()->is('admin/nokir') ||
     request()->is('admin/stnk') ||
     request()->is('admin/inventory_peralatan') ||
+    request()->is('admin/alamat_muat*') ||
+    request()->is('admin/alamat_bongkar*') ||
     request()->is('admin/sparepart')
         ? 'menu-open'
         : '' }}">
@@ -80,6 +82,8 @@
         request()->is('admin/nokir') ||
         request()->is('admin/stnk') ||
         request()->is('admin/inventory_peralatan') ||
+        request()->is('admin/alamat_muat*') ||
+        request()->is('admin/alamat_bongkar*') ||
         request()->is('admin/sparepart')
             ? 'active'
             : '' }}">
@@ -337,6 +341,24 @@
                     class="nav-link {{ request()->is('admin/inventory_peralatan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Inventory Peralatan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelanggan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/alamat_muat') }}"
+                    class="nav-link {{ request()->is('admin/alamat_muat*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Alamat Muat</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelanggan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/alamat_bongkar') }}"
+                    class="nav-link {{ request()->is('admin/alamat_bongkar*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Alamat Bongkar</p>
                 </a>
             </li>
         @endif
