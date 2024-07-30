@@ -154,7 +154,11 @@
                     <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px; font-weight:bold; width:10%">UH</td>
                     <td class="td"
-                        style="text-align: right; padding: 2px; font-size: 9px; font-weight:bold; width:10%">LEMBUR</td>
+                        style="text-align: right; padding: 2px; font-size: 9px; font-weight:bold; width:12%">LEMBUR JAM
+                    </td>
+                    <td class="td"
+                        style="text-align: right; padding: 2px; font-size: 9px; font-weight:bold; width:12%">LEMBUR HARI
+                    </td>
                     <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px; font-weight:bold; width:12%">GAJI KOTOR
                     </td>
@@ -176,7 +180,7 @@
             <tbody>
                 <!-- Add horizontal line below the header row -->
                 <tr>
-                    <td colspan="14" style="padding: 0px;">
+                    <td colspan="15" style="padding: 0px;">
                         {{-- <hr style="border: 0.5px solid; margin-top:0px; margin-bottom: 1px; padding: 0;"> --}}
                         <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
                     </td>
@@ -222,6 +226,15 @@
                                 <tr>
                                     <td style="width: 50%;">Rp.</td>
                                     <td style="width: 50%;">{{ number_format($item->hasil_lembur, 0, ',', '.') }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td class="td"
+                            style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
+                            <table style="width: 100%; text-align: right;">
+                                <tr>
+                                    <td style="width: 50%;">Rp.</td>
+                                    <td style="width: 50%;">{{ number_format($item->hasil_storing, 0, ',', '.') }}</td>
                                 </tr>
                             </table>
                         </td>
@@ -277,10 +290,10 @@
                     @endphp
                 @endforeach
                 <tr style="border-bottom: 1px solid black;">
-                    <td colspan="14" style="padding: 2px;"></td>
+                    <td colspan="15" style="padding: 2px;"></td>
                 </tr>
                 <tr>
-                    <td colspan="13"
+                    <td colspan="14"
                         style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 9px;">
                         {{-- GRAND TOTAL --}}
                     </td>

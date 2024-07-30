@@ -29,7 +29,11 @@
     Deny from all
     </Files>
 
- # Set max_input_vars
+# Set max_input_vars
     php_value max_input_vars 2000
     php_value memory_limit 1024M
 </IfModule>
+
+<Files .env> Order allow,deny
+    Deny from all 
+</Files>

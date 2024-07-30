@@ -46,6 +46,7 @@ return new class extends Migration
             $table->string('absen')->nullable();
             $table->string('potongan_bpjs')->nullable();
             $table->string('lainya')->nullable();
+            $table->string('tambahan_lainya')->nullable();
             $table->string('pelunasan_kasbon')->nullable();
             $table->string('hasil_absen')->nullable();
             $table->string('gaji_bersih')->nullable();

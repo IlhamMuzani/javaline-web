@@ -3,31 +3,18 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
-use App\Models\Ban;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Typeban;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use App\Models\Pembelian_ban;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
-use App\Models\Detail_memo;
-use App\Models\Detail_memotambahan;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_tambahan;
 use App\Models\Faktur_ekspedisi;
-use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
-use App\Models\Pelanggan;
-use App\Models\Penerimaan_kaskecil;
 use App\Models\Pengeluaran_kaskecil;
-use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
 use App\Models\Spk;
@@ -35,7 +22,6 @@ use App\Models\Total_ujs;
 use App\Models\Uangjaminan;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryMemoborongspkController extends Controller
 {
@@ -69,7 +55,6 @@ class InqueryMemoborongspkController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -85,8 +70,6 @@ class InqueryMemoborongspkController extends Controller
         } elseif ($kategori === 'Memo Borong') {
             return view('admin.inquery_memoborong.index', compact('inquery', 'saldoTerakhir'));
         } elseif ($kategori === 'Memo Tambahan') {
-            // Anda harus menyesuaikan ini sesuai dengan tampilan dan data yang diperlukan untuk "Memo Tambahan"
-            // Misalnya:
             return view('admin.inquery_memotambahan.index', compact('inquery', 'saldoTerakhir'));
         } else {
             return view('admin.inquery_memoborong.index', compact('inquery', 'saldoTerakhir'));
@@ -96,7 +79,6 @@ class InqueryMemoborongspkController extends Controller
 
     public function edit($id)
     {
-        // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
 
         $inquery = Memo_ekspedisi::where('id', $id)->first();
         $kendaraans = Kendaraan::all();
@@ -112,7 +94,7 @@ class InqueryMemoborongspkController extends Controller
                     ->where('status_spk', '!=', 'pelunasan')
                     ->orWhereNull('status_spk');
             })
-            ->orderBy('created_at', 'desc') // Change 'created_at' to the appropriate timestamp column
+            ->orderBy('created_at', 'desc')
             ->get();
 
         $drivers = User::whereHas('karyawan', function ($query) {
@@ -135,10 +117,6 @@ class InqueryMemoborongspkController extends Controller
             'saldoTerakhir'
         ));
 
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 
     public function update(Request $request, $id)
@@ -155,10 +133,7 @@ class InqueryMemoborongspkController extends Controller
                 'jumlah' => 'required',
                 'satuan' => 'required',
                 'harga_rute' => ['nullable', function ($attribute, $value, $fail) {
-                    // Remove non-numeric characters
                     $numericValue = preg_replace('/[^0-9]/', '', $value);
-
-                    // Check if the resulting string is numeric
                     if (!is_numeric($numericValue)) {
                         $fail('Uang jalan harus berupa angka atau dalam format Rupiah yang valid.');
                     }
@@ -189,9 +164,8 @@ class InqueryMemoborongspkController extends Controller
 
         if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
             for ($i = 0; $i < count($request->biaya_tambahan_id); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (empty($request->biaya_tambahan_id[$i]) && empty($request->kode_biaya[$i]) && empty($request->nama_biaya[$i]) && empty($request->nominal[$i])) {
-                    continue; // Skip validation if both are empty
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -232,7 +206,6 @@ class InqueryMemoborongspkController extends Controller
 
         $deposit = $request->depositsopir;
 
-        // Check if $deposit is not a numeric value
         if (!is_numeric($deposit)) {
             return back()->with('erorrss', 'Deposit harus berupa angka');
         }
@@ -247,21 +220,16 @@ class InqueryMemoborongspkController extends Controller
         $format_tanggal = $tanggal1->format('d F Y');
         $cetakpdf = Memo_ekspedisi::findOrFail($id);
 
-        $totalrute = str_replace('.', '', $request->totalrute); // Menghilangkan titik dari totalrute
-        $totalrute = str_replace(',', '.', $totalrute); // Mengganti koma dengan titik untuk memastikan format angka yang benar
+        $totalrute = str_replace('.', '', $request->totalrute);
+        $totalrute = str_replace(',', '.', $totalrute);
 
-        $pphs = str_replace(',', '.', str_replace('.', '', $request->pphs)); // Menghilangkan titik dan mengganti koma dengan titik pada pphs
-        $pphs =  round($pphs); // Mem-bulatkan nilai
+        $pphs = str_replace(',', '.', str_replace('.', '', $request->pphs));
+        $pphs =  round($pphs); 
 
-        $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan); // Menghilangkan titik dari biaya tambahan
-        $biaya_tambahan = str_replace(',', '.', $biaya_tambahan); // Mengganti koma dengan titik untuk memastikan format angka yang benar
+        $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
+        $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
 
         $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan;
-
-
-        // $uang_jaminan = str_replace('.', '', $request->uang_jaminans); // Menghapus titik
-        // $uang_jaminan = str_replace(',', '.', $uang_jaminan); // Mengganti koma menjadi titik
-        // $uang_jaminan = round($uang_jaminan); // Membulatkan nilai
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf->update(
@@ -284,23 +252,15 @@ class InqueryMemoborongspkController extends Controller
                 'telp_pelanggan' => $request->telp_pelanggan,
                 'saldo_deposit' => str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)),
                 'biaya_tambahan' => $biaya_tambahan = is_null($request->biaya_tambahan) ? 0 : str_replace('.', '', $request->biaya_tambahan),
-                // 'deposit_driver' => str_replace('.', '', $request->depositsopir),
                 'total_borongs' => str_replace(',', '.', str_replace('.', '', $request->total_borongs)),
                 'pphs' => str_replace(',', '.', str_replace('.', '', $request->pphs)),
                 'deposit_driver' => $request->depositsopir ? str_replace('.', '', $request->depositsopir) : 0,
                 'deposit_drivers' => $request->depositsopir ? str_replace('.', '', $request->depositsopir) : 0,
-                // 'uang_jaminans' => str_replace('.', '', $request->uang_jaminans),
-                // 'uang_jaminan' => str_replace('.', '', $request->uang_jaminans),
-                // 'deposit_drivers' => str_replace('.', '', $request->depositsopir),
                 'totals' => str_replace(',', '.', str_replace('.', '', $request->totals)),
-
                 'uang_jaminans' => str_replace(',', '.', str_replace('.', '', $request->uang_jaminans)),
                 'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
-                // 'uang_jaminans' => round(str_replace(',', '.', str_replace('.', '', $request->uang_jaminans))),
-                // 'sub_total' => round(str_replace(',', '.', str_replace('.', '', $request->sub_total))),
                 'hasil_jumlah' => $hasil_jumlah,
                 'keterangan' => $request->keterangan,
-                // 'sisa_saldo' => $request->sisa_saldo,
                 'rute_perjalanan_id' => $request->rute_id,
                 'kode_rute' => $request->kode_rutes,
                 'nama_rute' => $request->nama_rutes,
@@ -383,14 +343,10 @@ class InqueryMemoborongspkController extends Controller
     public function cetak_memoborongfilter(Request $request)
     {
         $selectedIds = explode(',', $request->input('ids'));
-
-        // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
-
         $memos = Memo_ekspedisi::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
 
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('admin.inquery_memoborong.cetak_pdffilter', compact('memos'));
-        // $pdf->setPaper([0, 0, 600, 430], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
         $pdf->setPaper('landscape');
 
         return $pdf->stream('SelectedMemoBorong.pdf');
@@ -407,20 +363,13 @@ class InqueryMemoborongspkController extends Controller
         try {
             $item = Memo_ekspedisi::findOrFail($id);
             $user = $item->user;
-
-            // Hitung jumlah memo ekspedisi yang telah diposting dengan nama driver yang sama
             $postedCount = Memo_ekspedisi::where('nama_driver', $item->nama_driver)
                 ->where('status', 'posting')
                 ->count();
-
-            // Jika jumlahnya sudah mencapai atau melebihi 3, lewati memo ekspedisi ini
             if ($postedCount >= 3) {
                 return response()->json(['error' => 'Memo Borong telah mencapai batas maksimal']);
             }
-            // Update Saldo
-            // $uangJalan = $item->harga_rute;
             $BiayaTambahan = $item->hasil_jumlah;
-            // $PotonganMemo = $item->potongan_memo;
             $lastSaldo = Saldo::latest()->first();
             $lastUjs = Total_ujs::latest()->first();
 
@@ -441,17 +390,14 @@ class InqueryMemoborongspkController extends Controller
                 'sisa_saldo' => $sisaSaldo,
             ]);
 
-            $uangUjs = $item->uang_jaminans; // Mengambil nilai dari objek atau model $item
-            $uangUjs = round($uangUjs); // Mem-bulatkan nilai
-
-            // Sekarang, $uangUjs berisi nilai dari tabel database yang sudah dibulatkan.
+            $uangUjs = $item->uang_jaminans;
+            $uangUjs = round($uangUjs);
 
             $sisaUjs = $lastUjs->sisa_ujs + $uangUjs;
             Total_ujs::create([
                 'sisa_ujs' => $sisaUjs,
             ]);
 
-            // Update Karyawan's Tabungan
             $user = $item->user;
 
             if (!$user) {
@@ -472,11 +418,9 @@ class InqueryMemoborongspkController extends Controller
                 'deposit' => $deposits + $item->deposit_driver,
             ]);
 
-            // Update or Create Deposit_driver Record
             $depositDriverRecord = Deposit_driver::where('memo_ekspedisi_id', $item->id)->first();
 
             if ($depositDriverRecord) {
-                // If the record already exists, update it
                 $depositDriverRecord->update([
                     'sub_total' => $tabungans + $item->deposit_driver,
                     'nominal' => $item->deposit_driver,
@@ -484,7 +428,6 @@ class InqueryMemoborongspkController extends Controller
                     'status' => 'posting memo',
                 ]);
             } else {
-                // If the record doesn't exist, create it
                 Deposit_driver::create([
                     'kode_deposit' => $this->kodedeposit(),
                     'kategori' => 'Pemasukan Deposit',
@@ -501,7 +444,6 @@ class InqueryMemoborongspkController extends Controller
                 ]);
             }
 
-            // Update Pengeluaran_kaskecil
             Pengeluaran_kaskecil::where('memo_ekspedisi_id', $id)->update([
                 'status' => 'posting'
             ]);
@@ -512,7 +454,6 @@ class InqueryMemoborongspkController extends Controller
 
             Spk::where('id', $item->spk_id)->update(['status_spk' => 'memo', 'status' => 'selesai']);
 
-            // Update the Memo_ekspedisi status
             $item->update([
                 'status' => 'posting'
             ]);
@@ -522,7 +463,6 @@ class InqueryMemoborongspkController extends Controller
             ]);
 
             return response()->json(['success' => 'Berhasil memposting memo']);
-            // return back()->with('success', 'Berhasil');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Gagal memposting memo: Memo tidak ditemukan']);
         }
@@ -532,9 +472,7 @@ class InqueryMemoborongspkController extends Controller
     {
         try {
             $item = Memo_ekspedisi::findOrFail($id);
-            // $uangJalan = $item->harga_rute;
             $BiayaTambahan = $item->hasil_jumlah;
-            // $PotonganMemo = $item->potongan_memo;
 
             $lastSaldo = Saldo::latest()->first();
             if (!$lastSaldo) {
@@ -562,8 +500,8 @@ class InqueryMemoborongspkController extends Controller
                 return back()->with('error', 'Ujs tidak ditemukan');
             }
 
-            $uangUjs = $item->uang_jaminans; // Mengambil nilai dari objek atau model $item
-            $uangUjs = round($uangUjs); // Mem-bulatkan nilai
+            $uangUjs = $item->uang_jaminans;
+            $uangUjs = round($uangUjs);
             $sisaUjs = $lastUjs->sisa_ujs - $uangUjs;
             Total_ujs::create([
                 'sisa_ujs' => $sisaUjs,
@@ -590,15 +528,12 @@ class InqueryMemoborongspkController extends Controller
             ]);
 
             Spk::where('id', $item->spk_id)->update(['status_spk' => null, 'status' => 'posting']);
-
-            // Update the Memo_ekspedisi status
             $item->update([
                 'status' => 'unpost',
             ]);
 
             return back()->with('success', 'Berhasil');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // return back()->with('error', 'Memo tidak ditemukan');
         }
     }
 
@@ -607,50 +542,38 @@ class InqueryMemoborongspkController extends Controller
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
 
         try {
-            // Initialize total deduction amount
             $totalDeduction = 0;
             $totalDeductionujs = 0;
 
             foreach ($selectedIds as $id) {
-                // Check if the driver has already three or more posted memos
                 $driverName = Memo_ekspedisi::findOrFail($id)->nama_driver;
                 $postedCount = Memo_ekspedisi::where('nama_driver', $driverName)
                     ->where('status', 'posting')
                     ->count();
-
-                // If the driver has three or more posted memos, skip this memo
                 if ($postedCount >= 3) {
                     continue;
                 }
 
                 $item = Memo_ekspedisi::findOrFail($id);
 
-                // Pastikan hanya memproses memo ekspedisi dengan status 'unpost'
                 if ($item->status === 'unpost' && $item->kategori === 'Memo Borong') {
-                    // Accumulate total deduction amount
                     $totalDeduction += $item->hasil_jumlah;
 
-                    $uangUjs = $item->uang_jaminans; // Mengambil nilai dari objek atau model $item
-                    $uangUjs = round($uangUjs); // Mem-bulatkan nilai
+                    $uangUjs = $item->uang_jaminans;
+                    $uangUjs = round($uangUjs);
 
                     $totalDeductionujs += $uangUjs;
                 }
             }
-
-            // Get the last saldo
             $lastSaldo = Saldo::latest()->first();
             $lastUjs = Total_ujs::latest()->first();
 
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
-
-            // Check if saldo is sufficient
             if ($lastSaldo->sisa_saldo < $totalDeduction) {
                 return back()->with('error', 'Saldo tidak mencukupi');
             }
-
-            // Check if total uang jalan request is greater than saldo
             $totalUangJalanRequest = array_reduce($selectedIds, function ($carry, $id) {
                 $item = Memo_ekspedisi::findOrFail($id);
                 return $carry + $item->hasil_jumlah;
@@ -659,17 +582,11 @@ class InqueryMemoborongspkController extends Controller
             if ($lastSaldo->sisa_saldo < $totalUangJalanRequest) {
                 return back()->with('error', 'Total request uang jalan melebihi saldo terakhir');
             }
-
-            // Update transactions and memo statuses
             foreach ($selectedIds as $id) {
                 $item = Memo_ekspedisi::findOrFail($id);
-
-                // Hitung jumlah memo ekspedisi yang telah diposting dengan nama driver yang sama
                 $postedCount = Memo_ekspedisi::where('nama_driver', $item->nama_driver)
                     ->where('status', 'posting')
                     ->count();
-
-                // Jika jumlahnya sudah mencapai atau melebihi 3 dan memo ekspedisi ini belum diposting, lewati memo ekspedisi ini
                 if ($postedCount >= 3 && $item->status !== 'posting') {
                     continue;
                 }
@@ -709,7 +626,6 @@ class InqueryMemoborongspkController extends Controller
                     $depositDriverRecord = Deposit_driver::where('memo_ekspedisi_id', $item->id)->first();
 
                     if ($depositDriverRecord) {
-                        // Jika record sudah ada, lakukan update
                         $depositDriverRecord->update([
                             'sub_total' => $tabungans + $item->deposit_driver,
                             'nominal' => $item->deposit_driver,
@@ -717,7 +633,6 @@ class InqueryMemoborongspkController extends Controller
                             'status' => 'posting memo',
                         ]);
                     } else {
-                        // Jika record belum ada, lakukan create
                         Deposit_driver::create([
                             'kode_deposit' => $this->kodedeposit(),
                             'kategori' => 'Pemasukan Deposit',
@@ -734,30 +649,23 @@ class InqueryMemoborongspkController extends Controller
                         ]);
                     }
 
-
-                    // Update status_spk
                     $spk = Spk::where('id', $item->spk_id)->first();
                     if ($spk) {
                         $spk->update(['status_spk' => 'memo', 'status' => 'selesai']);
                     }
-                    // Update the Memo_ekspedisi status
                     $item->update([
                         'status' => 'posting'
                     ]);
-
-                    // Update the Memo_ekspedisi status
                     $item->update([
                         'status' => 'posting'
                     ]);
-
-                    // Update saldo deduction based on successfully posted memo
                     $lastSaldo->update([
                         'sisa_saldo' => $lastSaldo->sisa_saldo - ($item->hasil_jumlah)
                     ]);
 
                     $lastUjs->update([
-                        $uangUjs = $item->uang_jaminans, // Mengambil nilai dari objek atau model $item
-                        $uangUjs = round($uangUjs), // Mem-bulatkan nilai
+                        $uangUjs = $item->uang_jaminans,
+                        $uangUjs = round($uangUjs),
                         'sisa_ujs' => $lastUjs->sisa_ujs + ($uangUjs)
                     ]);
                 }

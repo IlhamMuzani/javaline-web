@@ -5,14 +5,10 @@ namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
 use App\Models\Detail_pelunasanban;
 use App\Models\Pembelian_ban;
 use App\Models\Supplier;
 use App\Models\Faktur_pelunasanban;
-use App\Models\Nota_return;
-use App\Models\Return_ekspedisi;
-use App\Models\Satuan;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryFakturpelunasanbanController extends Controller
@@ -42,7 +38,6 @@ class InqueryFakturpelunasanbanController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -51,8 +46,6 @@ class InqueryFakturpelunasanbanController extends Controller
 
         return view('admin.inquery_fakturpelunasanban.index', compact('inquery'));
     }
-
-
 
     public function edit($id)
     {
@@ -85,7 +78,6 @@ class InqueryFakturpelunasanbanController extends Controller
 
         $error_pesanans = array();
         $data_pembelians = collect();
-
         if ($request->has('pembelian_ban_id')) {
             for ($i = 0; $i < count($request->pembelian_ban_id); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
@@ -94,16 +86,13 @@ class InqueryFakturpelunasanbanController extends Controller
                     'tanggal_pembelian.' . $i => 'required',
                     'total.' . $i => 'required',
                 ]);
-
                 if ($validasi_produk->fails()) {
                     array_push($error_pesanans, "Faktur nomor " . ($i + 1) . " belum dilengkapi!"); // Corrected the syntax for concatenation and indexing
                 }
-
                 $pembelian_ban_id = is_null($request->pembelian_ban_id[$i]) ? '' : $request->pembelian_ban_id[$i];
                 $kode_pembelian_ban = is_null($request->kode_pembelian_ban[$i]) ? '' : $request->kode_pembelian_ban[$i];
                 $tanggal_pembelian = is_null($request->tanggal_pembelian[$i]) ? '' : $request->tanggal_pembelian[$i];
                 $total = is_null($request->total[$i]) ? '' : $request->total[$i];
-
                 $data_pembelians->push([
                     'detail_id' => $request->detail_ids[$i] ?? null,
                     'pembelian_ban_id' => $pembelian_ban_id,
@@ -128,7 +117,6 @@ class InqueryFakturpelunasanbanController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf = Faktur_pelunasanban::findOrFail($id);
 
-        // Update the main transaction
         $cetakpdf->update([
             'supplier_id' => $request->supplier_id,
             'kode_supplier' => $request->kode_supplier,
@@ -147,7 +135,6 @@ class InqueryFakturpelunasanbanController extends Controller
             'nomor' => $request->nomor,
             'status' => 'posting',
             'tanggal_transfer' => $request->tanggal_transfer,
-            // 'nominal' => str_replace('.', '', $request->nominal),
             'nominal' =>  $request->nominal ? str_replace(',', '.', str_replace('.', '', $request->nominal)) : 0,
 
         ]);
@@ -167,8 +154,6 @@ class InqueryFakturpelunasanbanController extends Controller
                     'status' => 'posting',
                     'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]);
-
-                // Update Pembelian_ban
                 Pembelian_ban::where('id', $data_pesanan['pembelian_ban_id'])->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
             } else {
                 $existingDetail = Detail_pelunasanban::where([
@@ -188,8 +173,6 @@ class InqueryFakturpelunasanbanController extends Controller
                         'tanggal_pembelian' => $data_pesanan['tanggal_pembelian'],
                         'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                     ]);
-
-                    // Update Pembelian_ban
                     Pembelian_ban::where('id', $detailPelunasan->pembelian_ban_id)->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
                 }
             }
@@ -210,43 +193,26 @@ class InqueryFakturpelunasanbanController extends Controller
 
     public function unpostpelunasanban($id)
     {
-        // Menggunakan find untuk mendapatkan Faktur_pelunasanban berdasarkan ID
         $item = Faktur_pelunasanban::find($id);
-
-        // Memeriksa apakah Faktur_pelunasanban ditemukan
         if (!$item) {
             return back()->with('error', 'Faktur pembelian ban tidak ditemukan');
         }
-
-        // Mendapatkan detail pelunasan terkait
         $detailpelunasan = Detail_pelunasanban::where('faktur_pelunasanban_id', $id)->get();
-
-        // Melakukan loop pada setiap Detail_pelunasanban dan memperbarui rekaman Pembelian_ban terkait
         foreach ($detailpelunasan as $detail) {
             if ($detail->pembelian_ban_id) {
-                // Menggunakan find untuk mendapatkan Pembelian_ban berdasarkan ID
                 $fakturEkspedisi = Pembelian_ban::find($detail->pembelian_ban_id);
-
-                // Memeriksa apakah Pembelian_ban ditemukan
                 if ($fakturEkspedisi) {
-                    // Memperbarui status_pelunasan pada Pembelian_ban menjadi 'aktif'
                     $fakturEkspedisi->update(['status' => 'posting', 'status_pelunasan' => null]);
                 }
             }
         }
-
         try {
-            // Memperbarui status pada Faktur_pelunasanban menjadi 'unpost'
             $item->update(['status' => 'unpost']);
-
-            // Melakukan loop pada setiap Detail_pelunasanban dan memperbarui status menjadi 'unpost'
             foreach ($detailpelunasan as $detail) {
                 $detail->update(['status' => 'unpost']);
             }
-
             return back()->with('success', 'Berhasil unposting faktur pembelian ban');
         } catch (\Exception $e) {
-            // Menangani kesalahan pembaruan basis data
             return back()->with('error', 'Gagal unposting faktur pembelian ban: ' . $e->getMessage());
         }
     }
@@ -254,29 +220,19 @@ class InqueryFakturpelunasanbanController extends Controller
 
     public function postingpelunasanban($id)
     {
-        // Menggunakan find untuk mendapatkan Faktur_pelunasanban berdasarkan ID
         $item = Faktur_pelunasanban::find($id);
-
-        // Memeriksa apakah Faktur_pelunasanban ditemukan
         if (!$item) {
             return back()->with('error', 'Faktur pembelian ban tidak ditemukan');
         }
-
-        // Mendapatkan detail pelunasan terkait
         $detailpelunasan = Detail_pelunasanban::where('faktur_pelunasanban_id', $id)->get();
 
         try {
-            // Melakukan loop pada setiap Detail_pelunasanban dan memperbarui status menjadi 'posting'
             foreach ($detailpelunasan as $detail) {
                 $detail->update(['status' => 'posting']);
             }
-
-            // Memperbarui status pada Faktur_pelunasanban menjadi 'posting'
             $item->update(['status' => 'posting']);
-
             return back()->with('success', 'Berhasil posting pembelian ban');
         } catch (\Exception $e) {
-            // Menangani kesalahan pembaruan basis data
             return back()->with('error', 'Gagal posting pembelian ban: ' . $e->getMessage());
         }
     }
@@ -288,22 +244,11 @@ class InqueryFakturpelunasanbanController extends Controller
 
         if ($item) {
             $detailpelunasan = Detail_pelunasanban::where('faktur_pelunasanban_id', $id)->get();
-
-            // Loop through each Detail_pelunasanban and update associated Pembelian_ban records
-            // foreach ($detailpelunasan as $detail) {
-            //     if ($detail->pembelian_ban_id) {
-            //         Pembelian_ban::where('id', $detail->pembelian_ban_id)->update(['status_pelunasan' => null, 'status' => 'posting']);
-            //     }
-            // }
-            // Delete related Detail_pelunasanban instances
             Detail_pelunasanban::where('faktur_pelunasanban_id', $id)->delete();
-
-            // Delete the main Faktur_pelunasanban instance
             $item->delete();
 
             return back()->with('success', 'Berhasil menghapus pembelian ban');
         } else {
-            // Handle the case where the Faktur_pelunasanban with the given ID is not found
             return back()->with('error', 'pembelian ban tidak ditemukan');
         }
     }

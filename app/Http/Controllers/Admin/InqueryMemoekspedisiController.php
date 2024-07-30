@@ -5,32 +5,20 @@ namespace App\Http\Controllers\admin;
 use App\Exports\MemoperjalananExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\DB;
-
 use Carbon\Carbon;
-use App\Models\Ban;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Typeban;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use App\Models\Pembelian_ban;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
-use App\Models\Detail_memo;
-use App\Models\Detail_memotambahan;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
 use App\Models\Faktur_ekspedisi;
-use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
-use App\Models\Penerimaan_kaskecil;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
@@ -40,7 +28,6 @@ use App\Models\Total_ujs;
 use App\Models\Uangjaminan;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryMemoekspedisiController extends Controller
 {

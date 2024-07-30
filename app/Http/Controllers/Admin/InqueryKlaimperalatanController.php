@@ -37,7 +37,6 @@ class InqueryKlaimperalatanController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -139,7 +138,6 @@ class InqueryKlaimperalatanController extends Controller
 
         $saldoTerakhir = Saldo::latest()->first();
         $saldo = $saldoTerakhir->id;
-        // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
         $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
         $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
 
@@ -223,16 +221,12 @@ class InqueryKlaimperalatanController extends Controller
         $detailpembelian = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
 
         foreach ($detailpembelian as $detail) {
-            // Cari Detail_inventory yang sesuai
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->first();
 
             if ($existingDetailBarang) {
-                // Kurangi jumlahnya
                 $existingDetailBarang->jumlah += $detail->jumlah;
-
-                // Simpan perubahan
                 $existingDetailBarang->save();
             }
         }
@@ -243,7 +237,6 @@ class InqueryKlaimperalatanController extends Controller
         if ($depositdriver) {
             $sopir = Karyawan::find($depositdriver->karyawan_id);
 
-            // Pastikan karyawan ditemukan
             if (!$sopir) {
                 return back()->with('error', 'Karyawan tidak ditemukan');
             }
@@ -256,13 +249,11 @@ class InqueryKlaimperalatanController extends Controller
             $total = $depositdriver->nominal;
             $sub_totals = $tabungan + $total;
 
-            // Update tabungan karyawan
             $sopir->update([
                 'kasbon' => $kasbons,
                 // 'deposit' => $deposits,
                 'tabungan' => $sub_totals
             ]);
-            // Update status deposit_driver menjadi 'posting'
             $depositdriver->update([
                 'status' => 'unpost'
             ]);
@@ -273,7 +264,6 @@ class InqueryKlaimperalatanController extends Controller
         if ($penerimaan) {
             $lastSaldo = Saldo::latest()->first();
 
-            // Periksa apakah saldo terakhir ditemukan
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
@@ -283,13 +273,11 @@ class InqueryKlaimperalatanController extends Controller
                 'sisa_saldo' => $sisaSaldo,
             ]);
 
-            // Perbarui status penerimaan menjadi "unpost"
             $penerimaan->update([
                 'status' => 'unpost'
             ]);
         }
 
-        // Update status pembelian menjadi 'unpost'
         $pembelian->update(['status' => 'unpost']);
 
         return back()->with('success', 'Klaim_peralatan berhasil di-unpost.');
@@ -302,14 +290,11 @@ class InqueryKlaimperalatanController extends Controller
         $detailpembelian = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
 
         foreach ($detailpembelian as $detail) {
-            // Cari Detail_inventory yang sesuai
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->first();
             if ($existingDetailBarang) {
-                // Tambahkan jumlahnya
                 $existingDetailBarang->jumlah -= $detail->jumlah;
-                // Simpan perubahan
                 $existingDetailBarang->save();
             }
         }
@@ -320,7 +305,6 @@ class InqueryKlaimperalatanController extends Controller
         if ($depositdriver) {
             $sopir = Karyawan::find($depositdriver->karyawan_id);
 
-            // Pastikan karyawan ditemukan
             if (!$sopir) {
                 return back()->with('error', 'Karyawan tidak ditemukan');
             }
@@ -333,13 +317,11 @@ class InqueryKlaimperalatanController extends Controller
             $total = $depositdriver->nominal;
             $sub_totals = $tabungan - $total;
 
-            // Update tabungan karyawan
             $sopir->update([
                 'kasbon' => $kasbons,
                 // 'deposit' => $deposits,
                 'tabungan' => $sub_totals
             ]);
-            // Update status deposit_driver menjadi 'posting'
             $depositdriver->update([
                 'status' => 'posting'
             ]);
@@ -350,7 +332,6 @@ class InqueryKlaimperalatanController extends Controller
         if ($penerimaan) {
             $lastSaldo = Saldo::latest()->first();
 
-            // Periksa apakah saldo terakhir ditemukan
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
@@ -365,7 +346,6 @@ class InqueryKlaimperalatanController extends Controller
             ]);
         }
 
-        // Update status pembelian menjadi 'posting'
         $pembelian->update(['status' => 'posting']);
 
         return back()->with('success', 'Klaim_peralatan berhasil di-posting kembali.');
@@ -390,25 +370,20 @@ class InqueryKlaimperalatanController extends Controller
 
         $depositdriver = Deposit_driver::where('id', $klaim_peralatan->deposit_driver_id)->first();
         if ($depositdriver) {
-            // Hapus penerimaan_kaskecil yang terkait
             $penerimaanKasKecil = $depositdriver->penerimaan_kaskecil();
             if ($penerimaanKasKecil) {
                 $penerimaanKasKecil->delete();
             }
-
-            // Hapus deposit_driver
             $depositdriver->delete();
         }
 
         if ($klaim_peralatan) {
             $detail_klaim = Detail_klaimperalatan::where('klaim_peralatan_id', $id)->get();
-            // Delete related Detail_tagihan instances
             Detail_klaimperalatan::where('klaim_peralatan_id', $id)->delete();
             $klaim_peralatan->delete();
 
             return back()->with('success', 'Berhasil menghapus Klaim_peralatan');
         } else {
-            // Handle the case where the Klaim_peralatan with the given ID is not found
             return back()->with('error', 'Klaim_peralatan tidak ditemukan');
         }
     }

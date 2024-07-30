@@ -6,21 +6,15 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
 use App\Models\Detail_pelunasan;
 use App\Models\Detail_pelunasanpotongan;
 use App\Models\Detail_pelunasanreturn;
-use App\Models\Detail_return;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Faktur_pelunasan;
-use App\Models\Faktur_penjualanreturn;
 use App\Models\Nota_return;
-use App\Models\Pelanggan;
 use App\Models\Potongan_penjualan;
-use App\Models\Return_ekspedisi;
 use App\Models\Spk;
 use App\Models\Tagihan_ekspedisi;
-use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
 class FakturpelunasanController extends Controller
@@ -29,7 +23,6 @@ class FakturpelunasanController extends Controller
     {
 
         $fakturs = Faktur_ekspedisi::get();
-        // Mendapatkan tagihan ekspedisi yang memiliki faktur ekspedisi dan status pelunasannya tidak NULL
         $invoices = Tagihan_ekspedisi::whereDoesntHave('detail_tagihan', function ($query) {
             $query->whereHas('faktur_ekspedisi', function ($query) {
                 $query->whereNotNull('status_pelunasan');
@@ -99,11 +92,9 @@ class FakturpelunasanController extends Controller
 
         if ($request->has('nota_return_id') || $request->has('faktur_id') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
             for ($i = 0; $i < count($request->nota_return_id); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (empty($request->nota_return_id[$i])  && empty($request->faktur_id[$i]) && empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])) {
-                    continue; // Skip validation if both are empty
+                    continue;
                 }
-
                 $validasi_produk = Validator::make($request->all(), [
                     'nota_return_id.' . $i => 'required',
                     'faktur_id.' . $i => 'required',
@@ -115,13 +106,11 @@ class FakturpelunasanController extends Controller
                 if ($validasi_produk->fails()) {
                     array_push($error_pesanans, "Return nomor " . ($i + 1) . " belum dilengkapi!");
                 }
-
                 $nota_return_id = $request->nota_return_id[$i] ?? '';
                 $faktur_id = $request->faktur_id[$i] ?? '';
                 $kode_potongan = $request->kode_potongan[$i] ?? '';
                 $keterangan_potongan = $request->keterangan_potongan[$i] ?? '';
                 $nominal_potongan = $request->nominal_potongan[$i] ?? '';
-
                 $data_pembelians2->push([
                     'nota_return_id' => $nota_return_id,
                     'faktur_id' => $faktur_id,
@@ -135,9 +124,8 @@ class FakturpelunasanController extends Controller
 
         if ($request->has('potongan_penjualan_id') || $request->has('kode_potonganlain') || $request->has('keterangan_potonganlain') || $request->has('nominallain')) {
             for ($i = 0; $i < count($request->potongan_penjualan_id); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (empty($request->potongan_penjualan_id[$i]) && empty($request->kode_potonganlain[$i]) && empty($request->keterangan_potonganlain[$i]) && empty($request->nominallain[$i])) {
-                    continue; // Skip validation if both are empty
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -227,15 +215,10 @@ class FakturpelunasanController extends Controller
                 'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 'status' => 'posting',
             ]);
-
-            // Ambil objek faktur ekspedisi
             $faktur = Faktur_ekspedisi::find($detailPelunasan->faktur_ekspedisi_id);
 
             if ($faktur) {
-                // Update status faktur
                 $faktur->update(['status_pelunasan' => 'aktif']);
-
-                // Update status spk
                 $spk = Spk::find($faktur->spk_id);
                 if ($spk) {
                     $spk->update(['status_spk' => 'pelunasan']);
@@ -268,8 +251,6 @@ class FakturpelunasanController extends Controller
             Potongan_penjualan::where('id', $data_pesanan['potongan_penjualan_id'])->update(['status' => 'selesai']);
         }
 
-
-
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
 
         return view('admin.faktur_pelunasan.show', compact('cetakpdf', 'details'));
@@ -287,26 +268,6 @@ class FakturpelunasanController extends Controller
 
         return response()->json($fakturs);
     }
-
-
-
-    // public function kode()
-    // {
-    //     $item = Faktur_pelunasan::all();
-    //     if ($item->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Faktur_pelunasan::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'LP';
-    //     $kode_item = $data . $num;
-    //     return $kode_item;
-    // }
 
     public function kode()
     {
@@ -337,8 +298,7 @@ class FakturpelunasanController extends Controller
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
 
         $pdf = PDF::loadView('admin.faktur_pelunasan.cetak_pdf', compact('cetakpdf', 'details'));
-        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
-
+        $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('Faktur_Pelunasan.pdf');
     }
 }

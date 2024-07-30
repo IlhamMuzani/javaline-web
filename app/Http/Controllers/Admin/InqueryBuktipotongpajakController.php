@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
-use setasign\Fpdi\Fpdi;
 use App\Models\Detail_bukti;
 use Illuminate\Http\Request;
-use App\Models\Detail_tagihan;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Bukti_potongpajak;
 use App\Models\Tagihan_ekspedisi;
@@ -40,7 +38,6 @@ class InqueryBuktipotongpajakController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -95,24 +92,6 @@ class InqueryBuktipotongpajakController extends Controller
         return view('admin.inquery_buktipotongpajak.show', compact('cetakpdf', 'details'));
     }
 
-
-    // public function show($id)
-    // {
-    //     $cetakpdf = Bukti_potongpajak::find($id);
-
-    //     // Retrieve all details related to the bukti_potongpajak
-    //     $details = Detail_bukti::where('bukti_potongpajak_id', $id)->get();
-
-    //     // Get the first detail to display the related tagihan_ekspedisi
-    //     $firstDetail = $details->first();
-    //     $tagihan_ekspedisi = null;
-    //     if ($firstDetail) {
-    //         $tagihan_ekspedisi = Tagihan_ekspedisi::where('id', $firstDetail->tagihan_ekspedisi_id)->first();
-    //     }
-
-    //     return view('admin.inquery_buktipotongpajak.show', compact('cetakpdf', 'details', 'tagihan_ekspedisi'));
-    // }
-
     public function unpostbukti($id)
     {
         $faktur = Bukti_potongpajak::find($id);
@@ -127,42 +106,31 @@ class InqueryBuktipotongpajakController extends Controller
             $detailfakturs = Detail_bukti::where('bukti_potongpajak_id', $id)->get();
             foreach ($detailfakturs as $detail) {
                 if ($detail->tagihan_ekspedisi_id) {
-                    // Update status memo ekspedisi
                     Tagihan_ekspedisi::where(['id' => $detail->tagihan_ekspedisi_id])->update(['status_terpakai' => null]);
-                    // Update status memotambahan
                 }
             }
         }
-
-        // Update the status of the faktur to 'unpost'
         $faktur->update([
             'status' => 'unpost'
         ]);
-
-        // Return back with a success message
         return back()->with('success', 'Berhasil');
     }
 
     public function postingbukti($id)
     {
         $faktur = Bukti_potongpajak::where('id', $id)->first();
-
         if (!$faktur) {
             return back()->with('error', 'Bukti tidak ditemukan');
         }
-
         $detail_faktur = Detail_bukti::where('bukti_potongpajak_id', $id)->first();
-
         if ($detail_faktur) {
             $detailfakturs = Detail_bukti::where('bukti_potongpajak_id', $id)->get();
             foreach ($detailfakturs as $detail) {
                 if ($detail->tagihan_ekspedisi_id) {
-                    // Update status memo ekspedisi
                     Tagihan_ekspedisi::where(['id' => $detail->tagihan_ekspedisi_id])->update(['status_terpakai' => 'digunakan']);
                 }
             }
         }
-
         $faktur->update([
             'status' => 'posting'
         ]);
@@ -175,15 +143,11 @@ class InqueryBuktipotongpajakController extends Controller
 
         if ($bukti) {
             $detailtagihan = Detail_bukti::where('bukti_potongpajak_id', $id)->get();
-            // Delete related Detail_tagihan instances
             Detail_bukti::where('bukti_potongpajak_id', $id)->delete();
-
-            // Delete the main bukti_potongpajak_id instance
             $bukti->delete();
 
             return back()->with('success', 'Berhasil menghapus Faktur Ekspedisi');
         } else {
-            // Handle the case where the bukti_potongpajak_id with the given ID is not found
             return back()->with('error', 'Bukti tidak ditemukan');
         }
     }
@@ -202,8 +166,6 @@ class InqueryBuktipotongpajakController extends Controller
     public function cetak_buktifilter(Request $request)
     {
         $selectedIds = explode(',', $request->input('ids'));
-
-        // Mengambil faktur berdasarkan id yang dipilih
         $buktis = Bukti_potongpajak::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
 
         $pdf = PDF::loadView('admin.inquery_buktipotongpajak.cetak_pdffilter', compact('buktis'));
@@ -235,9 +197,6 @@ class InqueryBuktipotongpajakController extends Controller
     //     $pdf->setPaper('a4');
 
     // }
-
-
-
 
     // public function cetak_buktifilterfoto(Request $request)
     // {

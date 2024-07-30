@@ -3,31 +3,18 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
-use App\Models\Ban;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Typeban;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use App\Models\Pembelian_ban;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
-use App\Models\Detail_memo;
-use App\Models\Detail_memotambahan;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_tambahan;
 use App\Models\Faktur_ekspedisi;
-use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
-use App\Models\Pelanggan;
-use App\Models\Penerimaan_kaskecil;
 use App\Models\Pengeluaran_kaskecil;
-use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
 use App\Models\Spk;
@@ -69,7 +56,6 @@ class InqueryMemoborongController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -85,18 +71,14 @@ class InqueryMemoborongController extends Controller
         } elseif ($kategori === 'Memo Borong') {
             return view('admin.inquery_memoborong.index', compact('inquery', 'saldoTerakhir'));
         } elseif ($kategori === 'Memo Tambahan') {
-            // Anda harus menyesuaikan ini sesuai dengan tampilan dan data yang diperlukan untuk "Memo Tambahan"
-            // Misalnya:
             return view('admin.inquery_memotambahan.index', compact('inquery', 'saldoTerakhir'));
         } else {
             return view('admin.inquery_memoborong.index', compact('inquery', 'saldoTerakhir'));
         }
     }
 
-
     public function edit($id)
     {
-        // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
 
         $inquery = Memo_ekspedisi::where('id', $id)->first();
         $kendaraans = Kendaraan::all();
@@ -118,11 +100,6 @@ class InqueryMemoborongController extends Controller
             'detailstambahan',
             'saldoTerakhir'
         ));
-
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 
     public function update(Request $request, $id)
@@ -138,10 +115,7 @@ class InqueryMemoborongController extends Controller
                 'jumlah' => 'required',
                 'satuan' => 'required',
                 'harga_rute' => ['nullable', function ($attribute, $value, $fail) {
-                    // Remove non-numeric characters
                     $numericValue = preg_replace('/[^0-9]/', '', $value);
-
-                    // Check if the resulting string is numeric
                     if (!is_numeric($numericValue)) {
                         $fail('Uang jalan harus berupa angka atau dalam format Rupiah yang valid.');
                     }
@@ -171,9 +145,8 @@ class InqueryMemoborongController extends Controller
 
         if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
             for ($i = 0; $i < count($request->biaya_tambahan_id); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (empty($request->biaya_tambahan_id[$i]) && empty($request->kode_biaya[$i]) && empty($request->nama_biaya[$i]) && empty($request->nominal[$i])) {
-                    continue; // Skip validation if both are empty
+                    continue; 
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -214,7 +187,6 @@ class InqueryMemoborongController extends Controller
 
         $deposit = $request->depositsopir;
 
-        // Check if $deposit is not a numeric value
         if (!is_numeric($deposit)) {
             return back()->with('erorrss', 'Deposit harus berupa angka');
         }
@@ -229,21 +201,16 @@ class InqueryMemoborongController extends Controller
         $format_tanggal = $tanggal1->format('d F Y');
         $cetakpdf = Memo_ekspedisi::findOrFail($id);
 
-        $totalrute = str_replace('.', '', $request->totalrute); // Menghilangkan titik dari totalrute
-        $totalrute = str_replace(',', '.', $totalrute); // Mengganti koma dengan titik untuk memastikan format angka yang benar
+        $totalrute = str_replace('.', '', $request->totalrute);
+        $totalrute = str_replace(',', '.', $totalrute);
 
-        $pphs = str_replace(',', '.', str_replace('.', '', $request->pphs)); // Menghilangkan titik dan mengganti koma dengan titik pada pphs
-        $pphs =  round($pphs); // Mem-bulatkan nilai
+        $pphs = str_replace(',', '.', str_replace('.', '', $request->pphs));
+        $pphs =  round($pphs);
 
-        $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan); // Menghilangkan titik dari biaya tambahan
-        $biaya_tambahan = str_replace(',', '.', $biaya_tambahan); // Mengganti koma dengan titik untuk memastikan format angka yang benar
+        $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
+        $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
 
         $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan;
-
-
-        // $uang_jaminan = str_replace('.', '', $request->uang_jaminans); // Menghapus titik
-        // $uang_jaminan = str_replace(',', '.', $uang_jaminan); // Mengganti koma menjadi titik
-        // $uang_jaminan = round($uang_jaminan); // Membulatkan nilai
 
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf->update(
@@ -265,23 +232,15 @@ class InqueryMemoborongController extends Controller
                 'telp_pelanggan' => $request->telp_pelanggan,
                 'saldo_deposit' => str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)),
                 'biaya_tambahan' => $biaya_tambahan = is_null($request->biaya_tambahan) ? 0 : str_replace('.', '', $request->biaya_tambahan),
-                // 'deposit_driver' => str_replace('.', '', $request->depositsopir),
                 'total_borongs' => str_replace(',', '.', str_replace('.', '', $request->total_borongs)),
                 'pphs' => str_replace(',', '.', str_replace('.', '', $request->pphs)),
                 'deposit_driver' => $request->depositsopir ? str_replace('.', '', $request->depositsopir) : 0,
                 'deposit_drivers' => $request->depositsopir ? str_replace('.', '', $request->depositsopir) : 0,
-                // 'uang_jaminans' => str_replace('.', '', $request->uang_jaminans),
-                // 'uang_jaminan' => str_replace('.', '', $request->uang_jaminans),
-                // 'deposit_drivers' => str_replace('.', '', $request->depositsopir),
                 'totals' => str_replace(',', '.', str_replace('.', '', $request->totals)),
-
                 'uang_jaminans' => str_replace(',', '.', str_replace('.', '', $request->uang_jaminans)),
                 'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
-                // 'uang_jaminans' => round(str_replace(',', '.', str_replace('.', '', $request->uang_jaminans))),
-                // 'sub_total' => round(str_replace(',', '.', str_replace('.', '', $request->sub_total))),
                 'hasil_jumlah' => $hasil_jumlah,
                 'keterangan' => $request->keterangan,
-                // 'sisa_saldo' => $request->sisa_saldo,
                 'rute_perjalanan_id' => $request->rute_id,
                 'kode_rute' => $request->kode_rutes,
                 'nama_rute' => $request->nama_rutes,
@@ -289,15 +248,8 @@ class InqueryMemoborongController extends Controller
                 'jumlah' => $request->jumlah,
                 'satuan' => $request->satuan,
                 'totalrute' => str_replace(',', '.', str_replace('.', '', $request->totalrute)),
-
-                // 'biaya_id' => $request->biaya_id,
-                // 'kode_biaya' => $request->kode_biaya,
-                // 'nama_biaya' => $request->nama_biaya,
-                // 'nominal' => $request->has('nominal') ? ($request->nominal != 0 ? str_replace('.', '', $request->nominal) : null) : null,
-
             ]
         );
-
 
         $transaksi_id = $cetakpdf->id;
         $detailIds = $request->input('detail_idss');

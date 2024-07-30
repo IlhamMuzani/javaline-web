@@ -3,54 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
-use Dompdf\Dompdf;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Supplier;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use App\Models\Pembelian_ban;
-use App\Models\Detail_pembelianban;
 use App\Http\Controllers\Controller;
-use App\Models\Ban;
-use App\Models\Biaya_tambahan;
 use App\Models\Detail_faktur;
-use App\Models\Detail_memo;
-use App\Models\Detail_memotambahan;
 use App\Models\Detail_tariftambahan;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
-use App\Models\Memo_tambahan;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
-use App\Models\Penerimaan_kaskecil;
-use App\Models\Potongan_memo;
-use App\Models\nama_rute;
 use App\Models\Pph;
-use App\Models\Saldo;
 use App\Models\Spk;
 use App\Models\Tarif;
-use App\Models\Typeban;
-use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class FakturekspedisispkController extends Controller
 {
-    // public function index()
-    // {
-    //     $pelanggans = Pelanggan::all();
-    //     $memoEkspedisi = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting'])->get();
-    //     $memoTambahan = Memotambahan::where(['status_memo' => null, 'status' => 'posting'])->get();
-    //     $kendaraans = Kendaraan::get();
-
-    //     // Gabungkan dua koleksi menjadi satu
-    //     $memos = $memoEkspedisi->concat($memoTambahan);
-    //     $tarifs = Tarif::all();
-
-    //     return view('admin.faktur_ekspedisispk.index', compact('kendaraans', 'pelanggans', 'memos', 'tarifs', 'memoEkspedisi', 'memoTambahan'));
-    // }
-
     public function index()
     {
         $pelanggans = Pelanggan::all();
@@ -122,11 +91,10 @@ class FakturekspedisispkController extends Controller
 
         if ($request->has('memo_ekspedisi_id') || $request->has('kode_memo') || $request->has('nama_driver') || $request->has('telp_driver') || $request->has('nama_rute') || $request->has('kendaraan_id') || $request->has('no_kabin') || $request->has('no_pol')) {
             for ($i = 0; $i < count($request->memo_ekspedisi_id); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (
                     empty($request->memo_ekspedisi_id[$i]) && empty($request->kode_memo[$i]) && empty($request->nama_driver[$i]) && empty($request->telp_driver[$i]) && empty($request->nama_rute[$i]) && empty($request->kendaraan_id[$i]) && empty($request->no_kabin[$i]) && empty($request->no_pol[$i])
                 ) {
-                    continue; // Skip validation if both are empty
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -185,11 +153,10 @@ class FakturekspedisispkController extends Controller
 
         if ($request->has('keterangan_tambahan') || $request->has('nominal_tambahan') || $request->has('qty_tambahan') || $request->has('satuan_tambahan')) {
             for ($i = 0; $i < count($request->keterangan_tambahan); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (
                     empty($request->keterangan_tambahan[$i]) && empty($request->nominal_tambahan[$i]) && empty($request->qty_tambahan[$i]) && empty($request->satuan_tambahan[$i])
                 ) {
-                    continue; // Skip validation if both are empty
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -241,8 +208,6 @@ class FakturekspedisispkController extends Controller
             'nama_sopir' => $request->nama_sopir,
             'tarif_id' => $request->tarif_id,
             'tanggal_memo' => $request->tanggal_memo[0] ?? null ? \Carbon\Carbon::parse($request->tanggal_memo[0])->format('d M Y') : null,
-            // 'pph' => str_replace('.', '', $request->pph),
-            'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
             'pelanggan_id' => $request->pelanggan_id,
             'kode_pelanggan' => $request->kode_pelanggan,
             'nama_pelanggan' => $request->nama_pelanggan,
@@ -255,23 +220,18 @@ class FakturekspedisispkController extends Controller
             'telp_vendor' => $request->telp_vendor,
             'kode_tarif' => $request->kode_tarif,
             'nama_tarif' => $request->nama_tarif,
-            'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),
-            // 'harga_tarif' => str_replace('.', '', $request->harga_tarif),
-            // 'jumlah' => str_replace('.', ',', $request->jumlah),
             'jumlah' => $request->jumlah,
             'satuan' => $request->satuan,
+            'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
+            'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),
             'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
-            // 'total_tarif' => str_replace('.', '', $request->total_tarif),
             'grand_total' => str_replace(
                 ',',
                 '.',
                 str_replace('.', '', $request->sub_total)
             ),
-            // 'grand_total' => str_replace('.', '', $request->sub_total),
             'sisa' => str_replace(',', '.', str_replace('.', '', $request->sisa)),
-            // 'sisa' => str_replace('.', '', $request->sisa),
             'biaya_tambahan' => str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan)),
-            // 'biaya_tambahan' => str_replace('.', '', $request->biaya_tambahan),
             'keterangan' => $request->keterangan,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
@@ -300,7 +260,6 @@ class FakturekspedisispkController extends Controller
         if ($request->kategoris == "memo") {
             if ($cetakpdf) {
                 foreach ($data_pembelians as $data_pesanan) {
-                    // Simpan Detail_faktur baru
                     $detailfaktur = Detail_faktur::create([
                         'faktur_ekspedisi_id' => $cetakpdf->id,
                         'memo_ekspedisi_id' => $data_pesanan['memo_ekspedisi_id'],
@@ -319,12 +278,8 @@ class FakturekspedisispkController extends Controller
                         'nama_rutetambahan' => $data_pesanan['nama_rutetambahan'] ? $data_pesanan['nama_rutetambahan'] : null,
 
                     ]);
-
-                    // Update status memo ekspedisi
                     $memo = Memo_ekspedisi::find($data_pesanan['memo_ekspedisi_id']);
                     $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan']);
-
-                    // Update the related SPK status
                     if (
                         $memo && $memo->spk
                     ) {
@@ -332,14 +287,9 @@ class FakturekspedisispkController extends Controller
                     }
 
                     if ($data_pesanan['memo_ekspedisi_id']) {
-                        // Ambil semua memo tambahan yang terkait dengan memo ekspedisi tertentu
                         $memoTambahan = Memotambahan::where('memo_ekspedisi_id', $data_pesanan['memo_ekspedisi_id'])->get();
-
-                        // Loop dan perbarui status semua memo tambahan
                         foreach ($memoTambahan as $memo) {
-                            // Periksa apakah status memo tambahan adalah 'posting'
                             if ($memo->status == 'posting') {
-                                // Jika statusnya 'posting', lakukan pembaruan
                                 $memo->update(['status_memo' => 'aktif', 'status' => 'selesai']);
                             }
                         }
@@ -367,75 +317,25 @@ class FakturekspedisispkController extends Controller
         return view('admin.faktur_ekspedisispk.show', compact('cetakpdf', 'details', 'detailtarifs'));
     }
 
-
-    // public function kode()
-    // {
-    //     $item = Faktur_ekspedisi::all();
-    //     if ($item->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Faktur_ekspedisi::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'FE';
-    //     $kode_item = $data . $num;
-    //     return $kode_item;
-    // }
-
-
-    // public function kode()
-    // {
-    //     $lastBarang = Faktur_ekspedisi::latest()->first();
-    //     if (!$lastBarang) {
-    //         $num = 1;
-    //     } else {
-    //         $lastCode = $lastBarang->kode_faktur;
-    //         $num = (int) substr($lastCode, strlen('FE')) + 1;
-    //     }
-    //     $formattedNum = sprintf("%06s", $num);
-    //     $prefix = 'FE';
-    //     $newCode = $prefix . $formattedNum;
-    //     return $newCode;
-    // }
-
     public function kode()
     {
-        // Mengambil kode terbaru dari database dengan awalan 'MP'
         $lastBarang = Faktur_ekspedisi::where('kode_faktur', 'like', 'FE%')->latest()->first();
-
-        // Mendapatkan hari dari tanggal kode terakhir
         $lastDay = $lastBarang ? date('d', strtotime($lastBarang->created_at)) : null;
         $currentDay = date('d');
 
-        // Jika tidak ada kode sebelumnya atau hari ini berbeda dari hari kode terakhir
         if (!$lastBarang || $currentDay != $lastDay) {
-            $num = 1; // Mulai dari 1 jika hari berbeda
+            $num = 1;
         } else {
-            // Jika ada kode sebelumnya, ambil nomor terakhir
             $lastCode = $lastBarang->kode_faktur;
-
-            // Pisahkan kode menjadi bagian-bagian terpisah
             $parts = explode('/', $lastCode);
-            $lastNum = end($parts); // Ambil bagian terakhir sebagai nomor terakhir
-            $num = (int) $lastNum + 1; // Tambahkan 1 ke nomor terakhir
+            $lastNum = end($parts);
+            $num = (int) $lastNum + 1;
         }
-
-        // Format nomor dengan leading zeros sebanyak 6 digit
         $formattedNum = sprintf("%03s", $num);
-
-        // Awalan untuk kode baru
         $prefix = 'FE';
         $tahun = date('y');
         $tanggal = date('dm');
-
-        // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
         $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
-
-        // Kembalikan kode
         return $newCode;
     }
 
@@ -452,10 +352,8 @@ class FakturekspedisispkController extends Controller
         $cetakpdf = Faktur_ekspedisi::where('id', $id)->first();
         $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
-
-
         $pdf = PDF::loadView('admin.faktur_ekspedisispk.cetak_pdf', compact('cetakpdf', 'details', 'detailtarifs'));
-        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
+        $pdf->setPaper('letter', 'portrait'); 
 
         return $pdf->stream('Faktur_ekspedisi.pdf');
     }

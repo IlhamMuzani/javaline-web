@@ -7,18 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Ban;
 use App\Models\Deposit_driver;
-use App\Models\Detail_faktur;
-use App\Models\Detail_tariftambahan;
 use App\Models\Karyawan;
 use App\Models\Klaim_ban;
-use App\Models\Kendaraan;
-use App\Models\Memo_ekspedisi;
-use App\Models\Memotambahan;
-use App\Models\Pelanggan;
 use App\Models\Penerimaan_kaskecil;
-use App\Models\Pph;
 use App\Models\Saldo;
-use App\Models\Tarif;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
 
@@ -49,7 +41,6 @@ class InqueryKlaimbanController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -61,16 +52,10 @@ class InqueryKlaimbanController extends Controller
 
     public function edit($id)
     {
-        // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
-
         $inquery = Klaim_ban::where('id', $id)->first();
         $SopirAll = Karyawan::where('departemen_id', '2')->get();
 
         return view('admin.inqueryklaim_ban.update', compact('inquery', 'SopirAll'));
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 
 
@@ -131,7 +116,6 @@ class InqueryKlaimbanController extends Controller
         );
         $saldoTerakhir = Saldo::latest()->first();
         $saldo = $saldoTerakhir->id;
-        // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
         $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
         $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
 
@@ -178,7 +162,6 @@ class InqueryKlaimbanController extends Controller
         if ($depositdriver) {
             $sopir = Karyawan::find($depositdriver->karyawan_id);
 
-            // Pastikan karyawan ditemukan
             if (!$sopir) {
                 return back()->with('error', 'Karyawan tidak ditemukan');
             }
@@ -191,13 +174,11 @@ class InqueryKlaimbanController extends Controller
             $total = $depositdriver->nominal;
             $sub_totals = $tabungan + $total;
 
-            // Update tabungan karyawan
             $sopir->update([
                 'kasbon' => $kasbons,
                 // 'deposit' => $deposits,
                 'tabungan' => $sub_totals
             ]);
-            // Update status deposit_driver menjadi 'posting'
             $depositdriver->update([
                 'status' => 'unpost'
             ]);
@@ -208,7 +189,6 @@ class InqueryKlaimbanController extends Controller
         if ($penerimaan) {
             $lastSaldo = Saldo::latest()->first();
 
-            // Periksa apakah saldo terakhir ditemukan
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
@@ -218,13 +198,10 @@ class InqueryKlaimbanController extends Controller
                 'sisa_saldo' => $sisaSaldo,
             ]);
 
-            // Perbarui status penerimaan menjadi "unpost"
             $penerimaan->update([
                 'status' => 'unpost'
             ]);
         }
-
-        // Update the main record
         $item->update([
             'status' => 'unpost'
         ]);
@@ -241,7 +218,6 @@ class InqueryKlaimbanController extends Controller
         if ($depositdriver) {
             $sopir = Karyawan::find($depositdriver->karyawan_id);
 
-            // Pastikan karyawan ditemukan
             if (!$sopir) {
                 return back()->with('error', 'Karyawan tidak ditemukan');
             }
@@ -254,13 +230,11 @@ class InqueryKlaimbanController extends Controller
             $total = $depositdriver->nominal;
             $sub_totals = $tabungan - $total;
 
-            // Update tabungan karyawan
             $sopir->update([
                 'kasbon' => $kasbons,
                 // 'deposit' => $deposits,
                 'tabungan' => $sub_totals
             ]);
-            // Update status deposit_driver menjadi 'posting'
             $depositdriver->update([
                 'status' => 'posting'
             ]);
@@ -270,8 +244,6 @@ class InqueryKlaimbanController extends Controller
         $penerimaan = Penerimaan_kaskecil::where('id', $penerimaans)->first();
         if ($penerimaan) {
             $lastSaldo = Saldo::latest()->first();
-
-            // Periksa apakah saldo terakhir ditemukan
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
@@ -285,8 +257,6 @@ class InqueryKlaimbanController extends Controller
                 'status' => 'posting'
             ]);
         }
-
-        // Update the main record
         $item->update([
             'status' => 'posting'
         ]);

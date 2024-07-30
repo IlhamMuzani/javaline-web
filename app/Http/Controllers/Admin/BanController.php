@@ -31,14 +31,11 @@ class BanController extends Controller
             
 
             if ($kendaraan) {
-                // Apply kendaraan_id filter if it's provided
                 $inquery->where('kendaraan_id', $kendaraan);
             } else {
-                // Apply both kendaraan_id and date filters
                 if ($status) {
                     $inquery->where('status', $status);
                 }
-
                 if ($created_at && $tanggal_akhir) {
                     $inquery->whereBetween('created_at', [$created_at, $tanggal_akhir]);
                 } elseif ($created_at) {
@@ -46,7 +43,6 @@ class BanController extends Controller
                 } elseif ($tanggal_akhir) {
                     $inquery->where('created_at', '<=', $tanggal_akhir);
                 } else {
-                    // Jika tidak ada filter tanggal hari ini
                     $inquery->whereDate('created_at', Carbon::today());
                 }
             }
@@ -56,7 +52,6 @@ class BanController extends Controller
 
             return view('admin.ban.index', compact('bans', 'kendaraans'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -70,7 +65,6 @@ class BanController extends Controller
             $typebans = Typeban::all();
             return view('admin/ban.create', compact('ukurans', 'mereks', 'typebans'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -113,7 +107,6 @@ class BanController extends Controller
             [
                 'kode_ban' => $this->kode(),
                 'qrcode_ban' => 'https://javaline.id/ban/' . $kode,
-                // 'qrcode_ban' => 'http://192.168.1.46/javaline/ban/' . $kode
                 'status' => 'stok',
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
 
@@ -130,21 +123,6 @@ class BanController extends Controller
         $pdf->setPaper('letter', 'potrait');
         return $pdf->stream('QrCodeBan.pdf');
     }
-
-    // public function cetak_pdffilter(Request $request)
-    // {
-    //     $selectedIds = explode(',', $request->input('ids'));
-
-    //     // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
-
-    //     $bans = Ban::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
-
-    //     $pdf = app('dompdf.wrapper');
-    //     $pdf->loadView('admin.ban.cetak_pdffilter', compact('bans'));
-    //     $pdf->setPaper([0, 0, 612, 176], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
-
-    //     return $pdf->stream('SelectedBans.pdf');
-    // }
 
     public function cetak_pdffilter(Request $request)
     {
@@ -186,7 +164,6 @@ class BanController extends Controller
             $ban = Ban::where('id', $id)->first();
             return view('admin/ban.show', compact('ban'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -213,7 +190,6 @@ class BanController extends Controller
             $ban = Ban::where('id', $id)->first();
             return view('admin/ban.update', compact('ukurans', 'mereks', 'ban', 'typebans'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }

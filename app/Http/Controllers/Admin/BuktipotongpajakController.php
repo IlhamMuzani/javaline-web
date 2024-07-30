@@ -133,26 +133,6 @@ class BuktipotongpajakController extends Controller
         return view('admin.bukti_potongpajak.show', compact('cetakpdf', 'details'));
     }
 
-    // public function kode()
-    // {
-    //     $item = Bukti_potongpajak::all();
-    //     if ($item->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Bukti_potongpajak::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-    //     $tahun = date('y');
-    //     $data = 'BPP';
-    //     $tanggal = date('dm');
-    //     $kode_item = $data . "/" . $tanggal . $tahun . "/" . $num;
-
-    //     return $kode_item;
-    // }
-
     public function kode()
     {
         $lastBarang = Bukti_potongpajak::where('kode_bukti', 'like', 'BPP%')->latest()->first();

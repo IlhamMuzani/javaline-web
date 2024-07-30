@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
-use Dompdf\Dompdf;
 use App\Models\User;
 use App\Models\Karyawan;
 use App\Models\Departemen;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 
 class AksesController extends Controller
 {
@@ -35,17 +33,13 @@ class AksesController extends Controller
     public function indexdriver()
     {
         if (auth()->check() && auth()->user()->menu['akses']) {
-            // Ambil semua karyawan dengan departemen_id 2
             $drivers = Karyawan::where('departemen_id', 2)->get();
-
-            // Ambil user yang terkait dengan karyawan yang memiliki departemen_id 2
             $aksess = User::where(['cek_hapus' => 'tidak'])
                 ->whereIn('karyawan_id', $drivers->pluck('id'))
                 ->get();
 
             return view('admin.akses.indexdriver', compact('aksess'));
         } else {
-            // Tidak memiliki akses
             return back()->with('error', 'Anda tidak memiliki akses');
         }
     }
@@ -59,7 +53,6 @@ class AksesController extends Controller
             $karyawans = Karyawan::where(['status' => 'null'])->get();
             return view('admin/user.create', compact('departemens', 'karyawans'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -78,7 +71,6 @@ class AksesController extends Controller
             $akses = User::where('id', $id)->first();
             return view('admin/akses.update', compact('akses'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -2109,12 +2101,10 @@ class AksesController extends Controller
         );
 
         $data = array();
-        // Inisialisasi semua nilai menu menjadi false
         foreach ($fiturs as $fitur) {
             $data[$fitur] = false;
         }
 
-        // Jika ada data yang dipilih, maka atur nilai menu menjadi true
         if ($request->has('fitur') && is_array($request->fitur)) {
             foreach ($request->fitur as $selectedMenu) {
                 if (in_array($selectedMenu, $fiturs)) {

@@ -6,16 +6,10 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
 use App\Models\Detail_pelunasanban;
-use App\Models\Detail_return;
 use App\Models\Faktur_pelunasanban;
-use App\Models\Nota_return;
-use App\Models\Pelanggan;
 use App\Models\Pembelian_ban;
-use App\Models\Return_ekspedisi;
 use App\Models\Supplier;
-use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
 class FakturpelunasanbanController extends Controller
@@ -104,25 +98,16 @@ class FakturpelunasanbanController extends Controller
             'alamat_supplier' => $request->alamat_supplier,
             'telp_supplier' => $request->telp_supplier,
             'keterangan' => $request->keterangan,
-            // 'totalpenjualan' => str_replace('.', '', $request->totalpenjualan),
             'totalpenjualan' => str_replace(',', '.', str_replace('.', '', $request->totalpenjualan)),
-            // 'dp' => str_replace('.', '', $request->dp),
             'dp' => str_replace(',', '.', str_replace('.', '', $request->dp)),
-            // 'potonganselisih' => str_replace('.', '', $request->potonganselisih),
             'potonganselisih' => str_replace(',', '.', str_replace('.', '', $request->potonganselisih)),
-            // 'totalpembayaran' => (int)str_replace(['Rp', '.', ' '], '', $request->totalpembayaran),
             'totalpembayaran' => str_replace(',', '.', str_replace('.', '', $request->totalpembayaran)),
-            // 'selisih' => (int)str_replace(['Rp', '.', ' '], '', $request->selisih),
             'selisih' => str_replace(',', '.', str_replace('.', '', $request->selisih)),
-            // 'potongan' => $request->potongan ? str_replace('.', '', $request->potongan) : 0,
             'potongan' => $request->potongan ? str_replace(',', '.', str_replace('.', '', $request->potongan)) : 0,
-            // 'tambahan_pembayaran' => $request->tambahan_pembayaran ? str_replace('.', '', $request->tambahan_pembayaran) : 0,
             'tambahan_pembayaran' => $request->tambahan_pembayaran ? str_replace(',', '.', str_replace('.', '', $request->tambahan_pembayaran)) : 0,
-
             'kategori' => $request->kategori,
             'nomor' => $request->nomor,
             'tanggal_transfer' => $request->tanggal_transfer,
-            // 'nominal' => str_replace('.', '', $request->nominal),
             'nominal' =>  $request->nominal ? str_replace(',', '.', str_replace('.', '', $request->nominal)) : 0,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
@@ -142,35 +127,11 @@ class FakturpelunasanbanController extends Controller
                 'tanggal_pembelian' => $data_pesanan['tanggal_pembelian'],
                 'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
             ]);
-
-            // Assuming the status_pelunasan update is correct
             Pembelian_ban::where('id', $detailPelunasan->pembelian_ban_id)->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
         }
-
-
         $details = Detail_pelunasanban::where('faktur_pelunasanban_id', $cetakpdf->id)->get();
-
         return view('admin.faktur_pelunasanban.show', compact('cetakpdf', 'details'));
     }
-
-
-    // public function kode()
-    // {
-    //     $item = Faktur_pelunasanban::all();
-    //     if ($item->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Faktur_pelunasanban::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'LB';
-    //     $kode_item = $data . $num;
-    //     return $kode_item;
-    // }
 
     public function kode()
     {
@@ -190,7 +151,6 @@ class FakturpelunasanbanController extends Controller
     public function show($id)
     {
         $cetakpdf = Faktur_pelunasanban::where('id', $id)->first();
-
         return view('admin.faktur_pelunasanban.show', compact('cetakpdf'));
     }
 
@@ -198,9 +158,8 @@ class FakturpelunasanbanController extends Controller
     {
         $cetakpdf = Faktur_pelunasanban::where('id', $id)->first();
         $details = Detail_pelunasanban::where('faktur_pelunasanban_id', $cetakpdf->id)->get();
-
         $pdf = PDF::loadView('admin.faktur_pelunasanban.cetak_pdf', compact('cetakpdf', 'details'));
-        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
+        $pdf->setPaper('letter', 'portrait');
 
         return $pdf->stream('Faktur_Pelunasan.pdf');
     }

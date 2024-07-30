@@ -19,7 +19,6 @@ class DivisiController extends Controller
             return view('admin/divisi.index', compact('divisis'));
 
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -30,7 +29,6 @@ class DivisiController extends Controller
 
             return view('admin/divisi.create');
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -51,19 +49,16 @@ class DivisiController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-
         $number = mt_rand(1000000000, 9999999999);
         if ($this->qrcodeDivisiExists($number)) {
             $number = mt_rand(1000000000, 9999999999);
         }
-
         Divisi::create(array_merge(
             $request->all(),
             [
                 'kode_divisi' => $this->kode(),
                 'qrcode_divisi' => $number,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'), 
-
             ]
         ));
 
@@ -83,9 +78,7 @@ class DivisiController extends Controller
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
-
         $dompdf->render();
-
         $dompdf->stream();
     }
 
@@ -116,7 +109,6 @@ class DivisiController extends Controller
             return view('admin/divisi.update', compact('divisi'));
             
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -133,14 +125,10 @@ class DivisiController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-
         $divisi = Divisi::find($id);
-
         $divisi->nama_divisi = $request->nama_divisi;
         $divisi->tanggal_awal = Carbon::now('Asia/Jakarta');
-
         $divisi->save();
-
         return redirect('admin/divisi')->with('success', 'Berhasil memperbarui divisi');
 
     }
@@ -149,7 +137,6 @@ class DivisiController extends Controller
     {
         $divisi = Divisi::find($id);
         $divisi->delete();
-
         return redirect('admin/divisi')->with('success', 'Berhasil menghapus divisi');
     }
 }

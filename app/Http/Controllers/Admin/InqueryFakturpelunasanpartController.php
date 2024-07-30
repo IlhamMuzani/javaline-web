@@ -5,14 +5,10 @@ namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
 use App\Models\Detail_pelunasanpart;
 use App\Models\Pembelian_part;
 use App\Models\Supplier;
 use App\Models\Faktur_pelunasanpart;
-use App\Models\Nota_return;
-use App\Models\Return_ekspedisi;
-use App\Models\Satuan;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryFakturpelunasanpartController extends Controller
@@ -128,7 +124,6 @@ class InqueryFakturpelunasanpartController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf = Faktur_pelunasanpart::findOrFail($id);
 
-        // Update the main transaction
         $cetakpdf->update([
             'supplier_id' => $request->supplier_id,
             'kode_supplier' => $request->kode_supplier,
@@ -147,7 +142,6 @@ class InqueryFakturpelunasanpartController extends Controller
             'nomor' => $request->nomor,
             'tanggal_transfer' => $request->tanggal_transfer,
             'status' => 'posting',
-            // 'nominal' => str_replace('.', '', $request->nominal),
             'nominal' =>  $request->nominal ? str_replace(',', '.', str_replace('.', '', $request->nominal)) : 0,
         ]);
 
@@ -167,7 +161,6 @@ class InqueryFakturpelunasanpartController extends Controller
                     'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]);
 
-                // Update Pembelian_part
                 Pembelian_part::where('id', $data_pesanan['pembelian_part_id'])->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
             } else {
                 $existingDetail = Detail_pelunasanpart::where([
@@ -187,8 +180,6 @@ class InqueryFakturpelunasanpartController extends Controller
                         'tanggal_pembelian' => $data_pesanan['tanggal_pembelian'],
                         'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                     ]);
-
-                    // Update Pembelian_part
                     Pembelian_part::where('id', $detailPelunasan->pembelian_part_id)->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
                 }
             }
@@ -209,43 +200,27 @@ class InqueryFakturpelunasanpartController extends Controller
 
     public function unpostpelunasanpart($id)
     {
-        // Menggunakan find untuk mendapatkan Faktur_pelunasanpart berdasarkan ID
         $item = Faktur_pelunasanpart::find($id);
-
-        // Memeriksa apakah Faktur_pelunasanpart ditemukan
         if (!$item) {
             return back()->with('error', 'Faktur pembelian part tidak ditemukan');
         }
-
-        // Mendapatkan detail pelunasan terkait
         $detailpelunasan = Detail_pelunasanpart::where('faktur_pelunasanpart_id', $id)->get();
-
-        // Melakukan loop pada setiap Detail_pelunasanpart dan memperbarui rekaman Pembelian_part terkait
         foreach ($detailpelunasan as $detail) {
             if ($detail->pembelian_part_id) {
-                // Menggunakan find untuk mendapatkan Pembelian_part berdasarkan ID
                 $fakturEkspedisi = Pembelian_part::find($detail->pembelian_part_id);
-
-                // Memeriksa apakah Pembelian_part ditemukan
                 if ($fakturEkspedisi) {
-                    // Memperbarui status_pelunasan pada Pembelian_part menjadi 'aktif'
                     $fakturEkspedisi->update(['status' => 'posting', 'status_pelunasan' => null]);
                 }
             }
         }
 
         try {
-            // Memperbarui status pada Faktur_pelunasanpart menjadi 'unpost'
             $item->update(['status' => 'unpost']);
-
-            // Melakukan loop pada setiap Detail_pelunasanpart dan memperbarui status menjadi 'unpost'
             foreach ($detailpelunasan as $detail) {
                 $detail->update(['status' => 'unpost']);
             }
-
             return back()->with('success', 'Berhasil unposting faktur pembelian part');
         } catch (\Exception $e) {
-            // Menangani kesalahan pembaruan basis data
             return back()->with('error', 'Gagal unposting faktur pembelian part: ' . $e->getMessage());
         }
     }
@@ -253,43 +228,27 @@ class InqueryFakturpelunasanpartController extends Controller
 
     public function postingpelunasanpart($id)
     {
-        // Menggunakan find untuk mendapatkan Faktur_pelunasanpart berdasarkan ID
         $item = Faktur_pelunasanpart::find($id);
-
-        // Memeriksa apakah Faktur_pelunasanpart ditemukan
         if (!$item) {
             return back()->with('error', 'Faktur pembelian part tidak ditemukan');
         }
-
-        // Mendapatkan detail pelunasan terkait
         $detailpelunasan = Detail_pelunasanpart::where('faktur_pelunasanpart_id', $id)->get();
-
-        // Melakukan loop pada setiap Detail_pelunasanpart dan memperbarui rekaman Pembelian_part terkait
         foreach ($detailpelunasan as $detail) {
             if ($detail->pembelian_part_id) {
-                // Menggunakan find untuk mendapatkan Pembelian_part berdasarkan ID
                 $fakturEkspedisi = Pembelian_part::find($detail->pembelian_part_id);
-
-                // Memeriksa apakah Pembelian_part ditemukan
                 if ($fakturEkspedisi) {
-                    // Memperbarui status_pelunasan pada Pembelian_part menjadi 'aktif'
                     $fakturEkspedisi->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
                 }
             }
         }
 
         try {
-            // Memperbarui status pada Faktur_pelunasanpart menjadi 'unpost'
             $item->update(['status' => 'posting']);
-
-            // Melakukan loop pada setiap Detail_pelunasanpart dan memperbarui status menjadi 'unpost'
             foreach ($detailpelunasan as $detail) {
                 $detail->update(['status' => 'posting']);
             }
-
             return back()->with('success', 'Berhasil unposting faktur pembelian part');
         } catch (\Exception $e) {
-            // Menangani kesalahan pembaruan basis data
             return back()->with('error', 'Gagal unposting faktur pembelian part: ' . $e->getMessage());
         }
     }

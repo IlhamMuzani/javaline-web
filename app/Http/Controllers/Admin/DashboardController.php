@@ -12,8 +12,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $currentDate = now(); // Menggunakan Carbon untuk mendapatkan tanggal saat ini
-        $oneMonthLater = $currentDate->copy()->addMonth(); // Menambahkan 1 bulan ke tanggal saat ini
+        $currentDate = now();
+        $oneMonthLater = $currentDate->copy()->addMonth();
 
         $nokirs1 = Nokir::where('status_kir', 'sudah perpanjang')
             ->whereDate('masa_berlaku', '<', $oneMonthLater)
@@ -59,23 +59,19 @@ class DashboardController extends Controller
             }
 
             if ($perbedaan_km_oli_gardan <= 10000) {
-                // Ubah status sesuai dengan kebutuhan Anda
                 $km_oli->update([
-                    'status_oligardan' => 'belum penggantian', // Ganti dengan status yang sesuai
-                    'status_notifkm' => false, // Ganti dengan status notifikasi yang sesuai
+                    'status_oligardan' => 'belum penggantian',
+                    'status_notifkm' => false,
                 ]);
             }
 
             if ($perbedaan_km_oli_transmisi <= 10000) {
-                // Ubah status sesuai dengan kebutuhan Anda
                 $km_oli->update([
-                    'status_olitransmisi' => 'belum penggantian', // Ganti dengan status yang sesuai
-                    'status_notifkm' => false, // Ganti dengan status notifikasi yang sesuai
+                    'status_olitransmisi' => 'belum penggantian',
+                    'status_notifkm' => false,
                 ]);
             }
         }
-
-
         return view('admin.index');
     }
 }

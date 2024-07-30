@@ -6,16 +6,10 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Barang;
 use App\Models\Detail_pelunasanpart;
-use App\Models\Detail_return;
 use App\Models\Faktur_pelunasanpart;
-use App\Models\Nota_return;
-use App\Models\Pelanggan;
 use App\Models\Pembelian_part;
-use App\Models\Return_ekspedisi;
 use App\Models\Supplier;
-use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
 class FakturpelunasanpartController extends Controller
@@ -24,7 +18,6 @@ class FakturpelunasanpartController extends Controller
     {
         $suppliers = Supplier::all();
         $fakturs = Pembelian_part::where(['status_pelunasan' => null, 'status' => 'posting'])->get();
-
         return view('admin.faktur_pelunasanpart.index', compact('suppliers', 'fakturs'));
     }
 
@@ -104,25 +97,16 @@ class FakturpelunasanpartController extends Controller
             'alamat_supplier' => $request->alamat_supplier,
             'telp_supplier' => $request->telp_supplier,
             'keterangan' => $request->keterangan,
-            // 'totalpenjualan' => str_replace('.', '', $request->totalpenjualan),
             'totalpenjualan' => str_replace(',', '.', str_replace('.', '', $request->totalpenjualan)),
-            // 'dp' => str_replace('.', '', $request->dp),
             'dp' => str_replace(',', '.', str_replace('.', '', $request->dp)),
-            // 'potonganselisih' => str_replace('.', '', $request->potonganselisih),
             'potonganselisih' => str_replace(',', '.', str_replace('.', '', $request->potonganselisih)),
-            // 'totalpembayaran' => (int)str_replace(['Rp', '.', ' '], '', $request->totalpembayaran),
             'totalpembayaran' => str_replace(',', '.', str_replace('.', '', $request->totalpembayaran)),
-            // 'selisih' => (int)str_replace(['Rp', '.', ' '], '', $request->selisih),
             'selisih' => str_replace(',', '.', str_replace('.', '', $request->selisih)),
-            // 'potongan' => $request->potongan ? str_replace('.', '', $request->potongan) : 0,
             'potongan' => $request->potongan ? str_replace(',', '.', str_replace('.', '', $request->potongan)) : 0,
-            // 'tambahan_pembayaran' => $request->tambahan_pembayaran ? str_replace('.', '', $request->tambahan_pembayaran) : 0,
             'tambahan_pembayaran' => $request->tambahan_pembayaran ? str_replace(',', '.', str_replace('.', '', $request->tambahan_pembayaran)) : 0,
-
             'kategori' => $request->kategori,
             'nomor' => $request->nomor,
             'tanggal_transfer' => $request->tanggal_transfer,
-            // 'nominal' => str_replace('.', '', $request->nominal),
             'nominal' =>  $request->nominal ? str_replace(',', '.', str_replace('.', '', $request->nominal)) : 0,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
@@ -142,8 +126,6 @@ class FakturpelunasanpartController extends Controller
                 'tanggal_pembelian' => $data_pesanan['tanggal_pembelian'],
                 'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
             ]);
-
-            // Assuming the status_pelunasan update is correct
             Pembelian_part::where('id', $detailPelunasan->pembelian_part_id)->update(['status' => 'selesai', 'status_pelunasan' => 'aktif']);
         }
 
@@ -152,26 +134,6 @@ class FakturpelunasanpartController extends Controller
 
         return view('admin.faktur_pelunasanpart.show', compact('cetakpdf', 'details'));
     }
-
-
-    // public function kode()
-    // {
-    //     $item = Faktur_pelunasanpart::all();
-    //     if ($item->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Faktur_pelunasanpart::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'LS';
-    //     $kode_item = $data . $num;
-    //     return $kode_item;
-    // }
-
 
     public function kode()
     {
@@ -191,7 +153,6 @@ class FakturpelunasanpartController extends Controller
     public function show($id)
     {
         $cetakpdf = Faktur_pelunasanpart::where('id', $id)->first();
-
         return view('admin.faktur_pelunasanpart.show', compact('cetakpdf'));
     }
 
@@ -199,10 +160,8 @@ class FakturpelunasanpartController extends Controller
     {
         $cetakpdf = Faktur_pelunasanpart::where('id', $id)->first();
         $details = Detail_pelunasanpart::where('faktur_pelunasanpart_id', $cetakpdf->id)->get();
-
         $pdf = PDF::loadView('admin.faktur_pelunasanpart.cetak_pdf', compact('cetakpdf', 'details'));
-        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
-
+        $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('Faktur_Pelunasan.pdf');
     }
 }

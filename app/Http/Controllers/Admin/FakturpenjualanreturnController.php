@@ -9,10 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Detail_penjualan;
 use App\Models\Nota_return;
-use App\Models\Pelanggan;
 use App\Models\Faktur_penjualanreturn;
-use App\Models\Satuan;
-use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
 class FakturpenjualanreturnController extends Controller
@@ -21,7 +18,6 @@ class FakturpenjualanreturnController extends Controller
     {
         $barangs = Barang::all();
         $notas = Nota_return::all();
-
 
         return view('admin.faktur_penjualanreturn.index', compact('barangs', 'notas'));
     }
@@ -39,7 +35,6 @@ class FakturpenjualanreturnController extends Controller
         );
 
         $error_pelanggans = array();
-
         if ($validasi_pelanggan->fails()) {
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
         }
@@ -137,10 +132,7 @@ class FakturpenjualanreturnController extends Controller
             foreach ($data_pembelians as $data_pesanan) {
                 $sparepart = Barang::find($data_pesanan['barang_id']);
                 if ($sparepart) {
-                    // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
                     $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
-
-                    // Memperbarui jumlah sparepart
                     $sparepart->update(['jumlah' => $jumlah_sparepart]);
                     Detail_penjualan::create([
                         'faktur_penjualanreturn_id' => $cetakpdf->id,
@@ -163,25 +155,6 @@ class FakturpenjualanreturnController extends Controller
         return view('admin.faktur_penjualanreturn.show', compact('cetakpdf', 'details'));
     }
 
-
-    // public function kode()
-    // {
-    //     $item = Faktur_penjualanreturn::all();
-    //     if ($item->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Faktur_penjualanreturn::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'PR';
-    //     $kode_item = $data . $num;
-    //     return $kode_item;
-    // }
-
     public function kode()
     {
         $lastBarang = Faktur_penjualanreturn::latest()->first();
@@ -197,12 +170,9 @@ class FakturpenjualanreturnController extends Controller
         return $newCode;
     }
 
-
-
     public function show($id)
     {
         $cetakpdf = Faktur_penjualanreturn::where('id', $id)->first();
-
         return view('admin.faktur_penjualanreturn.show', compact('cetakpdf'));
     }
 
@@ -210,10 +180,8 @@ class FakturpenjualanreturnController extends Controller
     {
         $cetakpdf = Faktur_penjualanreturn::where('id', $id)->first();
         $details = Detail_penjualan::where('faktur_penjualanreturn_id', $cetakpdf->id)->get();
-
         $pdf = PDF::loadView('admin.faktur_penjualanreturn.cetak_pdf', compact('cetakpdf', 'details'));
-        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
-
+        $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('Faktur_penjualan_return.pdf');
     }
 }

@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Detail_penjualan;
-use App\Models\Pelanggan;
 use App\Models\Faktur_penjualanreturn;
 use App\Models\Nota_return;
-use App\Models\Satuan;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryFakturpenjualanreturnController extends Controller
@@ -40,7 +38,6 @@ class InqueryFakturpenjualanreturnController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -49,8 +46,6 @@ class InqueryFakturpenjualanreturnController extends Controller
 
         return view('admin.inquery_fakturpenjualanreturn.index', compact('inquery'));
     }
-
-
 
     public function edit($id)
     {
@@ -125,7 +120,6 @@ class InqueryFakturpenjualanreturnController extends Controller
             }
         }
 
-
         if ($error_pelanggans || $error_pesanans) {
             return back()
                 ->withInput()
@@ -170,28 +164,19 @@ class InqueryFakturpenjualanreturnController extends Controller
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                // Mendapatkan data Detail_pembelianpart yang akan diupdate
                 $detailToUpdate = Detail_penjualan::find($detailId);
 
                 if ($detailToUpdate) {
-                    // Menghitung jumlah baru berdasarkan perubahan
                     $jumlahLamaDetail = $detailToUpdate->jumlah;
                     $jumlahBaruDetail = $data_pesanan['jumlah'];
-
-                    // Menghitung selisih antara stok lama dan stok baru
                     $selisihStok = $jumlahBaruDetail - $jumlahLamaDetail;
-
-                    // Mendapatkan data Sparepart
                     $sparepart = Barang::find($detailToUpdate->barang_id);
 
                     if ($sparepart) {
-                        // Menghitung jumlah baru untuk Sparepart
                         $jumlahLamaSparepart = $sparepart->jumlah;
                         $jumlahBaruSparepart = $data_pesanan['jumlah'];
                         $jumlahTotalSparepart = $jumlahLamaSparepart - $selisihStok;
 
-                        // Mengecek apakah stok cukup
-                        // Update Detail_pembelianpart
                         $detailToUpdate->update([
                             'faktur_penjualanreturn_id' => $cetakpdf->id,
                             'barang_id' => $data_pesanan['barang_id'],
@@ -204,8 +189,6 @@ class InqueryFakturpenjualanreturnController extends Controller
                             'diskon' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['diskon'])),
                             'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                         ]);
-
-                        // Temukan semua Detail_pembelianpart dengan sparepart_id yang sama
                         $sparepart->update([
                             'jumlah' => $jumlahTotalSparepart,
                         ]);
@@ -226,7 +209,6 @@ class InqueryFakturpenjualanreturnController extends Controller
                 ])->first();
 
                 if (!$existingDetail) {
-                    // Membuat Detail_pemasanganpart baru
                     Detail_penjualan::create([
                         'faktur_penjualanreturn_id' => $cetakpdf->id,
                         'barang_id' => $data_pesanan['barang_id'],
@@ -240,69 +222,17 @@ class InqueryFakturpenjualanreturnController extends Controller
                         'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                     ]);
 
-                    // Mengambil informasi jumlah yang ada di tabel Sparepart
                     $sparepart = Barang::find($data_pesanan['barang_id']);
 
                     if ($sparepart) {
-                        // Mengurangkan jumlah yang ada di tabel Sparepart dengan jumlah yang diminta dalam request
                         $newQuantity = $sparepart->jumlah - $data_pesanan['jumlah'];
-
-                        // Pastikan jumlah tidak kurang dari nol
                         $newQuantity = max(0, $newQuantity);
-
-                        // Memperbarui jumlah yang ada di tabel Sparepart
                         $sparepart->update(['jumlah' => $newQuantity]);
                     }
                 }
             }
         }
 
-        // foreach ($data_pembelians as $data_pesanan) {
-        //     $detailId = $data_pesanan['detail_id'];
-
-        //     if ($detailId) {
-        //         Detail_penjualan::where('id', $detailId)->update([
-        //             'faktur_penjualanreturn_id' => $cetakpdf->id,
-        //             'barang_id' => $data_pesanan['barang_id'],
-        //             'kode_barang' => $data_pesanan['kode_barang'],
-        //             'nama_barang' => $data_pesanan['nama_barang'],
-        //             'satuan' => $data_pesanan['satuan'],
-        //             'harga_beli' => str_replace('.', '', $data_pesanan['harga_beli']),
-        //             'harga_jual' => str_replace('.', '', $data_pesanan['harga_jual']),
-        //             'diskon' => $data_pesanan['diskon'],
-        //             'jumlah' => $data_pesanan['jumlah'],
-        //             'total' => str_replace('.', '', $data_pesanan['total']),
-        //         ]);
-        //     } else {
-        //         $existingDetail = Detail_penjualan::where([
-        //             'faktur_penjualanreturn_id' => $cetakpdf->id,
-        //             'barang_id' => $data_pesanan['barang_id'],
-        //             'kode_barang' => $data_pesanan['kode_barang'],
-        //             'nama_barang' => $data_pesanan['nama_barang'],
-        //             'satuan' => $data_pesanan['satuan'],
-        //             'harga_beli' => str_replace('.', '', $data_pesanan['harga_beli']),
-        //             'harga_jual' => str_replace('.', '', $data_pesanan['harga_jual']),
-        //             'diskon' => $data_pesanan['diskon'],
-        //             'jumlah' => $data_pesanan['jumlah'],
-        //             'total' => str_replace('.', '', $data_pesanan['total']),
-        //         ])->first();
-
-        //         if (!$existingDetail) {
-        //             Detail_penjualan::create([
-        //                 'faktur_penjualanreturn_id' => $cetakpdf->id,
-        //                 'barang_id' => $data_pesanan['barang_id'],
-        //                 'kode_barang' => $data_pesanan['kode_barang'],
-        //                 'nama_barang' => $data_pesanan['nama_barang'],
-        //                 'satuan' => $data_pesanan['satuan'],
-        //                 'harga_beli' => str_replace('.', '', $data_pesanan['harga_beli']),
-        //                 'harga_jual' => str_replace('.', '', $data_pesanan['harga_jual']),
-        //                 'diskon' => $data_pesanan['diskon'],
-        //                 'jumlah' => $data_pesanan['jumlah'],
-        //                 'total' => str_replace('.', '', $data_pesanan['total']),
-        //             ]);
-        //         }
-        //     }
-        // }
         $details = Detail_penjualan::where('faktur_penjualanreturn_id', $cetakpdf->id)->get();
 
         return view('admin.inquery_fakturpenjualanreturn.show', compact('cetakpdf', 'details'));
@@ -353,24 +283,17 @@ class InqueryFakturpenjualanreturnController extends Controller
         $item = Detail_penjualan::find($id);
 
         if ($item) {
-            // Temukan Memotambahan yang terkait dengan Detail_memotambahan
             $penjualan = Faktur_penjualanreturn::find($item->faktur_penjualanreturn_id);
 
             if ($penjualan) {
-                // Kurangi nominal tambahan dari grand total
                 $grand = $penjualan->grand_total;
                 $nominal = $item->total;
                 $total = $grand - $nominal;
-
-                // Perbarui grand total di Memotambahan
                 $penjualan->update(['grand_total' => $total]);
             } else {
                 return response()->json(['message' => 'Memo not found'], 404);
             }
-
-            // Hapus Detail_memotambahan
             $item->delete();
-
             return response()->json(['message' => 'Data deleted successfully']);
         } else {
             return response()->json(['message' => 'Detail penjualan not found'], 404);

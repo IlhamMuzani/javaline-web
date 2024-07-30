@@ -24,10 +24,8 @@ class DepartemenController extends Controller
     public function create()
     {
         if (auth()->check() && auth()->user()->menu['departemen']) {
-
             return view('admin/departemen.create');
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -43,7 +41,6 @@ class DepartemenController extends Controller
                 'nama.required' => 'Masukkan nama',
             ]
         );
-
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
@@ -61,7 +58,6 @@ class DepartemenController extends Controller
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ]
         ));
-
         return redirect('admin/departemen')->with('success', 'Berhasil menambahkan departemen');
     }
 
@@ -74,24 +70,19 @@ class DepartemenController extends Controller
     {
         $cetakpdf = Departemen::where('id', $id)->first();
         $html = view('admin/departemen.cetak_pdf', compact('cetakpdf'));
-
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
-
         $dompdf->render();
-
         $dompdf->stream();
     }
 
     public function edit($id)
     {
         if (auth()->check() && auth()->user()->menu['departemen']) {
-
             $departemen = Departemen::where('id', $id)->first();
             return view('admin/departemen.update', compact('departemen'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -103,19 +94,14 @@ class DepartemenController extends Controller
         ], [
             'nama.required' => 'Nama tidak boleh Kosong',
         ]);
-
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-
         $departemen = Departemen::find($id);
-
         $departemen->nama = $request->nama;
         $departemen->tanggal_awal = Carbon::now('Asia/Jakarta');
-
         $departemen->save();
-
         return redirect('admin/departemen')->with('success', 'Berhasil memperbarui Departemen');
     }
 
@@ -123,7 +109,6 @@ class DepartemenController extends Controller
     {
         $departemen = Departemen::find($id);
         $departemen->delete();
-
         return redirect('admin/departemen')->with('success', 'Berhasil menghapus Departemen');
     }
 }

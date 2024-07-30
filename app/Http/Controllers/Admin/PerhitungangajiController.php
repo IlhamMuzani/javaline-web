@@ -102,6 +102,7 @@ class PerhitungangajiController extends Controller
                 $pelunasan_kasbon = $request->pelunasan_kasbon[$i] ?? 0;
                 $potongan_bpjs = $request->potongan_bpjs[$i] ?? '';
                 $lainya = $request->lainya[$i] ?? 0;
+                $tambahan_lainya = $request->tambahan_lainya[$i] ?? 0;
                 $absen = $request->absen[$i] ?? 0;
                 $hasil_absen = $request->hasil_absen[$i] ?? 0;
                 $gajinol_pelunasan = $request->gajinol_pelunasan[$i] ?? 0;
@@ -127,6 +128,7 @@ class PerhitungangajiController extends Controller
                     'pelunasan_kasbon' => $pelunasan_kasbon,
                     'potongan_bpjs' => $potongan_bpjs,
                     'lainya' => $lainya,
+                    'tambahan_lainya' => $tambahan_lainya,
                     'absen' => $absen,
                     'hasil_absen' => $hasil_absen,
                     'gajinol_pelunasan' => $gajinol_pelunasan,
@@ -187,7 +189,7 @@ class PerhitungangajiController extends Controller
                     'lembur' => $data_pesanan['lembur'],
                     'hasil_lembur' => str_replace('.', '', $data_pesanan['hasil_lembur']),
                     'storing' => $data_pesanan['storing'],
-                    'hasil_storing' => str_replace(',', '.', str_replace('.', '', $data_pesanan['hasil_storing'])),
+                    'hasil_storing' => str_replace('.', '', $data_pesanan['hasil_storing']),
                     'gaji_kotor' => str_replace('.', '', $data_pesanan['gaji_kotor']),
                     'kurangtigapuluh' => $data_pesanan['kurangtigapuluh'],
                     'lebihtigapuluh' => $data_pesanan['lebihtigapuluh'],
@@ -195,6 +197,7 @@ class PerhitungangajiController extends Controller
                     'hasillebih' => str_replace('.', '', $data_pesanan['hasillebih']),
                     'pelunasan_kasbon' => str_replace('.', '', $data_pesanan['pelunasan_kasbon']),
                     'lainya' => str_replace('.', '', $data_pesanan['lainya']),
+                    'tambahan_lainya' => str_replace('.', '', $data_pesanan['tambahan_lainya']),
                     'potongan_bpjs' => !empty($data_pesanan['potongan_bpjs']) ? str_replace('.', '', $data_pesanan['potongan_bpjs']) : null,
                     'absen' => $data_pesanan['absen'],
                     'hasil_absen' => str_replace('.', '', $data_pesanan['hasil_absen']),
@@ -206,15 +209,6 @@ class PerhitungangajiController extends Controller
                     'tanggal' => $format_tanggal,
                     'tanggal_awal' => $tanggal,
                 ]);
-                // $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
-                //     ->where('status', 'posting')
-                //     ->where('status_cicilan', 'belum lunas')
-                //     ->first();
-                // if ($detail_cicilan) {
-                //     $detail_cicilan->update([
-                //         'status_cicilan' => 'lunas',
-                //     ]);
-                // }
                 $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
                     ->where('status', 'posting')
                     ->where('status_cicilan', 'belum lunas')

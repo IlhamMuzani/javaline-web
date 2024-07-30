@@ -21,9 +21,7 @@ class BuktipotongController extends Controller
         $pelanggans = Pelanggan::whereHas('tagihan_ekspedisi', function ($query) {
             $query->where('kategori', 'PPH');
         })->get();
-        $pelanggan_id = $request->pelanggan_id; // Terima pelanggan_id dari permintaan
-
-        // Kueri data tagihan berdasarkan kategori, status, dan pelanggan_id
+        $pelanggan_id = $request->pelanggan_id;
         $inquery = Tagihan_ekspedisi::where(function ($query) {
             $query->where('status', 'posting')
                 ->orWhere('status', 'selesai');
@@ -33,7 +31,6 @@ class BuktipotongController extends Controller
                 return $query->where('pelanggan_id', $pelanggan_id);
             })
             ->get();
-
         return view('admin.bukti_potongpajak.index', compact('inquery', 'pelanggans'));
     }
 
@@ -62,18 +59,14 @@ class BuktipotongController extends Controller
             $namaPdf = 'tagihan_ekspedisi/' . date('mYdHs') . rand(1, 10) . '_' . $pdf;
             $request->gambar_bukti->storeAs('public/uploads/', $namaPdf);
         } else {
-            $namaPdf = $tagihan_ekspedisi->gambar_bukti;  // Retain existing file if no new file is uploaded
+            $namaPdf = $tagihan_ekspedisi->gambar_bukti;
         }
-
-        // Memperbarui nomor bukti tagihan utama
         $tagihan = Tagihan_ekspedisi::findOrFail($id);
         $tagihan->update([
             'gambar_bukti' => $namaPdf,
             'nomor_buktitagihan' => $request->nomor_buktitagihan,
             'tanggal_nomortagihan' => $request->tanggal_nomortagihan
         ]);
-
-        // Memperbarui detail tagihan
         foreach ($request->nomor_buktifaktur as $detailId => $nomorBuktiFaktur) {
             $detail = Detail_tagihan::findOrFail($detailId);
 
@@ -100,11 +93,8 @@ class BuktipotongController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $grand_total = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->sum('total');
 
-        // Jika nomor_buktitagihan dan tanggal_nomortagihan ada dalam request
         if ($request->has('nomor_buktitagihan') && $request->has('tanggal_nomortagihan')) {
-            // Jika request nomor_buktitagihan dan tanggal_nomortagihan tidak null
             if (!is_null($request->nomor_buktitagihan) && !is_null($request->tanggal_nomortagihan)) {
-                // Buat Bukti_potongpajak
                 $cetakpdf = Bukti_potongpajak::create([
                     'user_id' => auth()->user()->id,
                     'kategori' => 'PEMASUKAN',
@@ -117,8 +107,6 @@ class BuktipotongController extends Controller
                     'tanggal_awal' => $tanggal,
                     'status' => 'posting',
                 ]);
-
-                // Buat entri Detail_bukti untuk setiap detail tagihan
                 Detail_bukti::create([
                     'bukti_potongpajak_id' => $cetakpdf->id,
                     'tagihan_ekspedisi_id' => $id,
@@ -132,8 +120,6 @@ class BuktipotongController extends Controller
                 Tagihan_ekspedisi::where('id', $id)->update(['status_terpakai' => 'digunakan']);
             }
         }
-
-        // Jika detail tagihan semua terisi
         $detailTagihanFilled = true;
         foreach ($request->nomor_buktifaktur as $detailId => $nomorBuktiFaktur) {
             if (is_null($nomorBuktiFaktur) || is_null($request->tanggal_nomorfaktur[$detailId])) {
@@ -141,8 +127,6 @@ class BuktipotongController extends Controller
                 break;
             }
         }
-
-        // Jika detail tagihan semua terisi, buat Bukti_potongpajak
         if ($detailTagihanFilled) {
             if (is_null($request->nomor_buktitagihan) && is_null($request->tanggal_nomortagihan)) {
                 $nomorBuktiFakturPertama = $request->nomor_buktifaktur[array_key_first($request->nomor_buktifaktur)];
@@ -160,8 +144,6 @@ class BuktipotongController extends Controller
                     'tanggal_awal' => $tanggal,
                     'status' => 'posting',
                 ]);
-
-                // Buat entri Detail_bukti untuk setiap detail tagihan
                 Detail_bukti::create([
                     'bukti_potongpajak_id' => $cetakpdf->id,
                     'tagihan_ekspedisi_id' => $id,
@@ -171,12 +153,9 @@ class BuktipotongController extends Controller
                     'pph' => $detail->tagihan_ekspedisi->pph,
                     'total' => $detail->tagihan_ekspedisi->sub_total,
                 ]);
-
                 Tagihan_ekspedisi::where('id', $id)->update(['status_terpakai' => 'digunakan']);
             }
         }
-
-
         return redirect()->back()->with('success', 'Data berhasil diperbarui');
     }
 
@@ -192,7 +171,6 @@ class BuktipotongController extends Controller
     {
         $cetakpdf = Bukti_potongpajak::find($id);
         $details = Detail_bukti::where('bukti_potongpajak_id', $cetakpdf->id)->get();
-
         $pdf = PDF::loadView('admin.bukti_potongpajak.cetak_pdf', compact('details', 'cetakpdf'));
         $pdf->setPaper('letter', 'portrait');
 

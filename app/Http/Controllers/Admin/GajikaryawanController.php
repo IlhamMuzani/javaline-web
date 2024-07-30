@@ -4,16 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Departemen;
 use App\Models\Karyawan;
-use App\Models\User;
-use Carbon\Carbon;
-use Dompdf\Dompdf;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\RekapExport;
 
 class GajikaryawanController extends Controller
 {
@@ -49,7 +41,6 @@ class GajikaryawanController extends Controller
             ],
             [
                 'gaji.required' => 'Masukkan gaji karyawan',
-
             ]
         );
 

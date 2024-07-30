@@ -18,7 +18,6 @@ class GolonganController extends Controller
             $golongans = Golongan::all();
             return view('admin/golongan.index', compact('golongans'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -29,7 +28,6 @@ class GolonganController extends Controller
 
             return view('admin/golongan.create');
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -45,12 +43,10 @@ class GolonganController extends Controller
                 'nama_golongan.required' => 'Masukkan nama golongan',
             ]
         );
-
         if ($validator->fails()) {
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-
         $kode = $this->kode();
 
         $tanggal = Carbon::now('Asia/Jakarta');
@@ -68,25 +64,6 @@ class GolonganController extends Controller
         return redirect('admin/golongan')->with('success', 'Berhasil menambahkan golongan');
     }
 
-    // public function kode()
-    // {
-    //     $golongan = Golongan::all();
-    //     if ($golongan->isEmpty()) {
-    //         $num = "000001";
-    //     } else {
-    //         $id = Golongan::getId();
-    //         foreach ($id as $value);
-    //         $idlm = $value->id;
-    //         $idbr = $idlm + 1;
-    //         $num = sprintf("%06s", $idbr);
-    //     }
-
-    //     $data = 'AE';
-    //     $kode_golongan = $data . $num;
-    //     return $kode_golongan;
-    // }
-
-
     public function kode()
     {
         $lastBarang = Golongan::latest()->first();
@@ -102,7 +79,6 @@ class GolonganController extends Controller
         return $newCode;
     }
 
-
     public function edit($id)
     {
 
@@ -111,7 +87,6 @@ class GolonganController extends Controller
             $golongan = Golongan::where('id', $id)->first();
             return view('admin/golongan.update', compact('golongan'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -128,9 +103,7 @@ class GolonganController extends Controller
             $error = $validator->errors()->all();
             return back()->withInput()->with('error', $error);
         }
-
         $golongan = Golongan::find($id);
-
         if (!$golongan) {
             return back()->with('error', 'Golongan tidak ditemukan');
         }
@@ -146,22 +119,17 @@ class GolonganController extends Controller
     {
         $cetakpdf = Golongan::where('id', $id)->first();
         $html = view('admin/golongan.cetak_pdf', compact('cetakpdf'));
-
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
         $dompdf->setPaper('A4', 'landscape');
-
         $dompdf->render();
-
         $dompdf->stream();
     }
-
 
     public function destroy($id)
     {
         $golongan = Golongan::find($id);
         $golongan->delete();
-
         return redirect('admin/golongan')->with('success', 'Berhasil menghapus Golongan');
     }
 }

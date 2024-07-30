@@ -50,6 +50,7 @@ class Detail_gajikaryawan extends Model
         'potongan_bpjs',
         'potongan_ke',
         'lainya',
+        'tambahan_lainya',
         'status',
         'kasbon_awal',
         'sisa_kasbon',

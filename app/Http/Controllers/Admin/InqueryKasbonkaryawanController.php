@@ -3,24 +3,15 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
-use App\Models\Ban;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Typeban;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use App\Models\Pembelian_ban;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_cicilan;
 use App\Models\Detail_pengeluaran;
 use App\Models\Kasbon_karyawan;
 use App\Models\Karyawan;
-use App\Models\Penerimaan_kaskecil;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
-use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryKasbonkaryawanController extends Controller
 {
@@ -38,7 +29,6 @@ class InqueryKasbonkaryawanController extends Controller
 
         $inquery = Kasbon_karyawan::query();
 
-        // Add condition for category "Pengambilan Deposit"
         $inquery->where('kategori', 'Pengambilan Kasbon');
 
         if ($status) {
@@ -52,7 +42,6 @@ class InqueryKasbonkaryawanController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -110,7 +99,7 @@ class InqueryKasbonkaryawanController extends Controller
             'status' => 'unpost',
         ]);
 
-        $kasbon_id = $id; // Anda perlu mendefinisikan $pembelian_id, saya asumsikan ini adalah id dari pembelian yang sedang diperbarui
+        $kasbon_id = $id;
         $jumlah_cicilan = $request->jumlah_cicilan;
 
         if ($jumlah_cicilan) {
@@ -118,7 +107,6 @@ class InqueryKasbonkaryawanController extends Controller
             $existing_voucher_count = $existing_vouchers->count();
 
             if ($jumlah_cicilan > $existing_voucher_count) {
-                // Jika jumlah unit baru lebih besar dari jumlah voucher yang ada, buat voucher baru
                 $vouchers_to_create = $jumlah_cicilan - $existing_voucher_count;
 
                 for ($i = 1; $i <= $vouchers_to_create; $i++) {
@@ -132,7 +120,6 @@ class InqueryKasbonkaryawanController extends Controller
                     ]);
                 }
             } elseif ($jumlah_cicilan < $existing_voucher_count) {
-                // Jika jumlah unit baru lebih kecil dari jumlah voucher yang ada, hapus voucher yang status_pemisah = 'cicilan perkalian'
                 $vouchers_to_delete = $existing_vouchers
                     ->where('status_pemisah', 'cicilan perkalian')
                     ->sortByDesc('id')
@@ -152,14 +139,12 @@ class InqueryKasbonkaryawanController extends Controller
 
         if ($nominal_lebih !== null && $nominal_lebih != 0) {
             if ($detail_cicilan) {
-                // Update existing record
                 $detail_cicilan->update([
                     'nominal_cicilan' => str_replace(',', '.', str_replace('.', '', $request->nominal_lebih)),
                     'status_cicilan' => 'belum lunas',
                     'status' => 'unpost',
                 ]);
             } else {
-                // Create new record if it doesn't exist
                 Detail_cicilan::create([
                     'kasbon_karyawan_id' => $kasbon_id,
                     'karyawan_id' => $request->karyawan_id,
@@ -170,7 +155,6 @@ class InqueryKasbonkaryawanController extends Controller
                 ]);
             }
         } elseif ($detail_cicilan) {
-            // Delete existing record if $nominal_lebih is null or 0
             $detail_cicilan->delete();
         }
 
@@ -214,8 +198,6 @@ class InqueryKasbonkaryawanController extends Controller
             return back()->with('error', 'Deposit driver tidak ditemukan');
         }
         $sopir = Karyawan::find($item->karyawan_id);
-
-        // Pastikan karyawan ditemukan
         if (!$sopir) {
             return back()->with('error', 'Karyawan tidak ditemukan');
         }
@@ -232,12 +214,9 @@ class InqueryKasbonkaryawanController extends Controller
         }
 
         $sisaSaldo = $item->nominal;
-        // Update saldo terakhir
         $lastSaldo->update([
             'sisa_saldo' => $lastSaldo->sisa_saldo + $sisaSaldo,
         ]);
-
-        // Update status pengeluaran
         Pengeluaran_kaskecil::where('kasbon_karyawan_id', $id)->update([
             'status' => 'unpost'
         ]);
@@ -245,17 +224,10 @@ class InqueryKasbonkaryawanController extends Controller
             'status' => 'unpost'
         ]);
 
-
         $kasbon = $sopir->kasbon;
         $total = $item->nominal;
         $kasbons = $kasbon - $total;
 
-        // $deposit = $sopir->deposit;
-        // $totaldeposit = $item->nominal;
-        // $deposits = $deposit + $totaldeposit;
-
-
-        // Update tabungan karyawan
         $sopir->update([
             'kasbon' => $kasbons,
         ]);
@@ -268,12 +240,10 @@ class InqueryKasbonkaryawanController extends Controller
             ]);
         }
 
-        // Update status deposit_driver menjadi 'unpost'
         $item->update([
             'status' => 'unpost'
         ]);
 
-        // Tampilkan pesan sesuai hasil penambahan
         return back()->with('success', 'Berhasil. Tabungan karyawan sekarang: Rp ' . number_format($kasbons, 0, ',', '.'));
     }
 
@@ -285,7 +255,6 @@ class InqueryKasbonkaryawanController extends Controller
         }
         $sopir = Karyawan::find($item->karyawan_id);
 
-        // Pastikan karyawan ditemukan
         if (!$sopir) {
             return back()->with('error', 'Karyawan tidak ditemukan');
         }
@@ -302,12 +271,9 @@ class InqueryKasbonkaryawanController extends Controller
         }
 
         $sisaSaldo = $item->nominal;
-        // Update saldo terakhir
         $lastSaldo->update([
             'sisa_saldo' => $lastSaldo->sisa_saldo - $sisaSaldo,
         ]);
-
-        // Update status pengeluaran
         Pengeluaran_kaskecil::where('kasbon_karyawan_id', $id)->update([
             'status' => 'posting'
         ]);
@@ -319,7 +285,6 @@ class InqueryKasbonkaryawanController extends Controller
         $totalKasbon = $item->nominal;
         $kasbons = $kasbon + $totalKasbon;
 
-        // Update tabungan karyawan
         $sopir->update([
             'kasbon' => $kasbons,
         ]);
@@ -332,12 +297,10 @@ class InqueryKasbonkaryawanController extends Controller
             ]);
         }
 
-        // Update status deposit_driver menjadi 'posting'
         $item->update([
             'status' => 'posting'
         ]);
 
-        // Tampilkan pesan sesuai hasil pengurangan
         return back()->with('success', 'Berhasil. Tabungan karyawan sekarang: Rp ' . number_format($kasbons, 0, ',', '.'));
     }
 
@@ -352,15 +315,6 @@ class InqueryKasbonkaryawanController extends Controller
         return back()->with('success', 'Berhasil');
     }
 
-
-    // public function destroy($id)
-    // {
-    //     $item = Kasbon_karyawan::find($id);
-    //     $item->detail_ban()->delete();
-    //     $item->delete();
-
-    //     return redirect('admin/inquery_kasbonkaryawan')->with('success', 'Berhasil deposit');
-    // }
 
     public function deletedetailcicilan($id)
     {
