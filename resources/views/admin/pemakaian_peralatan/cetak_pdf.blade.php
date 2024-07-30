@@ -109,7 +109,7 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode Part</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode Peralatan</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Keterangan</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">Jumlah</td>
