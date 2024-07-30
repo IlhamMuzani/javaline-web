@@ -384,16 +384,22 @@ class InqueryPembelianPartController extends Controller
             $barangId = $detail->sparepart_id;
             $barang = Sparepart::find($barangId);
 
-            // Add the quantity back to the stock in the Sparepart record
-            $newQuantity = $barang->jumlah - $detail->jumlah;
-            $barang->update(['jumlah' => $newQuantity]);
+            if ($barang) {
+                // Add the quantity back to the stock in the Sparepart record
+                $newQuantity = $barang->jumlah - $detail->jumlah;
+                $barang->update(['jumlah' => $newQuantity]);
+            } else {
+                // Log or handle the case where the spare part is not found
+            }
         }
+
         $pembelian->update([
             'status' => 'unpost'
         ]);
 
         return back()->with('success', 'Berhasil');
     }
+
 
     public function postingpart($id)
     {
@@ -404,10 +410,15 @@ class InqueryPembelianPartController extends Controller
             $barangId = $detail->sparepart_id;
             $barang = Sparepart::find($barangId);
 
-            // Add the quantity back to the stock in the Sparepart record
-            $newQuantity = $barang->jumlah + $detail->jumlah;
-            $barang->update(['jumlah' => $newQuantity]);
+            if ($barang) {
+                // Add the quantity back to the stock in the Sparepart record
+                $newQuantity = $barang->jumlah + $detail->jumlah;
+                $barang->update(['jumlah' => $newQuantity]);
+            } else {
+                // Log or handle the case where the spare part is not found
+            }
         }
+
         $pembelian->update([
             'status' => 'posting'
         ]);
