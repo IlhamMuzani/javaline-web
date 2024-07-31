@@ -9,11 +9,13 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
-            /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
-            margin: 40px;
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-right: 80px;
         }
+
 
         .container {
             display: flex;
@@ -89,48 +91,10 @@
             </div>
             <hr style="border: 1px solid;">
             <div style="text-align: center;">
-                <span style="font-weight: bold; font-size: 18px;">MEMO BORONG</span>
+                <span style="font-weight: bold; font-size: 15px;">MEMO BORONG</span>
             </div>
             <table width="100%">
                 <tr>
-                    {{-- <td style="width:60%;">
-                    <table>
-                        <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">No Kabin</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->no_kabin }}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">Tanggal</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item"
-                                    style="font-size: 13px;">{{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">No. Memo</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->kode_memo }}</span>
-                            </td>
-                        </tr>
-                    </table>
-                </td> --}}
                     <td style="width: 60%; text-align: left;">
                         <table style="width: 100%;">
                             <tr>
@@ -196,7 +160,7 @@
                                 <td style="width: 60%;">
                                     <span class="info-item"
                                         style="font-size: 13px; text-align: left; display: inline-block;">:
-                                        {{ $cetakpdf->nama_driver }}
+                                        {{ substr($cetakpdf->nama_driver, 0, 14) }}
                                     </span>
                                 </td>
                             </tr>
@@ -258,7 +222,7 @@
                                     <span class="info-item"
                                         style="font-size: 13px; text-align: left; display: inline-block;">:
                                         @if ($cetakpdf->user->karyawan->atas_nama != null)
-                                            {{ $cetakpdf->user->karyawan->atas_nama }}
+                                            {{ substr($cetakpdf->user->karyawan->atas_nama, 0, 14) }}
                                         @else
                                         @endif
                                     </span>
@@ -268,9 +232,9 @@
                     </td>
                 </tr>
             </table>
-            <hr style="border: 0.5px solid;">
+            <hr style="border: 0.1px solid;">
 
-            <table style="width: 100%;" cellpadding="2" cellspacing="0">
+            <table style="width: 100%;" cellpadding="0" cellspacing="0">
                 <tr>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">No.</td>
                     <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Nama Rute</td>
@@ -278,10 +242,9 @@
                     <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">Qty</td>
                     <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">Total</td>
                 </tr>
-                <!-- Add horizontal line below this row -->
                 <tr>
                     <td colspan="5" style="padding: 0px;">
-                        <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                        <hr style="border-top: 0.1px solid black; margin: 0.5px 0;">
                     </td>
                 </tr>
                 {{-- @php
@@ -305,17 +268,8 @@
                         {{ number_format($cetakpdf->totalrute, 2, ',', '.') }}
                     </td>
                 </tr>
-                {{-- @php
-                    $totalRuteSum += $item->totalrute;
-                @endphp --}}
-                {{-- @endforeach --}}
-                <tr>
-                    <td colspan="5" style="padding: 0px;">
-                        {{-- <hr style="border-top: 1px solid black; margin: 5px 0;"> --}}
-                    </td>
-                </tr>
             </table>
-            <table style="width: 100%; border-top: 1px solid black; margin-bottom:5px;">
+            <table style="width: 100%; border-top: 1px solid black; margin-bottom:0.1px;">
                 <tr>
                     <td style="width: 63%; text-align: left; padding-right: 20px;">
                         <span class="info-item" style="font-size: 13px; display: block; word-wrap: break-word;">
@@ -329,17 +283,17 @@
                 </tr>
             </table>
 
-            <table style="width: 100%;" cellpadding="2" cellspacing="0">
+            <table style="width: 100%; padding-top:0px" cellpadding="1" cellspacing="0">
                 <tr>
                     <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">PPH 2 %</td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 13px;">
+                    <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
                         {{ number_format($cetakpdf->pphs, 2, ',', '.') }} -
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" style="padding: 0px;"></td>
                     <td style="padding: 0px;">
-                        <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                        <hr style="border-top: 0.1px solid black; margin: 1px 0;">
                     </td>
                 </tr>
                 <tr>
@@ -351,22 +305,20 @@
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Borong 50 %</td>
-                    <td class="td" style="text-align: right; padding: 0px; font-size: 13px;">
+                    <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
                         {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 2, ',', '.') }} -
-
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Biaya Tambahan</td>
-                    <td class="td" style="text-align: right; padding: 0px; font-size: 13px;">
+                    <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
                         {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }} +
-
                     </td>
                 </tr>
                 <tr>
                     <td colspan="4" style="padding: 0px;"></td>
                     <td style="padding: 0px;">
-                        <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+                        <hr style="border-top: 0.1px solid black; margin: 1px 0;">
                     </td>
                 </tr>
                 <tr>
@@ -387,14 +339,14 @@
                 <tr>
                     <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">Deposit Supir
                     </td>
-                    <td class="td" style="text-align: right; padding: 0px; font-size: 13px;">
+                    <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
                         {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }} -
 
                     </td>
                 </tr>
                 <!-- Add horizontal line below the subtotal row -->
             </table>
-            <hr style="border-top: 0.1px solid black; margin: 5px 0;">
+            <hr style="border-top: 0.1px solid black; margin: 0.1px 0;">
             <table style="width: 100%;" cellpadding="2" cellspacing="0">
                 <tr>
                     <td class="td"
@@ -410,14 +362,13 @@
                     </td>
                 </tr>
             </table>
-
             <br>
-            <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto; font-size:13px">
+            <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                 <tr>
                     <td style="text-align: center;">
                         <table style="margin: 0 auto;">
                             <tr style="text-align: center;">
-                                <td class="label">
+                                <td style="font-size: 13px;" class="label">
                                     {{ $cetakpdf->nama_driver }}
                                 </td>
                             </tr>
@@ -425,14 +376,14 @@
                                 <td class="separator" colspan="2"><span></span></td>
                             </tr>
                             <tr style="text-align: center;">
-                                <td class="label">Sopir</td>
+                                <td style="font-size: 13px;" class="label">Sopir</td>
                             </tr>
                         </table>
                     </td>
                     <td style="text-align: center;">
                         <table style="margin: 0 auto;">
                             <tr style="text-align: center;">
-                                <td class="label">
+                                <td style="font-size: 13px;" class="label">
                                     DJOHAN WAHYUDI
                                 </td>
                             </tr>
@@ -440,14 +391,14 @@
                                 <td class="separator" colspan="2"><span></span></td>
                             </tr>
                             <tr style="text-align: center;">
-                                <td class="label">Finance</td>
+                                <td style="font-size: 13px;" class="label">Finance</td>
                             </tr>
                         </table>
                     </td>
                     <td style="text-align: center;">
                         <table style="margin: 0 auto;">
                             <tr style="text-align: center;">
-                                <td class="label">
+                                <td style="font-size: 13px;" class="label">
                                     {{-- @if ($cetakpdf->user)
                                 {{ $cetakpdf->user->karyawan->nama_lengkap }}
                             @else
@@ -460,7 +411,7 @@
                                 <td class="separator" colspan="2"><span></span></td>
                             </tr>
                             <tr style="text-align: center;">
-                                <td class="label">Admin</td>
+                                <td style="font-size: 13px;" class="label">Admin</td>
                             </tr>
                         </table>
                     </td>
