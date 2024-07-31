@@ -664,14 +664,14 @@
             }
 
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + key + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + key +
+            var item_pembelian = '<tr id="pembelian-' + identifier + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + identifier +
                 '</td>';
 
             // faktur_ekspedisi_id 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="faktur_ekspedisi_id-' + key +
+            item_pembelian += '<input type="text" class="form-control" id="faktur_ekspedisi_id-' + identifier +
                 '" name="faktur_ekspedisi_id[]" value="' +
                 faktur_ekspedisi_id +
                 '" ';
@@ -679,11 +679,11 @@
             item_pembelian += '</td>';
 
             // nama_rute
-            item_pembelian += '<td onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="nama_rute-' +
-                key + '" name="nama_rute[]" value="' +
+                identifier + '" name="nama_rute[]" value="' +
                 nama_rute +
                 '" ';
             item_pembelian += '</div>';
@@ -693,18 +693,18 @@
             item_pembelian += '<td >';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="tanggal_memo-' +
-                key + '" name="tanggal_memo[]" value="' +
+                identifier + '" name="tanggal_memo[]" value="' +
                 tanggal_memo +
                 '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // kode_faktur
-            item_pembelian += '<td style="width: 150px" onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<td style="width: 150px" onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_faktur-' +
-                key + '" name="kode_faktur[]" value="' +
+                identifier + '" name="kode_faktur[]" value="' +
                 kode_faktur +
                 '" ';
             item_pembelian += '</div>';
@@ -713,7 +713,7 @@
             // no_memo
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_memo-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_memo-' + identifier +
                 '" name="no_memo[]" value="' +
                 no_memo +
                 '" ';
@@ -724,7 +724,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="no_do-' +
-                key +
+                identifier +
                 '" name="no_do[]" value="' + no_do + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -733,7 +733,7 @@
             // item_pembelian += '<td>';
             // item_pembelian += '<div class="form-group">'
             // item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="no_po-' +
-            //     key +
+            //     identifier +
             //     '" name="no_po[]" value="' + no_po + '" ';
             // item_pembelian += '</div>';
             // item_pembelian += '</td>';
@@ -742,17 +742,17 @@
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_kabin-' +
-                key + '" name="no_kabin[]" value="' +
+                identifier + '" name="no_kabin[]" value="' +
                 no_kabin +
                 '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             // no_pol
-            item_pembelian += '<td onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_pol-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_pol-' + identifier +
                 '" name="no_pol[]" value="' +
                 no_pol +
                 '" ';
@@ -761,10 +761,10 @@
 
 
             // jumlah
-            item_pembelian += '<td onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="jumlah-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="jumlah-' + identifier +
                 '" name="jumlah[]" value="' +
                 jumlah +
                 '" ';
@@ -774,7 +774,7 @@
             // satuan
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="satuan-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="satuan-' + identifier +
                 '" name="satuan[]" value="' +
                 satuan +
                 '" ';
@@ -783,10 +783,10 @@
 
 
             // harga
-            item_pembelian += '<td onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="harga-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="harga-' + identifier +
                 '" name="harga[]" value="' +
                 harga +
                 '" ';
@@ -795,10 +795,10 @@
 
 
             // total
-            item_pembelian += '<td onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="total-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="total-' + identifier +
                 '" name="total[]" value="' +
                 total +
                 '" ';
@@ -810,12 +810,12 @@
             item_pembelian += '</td>';
 
             item_pembelian += '<td style="width: 100px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(' + key +
+            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             item_pembelian +=
-                '<button  style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' + key +
+                '<button  style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' + identifier +
                 ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
@@ -846,6 +846,7 @@
             activeSpecificationIndex = param;
             // Show the modal and filter rows if necessary
             $('#tableMemo').modal('show');
+            console.log(param);
         }
 
         function getFaktur(rowIndex) {

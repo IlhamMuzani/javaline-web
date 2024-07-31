@@ -668,13 +668,13 @@
 
             console.log(kategori);
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + key + '">';
-            item_pembelian += '<td class="text-center" id="urutan">' + key + '</td>';
+            var item_pembelian = '<tr id="pembelian-' + identifier + '">';
+            item_pembelian += '<td class="text-center" id="urutan">' + identifier + '</td>';
 
             // kategori 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="kategori-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="kategori-' + identifier +
                 '" name="kategori[]" value="' +
                 kategori +
                 '" ';
@@ -684,7 +684,7 @@
             //sparepart_id
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="sparepart_id-' + identifier +
                 '" name="sparepart_id[]" value="' +
                 sparepart_id +
                 '" ';
@@ -694,7 +694,7 @@
             //kode barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="kode_partdetail-' + identifier +
                 '" name="kode_partdetail[]" value="' +
                 kode_partdetail +
                 '" ';
@@ -704,7 +704,7 @@
             //nama barang
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="nama_barang-' + identifier +
                 '" name="nama_barang[]" value="' +
                 nama_barang +
                 '" ';
@@ -714,7 +714,7 @@
             //satuan
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly id="satuan-' + key +
+            item_pembelian += '<input type="text" class="form-control" readonly id="satuan-' + identifier +
                 '" name="satuan[]" value="' +
                 satuan +
                 '" ';
@@ -725,7 +725,7 @@
             //jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control hargasatuan" id="hargasatuan-' + key +
+            item_pembelian += '<input type="number" class="form-control hargasatuan" id="hargasatuan-' + identifier +
                 '" name="hargasatuan[]" value="' +
                 hargasatuan +
                 '" ';
@@ -735,7 +735,7 @@
             //jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control jumlah" id="jumlah-' + key +
+            item_pembelian += '<input type="number" class="form-control jumlah" id="jumlah-' + identifier +
                 '" name="jumlah[]" value="' +
                 jumlah +
                 '" ';
@@ -745,7 +745,7 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + key +
+            item_pembelian += '<input type="number" class="form-control harga" id="harga-' + identifier +
                 '" name="harga[]" value="' +
                 harga +
                 '" ';
@@ -754,11 +754,11 @@
 
             // delete
             item_pembelian += '<td style="width: 120px">';
-            item_pembelian += '<button type="button" class="btn btn-primary" onclick="barang(' + key + ')">';
+            item_pembelian += '<button type="button" class="btn btn-primary" onclick="barang(' + identifier + ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             item_pembelian += '<button style="margin-left:5px" type="button" class="btn btn-danger" onclick="removeBan(' +
-                key + ')">';
+                identifier + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';

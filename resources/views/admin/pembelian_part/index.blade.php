@@ -203,8 +203,11 @@
                             name="grand_total" readonly placeholder="" value="{{ old('grand_total') }}">
                     </div> --}}
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
                     </div>
                 </div>
             </form>
@@ -462,10 +465,10 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <button type="button" data-toggle="modal" data-target="#modal-part"
+                        {{-- <button type="button" data-toggle="modal" data-target="#modal-part"
                             class="btn btn-primary btn-sm mb-2" data-dismiss="modal">
                             Tambah
-                        </button>
+                        </button> --}}
                         <div class="m-2">
                             <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                         </div>
@@ -765,38 +768,38 @@
         }
 
         // Panggil fungsi refreshTable saat dokumen siap
-        $(document).ready(function() {
-            // Memproses pengiriman form
-            $('#form-sparepart').on('submit', function(e) {
-                e.preventDefault();
+        // $(document).ready(function() {
+        //     // Memproses pengiriman form
+        //     $('#form-sparepart').on('submit', function(e) {
+        //         e.preventDefault();
 
-                var formData = new FormData(this);
+        //         var formData = new FormData(this);
 
-                // Mengirim permintaan Ajax
-                $.ajax({
-                    type: 'POST',
-                    url: "{{ url('admin/tambah_sparepart') }}",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        if (response.success) {
-                            alert('Sparepart berhasil ditambahkan');
-                            // Setelah berhasil menambahkan data, panggil refreshTable untuk memperbarui tabel
-                            refreshTable();
-                        } else {
-                            alert('Gagal menambahkan sparepart. Silakan coba lagi.');
-                        }
-                    },
-                    error: function(error) {
-                        alert('Terjadi kesalahan saat mengirim permintaan. Silakan coba lagi.');
-                    }
-                });
-            });
+        //         // Mengirim permintaan Ajax
+        //         $.ajax({
+        //             type: 'POST',
+        //             url: "{{ url('admin/tambah_sparepart') }}",
+        //             data: formData,
+        //             processData: false,
+        //             contentType: false,
+        //             success: function(response) {
+        //                 if (response.success) {
+        //                     alert('Sparepart berhasil ditambahkan');
+        //                     // Setelah berhasil menambahkan data, panggil refreshTable untuk memperbarui tabel
+        //                     refreshTable();
+        //                 } else {
+        //                     alert('Gagal menambahkan sparepart. Silakan coba lagi.');
+        //                 }
+        //             },
+        //             error: function(error) {
+        //                 alert('Terjadi kesalahan saat mengirim permintaan. Silakan coba lagi.');
+        //             }
+        //         });
+        //     });
 
-            // Panggil fungsi refreshTable saat dokumen siap
-            refreshTable();
-        });
+        //     // Panggil fungsi refreshTable saat dokumen siap
+        //     refreshTable();
+        // });
 
         // setInterval(function() {
         //     refreshTable();
@@ -838,5 +841,20 @@
         //     }).format(number);
         //     return '' + formatted;
         // }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
     </script>
 @endsection
