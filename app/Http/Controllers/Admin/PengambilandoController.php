@@ -28,7 +28,7 @@ class PengambilandoController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.pemakaian_peralatan.index', compact('inquery'));
+        return view('admin.pengambilan_do.index', compact('inquery'));
     }
     public function create()
     {
@@ -36,7 +36,7 @@ class PengambilandoController extends Controller
         $spareparts = Sparepart::where([
             'kategori' => 'peralatan'
         ])->get();
-        return view('admin.pemakaian_peralatan.create', compact('kendaraans', 'spareparts'));
+        return view('admin.pengambilan_do.create', compact('kendaraans', 'spareparts'));
     }
 
     public function store(Request $request)
@@ -170,7 +170,7 @@ class PengambilandoController extends Controller
         // $kendaraan = Kendaraan::where('id', $pemakaians->id)->first();
         $parts = Detail_pemakaian::where('pemakaian_peralatan_id', $pemakaians->id)->get();
 
-        return view('admin.pemakaian_peralatan.show', compact('parts', 'pemakaians'));
+        return view('admin.pengambilan_do.show', compact('parts', 'pemakaians'));
     }
 
     public function show($id)
@@ -181,7 +181,7 @@ class PengambilandoController extends Controller
 
         $parts = Detail_pemakaian::where('pemakaian_peralatan_id', $pemakaian->id)->get();
 
-        return view('admin.pemakaian_peralatan.show', compact('parts', 'pemakaians'));
+        return view('admin.pengambilan_do.show', compact('parts', 'pemakaians'));
     }
 
     public function cetakpdf($id)
@@ -189,7 +189,7 @@ class PengambilandoController extends Controller
         $pemakaians = Pengambilan_do::find($id);
         $parts = Detail_pemakaian::where('pemakaian_peralatan_id', $id)->get();
         // Load the view and set the paper size to portrait letter
-        $pdf = PDF::loadView('admin.pemakaian_peralatan.cetak_pdf', compact('parts', 'pemakaians'));
+        $pdf = PDF::loadView('admin.pengambilan_do.cetak_pdf', compact('parts', 'pemakaians'));
         $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
         return $pdf->stream('Surat_Pemasangan_Part.pdf');

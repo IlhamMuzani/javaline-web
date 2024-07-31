@@ -16,11 +16,14 @@ class Pengambilan_do extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'kode_pengambilan',
         'spk_id',
         'kendaraan_id',
         'rute_perjalanan_id',
         'alamat_muat_id',
         'alamat_bongkar_id',
+        'status',
+        'tanggal',
         'tanggal_awal',
         'tanggal_akhir',
     ];

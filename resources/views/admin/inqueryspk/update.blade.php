@@ -413,7 +413,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table id="datatables4" class="table table-bordered table-striped">
+                            <table id="datatables2" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
@@ -458,7 +458,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table id="datatables4" class="table table-bordered table-striped">
+                            <table id="datatables3" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
@@ -548,7 +548,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <table id="datatables4" class="table table-bordered table-striped">
+                            <table id="datatables5" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
