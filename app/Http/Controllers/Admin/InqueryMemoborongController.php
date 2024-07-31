@@ -146,7 +146,7 @@ class InqueryMemoborongController extends Controller
         if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
             for ($i = 0; $i < count($request->biaya_tambahan_id); $i++) {
                 if (empty($request->biaya_tambahan_id[$i]) && empty($request->kode_biaya[$i]) && empty($request->nama_biaya[$i]) && empty($request->nominal[$i])) {
-                    continue; 
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -330,7 +330,7 @@ class InqueryMemoborongController extends Controller
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('admin.inquery_memoborong.cetak_pdffilter', compact('memos'));
         // $pdf->setPaper([0, 0, 600, 430], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
-        $pdf->setPaper('landscape');
+        $pdf->setPaper('folio');
 
         return $pdf->stream('SelectedMemoBorong.pdf');
     }

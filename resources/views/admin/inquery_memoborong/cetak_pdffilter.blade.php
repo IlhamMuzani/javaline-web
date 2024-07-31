@@ -81,7 +81,7 @@
                 </tr>
             </table>
             <div style="text-align: center;">
-                <span style="font-weight: bold; font-size: 20px;">PT JAVA LINE LOGISTICS</span>
+                <span style="font-weight: bold; font-size: 18px;">PT JAVA LINE LOGISTICS</span>
                 <br>
                 <span style=" font-size: 13px;">JL. HOS COKRO AMINOTO NO 5 SLAWI TEGAL
                     {{-- <br>Tegal 52411 --}}
@@ -362,7 +362,7 @@
                     </td>
                 </tr>
             </table>
-            <br>
+        <br style="line-height: 0.1em;">
             <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                 <tr>
                     <td style="text-align: center;">
@@ -417,7 +417,7 @@
                     </td>
                 </tr>
             </table>
-            <div style="text-align: right; font-size:12px; margin-bottom:23px">
+            <div style="text-align: right; font-size:12px; margin-bottom:38px">
                 <span style="font-style: italic;">Printed Date
                     {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
             </div>
