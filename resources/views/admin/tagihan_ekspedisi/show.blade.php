@@ -244,6 +244,8 @@
                     @if ($item->faktur_ekspedisi)
                         @if ($item->faktur_ekspedisi->kendaraan)
                             {{ $item->faktur_ekspedisi->kendaraan->no_pol }}
+                        @else
+                            {{ $item->faktur_ekspedisi->no_pol }}
                         @endif
                     @else
                         -

@@ -6,6 +6,8 @@ use App\Http\Controllers\admin\RuteperjalananController;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Alamat_bongkar;
+use App\Models\Alamat_muat;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
@@ -58,6 +60,8 @@ class InquerySpkController extends Controller
         $ruteperjalanans = Rute_perjalanan::all();
         $pelanggans = Pelanggan::all();
         $vendors = Vendor::all();
+        $alamat_muats = Alamat_muat::all();
+        $alamat_bongkars = Alamat_bongkar::all();
 
 
         $spks = Spk::whereDate('created_at', $today)
@@ -68,7 +72,7 @@ class InquerySpkController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.inqueryspk.update', compact('vendors', 'inquery', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
+        return view('admin.inqueryspk.update', compact('alamat_muats', 'alamat_bongkars', 'vendors', 'inquery', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
     }
 
 
@@ -115,6 +119,8 @@ class InquerySpkController extends Controller
 
         $spk->kategori = $request->kategori;
         $spk->pelanggan_id = $request->pelanggan_id;
+        $spk->alamat_muat_id = $request->alamat_muat_id;
+        $spk->alamat_bongkar_id = $request->alamat_bongkar_id;
         $spk->kode_pelanggan = $request->kode_pelanggan;
         $spk->nama_pelanggan = $request->nama_pelanggan;
         $spk->telp_pelanggan = $request->telp_pelanggan;
@@ -190,5 +196,4 @@ class InquerySpkController extends Controller
         // If SPK not found, return back with an error message
         return back()->withErrors(['error' => 'SPK tidak ditemukan.']);
     }
-
 }

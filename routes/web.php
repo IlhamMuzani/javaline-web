@@ -731,7 +731,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('laporan_buktipotongpajak', \App\Http\Controllers\Admin\LaporanBuktipotongpajakController::class);
     Route::resource('alamat_muat', \App\Http\Controllers\Admin\AlamatmuatController::class);
     Route::resource('alamat_bongkar', \App\Http\Controllers\Admin\AlamatbongkarController::class);
-
+    Route::resource('pengambilan_do', \App\Http\Controllers\Admin\PengambilandoController::class);
 
     Route::get('inquery_pemakaianperalatan/unpostpemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'unpostpemakaian']);
     Route::get('inquery_pemakaianperalatan/postingpemakaian/{id}', [\App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class, 'postingpemakaian']);

@@ -22,6 +22,8 @@ class Spk extends Model
         'qrcode_spk',
         'user_id',
         'pelanggan_id',
+        'alamat_muat_id',
+        'alamat_bongkar_id',
         'vendor_id',
         'kode_vendor',
         'nama_vendor',
@@ -50,8 +52,6 @@ class Spk extends Model
         'status_spk',
         'tanggal',
         'tanggal_awal',
-
-
 
     ];
 
@@ -92,4 +92,19 @@ class Spk extends Model
     {
         return $this->belongsTo(Rute_perjalanan::class);
     }
+
+    public function alamat_muat()
+    {
+        return $this->belongsTo(Alamat_muat::class);
+    }
+    public function alamat_bongkar()
+    {
+        return $this->belongsTo(Alamat_bongkar::class);
+    }
+
+    public static function getId()
+    {
+        return $getId = DB::table('spks')->orderBy('id', 'DESC')->take(1)->get();
+    }
+
 }

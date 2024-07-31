@@ -322,6 +322,76 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div hidden class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Alamat Muat</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group" hidden>
+                                            <label for="alamat_muat_id">Alamat Muat ID</label>
+                                            <input type="text" class="form-control" id="alamat_muat_id" readonly
+                                                name="alamat_muat_id" placeholder=""
+                                                value="{{ old('alamat_muat_id', $inquery->alamat_muat->alamat_muat_id ?? null) }}">
+                                        </div>
+
+                                        <label style="font-size:14px" class="form-label" for="kode_alamatmuat">Kode
+                                            Alamat Muat</label>
+                                        <div class="form-group d-flex">
+                                            <input onclick="showAlamatMuat(this.value)" class="form-control"
+                                                id="kode_alamatmuat" name="kode_alamatmuat" type="text"
+                                                placeholder="" value="{{ old('kode_alamatmuat', $inquery->alamat_muat->kode_alamat ?? null) }}" readonly
+                                                style="margin-right: 10px; font-size:14px" />
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showAlamatMuat(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="alamat_muat">Alamat</label>
+                                            <input onclick="showAlamatMuat(this.value)" style="font-size:14px"
+                                                type="text" class="form-control" id="alamat_muat" readonly
+                                                name="nama_rute" placeholder="" value="{{ old('alamat_muat', $inquery->alamat_muat->alamat ?? null) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Alamat Bongkar</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group" hidden>
+                                            <label for="alamat_bongkar_id">Alamat Bongkar ID</label>
+                                            <input type="text" class="form-control" id="alamat_bongkar_id" readonly
+                                                name="alamat_bongkar_id" placeholder=""
+                                                value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar->alamat_bongkar_id ?? null) }}">
+                                        </div>
+                                        <label style="font-size:14px" class="form-label" for="kode_alamatbongkar">Kode
+                                            Alamat Bongkar</label>
+                                        <div class="form-group d-flex">
+                                            <input onclick="showAlamatBongkar(this.value)" class="form-control"
+                                                id="kode_alamatbongkar" name="kode_alamatbongkar" type="text"
+                                                placeholder="" value="{{ old('kode_alamatbongkar', $inquery->alamat_bongkar->kode_alamat ?? null) }}" readonly
+                                                style="margin-right: 10px; font-size:14px" />
+                                            <button class="btn btn-primary" type="button"
+                                                onclick="showAlamatBongkar(this.value)">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="alamat_bongkar">Alamat</label>
+                                            <input onclick="showAlamatBongkar(this.value)" style="font-size:14px"
+                                                type="text" class="form-control" id="alamat_bongkar" readonly
+                                                name="nama_rute" placeholder="" value="{{ old('alamat_bongkar', $inquery->alamat_bongkar->alamat ?? null) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
@@ -332,6 +402,97 @@
                     </div>
                 </div>
             </form>
+
+            <div class="modal fade" id="tableAlamatmuat" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Data Alamat Muat</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="datatables4" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Alamat Muat</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Nama Vendor</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($alamat_muats as $alamat_muat)
+                                        <tr
+                                            onclick="getSelectedDataAlamatmuat('{{ $alamat_muat->id }}', '{{ $alamat_muat->kode_alamat }}', '{{ $alamat_muat->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $alamat_muat->kode_alamat }}</td>
+                                            <td>{{ $alamat_muat->pelanggan->nama_pell ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_muat->vendor->nama_vendor ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_muat->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataAlamatmuat('{{ $alamat_muat->id }}', '{{ $alamat_muat->kode_pelanggan }}', '{{ $alamat_muat->alamat }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="tableAlamatbongkar" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Data Alamat Bongkar</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="datatables4" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Alamat Bongkar</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Nama Vendor</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($alamat_bongkars as $alamat_bongkar)
+                                        <tr
+                                            onclick="getSelectedDataAlamatbongkar('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_alamat }}', '{{ $alamat_bongkar->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $alamat_bongkar->kode_alamat }}</td>
+                                            <td>{{ $alamat_bongkar->pelanggan->nama_pell ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_bongkar->vendor->nama_vendor ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_bongkar->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataAlamatbongkar('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_pelanggan }}', '{{ $alamat_bongkar->alamat }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal fade" id="tablePelanggan" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -733,6 +894,34 @@
             // Close the modal (if needed)
             $('#tableMemo').modal('hide');
         }
+
+
+        function showAlamatMuat(selectedCategory) {
+            $('#tableAlamatmuat').modal('show');
+        }
+
+        function getSelectedDataAlamatmuat(AlamatMuat_id, KodeAlamat, Alamats) {
+            // Set the values in the form fields
+            document.getElementById('alamat_muat_id').value = AlamatMuat_id;
+            document.getElementById('kode_alamatmuat').value = KodeAlamat;
+            document.getElementById('alamat_muat').value = Alamats;
+            // Close the modal (if needed)
+            $('#tableAlamatmuat').modal('hide');
+        }
+
+        function showAlamatBongkar(selectedCategory) {
+            $('#tableAlamatbongkar').modal('show');
+        }
+
+        function getSelectedDataAlamatbongkar(AlamatMuat_id, KodeAlamat, Alamats) {
+            // Set the values in the form fields
+            document.getElementById('alamat_bongkar_id').value = AlamatMuat_id;
+            document.getElementById('kode_alamatbongkar').value = KodeAlamat;
+            document.getElementById('alamat_bongkar').value = Alamats;
+            // Close the modal (if needed)
+            $('#tableAlamatbongkar').modal('hide');
+        }
+
 
         function showCategoryModalPelanggan(selectedCategory) {
             $('#tablePelanggan').modal('show');

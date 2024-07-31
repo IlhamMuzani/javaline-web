@@ -395,6 +395,8 @@
     request()->is('admin/pemasangan_part*') ||
     request()->is('admin/penggantian_oli*') ||
     request()->is('admin/status_perjalanan*') ||
+    request()->is('admin/status_spk*') ||
+    request()->is('admin/pengambilan_do*') ||
     request()->is('admin/pemakaian_peralatan*')
         ? 'menu-open'
         : '' }}">
@@ -407,6 +409,8 @@
         request()->is('admin/pemasangan_part*') ||
         request()->is('admin/penggantian_oli*') ||
         request()->is('admin/status_perjalanan*') ||
+        request()->is('admin/status_spk*') ||
+        request()->is('admin/pengambilan_do*') ||
         request()->is('admin/pemakaian_peralatan*')
             ? 'active'
             : '' }}">
@@ -517,13 +521,30 @@
                 </a>
             </li>
         @endif
-
+        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/status_spk') }}"
+                    class="nav-link {{ request()->is('admin/status_spk*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Status Pemesanan Kendaraan</p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['pemasangan part'])
             <li class="nav-item">
                 <a href="{{ url('admin/pemakaian_peralatan') }}"
                     class="nav-link {{ request()->is('admin/pemakaian_peralatan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Pemakaian Peralatan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pengambilan_do') }}"
+                    class="nav-link {{ request()->is('admin/pengambilan_do*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Pengambilan DO</p>
                 </a>
             </li>
         @endif
@@ -564,7 +585,6 @@
     request()->is('admin/klaim_peralatan*') ||
     request()->is('admin/indexnon*') ||
     request()->is('admin/buktipotong*') ||
-    request()->is('admin/status_spk*') ||
     request()->is('admin/spk*') ||
     request()->is('admin/penerimaan_sj*') ||
     request()->is('admin/pembelian_part*')
@@ -596,7 +616,6 @@
         request()->is('admin/klaim_peralatan*') ||
         request()->is('admin/indexnon*') ||
         request()->is('admin/buktipotong*') ||
-        request()->is('admin/status_spk*') ||
         request()->is('admin/spk*') ||
         request()->is('admin/penerimaan_sj*') ||
         request()->is('admin/pembelian_part*')
@@ -685,15 +704,6 @@
                 </a>
             </li>
         @endif --}}
-        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
-            <li class="nav-item">
-                <a href="{{ url('admin/status_spk') }}"
-                    class="nav-link {{ request()->is('admin/status_spk*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 13px;">Status Pemesanan Kendaraan</p>
-                </a>
-            </li>
-        @endif
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/spk') }}"

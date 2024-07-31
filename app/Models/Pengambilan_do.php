@@ -10,16 +10,17 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Alamat_muat extends Model
+class Pengambilan_do extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
-        'kode_alamat',
-        'pelanggan_id',
-        'vendor_id',
-        'alamat',
+        'spk_id',
+        'kendaraan_id',
+        'rute_perjalanan_id',
+        'alamat_muat_id',
+        'alamat_bongkar_id',
         'tanggal_awal',
         'tanggal_akhir',
     ];
@@ -35,12 +36,12 @@ class Alamat_muat extends Model
     }
 
 
-    public function pelanggan()
+    public function spk_id()
     {
         return $this->belongsTo(Pelanggan::class);
     }
 
-    public function vendor()
+    public function kendaraan_id()
     {
         return $this->belongsTo(Vendor::class);
     }
