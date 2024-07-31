@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('kode_alamat')->nullable();
             $table->unsignedBigInteger('pelanggan_id')->nullable();
             $table->foreign('pelanggan_id')->references('id')->on('pelanggans')->onDelete('set null');            $table->string('alamat')->nullable();
+            $table->unsignedBigInteger('vendor_id')->nullable();
+            $table->foreign('vendor_id')->references('id')->on('vendors')->onDelete('set null');
+            $table->string('alamat')->nullable();
             $table->string('tanggal')->nullable();
             $table->string('tanggal_awal')->nullable();
             $table->string('tanggal_akhir')->nullable();

@@ -1,18 +1,32 @@
 @extends('layouts.app')
 
-@section('title', 'Update Alamat Muat')
+@section('title', 'Tambah Alamat Bongkar')
 
 @section('content')
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Alamat Muat</h1>
+                    <h1 class="m-0">Alamat Bongkar</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/alamat_muat') }}">Biaya Tambahan</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/alamat_bongkar') }}">Alamat Muat</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div><!-- /.col -->
@@ -21,7 +35,7 @@
     </div>
     <!-- /.content-header -->
 
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
@@ -34,13 +48,11 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/alamat_muat/' . $alamatmuats->id) }}" method="POST"
-                enctype="multipart/form-data" autocomplete="off">
+            <form action="{{ url('admin/alamat_bongkar') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
-                @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Update Alamat Muat</h3>
+                        <h3 class="card-title">Tambah Alamat Bongkar</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -54,7 +66,7 @@
                                         <option value="">- Pilih -</option>
                                         @foreach ($pelanggans as $pelanggan)
                                             <option value="{{ $pelanggan->id }}"
-                                                {{ old('pelanggan_id', $alamatmuats->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
                                                 {{ $pelanggan->nama_pell }}
                                             </option>
                                         @endforeach
@@ -70,7 +82,7 @@
                                         <option value="">- Pilih -</option>
                                         @foreach ($vendors as $vendor)
                                             <option value="{{ $vendor->id }}"
-                                                {{ old('vendor_id', $alamatmuats->vendor_id) == $vendor->id ? 'selected' : '' }}>
+                                                {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>
                                                 {{ $vendor->nama_vendor }}
                                             </option>
                                         @endforeach
@@ -79,18 +91,35 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nama_biaya">Alamat</label>
+                            <label for="alamat">Alamat</label>
                             <input type="text" class="form-control" id="alamat" name="alamat"
-                                placeholder="masukkan alamat"
-                                value="{{ old('alamat', $alamatmuats->alamat) }}">
+                                placeholder="masukkan alamat" value="{{ old('alamat') }}">
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
 @endsection

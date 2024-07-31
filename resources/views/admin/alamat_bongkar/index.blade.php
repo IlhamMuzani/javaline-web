@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Alamat Muat')
+@section('title', 'Alamat Bongkar')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Alamat Muat</h1>
+                    <h1 class="m-0">Alamat Bongkar</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Alamat Muat</li>
+                        <li class="breadcrumb-item active">Alamat Bongkar</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,9 +48,9 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Alamat Muat</h3>
+                    <h3 class="card-title">Alamat Bongkar</h3>
                     <div class="float-right">
-                        <a href="{{ url('admin/alamat_muat/create') }}" class="btn btn-primary btn-sm">
+                        <a href="{{ url('admin/alamat_bongkar/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
                         </a>
                     </div>
@@ -69,33 +69,33 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($alamatmuats as $alamatmuat)
+                            @foreach ($alamatbongkars as $alamatbongkar)
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $alamatmuat->kode_alamat }}
+                                    <td>{{ $alamatbongkar->kode_alamat }}
                                     </td>
-                                    <td>{{ $alamatmuat->pelanggan->nama_pell ?? 'tidak ada' }}
+                                    <td>{{ $alamatbongkar->pelanggan->nama_pell ?? 'tidak ada' }}
                                     </td>
-                                    <td>{{ $alamatmuat->vendor->nama_vendor ?? 'tidak ada' }}
+                                    <td>{{ $alamatbongkar->vendor->nama_vendor ?? 'tidak ada' }}
                                     </td>
-                                    <td>{{ $alamatmuat->alamat }}
+                                    <td>{{ $alamatbongkar->alamat }}
                                     </td>
                                     <td class="text-center">
                                         {{-- @if (auth()->check() && auth()->user()->fitur['biaya update']) --}}
-                                        <a href="{{ url('admin/alamat_muat/' . $alamatmuat->id . '/edit') }}"
+                                        <a href="{{ url('admin/alamat_bongkar/' . $alamatbongkar->id . '/edit') }}"
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         {{-- @endif --}}
                                         {{-- @if (auth()->check() && auth()->user()->fitur['biaya delete']) --}}
                                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $alamatmuat->id }}">
+                                            data-target="#modal-hapus-{{ $alamatbongkar->id }}">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                         {{-- @endif --}}
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $alamatmuat->id }}">
+                                <div class="modal fade" id="modal-hapus-{{ $alamatbongkar->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -107,13 +107,13 @@
                                             </div>
                                             <div class="modal-body">
                                                 <p>Yakin hapus alamat
-                                                    <strong>{{ $alamatmuat->nama_type }}</strong>?
+                                                    <strong>{{ $alamatbongkar->nama_type }}</strong>?
                                                 </p>
                                             </div>
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/alamat_muat/' . $alamatmuat->id) }}"
+                                                <form action="{{ url('admin/alamat_bongkar/' . $alamatbongkar->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('delete')

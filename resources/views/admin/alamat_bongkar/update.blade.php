@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Update Alamat Muat')
+@section('title', 'Update Alamat Bongkar')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -12,8 +12,8 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/alamat_muat') }}">Biaya Tambahan</a></li>
-                        <li class="breadcrumb-item active">Tambah</li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/alamat_bongkar') }}">Biaya Tambahan</a></li>
+                        <li class="breadcrumb-item active">Perbarui</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,13 +34,13 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/alamat_muat/' . $alamatmuats->id) }}" method="POST"
+            <form action="{{ url('admin/alamat_bongkar/' . $alamatbongkars->id) }}" method="POST"
                 enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Update Alamat Muat</h3>
+                        <h3 class="card-title">Update Alamat Bongkar</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -54,7 +54,7 @@
                                         <option value="">- Pilih -</option>
                                         @foreach ($pelanggans as $pelanggan)
                                             <option value="{{ $pelanggan->id }}"
-                                                {{ old('pelanggan_id', $alamatmuats->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ old('pelanggan_id', $alamatbongkars->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
                                                 {{ $pelanggan->nama_pell }}
                                             </option>
                                         @endforeach
@@ -70,7 +70,7 @@
                                         <option value="">- Pilih -</option>
                                         @foreach ($vendors as $vendor)
                                             <option value="{{ $vendor->id }}"
-                                                {{ old('vendor_id', $alamatmuats->vendor_id) == $vendor->id ? 'selected' : '' }}>
+                                                {{ old('vendor_id', $alamatbongkars->vendor_id) == $vendor->id ? 'selected' : '' }}>
                                                 {{ $vendor->nama_vendor }}
                                             </option>
                                         @endforeach
@@ -82,7 +82,7 @@
                             <label for="nama_biaya">Alamat</label>
                             <input type="text" class="form-control" id="alamat" name="alamat"
                                 placeholder="masukkan alamat"
-                                value="{{ old('alamat', $alamatmuats->alamat) }}">
+                                value="{{ old('alamat', $alamatbongkars->alamat) }}">
                         </div>
                     </div>
                     <div class="card-footer text-right">

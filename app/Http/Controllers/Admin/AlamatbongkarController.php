@@ -6,25 +6,24 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Alamat_muat;
+use App\Models\Alamat_bongkar;
 use App\Models\Pelanggan;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
-class AlamatmuatController extends Controller
+class AlamatbongkarController extends Controller
 {
     public function index()
     {
-        $alamatmuats = Alamat_muat::all();
-        return view('admin.alamat_muat.index', compact('alamatmuats'));
+        $alamatbongkars = Alamat_bongkar::all();
+        return view('admin.alamat_bongkar.index', compact('alamatbongkars'));
     }
 
     public function create()
     {
         $pelanggans = Pelanggan::get();
         $vendors = Vendor::get();
-
-        return view('admin.alamat_muat.create', compact('pelanggans', 'vendors'));
+        return view('admin.alamat_bongkar.create', compact('pelanggans', 'vendors'));
     }
 
     public function store(Request $request)
@@ -46,7 +45,7 @@ class AlamatmuatController extends Controller
 
         $kode = $this->kode();
 
-        Alamat_muat::create(array_merge(
+        Alamat_bongkar::create(array_merge(
             $request->all(),
             [
                 'kode_alamat' => $this->kode(),
@@ -56,30 +55,30 @@ class AlamatmuatController extends Controller
             ],
         ));
 
-        return redirect('admin/alamat_muat')->with('success', 'Berhasil menambahkan alamat');
+        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil menambahkan alamat');
     }
 
     public function kode()
     {
-        $lastBarang = Alamat_muat::latest()->first();
+        $lastBarang = Alamat_bongkar::latest()->first();
         if (!$lastBarang) {
             $num = 1;
         } else {
             $lastCode = $lastBarang->kode_alamat;
-            $num = (int) substr($lastCode, strlen('AAM')) + 1;
+            $num = (int) substr($lastCode, strlen('AAB')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'AAM';
+        $prefix = 'AAB';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }
 
     public function edit($id)
     {
-        $alamatmuats = Alamat_muat::where('id', $id)->first();
+        $alamatbongkars = Alamat_bongkar::where('id', $id)->first();
         $pelanggans = Pelanggan::get();
         $vendors = Vendor::get();
-        return view('admin/alamat_muat.update', compact('alamatmuats', 'pelanggans', 'vendors'));
+        return view('admin/alamat_bongkar.update', compact('alamatbongkars', 'pelanggans', 'vendors'));
     }
 
     public function update(Request $request, $id)
@@ -99,22 +98,22 @@ class AlamatmuatController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $alamatmuats = Alamat_muat::findOrFail($id);
+        $alamatbongkars = Alamat_bongkar::findOrFail($id);
 
-        $alamatmuats->pelanggan_id = $request->pelanggan_id;
-        $alamatmuats->vendor_id = $request->vendor_id;
-        $alamatmuats->alamat = $request->alamat;
+        $alamatbongkars->pelanggan_id = $request->pelanggan_id;
+        $alamatbongkars->vendor_id = $request->vendor_id;
+        $alamatbongkars->alamat = $request->alamat;
 
-        $alamatmuats->save();
+        $alamatbongkars->save();
 
-        return redirect('admin/alamat_muat')->with('success', 'Berhasil memperbarui alamat');
+        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil memperbarui alamat');
     }
 
     public function destroy($id)
     {
-        $alamatmuats = Alamat_muat::find($id);
-        $alamatmuats->delete();
+        $alamatbongkars = Alamat_bongkar::find($id);
+        $alamatbongkars->delete();
 
-        return redirect('admin/alamat_muat')->with('success', 'Berhasil menghapus alamat');
+        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil menghapus alamat');
     }
 }

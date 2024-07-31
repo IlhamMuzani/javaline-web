@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -17,12 +18,13 @@ class Alamat_muat extends Model
     protected $fillable = [
         'kode_alamat',
         'pelanggan_id',
+        'vendor_id',
         'alamat',
         'tanggal_awal',
         'tanggal_akhir',
     ];
 
-    
+
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
@@ -33,6 +35,16 @@ class Alamat_muat extends Model
     }
 
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+    
     public static function getId()
     {
         return $getId = DB::table('alamat_muats')->orderBy('id', 'DESC')->take(1)->get();

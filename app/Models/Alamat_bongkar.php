@@ -17,12 +17,13 @@ class Alamat_bongkar extends Model
     protected $fillable = [
         'kode_alamat',
         'pelanggan_id',
+        'vendor_id',
         'alamat',
         'tanggal_awal',
         'tanggal_akhir',
     ];
 
-    
+
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
@@ -30,6 +31,16 @@ class Alamat_bongkar extends Model
     {
         return LogOptions::defaults()
             ->logFillable('*');
+    }
+    
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
     }
 
 

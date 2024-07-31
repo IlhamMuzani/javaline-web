@@ -48,7 +48,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/potongan_memo') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <form action="{{ url('admin/alamat_muat') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -56,23 +56,70 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="nama_perusahaan">Nama Perusahaan</label>
-                            <input type="text" class="form-control" id="nama_perusahaan" name="nama_perusahaan"
-                                placeholder="masukkan nama perusahaan" value="{{ old('nama_perusahaan') }}">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group" style="flex: 8;">
+                                    <label for="pelanggan_id">Nama Pelanggan</label>
+                                    <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
+                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
+                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($pelanggans as $pelanggan)
+                                            <option value="{{ $pelanggan->id }}"
+                                                {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ $pelanggan->nama_pell }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group" style="flex: 8;">
+                                    <label for="vendor_id">Nama Vendor</label>
+                                    <select class="select2bs4 select22-hidden-accessible" name="vendor_id"
+                                        data-placeholder="Cari Vendor.." style="width: 100%;" data-select22-id="23"
+                                        tabindex="-1" aria-hidden="true" id="vendor_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($vendors as $vendor)
+                                            <option value="{{ $vendor->id }}"
+                                                {{ old('vendor_id') == $vendor->id ? 'selected' : '' }}>
+                                                {{ $vendor->nama_vendor }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <input type="text" class="form-control" id="alamat" name="alamat"
-                                placeholder="masukkan biaya" value="{{ old('alamat') }}">
+                                placeholder="masukkan alamat" value="{{ old('alamat') }}">
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary">Reset</button>
-                        <button type="submit" class="btn btn-primary">Simpan</button>
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
 @endsection
