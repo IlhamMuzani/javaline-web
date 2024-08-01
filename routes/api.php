@@ -40,5 +40,6 @@ Route::post('kendaraan-perbaikandijalan/{id}', [\App\Http\Controllers\Api\Driver
 Route::post('kendaraan-perbaikandigarasi/{id}', [\App\Http\Controllers\Api\DriverController::class, 'perbaikan_digarasi']);
 Route::get('list-pelanggan', [\App\Http\Controllers\Api\DriverController::class, 'pelangganlist']);
 Route::get('list-tujuan', [\App\Http\Controllers\Api\DriverController::class, 'kotalist']);
+Route::get('list-pengambilan_do/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'list']);
 
 // Route::apiResource('kendaraan', [KendaraanController::class, 'kendaraan_search'])->except('index');

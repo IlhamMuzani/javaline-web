@@ -298,7 +298,7 @@
                             </div>
                         </div>
 
-                        <div hidden class="row">
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header">
@@ -328,7 +328,7 @@
                                             <label style="font-size:14px" for="alamat_muat">Alamat</label>
                                             <input onclick="showAlamatMuat(this.value)" style="font-size:14px"
                                                 type="text" class="form-control" id="alamat_muat" readonly
-                                                name="nama_rute" placeholder="" value="{{ old('alamat_muat') }}">
+                                                name="alamat_muat" placeholder="" value="{{ old('alamat_muat') }}">
                                         </div>
                                     </div>
                                 </div>
@@ -361,7 +361,7 @@
                                             <label style="font-size:14px" for="alamat_bongkar">Alamat</label>
                                             <input onclick="showAlamatBongkar(this.value)" style="font-size:14px"
                                                 type="text" class="form-control" id="alamat_bongkar" readonly
-                                                name="nama_rute" placeholder="" value="{{ old('alamat_bongkar') }}">
+                                                name="alamat_bongkar" placeholder="" value="{{ old('alamat_bongkar') }}">
                                         </div>
                                     </div>
                                 </div>

@@ -17,6 +17,7 @@ class Pengambilan_do extends Model
 
     protected $fillable = [
         'kode_pengambilan',
+        'user_id',
         'spk_id',
         'kendaraan_id',
         'rute_perjalanan_id',
@@ -39,22 +40,48 @@ class Pengambilan_do extends Model
     }
 
 
-    public function spk_id()
+    public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class);
     }
 
-    public function kendaraan_id()
+    public function vendor()
     {
         return $this->belongsTo(Vendor::class);
     }
 
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class);
+    }
+
     public function spk()
     {
-        return $this->hasMany(Spk::class);
+        return $this->belongsTo(Spk::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function rute_perjalanan()
+    {
+        return $this->belongsTo(Rute_perjalanan::class);
+    }
+
+    public function alamat_muat()
+    {
+        return $this->belongsTo(Alamat_muat::class);
+    }
+
+    public function alamat_bongkar()
+    {
+        return $this->belongsTo(Alamat_bongkar::class);
+    }
+    
     public static function getId()
     {
-        return $getId = DB::table('alamat_muats')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('pengambilan_dos')->orderBy('id', 'DESC')->take(1)->get();
     }
 }

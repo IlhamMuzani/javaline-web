@@ -49,6 +49,7 @@ class Alamat_muat extends Model
     {
         return $this->hasMany(Spk::class);
     }
+    
     public static function getId()
     {
         return $getId = DB::table('alamat_muats')->orderBy('id', 'DESC')->take(1)->get();

@@ -87,6 +87,11 @@ class Spk extends Model
         return $this->hasMany(Faktur_ekspedisi::class);
     }
 
+    public function pengambilan_do()
+    {
+        return $this->hasMany(Pengambilan_do::class);
+    }
+
 
     public function rute_perjalanan()
     {
@@ -97,6 +102,7 @@ class Spk extends Model
     {
         return $this->belongsTo(Alamat_muat::class);
     }
+
     public function alamat_bongkar()
     {
         return $this->belongsTo(Alamat_bongkar::class);
@@ -106,5 +112,4 @@ class Spk extends Model
     {
         return $getId = DB::table('spks')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

@@ -46,10 +46,13 @@ class Rute_perjalanan extends Model
             ->logFillable('*');
     }
 
+    public function pengambilan_do()
+    {
+        return $this->hasMany(Pengambilan_do::class);
+    }
 
     public static function getId()
     {
         return $getId = DB::table('rute_perjalanans')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

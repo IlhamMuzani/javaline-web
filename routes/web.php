@@ -783,4 +783,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('laporan_klaimban', [\App\Http\Controllers\Admin\LaporanklaimbanController::class, 'index']);
     Route::get('print_klaimban', [\App\Http\Controllers\Admin\LaporanklaimbanController::class, 'print_klaimban']);
+
+    Route::resource('inquery_pengambilando', \App\Http\Controllers\Admin\InqueryPengambilandoController::class);
+    Route::get('inquery_pengambilando/unpostpengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'unpostpengambilando']);
+    Route::get('inquery_pengambilando/postingpengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'postingpengambilando']);
+    Route::get('hapuspengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'hapuspengambilando'])->name('hapuspengambilando');
+
 });

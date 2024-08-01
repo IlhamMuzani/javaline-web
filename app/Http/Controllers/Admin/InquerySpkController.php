@@ -119,6 +119,9 @@ class InquerySpkController extends Controller
 
         $spk->kategori = $request->kategori;
         $spk->pelanggan_id = $request->pelanggan_id;
+        $spk->kode_pelanggan = $request->kode_pelanggan;
+        $spk->nama_pelanggan = $request->nama_pelanggan;
+        $spk->alamat_pelanggan = $request->alamat_pelanggan;
         $spk->alamat_muat_id = $request->alamat_muat_id;
         $spk->alamat_bongkar_id = $request->alamat_bongkar_id;
         $spk->kode_pelanggan = $request->kode_pelanggan;

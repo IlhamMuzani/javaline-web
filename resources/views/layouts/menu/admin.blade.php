@@ -855,6 +855,7 @@
     request()->is('admin/inquery_buktipotongpajak*') ||
     request()->is('admin/inquery_spk*') ||
     request()->is('admin/inquery_pemakaianperalatan*') ||
+    request()->is('admin/inquery_pengambilando*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -893,6 +894,7 @@
         request()->is('admin/inquery_buktipotongpajak*') ||
         request()->is('admin/inquery_spk*') ||
         request()->is('admin/inquery_pemakaianperalatan*') ||
+        request()->is('admin/inquery_pengambilando*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">
@@ -1233,22 +1235,22 @@
                 </a>
             </li>
         @endif
-        {{-- @if (auth()->check() && auth()->user()->menu['laporan invoice ekspedisi'])
-            <li class="nav-item">
-                <a href="{{ url('admin/bukti_potongpajak') }}"
-                    class="nav-link {{ request()->is('admin/bukti_potongpajak*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 13px;">Bukti Potong Pajak
-                    </p>
-                </a>
-            </li>
-        @endif --}}
         @if (auth()->check() && auth()->user()->menu['laporan invoice ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_buktipotongpajak') }}"
                     class="nav-link {{ request()->is('admin/inquery_buktipotongpajak*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 13px;">Inquery Bukti Potong Pajak
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_pengambilando') }}"
+                    class="nav-link {{ request()->is('admin/inquery_pengambilando*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Inquery Pengambilan DO
                     </p>
                 </a>
             </li>
