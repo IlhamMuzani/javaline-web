@@ -81,13 +81,20 @@ class PengambilandoController extends Controller
 
     public function show($id)
     {
+        $cetakpdf = Pengambilan_do::where('id', $id)->first();
 
-        $pemakaians = Pengambilan_do::where('id', $id)->first();
-        $pemakaian = Pengambilan_do::find($id);
-
-        return view('admin.pengambilan_do.show', compact('pemakaians'));
+        return view('admin.pengambilan_do.show', compact('cetakpdf'));
     }
 
+    public function cetakpdf($id)
+    {
+        $cetakpdf = Pengambilan_do::where('id', $id)->first();
+
+        $pdf = PDF::loadView('admin.pengambilan_do.cetak_pdf', compact('cetakpdf'));
+        $pdf->setPaper('letter', 'portrait'); 
+
+        return $pdf->stream('Pengambilan_do.pdf');
+    }
 
     public function kode()
     {

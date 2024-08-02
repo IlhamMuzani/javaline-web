@@ -105,16 +105,16 @@
                                         @endif
                                         @if ($pengambilan_do->status == 'selesai')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Roda Mobil">
+                                                width="40" alt="dokument">
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($pengambilan_do->status == 'unpost')
                                                 <a class="dropdown-item posting-btn"
                                                     data-memo-id="{{ $pengambilan_do->id }}">Posting</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pemakaianperalatan/' . $pengambilan_do->id . '/edit') }}">Update</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a> --}}
+                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id . '/edit') }}">Update</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapuspengambilando', ['id' => $pengambilan_do->id]) }}">
                                                     <button type="submit"
@@ -126,12 +126,12 @@
                                             @if ($pengambilan_do->status == 'posting')
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $pengambilan_do->id }}">Unpost</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a> --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a>
                                             @endif
                                             @if ($pengambilan_do->status == 'selesai')
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a> --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>
@@ -206,7 +206,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_pemakaianperalatan') }}";
+            form.action = "{{ url('admin/inquery_pengambilando') }}";
             form.submit();
         }
     </script>
@@ -283,7 +283,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_pemakaianperalatan/unpostpemakaian/') }}/" +
+                    url: "{{ url('admin/inquery_pengambilando/unpostpengambilando/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {
@@ -324,7 +324,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_pemakaianperalatan/postingpemakaian/') }}/" +
+                    url: "{{ url('admin/inquery_pengambilando/postingpengambilando/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {

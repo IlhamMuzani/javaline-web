@@ -740,6 +740,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('pemakaian_peralatan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemakainperalatanController::class, 'cetakpdf']);
     Route::get('inquery_klaimperalatan/unpostklaimperalatan/{id}', [\App\Http\Controllers\Admin\InqueryKlaimperalatanController::class, 'unpostklaimperalatan']);
     Route::get('inquery_klaimperalatan/postingklaimperalatan/{id}', [\App\Http\Controllers\Admin\InqueryKlaimperalatanController::class, 'postingklaimperalatan']);
+    Route::get('pengambilan_do/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PengambilandoController::class, 'cetakpdf']);
 
     Route::get('postingfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'postingfilterpenerimaansj']);
     Route::get('unpostfilterpenerimaansj', [\App\Http\Controllers\Admin\PenerimaansjController::class, 'unpostfilterpenerimaansj']);

@@ -139,8 +139,8 @@
                                                     data-memo-id="{{ $pengambilan_do->id }}">Posting</a>
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id . '/edit') }}">Update</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a> --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapuspengambilando', ['id' => $pengambilan_do->id]) }}">
                                                     <button type="submit"
@@ -152,12 +152,12 @@
                                             @if ($pengambilan_do->status == 'posting')
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $pengambilan_do->id }}">Unpost</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a> --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id) }}">Show</a>
                                             @endif
                                             @if ($pengambilan_do->status == 'selesai')
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/pengambilan_do/' . $pengambilan_do->id) }}">Show</a> --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id) }}">Show</a>
                                             @endif
                                         </div>
                                     </td>
