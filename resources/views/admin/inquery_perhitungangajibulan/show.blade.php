@@ -126,9 +126,9 @@
                 <td class="td" style="text-align: center; padding: 2px; font-size: 10px; font-weight:bold;">
                     LEMBUR <span> <br>(TGL MERAH)</span></td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
-                    LEMBUR</td>
-                {{-- <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
-                    STORING</td> --}}
+                    LEMBUR JAM</td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
+                    LEMBUR HARI</td>
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 10px;  font-weight:bold;">
                     GAJI KOTOR</td>
@@ -153,7 +153,7 @@
             </tr>
             <!-- Add horizontal line below this row -->
             <tr>
-                <td colspan="14" style="padding: 0px;">
+                <td colspan="15" style="padding: 0px;">
                     <hr style="border: 0.5px solid; margin-top:0px; margin-bottom: 1px; padding: 0;">
                     <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
                 </td>
@@ -215,19 +215,19 @@
                             </tr>
                         </table>
                     </td>
-                    {{-- <td class="td"
+                    <td class="td"
                         style="text-align: center; padding: 1px; font-size: 10px; border-bottom: 1px solid black;">
-                        <table style="width: 100%; text-align: right; padding-left:10px">
+                        <table style="width: 100%; text-align: right;">
                             <tr>
-                                <td style="width: 20%;">
+                                <td style="width: 50%;">
                                     Rp.
                                 </td>
-                                <td style="width: 70%;">
-                                    {{ number_format($item->hasil_storing, 2, ',', '.') }}
+                                <td style="width: 50%;">
+                                    {{ number_format($item->hasil_storing, 0, ',', '.') }}
                                 </td>
                             </tr>
                         </table>
-                    </td> --}}
+                    </td>
                     <td class="td"
                         style="text-align: right; padding-right: 7px; font-size: 10px; border-bottom: 1px solid black;">
                         Rp. {{ number_format($item->gaji_kotor, 0, ',', '.') }}
@@ -296,10 +296,10 @@
                 @endphp
             @endforeach
             <tr style="border-bottom: 1px solid black;">
-                <td colspan="14" style="padding: 2px;"></td>
+                <td colspan="15" style="padding: 2px;"></td>
             </tr>
             <tr>
-                <td colspan="13"
+                <td colspan="14"
                     style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 10px;">
                     {{-- GRAND
                 TOTAL --}}

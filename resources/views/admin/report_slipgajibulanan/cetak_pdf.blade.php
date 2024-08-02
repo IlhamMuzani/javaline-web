@@ -265,10 +265,37 @@
             </td>
             <td class="td" style="text-align: left; font-size: 14px;">
                 = </td>
+            <td class="td" style="text-align: left; font-size: 14px;">
+                Rp </td>
+            <td class="td" style="text-align: right; font-size: 14px;">
+                {{ number_format($cetakpdf->hasil_lembur, 0, ',', '.') }}
+            </td>
+        </tr>
+
+        <tr>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
+                Lembur Hari
+            </td>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 14px;">
+                :
+            </td>
+            <td class="td" style="text-align: left; padding-right: 7px; font-size: 14px;">
+            </td>
+            <td class="td" style="text-align: left; font-size: 14px;">
+                {{ $cetakpdf->storing }}
+            </td>
+            <td class="td" style="text-align: right; font-size: 14px;">
+                {{ number_format($cetakpdf->hasil_storing, 0, ',', '.') }}
+            </td>
+            </td>
+            <td class="td" style="text-align: left; font-size: 14px;">
+            </td>
+            <td class="td" style="text-align: left; font-size: 14px;">
+                = </td>
             <td class="td" style="text-align: left; font-size: 14px; border-bottom: 1px solid black;">
                 Rp </td>
             <td class="td" style="text-align: right; font-size: 14px; border-bottom: 1px solid black;">
-                {{ number_format($cetakpdf->hasil_lembur, 0, ',', '.') }}
+                {{ number_format($cetakpdf->hasil_storing, 0, ',', '.') }}
             </td>
         </tr>
 
@@ -291,7 +318,7 @@
             <td class="td" style="text-align: left; font-size: 14px;">Rp
             </td>
             <td class="td" style="text-align: right; font-size: 14px; font-weight:bold">
-                {{ number_format($cetakpdf->gaji + $cetakpdf->hasiltgl_merah + $cetakpdf->hasil_lembur, 0, ',', '.') }}
+                {{ number_format($cetakpdf->gaji + $cetakpdf->hasiltgl_merah + $cetakpdf->hasil_lembur + $cetakpdf->hasil_storing, 0, ',', '.') }}
             </td>
         </tr>
 

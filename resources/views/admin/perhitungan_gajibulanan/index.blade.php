@@ -156,16 +156,16 @@
                                     <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HE</th>
                                     <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL HK</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">LEMBUR <br> <span>
-                                            (JAM)
+                                    <th style="font-size:14px; text-align:center; min-width: 300px;">LEMBUR <br>
+                                        <span>
+                                            (JAM) (HARI)
                                         </span>
                                     </th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL LEMBUR</th>
-                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
-                                            (JAM)
+                                    <th style="font-size:14px; text-align:center; min-width: 300px;">HASIL LEMBUR <br>
+                                        <span>
+                                            (JAM) (HARI)
                                         </span>
-                                    </th> --}}
-                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th> --}}
+                                    </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI KOTOR</th>
                                     <th style="font-size:14px; text-align:center; min-width: 300px;">KETERLAMBATAN <br>
                                         <span>
@@ -287,32 +287,40 @@
                                                 data-row-id="0">
                                         </div>
                                     </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control lembur"
-                                                id="lembur-0" name="lembur[]" data-row-id="0"
-                                                onkeypress="return isNumberKey(event)">
+                                    <td style="width: 300px;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <div style="width: 45%;">
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" data-row-id="0"
+                                                        class="form-control lembur" id="lembur-0" name="lembur[]"
+                                                        onkeypress="return isNumberKey(event)">
+                                                </div>
+                                            </div>
+                                            <div style="width: 45%;">
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text"
+                                                        class="form-control storing" id="storing-0" name="storing[]"
+                                                        onkeypress="return isNumberKey(event)">
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td style="width: 150px;">
-                                        <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text"
-                                                class="form-control hasil_lembur" id="hasil_lembur-0"
-                                                name="hasil_lembur[]" data-row-id="0">
-                                        </div>
-                                    </td>
-                                    <td hidden style="width: 150px;">
-                                        <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control storing"
-                                                id="storing-0" name="storing[]" data-row-id="0"
-                                                onkeypress="return isNumberKey(event)">
-                                        </div>
-                                    </td>
-                                    <td hidden style="width: 150px;">
-                                        <div class="form-group">
-                                            <input style="font-size:14px" readonly type="text"
-                                                class="form-control hasil_storing" id="hasil_storing-0"
-                                                name="hasil_storing[]" data-row-id="0">
+                                    <td style="width: 300px;">
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <div style="width: 45%;">
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" readonly type="text"
+                                                        class="form-control hasil_lembur" id="hasil_lembur-0"
+                                                        name="hasil_lembur[]">
+                                                </div>
+                                            </div>
+                                            <div style="width: 45%;">
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" readonly type="text"
+                                                        class="form-control hasil_storing" id="hasil_storing-0"
+                                                        name="hasil_storing[]">
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                     <td style="width: 150px;">
@@ -795,45 +803,43 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // lembur 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
+            // lembur
+            item_pembelian += '<td style="width: 300px;">';
+            item_pembelian += '<div style="display: flex; justify-content: space-between;">';
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control lembur" onkeypress="return isNumberKey(event)" style="font-size:14px" id="lembur-' +
-                urutan +
-                '" name="lembur[]" value="' + lembur + '" ';
+                '<input type="text" class="form-control lembur" style="font-size:14px" id="lembur-' +
+                urutan + '" name="lembur[]" onkeypress="return isNumberKey(event)" value="' + lembur + '">';
+            item_pembelian += '</div>';
+            item_pembelian += '</div>';
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian +=
+                '<input type="text" class="form-control storing" style="font-size:14px" id="storing-' +
+                urutan + '" name="storing[]" onkeypress="return isNumberKey(event)" value="' + storing + '">';
+            item_pembelian += '</div>';
+            item_pembelian += '</div>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil_lembur 
-            item_pembelian += '<td onclick="Karyawan(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
+            // hasil lembur
+            item_pembelian += '<td style="width: 300px;">';
+            item_pembelian += '<div style="display: flex; justify-content: space-between;">';
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control hasil_lembur" style="font-size:14px" readonly id="hasil_lembur-' +
-                urutan +
-                '" name="hasil_lembur[]" value="' + hasil_lembur + '" ';
+                '<input type="text" class="form-control hasil_lembur" readonly style="font-size:14px" id="hasil_lembur-' +
+                urutan + '" name="hasil_lembur[]" value="' + hasil_lembur + '">';
             item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // storing 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control storing" onkeypress="return isNumberKey(event)" style="font-size:14px" id="storing-' +
-                urutan +
-                '" name="storing[]" value="' + storing + '" ';
             item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // hasil_storing 
-            item_pembelian += '<td hidden onclick="Karyawan(' + urutan +
-                ')">';
-            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control hasil_storing" style="font-size:14px" readonly id="hasil_storing-' +
-                urutan +
-                '" name="hasil_storing[]" value="' + hasil_storing + '" ';
+                '<input type="text" class="form-control hasil_storing" readonly style="font-size:14px" id="hasil_storing-' +
+                urutan + '" name="hasil_storing[]" value="' + hasil_storing + '">';
+            item_pembelian += '</div>';
+            item_pembelian += '</div>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -1131,7 +1137,8 @@
                     var gajiperjam = storing / 12;
                     // Bulatkan gajiperjam menjadi 4 digit di belakang koma
                     gajiperjam = gajiperjam.toFixed(4);
-                    var hasil_storing = gajiperjam * gaji_perhari;
+                    var hasil_storing = gaji_perhari * storing;
+
                     // Hitung gaji kotor dan gaji bersih
                     var gaji_kotor = hasil_harikerja + hasil_lembur + hasil_storing;
                     var gaji_kotor_bulat = Math.round(gaji_kotor);

@@ -131,16 +131,16 @@
                                     <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HE</th>
                                     <th hidden style="font-size:14px; text-align:center; min-width: 150px;">HK</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL HK</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">LEMBUR <br> <span>
-                                            (JAM)
+                                    <th style="font-size:14px; text-align:center; min-width: 300px;">LEMBUR <br>
+                                        <span>
+                                            (JAM) (HARI)
                                         </span>
                                     </th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL LEMBUR</th>
-                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING <br> <span>
-                                            (JAM)
+                                    <th style="font-size:14px; text-align:center; min-width: 300px;">HASIL LEMBUR <br>
+                                        <span>
+                                            (JAM) (HARI)
                                         </span>
-                                    </th> --}}
-                                    {{-- <th style="font-size:14px; text-align:center; min-width: 150px;">STORING HASIL</th> --}}
+                                    </th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">GAJI KOTOR</th>
                                     <th style="font-size:14px; text-align:center; min-width: 300px;">KETERLAMBATAN <br>
                                         <span>
@@ -277,38 +277,45 @@
                                                     value="{{ number_format($detail['hasil_hk'], 3, ',', '.') }}">
                                             </div>
                                         </td style="width: 150px;">
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control lembur"
-                                                    id="lembur-{{ $loop->index }}" name="lembur[]" data-row-id="0"
-                                                    value="{{ $detail['lembur'] }}"
-                                                    onkeypress="return isNumberKey(event)">
+                                        <td style="width: 300px;">
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <div style="width: 45%;">
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" type="text" data-row-id="0"
+                                                            onkeypress="return isNumberKey(event)"
+                                                            class="form-control lembur" id="lembur-{{ $loop->index }}"
+                                                            name="lembur[]" value="{{ $detail['lembur'] }}">
+                                                    </div>
+                                                </div>
+                                                <div style="width: 45%;">
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" type="text" data-row-id="0"
+                                                            onkeypress="return isNumberKey(event)"
+                                                            class="form-control storing" id="storing-{{ $loop->index }}"
+                                                            name="storing[]"value="{{ $detail['storing'] }}">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td style="width: 150px;">
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control hasil_lembur"
-                                                    id="hasil_lembur-{{ $loop->index }}" name="hasil_lembur[]"
-                                                    data-row-id="0"
-                                                    value="{{ number_format($detail['hasil_lembur'], 0, ',', '.') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden style="width: 150px;">
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control storing"
-                                                    id="storing-{{ $loop->index }}" name="storing[]" data-row-id="0"
-                                                    value="{{ $detail['storing'] }}"
-                                                    onkeypress="return isNumberKey(event)">
-                                            </div>
-                                        </td>
-                                        <td hidden style="width: 150px;">
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control hasil_storing"
-                                                    id="hasil_storing-{{ $loop->index }}" name="hasil_storing[]"
-                                                    data-row-id="0"
-                                                    value="{{ number_format($detail['hasil_storing'], 0, ',', '.') }}">
+
+                                        <td style="width: 300px;">
+                                            <div style="display: flex; justify-content: space-between;">
+                                                <div style="width: 45%;">
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" readonly type="text"
+                                                            class="form-control hasil_lembur"
+                                                            id="hasil_lembur-{{ $loop->index }}" name="hasil_lembur[]"
+                                                            value="{{ number_format($detail['hasil_lembur'], 0, ',', '.') }}">
+                                                    </div>
+                                                </div>
+                                                <div style="width: 45%;">
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" readonly type="text"
+                                                            class="form-control hasil_storing"
+                                                            id="hasil_storing-{{ $loop->index }}" name="hasil_storing[]"
+                                                            value="{{ number_format($detail['hasil_storing'], 0, ',', '.') }}">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                         <td style="width: 150px;">
@@ -830,43 +837,43 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // lembur 
-            item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
+            // lembur
+            item_pembelian += '<td style="width: 300px;">';
+            item_pembelian += '<div style="display: flex; justify-content: space-between;">';
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control lembur" onkeypress="return isNumberKey(event)" style="font-size:14px" id="lembur-' +
-                key +
-                '" name="lembur[]" value="' + lembur + '" ';
+                '<input type="text" class="form-control lembur" style="font-size:14px" id="lembur-' +
+                key + '" name="lembur[]" onkeypress="return isNumberKey(event)" value="' + lembur + '">';
+            item_pembelian += '</div>';
+            item_pembelian += '</div>';
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian +=
+                '<input type="text" class="form-control storing" style="font-size:14px" id="storing-' +
+                key + '" name="storing[]" onkeypress="return isNumberKey(event)" value="' + storing + '">';
+            item_pembelian += '</div>';
+            item_pembelian += '</div>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil_lembur 
-            item_pembelian += '<td >';
-            item_pembelian += '<div class="form-group">'
+            // hasil lembur
+            item_pembelian += '<td style="width: 300px;">';
+            item_pembelian += '<div style="display: flex; justify-content: space-between;">';
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control hasil_lembur" style="font-size:14px" readonly id="hasil_lembur-' +
-                key +
-                '" name="hasil_lembur[]" value="' + hasil_lembur + '" ';
+                '<input type="text" class="form-control hasil_lembur" readonly style="font-size:14px" id="hasil_lembur-' +
+                key + '" name="hasil_lembur[]" value="' + hasil_lembur + '">';
             item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // storing 
-            item_pembelian += '<td hidden>';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian +=
-                '<input type="text" class="form-control storing" onkeypress="return isNumberKey(event)" style="font-size:14px" id="storing-' +
-                key +
-                '" name="storing[]" value="' + storing + '" ';
             item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // hasil_storing 
-            item_pembelian += '<td hidden >';
-            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<div style="width: 45%;">';
+            item_pembelian += '<div class="form-group">';
             item_pembelian +=
-                '<input type="text" class="form-control hasil_storing" style="font-size:14px" readonly id="hasil_storing-' +
-                key +
-                '" name="hasil_storing[]" value="' + hasil_storing + '" ';
+                '<input type="text" class="form-control hasil_storing" readonly style="font-size:14px" id="hasil_storing-' +
+                key + '" name="hasil_storing[]" value="' + hasil_storing + '">';
+            item_pembelian += '</div>';
+            item_pembelian += '</div>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -1160,7 +1167,7 @@
                     var gajiperjam = storing / 12;
                     // Bulatkan gajiperjam menjadi 4 digit di belakang koma
                     gajiperjam = gajiperjam.toFixed(4);
-                    var hasil_storing = gajiperjam * gaji_perhari;
+                    var hasil_storing = gaji_perhari * storing;
                     // Hitung gaji kotor dan gaji bersih
                     var gaji_kotor = hasil_harikerja + hasil_lembur + hasil_storing;
                     var gaji_kotor_bulat = Math.round(gaji_kotor);
