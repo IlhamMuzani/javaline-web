@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\PengambilandoController;
 use App\Http\Controllers\Api\DriverController;
 use App\Http\Controllers\Api\KendaraanController;
+use App\Models\Pengambilan_do;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Driver\Driver;
@@ -27,10 +29,10 @@ Route::get('driver-detail/{id}', [\App\Http\Controllers\Api\AuthController::clas
 
 Route::get('list-kendaraan/{id}', [\App\Http\Controllers\Api\KendaraanController::class, 'list']);
 Route::post('kendaraan-search', [KendaraanController::class, 'kendaraan_search']);
-Route::get('kendaraan-detail/{id}', [KendaraanController::class,'detail']);
+Route::get('kendaraan-detail/{id}', [KendaraanController::class, 'detail']);
 Route::post('kendaraan-update/{id}', [KendaraanController::class, 'update']);
 Route::get('kendaraan-detailken/{id}', [\App\Http\Controllers\Api\DriverController::class, 'kendaraan_detail']);
-Route::post('kendaraan-tunggumuat/{id}',[\App\Http\Controllers\Api\DriverController::class, 'tunggu_muat']);
+Route::post('kendaraan-tunggumuat/{id}', [\App\Http\Controllers\Api\DriverController::class, 'tunggu_muat']);
 Route::post('kendaraan-loadingmuat/{id}', [\App\Http\Controllers\Api\DriverController::class, 'loading_muat']);
 Route::post('kendaraan-perjalananisi/{id}', [\App\Http\Controllers\Api\DriverController::class, 'perjalanan_isi']);
 Route::post('kendaraan-tunggubongkar/{id}', [\App\Http\Controllers\Api\DriverController::class, 'tunggu_bongkar']);
@@ -41,5 +43,7 @@ Route::post('kendaraan-perbaikandigarasi/{id}', [\App\Http\Controllers\Api\Drive
 Route::get('list-pelanggan', [\App\Http\Controllers\Api\DriverController::class, 'pelangganlist']);
 Route::get('list-tujuan', [\App\Http\Controllers\Api\DriverController::class, 'kotalist']);
 Route::get('list-pengambilan_do/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'list']);
+Route::get('pengambilan_do-detailpengambilan/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'pengambilando_detail']);
+Route::post('pengambilan_do-konfirmasi/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'konfirmasi']);
 
 // Route::apiResource('kendaraan', [KendaraanController::class, 'kendaraan_search'])->except('index');

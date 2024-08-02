@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kendaraan;
 use App\Models\Pengambilan_do;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -13,8 +14,12 @@ class PengambilandoController extends Controller
     public function list($id)
     {
         // Assuming you have a 'user_id' column in the Pengambilan_do table
-        $pengambilando = Pengambilan_do::where('user_id', $id)->with('kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar')->get();
-
+        $pengambilando = Pengambilan_do::where([
+            ['user_id', $id],
+            ['status', 'posting']
+        ])->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar'])
+        ->get();
+        
         if (count($pengambilando) > 0) {
             return $this->response(TRUE, array('Berhasil menampilkan data'), $pengambilando);
         } else {
@@ -48,6 +53,60 @@ class PengambilandoController extends Controller
             return $this->response(FALSE, array('Gagal menampilkan data!'));
         }
     }
+
+    public function pengambilando_detail($id)
+    {
+        $pengambilan_do = Pengambilan_do::where('id', $id)->with('user', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'kendaraan')->first();
+        if ($pengambilan_do) {
+            return response()->json([
+                'status' => TRUE,
+                'msg' => 'Berhasil',
+                'pengambilan_do' => $pengambilan_do
+            ]);
+        } else {
+            return response()->json([
+                'status' => FALSE,
+                'msg' => 'Error',
+            ]);
+        }
+    }
+
+
+    public function konfirmasi(Request $request, $id)
+    {
+
+        $pengambilan_do = Pengambilan_do::find($id);
+        $proses = $pengambilan_do->update([
+            'user_id' => $request->user_id,
+            'status' => 'selesai',
+        ]);
+
+
+        $waktuTungguMuat = $pengambilan_do->updated_at;
+        $waktuPerjalananIsi = now();
+
+        // Format "hari jam:menit:detik"
+        $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
+
+        $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
+        $proses = $kendaraan->update([
+            'user_id' => $request->user_id,
+            'km' => $request->km,
+            'status_perjalanan' => 'Perjalanan Kosong',
+            'timer' => $jarakWaktu
+        ]);
+
+        
+        if ($proses) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Status Selesai',
+            ]);
+        } else {
+            $this->error('Gagal !');
+        }
+    }
+
 
     public function detail($id)
     {
@@ -100,5 +159,4 @@ class PengambilandoController extends Controller
             return $this->response(FALSE, array('Gagal memperbarui data!'));
         }
     }
-
 }

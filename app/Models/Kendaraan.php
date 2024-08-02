@@ -106,9 +106,9 @@ class Kendaraan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
-
+    
     public function golongan()
     {
         return $this->belongsTo(Golongan::class);
