@@ -183,7 +183,7 @@
                         style="text-align: center; padding-left: 1px; font-size: 9px;  font-weight:bold;width:15%">
                         PELUNASAN <span> <br>KASBON</span></td>
                     </td>
-                    <td class="td" style="text-align: right; font-size: 9px;  font-weight:bold; width:12%">GAJI
+                    <td class="td" style="text-align: right; font-size: 9px;  font-weight:bold; width:15%">GAJI
                         BERSIH
                     </td>
                 </tr>
