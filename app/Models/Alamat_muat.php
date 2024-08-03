@@ -49,6 +49,11 @@ class Alamat_muat extends Model
     {
         return $this->hasMany(Spk::class);
     }
+
+    public function pengambilan_do()
+    {
+        return $this->hasMany(Pengambilan_do::class);
+    }
     
     public static function getId()
     {

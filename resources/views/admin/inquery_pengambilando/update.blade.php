@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pengambilan DO')
+@section('title', 'Inquery Pengambilan DO')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Pengambilan DO</h1>
+                    <h1 class="m-0">Inquery Pengambilan DO</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -20,7 +20,12 @@
         </div>
     </div>
 
-
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
     <section class="content">
         <div class="container-fluid">
             @if (session('error'))
@@ -62,13 +67,13 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/inquery_pengambilando/' . $inquery->id) }}" method="POST" enctype="multipart/form-data"
-                autocomplete="off">
+            <form action="{{ url('admin/inquery_pengambilando/' . $inquery->id) }}" method="POST"
+                enctype="multipart/form-data" autocomplete="off">
                 @method('put')
                 @csrf
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Pengambilan DO</h3>
+                        <h3 class="card-title">Perbarui Pengambilan DO</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -79,7 +84,8 @@
                                     placeholder="" value="{{ old('spk_id', $inquery->spk_id) }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
                                 <input onclick="showCategoryModalSPK(this.value)" class="form-control" id="kode_spk"
-                                    name="kode_spk" type="text" placeholder="" value="{{ old('kode_spk', $inquery->spk->kode_spk ?? null) }}" readonly
+                                    name="kode_spk" type="text" placeholder=""
+                                    value="{{ old('kode_spk', $inquery->spk->kode_spk ?? null) }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
                                 <button class="btn btn-primary" type="button" onclick="showCategoryModalSPK(this.value)">
                                     <i class="fas fa-search"></i>
@@ -89,7 +95,8 @@
                                 <div hidden class="form-group">
                                     <label for="kendaraan_id">Kendaraan Id</label>
                                     <input type="text" class="form-control" id="kendaraan_id" readonly
-                                        name="kendaraan_id" placeholder="" value="{{ old('kendaraan_id', $inquery->kendaraan_id) }}">
+                                        name="kendaraan_id" placeholder=""
+                                        value="{{ old('kendaraan_id', $inquery->kendaraan_id) }}">
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group">
@@ -103,14 +110,16 @@
                                     <div class="form-group">
                                         <label style="font-size:14px" for="no_kabin">No Kabin</label>
                                         <input style="font-size:14px" type="text" class="form-control" id="no_kabin"
-                                            readonly name="no_kabin" placeholder="" value="{{ old('no_kabin', $inquery->kendaraan->no_kabin ?? null) }}">
+                                            readonly name="no_kabin" placeholder=""
+                                            value="{{ old('no_kabin', $inquery->kendaraan->no_kabin ?? null) }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="no_pol">No Pol</label>
                                         <input style="font-size:14px" type="text" class="form-control" id="no_pol"
-                                            readonly name="no_pol" placeholder="" value="{{ old('no_pol', $inquery->kendaraan->no_pol ?? null) }}">
+                                            readonly name="no_pol" placeholder=""
+                                            value="{{ old('no_pol', $inquery->kendaraan->no_pol ?? null) }}">
                                     </div>
                                 </div>
                                 <div hidden class="form-group">
@@ -123,14 +132,16 @@
                                     <div class="form-group">
                                         <label style="font-size:14px" for="kode_rute">Kode Rute Perjalanan</label>
                                         <input style="font-size:14px" type="text" class="form-control" id="kode_rute"
-                                            readonly name="kode_rute" placeholder="" value="{{ old('kode_rute', $inquery->rute_perjalanan->kode_rute ?? null) }}">
+                                            readonly name="kode_rute" placeholder=""
+                                            value="{{ old('kode_rute', $inquery->rute_perjalanan->kode_rute ?? null) }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="nama_rute">Rute Perjalanan</label>
                                         <input style="font-size:14px" type="text" class="form-control" id="nama_rute"
-                                            readonly name="nama_rute" placeholder="" value="{{ old('nama_rute', $inquery->rute_perjalanan->nama_rute ?? null) }}">
+                                            readonly name="nama_rute" placeholder=""
+                                            value="{{ old('nama_rute', $inquery->rute_perjalanan->nama_rute ?? null) }}">
                                     </div>
                                 </div>
                                 <div hidden class="form-group">
@@ -157,7 +168,8 @@
                                 <div hidden class="form-group">
                                     <label for="alamat_muat_id">Alamat Muat Id</label>
                                     <input type="text" class="form-control" id="alamat_muat_id" readonly
-                                        name="alamat_muat_id" placeholder="" value="{{ old('alamat_muat_id', $inquery->alamat_muat_id) }}">
+                                        name="alamat_muat_id" placeholder=""
+                                        value="{{ old('alamat_muat_id', $inquery->alamat_muat_id) }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat_muat">Alamat Muat</label>
@@ -166,7 +178,8 @@
                                 <div hidden class="form-group">
                                     <label for="alamat_bongkar_id">Alamat Bongkar Id</label>
                                     <input type="text" class="form-control" id="alamat_bongkar_id" readonly
-                                        name="alamat_bongkar_id" placeholder="" value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar_id) }}">
+                                        name="alamat_bongkar_id" placeholder=""
+                                        value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar_id) }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat_bongkar">Alamat Bongkar</label>
@@ -174,10 +187,19 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Add Leaflet map container -->
+                        <div class="form-group">
+                            <label style="font-size:14px" for="map">Peta</label>
+                            <div id="map"></div>
+                            <input type="hidden" id="latitude" value="{{ old('latitude', $inquery->latitude) }}"
+                                name="latitude" />
+                            <input type="hidden" id="longitude" value="{{ old('longitude', $inquery->longitude) }}"
+                                name="longitude" />
+                        </div>
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
-                        <button type="submit" class="btn btn-primary" id="btnSimpan">Update</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
                         <div id="loading" style="display: none;">
                             <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
                         </div>
@@ -317,6 +339,62 @@
 
             $('#tableSpk').modal('hide');
         }
+    </script>
+
+    <!-- Include Leaflet CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Include Leaflet Control Geocoder CSS and JavaScript -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the map with default coordinates
+            var defaultLat = -6.967463;
+            var defaultLng = 109.139252;
+            var latitude = parseFloat(document.getElementById('latitude').value) || defaultLat;
+            var longitude = parseFloat(document.getElementById('longitude').value) || defaultLng;
+
+            // Initialize the map
+            var map = L.map('map').setView([latitude, longitude], 13);
+
+            // Add a tile layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Initialize the geocoder and add it to the map
+            var geocoder = L.Control.Geocoder.nominatim();
+            L.Control.geocoder({
+                geocoder: geocoder
+            }).addTo(map);
+
+            // Initialize the marker with the retrieved coordinates
+            var marker = L.marker([latitude, longitude], {
+                draggable: true
+            }).addTo(map);
+
+            // Add debugging to check if coordinates are correct
+            console.log('Initial Latitude:', latitude);
+            console.log('Initial Longitude:', longitude);
+
+            // Update the hidden fields with marker coordinates on move
+            marker.on('moveend', function(event) {
+                var position = event.target.getLatLng();
+                document.getElementById('latitude').value = position.lat;
+                document.getElementById('longitude').value = position.lng;
+            });
+
+            // Update the marker coordinates when the map is clicked
+            map.on('click', function(event) {
+                var latlng = event.latlng;
+                marker.setLatLng(latlng);
+                document.getElementById('latitude').value = latlng.lat;
+                document.getElementById('longitude').value = latlng.lng;
+            });
+        });
     </script>
 
 @endsection

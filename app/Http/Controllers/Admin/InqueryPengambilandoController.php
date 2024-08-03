@@ -64,9 +64,11 @@ class InqueryPengambilandoController extends Controller
             $request->all(),
             [
                 'spk_id' => 'required',
+                'latitude' => 'required',
             ],
             [
                 'spk_id.required' => 'Pilih spk',
+                'latitude.required' => 'Pilih titik tujuan',
             ]
         );
 
@@ -84,6 +86,8 @@ class InqueryPengambilandoController extends Controller
             'alamat_muat_id' => $request->alamat_muat_id,
             'alamat_bongkar_id' => $request->alamat_bongkar_id,
             'rute_perjalanan_id' => $request->rute_perjalanan_id,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
             'status' => 'posting',
         ]);
 

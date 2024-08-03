@@ -18,8 +18,8 @@ class PengambilandoController extends Controller
             ['user_id', $id],
             ['status', 'posting']
         ])->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar'])
-        ->get();
-        
+            ->get();
+
         if (count($pengambilando) > 0) {
             return $this->response(TRUE, array('Berhasil menampilkan data'), $pengambilando);
         } else {
@@ -56,7 +56,16 @@ class PengambilandoController extends Controller
 
     public function pengambilando_detail($id)
     {
-        $pengambilan_do = Pengambilan_do::where('id', $id)->with('user', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'kendaraan')->first();
+        $pengambilan_do = Pengambilan_do::where('id', $id)
+            ->with([
+                'spk.pelanggan', // Include pelanggan through spk
+                'user',
+                'rute_perjalanan',
+                'alamat_muat',
+                'alamat_bongkar',
+                'kendaraan'
+            ])
+            ->first();
         if ($pengambilan_do) {
             return response()->json([
                 'status' => TRUE,
@@ -96,7 +105,7 @@ class PengambilandoController extends Controller
             'timer' => $jarakWaktu
         ]);
 
-        
+
         if ($proses) {
             return response()->json([
                 'status' => true,

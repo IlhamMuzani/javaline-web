@@ -24,6 +24,8 @@ class Pengambilan_do extends Model
         'alamat_muat_id',
         'alamat_bongkar_id',
         'status',
+        'latitude',
+        'longitude',
         'tanggal',
         'tanggal_awal',
         'tanggal_akhir',

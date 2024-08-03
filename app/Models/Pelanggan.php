@@ -67,6 +67,16 @@ class Pelanggan extends Model
         return $this->hasMany(Alamat_bongkar::class);
     }
 
+    public function pengambilan_do()
+    {
+        return $this->hasMany(Pengambilan_do::class);
+    }
+
+    public function spk()
+    {
+        return $this->hasMany(Spk::class);
+    }
+    
     public static function getId()
     {
         return $getId = DB::table('pelanggans')->orderBy('id', 'DESC')->take(1)->get();

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pemberian DO')
+@section('title', 'Pengambilan DO')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Pemberian DO</h1>
+                    <h1 class="m-0">Pengambilan DO</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/pengambilan_do') }}">Pemberian DO</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/pengambilan_do') }}">Pengambilan DO</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div>
@@ -24,6 +24,11 @@
         #map {
             height: 400px;
             width: 100%;
+        }
+
+        #searchBox {
+            width: 100%;
+            margin-bottom: 10px;
         }
     </style>
 
@@ -73,7 +78,7 @@
                 @csrf
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Pemberian DO</h3>
+                        <h3 class="card-title">Tambah Pengambilan DO</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -89,6 +94,15 @@
                                 <button class="btn btn-primary" type="button" onclick="showCategoryModalSPK(this.value)">
                                     <i class="fas fa-search"></i>
                                 </button>
+                            </div>
+
+                            <div class="container">
+                                <h3>Lokasi</h3>
+                                <input id="searchBox" type="text" placeholder="Cari lokasi" class="form-control"
+                                    style="margin-bottom: 10px;">
+                                <div id="map" style="height: 400px; width: 100%;"></div>
+                                <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
+                                <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
                             </div>
 
                             <div id="form_pelanggan">
@@ -176,17 +190,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="alamat_bongkar">Alamat Bongkar</label>
-                                    <textarea readonly type="text" class="form-control" id="alamat_bongkar" name="alamat_bongkar" placeholder="">{{ old('alamat_bongkar_id') }}</textarea>
+                                    <textarea readonly type="text" class="form-control" id="alamat_bongkar" name="alamat_bongkar" placeholder="">{{ old('alamat_bongkar') }}</textarea>
                                 </div>
                             </div>
-                        </div>
-
-                        <!-- Add Leaflet map container -->
-                        <div class="form-group">
-                            <label style="font-size:14px" for="map">Peta</label>
-                            <div id="map"></div>
-                            <input type="hidden" id="latitude" value="{{ old('latitude') }}" name="latitude" />
-                            <input type="hidden" id="longitude" value="{{ old('longitude') }}" name="longitude" />
                         </div>
                     </div>
                     <div class="card-footer text-right">
@@ -196,37 +202,42 @@
                             <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
                         </div>
                     </div>
-                    <!-- /.card-body -->
                 </div>
+            </form>
+            <div class="container">
+                <h3>Lokasi</h3>
+                <div id="map" style="height: 400px; width: 100%;"></div>
+            </div>
+        </div>
 
-                <div class="modal fade" id="tableSpk" data-backdrop="static">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Data Spk</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="table-responsive scrollbar m-2">
-                                    <table id="datatables7" class="table table-bordered table-striped">
-                                        <thead class="bg-200 text-900">
-                                            <tr>
-                                                <th class="text-center">No</th>
-                                                <th>No. Spk</th>
-                                                <th>Tanggal</th>
-                                                <th>Pelanggan</th>
-                                                <th>Nama Driver</th>
-                                                <th>No Kabin</th>
-                                                <th>Golongan</th>
-                                                <th>Opsi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($spks as $spk)
-                                                <tr
-                                                    onclick="getSelectedDataspk(
+        <div class="modal fade" id="tableSpk" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Spk</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="datatables7" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>No. Spk</th>
+                                        <th>Tanggal</th>
+                                        <th>Pelanggan</th>
+                                        <th>Nama Driver</th>
+                                        <th>No Kabin</th>
+                                        <th>Golongan</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($spks as $spk)
+                                        <tr
+                                            onclick="getSelectedDataspk(
                                                 '{{ $spk->id }}',
                                                 '{{ $spk->kode_spk }}',
                                                 '{{ $spk->kendaraan_id }}',
@@ -244,16 +255,16 @@
                                                 '{{ $spk->alamat_bongkar_id }}',
                                                 '{{ $spk->alamat_bongkar->alamat ?? null }}'
                                                 )">
-                                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                                    <td>{{ $spk->kode_spk }}</td>
-                                                    <td>{{ $spk->tanggal_awal }}</td>
-                                                    <td>{{ $spk->nama_pelanggan }}</td>
-                                                    <td>{{ $spk->nama_driver }}</td>
-                                                    <td>{{ $spk->no_kabin }}</td>
-                                                    <td>{{ $spk->golongan }}</td>
-                                                    <td class="text-center">
-                                                        <button type="button" class="btn btn-primary btn-sm"
-                                                            onclick="getSelectedDataspk(
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $spk->kode_spk }}</td>
+                                            <td>{{ $spk->tanggal_awal }}</td>
+                                            <td>{{ $spk->nama_pelanggan }}</td>
+                                            <td>{{ $spk->nama_driver }}</td>
+                                            <td>{{ $spk->no_kabin }}</td>
+                                            <td>{{ $spk->golongan }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataspk(
                                                 '{{ $spk->id }}',
                                                 '{{ $spk->kode_spk }}',
                                                 '{{ $spk->kendaraan_id }}',
@@ -271,22 +282,84 @@
                                                 '{{ $spk->alamat_bongkar_id }}',
                                                 '{{ $spk->alamat_bongkar->alamat ?? null }}'
                                                 )">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-                <!-- /.card -->
-            </form>
+            </div>
         </div>
     </section>
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMLFLHH-g6kiaMRktCqUsQFNnq2yB87ko&libraries=places&callback=initMap" async defer>
+    </script>
+
+
+    {{-- <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBgdXemgf013J8OZxwnTbves0nEh0iuDRE&libraries=places&callback=initMap"
+        async defer></script> --}}
+    <script>
+        let map;
+        let marker;
+
+        function initMap() {
+            // Inisialisasi peta di pusat lokasi yang diinginkan
+            const initialLocation = {
+                lat: -6.1751,
+                lng: 106.8650
+            }; // Ganti dengan koordinat lokasi awal Anda
+
+            map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 15,
+                center: initialLocation,
+            });
+
+            marker = new google.maps.Marker({
+                position: initialLocation,
+                map: map,
+                title: "Lokasi",
+                draggable: true // Membuat marker dapat dipindah
+            });
+
+            // Menambahkan kontrol pencarian lokasi
+            const input = document.getElementById('searchBox');
+            const searchBox = new google.maps.places.SearchBox(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+            searchBox.addListener('places_changed', function() {
+                const places = searchBox.getPlaces();
+
+                if (places.length === 0) {
+                    return;
+                }
+
+                // Ambil data dari hasil pencarian
+                const place = places[0];
+                const location = place.geometry.location;
+
+                // Update peta dan marker
+                map.setCenter(location);
+                marker.setPosition(location);
+
+                // Update latitude dan longitude di input form
+                document.getElementById('latitude').value = location.lat();
+                document.getElementById('longitude').value = location.lng();
+            });
+
+            // Event listener untuk drag marker
+            google.maps.event.addListener(marker, 'dragend', function(event) {
+                document.getElementById('latitude').value = event.latLng.lat();
+                document.getElementById('longitude').value = event.latLng.lng();
+            });
+        }
+    </script>
+
 
     <script>
         $(document).ready(function() {
@@ -333,61 +406,4 @@
         }
     </script>
 
-
-
-    <!-- Include Leaflet CSS and JavaScript -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-    <!-- Include Leaflet Control Geocoder CSS and JavaScript -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize the map with default coordinates
-            var defaultLat = -6.967463;
-            var defaultLng = 109.139252;
-            var latitude = parseFloat(document.getElementById('latitude').value) || defaultLat;
-            var longitude = parseFloat(document.getElementById('longitude').value) || defaultLng;
-
-            // Initialize the map
-            var map = L.map('map').setView([latitude, longitude], 13);
-
-            // Add a tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(map);
-
-            // Initialize the geocoder and add it to the map
-            var geocoder = L.Control.Geocoder.nominatim();
-            L.Control.geocoder({
-                geocoder: geocoder
-            }).addTo(map);
-
-            // Initialize the marker with the retrieved coordinates
-            var marker = L.marker([latitude, longitude], {
-                draggable: true
-            }).addTo(map);
-
-            // Add debugging to check if coordinates are correct
-            console.log('Initial Latitude:', latitude);
-            console.log('Initial Longitude:', longitude);
-
-            // Update the hidden fields with marker coordinates on move
-            marker.on('moveend', function(event) {
-                var position = event.target.getLatLng();
-                document.getElementById('latitude').value = position.lat;
-                document.getElementById('longitude').value = position.lng;
-            });
-
-            // Update the marker coordinates when the map is clicked
-            map.on('click', function(event) {
-                var latlng = event.latlng;
-                marker.setLatLng(latlng);
-                document.getElementById('latitude').value = latlng.lat;
-                document.getElementById('longitude').value = latlng.lng;
-            });
-        });
-    </script>
 @endsection

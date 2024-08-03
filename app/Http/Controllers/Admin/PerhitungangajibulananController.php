@@ -226,7 +226,9 @@ class PerhitungangajibulananController extends Controller
                 $detail_cicilan = Detail_cicilan::where('karyawan_id', $data_pesanan['karyawan_id'])
                     ->where('status', 'posting')
                     ->where('status_cicilan', 'belum lunas')
+                    ->whereNull('detail_gajikaryawan_id')
                     ->first();
+                    
                 if ($detail_cicilan) {
                     $detail_cicilan->update([
                         // 'status_cicilan' => 'belum lunas',
@@ -262,7 +264,7 @@ class PerhitungangajibulananController extends Controller
             'nominal' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'status' => 'unpost',
         ]);
-        
+
         $details = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $cetakpdf->id)->get();
 
         return view('admin.perhitungan_gajibulanan.show', compact('details', 'cetakpdf'));

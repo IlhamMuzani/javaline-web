@@ -50,6 +50,6 @@ class Alamat_bongkar extends Model
     
     public static function getId()
     {
-        return $getId = DB::table('alamat_muats')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('alamat_bongkars')->orderBy('id', 'DESC')->take(1)->get();
     }
 }

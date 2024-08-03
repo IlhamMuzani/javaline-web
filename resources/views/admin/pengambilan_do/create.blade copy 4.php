@@ -185,155 +185,21 @@
                         <div class="form-group">
                             <label style="font-size:14px" for="map">Peta</label>
                             <div id="map"></div>
-                            <input type="hidden" id="latitude" value="{{ old('latitude') }}" name="latitude" />
-                            <input type="hidden" id="longitude" value="{{ old('longitude') }}" name="longitude" />
+                            <input id="latitude" name="latitude" />
+                            <input id="longitude" name="longitude" />
                         </div>
-                    </div>
-                    <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
-                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
-                        <div id="loading" style="display: none;">
-                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                            <a href="{{ url('admin/pengambilan_do') }}" class="btn btn-secondary">Kembali</a>
                         </div>
                     </div>
                     <!-- /.card-body -->
-                </div>
-
-                <div class="modal fade" id="tableSpk" data-backdrop="static">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title">Data Spk</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="table-responsive scrollbar m-2">
-                                    <table id="datatables7" class="table table-bordered table-striped">
-                                        <thead class="bg-200 text-900">
-                                            <tr>
-                                                <th class="text-center">No</th>
-                                                <th>No. Spk</th>
-                                                <th>Tanggal</th>
-                                                <th>Pelanggan</th>
-                                                <th>Nama Driver</th>
-                                                <th>No Kabin</th>
-                                                <th>Golongan</th>
-                                                <th>Opsi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($spks as $spk)
-                                                <tr
-                                                    onclick="getSelectedDataspk(
-                                                '{{ $spk->id }}',
-                                                '{{ $spk->kode_spk }}',
-                                                '{{ $spk->kendaraan_id }}',
-                                                '{{ $spk->kendaraan->kode_kendaraan ?? null }}',
-                                                '{{ $spk->kendaraan->no_kabin ?? null }}',
-                                                '{{ $spk->kendaraan->no_pol ?? null }}',
-                                                '{{ $spk->rute_perjalanan_id }}',
-                                                '{{ $spk->rute_perjalanan->kode_rute ?? null }}',
-                                                '{{ $spk->nama_rute }}',
-                                                '{{ $spk->user_id }}',
-                                                '{{ $spk->kode_driver }}',
-                                                '{{ $spk->nama_driver }}',
-                                                '{{ $spk->alamat_muat_id }}',
-                                                '{{ $spk->alamat_muat->alamat ?? null }}',
-                                                '{{ $spk->alamat_bongkar_id }}',
-                                                '{{ $spk->alamat_bongkar->alamat ?? null }}'
-                                                )">
-                                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                                    <td>{{ $spk->kode_spk }}</td>
-                                                    <td>{{ $spk->tanggal_awal }}</td>
-                                                    <td>{{ $spk->nama_pelanggan }}</td>
-                                                    <td>{{ $spk->nama_driver }}</td>
-                                                    <td>{{ $spk->no_kabin }}</td>
-                                                    <td>{{ $spk->golongan }}</td>
-                                                    <td class="text-center">
-                                                        <button type="button" class="btn btn-primary btn-sm"
-                                                            onclick="getSelectedDataspk(
-                                                '{{ $spk->id }}',
-                                                '{{ $spk->kode_spk }}',
-                                                '{{ $spk->kendaraan_id }}',
-                                                '{{ $spk->kendaraan->kode_kendaraan }}',
-                                                '{{ $spk->kendaraan->no_kabin }}',
-                                                '{{ $spk->kendaraan->no_pol }}',
-                                                '{{ $spk->rute_perjalanan_id }}',
-                                                '{{ $spk->rute_perjalanan->kode_rute }}',
-                                                '{{ $spk->nama_rute }}',
-                                                '{{ $spk->user_id }}',
-                                                '{{ $spk->kode_driver }}',
-                                                '{{ $spk->nama_driver }}',
-                                                '{{ $spk->alamat_muat_id }}',
-                                                '{{ $spk->alamat_muat->alamat ?? null }}',
-                                                '{{ $spk->alamat_bongkar_id }}',
-                                                '{{ $spk->alamat_bongkar->alamat ?? null }}'
-                                                )">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <!-- /.card -->
             </form>
         </div>
     </section>
-
-    <script>
-        $(document).ready(function() {
-            // Tambahkan event listener pada tombol "Simpan"
-            $('#btnSimpan').click(function() {
-                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
-                $(this).hide();
-                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
-                $('#loading').show();
-
-                // Lakukan pengiriman formulir
-                $('form').submit();
-            });
-        });
-    </script>
-
-    <script>
-        function showCategoryModalSPK(selectedCategory) {
-            $('#tableSpk').modal('show');
-        }
-
-        function getSelectedDataspk(Spk_id, Kode_spk, KendaraanId, KodeKendaraan, NoKabin, NoPol, RuteId, KodeRute,
-            NamaRute, DriverId, KodeDriver, NamaDriver, AlamatMuat_id, AlamatMuat, AlamatBongkar_id, AlamatBongkar) {
-
-            // Assign the values to the corresponding input fields
-            document.getElementById('spk_id').value = Spk_id;
-            document.getElementById('kode_spk').value = Kode_spk;
-            document.getElementById('kendaraan_id').value = KendaraanId;
-            document.getElementById('kode_kendaraan').value = KodeKendaraan;
-            document.getElementById('no_kabin').value = NoKabin;
-            document.getElementById('no_pol').value = NoPol;
-            document.getElementById('rute_perjalanan_id').value = RuteId;
-            document.getElementById('kode_rute').value = KodeRute;
-            document.getElementById('nama_rute').value = NamaRute;
-            document.getElementById('user_id').value = DriverId;
-            document.getElementById('kode_driver').value = KodeDriver;
-            document.getElementById('nama_driver').value = NamaDriver;
-            document.getElementById('alamat_muat_id').value = AlamatMuat_id;
-            document.getElementById('alamat_muat').value = AlamatMuat;
-            document.getElementById('alamat_bongkar_id').value = AlamatBongkar_id;
-            document.getElementById('alamat_bongkar').value = AlamatBongkar;
-
-            $('#tableSpk').modal('hide');
-        }
-    </script>
-
-
 
     <!-- Include Leaflet CSS and JavaScript -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -345,49 +211,49 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize the map with default coordinates
-            var defaultLat = -6.967463;
-            var defaultLng = 109.139252;
-            var latitude = parseFloat(document.getElementById('latitude').value) || defaultLat;
-            var longitude = parseFloat(document.getElementById('longitude').value) || defaultLng;
+            // Ambil nilai latitude dan longitude dari input tersembunyi
+            var initialLat = parseFloat(document.getElementById('latitude').value) || -6.967463;
+            var initialLng = parseFloat(document.getElementById('longitude').value) || 109.139252;
 
-            // Initialize the map
-            var map = L.map('map').setView([latitude, longitude], 13);
+            // Inisialisasi peta dengan koordinat default atau yang diambil dari input
+            var map = L.map('map').setView([initialLat, initialLng], 13);
 
-            // Add a tile layer
+            // Tambahkan layer tile
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
 
-            // Initialize the geocoder and add it to the map
+            // Inisialisasi marker dengan koordinat default atau yang diambil dari input
+            var marker = L.marker([initialLat, initialLng], {
+                    draggable: true
+                }).addTo(map)
+                .bindPopup('<b>PT. JAVA LINE LOGISTICS</b>')
+                .openPopup();
+
+            // Inisialisasi geocoder dan tambahkan ke peta
             var geocoder = L.Control.Geocoder.nominatim();
             L.Control.geocoder({
                 geocoder: geocoder
             }).addTo(map);
 
-            // Initialize the marker with the retrieved coordinates
-            var marker = L.marker([latitude, longitude], {
-                draggable: true
-            }).addTo(map);
-
-            // Add debugging to check if coordinates are correct
-            console.log('Initial Latitude:', latitude);
-            console.log('Initial Longitude:', longitude);
-
-            // Update the hidden fields with marker coordinates on move
+            // Perbarui input tersembunyi dengan koordinat marker saat marker dipindahkan
             marker.on('moveend', function(event) {
                 var position = event.target.getLatLng();
                 document.getElementById('latitude').value = position.lat;
                 document.getElementById('longitude').value = position.lng;
             });
 
-            // Update the marker coordinates when the map is clicked
+            // Perbarui marker dan input tersembunyi saat peta diklik
             map.on('click', function(event) {
                 var latlng = event.latlng;
                 marker.setLatLng(latlng);
                 document.getElementById('latitude').value = latlng.lat;
                 document.getElementById('longitude').value = latlng.lng;
             });
+
+            // Set nilai awal latitude dan longitude ke input tersembunyi jika belum diatur
+            document.getElementById('latitude').value = initialLat;
+            document.getElementById('longitude').value = initialLng;
         });
     </script>
 @endsection

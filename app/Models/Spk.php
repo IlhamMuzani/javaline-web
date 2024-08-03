@@ -108,6 +108,11 @@ class Spk extends Model
         return $this->belongsTo(Alamat_bongkar::class);
     }
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('spks')->orderBy('id', 'DESC')->take(1)->get();

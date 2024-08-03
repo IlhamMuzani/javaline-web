@@ -544,7 +544,7 @@
                 <a href="{{ url('admin/pengambilan_do') }}"
                     class="nav-link {{ request()->is('admin/pengambilan_do*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Pengambilan DO</p>
+                    <p style="font-size: 14px;">Pemberian DO</p>
                 </a>
             </li>
         @endif
@@ -1250,7 +1250,7 @@
                 <a href="{{ url('admin/inquery_pengambilando') }}"
                     class="nav-link {{ request()->is('admin/inquery_pengambilando*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 13px;">Inquery Pengambilan DO
+                    <p style="font-size: 13px;">Inquery Pemberian DO
                     </p>
                 </a>
             </li>

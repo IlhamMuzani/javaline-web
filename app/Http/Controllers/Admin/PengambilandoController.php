@@ -45,9 +45,11 @@ class PengambilandoController extends Controller
             $request->all(),
             [
                 'spk_id' => 'required',
+                'latitude' => 'required',
             ],
             [
                 'spk_id.required' => 'Pilih SPK',
+                'latitude.required' => 'Pilih titik tujuan',
             ]
         );
 
