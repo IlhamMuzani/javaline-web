@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\Pemasangan_part;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_pemasanganpart;
-use App\Models\Pembelian_ban;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryPemasanganpartController extends Controller
@@ -51,7 +50,6 @@ class InqueryPemasanganpartController extends Controller
 
             return view('admin.inquery_pemasanganpart.index', compact('inquery'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -69,7 +67,6 @@ class InqueryPemasanganpartController extends Controller
 
             return view('admin.inquery_pemasanganpart.update', compact('inquery', 'kendaraans', 'spareparts', 'details'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -155,44 +152,27 @@ class InqueryPemasanganpartController extends Controller
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                // Mendapatkan data Detail_pembelianpart yang akan diupdate
                 $detailToUpdate = Detail_pemasanganpart::find($detailId);
 
                 if ($detailToUpdate) {
-                    // Menghitung jumlah baru berdasarkan perubahan
                     $jumlahLamaDetail = $detailToUpdate->jumlah;
                     $jumlahBaruDetail = $data_pesanan['jumlah'];
-
-                    // Menghitung selisih antara stok lama dan stok baru
                     $selisihStok = $jumlahBaruDetail - $jumlahLamaDetail;
-
-                    // Mendapatkan data Sparepart
                     $sparepart = Sparepart::find($detailToUpdate->sparepart_id);
 
                     if ($sparepart) {
-                        // Menghitung jumlah baru untuk Sparepart
                         $jumlahLamaSparepart = $sparepart->jumlah;
                         $jumlahBaruSparepart = $data_pesanan['jumlah'];
                         $jumlahTotalSparepart = $jumlahLamaSparepart - $selisihStok;
-
-                        // Mengecek apakah stok cukup
-                        // if ($jumlahTotalSparepart >= 0) {
-                        // Update Detail_pembelianpart
                         $detailToUpdate->update([
                             'pemasangan_part_id' => $transaksi->id,
                             'sparepart_id' => $data_pesanan['sparepart_id'],
                             'keterangan' => $data_pesanan['keterangan'],
                             'jumlah' => $data_pesanan['jumlah'],
                         ]);
-
-                        // Update jumlah di Sparepart
                         $sparepart->update([
                             'jumlah' => $jumlahTotalSparepart,
                         ]);
-                        // } else {
-                        //     // Keluarkan pesan validasi jika stok tidak cukup
-                        //     return back()->with('error', array('Stok tidak mencukupi'));
-                        // }
                     }
                 }
             } else {
@@ -202,7 +182,6 @@ class InqueryPemasanganpartController extends Controller
                 ])->first();
 
                 if (!$existingDetail) {
-                    // Membuat Detail_pemasanganpart baru
                     Detail_pemasanganpart::create([
                         'pemasangan_part_id' => $transaksi->id,
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
@@ -210,18 +189,10 @@ class InqueryPemasanganpartController extends Controller
                         'keterangan' => $data_pesanan['keterangan'],
                         'jumlah' => $data_pesanan['jumlah'],
                     ]);
-
-                    // Mengambil informasi jumlah yang ada di tabel Sparepart
                     $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
 
                     if ($sparepart) {
-                        // Mengurangkan jumlah yang ada di tabel Sparepart dengan jumlah yang diminta dalam request
                         $newQuantity = $sparepart->jumlah - $data_pesanan['jumlah'];
-
-                        // Pastikan jumlah tidak kurang dari nol
-                        // $newQuantity = max(0, $newQuantity);
-
-                        // Memperbarui jumlah yang ada di tabel Sparepart
                         $sparepart->update(['jumlah' => $newQuantity]);
                     }
                 }
@@ -268,7 +239,6 @@ class InqueryPemasanganpartController extends Controller
 
             return view('admin.inquery_pemasanganpart.show', compact('parts', 'pemasangan_part'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -281,8 +251,6 @@ class InqueryPemasanganpartController extends Controller
         foreach ($detailpenggantianpart as $detail) {
             $sparepartId = $detail->sparepart_id;
             $sparepart = Sparepart::find($sparepartId);
-
-            // Add the quantity back to the stock in the Sparepart record
             $newQuantity = $sparepart->jumlah + $detail->jumlah;
             $sparepart->update(['jumlah' => $newQuantity]);
         }

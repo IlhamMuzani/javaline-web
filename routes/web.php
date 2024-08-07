@@ -757,7 +757,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_memoekspedisispk/postingmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisispkController::class, 'postingmemo']);
     Route::delete('inquery_fakturekspedisispk/delettariftambahan/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisispkController::class, 'delettariftambahan']);
     Route::get('hapusspk/{id}', [\App\Http\Controllers\Admin\InquerySpkController::class, 'hapusspk'])->name('hapusspk');
-    Route::resource('status_spk', \App\Http\Controllers\Admin\StatusSpkController::class);
     Route::resource('spk', \App\Http\Controllers\Admin\SpkController::class);
     Route::resource('inquery_spk', \App\Http\Controllers\Admin\InquerySpkController::class);
     Route::resource('status_spk', \App\Http\Controllers\Admin\StatusSpkController::class);
@@ -789,5 +788,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_pengambilando/unpostpengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'unpostpengambilando']);
     Route::get('inquery_pengambilando/postingpengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'postingpengambilando']);
     Route::get('hapuspengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'hapuspengambilando'])->name('hapuspengambilando');
+    Route::resource('status_pemberiando', \App\Http\Controllers\Admin\StatusPemberiandoController::class);
 
 });

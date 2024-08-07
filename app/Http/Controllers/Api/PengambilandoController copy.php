@@ -18,7 +18,6 @@ class PengambilandoController extends Controller
             ['user_id', $id],
             ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
         ])
-            ->whereNotIn('status', ['selesai']) // Filter out entries where status is 'selesai'
             ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar'])
             ->get();
 
@@ -102,7 +101,6 @@ class PengambilandoController extends Controller
         $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
         $proses = $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu
         ]);
@@ -111,7 +109,7 @@ class PengambilandoController extends Controller
         if ($proses) {
             return response()->json([
                 'status' => true,
-                'msg' => 'Status loading muat',
+                'msg' => 'Status Selesai',
             ]);
         } else {
             $this->error('Gagal !');
@@ -140,160 +138,123 @@ class PengambilandoController extends Controller
 
     public function bukti_foto(Request $request, $id)
     {
-        // Temukan model berdasarkan ID
         $pengambilan_do = Pengambilan_do::find($id);
 
-        if (!$pengambilan_do) {
-            return response()->json([
-                'status' => false,
-                'msg' => 'Data tidak ditemukan.',
-            ], 404);
-        }
-
-        // Validasi bahwa file diupload
-        if (!$request->hasFile('gambar') || !$request->file('gambar')->isValid()) {
-            return response()->json([
-                'status' => false,
-                'msg' => 'Gambar tidak valid.',
-            ], 400);
-        }
-
-        // Menyiapkan nama file untuk penyimpanan
-        $bukti = str_replace(' ', '', $request->file('gambar')->getClientOriginalName());
+        $bukti = str_replace(' ', '', $request->gambar->getClientOriginalName());
         $namabukti = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+        $request->gambar->storeAs('public/uploads/', $namabukti);
 
-        // Menyimpan file ke storage
-        $request->file('gambar')->storeAs('public/uploads/', $namabukti);
-
-        // Memperbarui entri di database
-        $pengambilan_do->update([
+        $pengambilan_do = Pengambilan_do::where('id', $id);
+        $proses = $pengambilan_do->update([
             'gambar' => $namabukti,
             'status' => 'tunggu bongkar',
         ]);
 
-        // Menghitung jarak waktu
         $waktuTungguMuat = $pengambilan_do->updated_at;
         $waktuPerjalananIsi = now();
+
+        // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        // Memperbarui kendaraan terkait
-        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
-        if ($kendaraan) {
-            $kendaraan->update([
-                'status_perjalanan' => 'Tunggu Bongkar',
-                'timer' => $jarakWaktu,
-            ]);
-        }
-
-        return response()->json([
-            'status' => true,
-            'msg' => 'Status Tunggu Bongkar',
+        $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
+        $proses = $kendaraan->update([
+            'status_perjalanan' => 'Tunggu Bongkar',
+            'timer' => $jarakWaktu
         ]);
-    }
 
+        if ($proses) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Status Berhasil',
+            ]);
+        } else {
+            $this->error('Gagal !');
+        }
+    }
 
     public function bukti_fotoselesai(Request $request, $id)
     {
-        // Temukan model berdasarkan ID
         $pengambilan_do = Pengambilan_do::find($id);
 
-        if (!$pengambilan_do) {
-            return response()->json([
-                'status' => false,
-                'msg' => 'Data tidak ditemukan.',
-            ], 404);
-        }
-
-        // Validasi bahwa file diupload
-        if (!$request->hasFile('bukti') || !$request->file('bukti')->isValid()) {
-            return response()->json([
-                'status' => false,
-                'msg' => 'File bukti tidak valid.',
-            ], 400);
-        }
-
-        // Menyiapkan nama file untuk penyimpanan
-        $bukti = str_replace(' ', '', $request->file('bukti')->getClientOriginalName());
+        $bukti = str_replace(' ', '', $request->bukti->getClientOriginalName());
         $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+        $request->bukti->storeAs('public/uploads/', $namabukti);
 
-        // Menyimpan file ke storage
-        $request->file('bukti')->storeAs('public/uploads/', $namabukti);
-
-        // Memperbarui entri di database
-        $pengambilan_do->update([
+        $pengambilan_do = Pengambilan_do::where('id', $id);
+        $proses = $pengambilan_do->update([
             'bukti' => $namabukti,
             'status' => 'loading bongkar',
         ]);
 
-        // Menghitung jarak waktu
         $waktuTungguMuat = $pengambilan_do->updated_at;
         $waktuPerjalananIsi = now();
+        // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        // Memperbarui kendaraan terkait
-        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
-        if ($kendaraan) {
-            $kendaraan->update([
-                'status_perjalanan' => 'Loading Bongkar',
-                'timer' => $jarakWaktu,
-            ]);
-        }
-
-        return response()->json([
-            'status' => true,
-            'msg' => 'Status Berhasil',
+        $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
+        $proses = $kendaraan->update([
+            'status_perjalanan' => 'Loading Bongkar',
+            'timer' => $jarakWaktu
         ]);
+
+
+        if ($proses) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Status Berhasil',
+            ]);
+        } else {
+            $this->error('Gagal !');
+        }
     }
 
     public function konfirmasi_selesai(Request $request, $id)
     {
-        // Temukan model berdasarkan ID
         $pengambilan_do = Pengambilan_do::find($id);
 
-        if (!$pengambilan_do) {
-            return response()->json([
-                'status' => false,
-                'msg' => 'Data tidak ditemukan.',
-            ], 404);
-        }
-
-        // Validasi data request
-        $request->validate([
-            'user_id' => 'required|integer|exists:users,id', // Pastikan user_id valid
+        $pengambilan_do = Pengambilan_do::where('id', $id);
+        $proses = $pengambilan_do->update([
+            'user_id' => $request->user_id,
+            'status' => 'selesai',
         ]);
 
-        // Memperbarui entri di database
-        $pengambilan_do->user_id = $request->user_id;
-        $pengambilan_do->status = 'selesai';
-        $proses = $pengambilan_do->save();
-
-        if (!$proses) {
+        if ($proses) {
             return response()->json([
-                'status' => false,
-                'msg' => 'Gagal memperbarui data.',
-            ], 500);
-        }
-
-        // Menghitung jarak waktu
-        $waktuTungguMuat = $pengambilan_do->updated_at;
-        $waktuPerjalananIsi = now();
-        $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
-
-        // Memperbarui kendaraan terkait
-        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
-        if ($kendaraan) {
-            $kendaraan->update([
-                'status_perjalanan' => null,
-                'timer' => $jarakWaktu,
+                'status' => true,
+                'msg' => 'Status Berhasil',
             ]);
+        } else {
+            $this->error('Gagal !');
         }
-
-        return response()->json([
-            'status' => true,
-            'msg' => 'Status Berhasil',
-        ]);
     }
 
+    // public function bukti_foto(Request $request, $id)
+    // {
+    //     $pengambilan_do = Pengambilan_do::find($id);
+
+    //     if ($request->file('gambar')->isValid()) {
+    //         $gambar = $request->file('gambar');
+    //         $extention = $gambar->getClientOriginalExtension();
+    //         $namaFoto = "pengambilan_do/" . date('ymdHis') . "." . $extention;
+    //         $upload_path = 'public/storage/uploads/pengambilan_do';
+    //         $request->file('gambar')->move($upload_path, $namaFoto);
+    //     }
+
+    //     $pengambilan_do = Pengambilan_do::where('id', $id);
+    //     $proses = $pengambilan_do->update([
+    //         'gambar' => $namaFoto,
+    //         'status' => 'loading bongkar',
+    //     ]);
+
+    //     if ($proses) {
+    //         return response()->json([
+    //             'status' => true,
+    //             'msg' => 'Status Berhasil',
+    //         ]);
+    //     } else {
+    //         $this->error('Gagal !');
+    //     }
+    // }
 
     public function detail($id)
     {

@@ -29,6 +29,8 @@ return new class extends Migration
             $table->foreign('alamat_bongkar_id')->references('id')->on('alamat_bongkars');
             $table->string('kode_pengambilan')->nullable();
             $table->string('tanggal')->nullable();
+            $table->string('gambar')->nullable();
+            $table->string('bukti')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->string('tanggal_awal')->nullable();

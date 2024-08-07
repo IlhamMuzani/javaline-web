@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Pelanggan;
 use App\Models\Kota;
 use Illuminate\Http\Request;
 use App\Models\Laporanperjalanan;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
@@ -22,6 +24,78 @@ class DriverController extends Controller
             'data' => $data
         ]);
     }
+
+    public function update_profile(Request $request, $id)
+    {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'nama_lengkap' => 'required',
+                'telp' => 'required',
+            ],
+            [
+                'nama_lengkap.required' => 'Masukkan nama lengkap',
+                'telp.required' => 'Masukkan telp',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return $this->error($error);
+        }
+
+        $karyawan = Karyawan::find($id);
+        $karyawan = Karyawan::where('id', $id);
+        $proses = $karyawan->update([
+            'nama_lengkap' => $request->nama_lengkap,
+            'telp' => $request->telp,
+        ]);
+
+        if ($proses) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Profil berhasil di perbarui',
+            ]);
+        } else {
+            $this->error('Gagal !');
+        }
+    }
+
+    public function update_password(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:6|confirmed'
+        ], [
+            'password.required' => 'Password tidak boleh kosong!',
+            'password.min' => 'Password minimal 6 karakter!',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai!',
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return $this->error($error);
+        }
+
+        $user = User::where('id', $id)
+            ->update([
+                'password' => bcrypt($request->password)
+            ]);
+
+        if ($user) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Berhasil di perbarui',
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Gagal',
+            ], 200);
+        }
+    }
+
+
 
     public function pelangganlist()
     {
@@ -455,6 +529,23 @@ class DriverController extends Controller
                 'status' => TRUE,
                 'msg' => 'Berhasil',
                 'kendaraan' => $kendaraan
+            ]);
+        } else {
+            return response()->json([
+                'status' => FALSE,
+                'msg' => 'Error',
+            ]);
+        }
+    }
+
+    public function karyawan_detail($id)
+    {
+        $karyawan = Karyawan::where('id', $id)->with('user')->first();
+        if ($karyawan) {
+            return response()->json([
+                'status' => TRUE,
+                'msg' => 'Berhasil',
+                'karyawan' => $karyawan
             ]);
         } else {
             return response()->json([

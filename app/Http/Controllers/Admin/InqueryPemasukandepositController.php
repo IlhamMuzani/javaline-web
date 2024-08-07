@@ -3,21 +3,12 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
-use App\Models\Ban;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Typeban;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Pembelian_ban;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
 use App\Models\Karyawan;
-use App\Models\Penerimaan_kaskecil;
-use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
-use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryPemasukandepositController extends Controller
 {
@@ -35,7 +26,6 @@ class InqueryPemasukandepositController extends Controller
 
         $inquery = Deposit_driver::query();
 
-        // Add condition for category "Pengambilan Deposit"
         $inquery->where('kategori', 'Pemasukan Deposit');
 
         if ($status) {
@@ -49,7 +39,6 @@ class InqueryPemasukandepositController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -61,16 +50,10 @@ class InqueryPemasukandepositController extends Controller
 
     public function edit($id)
     {
-        // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
-
         $inquery = Deposit_driver::where('id', $id)->first();
         $SopirAll = Karyawan::where('departemen_id', '2')->get();
 
         return view('admin.inquery_pemasukandeposit.update', compact('inquery', 'SopirAll'));
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 
     public function update(Request $request, $id)
@@ -80,12 +63,10 @@ class InqueryPemasukandepositController extends Controller
             [
                 'kategori' => 'required',
                 'karyawan_id' => 'required',
-                // 'keterangan' => 'required', // Menambahkan aturan unique
             ],
             [
                 'kategori.required' => 'Pilih kategori',
                 'karyawan_id.required' => 'Pilih sopir',
-                // 'keterangan.required' => 'Masukkan keterangan',
             ]
         );
 
@@ -129,22 +110,6 @@ class InqueryPemasukandepositController extends Controller
                 'status' => 'posting',
             ]);
 
-            // $karyawanId = $request->karyawan_id;
-            // $karyawan = Karyawan::find($karyawanId);
-
-            // if ($karyawan) {
-            //     // Remove "Rp" and dots from the sub_total
-            //     $subTotal = str_replace(['Rp', '.'], '', $request->sub_total);
-
-            //     $karyawan->update([
-            //         'tabungan' => $subTotal,
-            //     ]);
-            // } else {
-            //     // Handle the case where the Karyawan with the given ID is not found
-            // }
-
-
-
             $cetakpdf = Deposit_driver::where('id', $id)->first();
 
             return view('admin.inquery_pemasukandeposit.show', compact('cetakpdf'));
@@ -182,22 +147,6 @@ class InqueryPemasukandepositController extends Controller
                 'status' => 'posting',
             ]);
 
-            // $karyawanId = $request->karyawan_id;
-            // $karyawan = Karyawan::find($karyawanId);
-
-            // if ($karyawan) {
-            //     // Remove "Rp" and dots from the sub_total
-            //     $subTotal = str_replace(['Rp', '.'], '', $request->sub_totals);
-
-            //     $karyawan->update([
-            //         'tabungan' => $subTotal,
-            //     ]);
-            // } else {
-            //     // Handle the case where the Karyawan with the given ID is not found
-            // }
-
-
-
             $cetakpdf = Deposit_driver::where('id', $id)->first();
 
             return view('admin.inquery_pemasukandeposit.show', compact('cetakpdf'));
@@ -218,38 +167,27 @@ class InqueryPemasukandepositController extends Controller
             return back()->with('error', 'Deposit driver tidak ditemukan');
         }
         $sopir = Karyawan::find($ban->karyawan_id);
-
-        // Pastikan karyawan ditemukan
         if (!$sopir) {
             return back()->with('error', 'Karyawan tidak ditemukan');
         }
 
-        // Ambil nilai tabungan dan total dari deposit_driver
         $tabungan = $sopir->tabungan;
         $total = $ban->nominal;
         $sub_totals = $tabungan - $total;
-
-        // $deposit = $sopir->deposit;
-        // $total = $ban->nominal;
-        // $deposits = $deposit + $total;
 
         $bayarkasbon = $sopir->bayar_kasbon;
         $total = $ban->nominal;
         $bayarkasbons = $bayarkasbon - $total;
 
-        // Update tabungan karyawan
         $sopir->update([
-            // 'deposit' => $deposits,
             'bayar_kasbon' => $bayarkasbons,
             'tabungan' => $sub_totals,
         ]);
 
-        // Update status deposit_driver menjadi 'unpost'
         $ban->update([
             'status' => 'unpost'
         ]);
 
-        // Tampilkan pesan sesuai hasil penambahan
         return back()->with('success', 'Berhasil. Tabungan karyawan sekarang: Rp ' . number_format($sub_totals, 0, ',', '.'));
     }
 
@@ -261,37 +199,26 @@ class InqueryPemasukandepositController extends Controller
         }
         $sopir = Karyawan::find($ban->karyawan_id);
 
-        // Pastikan karyawan ditemukan
         if (!$sopir) {
             return back()->with('error', 'Karyawan tidak ditemukan');
         }
-
-        // Ambil nilai tabungan dan total dari deposit_driver
         $tabungan = $sopir->tabungan;
         $total = $ban->nominal;
         $sub_totals = $tabungan + $total;
-
-        // $deposit = $sopir->deposit;
-        // $total = $ban->nominal;
-        // $deposits = $deposit - $total;
 
         $bayarkasbon = $sopir->bayar_kasbon;
         $total = $ban->nominal;
         $bayarkasbons = $bayarkasbon + $total;
 
-        // Update tabungan karyawan
         $sopir->update([
-            // 'deposit' => $deposits,
             'bayar_kasbon' => $bayarkasbons,
             'tabungan' => $sub_totals,
         ]);
 
-        // Update status deposit_driver menjadi 'posting'
         $ban->update([
             'status' => 'posting'
         ]);
 
-        // Tampilkan pesan sesuai hasil pengurangan
         return back()->with('success', 'Berhasil. Tabungan karyawan sekarang: Rp ' . number_format($sub_totals, 0, ',', '.'));
     }
 

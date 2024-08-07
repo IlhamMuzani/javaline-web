@@ -7,10 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Detail_nota;
-use App\Models\Pelanggan;
 use App\Models\Nota_return;
 use App\Models\Return_ekspedisi;
-use App\Models\Satuan;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryNotareturnController extends Controller
@@ -40,7 +38,6 @@ class InqueryNotareturnController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -133,7 +130,6 @@ class InqueryNotareturnController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $cetakpdf = Nota_return::findOrFail($id);
 
-        // Update the main transaction
         $cetakpdf->update([
             'return_ekspedisi_id' => $request->return_ekspedisi_id,
             'kode_return' => $request->kode_return,
@@ -158,7 +154,6 @@ class InqueryNotareturnController extends Controller
         $transaksi_id = $cetakpdf->id;
         $detailIds = $request->input('detail_ids', []);
 
-        // Hapus detail nota yang tidak ada di array detailIds
         Detail_nota::where('nota_return_id', $cetakpdf->id)
             ->whereNotIn('id', $detailIds)
             ->delete();
@@ -202,8 +197,6 @@ class InqueryNotareturnController extends Controller
                     ]);
                 }
             }
-
-            // Increment the stock after ensuring the record is either updated or created
             Barang::where('id', $data_pesanan['barang_id'])->increment('jumlah', $data_pesanan['jumlah']);
         }
 
@@ -249,15 +242,12 @@ class InqueryNotareturnController extends Controller
         foreach ($detailpembelian as $detail) {
             $barangId = $detail->barang_id;
             $barang = Barang::find($barangId);
-
-            // Add the quantity back to the stock in the Sparepart record
             $newQuantity = $barang->jumlah + $detail->jumlah;
             $barang->update(['jumlah' => $newQuantity]);
         }
         $item->update([
             'status' => 'posting'
         ]);
-
         return back()->with('success', 'Berhasil');
     }
 

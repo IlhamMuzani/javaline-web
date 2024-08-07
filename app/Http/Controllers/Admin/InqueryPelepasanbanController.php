@@ -55,7 +55,6 @@ class InqueryPelepasanbanController extends Controller
 
             return view('admin.inquery_pelepasanban.index', compact('inquery'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -96,7 +95,6 @@ class InqueryPelepasanbanController extends Controller
 
             return view('admin.inquery_pelepasanban.show', compact('bans', 'kendaraan', 'pelepasan_ban'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -174,7 +172,6 @@ class InqueryPelepasanbanController extends Controller
 
             return view('admin/inquery_pelepasanban.update', compact('SopirAll', 'inquerypelepasan', 'daftarbans', 'kendaraan', 'tabelbans', 'bans', 'bansb', 'bans2a', 'bans2b', 'bans2c', 'bans2d', 'bans3a', 'bans3b', 'bans3c', 'bans3d', 'bans4a', 'bans4b', 'bans4c', 'bans4d', 'bans5a', 'bans5b', 'bans5c', 'bans5d', 'bans6a', 'bans6b', 'bans6c', 'bans6d', 'banspas', 'banspasb', 'banspas2a', 'banspas2b', 'banspas2c', 'banspas2d', 'banspas3a', 'banspas3b', 'banspas3c', 'banspas3d', 'banspas4a', 'banspas4b', 'banspas4c', 'banspas4d', 'banspas5a', 'banspas5b', 'banspas5c', 'banspas5d', 'banspas6a', 'banspas6b', 'banspas6c', 'banspas6d'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -189,19 +186,15 @@ class InqueryPelepasanbanController extends Controller
 
         $depositdriver = Deposit_driver::where('ban_id', $id)->first();
         if ($depositdriver) {
-            // Hapus penerimaan_kaskecil yang terkait
             $penerimaanKasKecil = $depositdriver->penerimaan_kaskecil();
             if ($penerimaanKasKecil) {
                 $penerimaanKasKecil->delete();
             }
-
-            // Hapus deposit_driver
             $depositdriver->delete();
         }
 
         $klaim_ban = Klaim_ban::where('ban_id', $id)->first();
         if ($klaim_ban) {
-            // Hapus deposit_driver
             $klaim_ban->delete();
         }
 
@@ -210,19 +203,15 @@ class InqueryPelepasanbanController extends Controller
             ->first();
 
         if ($umurbans) {
-            // Hapus deposit_driver
             $umurbans->delete();
         }
 
         $detail_ban = Detail_ban::where('ban_id', $id)->first();
         if ($detail_ban) {
-            // Hapus deposit_driver
             $detail_ban->delete();
         }
 
-        // Setelah itu, update objek Ban
         $ban->update([
-            // 'pelepasan_ban_id' => null,
             'jumlah_km' => null,
             'status' => 'aktif',
             'status_pelepasan' => null
@@ -250,7 +239,6 @@ class InqueryPelepasanbanController extends Controller
         $bans = Ban::where('pelepasan_ban_id', $id)->get();
 
         if ($bans->isNotEmpty()) {
-            // Iterasi melalui setiap objek ban dan perbarui statusnya
             foreach ($bans as $ban) {
                 $ban->update([
                     'status' => 'aktif'
@@ -258,7 +246,6 @@ class InqueryPelepasanbanController extends Controller
             }
         }
 
-        // Hapus item Pelepasan_ban
         $item->delete();
 
         return redirect('admin/inquery_pelepasanban')->with('success', 'Berhasil menghapus Pelepasan');
@@ -284,26 +271,18 @@ class InqueryPelepasanbanController extends Controller
             ['status', 'non aktif sementara']
         ])->get();
 
-        // Loop melalui setiap Ban dan update dengan jumlah_km dari Km_ban
         foreach ($bans as $ban) {
-            // Ambil nilai jumlah_km terbaru dari Km_ban berdasarkan ban_id
             $jumlahKm = Km_ban::where('ban_id', $ban->id)
                 ->where('status', 'digunakan')
                 ->latest()
                 ->value('umur_ban') ?? 0;
 
-
-            // Ambil semua data km_ban yang diurutkan berdasarkan waktu atau ID
             $kmBanRecords = Km_ban::where('ban_id', $ban->id)
             ->orderBy('created_at', 'desc')
             ->get();
-
-            // Ambil umur_ban terakhir kedua
             $umurBanTerakhirKedua = $kmBanRecords->skip(1)->first();
             $kmUmr = $umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0;
-
             
-            // Update Ban dengan nilai jumlah_km
             $ban->update([
                 'status' => 'stok',
                 'status_pelepasan' => 'true',
@@ -326,7 +305,6 @@ class InqueryPelepasanbanController extends Controller
             ['status', 'non aktif sementara']
         ])->get();
 
-        // Loop melalui setiap Ban dan update dengan jumlah_km dari Km_ban
         foreach ($bans as $ban) {
 
             $umurBanTerakhir = Km_ban::where('ban_id', $ban->id)
@@ -348,15 +326,6 @@ class InqueryPelepasanbanController extends Controller
                 'pelepasan_ban_id' => $id,
             ]);
         }
-
-        // Ban::where([
-        //     ['kendaraan_id', $id],
-        //     ['status', 'non aktif sementara']
-        // ])->update([
-        //     'status' => 'non aktif',
-        //     'status_pelepasan' => 'true',
-        //     'pelepasan_ban_id' => $id,
-        // ]);
 
         Km_ban::where([
             ['pelepasan_ban_id', $id],
@@ -473,7 +442,6 @@ class InqueryPelepasanbanController extends Controller
 
             $saldoTerakhir = Saldo::latest()->first();
             $saldo = $saldoTerakhir->id;
-            // Menghapus tanda titik dari nilai saldo_keluar dan mengonversi ke tipe numerik
             $saldo_keluar_numeric = (float) str_replace('.', '', $request->saldo_keluar);
             $subtotals =  $saldoTerakhir->sisa_saldo + $saldo_keluar_numeric;
             $kodepenerimaan = $this->kodepenerimaan();
@@ -542,7 +510,6 @@ class InqueryPelepasanbanController extends Controller
                 'keterangan' => $request->keterangan,
                 'km_pelepasan' => $request->km_pelepasan,
                 'status_pelepasan' => 'true',
-                // 'jumlah_km' => $request->km_pelepasan - $ban->km_pemasangan,
                 'km_terpakai' => $request->km_terpakai,
                 'status' => 'non aktif sementara',
                 'pelepasan_ban_id' => $request->pelepasan_ban_id,

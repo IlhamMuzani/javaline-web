@@ -10,10 +10,8 @@ use App\Models\Typeban;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Models\Pembelian_ban;
-use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryPembelianBanController extends Controller
 {
@@ -44,7 +42,6 @@ class InqueryPembelianBanController extends Controller
             } elseif ($tanggal_akhir) {
                 $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
             } else {
-                // Jika tidak ada filter tanggal hari ini
                 $inquery->whereDate('tanggal_awal', Carbon::today());
             }
 
@@ -53,7 +50,6 @@ class InqueryPembelianBanController extends Controller
 
             return view('admin.inquery_pembelianban.index', compact('inquery'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -71,7 +67,6 @@ class InqueryPembelianBanController extends Controller
 
             return view('admin.inquery_pembelianban.update', compact('inquery', 'suppliers', 'typebans', 'ukurans', 'mereks', 'details'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -143,12 +138,10 @@ class InqueryPembelianBanController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pembelian_ban::findOrFail($id);
 
-        // Update the main transaction
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
-            // 'grand_total' => str_replace('.', '', $request->grand_total),
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'status' => 'posting',
         ]);
@@ -200,11 +193,6 @@ class InqueryPembelianBanController extends Controller
         $bans = Ban::where('pembelian_ban_id', $pembelians->id)->get();
 
         return view('admin.inquery_pembelianban.show', compact('bans', 'pembelians'));
-
-        // $pembelians = Pembelian_ban::find($transaksi);
-
-
-        // return redirect('admin/inquery_pembelianban')->with('success', 'Berhasil memperbarui Pembelian ban');
     }
 
     public function unpostban($id)
@@ -294,7 +282,6 @@ class InqueryPembelianBanController extends Controller
 
             return view('admin.inquery_pembelianban.show', compact('bans', 'pembelians'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -311,7 +298,6 @@ class InqueryPembelianBanController extends Controller
 
             return view('admin.inquery_pembelianban.update', compact('inquery', 'suppliers', 'ukurans', 'mereks', 'details'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -333,12 +319,4 @@ class InqueryPembelianBanController extends Controller
 
         return redirect('admin/inquery_pembelianban')->with('success', 'Berhasil menghapus Pembelian');
     }
-
-    // public function removeBan($id)
-    // {
-    //     $detail = Ban::findOrFail($id);
-    //     $detail->delete();
-
-    //     return response()->json(['message' => 'Data deleted successfully']);
-    // }
 }

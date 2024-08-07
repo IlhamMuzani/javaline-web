@@ -3,27 +3,18 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
-use App\Models\Ban;
-use App\Models\Merek;
-use App\Models\Ukuran;
-use App\Models\Typeban;
-use App\Models\Supplier;
 use Illuminate\Http\Request;
-use App\Models\Pembelian_ban;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Detail_faktur;
-use App\Models\Detail_memo;
 use App\Models\Detail_memotambahan;
 use App\Models\Detail_pengeluaran;
 use App\Models\Faktur_ekspedisi;
-use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
-use App\Models\Penerimaan_kaskecil;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
@@ -31,8 +22,6 @@ use App\Models\Saldo;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-
-use Egulias\EmailValidator\Result\Reason\DetailedReason;
 
 class InqueryMemotambahanController extends Controller
 {
@@ -66,7 +55,6 @@ class InqueryMemotambahanController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -82,20 +70,14 @@ class InqueryMemotambahanController extends Controller
         } elseif ($kategori === 'Memo Borong') {
             return view('admin.inquery_memoborong.index', compact('inquery', 'saldoTerakhir'));
         } elseif ($kategori === 'Memo Tambahan') {
-            // Anda harus menyesuaikan ini sesuai dengan tampilan dan data yang diperlukan untuk "Memo Tambahan"
-            // Misalnya:
             return view('admin.inquery_memotambahan.index', compact('inquery', 'saldoTerakhir'));
         } else {
-            // Anda harus menyesuaikan ini sesuai dengan tampilan dan data yang diperlukan untuk "Memo Tambahan"
-            // Misalnya:
             return view('admin.inquery_memotambahan.index', compact('inquery', 'saldoTerakhir'));
         }
     }
 
     public function edit($id)
     {
-        // if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk']) {
-
         $inquery = Memotambahan::where('id', $id)->first();
         $details = Detail_memotambahan::where('memotambahan_id', $id)->get();
         $kendaraans = Kendaraan::all();
@@ -147,9 +129,8 @@ class InqueryMemotambahanController extends Controller
 
         if ($request->has('keterangan_tambahan') || $request->has('nominal_tambahan') || $request->has('qty') || $request->has('satuans') || $request->has('hargasatuan')) {
             for ($i = 0; $i < count($request->keterangan_tambahan); $i++) {
-                // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
                 if (empty($request->keterangan_tambahan[$i]) && empty($request->qty[$i]) && empty($request->satuans[$i]) && empty($request->hargasatuan[$i]) && empty($request->nominal_tambahan[$i])) {
-                    continue; // Skip validation if both are empty
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -208,16 +189,14 @@ class InqueryMemotambahanController extends Controller
 
         $transaksi_id = $cetakpdf->id;
         $detailIds = $request->input('detail_idstambahan');
-        $allKeterangan = ''; // Initialize an empty string to accumulate keterangan values
+        $allKeterangan = ''; 
 
         foreach ($data_pembelians4 as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                // Retrieve the existing Detail_memotambahan record
                 $existingDetail = Detail_memotambahan::find($detailId);
                 if ($existingDetail) {
-                    // Update the existing Detail_memotambahan record
                     $existingDetail->update([
                         'memotambahan_id' => $cetakpdf->id,
                         'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
@@ -226,7 +205,6 @@ class InqueryMemotambahanController extends Controller
                         'hargasatuan' => $data_pesanan['hargasatuan'],
                         'nominal_tambahan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_tambahan'])),
                     ]);
-                    // Retrieve the corresponding Detail_pengeluaran record
                     $existingPengeluaran = Detail_pengeluaran::where('detail_memotambahan_id', $detailId)->first();
 
                     if ($existingPengeluaran) {
@@ -247,20 +225,14 @@ class InqueryMemotambahanController extends Controller
                     'keterangan_tambahan' => $data_pesanan['keterangan_tambahan'],
                 ])->first();
 
-                // Ambil nomor terakhir untuk kode_detailakun yang ada di database
                 $lastDetail = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->orderBy('id', 'desc')->first();
                 $lastNum = 0;
-
-                // Ambil bulan saat ini
                 $currentMonth = date('m');
-
-                // Jika tidak ada kode terakhir atau bulan saat ini berbeda dari bulan kode terakhir
                 if (!$lastDetail || $currentMonth != date('m', strtotime($lastDetail->created_at))) {
-                    $lastNum = 0; // Mulai dari 0 jika bulan berbeda atau tidak ada kode terakhir
+                    $lastNum = 0; 
                 } else {
-                    // Ambil nomor terakhir dari kode terakhir
                     $lastCode = substr($lastDetail->kode_detailakun, -6);
-                    $lastNum = (int)$lastCode; // Ubah menjadi integer
+                    $lastNum = (int)$lastCode; 
                 }
 
                 if (!$existingDetail) {
@@ -273,16 +245,13 @@ class InqueryMemotambahanController extends Controller
                         'nominal_tambahan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_tambahan'])),
                     ]);
 
-                    // Tambahkan index untuk menghasilkan nomor unik
                     $num = $lastNum + 1;
                     $formattedNum = sprintf("%06s", $num);
 
-                    // Awalan untuk kode baru
                     $prefix = 'KKA';
                     $tahun = date('y');
                     $tanggal = date('dm');
 
-                    // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
                     $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
 
                     Detail_pengeluaran::create([
@@ -309,17 +278,14 @@ class InqueryMemotambahanController extends Controller
         $pengeluaran->update(
             [
                 'kendaraan_id' => $request->kendaraan_idsa,
-                'keterangan' => $allKeterangan, // Use accumulated keterangan values
+                'keterangan' => $allKeterangan, 
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             ]
         );
 
         $memoNew = $request->memo_ekspedisi_id;
         if ($memoNew) {
-            // Set the new memo_ekspedisi to 'digunakan'
             Memo_ekspedisi::where('id', $memoNew)->update(['status_memotambahan' => 'digunakan']);
-
-            // Set the previous memo_ekspedisi to 'null' if it's different from the new one
             if ($previousMemoEkspedisiId != $memoNew) {
                 Memo_ekspedisi::where('id', $previousMemoEkspedisiId)->update(['status_memotambahan' => null]);
             }
@@ -334,42 +300,27 @@ class InqueryMemotambahanController extends Controller
     {
         try {
             return DB::transaction(function () {
-                // Mengambil kode terbaru dari database dengan awalan 'KKA'
                 $lastBarang = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->latest()->first();
-
-                // Mendapatkan bulan dari tanggal kode terakhir
                 $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
                 $currentMonth = date('m');
-
-                // Jika tidak ada kode sebelumnya atau bulan saat ini berbeda dari bulan kode terakhir
                 if (!$lastBarang || $currentMonth != $lastMonth) {
-                    $num = 1; // Mulai dari 1 jika bulan berbeda
+                    $num = 1; 
                 } else {
-                    // Jika ada kode sebelumnya, ambil nomor terakhir
                     $lastCode = $lastBarang->kode_detailakun;
-
-                    // Pisahkan kode menjadi bagian-bagian terpisah
                     $parts = explode('/', $lastCode);
-                    $lastNum = end($parts); // Ambil bagian terakhir sebagai nomor terakhir
-                    $num = (int) $lastNum + 1; // Tambahkan 1 ke nomor terakhir
+                    $lastNum = end($parts);
+                    $num = (int) $lastNum + 1;
                 }
-
-                // Format nomor dengan leading zeros sebanyak 6 digit
                 $formattedNum = sprintf("%06s", $num);
-
-                // Awalan untuk kode baru
                 $prefix = 'KKA';
                 $tahun = date('y');
                 $tanggal = date('dm');
 
-                // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
                 $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
 
-                // Kembalikan kode
                 return $newCode;
             });
         } catch (\Throwable $e) {
-            // Jika terjadi kesalahan, melanjutkan dengan kode berikutnya
             $lastCode = Detail_pengeluaran::where('kode_detailakun', 'like', 'KKA%')->latest()->value('kode_detailakun');
             if (!$lastCode) {
                 $lastNum = 0;
@@ -388,7 +339,6 @@ class InqueryMemotambahanController extends Controller
     public function show($id)
     {
         $cetakpdf = Memotambahan::where('id', $id)->first();
-        // $memotambahans = Memotambahan::where('memo_ekspedisi_id', $id)->first();
         $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
         return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo'));
     }
@@ -397,53 +347,16 @@ class InqueryMemotambahanController extends Controller
     {
         try {
             $item = Memotambahan::findOrFail($id);
-
-            // hide dulu semenstara karena tidak ada memo inti
-            // $biayatambahan = $item->memo_ekspedisi; // Adjust the relationship name accordingly
-
-            // if (!$biayatambahan) {
-            //     return 'memo tidak ada';
-            // }
-
             $totaltambahan = $item->grand_total;
-
-            // return $totaltambahan;
-
-            // Update Saldo
             $lastSaldo = Saldo::latest()->first();
 
             if (!$lastSaldo) {
                 return 'saldo tidak ada';
             }
-
             $sisaSaldo = $lastSaldo->sisa_saldo + $totaltambahan;
-
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
-
-            // Update Karyawan's Tabungan
-            // $user = $biayatambahan->user;
-
-            // if (!$user) {
-            //     return 'user tidak ada';
-            // }
-
-            // $karyawan = $user->karyawan;
-
-            // if (!$karyawan) {
-            //     return 'karyawan tidak ada';
-            // }
-
-            // $tabungans = $karyawan->tabungan;
-            // $deposits = $karyawan->deposit;
-
-            // $karyawan->update([
-            //     'deposit' => $deposits - $item->deposit_driver,
-            //     'tabungan' => $tabungans - $item->deposit_driver,
-            // ]);
-
-            // Update Pengeluaran_kaskecil
             Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
                 'status' => 'pending'
             ]);
@@ -453,14 +366,12 @@ class InqueryMemotambahanController extends Controller
                 'status' => 'pending'
             ]);
 
-            // Update the Memo_ekspedisi status
             $item->update([
                 'status' => 'unpost'
             ]);
 
             return back()->with('success', 'Berhasil');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // return back()->with('error', 'Memo tidak ditemukan');
         }
     }
 
@@ -468,40 +379,30 @@ class InqueryMemotambahanController extends Controller
     {
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
         try {
-            // Initialize total deduction amount
             $totalDeduction = 0;
 
             foreach ($selectedIds as $id) {
                 $item = Memotambahan::findOrFail($id);
 
-                // Pastikan hanya memproses memotambahan dengan status 'unpost'
                 if ($item->status === 'unpost') {
-                    // Accumulate total deduction amount
                     $totalDeduction += $item->grand_total;
                 }
             }
 
-            // Get the last saldo
             $lastSaldo = Saldo::latest()->first();
 
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
 
-            // Check if saldo is sufficient
             if ($lastSaldo->sisa_saldo < $totalDeduction) {
                 return back()->with('error', 'Saldo tidak mencukupi');
             }
 
-            // Deduct the total amount from saldo
             $sisaSaldo = $lastSaldo->sisa_saldo - $totalDeduction;
-
-            // Update saldo
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
-
-            // Update transactions and memo statuses
             foreach ($selectedIds as $id) {
                 $item = Memotambahan::findOrFail($id);
 
@@ -513,8 +414,6 @@ class InqueryMemotambahanController extends Controller
                     Detail_pengeluaran::where('memotambahan_id', $id)->update([
                         'status' => 'posting'
                     ]);
-
-                    // Update the Memotambahan status
                     $item->update([
                         'status' => 'posting'
                     ]);
@@ -532,40 +431,31 @@ class InqueryMemotambahanController extends Controller
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
 
         try {
-            // Initialize total restoration amount
             $totalRestoration = 0;
 
             foreach ($selectedIds as $id) {
                 $item = Memotambahan::findOrFail($id);
-
-                // Ensure only memos with status 'posting' are processed
                 if ($item->status === 'posting') {
                     // Accumulate total restoration amount
                     $totalRestoration += $item->grand_total;
                 }
             }
 
-            // Get the last saldo
             $lastSaldo = Saldo::latest()->first();
 
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
 
-            // Add the total restoration amount back to saldo
             $sisaSaldo = $lastSaldo->sisa_saldo + $totalRestoration;
-
-            // Update saldo
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
 
-            // Update transactions and memo statuses
             foreach ($selectedIds as $id) {
                 $item = Memotambahan::findOrFail($id);
 
                 if ($item->status === 'posting') {
-                    // Restore status of related transactions
                     Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
                         'status' => 'pending'
                     ]);
@@ -573,8 +463,6 @@ class InqueryMemotambahanController extends Controller
                     Detail_pengeluaran::where('memotambahan_id', $id)->update([
                         'status' => 'pending'
                     ]);
-
-                    // Update the Memotambahan status
                     $item->update([
                         'status' => 'unpost'
                     ]);
@@ -592,8 +480,7 @@ class InqueryMemotambahanController extends Controller
         try {
             $item = Memotambahan::findOrFail($id);
 
-            // Assuming there's a foreign key relationship between Memo_ekspedisi and Memotambahan
-            $biayatambahan = $item->memo_ekspedisi; // Adjust the relationship name accordingly
+            $biayatambahan = $item->memo_ekspedisi;
 
             if (!$biayatambahan) {
                 return 'memo tidak ada';
@@ -601,7 +488,6 @@ class InqueryMemotambahanController extends Controller
 
             $totaltambahan = $item->grand_total;
 
-            // Update Saldo
             $lastSaldo = Saldo::latest()->first();
 
             if (!$lastSaldo) {
@@ -614,28 +500,6 @@ class InqueryMemotambahanController extends Controller
                 'sisa_saldo' => $sisaSaldo,
             ]);
 
-            // Update Karyawan's Tabungan
-            // $user = $biayatambahan->user;
-
-            // if (!$user) {
-            //     return 'user tidak ada';
-            // }
-
-            // $karyawan = $user->karyawan;
-
-            // if (!$karyawan) {
-            //     return 'karyawan tidak ada';
-            // }
-
-            // $tabungans = $karyawan->tabungan;
-            // $deposits = $karyawan->deposit;
-
-            // $karyawan->update([
-            //     'deposit' => $deposits - $item->deposit_driver,
-            //     'tabungan' => $tabungans - $item->deposit_driver,
-            // ]);
-
-            // Update Pengeluaran_kaskecil
             Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
                 'status' => 'pending'
             ]);
@@ -644,7 +508,6 @@ class InqueryMemotambahanController extends Controller
             $detailpengeluaran->update([
                 'status' => 'pending'
             ]);
-            // Update Faktur_ekspedisi
             $detail_faktur = Detail_faktur::where('memotambahan_id', $id)->first();
 
             if ($detail_faktur) {
@@ -654,10 +517,6 @@ class InqueryMemotambahanController extends Controller
                     'status' => 'unpost'
                 ]);
 
-                // Additional checks and updates can be added if necessary
-                // For example, you might want to check if the update was successful before proceeding
-
-                // Update Memotambahan
                 $item->update([
                     'status' => 'unpost',
                     'status_memo' => null
@@ -665,11 +524,9 @@ class InqueryMemotambahanController extends Controller
 
                 return back()->with('success', 'Berhasil');
             } else {
-                // Handle the case where $detail_faktur is not found based on the provided $id
                 return back()->with('error', 'Detail Faktur not found for the given ID');
             }
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // return back()->with('error', 'Memo tidak ditemukan');
         }
     }
 
@@ -678,17 +535,7 @@ class InqueryMemotambahanController extends Controller
         try {
             $item = Memotambahan::findOrFail($id);
 
-
-            // semenstara hide dulu untuk memo yang tidak punya memo inti 
-            // $biayatambahan = $item->memo_ekspedisi; 
-
-            // if (!$biayatambahan) {
-            //     return 'memo tidak ada';
-            // }
-
             $totaltambahan = $item->grand_total;
-
-            // Update Saldo
             $lastSaldo = Saldo::latest()->first();
 
             if (!$lastSaldo) {
@@ -705,7 +552,6 @@ class InqueryMemotambahanController extends Controller
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
-            // Update Pengeluaran_kaskecil
             Pengeluaran_kaskecil::where('memotambahan_id', $id)->update([
                 'status' => 'posting'
             ]);
@@ -714,45 +560,28 @@ class InqueryMemotambahanController extends Controller
             $detailpengeluaran->update([
                 'status' => 'posting'
             ]);
-            // Update Memotambahan status
             $item->update([
                 'status' => 'posting'
             ]);
 
             return back()->with('success', 'Berhasil');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            // return back()->with('error', 'Memo tidak ditemukan');
         }
     }
 
-    // public function hapusmemotambahan($id)
-    // {
-    //     $ban = Memotambahan::where('id', $id)->first();
-
-    //     $ban->detail_memotambahan()->delete();
-    //     $ban->pengeluaran_kaskecil()->delete();
-    //     $ban->delete();
-    //     return back()->with('success', 'Berhasil');
-    // }
-
     public function hapusmemotambahan($id)
     {
-        // Cari Memotambahan berdasarkan ID
         $item = Memotambahan::find($id);
 
         if ($item) {
-            // Jika Memotambahan ditemukan, perbarui status_memotambahan di Memo_ekspedisi
             Memo_ekspedisi::where('id', $item->memo_ekspedisi_id)->update(['status_memotambahan' => null]);
 
-            // Hapus detail_memotambahan dan pengeluaran_kaskecil yang terkait
             $item->detail_memotambahan()->delete();
             $item->pengeluaran_kaskecil()->delete();
             $item->delete();
 
-            // Kembalikan respon sukses
             return back()->with('success', 'Berhasil');
         } else {
-            // Jika Memotambahan tidak ditemukan, kembalikan pesan kesalahan
             return back()->with('error', 'Memotambahan tidak ditemukan');
         }
     }
@@ -760,7 +589,6 @@ class InqueryMemotambahanController extends Controller
     public function cetakpdf($id)
     {
         $cetakpdf = Memotambahan::where('id', $id)->first();
-        // Generate PDF for Memotambahan
         $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
         $pdf = PDF::loadView('admin.inquery_memotambahan.cetak_pdf', compact('cetakpdf', 'detail_memo'));
         $pdf->setPaper('landscape'); // Set the paper size to portrait letter
@@ -772,13 +600,10 @@ class InqueryMemotambahanController extends Controller
     {
         $selectedIds = explode(',', $request->input('ids'));
 
-        // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
-
         $memos = Memotambahan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
 
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('admin.inquery_memotambahan.cetak_pdffilter', compact('memos'));
-        // $pdf->setPaper([0, 0, 600, 430], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
         $pdf->setPaper('folio');
 
         return $pdf->stream('SelectedMemoTambahan.pdf');
@@ -787,7 +612,6 @@ class InqueryMemotambahanController extends Controller
     public function destroy($id)
     {
         $ban = Memotambahan::find($id);
-        // $ban->detail_memo()->delete();
         $ban->delete();
         return redirect('admin/inquery_memotambahan')->with('success', 'Berhasil memperbarui memo tambahan');
     }
@@ -797,22 +621,17 @@ class InqueryMemotambahanController extends Controller
         $item = Detail_memotambahan::find($id);
 
         if ($item) {
-            // Temukan Memotambahan yang terkait dengan Detail_memotambahan
             $memo = Memotambahan::find($item->memotambahan_id);
 
             if ($memo) {
-                // Kurangi nominal tambahan dari grand total
                 $grand = $memo->grand_total;
                 $nominal = $item->nominal_tambahan;
                 $total = $grand - $nominal;
-
-                // Perbarui grand total di Memotambahan
                 $memo->update(['grand_total' => $total]);
             } else {
                 return response()->json(['message' => 'Memo not found'], 404);
             }
 
-            // Hapus Detail_memotambahan
             $item->delete();
 
             return response()->json(['message' => 'Data deleted successfully']);
@@ -825,21 +644,14 @@ class InqueryMemotambahanController extends Controller
     {
         $selectedIds = explode(',', $request->input('ids'));
 
-        // Mengambil faktur berdasarkan id yang dipilih
         $memotambahans = Memotambahan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
 
         foreach ($memotambahans as $memotambahan) {
-            // Pastikan memotambahan memiliki status 'unpost' sebelum dihapus
             if ($memotambahan && $memotambahan->status == 'unpost') {
 
                 Memo_ekspedisi::where('id', $memotambahan->memo_ekspedisi_id)->update(['status_memotambahan' => null]);
-
-                // Hapus detail_memotambahan dan pengeluaran_kaskecil yang terkait
                 $memotambahan->detail_memotambahan()->delete();
                 $memotambahan->pengeluaran_kaskecil()->delete();
-                $memotambahan->delete();
-
-                // Delete the main Memotambahan instance
                 $memotambahan->delete();
             }
         }

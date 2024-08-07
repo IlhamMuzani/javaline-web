@@ -35,7 +35,6 @@ class InqueryPemakaianperalatanController extends Controller
         } elseif ($tanggal_akhir) {
             $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
             $inquery->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -128,7 +127,6 @@ class InqueryPemakaianperalatanController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $transaksi = Pemakaian_peralatan::findOrFail($id);
 
-        // Update the main transaction
         $transaksi->update([
             'kendaraan_id' => $request->kendaraan_id,
             'tanggal_pemakaian' => $format_tanggal,
@@ -143,7 +141,6 @@ class InqueryPemakaianperalatanController extends Controller
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                // Update Detail_pemakaian
                 Detail_pemakaian::where('id', $detailId)->update([
                     'kendaraan_id' => $request->kendaraan_id,
                     'pemakaian_peralatan_id' => $transaksi->id,
@@ -153,17 +150,13 @@ class InqueryPemakaianperalatanController extends Controller
                     'jumlah' => $data_pesanan['jumlah'],
                 ]);
 
-                // Check if the Detail_inventory already exists with the updated values
                 $existingDetailBarang = Detail_inventory::where('kendaraan_id', $request->kendaraan_id)
                     ->where('sparepart_id', $data_pesanan['sparepart_id'])
                     ->first();
 
                 if ($existingDetailBarang) {
-                    // Update the jumlah
                     $existingDetailBarang->jumlah += $data_pesanan['jumlah'];
                     $existingDetailBarang->save();
-
-                    // Update status menjadi 'posting'
                     $existingDetailBarang->update(['status' => 'posting']);
                 } else {
                     Detail_inventory::create([
@@ -177,7 +170,6 @@ class InqueryPemakaianperalatanController extends Controller
                     ]);
                 }
             } else {
-                // Check if the detail already exists
                 $existingDetail = Detail_pemakaian::where([
                     'kendaraan_id' => $request->kendaraan_id,
                     'pemakaian_peralatan_id' => $transaksi->id,
@@ -187,7 +179,6 @@ class InqueryPemakaianperalatanController extends Controller
                     'jumlah' => $data_pesanan['jumlah'],
                 ])->first();
 
-                // If the detail does not exist, create a new one
                 if (!$existingDetail) {
                     $detail_pemakaians = Detail_pemakaian::create([
                         'kendaraan_id' => $request->kendaraan_id,
@@ -199,17 +190,14 @@ class InqueryPemakaianperalatanController extends Controller
                     ]);
                 }
 
-                // Check if the Detail_inventory already exists
                 $existingDetailBarang = Detail_inventory::where('kendaraan_id', $request->kendaraan_id)
                     ->where('sparepart_id', $data_pesanan['sparepart_id'])
                     ->first();
 
                 if ($existingDetailBarang) {
-                    // If exists, update the jumlah
                     $existingDetailBarang->jumlah += $data_pesanan['jumlah'];
                     $existingDetailBarang->save();
                 } else {
-                    // If not exists, create a new Detail_inventory
                     Detail_inventory::create([
                         'pemakaian_peralatan_id' => $transaksi->id,
                         'detail_pemakaian_id' => $detail_pemakaians->id,
@@ -240,22 +228,17 @@ class InqueryPemakaianperalatanController extends Controller
         $detailpembelian = Detail_pemakaian::where('pemakaian_peralatan_id', $id)->get();
 
         foreach ($detailpembelian as $detail) {
-            // Cari Detail_inventory yang sesuai
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->first();
 
             if ($existingDetailBarang) {
-                // Kurangi jumlahnya
                 $existingDetailBarang->jumlah -= $detail->jumlah;
-
-                // Simpan perubahan
                 $existingDetailBarang->save();
             }
         }
 
         foreach ($detailpembelian as $detail) {
-            // Cari Detail_inventory yang sesuai
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->where('detail_pemakaian_id', $detail->id)
@@ -265,8 +248,6 @@ class InqueryPemakaianperalatanController extends Controller
                 $existingDetailBarang->update(['status' => 'unpost']);
             }
         }
-
-        // Update status pembelian menjadi 'unpost'
         $pembelian->update(['status' => 'unpost']);
 
         return back()->with('success', 'Pemakaian_peralatan berhasil di-unpost.');
@@ -279,20 +260,16 @@ class InqueryPemakaianperalatanController extends Controller
         $detailpembelian = Detail_pemakaian::where('pemakaian_peralatan_id', $id)->get();
 
         foreach ($detailpembelian as $detail) {
-            // Cari Detail_inventory yang sesuai
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->first();
             if ($existingDetailBarang) {
-                // Tambahkan jumlahnya
                 $existingDetailBarang->jumlah += $detail->jumlah;
-                // Simpan perubahan
                 $existingDetailBarang->save();
             }
         }
 
         foreach ($detailpembelian as $detail) {
-            // Cari Detail_inventory yang sesuai
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->where('detail_pemakaian_id', $detail->id)
@@ -302,8 +279,6 @@ class InqueryPemakaianperalatanController extends Controller
                 $existingDetailBarang->update(['status' => 'posting']);
             }
         }
-
-        // Update status pembelian menjadi 'posting'
         $pembelian->update(['status' => 'posting']);
 
         return back()->with('success', 'Pemakaian_peralatan berhasil di-posting kembali.');
@@ -315,23 +290,11 @@ class InqueryPemakaianperalatanController extends Controller
 
         if ($tagihan) {
             $detailtagihan = Detail_pemakaian::where('pemakaian_peralatan_id', $id)->get();
-
-            // Loop through each Detail_pemakaian and update associated Faktur_ekspedisi records
-            // foreach ($detailtagihan as $detail) {
-            //     if ($detail->faktur_ekspedisi_id) {
-            //         Faktur_ekspedisi::where('id', $detail->faktur_ekspedisi_id)->update(['status_faktur' => null]);
-            //     }
-            // }
-
-            // Delete related Detail_tagihan instances
             Detail_pemakaian::where('pemakaian_peralatan_id', $id)->delete();
-
-            // Delete the main Pemakaian_peralatan instance
             $tagihan->delete();
 
             return back()->with('success', 'Berhasil menghapus Pemakaian_peralatan');
         } else {
-            // Handle the case where the Pemakaian_peralatan with the given ID is not found
             return back()->with('error', 'Pemakaian peralatan tidak ditemukan');
         }
     }

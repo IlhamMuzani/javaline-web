@@ -397,6 +397,7 @@
     request()->is('admin/status_perjalanan*') ||
     request()->is('admin/status_spk*') ||
     request()->is('admin/pengambilan_do*') ||
+    request()->is('admin/status_pemberiando*') ||
     request()->is('admin/pemakaian_peralatan*')
         ? 'menu-open'
         : '' }}">
@@ -411,6 +412,7 @@
         request()->is('admin/status_perjalanan*') ||
         request()->is('admin/status_spk*') ||
         request()->is('admin/pengambilan_do*') ||
+        request()->is('admin/status_pemberiando*') ||
         request()->is('admin/pemakaian_peralatan*')
             ? 'active'
             : '' }}">
@@ -527,6 +529,15 @@
                     class="nav-link {{ request()->is('admin/status_spk*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 13px;">Status Pemesanan Kendaraan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/status_pemberiando') }}"
+                    class="nav-link {{ request()->is('admin/status_pemberiando*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Status Pemberian DO</p>
                 </a>
             </li>
         @endif

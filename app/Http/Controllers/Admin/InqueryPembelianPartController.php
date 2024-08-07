@@ -53,7 +53,6 @@ class InqueryPembelianPartController extends Controller
 
             return view('admin.inquery_pembelianpart.index', compact('inquery'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -68,7 +67,6 @@ class InqueryPembelianPartController extends Controller
             $details = Detail_pembelianpart::where('pembelian_part_id', $id)->get();
             return view('admin.inquery_pembelianpart.update', compact('inquery', 'suppliers', 'spareparts', 'details'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -148,22 +146,15 @@ class InqueryPembelianPartController extends Controller
         $transaksi = Pembelian_part::findOrFail($id);
 
         $grandTotal = 0;
-
-        // Loop melalui array harga dari permintaan
         if ($request->has('harga')) {
             foreach ($request->harga as $harga) {
-                // Ubah format harga (hapus titik sebagai pemisah ribuan)
                 $hargaNumeric = (float) str_replace('.', '', $harga);
-
-                // Tambahkan harga ke grand total
                 $grandTotal += $hargaNumeric;
             }
         }
 
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
-            // 'tanggal' => $format_tanggal,
-            // 'tanggal_awal' => $tanggal,
             'grand_total' => $grandTotal,
             'status' => 'posting',
         ]);
@@ -173,73 +164,10 @@ class InqueryPembelianPartController extends Controller
 
         $detailIds = $request->input('detail_ids');
 
-        // foreach ($data_pembelians as $data_pesanan) {
-        //     $detailId = $data_pesanan['detail_id'];
-
-        //     if ($detailId) {
-        //         // Mendapatkan data Detail_pembelianpart yang akan diupdate
-        //         $detailToUpdate = Detail_pembelianpart::find($detailId);
-
-        //         if ($detailToUpdate) {
-        //             // Menghitung jumlah baru berdasarkan perubahan
-        //             $jumlahLamaDetail = $detailToUpdate->jumlah;
-        //             $jumlahBaruDetail = $data_pesanan['jumlah'];
-        //             $jumlahSparepart = $jumlahLamaDetail - $jumlahBaruDetail + $jumlahBaruDetail;
-
-        //             // Update Detail_pembelianpart
-        //             $detailToUpdate->update([
-        //                 'pembelian_part_id' => $transaksi->id,
-        //                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-        //                 'kategori' => $data_pesanan['kategori'],
-        //                 'kode_partdetail' => $data_pesanan['kode_partdetail'],
-        //                 'nama_barang' => $data_pesanan['nama_barang'],
-        //                 'hargasatuan' => $data_pesanan['hargasatuan'],
-        //                 'jumlah' => $jumlahBaruDetail,
-        //                 'satuan' => $data_pesanan['satuan'],
-        //                 'harga' => $data_pesanan['harga'],
-        //             ]);
-
-        //             // Temukan semua Detail_pembelianpart dengan sparepart_id yang sama
-        //             $detailParts = Detail_pembelianpart::where('sparepart_id', $detailToUpdate->sparepart_id)->get();
-
-        //             // Update jumlah dan harga di Sparepart untuk semua Detail_pembelianpart yang sesuai
-        //             foreach ($detailParts as $detail) {
-        //                 $sparepart = Sparepart::find($detail->sparepart_id);
-
-        //                 if ($sparepart) {
-        //                     // Menghitung jumlah baru untuk Sparepart
-        //                     $jumlahLamaSparepart = $sparepart->jumlah;
-        //                     $jumlahBaruSparepart = $data_pesanan['jumlah'];
-        //                     $jumlahTotalSparepart = $jumlahLamaSparepart - $jumlahLamaDetail + $jumlahBaruSparepart;
-
-        //                     // Update jumlah dan harga di Sparepart
-        //                     $sparepart->update([
-        //                         'jumlah' => $jumlahTotalSparepart,
-        //                         'harga' => $data_pesanan['harga'],
-        //                     ]);
-        //                 }
-        //             }
-        //         }
-        //     } else {
-        //         Detail_pembelianpart::create([
-        //             'pembelian_part_id' => $transaksi->id,
-        //             'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-        //             'kategori' => $data_pesanan['kategori'],
-        //             'kode_partdetail' => $data_pesanan['kode_partdetail'],
-        //             'nama_barang' => $data_pesanan['nama_barang'],
-        //             'hargasatuan' => $data_pesanan['hargasatuan'],
-        //             'jumlah' => $data_pesanan['jumlah'],
-        //             'satuan' => $data_pesanan['satuan'],
-        //             'harga' => $data_pesanan['harga'],
-        //         ]);
-        //     }
-        // }
-
         foreach ($data_pembelians as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                // Update Detailpembelian
                 Detail_pembelianpart::where('id', $detailId)->update([
                     'pembelian_part_id' => $transaksi->id,
                     'sparepart_id' => $data_pesanan['sparepart_id'],
@@ -253,7 +181,6 @@ class InqueryPembelianPartController extends Controller
                     'harga' => $data_pesanan['harga'],
                 ]);
             } else {
-                // Check if the detail already exists
                 $existingDetail = Detail_pembelianpart::where([
                     'pembelian_part_id' => $transaksi->id,
                     'sparepart_id' => $data_pesanan['sparepart_id'],
@@ -267,7 +194,6 @@ class InqueryPembelianPartController extends Controller
                     'harga' => $data_pesanan['harga'],
                 ])->first();
 
-                // If the detail does not exist, create a new one
                 if (!$existingDetail) {
                     Detail_pembelianpart::create([
                         'pembelian_part_id' => $transaksi->id,
@@ -284,7 +210,6 @@ class InqueryPembelianPartController extends Controller
                 }
             }
 
-            // Increment the quantity of the barang
             Sparepart::where('id', $data_pesanan['sparepart_id'])->increment('jumlah', $data_pesanan['jumlah']);
         }
 
@@ -328,7 +253,6 @@ class InqueryPembelianPartController extends Controller
             $pdf = Pdf::loadview('admin.report.print', compact('inquery'));
             return $pdf->stream('Laporan Pengaduan');
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -352,29 +276,6 @@ class InqueryPembelianPartController extends Controller
         return $kode_supplier;
     }
 
-    // public function postingpart($id)
-    // {
-    //     $ban = Pembelian_part::where('id', $id)->first();
-
-    //     $ban->update([
-    //         'status' => 'posting'
-    //     ]);
-
-    //     return back()->with('success', 'Berhasil');
-    // }
-
-    // public function unpostpart($id)
-    // {
-    //     $ban = Pembelian_part::where('id', $id)->first();
-
-    //     $ban->update([
-    //         'status' => 'unpost'
-    //     ]);
-
-    //     return back()->with('success', 'Berhasil');
-    // }
-
-
     public function unpostpart($id)
     {
         $pembelian = Pembelian_part::where('id', $id)->first();
@@ -385,11 +286,9 @@ class InqueryPembelianPartController extends Controller
             $barang = Sparepart::find($barangId);
 
             if ($barang) {
-                // Add the quantity back to the stock in the Sparepart record
                 $newQuantity = $barang->jumlah - $detail->jumlah;
                 $barang->update(['jumlah' => $newQuantity]);
             } else {
-                // Log or handle the case where the spare part is not found
             }
         }
 
@@ -411,11 +310,9 @@ class InqueryPembelianPartController extends Controller
             $barang = Sparepart::find($barangId);
 
             if ($barang) {
-                // Add the quantity back to the stock in the Sparepart record
                 $newQuantity = $barang->jumlah + $detail->jumlah;
                 $barang->update(['jumlah' => $newQuantity]);
             } else {
-                // Log or handle the case where the spare part is not found
             }
         }
 
@@ -467,7 +364,6 @@ class InqueryPembelianPartController extends Controller
             $request->all(),
             [
                 'kode_partdetail' => $kode,
-                // 'qrcode_barang' => 'http://192.168.1.46/javaline/barang/' . $kode
                 'qrcode_barang' => 'https:///javaline.id/barang/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
 
@@ -596,7 +492,6 @@ class InqueryPembelianPartController extends Controller
 
             return view('admin.inquery_pembelianpart.show', compact('parts', 'pembelians'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
@@ -612,7 +507,6 @@ class InqueryPembelianPartController extends Controller
 
             return view('admin.inquery_pembelianpart.update', compact('inquery', 'suppliers', 'spareparts', 'details'));
         } else {
-            // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }

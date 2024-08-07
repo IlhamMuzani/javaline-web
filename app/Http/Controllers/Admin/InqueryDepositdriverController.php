@@ -63,12 +63,10 @@ class InqueryDepositdriverController extends Controller
             [
                 'kategori' => 'required',
                 'karyawan_id' => 'required',
-                // 'keterangan' => 'required', // Menambahkan aturan unique
             ],
             [
                 'kategori.required' => 'Pilih kategori',
                 'karyawan_id.required' => 'Pilih sopir',
-                // 'keterangan.required' => 'Masukkan keterangan',
             ]
         );
 

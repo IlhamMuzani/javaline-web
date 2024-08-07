@@ -191,7 +191,7 @@
                         {{ $memo->kode_memo }}
                     </td>
                     <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
-                        {{ $memo->created_at }}
+                        {{ \Carbon\Carbon::parse($memo->created_at)->format('Y-m-d') }}
                     </td>
                     <td class="td" style="text-align: left; padding: 5px; font-size: 11px;">
 
