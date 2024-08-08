@@ -389,6 +389,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print_memotambahan', [\App\Http\Controllers\Admin\LaporanMemotambahanController::class, 'print_memotambahan']);
     Route::get('laporan_memotambahan', [\App\Http\Controllers\Admin\LaporanMemotambahanController::class, 'index']);
     Route::get('laporan_saldokas', [\App\Http\Controllers\Admin\LaporanSaldokasController::class, 'index']);
+    Route::get('laporan_saldokaspengeluaran', [\App\Http\Controllers\Admin\LaporanSaldokaspengeluaranController::class, 'index']);
     Route::get('print_saldokas', [\App\Http\Controllers\Admin\LaporanSaldokasController::class, 'print_saldokas']);
     Route::get('print_saldoujs', [\App\Http\Controllers\Admin\LaporanSaldoujsController::class, 'print_saldoujs']);
     Route::get('print_saldokasbon', [\App\Http\Controllers\Admin\LaporanSaldokasbonController::class, 'print_saldokasbon']);

@@ -60,21 +60,16 @@
                                     <option value="memo_perjalanan">Laporan Kas Masuk</option>
                                     <option value="memo_borong">Laporan Kas Keluar</option>
                                     <option value="akun">Laporan Kas Keluar Group by Akun</option>
-                                    <option value="memo_tambahan" selected>Saldo Kas</option>
-                                    {{-- <option value="memo_pengeluaran">Saldo Kas Bulanan</option> --}}
+                                    <option value="memo_tambahan">Saldo Kas</option>
+                                    <option value="memo_pengeluaran"selected>Saldo Kas Bulanan</option>
                                 </select>
-                                <label for="created_at">(Kategori)</label>
+                                <label for="tanggal_awal">(Kategori)</label>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <input class="form-control" id="created_at" name="created_at" type="date"
-                                    value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="created_at">(Tanggal)</label>
+                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
+                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal)</label>
                             </div>
-                            {{-- <div class="col-md-3 mb-3">
-                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
-                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="created_at">(Tanggal Akhir)</label>
-                            </div> --}}
                             <div class="col-md-3 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
@@ -96,7 +91,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> Rp. {{ $saldos ? number_format($saldos->sisa_saldo, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $saldos ? number_format($saldos, 0, ',', '.') : '0' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -147,11 +142,11 @@
     </script>
 
     <script>
-        var tanggalAwal = document.getElementById('created_at');
+        var tanggalAwal = document.getElementById('tanggal_awal');
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/laporan_saldokas') }}";
+            form.action = "{{ url('admin/laporan_saldokaspengeluaran') }}";
             form.submit();
         }
     </script>

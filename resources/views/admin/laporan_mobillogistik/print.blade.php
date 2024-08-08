@@ -367,7 +367,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <br><br><br>
+                        <br>
                     </tr>
                     <tr>
                         <td colspan="5" style="text-align: left; padding-left: 120px; font-size: 11px;">
@@ -382,13 +382,6 @@
 
     <br>
 
-    <!-- Tampilkan sub-total di bawah tabel -->
-    {{-- <div style="text-align: right;">
-        <strong>Sub Total: Rp. {{ number_format($total, 0, ',', '.') }}</strong>
-    </div> --}}
-
-
-    {{-- <br> --}}
 
     <br>
     <br>

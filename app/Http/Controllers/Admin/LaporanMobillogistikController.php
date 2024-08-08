@@ -106,7 +106,6 @@ class LaporanMobillogistikController extends Controller
                 ->whereDate('created_at', '<=', $tanggal_akhir);
         }
 
-        // Additional condition for kendaraan_id
         if ($kendaraan) {
             $query->where('kendaraan_id', $kendaraan);
         }
@@ -134,9 +133,5 @@ class LaporanMobillogistikController extends Controller
 
         $pdf = PDF::loadView('admin.laporan_mobillogistik.print', compact('totalNominalPerbaikan', 'totalNominalOperasional', 'inquery', 'kendaraans'));
         return $pdf->stream('Laporan_Pengeluaran_Kas_Kecil.pdf');
-        // } else {
-        //     // tidak memiliki akses
-        //     return back()->with('error', array('Anda tidak memiliki akses'));
-        // }
     }
 }
