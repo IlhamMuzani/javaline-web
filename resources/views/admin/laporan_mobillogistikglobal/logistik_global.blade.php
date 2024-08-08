@@ -132,8 +132,8 @@
                     {{ $totalRitase }}
                 </td>
 
-                <td>Rp. {{ number_format($faktursx, 2, ',', '.') }}</td>
-                <td>Rp. @php
+                <td>{{ number_format($faktursx, 2, ',', '') }}</td>
+                <td>@php
                     $totalHasilJumlah = 0;
                     $totalHasilJumlahtambahan = 0;
                 @endphp
@@ -154,12 +154,12 @@
                     @endforeach
                     {{-- <p>Total: {{ $totalHasilJumlah }}</p>
                                         <p>Total: {{ $totalHasilJumlahtambahan }}</p> --}}
-                    {{ number_format($totalHasilJumlah + $totalHasilJumlahtambahan, 2, ',', '.') }}
+                    {{ number_format($totalHasilJumlah + $totalHasilJumlahtambahan, 2, ',', '') }}
                 </td>
-                <td>Rp. {{ number_format($operasional, 2, ',', '.') }}</td>
-                <td>Rp. {{ number_format($perbaikan, 2, ',', '.') }}</td>
-                <td>Rp.
-                    {{ number_format($faktursx - $totalHasilJumlah - $totalHasilJumlahtambahan - $operasional - $perbaikan, 2, ',', '.') }}
+                <td>{{ number_format($operasional, 2, ',', '') }}</td>
+                <td>{{ number_format($perbaikan, 2, ',', '') }}</td>
+                <td>
+                    {{ number_format($faktursx - $totalHasilJumlah - $totalHasilJumlahtambahan - $operasional - $perbaikan, 2, ',', '') }}
                 </td>
             </tr>
             @php
@@ -185,7 +185,7 @@
                 @endforeach
                 {{ $totalSemuaRitase }}
             </td>
-            <td>{{ number_format($totalFaktur, 2, ',', '.') }}</td>
+            <td>{{ number_format($totalFaktur, 2, ',', '') }}</td>
             <td>
                 @foreach ($kendaraans as $kendaraan)
                     @php
@@ -218,11 +218,11 @@
                     @endphp
                     {{-- Iterasi lainnya seperti yang telah Anda implementasikan --}}
                 @endforeach
-                {{ number_format($totalHasilJumlahall + $totalHasilJumlahtambahanall, 2, ',', '.') }}
+                {{ number_format($totalHasilJumlahall + $totalHasilJumlahtambahanall, 2, ',', '') }}
             </td>
-            <td>{{ number_format($totalOperasional, 2, ',', '.') }}</td>
-            <td>{{ number_format($totalPerbaikan, 2, ',', '.') }}</td>
-            <td>{{ number_format($totalSubtotal - $totalHasilJumlahall - $totalHasilJumlahtambahanall - $totalOperasional - $totalPerbaikan, 2, ',', '.') }}
+            <td>{{ number_format($totalOperasional, 2, ',', '') }}</td>
+            <td>{{ number_format($totalPerbaikan, 2, ',', '') }}</td>
+            <td>{{ number_format($totalSubtotal - $totalHasilJumlahall - $totalHasilJumlahtambahanall - $totalOperasional - $totalPerbaikan, 2, ',', '') }}
             </td>
         </tr>
     </tfoot>
