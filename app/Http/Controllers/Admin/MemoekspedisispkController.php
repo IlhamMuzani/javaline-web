@@ -802,6 +802,7 @@ class MemoekspedisispkController extends Controller
                     }
                 }
 
+                $tanggalx = Carbon::now()->format('Y-m-d');
                 Pengeluaran_kaskecil::create([
                     'memotambahan_id' => $cetakpdf->id,
                     'user_id' => auth()->user()->id,
@@ -811,8 +812,8 @@ class MemoekspedisispkController extends Controller
                     'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
                     'jam' => $tanggal1->format('H:i:s'),
                     'tanggal' => $format_tanggal,
-                    'tanggal_awal' => $tanggal,
-                    'qrcode_return' => 'https://batlink.id/pengeluaran_kaskecil/' . $kodepengeluaran,
+                    'tanggal_awal' => $tanggalx,
+                    'qrcode_return' => 'https://javaline.id/pengeluaran_kaskecil/' . $kodepengeluaran,
                     'status' => 'pending',
                 ]);
 
@@ -1186,7 +1187,7 @@ class MemoekspedisispkController extends Controller
                 'saldo_deposit' => str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)),
                 'uang_jalan' => str_replace(',', '.', str_replace('.', '', $request->uang_jalan)),
                 'kode_spk' => $this->kode(),
-                'qrcode_spk' => 'https:///batlink.id/spk/' . $kode,
+                'qrcode_spk' => 'https://javaline.id/spk/' . $kode,
                 'tanggal' => $format_tanggal,
                 'tanggal_awal' => $tanggal,
                 'status' => 'posting',
