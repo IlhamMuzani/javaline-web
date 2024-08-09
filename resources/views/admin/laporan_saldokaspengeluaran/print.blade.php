@@ -194,14 +194,17 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 23px;">SALDO KAS KECIL</span>
     </div>
     <div style="text-align: right;">
-        <p style="font-size: 12px;">Tanggal : {{ $requested_date->format('d M Y') }}</p>
+        <p style="font-size: 12px;">Tanggal :
+            {{ \Carbon\Carbon::parse($tanggal_akhir)->locale('id')->isoFormat('D MMMM YYYY') }}
+        </p>
     </div>
 
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
@@ -213,29 +216,29 @@
     {
         $angka = abs($angka); // Pastikan angka selalu positif
         $bilangan = ['', 'Satu', 'Dua', 'Tiga', 'Empat', 'Lima', 'Enam', 'Tujuh', 'Delapan', 'Sembilan', 'Sepuluh', 'Sebelas'];
-        $hasil = '';
+        $hasil_bilangan = '';
         if ($angka < 12) {
-            $hasil = $bilangan[$angka];
+            $hasil_bilangan = $bilangan[$angka];
         } elseif ($angka < 20) {
-            $hasil = terbilang($angka - 10) . ' Belas';
+            $hasil_bilangan = terbilang($angka - 10) . ' Belas';
         } elseif ($angka < 100) {
-            $hasil = terbilang($angka / 10) . ' Puluh ' . terbilang($angka % 10);
+            $hasil_bilangan = terbilang($angka / 10) . ' Puluh ' . terbilang($angka % 10);
         } elseif ($angka < 200) {
-            $hasil = 'Seratus ' . terbilang($angka - 100);
+            $hasil_bilangan = 'Seratus ' . terbilang($angka - 100);
         } elseif ($angka < 1000) {
-            $hasil = terbilang($angka / 100) . ' Ratus ' . terbilang($angka % 100);
+            $hasil_bilangan = terbilang($angka / 100) . ' Ratus ' . terbilang($angka % 100);
         } elseif ($angka < 2000) {
-            $hasil = 'Seribu ' . terbilang($angka - 1000);
+            $hasil_bilangan = 'Seribu ' . terbilang($angka - 1000);
         } elseif ($angka < 1000000) {
-            $hasil = terbilang($angka / 1000) . ' Ribu ' . terbilang($angka % 1000);
+            $hasil_bilangan = terbilang($angka / 1000) . ' Ribu ' . terbilang($angka % 1000);
         } elseif ($angka < 1000000000) {
-            $hasil = terbilang($angka / 1000000) . ' Juta ' . terbilang($angka % 1000000);
+            $hasil_bilangan = terbilang($angka / 1000000) . ' Juta ' . terbilang($angka % 1000000);
         } elseif ($angka < 1000000000000) {
-            $hasil = terbilang($angka / 1000000000) . ' Miliar ' . terbilang($angka % 1000000000);
+            $hasil_bilangan = terbilang($angka / 1000000000) . ' Miliar ' . terbilang($angka % 1000000000);
         } elseif ($angka < 1000000000000000) {
-            $hasil = terbilang($angka / 1000000000000) . ' Triliun ' . terbilang($angka % 1000000000000);
+            $hasil_bilangan = terbilang($angka / 1000000000000) . ' Triliun ' . terbilang($angka % 1000000000000);
         }
-        return $hasil;
+        return $hasil_bilangan;
     }
     ?>
     <table cellspacing="0">
@@ -245,7 +248,7 @@
             </td>
             <td>:</td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width: 85%  ">
-                Rp. {{ $saldos ? number_format($saldos->sisa_saldo, 0, ',', '.') : '0' }}</td>
+                Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
         </tr>
 
         <tr>
@@ -256,7 +259,7 @@
 
             <td class="td"
                 style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; font-style: italic;">
-                ({{ terbilang($saldos ? intval(preg_replace('/[^\d.]/', '', $saldos->sisa_saldo)) : 0) }} Rupiah)
+                ({{ terbilang($hasil ? intval(preg_replace('/[^\d.]/', '', $hasil)) : 0) }} Rupiah)
             </td>
 
         </tr>
@@ -274,9 +277,7 @@
                         <td style="text-align: center;">
                             <table style="margin: 0 auto;">
                                 <tr style="text-align: center;">
-
                                 </tr>
-
                                 <tr>
                                     <td class="separator" colspan="2"><span></span></td>
                                 </tr>

@@ -67,9 +67,10 @@
                             </div>
                             <div hidden class="col-md-3 mb-3">
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                                    value="{{ Request::get('tanggal_awal', '2024-05-01') }}" max="{{ date('Y-m-d') }}" />
                                 <label for="tanggal_awal">Tanggal Awal</label>
                             </div>
+
                             <div class="col-md-3 mb-3">
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
@@ -96,9 +97,6 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> Rp. {{ $Penerimaan ? number_format($Penerimaan, 0, ',', '.') : '0' }}</td>
-                                <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td>
-                                <td> Rp. {{ $sisa_saldo_value ? number_format($sisa_saldo_value, 0, ',', '.') : '0' }}</td>
                                 <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
                             </tr>
                         </tbody>
@@ -106,17 +104,17 @@
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
-                                <th>Saldo Kemarin</th>
+                                {{-- <th>Saldo Kemarin</th>
                                 <th>Saldo Masuk</th>
-                                <th>Saldo Keluar</th>
-                                <th>Hasil</th>
+                                <th>Saldo Keluar</th> --}}
+                                <th>Sisa Saldo</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td> Rp. {{ $sisa_saldo_value ? number_format($sisa_saldo_value, 0, ',', '.') : '0' }}</td>
+                                {{-- <td> Rp. {{ $sisa_saldo_awal ? number_format($sisa_saldo_awal, 0, ',', '.') : '0' }}</td>
                                 <td> Rp. {{ $Penerimaan ? number_format($Penerimaan, 0, ',', '.') : '0' }}</td>
-                                <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td> --}}
                                 <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
                             </tr>
                         </tbody>
@@ -133,18 +131,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const tanggalAkhirInput = document.getElementById('tanggal_akhir');
             const tanggalAwalInput = document.getElementById('tanggal_awal');
-
-            function updateTanggalAwal() {
-                const tanggalAkhir = new Date(tanggalAkhirInput.value);
-                if (!isNaN(tanggalAkhir.getTime())) { // Check if tanggal_akhir has a valid date
-                    const tahun = tanggalAkhir.getFullYear();
-                    const bulan = tanggalAkhir.getMonth() + 1; // Months are 0-based
-                    const tanggalAwal = `${tahun}-${String(bulan).padStart(2, '0')}-01`;
-                    tanggalAwalInput.value = tanggalAwal;
-                }
-            }
-
-            tanggalAkhirInput.addEventListener('change', updateTanggalAwal);
         });
 
         var form = document.getElementById('form-action');
@@ -155,12 +141,12 @@
         }
     </script>
 
-    {{-- <script>
+    <script>
         function printCetak(form) {
             form.action = "{{ url('admin/print_saldokas') }}";
             form.submit();
         }
-    </script> --}}
+    </script>
 
     <script>
         $(document).ready(function() {

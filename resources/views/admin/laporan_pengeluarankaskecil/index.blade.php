@@ -58,10 +58,10 @@
                                 <label for="tanggal_awal">Kategori</label>
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih Laporan -</option>
-                                    <option value="memo_perjalanan">Laporan Kas Masuk</option>
-                                    <option value="memo_borong" selected>Laporan Kas Keluar</option>
+                                    <option value="laporan_masuk">Laporan Kas Masuk</option>
+                                    <option value="laporan_keluar" selected>Laporan Kas Keluar</option>
                                     <option value="akun">Laporan Kas Keluar Group by Akun</option>
-                                    <option value="memo_tambahan">Saldo Kas</option>
+                                    <option value="saldo_kas">Saldo Kas</option>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -167,16 +167,16 @@
 
                 // Check the selected value and redirect accordingly
                 switch (selectedValue) {
-                    case 'memo_perjalanan':
+                    case 'laporan_masuk':
                         window.location.href = "{{ url('admin/laporan_penerimaankaskecil') }}";
                         break;
-                    case 'memo_borong':
+                    case 'laporan_keluar':
                         window.location.href = "{{ url('admin/laporan_pengeluarankaskecil') }}";
                         break;
                     case 'akun':
                         window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
                         break;
-                    case 'memo_tambahan':
+                    case 'saldo_kas':
                         window.location.href = "{{ url('admin/laporan_saldokas') }}";
                         break;
                     default:

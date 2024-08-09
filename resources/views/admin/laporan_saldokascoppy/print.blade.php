@@ -194,14 +194,16 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ asset('storage/uploads/gambar_logo/Logo.jpg') }}" alt="BAT" width="70" height="35">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
         <span style="font-weight: bold; font-size: 23px;">SALDO KAS KECIL</span>
-        <br>
-        <br>
     </div>
+    <div style="text-align: right;">
+        <p style="font-size: 12px;">Tanggal : {{ $requested_date->format('d M Y') }}</p>
+    </div>
+
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
 
     </div>
@@ -243,7 +245,7 @@
             </td>
             <td>:</td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px;width: 85%  ">
-                Rp. {{ number_format($inquery->sisa_saldo, 0, ',', '.') }}</td>
+                Rp. {{ $saldos ? number_format($saldos->sisa_saldo, 0, ',', '.') : '0' }}</td>
         </tr>
 
         <tr>
@@ -252,56 +254,46 @@
             </td>
             <td>:</td>
 
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; ">
-                {{ $inquery->hasil }}</td>
+            <td class="td"
+                style="text-align: left; padding: 5px; font-weight:bold; font-size: 12px; font-style: italic;">
+                ({{ terbilang($saldos ? intval(preg_replace('/[^\d.]/', '', $saldos->sisa_saldo)) : 0) }} Rupiah)
+            </td>
+
         </tr>
     </table>
     <hr style="border-top: 0.5px solid black; margin: 3px 0;">
     <br><br><br>
 
-    {{-- <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
-        <tr>
-            <td style="text-align: center;">
-                <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
-                    </tr>
-                    <tr>
-                        <td class="separator" colspan="2"><span></span></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td class="label">Accounting</td>
-                    </tr>
-                </table>
+    <table width="100%">
+        <tr style="font-size: 12px">
+            <td style="width:60%;">
             </td>
-            <td style="text-align: center;">
-                <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
-                        <td class="label" style="min-height: 15px;">&nbsp;</td>
-                    </tr>
+            <td style="width: 30%; text-align: left;">
+                <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td class="label">Finance</td>
-                    </tr>
-                </table>
-            </td>
-            <td style="text-align: center;">
-                <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
-                        <td class="label" style="min-height: 15px;">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td class="separator" colspan="2"><span></span></td>
-                    </tr>
-                    <tr style="text-align: center;">
-                        <td class="label">Admin</td>
+                        <td style="text-align: center;">
+                            <table style="margin: 0 auto;">
+                                <tr style="text-align: center;">
+
+                                </tr>
+
+                                <tr>
+                                    <td class="separator" colspan="2"><span></span></td>
+                                </tr>
+                                <tr style="text-align: center;">
+                                    <td class="label">
+                                        <span class="info-item" style="font-size: 12px; padding-right:0px">
+                                            FINANCE
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                 </table>
             </td>
         </tr>
-    </table> --}}
+    </table>
 </body>
 
 </html>

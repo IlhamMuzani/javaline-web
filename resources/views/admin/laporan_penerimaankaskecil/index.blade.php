@@ -54,23 +54,14 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            {{-- <div class="col-md-2 mb-3">
-                                <select class="custom-select form-control" id="statusx" name="statusx">
-                                    <option value="">- Pilih Laporan -</option>
-                                    <option value="memo_perjalanan">Memo Perjalanan</option>
-                                    <option value="memo_borong">Memo Borong</option>
-                                    <option value="memo_tambahan">Memo Tambahan</option>
-                                </select>
-                                <label for="statusx">(Kategori Memo)</label>
-                            </div> --}}
                             <div class="col-md-3 mb-3">
                                 <label for="tanggal_awal">Kategori</label>
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih Laporan -</option>
-                                    <option value="memo_perjalanan" selected>Laporan Kas Masuk</option>
-                                    <option value="memo_borong">Laporan Kas Keluar</option>
+                                    <option value="laporan_masuk" selected>Laporan Kas Masuk</option>
+                                    <option value="laporan_keluar">Laporan Kas Keluar</option>
                                     <option value="akun">Laporan Kas Keluar Group by Akun</option>
-                                    <option value="memo_tambahan">Saldo Kas</option>
+                                    <option value="sisa_saldo">Saldo Kas</option>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -178,16 +169,16 @@
 
                 // Check the selected value and redirect accordingly
                 switch (selectedValue) {
-                    case 'memo_perjalanan':
+                    case 'laporan_masuk':
                         window.location.href = "{{ url('admin/laporan_penerimaankaskecil') }}";
                         break;
-                    case 'memo_borong':
+                    case 'laporan_keluar':
                         window.location.href = "{{ url('admin/laporan_pengeluarankaskecil') }}";
                         break;
                     case 'akun':
                         window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
                         break;
-                    case 'memo_tambahan':
+                    case 'sisa_saldo':
                         window.location.href = "{{ url('admin/laporan_saldokas') }}";
                         break;
                     default:

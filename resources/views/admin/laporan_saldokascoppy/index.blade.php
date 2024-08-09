@@ -57,24 +57,24 @@
                             <div class="col-md-3 mb-3">
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih Laporan -</option>
-                                    <option value="laporan_masuk">Laporan Kas Masuk</option>
-                                    <option value="laporan_keluar">Laporan Kas Keluar</option>
+                                    <option value="memo_perjalanan">Laporan Kas Masuk</option>
+                                    <option value="memo_borong">Laporan Kas Keluar</option>
                                     <option value="akun">Laporan Kas Keluar Group by Akun</option>
-                                    <option value="saldo_kas" selected>Saldo Kas</option>
+                                    <option value="memo_tambahan" selected>Saldo Kas</option>
+                                    <option value="memo_pengeluaran">Saldo Kas Bulanan</option>
                                 </select>
-                                <label for="">(Kategori)</label>
+                                <label for="created_at">(Kategori)</label>
                             </div>
-                            <div hidden class="col-md-3 mb-3">
-                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-                                    value="{{ Request::get('tanggal_awal', '2024-05-01') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_awal">Tanggal Awal</label>
-                            </div>
-
                             <div class="col-md-3 mb-3">
+                                <input class="form-control" id="created_at" name="created_at" type="date"
+                                    value="{{ Request::get('created_at') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="created_at">(Tanggal)</label>
+                            </div>
+                            {{-- <div class="col-md-3 mb-3">
                                 <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
                                     value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_akhir">(Tanggal)</label>
-                            </div>
+                                <label for="created_at">(Tanggal Akhir)</label>
+                            </div> --}}
                             <div class="col-md-3 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                     </form>
-                    {{-- <table class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Sisa Saldo Kas</th>
@@ -96,25 +96,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
-                            </tr>
-                        </tbody>
-                    </table> --}}
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th>Saldo Kemarin</th>
-                                <th>Saldo Masuk</th>
-                                <th>Saldo Keluar</th> --}}
-                                <th>Sisa Saldo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {{-- <td> Rp. {{ $sisa_saldo_awal ? number_format($sisa_saldo_awal, 0, ',', '.') : '0' }}</td>
-                                <td> Rp. {{ $Penerimaan ? number_format($Penerimaan, 0, ',', '.') : '0' }}</td>
-                                <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td> --}}
-                                <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $saldos ? number_format($saldos->sisa_saldo, 0, ',', '.') : '0' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -125,21 +107,6 @@
         </div>
     </section>
     <!-- /.card -->
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const tanggalAkhirInput = document.getElementById('tanggal_akhir');
-            const tanggalAwalInput = document.getElementById('tanggal_awal');
-        });
-
-        var form = document.getElementById('form-action');
-
-        function cari() {
-            form.action = "{{ url('admin/laporan_saldokas') }}";
-            form.submit();
-        }
-    </script>
-
     <script>
         function printCetak(form) {
             form.action = "{{ url('admin/print_saldokas') }}";
@@ -156,17 +123,20 @@
 
                 // Check the selected value and redirect accordingly
                 switch (selectedValue) {
-                    case 'laporan_masuk':
+                    case 'memo_perjalanan':
                         window.location.href = "{{ url('admin/laporan_penerimaankaskecil') }}";
                         break;
-                    case 'laporan_keluar':
+                    case 'memo_borong':
                         window.location.href = "{{ url('admin/laporan_pengeluarankaskecil') }}";
                         break;
                     case 'akun':
                         window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
                         break;
-                    case 'saldo_kas':
+                    case 'memo_tambahan':
                         window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                        break;
+                    case 'memo_pengeluaran':
+                        window.location.href = "{{ url('admin/laporan_saldokaspengeluaran') }}";
                         break;
                     default:
                         // Handle other cases or do nothing
@@ -174,5 +144,15 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        var tanggalAwal = document.getElementById('created_at');
+        var form = document.getElementById('form-action');
+
+        function cari() {
+            form.action = "{{ url('admin/laporan_saldokas') }}";
+            form.submit();
+        }
     </script>
 @endsection
