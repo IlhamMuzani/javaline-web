@@ -206,6 +206,8 @@ class InqueryTagihanekspedisiController extends Controller
         ]);
 
         $updatedFakturEkspedisiIds = [];
+        $newFakturEkspedisiIds = [];
+
         foreach ($data_pembelians as $data_pesanan) {
             $detailPelunasan = Detail_tagihan::updateOrCreate(
                 ['faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id']],
@@ -225,14 +227,37 @@ class InqueryTagihanekspedisiController extends Controller
                 ]
             );
             $updatedFakturEkspedisiIds[] = $detailPelunasan->faktur_ekspedisi_id;
+            $newFakturEkspedisiIds[] = $data_pesanan['faktur_ekspedisi_id'];
         }
+
+        // Update Faktur Ekspedisi statuses
         Faktur_ekspedisi::whereIn('id', $updatedFakturEkspedisiIds)->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
+
+        // Update SPK statuses based on Faktur Ekspedisi IDs
         foreach ($updatedFakturEkspedisiIds as $fakturId) {
             $faktur = Faktur_ekspedisi::find($fakturId);
             if ($faktur) {
                 $spk = Spk::find($faktur->spk_id);
                 if ($spk) {
                     $spk->update(['status_spk' => 'invoice']);
+                }
+            }
+        }
+
+        // Delete Detail_tagihan records that are no longer relevant
+        Detail_tagihan::where('tagihan_ekspedisi_id', $cetakpdf->id)
+        ->whereNotIn('faktur_ekspedisi_id', $newFakturEkspedisiIds)
+        ->delete();
+
+        // Handle Faktur Ekspedisi not updated
+        $deletedFakturEkspedisiIds = Faktur_ekspedisi::whereNotIn('id', $updatedFakturEkspedisiIds)
+        ->pluck('id');
+        foreach ($deletedFakturEkspedisiIds as $fakturId) {
+            $faktur = Faktur_ekspedisi::find($fakturId);
+            if ($faktur) {
+                $spk = Spk::find($faktur->spk_id);
+                if ($spk) {
+                    $spk->update(['status_spk' => 'faktur']);
                 }
             }
         }
