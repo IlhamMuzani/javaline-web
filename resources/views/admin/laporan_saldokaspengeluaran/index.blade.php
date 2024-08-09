@@ -63,12 +63,17 @@
                                     <option value="memo_tambahan">Saldo Kas</option>
                                     <option value="memo_pengeluaran"selected>Saldo Kas Bulanan</option>
                                 </select>
-                                <label for="tanggal_awal">(Kategori)</label>
+                                <label for="">(Kategori)</label>
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div hidden class="col-md-3 mb-3">
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
                                     value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
-                                <label for="tanggal_awal">(Tanggal)</label>
+                                <label for="tanggal_awal">Tanggal Awal</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
+                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_akhir">Tanggal Akhir</label>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
@@ -83,7 +88,7 @@
                             </div>
                         </div>
                     </form>
-                    <table class="table table-bordered table-striped table-hover">
+                    {{-- <table class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Sisa Saldo Kas</th>
@@ -91,7 +96,28 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td> Rp. {{ $saldos ? number_format($saldos, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $Penerimaan ? number_format($Penerimaan, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $sisa_saldo_value ? number_format($sisa_saldo_value, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
+                            </tr>
+                        </tbody>
+                    </table> --}}
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Saldo Kemarin</th>
+                                <th>Saldo Masuk</th>
+                                <th>Saldo Keluar</th>
+                                <th>Hasil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> Rp. {{ $sisa_saldo_value ? number_format($sisa_saldo_value, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $Penerimaan ? number_format($Penerimaan, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td>
+                                <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -102,12 +128,39 @@
         </div>
     </section>
     <!-- /.card -->
+
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tanggalAkhirInput = document.getElementById('tanggal_akhir');
+            const tanggalAwalInput = document.getElementById('tanggal_awal');
+
+            function updateTanggalAwal() {
+                const tanggalAkhir = new Date(tanggalAkhirInput.value);
+                if (!isNaN(tanggalAkhir.getTime())) { // Check if tanggal_akhir has a valid date
+                    const tahun = tanggalAkhir.getFullYear();
+                    const bulan = tanggalAkhir.getMonth() + 1; // Months are 0-based
+                    const tanggalAwal = `${tahun}-${String(bulan).padStart(2, '0')}-01`;
+                    tanggalAwalInput.value = tanggalAwal;
+                }
+            }
+
+            tanggalAkhirInput.addEventListener('change', updateTanggalAwal);
+        });
+
+        var form = document.getElementById('form-action');
+
+        function cari() {
+            form.action = "{{ url('admin/laporan_saldokaspengeluaran') }}";
+            form.submit();
+        }
+    </script>
+
+    {{-- <script>
         function printCetak(form) {
             form.action = "{{ url('admin/print_saldokas') }}";
             form.submit();
         }
-    </script>
+    </script> --}}
 
     <script>
         $(document).ready(function() {
@@ -139,15 +192,5 @@
                 }
             });
         });
-    </script>
-
-    <script>
-        var tanggalAwal = document.getElementById('tanggal_awal');
-        var form = document.getElementById('form-action');
-
-        function cari() {
-            form.action = "{{ url('admin/laporan_saldokaspengeluaran') }}";
-            form.submit();
-        }
     </script>
 @endsection

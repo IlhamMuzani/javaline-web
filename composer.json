@@ -16,6 +16,7 @@
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^10.0",
+        "nesbot/carbon": "^2.72",
         "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-activitylog": "^4.7"
     },
