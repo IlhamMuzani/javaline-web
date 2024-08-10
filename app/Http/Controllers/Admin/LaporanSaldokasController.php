@@ -24,12 +24,13 @@ class LaporanSaldokasController extends Controller
 
         // Set default values for dates if not provided
         if (!$tanggal_awal) {
-            $tanggal_awal = \Carbon\Carbon::now()->startOfMonth()->format('Y-m-d');
+            $tanggal_awal = \Carbon\Carbon::create(2024, 5, 1)->format('Y-m-d');
         }
         if (!$tanggal_akhir) {
             $tanggal_akhir = \Carbon\Carbon::now()->format('Y-m-d');
         }
 
+        // return $tanggal_awal;
         $penerimaans = Penerimaan_kaskecil::query();
         $pengeluarans = Pengeluaran_kaskecil::query();
 
