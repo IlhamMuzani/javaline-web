@@ -1033,6 +1033,4 @@
         });
     </script>
 
-
-  
 @endsection

@@ -961,17 +961,17 @@
             var currentWeek = getWeekOfMonth(currentDate);
 
             // Check if it's the second week of the month
-            if (currentWeek === 2) {
-                $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
-            } else {
-                $('#potongan_bpjs-' + activeSpecificationIndex).val(nol);
-            }
+            // if (currentWeek === 2) {
+            //     $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            // } else {
+            //     $('#potongan_bpjs-' + activeSpecificationIndex).val(nol);
+            // }
 
             // Update the form fields for the active specification
             $('#karyawan_id-' + activeSpecificationIndex).val(karyawan_id);
             $('#kode_karyawan-' + activeSpecificationIndex).val(kode_karyawan);
             $('#nama_lengkap-' + activeSpecificationIndex).val(nama_lengkap);
-            // $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
+            $('#potongan_bpjs-' + activeSpecificationIndex).val(bpjs);
             $('#pelunasan_kasbon-' + activeSpecificationIndex).val(pelunasan_kasbon.toLocaleString('id-ID'));
             $('#gaji-' + activeSpecificationIndex).val(gaji);
 
