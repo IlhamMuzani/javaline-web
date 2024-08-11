@@ -125,7 +125,7 @@ class PengambilandoController extends Controller
         $pengambilan_do = Pengambilan_do::where('id', $id);
         $proses = $pengambilan_do->update([
             'user_id' => $request->user_id,
-            'status' => 'Posting',
+            'status' => 'posting',
         ]);
 
         if ($proses) {

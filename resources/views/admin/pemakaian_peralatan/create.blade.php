@@ -180,7 +180,8 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control" id="jumlah-0" name="jumlah[]">
+                                            <input type="text" class="form-control" id="jumlah-0" name="jumlah[]"
+                                                >
                                         </div>
                                     </td>
                                     <td>
@@ -364,7 +365,7 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<input type="number" class="form-control" id="jumlah-' + key +
+            item_pembelian += '<input type="text" class="form-control" onkeypress="return isNumberKey(event)" id="jumlah-' + key +
                 '" name="jumlah[]" value="' +
                 jumlah +
                 '" ';
@@ -413,6 +414,20 @@
                     theme: 'bootstrap4'
                 });
             });
+        }
+    </script>
+
+        <script>
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode == 46) {
+                var currentValue = evt.target.value;
+                // Pastikan hanya satu titik yang diterima
+                if (currentValue.indexOf('.') !== -1) {
+                    return false;
+                }
+            }
+            return !(charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46);
         }
     </script>
 @endsection

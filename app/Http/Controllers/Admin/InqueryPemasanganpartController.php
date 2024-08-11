@@ -211,9 +211,22 @@ class InqueryPemasanganpartController extends Controller
     {
         $part = Pemasangan_part::where('id', $id)->first();
 
+        $detailpemasangan = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
+
+        foreach ($detailpemasangan as $detail) {
+            $sparepart = Sparepart::find($detail['sparepart_id']);
+
+            if ($sparepart) {
+                $sparepart->jumlah += $detail->jumlah;
+                $sparepart->save();
+            }
+        }
+
         $part->update([
             'status' => 'unpost'
         ]);
+
+
 
         return back()->with('success', 'Berhasil');
     }
@@ -221,6 +234,16 @@ class InqueryPemasanganpartController extends Controller
     public function postingpemasanganpart($id)
     {
         $part = Pemasangan_part::where('id', $id)->first();
+        $detailpemasangan = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
+
+        foreach ($detailpemasangan as $detail) {
+            $sparepart = Sparepart::find($detail['sparepart_id']);
+
+            if ($sparepart) {
+                $sparepart->jumlah -= $detail->jumlah;
+                $sparepart->save();
+            }
+        }
 
         $part->update([
             'status' => 'posting'

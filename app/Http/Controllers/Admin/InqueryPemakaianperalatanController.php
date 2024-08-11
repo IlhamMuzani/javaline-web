@@ -66,7 +66,7 @@ class InqueryPemakaianperalatanController extends Controller
         ])->get();
         $details = Detail_pemakaian::where('pemakaian_peralatan_id', $id)->get();
 
-        return view('admin.inquery_pemakaianperalatan.update', compact('inquery', 'kendaraans', 'spareparts', 'details'));
+        return view('admin.inquery_pemamkaianperalatan.update', compact('inquery', 'kendaraans', 'spareparts', 'details'));
     }
 
     public function update(Request $request, $id)
@@ -232,9 +232,16 @@ class InqueryPemakaianperalatanController extends Controller
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->first();
 
+            $sparepart = Sparepart::find($detail['sparepart_id']);
+
             if ($existingDetailBarang) {
                 $existingDetailBarang->jumlah -= $detail->jumlah;
                 $existingDetailBarang->save();
+            }
+
+            if ($sparepart) {
+                $sparepart->jumlah += $detail->jumlah;
+                $sparepart->save();
             }
         }
 
@@ -263,9 +270,17 @@ class InqueryPemakaianperalatanController extends Controller
             $existingDetailBarang = Detail_inventory::where('kendaraan_id', $pembelian->kendaraan_id)
                 ->where('sparepart_id', $detail->sparepart_id)
                 ->first();
+
+            $sparepart = Sparepart::find($detail['sparepart_id']);
+
             if ($existingDetailBarang) {
                 $existingDetailBarang->jumlah += $detail->jumlah;
                 $existingDetailBarang->save();
+            }
+
+            if ($sparepart) {
+                $sparepart->jumlah -= $detail->jumlah;
+                $sparepart->save();
             }
         }
 

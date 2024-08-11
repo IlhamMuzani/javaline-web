@@ -603,7 +603,6 @@
         }
     </script>
 
-
     <script>
         var activeSpecificationIndex = 0;
 
@@ -640,7 +639,6 @@
                 var nilaiTotal = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
                 grandTotal += nilaiTotal;
             });
-
             // Format grandTotal as currency in Indonesian Rupiah
             var formattedGrandTotal = grandTotal.toLocaleString('id-ID');
             console.log(formattedGrandTotal);
@@ -649,7 +647,6 @@
         }
     </script>
 
-
     <script>
         function toggleLabels() {
             var kategori = document.getElementById('kategori');
@@ -657,7 +654,6 @@
             var transLabel = document.getElementById('trans');
             var tunLabel = document.getElementById('tun');
             var Nomor = document.getElementById('nomor');
-
             if (kategori.value === 'Bilyet Giro') {
                 bgLabel.style.display = 'block';
                 transLabel.style.display = 'none';

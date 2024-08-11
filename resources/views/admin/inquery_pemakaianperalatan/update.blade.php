@@ -184,7 +184,8 @@
                                         <td>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="jumlah-0"
-                                                    name="jumlah[]" value="{{ $detail['jumlah'] }}">
+                                                    name="jumlah[]" onkeypress="return isNumberKey(event)"
+                                                    value="{{ $detail['jumlah'] }}">
                                             </div>
                                         </td>
                                         <td>
@@ -385,7 +386,8 @@
             // jumlah
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="jumlah-' + key + '" name="jumlah[]" value="' +
+            item_pembelian += '<input type="text" class="form-control" id="jumlah-' + key +
+                '" name="jumlah[]"  onkeypress="return isNumberKey(event)" value="' +
                 jumlah +
                 '" ';
             item_pembelian += '</div>';
@@ -421,5 +423,19 @@
         var today = new Date().toISOString().split('T')[0];
         tanggalAkhir.value = today;
         tanggalAkhir.setAttribute('min', this.value);
+    </script>
+
+    <script>
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode == 46) {
+                var currentValue = evt.target.value;
+                // Pastikan hanya satu titik yang diterima
+                if (currentValue.indexOf('.') !== -1) {
+                    return false;
+                }
+            }
+            return !(charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46);
+        }
     </script>
 @endsection
