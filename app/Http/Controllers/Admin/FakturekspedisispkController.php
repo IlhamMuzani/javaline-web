@@ -279,7 +279,7 @@ class FakturekspedisispkController extends Controller
 
                     ]);
                     $memo = Memo_ekspedisi::find($data_pesanan['memo_ekspedisi_id']);
-                    $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan']);
+                    $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan', 'status_spk' => 'selesai']);
                     if (
                         $memo && $memo->spk
                     ) {

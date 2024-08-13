@@ -65,15 +65,15 @@
                     <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-3 mb-3">
-                                <select class="custom-select form-control" id="status" name="status">
+                                <select class="custom-select form-control" id="status_spk" name="status_spk">
                                     <option value="">- Semua Status -</option>
-                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
+                                    <option value="posting" {{ Request::get('status_spk') == 'posting' ? 'selected' : '' }}>
                                         Posting
                                     </option>
-                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
+                                    <option value="unpost" {{ Request::get('status_spk') == 'unpost' ? 'selected' : '' }}>
                                         Unpost</option>
                                 </select>
-                                <label for="status">(Pilih Status)</label>
+                                <label for="status_spk">(Pilih Status)</label>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
@@ -107,7 +107,6 @@
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th>No</th>
                                 <th>Kode Spk</th>
-                                <th>Kode Memo</th>
                                 <th>Tanggal</th>
                                 <th>Sopir</th>
                                 <th>No Kabin</th>
@@ -117,67 +116,66 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($spks as $penerimaan)
-                                <tr class="dropdown"{{ $penerimaan->id }}>
+                            @foreach ($spks as $buktipotongpajak)
+                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $penerimaan->id }}">
+                                            value="{{ $buktipotongpajak->id }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $penerimaan->spk->kode_spk ?? null }}
+                                        {{ $buktipotongpajak->kode_spk }}
                                     </td>
                                     <td>
-                                        {{ $penerimaan->kode_memo }}
+                                        {{ $buktipotongpajak->tanggal_awal }}
                                     </td>
                                     <td>
-                                        {{ $penerimaan->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($penerimaan->user)
-                                            {{ $penerimaan->user->karyawan->nama_lengkap }}
+                                        @if ($buktipotongpajak->user)
+                                            {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
                                         @else
                                             tidak ada
                                         @endif
                                     </td>
                                     <td>
-                                        {{ $penerimaan->no_kabin }}
+                                        {{ $buktipotongpajak->no_kabin }}
                                     </td>
                                     <td>
-                                        {{ $penerimaan->spk->pelanggan->nama_pell ?? null }}
+                                        {{ $buktipotongpajak->nama_pelanggan }}
                                     </td>
                                     <td>
-                                        {{ $penerimaan->nama_rute }}
+                                        {{ $buktipotongpajak->nama_rute }}
                                     </td>
                                     <td class="text-center">
-                                        @if ($penerimaan->status_spk == 'sj')
+                                        @if ($buktipotongpajak->status_spk == 'sj')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
-                                        @if ($penerimaan->status_spk == 'selesai')
+                                        @if ($buktipotongpajak->status_spk == 'faktur')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Document">
                                         @endif
-                                        {{-- @if ($penerimaan->spk->status_spk == 'faktur')
+                                        @if ($buktipotongpajak->status_spk == 'invoice')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Document">
                                         @endif
-                                        @if ($penerimaan->spk->status_spk == 'invoice')
+                                        @if ($buktipotongpajak->status_spk == 'pelunasan')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Document">
                                         @endif
-                                        @if ($penerimaan->spk->status_spk == 'pelunasan')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Document">
-                                        @endif --}}
+                                        @if ($buktipotongpajak->status_spk == null)
+                                        @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if (is_null($penerimaan->status_spk) && $penerimaan->status == 'posting')
+                                            @if ($buktipotongpajak->status_spk == 'memo')
                                                 <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $penerimaan->id }}">Posting</a>
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
                                             @endif
-                                            @if ($penerimaan->status_spk == 'sj' && $penerimaan->status == 'posting')
+                                            @if ($buktipotongpajak->status_spk == 'non memo')
+                                                <a class="dropdown-item posting-btn"
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                            @endif
+                                            @if ($buktipotongpajak->status_spk == 'sj')
                                                 <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $penerimaan->id }}">Unpost</a>
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
                                             @endif
 
                                         </div>

@@ -301,7 +301,7 @@ class InqueryFakturekspedisispkController extends Controller
                         $updatedDetailIds[] = $detailId;
                         $memo = Memo_ekspedisi::find($request->memo_ekspedisi_id[$i]);
                         if ($memo) {
-                            $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan']);
+                            $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan', 'status_spk' => 'selesai']);
                             if ($memo->spk) {
                                 $memo->spk->update(['status_spk' => 'faktur']);
                             }
@@ -342,7 +342,7 @@ class InqueryFakturekspedisispkController extends Controller
                     ]);
 
                     $memo = Memo_ekspedisi::find($data_pembelian['memo_ekspedisi_id']);
-                    $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan']);
+                    $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan', 'status_spk' => 'selesai']);
                     if ($memo && $memo->spk) {
                         $memo->spk->update(['status_spk' => 'faktur']);
                     }
@@ -436,7 +436,7 @@ class InqueryFakturekspedisispkController extends Controller
                     $memo = Memo_ekspedisi::where(['id' => $detail->memo_ekspedisi_id, 'status' => 'selesai'])->first();
 
                     if ($memo) {
-                        $memo->update(['status_memo' => null, 'status' => 'posting']);
+                        $memo->update(['status_memo' => null, 'status' => 'posting', 'status_spk' => 'sj']);
                         Spk::where('id', $memo->spk_id)->update(['status_spk' => 'sj']);
                         $memotambahans = Memotambahan::where(['memo_ekspedisi_id' => $detail->memo_ekspedisi_id, 'status' => 'selesai'])->get();
                         foreach ($memotambahans as $memotambahan) {
@@ -479,7 +479,7 @@ class InqueryFakturekspedisispkController extends Controller
                     $memo = Memo_ekspedisi::where(['id' => $detail->memo_ekspedisi_id, 'status' => 'posting'])->first();
 
                     if ($memo) {
-                        $memo->update(['status_memo' => 'aktif', 'status' => 'selesai']);
+                        $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_spk' => 'selesai']);
                         Spk::where('id', $memo->spk_id)->update(['status_spk' => 'faktur']);
                         $memotambahans = Memotambahan::where(['memo_ekspedisi_id' => $detail->memo_ekspedisi_id, 'status' => 'selesai'])->get();
                         foreach ($memotambahans as $memotambahan) {

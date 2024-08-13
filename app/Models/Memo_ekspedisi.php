@@ -65,6 +65,7 @@ class Memo_ekspedisi extends Model
         'tanggal_akhir',
         'status',
         'status_notif',
+        'status_spk',
         'rute_id',
         'kode_rutes',
         'nama_rutes',

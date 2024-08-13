@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
-use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
 use App\Models\Rute_perjalanan;
 use App\Models\Spk;
@@ -18,15 +17,14 @@ class PenerimaansjController extends Controller
 {
     public function index(Request $request)
     {
-        $status = $request->status;
+        $status_spk = $request->status_spk;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $spks = Memo_ekspedisi::query();
-        $spks->whereNotNull('spk_id');
+        $spks = Spk::query();
 
-        if ($status) {
-            $spks->where('status', $status);
+        if ($status_spk) {
+            $spks->where('status_spk', $status_spk);
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -48,13 +46,9 @@ class PenerimaansjController extends Controller
 
     public function postingspkpenerimaan($id)
     {
-        $memo = Memo_ekspedisi::findOrFail($id);
-        $memo->update([
-            'status_spk' => 'sj'
-        ]);
+        $ban = Spk::where('id', $id)->first();
 
-        $item = Spk::findOrFail($memo->spk_id);
-        $item->update([
+        $ban->update([
             'status_spk' => 'sj'
         ]);
 
@@ -63,17 +57,12 @@ class PenerimaansjController extends Controller
 
     public function unpostspkpenerimaan($id)
     {
-
-        $memo = Memo_ekspedisi::findOrFail($id);
-        $memo->update([
-            'status_spk' => null
-        ]);
-
-        $spk = Spk::findOrFail($memo->spk_id);
+        $spk = Spk::where('id', $id)->first();
 
         if (!$spk) {
             return response()->json(['error' => 'SPK not found'], 404);
         }
+
         if ($spk->kategori === 'non memo') {
             $status_spk = 'non memo';
         } elseif ($spk->kategori === 'memo') {
