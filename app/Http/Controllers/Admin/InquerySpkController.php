@@ -111,7 +111,7 @@ class InquerySpkController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
-        $status_spk = $request->kategori === 'non memo' ? 'non memo' : null;
+        // $status_spk = $request->kategori === 'non memo' ? 'non memo' : null;
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
 
@@ -147,7 +147,14 @@ class InquerySpkController extends Controller
         $spk->status = 'posting';
         $spk->saldo_deposit = $saldo_deposit;
         $spk->uang_jalan = $uang_jalan;
-        $spk->status_spk = $status_spk;
+        // $spk->status_spk = $status_spk;
+
+        if ($request->kategori === 'non memo') {
+            $spk->status_spk = 'non memo';
+        } else {
+            // Jika kategori bukan 'non memo', jangan ubah status_spk
+            // Pastikan status_spk tetap tidak berubah jika tidak diperlukan
+        }
 
         $spk->save();
 

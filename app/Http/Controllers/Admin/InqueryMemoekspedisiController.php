@@ -335,7 +335,6 @@ class InqueryMemoekspedisiController extends Controller
                     'kode_biaya' => $data_pesanan['kode_biaya'],
                     'nama_biaya' => $data_pesanan['nama_biaya'],
                     'nominal' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal'])),
-
                 ]);
             } else {
                 $existingDetail = Detail_tambahan::where([
@@ -902,7 +901,6 @@ class InqueryMemoekspedisiController extends Controller
             return response()->json(['error' => 'Gagal memposting memo: Memo tidak ditemukan']);
         }
     }
-
 
     public function hapusmemo($id)
     {
