@@ -140,7 +140,7 @@ class InqueryFakturpelunasanController extends Controller
         if ($request->has('nota_return_id') || $request->has('faktur_id') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
             for ($i = 0; $i < count($request->nota_return_id); $i++) {
                 if (empty($request->nota_return_id[$i])  && empty($request->faktur_id[$i]) && empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])) {
-                    continue; 
+                    continue;
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
@@ -260,10 +260,12 @@ class InqueryFakturpelunasanController extends Controller
         $detailIds = $request->input('detail_ids');
 
         $updatedFakturEkspedisiIds = [];
+        $newFakturEkspedisiIds = [];
+
         foreach ($data_pembelians as $data_pesanan) {
             $detailPelunasan = Detail_pelunasan::updateOrCreate(
-                ['faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id']], 
-                [ 
+                ['faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id']],
+                [
                     'faktur_pelunasan_id' => $cetakpdf->id,
                     'kode_faktur' => $data_pesanan['kode_faktur'],
                     'tanggal_faktur' => $data_pesanan['tanggal_faktur'],
@@ -272,7 +274,9 @@ class InqueryFakturpelunasanController extends Controller
                 ]
             );
             $updatedFakturEkspedisiIds[] = $detailPelunasan->faktur_ekspedisi_id;
+            $newFakturEkspedisiIds[] = $data_pesanan['faktur_ekspedisi_id'];
         }
+
         Faktur_ekspedisi::whereIn('id', $updatedFakturEkspedisiIds)->update(['status_pelunasan' => 'aktif']);
         foreach ($updatedFakturEkspedisiIds as $fakturId) {
             $faktur = Faktur_ekspedisi::find($fakturId);
@@ -283,6 +287,12 @@ class InqueryFakturpelunasanController extends Controller
                 }
             }
         }
+
+        // Delete Detail_tagihan records that are no longer relevant
+        Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)
+            ->whereNotIn('faktur_ekspedisi_id', $newFakturEkspedisiIds)
+            ->delete();
+
         $deletedFakturEkspedisiIds = Faktur_ekspedisi::whereNotIn('id', $updatedFakturEkspedisiIds)
             ->pluck('id');
         foreach ($deletedFakturEkspedisiIds as $fakturId) {

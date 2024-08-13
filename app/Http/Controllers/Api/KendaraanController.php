@@ -9,18 +9,16 @@ use Illuminate\Support\Facades\Validator;
 
 class KendaraanController extends Controller
 {
-    // public function list()
-    // {
-
-    //     $kendaraan = Kendaraan::where('status', '!=', 'mobil')->get();
-
-
-    //     if (count($kendaraan) > 0) {
-    //         return $this->response(TRUE, array('Berhasil menampilkan data'), $kendaraan);
-    //     } else {
-    //         return $this->response(FALSE, array('Gagal menampilkan data!'));
-    //     }
-    // }
+    public function listAll()
+    {
+        $kendaraan = Kendaraan::get();
+        
+        if (count($kendaraan) > 0) {
+            return $this->response(TRUE, array('Berhasil menampilkan data'), $kendaraan);
+        } else {
+            return $this->response(FALSE, array('Gagal menampilkan data!'));
+        }
+    }
 
     public function list($id)
     {

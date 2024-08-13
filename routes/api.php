@@ -27,6 +27,7 @@ Route::post('driver/login', [\App\Http\Controllers\Api\AuthController::class, 'l
 Route::post('driver/register', [\App\Http\Controllers\Api\AuthController::class, 'register']);
 Route::get('driver-detail/{id}', [\App\Http\Controllers\Api\AuthController::class, 'detail']);
 
+Route::get('list-kendaraanall', [\App\Http\Controllers\Api\KendaraanController::class, 'listAll']);
 Route::get('list-kendaraan/{id}', [\App\Http\Controllers\Api\KendaraanController::class, 'list']);
 Route::post('kendaraan-search', [KendaraanController::class, 'kendaraan_search']);
 Route::get('kendaraan-detail/{id}', [KendaraanController::class, 'detail']);
