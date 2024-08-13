@@ -479,6 +479,17 @@ class InqueryFakturpelunasanController extends Controller
     }
 
 
+    public function postingpelunasanfilter(Request $request)
+    {
+
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+    }
+
+    public function unpostpelunasanfilter(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+    }
+
 
     public function hapuspelunasan($id)
     {
@@ -496,6 +507,8 @@ class InqueryFakturpelunasanController extends Controller
             return back()->with('error', 'Pelunasan Ekspedisi tidak ditemukan');
         }
     }
+
+
 
     public function deleteRow(Request $request)
     {

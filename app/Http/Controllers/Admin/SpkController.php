@@ -11,6 +11,7 @@ use App\Models\Alamat_muat;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
+use App\Models\Pengambilan_do;
 use App\Models\Rute_perjalanan;
 use App\Models\Spk;
 use App\Models\User;
@@ -88,8 +89,6 @@ class SpkController extends Controller
             $messages['vendor_id.required'] = 'Pilih Vendor';
         }
 
-
-
         // Validate the request
         $validator = Validator::make($request->all(), $rules, $messages);
 
@@ -141,6 +140,20 @@ class SpkController extends Controller
                 'status' => 'posting',
             ]
         ));
+
+        $projects = Pengambilan_do::create(array_merge(
+            $request->all(),
+            [
+                'spk_id' => $cetakpdf->id,
+                'kendaraan_id' => $request->kendaraan_id,
+                'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                'user_id' => $request->user_id,
+                'tanggal_awal' => $tanggal,
+                'tanggal' => $format_tanggal,
+                'status' => 'posting',
+            ]
+        ));
+
         return redirect('admin/spk')->with('success', 'Berhasil menambahkan spk');
     }
 

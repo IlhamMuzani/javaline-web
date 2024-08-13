@@ -196,6 +196,7 @@ class FakturekspedisispkController extends Controller
         $cetakpdf = Faktur_ekspedisi::create([
             'user_id' => auth()->user()->id,
             'spk_id' => $request->spk_id,
+            // 'karyawan_id' => $request->karyawan_id,
             'kode_spk' => $request->kode_spk,
             'kode_faktur' => $this->kode(),
             'kategori' => $request->kategori,

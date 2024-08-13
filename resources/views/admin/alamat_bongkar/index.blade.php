@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Alamat Bongkar')
+@section('title', 'Tujuan Bongkar')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Alamat Bongkar</h1>
+                    <h1 class="m-0">Tujuan Bongkar</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Alamat Bongkar</li>
+                        <li class="breadcrumb-item active">Tujuan Bongkar</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Alamat Bongkar</h3>
+                    <h3 class="card-title">Tujuan Bongkar</h3>
                     <div class="float-right">
                         <a href="{{ url('admin/alamat_bongkar/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
@@ -61,10 +61,9 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode Alamat</th>
+                                <th>Kode Tujuan</th>
                                 <th>Nama Pelanggan</th>
-                                <th>Nama Vendor</th>
-                                <th>Alamat</th>
+                                <th>Tujuan Bongkar</th>
                                 <th class="text-center" width="90">Opsi</th>
                             </tr>
                         </thead>
@@ -76,8 +75,7 @@
                                     </td>
                                     <td>{{ $alamatbongkar->pelanggan->nama_pell ?? 'tidak ada' }}
                                     </td>
-                                    <td>{{ $alamatbongkar->vendor->nama_vendor ?? 'tidak ada' }}
-                                    </td>
+
                                     <td>{{ $alamatbongkar->alamat }}
                                     </td>
                                     <td class="text-center">

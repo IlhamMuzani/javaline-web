@@ -18,6 +18,7 @@ class Faktur_ekspedisi extends Model
     [
         'user_id',
         'spk_id',
+        'karyawan_id',
         'kode_spk',
         'kode_faktur',
         'kategori',

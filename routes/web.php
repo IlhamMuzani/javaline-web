@@ -790,4 +790,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapuspengambilando/{id}', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'hapuspengambilando'])->name('hapuspengambilando');
     Route::resource('status_pemberiando', \App\Http\Controllers\Admin\StatusPemberiandoController::class);
 
+    Route::get('inquery_fakturpelunasan/unpostpelunasan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'unpostpelunasan']);
+    Route::get('inquery_fakturpelunasan/postingpelunasan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'postingpelunasan']);
 });

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Alamat Muat')
+@section('title', 'Tujuan Muat')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Alamat Muat</h1>
+                    <h1 class="m-0">Tujuan Muat</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Alamat Muat</li>
+                        <li class="breadcrumb-item active">Tujuan Muat</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Alamat Muat</h3>
+                    <h3 class="card-title">Tujuan Muat</h3>
                     <div class="float-right">
                         <a href="{{ url('admin/alamat_muat/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
@@ -61,10 +61,9 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode Alamat</th>
+                                <th>Kode Tujuan</th>
                                 <th>Nama Pelanggan</th>
-                                <th>Nama Vendor</th>
-                                <th>Alamat</th>
+                                <th>Tujuan Muat</th>
                                 <th class="text-center" width="90">Opsi</th>
                             </tr>
                         </thead>
@@ -75,8 +74,6 @@
                                     <td>{{ $alamatmuat->kode_alamat }}
                                     </td>
                                     <td>{{ $alamatmuat->pelanggan->nama_pell ?? 'tidak ada' }}
-                                    </td>
-                                    <td>{{ $alamatmuat->vendor->nama_vendor ?? 'tidak ada' }}
                                     </td>
                                     <td>{{ $alamatmuat->alamat }}
                                     </td>

@@ -349,7 +349,7 @@
                 <a href="{{ url('admin/alamat_muat') }}"
                     class="nav-link {{ request()->is('admin/alamat_muat*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Alamat Muat</p>
+                    <p style="font-size: 14px;">Data Tujuan Muat</p>
                 </a>
             </li>
         @endif
@@ -358,7 +358,7 @@
                 <a href="{{ url('admin/alamat_bongkar') }}"
                     class="nav-link {{ request()->is('admin/alamat_bongkar*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Alamat Bongkar</p>
+                    <p style="font-size: 14px;">Data Tujuan Bongkar</p>
                 </a>
             </li>
         @endif
@@ -537,7 +537,7 @@
                 <a href="{{ url('admin/status_pemberiando') }}"
                     class="nav-link {{ request()->is('admin/status_pemberiando*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 13px;">Status Pemberian DO</p>
+                    <p style="font-size: 13px;">Status Pengambilan DO</p>
                 </a>
             </li>
         @endif

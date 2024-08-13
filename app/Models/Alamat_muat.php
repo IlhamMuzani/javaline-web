@@ -18,7 +18,9 @@ class Alamat_muat extends Model
     protected $fillable = [
         'kode_alamat',
         'pelanggan_id',
-        'vendor_id',
+        'telp',
+        'latitude',
+        'longitude',
         'alamat',
         'tanggal_awal',
         'tanggal_akhir',

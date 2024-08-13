@@ -32,9 +32,11 @@ class AlamatbongkarController extends Controller
             $request->all(),
             [
                 'alamat' => 'required',
+                'latitude' => 'required',
             ],
             [
-                'alamat.required' => 'Masukkan alamat',
+                'alamat.required' => 'Masukkan tujuan bongkar',
+                'latitude.required' => 'Pilih titik tujuan',
             ]
         );
 
@@ -50,12 +52,14 @@ class AlamatbongkarController extends Controller
             [
                 'kode_alamat' => $this->kode(),
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                'pelanggan_id' => $request->pelanggan_id,
-                'vendor_id' => $request->vendor_id,
+                'alamat' => $request->alamat,
+                'telp' => $request->telp,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
             ],
         ));
 
-        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil menambahkan alamat');
+        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil menambahkan tujuan bongkar');
     }
 
     public function kode()
@@ -87,9 +91,11 @@ class AlamatbongkarController extends Controller
             $request->all(),
             [
                 'alamat' => 'required',
+                'latitude' => 'required',
             ],
             [
-                'alamat.required' => 'Masukkan alamat',
+                'alamat.required' => 'Masukkan tujuan bongkar',
+                'latitude.required' => 'Pilih titik tujuan',
             ]
         );
 
@@ -101,12 +107,14 @@ class AlamatbongkarController extends Controller
         $alamatbongkars = Alamat_bongkar::findOrFail($id);
 
         $alamatbongkars->pelanggan_id = $request->pelanggan_id;
-        $alamatbongkars->vendor_id = $request->vendor_id;
         $alamatbongkars->alamat = $request->alamat;
+        $alamatbongkars->telp = $request->telp;
+        $alamatbongkars->latitude = $request->latitude;
+        $alamatbongkars->longitude = $request->longitude;
 
         $alamatbongkars->save();
 
-        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil memperbarui alamat');
+        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil memperbarui tujuan bongkar');
     }
 
     public function destroy($id)
@@ -114,6 +122,6 @@ class AlamatbongkarController extends Controller
         $alamatbongkars = Alamat_bongkar::find($id);
         $alamatbongkars->delete();
 
-        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil menghapus alamat');
+        return redirect('admin/alamat_bongkar')->with('success', 'Berhasil menghapus tujuan bongkar');
     }
 }

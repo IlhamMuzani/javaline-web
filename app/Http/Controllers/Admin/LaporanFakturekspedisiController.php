@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Faktur_ekspedisi;
+use App\Models\Karyawan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
 use App\Models\Penggantian_oli;
@@ -19,8 +20,13 @@ class LaporanFakturekspedisiController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
         $pelanggan_id = $request->input('pelanggan_id');
+        $karyawan_id = $request->input('karyawan_id');
 
         $pelanggans = Pelanggan::get();
+        $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap')
+            ->where('departemen_id', '3')
+            ->orderBy('nama_lengkap')
+            ->get();
 
         $inquery = Faktur_ekspedisi::orderBy('id', 'ASC')
             ->whereIn('status', ['posting', 'selesai']);
@@ -48,12 +54,16 @@ class LaporanFakturekspedisiController extends Controller
         if ($pelanggan_id) {
             $inquery->where('pelanggan_id', $pelanggan_id);
         }
+
+        if ($karyawan_id) {
+            $inquery->where('karyawan_id', $karyawan_id);
+        }
         $inquery = $inquery->get();
         // $hasSearch = $status_pelunasan || ($tanggal_awal && $tanggal_akhir);
-        $hasSearch = ($tanggal_awal && $tanggal_akhir) || $pelanggan_id;
+        $hasSearch = ($tanggal_awal && $tanggal_akhir) || $pelanggan_id || $karyawan_id;
         $inquery = $hasSearch ? $inquery : collect();
 
-        return view('admin.laporan_fakturekspedisi.index', compact('inquery', 'pelanggans'));
+        return view('admin.laporan_fakturekspedisi.index', compact('inquery', 'pelanggans', 'karyawans'));
     }
 
     public function print_fakturekspedisi(Request $request)
@@ -90,7 +100,7 @@ class LaporanFakturekspedisiController extends Controller
         if ($pelanggan_id) {
             $query->where('pelanggan_id', $pelanggan_id);
         }
-        
+
         if ($tanggal_awal && $tanggal_akhir) {
             $query->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);

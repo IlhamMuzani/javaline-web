@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tujuan Bongkar')
+@section('title', 'Tujuan Muat')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Tujuan Bongkar</h1>
+                    <h1 class="m-0">Tujuan Muat</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/alamat_bongkar') }}">Tujuan Bongkar</a></li>
-                        <li class="breadcrumb-item active">Perbarui</li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/alamat_muat') }}">Tujuan Muat</a></li>
+                        <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div>
             </div>
@@ -68,12 +68,12 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/alamat_bongkar/' . $alamatbongkars->id) }}" method="POST" autocomplete="off">
+            <form action="{{ url('admin/alamat_muat') }}" method="POST" enctype="multipart/form-data"
+                autocomplete="off">
                 @csrf
-                @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Perbarui Tujuan Bongkar</h3>
+                        <h3 class="card-title">Tambah Tujuan Muat</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -87,7 +87,7 @@
                                         <option value="">- Pilih -</option>
                                         @foreach ($pelanggans as $pelanggan)
                                             <option value="{{ $pelanggan->id }}"
-                                                {{ old('pelanggan_id', $alamatbongkars->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
                                                 {{ $pelanggan->nama_pell }}
                                             </option>
                                         @endforeach
@@ -97,12 +97,12 @@
                             <div class="form-group">
                                 <label for="nama">No Telp</label>
                                 <input type="text" class="form-control" id="telp" name="telp"
-                                    placeholder="Masukan no telp" value="{{ old('telp', $alamatbongkars->telp) }}">
+                                    placeholder="Masukan no telp" value="{{ old('telp') }}">
                             </div>
                             <div class="form-group">
-                                <label for="alamat">Tujuan Bongkar</label>
+                                <label for="alamat">Tujuan Muat</label>
                                 <input type="text" class="form-control" id="alamat" name="alamat"
-                                    placeholder="masukkan alamat" value="{{ old('alamat', $alamatbongkars->alamat) }}">
+                                    placeholder="masukkan alamat" value="{{ old('alamat') }}">
                             </div>
                         </div>
 
@@ -110,8 +110,8 @@
                         <div class="form-group">
                             <label style="font-size:14px" for="map">Peta</label>
                             <div id="map"></div>
-                            <input type="hidden" id="latitude" value="{{ old('latitude', $alamatbongkars->latitude) }}" name="latitude" />
-                            <input type="hidden" id="longitude" value="{{ old('longitude', $alamatbongkars->longitude) }}" name="longitude" />
+                            <input id="latitude" value="{{ old('latitude') }}" name="latitude" />
+                            <input id="longitude" value="{{ old('longitude') }}" name="longitude" />
                         </div>
                     </div>
                     <div class="card-footer text-right">

@@ -33,9 +33,11 @@ class AlamatmuatController extends Controller
             $request->all(),
             [
                 'alamat' => 'required',
+                'latitude' => 'required',
             ],
             [
-                'alamat.required' => 'Masukkan alamat',
+                'alamat.required' => 'Masukkan tujuan muat',
+                'latitude.required' => 'Pilih titik tujuan',
             ]
         );
 
@@ -52,11 +54,14 @@ class AlamatmuatController extends Controller
                 'kode_alamat' => $this->kode(),
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 'pelanggan_id' => $request->pelanggan_id,
-                'vendor_id' => $request->vendor_id,
+                'telp' => $request->telp,
+                'alamat' => $request->alamat,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
             ],
         ));
 
-        return redirect('admin/alamat_muat')->with('success', 'Berhasil menambahkan alamat');
+        return redirect('admin/alamat_muat')->with('success', 'Berhasil menambahkan tujuan muat');
     }
 
     public function kode()
@@ -88,9 +93,11 @@ class AlamatmuatController extends Controller
             $request->all(),
             [
                 'alamat' => 'required',
+                'latitude' => 'required',
             ],
             [
-                'alamat.required' => 'Masukkan alamat',
+                'alamat.required' => 'Masukkan tujuan muat',
+                'latitude.required' => 'Pilih titik tujuan',
             ]
         );
 
@@ -104,10 +111,13 @@ class AlamatmuatController extends Controller
         $alamatmuats->pelanggan_id = $request->pelanggan_id;
         $alamatmuats->vendor_id = $request->vendor_id;
         $alamatmuats->alamat = $request->alamat;
+        $alamatmuats->telp = $request->telp;
+        $alamatmuats->latitude = $request->latitude;
+        $alamatmuats->longitude = $request->longitude;
 
         $alamatmuats->save();
 
-        return redirect('admin/alamat_muat')->with('success', 'Berhasil memperbarui alamat');
+        return redirect('admin/alamat_muat')->with('success', 'Berhasil memperbarui tujuan muat');
     }
 
     public function destroy($id)
@@ -115,6 +125,6 @@ class AlamatmuatController extends Controller
         $alamatmuats = Alamat_muat::find($id);
         $alamatmuats->delete();
 
-        return redirect('admin/alamat_muat')->with('success', 'Berhasil menghapus alamat');
+        return redirect('admin/alamat_muat')->with('success', 'Berhasil menghapus tujuan muat');
     }
 }
