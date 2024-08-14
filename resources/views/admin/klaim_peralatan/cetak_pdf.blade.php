@@ -213,11 +213,14 @@
     <div style="font-weight: bold; text-align: center; margin-top:7px;">
         <span style="font-weight: bold; font-size: 18px;">SURAT KLAIM PERALATAN</span>
     </div>
+    <div>
+        <p style="font-size: 12px; margin-top:0px; margin-bottom:2px">Kode Klaim : {{ $klaim_peralatan->kode_klaim }}</p>
+    </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
-    <table style="width: 100%; border-top: 1px solid black; margin-top:7px;" cellpadding="2" cellspacing="0">
+    <table style="width: 100%; border-top: 1px solid black; margin-top:0px;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">No.</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Kode Part</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Kode Peralatan</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Nama Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Keterangan</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">Jumlah</td>
@@ -233,21 +236,21 @@
         @endphp
         @foreach ($details as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: center; padding: 3px; font-size: 12px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: left; padding: 3px; font-size: 12px;">
                     {{ $item->sparepart->kode_partdetail }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: left; padding: 3px; font-size: 12px;">
                     {{ $item->sparepart->nama_barang }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->keterangan }}
+                <td class="td" style="text-align: left; padding: 3px; font-size: 12px;">{{ $item->keterangan }}
                 </td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: right; padding: 3px; font-size: 12px;">
                     {{ $item->jumlah }}</td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: right; padding: 3px; font-size: 12px;">
                     {{ number_format($item->harga, 2, ',', '.') }}</td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: right; padding: 3px; font-size: 12px;">
                     {{ number_format($item->total, 2, ',', '.') }}</td>
             </tr>
         @endforeach
@@ -288,7 +291,7 @@
         </tr>
     </table>
 
-    <br><br>
+    <br>
 
     <div style=" margin-top:12px; margin-bottom:27px; font-size:12px">
         <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">

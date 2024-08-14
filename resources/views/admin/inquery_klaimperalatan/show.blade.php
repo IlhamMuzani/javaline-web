@@ -232,6 +232,10 @@
         <br>
         <br>
     </div>
+    <div>
+        <p style="font-size: 15px; margin-top:0px; margin-bottom:2px">Kode Klaim : {{ $klaim_peralatan->kode_klaim }}
+        </p>
+    </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
