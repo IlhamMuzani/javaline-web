@@ -85,7 +85,6 @@ class Faktur_ekspedisi extends Model
         return $this->belongsTo(Spk::class);
     }
 
-
     public function detail_tagihan()
     {
         return $this->hasMany(Detail_tagihan::class);
@@ -119,6 +118,11 @@ class Faktur_ekspedisi extends Model
     public function detail_pelunasan()
     {
         return $this->hasMany(Detail_pelunasan::class);
+    }
+
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class);
     }
 
     public static function getId()

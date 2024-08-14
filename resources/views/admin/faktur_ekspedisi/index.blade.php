@@ -172,6 +172,53 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div hidden class="form-group">
+                                    <label for="karyawan_id">Marketing Id</label>
+                                    <input type="text" class="form-control" id="karyawan_id" readonly
+                                        name="karyawan_id" placeholder="" value="{{ old('karyawan_id') }}">
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="kode_karyawan">Kode Marketing</label>
+                                        <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
+                                            type="text" class="form-control" id="kode_karyawan" readonly
+                                            name="kode_karyawan" placeholder="" value="{{ old('kode_karyawan') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama
+                                        Marketing</label>
+                                    <div class="form-group d-flex">
+                                        <input onclick="showCategoryModalMarketing(this.value)" class="form-control"
+                                            id="nama_lengkap" name="nama_lengkap" type="text" placeholder=""
+                                            value="{{ old('nama_lengkap') }}" readonly
+                                            style="margin-right: 10px; font-size:14px" />
+                                        <button class="btn btn-primary" type="button"
+                                            onclick="showCategoryModalMarketing(this.value)">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="telp">No. Telp</label>
+                                        <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
+                                            type="text" class="form-control" id="telp" readonly
+                                            name="telp" placeholder="" value="{{ old('telp') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
+                                        <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
+                                            type="text" class="form-control" id="alamat_karyawan" readonly
+                                            name="alamat_karyawan" placeholder=""
+                                            value="{{ old('alamat_karyawan') }}">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -901,6 +948,53 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->kode_kendaraan }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->no_pol }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="tableKaryawan" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Marketing</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Marketing</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Telp</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($karyawans as $karyawan)
+                                        <tr
+                                            onclick="getSelectedDataMarketing('{{ $karyawan->id }}', '{{ $karyawan->kode_karyawan }}', '{{ $karyawan->nama_lengkap }}', '{{ $karyawan->telp }}', '{{ $karyawan->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $karyawan->kode_karyawan }}</td>
+                                            <td>{{ $karyawan->nama_lengkap }}</td>
+                                            <td>{{ $karyawan->telp }}</td>
+                                            <td>{{ $karyawan->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataMarketing('{{ $karyawan->id }}', '{{ $karyawan->kode_karyawan }}', '{{ $karyawan->nama_lengkap }}', '{{ $karyawan->telp }}', '{{ $karyawan->alamat }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -1785,5 +1879,23 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        function showCategoryModalMarketing(selectedCategory) {
+            $('#tableKaryawan').modal('show');
+        }
+
+        function getSelectedDataMarketing(Karyawan_id, KodeKaryawan, NamaKaryawan, Telp, Alamat) {
+
+            // Assign the values to the corresponding input fields
+            document.getElementById('karyawan_id').value = Karyawan_id;
+            document.getElementById('kode_karyawan').value = KodeKaryawan;
+            document.getElementById('nama_lengkap').value = NamaKaryawan;
+            document.getElementById('telp').value = Telp;
+            document.getElementById('alamat_karyawan').value = Alamat;
+
+            $('#tableKaryawan').modal('hide');
+        }
     </script>
 @endsection

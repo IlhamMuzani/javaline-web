@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_faktur;
 use App\Models\Detail_tariftambahan;
 use App\Models\Faktur_ekspedisi;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
@@ -64,8 +65,13 @@ class InqueryFakturekspedisispkController extends Controller
         $details = Detail_faktur::where('faktur_ekspedisi_id', $id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $id)->get();
         $kendaraans = Kendaraan::get();
+        $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
+        ->where('departemen_id', '4')
+        ->orderBy('nama_lengkap')
+        ->get();
+        
         $spks = Spk::where('status_spk', 'sj')->get();
-        return view('admin.inquery_fakturekspedisispk.update', compact('spks', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
+        return view('admin.inquery_fakturekspedisispk.update', compact('karyawans', 'spks', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
     }
 
     public function update(Request $request, $id)
@@ -216,7 +222,7 @@ class InqueryFakturekspedisispkController extends Controller
         $cetakpdf->update([
             'kategori' => $request->kategori,
             'kategoris' => $request->kategoris,
-            // 'karyawan_id' => $request->karyawan_id,
+            'karyawan_id' => $request->karyawan_id,
             'tarif_id' => $request->tarif_id,
             'spk_id' => $request->spk_id,
             'kode_spk' => $request->kode_spk,

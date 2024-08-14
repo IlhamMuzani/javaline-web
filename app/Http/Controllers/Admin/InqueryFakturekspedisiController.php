@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_faktur;
 use App\Models\Detail_tariftambahan;
 use App\Models\Faktur_ekspedisi;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
@@ -65,8 +66,12 @@ class InqueryFakturekspedisiController extends Controller
         $details = Detail_faktur::where('faktur_ekspedisi_id', $id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $id)->get();
         $kendaraans = Kendaraan::get();
-
-        return view('admin.inquery_fakturekspedisi.update', compact('kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
+        $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
+            ->where('departemen_id', '4')
+            ->orderBy('nama_lengkap')
+            ->get();
+            
+        return view('admin.inquery_fakturekspedisi.update', compact('karyawans', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
     }
 
     public function update(Request $request, $id)
@@ -212,7 +217,7 @@ class InqueryFakturekspedisiController extends Controller
         $cetakpdf->update([
             'kategori' => $request->kategori,
             'kategoris' => $request->kategoris,
-            // 'karyawan_id' => $request->karyawan_id,
+            'karyawan_id' => $request->karyawan_id,
             'tarif_id' => $request->tarif_id,
             'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
             'kendaraan_id' => $request->kendaraan_id[0] ?? $request->kendaraan_ids,

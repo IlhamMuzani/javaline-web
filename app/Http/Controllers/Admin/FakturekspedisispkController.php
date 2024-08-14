@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_faktur;
 use App\Models\Detail_tariftambahan;
 use App\Models\Faktur_ekspedisi;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
@@ -23,6 +24,12 @@ class FakturekspedisispkController extends Controller
     public function index()
     {
         $pelanggans = Pelanggan::all();
+
+        $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
+        ->where('departemen_id', '4')
+        ->orderBy('nama_lengkap')
+        ->get();
+        
         $spks = Spk::where('status_spk', 'sj')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -43,6 +50,7 @@ class FakturekspedisispkController extends Controller
             'memos',
             'tarifs',
             'memoEkspedisi',
+            'karyawans',
             'memoTambahan'
         ));
     }
@@ -150,7 +158,6 @@ class FakturekspedisispkController extends Controller
             }
         }
 
-
         if ($request->has('keterangan_tambahan') || $request->has('nominal_tambahan') || $request->has('qty_tambahan') || $request->has('satuan_tambahan')) {
             for ($i = 0; $i < count($request->keterangan_tambahan); $i++) {
                 if (
@@ -178,7 +185,6 @@ class FakturekspedisispkController extends Controller
             }
         }
 
-
         if ($error_pelanggans || $error_pesanans) {
             return back()
                 ->withInput()
@@ -196,7 +202,7 @@ class FakturekspedisispkController extends Controller
         $cetakpdf = Faktur_ekspedisi::create([
             'user_id' => auth()->user()->id,
             'spk_id' => $request->spk_id,
-            // 'karyawan_id' => $request->karyawan_id,
+            'karyawan_id' => $request->karyawan_id,
             'kode_spk' => $request->kode_spk,
             'kode_faktur' => $this->kode(),
             'kategori' => $request->kategori,

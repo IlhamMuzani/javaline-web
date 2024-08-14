@@ -164,6 +164,48 @@
                                     </div>
                                 </div>
                             </div>
+
+                            {{-- <div id="form_marketing">
+                                <label style="font-size:14px" class="form-label" for="kode_spk">Pilih Marketing</label>
+                                <div class="form-group d-flex">
+                                    <input hidden class="form-control" id="karyawan_id" name="karyawan_id"
+                                        type="text" placeholder="" value="{{ old('karyawan_id') }}" readonly
+                                        style="margin-right: 10px; font-size:14px" />
+                                    <input onclick="showCategoryModalMarketing(this.value)" class="form-control"
+                                        id="kode_karyawan" name="kode_karyawan" type="text" placeholder=""
+                                        value="{{ old('kode_karyawan') }}" readonly
+                                        style="margin-right: 10px; font-size:14px" />
+                                    <button class="btn btn-primary" type="button"
+                                        onclick="showCategoryModalMarketing(this.value)">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="form-group">
+                                    <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama
+                                        Marketing</label>
+                                    <div class="form-group d-flex">
+                                        <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text"
+                                            placeholder="" value="{{ old('nama_lengkap') }}" readonly
+                                            style="font-size:14px" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="telp">No. Telp</label>
+                                        <input style="font-size:14px" type="text" class="form-control" id="telp"
+                                            readonly name="telp" placeholder="" value="{{ old('telp') }}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="alamat_karyawan" readonly name="alamat_karyawan" placeholder=""
+                                            value="{{ old('alamat_karyawan') }}">
+                                    </div>
+                                </div>
+                            </div> --}}
+
                             <div id="form_vendor">
                                 <div hidden class="form-group">
                                     <label for="vendor_id">Vendor Id</label>
@@ -202,6 +244,50 @@
                                             id="alamat_vendor" readonly name="alamat_vendor" placeholder=""
                                             value="{{ old('alamat_vendor') }}">
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="form_marketing">
+                            <label style="font-size:14px" class="form-label" for="karyawan_id">Pilih Marketing</label>
+                            <div class="form-group d-flex">
+                                <input hidden class="form-control" id="karyawan_id" name="karyawan_id" type="text"
+                                    placeholder="" value="{{ old('karyawan_id') }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <input onclick="showCategoryModalMarketing(this.value)" class="form-control"
+                                    id="kode_karyawan" name="kode_karyawan" type="text" placeholder=""
+                                    value="{{ old('kode_karyawan') }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <button class="btn btn-primary" type="button"
+                                    onclick="showCategoryModalMarketing(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama
+                                    Marketing</label>
+                                <div class="form-group d-flex">
+                                    <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text"
+                                        placeholder="" value="{{ old('nama_lengkap') }}" readonly
+                                        style="font-size:14px" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label style="font-size:14px" for="telp">No. Telp</label>
+                                    <input style="font-size:14px" type="text" class="form-control" id="telp"
+                                        readonly name="telp" placeholder="" value="{{ old('telp') }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
+                                    <input style="font-size:14px" type="text" class="form-control"
+                                        id="alamat_karyawan" readonly name="alamat_karyawan" placeholder=""
+                                        value="{{ old('alamat_karyawan') }}">
                                 </div>
                             </div>
                         </div>
@@ -512,22 +598,20 @@
                                 <tr id="pembelian-0">
                                     <td hidden>
                                         <div class="form-group">
-                                            <input type="text" class="form-control"
-                                                id="tarif_id" value="{{ old('tarif_id') }}" name="tarif_id">
+                                            <input type="text" class="form-control" id="tarif_id"
+                                                value="{{ old('tarif_id') }}" name="tarif_id">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text"
-                                                class="form-control" readonly id="kode_tarif" name="kode_tarif"
-                                                value="{{ old('kode_tarif') }}">
+                                            <input style="font-size:14px" type="text" class="form-control" readonly
+                                                id="kode_tarif" name="kode_tarif" value="{{ old('kode_tarif') }}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text"
-                                                class="form-control" readonly id="nama_tarif" name="nama_tarif"
-                                                value="{{ old('nama_tarif') }}">
+                                            <input style="font-size:14px" type="text" class="form-control" readonly
+                                                id="nama_tarif" name="nama_tarif" value="{{ old('nama_tarif') }}">
                                         </div>
                                     </td>
                                     <td>
@@ -564,15 +648,15 @@
                                                 <option value="rit" {{ old('satuan') == 'rit' ? 'selected' : null }}>
                                                     rit</option>
                                                 <option value="hr" {{ old('satuan') == 'hr' ? 'selected' : null }}>
-                                                hr</option>
+                                                    hr</option>
                                             </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text"
-                                                class="form-control total_tarif" readonly id="total_tarif"
-                                                name="total_tarif" value="{{ old('total_tarif') }}">
+                                            <input style="font-size:14px" type="text" class="form-control total_tarif"
+                                                readonly id="total_tarif" name="total_tarif"
+                                                value="{{ old('total_tarif') }}">
                                         </div>
                                     </td>
                                     <td style="width: 50px">
@@ -1136,6 +1220,53 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->kode_kendaraan }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->no_pol }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="tableKaryawan" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Marketing</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Marketing</th>
+                                        <th>Nama Lengkap</th>
+                                        <th>Telp</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($karyawans as $karyawan)
+                                        <tr
+                                            onclick="getSelectedDataMarketing('{{ $karyawan->id }}', '{{ $karyawan->kode_karyawan }}', '{{ $karyawan->nama_lengkap }}', '{{ $karyawan->telp }}', '{{ $karyawan->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $karyawan->kode_karyawan }}</td>
+                                            <td>{{ $karyawan->nama_lengkap }}</td>
+                                            <td>{{ $karyawan->telp }}</td>
+                                            <td>{{ $karyawan->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataMarketing('{{ $karyawan->id }}', '{{ $karyawan->kode_karyawan }}', '{{ $karyawan->nama_lengkap }}', '{{ $karyawan->telp }}', '{{ $karyawan->alamat }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -1799,6 +1930,22 @@
             document.getElementById('alamat_vendor').value = AlamatVendor;
 
             $('#tableSpk').modal('hide');
+        }
+
+        function showCategoryModalMarketing(selectedCategory) {
+            $('#tableKaryawan').modal('show');
+        }
+
+        function getSelectedDataMarketing(Karyawan_id, KodeKaryawan, NamaKaryawan, Telp, Alamat) {
+
+            // Assign the values to the corresponding input fields
+            document.getElementById('karyawan_id').value = Karyawan_id;
+            document.getElementById('kode_karyawan').value = KodeKaryawan;
+            document.getElementById('nama_lengkap').value = NamaKaryawan;
+            document.getElementById('telp').value = Telp;
+            document.getElementById('alamat_karyawan').value = Alamat;
+
+            $('#tableKaryawan').modal('hide');
         }
     </script>
 

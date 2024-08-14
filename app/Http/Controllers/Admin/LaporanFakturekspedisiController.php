@@ -24,7 +24,7 @@ class LaporanFakturekspedisiController extends Controller
 
         $pelanggans = Pelanggan::get();
         $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap')
-            ->where('departemen_id', '3')
+            ->where('departemen_id', '4')
             ->orderBy('nama_lengkap')
             ->get();
 

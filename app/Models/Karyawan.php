@@ -86,9 +86,14 @@ class Karyawan extends Model
     {
         return $this->hasMany(Klaim_peralatan::class);
     }
-    
+
     public function user()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function faktur_ekspedisi()
+    {
+        return $this->hasMany(Faktur_ekspedisi::class);
     }
 }

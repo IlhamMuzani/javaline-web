@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_faktur;
 use App\Models\Detail_tariftambahan;
 use App\Models\Faktur_ekspedisi;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
@@ -28,6 +29,10 @@ class FakturekspedisiController extends Controller
         // Gabungkan dua koleksi menjadi satu
         $memos = $memoEkspedisi->concat($memoTambahan);
         $tarifs = Tarif::all();
+        $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
+        ->where('departemen_id', '4')
+        ->orderBy('nama_lengkap')
+        ->get();
 
         return view('admin.faktur_ekspedisi.index', compact(
             'kendaraans',
@@ -35,7 +40,8 @@ class FakturekspedisiController extends Controller
             'memos',
             'tarifs',
             'memoEkspedisi',
-            'memoTambahan'
+            'memoTambahan',
+            'karyawans'
         ));
     }
 
@@ -183,7 +189,7 @@ class FakturekspedisiController extends Controller
         $cetakpdf = Faktur_ekspedisi::create([
             'user_id' => auth()->user()->id,
             'kode_faktur' => $this->kode(),
-            // 'karyawan_id' => $request->karyawan_id,
+            'karyawan_id' => $request->karyawan_id,
             'kategori' => $request->kategori,
             'kategoris' => $request->kategoris,
             'kendaraan_id' => $request->kendaraan_id[0] ?? $request->kendaraan_ids,
