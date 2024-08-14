@@ -102,7 +102,7 @@
                             <div class="form-group">
                                 <label for="alamat">Tujuan Muat</label>
                                 <input type="text" class="form-control" id="alamat" name="alamat"
-                                    placeholder="masukkan alamat" value="{{ old('alamat') }}">
+                                    placeholder="masukkan tujuan muat" value="{{ old('alamat') }}">
                             </div>
                         </div>
 

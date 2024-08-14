@@ -49,7 +49,6 @@ class Laporankir extends Model
         return $getId = DB::table('laporankirs')->orderBy('id', 'DESC')->take(1)->get();
     }
 
-
     public function nokir()
     {
         return $this->belongsTo(Nokir::class);

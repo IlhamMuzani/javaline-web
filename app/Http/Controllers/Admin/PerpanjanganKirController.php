@@ -168,10 +168,9 @@ class PerpanjanganKirController extends Controller
             ]);
         }
 
-        $cetakpdf = Nokir::where('id', $id)->first();
-        $laporan = Laporankir::where('nokir_id', $id)->first();
+        $cetakpdf = Laporankir::where('id', $laporan->id)->first();
 
-        return view('admin.perpanjangan_kir.show', compact('cetakpdf', 'laporan'));
+        return view('admin.perpanjangan_kir.show', compact('cetakpdf'));
     }
 
 
@@ -279,9 +278,8 @@ class PerpanjanganKirController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['perpanjangan kir']) {
 
-            $cetakpdf = Nokir::where('id', $id)->first();
-            $laporan = Laporankir::where('nokir_id', $id)->first();
-            $pdf = PDF::loadView('admin/perpanjangan_kir.cetak_pdf', compact('cetakpdf', 'laporan'));
+            $cetakpdf = Laporankir::where('id', $id)->first();
+            $pdf = PDF::loadView('admin/perpanjangan_kir.cetak_pdf', compact('cetakpdf'));
             $pdf->setPaper('letter', 'portrait');
 
             return $pdf->stream('Surat_Perpanjangan_Stnk.pdf');

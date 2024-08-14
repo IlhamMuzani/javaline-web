@@ -198,7 +198,7 @@ class PengambilandoController extends Controller
         $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
         if ($kendaraan) {
             $kendaraan->update([
-                'status_perjalanan' => 'Tunggu Bongkar',
+                'status_perjalanan' => 'Perjalanan Isi',
                 'timer' => $jarakWaktu,
             ]);
         }
@@ -252,7 +252,7 @@ class PengambilandoController extends Controller
         $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
         if ($kendaraan) {
             $kendaraan->update([
-                'status_perjalanan' => 'Loading Bongkar',
+                'status_perjalanan' => 'Perjalanan Kosong',
                 'timer' => $jarakWaktu,
             ]);
         }

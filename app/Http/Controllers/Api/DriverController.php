@@ -188,7 +188,7 @@ class DriverController extends Controller
             'user_id' => $request->user_id,
             'status_perjalanan' => 'Loading Muat',
             'timer' => $jarakWaktu,
-            'pelanggan_id' => $request->pelanggan_id,
+            // 'pelanggan_id' => $request->pelanggan_id,
         ]);
 
         if ($proses) {
@@ -204,26 +204,26 @@ class DriverController extends Controller
     public function perjalanan_isi(Request $request, $id)
     {
 
-        $km = Kendaraan::findOrFail($id);
+        // $km = Kendaraan::findOrFail($id);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
-                'kota_id' => 'required',
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-                'kota_id.required' => 'Pilih tujuan',
-            ]
-        );
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => 'required|numeric|min:' . ($km->km + 1),
+        //         'kota_id' => 'required',
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //         'kota_id.required' => 'Pilih tujuan',
+        //     ]
+        // );
 
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
 
@@ -237,10 +237,10 @@ class DriverController extends Controller
         $tanggal = Carbon::now()->format('Y-m-d');
         $proses = $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
+            // 'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Isi',
             'timer' => $jarakWaktu,
-            'kota_id' => $request->kota_id,
+            // 'kota_id' => $request->kota_id,
             'tanggal_awalperjalanan' => $tanggal,
             'tanggal_awalwaktuperjalanan' => Carbon::now('Asia/Jakarta'), // Menggunakan zona waktu Asia/Jakarta (WIB)
 
@@ -260,22 +260,22 @@ class DriverController extends Controller
     {
         $km = Kendaraan::findOrFail($id);
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-            ]
-        );
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => 'required|numeric|min:' . ($km->km + 1),
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //     ]
+        // );
 
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
 
@@ -288,7 +288,6 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::where('id', $id);
         $proses = $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
             'status_perjalanan' => 'Tunggu Bongkar',
             'timer' => $jarakWaktu
         ]);
@@ -305,6 +304,25 @@ class DriverController extends Controller
 
     public function loading_bongkar(Request $request, $id)
     {
+
+        $km = Kendaraan::findOrFail($id);
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'km' => 'required|numeric|min:' . ($km->km + 1),
+            ],
+            [
+                'km.required' => 'Masukkan nilai km',
+                'km.numeric' => 'Nilai Km harus berupa angka',
+                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $error = $validator->errors()->first();
+            return $this->error($error);
+        }
 
         $kendaraan = Kendaraan::find($id);
 
@@ -363,6 +381,7 @@ class DriverController extends Controller
         $proses = $kendaraan->update([
             'user_id' => $request->user_id,
             'pelanggan_id' => null,
+            'km' => $request->km,
             'status_perjalanan' => 'Loading Bongkar',
             'timer' => $jarakWaktu
         ]);

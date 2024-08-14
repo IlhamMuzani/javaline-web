@@ -204,7 +204,7 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
-                Kode Perpanjangan:{{ $laporan->kode_perpanjangan }}</td>
+                Kode Perpanjangan:{{ $cetakpdf->kode_perpanjangan }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
@@ -228,10 +228,10 @@
             {{-- <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $loop->iteration }}
                 </td> --}}
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                {{ $cetakpdf->kendaraan->no_kabin }}
+                {{ $cetakpdf->nokir->kendaraan->no_kabin ?? null}}
             </td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
-                {{ $cetakpdf->kendaraan->no_pol }}
+                {{ $cetakpdf->nokir->kendaraan->no_pol ?? null }}
             </td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">{{ $cetakpdf->masa_berlaku }}
             </td>
@@ -253,8 +253,8 @@
             <td>
                 <table>
                     <tr>
-                        <td class="label">@if ($laporan->user)
-                                {{ $laporan->user->karyawan->nama_lengkap }}
+                        <td class="label">@if ($cetakpdf->user)
+                                {{ $cetakpdf->user->karyawan->nama_lengkap }}
                             @else
                                 user tidak ada
                             @endif</td>

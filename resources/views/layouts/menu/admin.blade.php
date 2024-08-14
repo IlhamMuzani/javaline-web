@@ -331,7 +331,7 @@
                 <a href="{{ url('admin/akun') }}"
                     class="nav-link {{ request()->is('admin/akun*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Barang Akun</p>
+                    <p style="font-size: 14px;">Data Akun</p>
                 </a>
             </li>
         @endif

@@ -74,8 +74,10 @@ class LaporanFakturekspedisiController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
         $pelanggan_id = $request->input('pelanggan_id');
+        $karyawan_id = $request->input('karyawan_id');
 
         $pelanggans = Pelanggan::where('id', $pelanggan_id)->first();
+        $karyawan_id = Karyawan::where('id', $karyawan_id)->first();
         $query = Faktur_ekspedisi::orderBy(
             'id',
             'ASC'
@@ -100,6 +102,11 @@ class LaporanFakturekspedisiController extends Controller
         if ($pelanggan_id) {
             $query->where('pelanggan_id', $pelanggan_id);
         }
+
+        if ($karyawan_id) {
+            $query->where('karyawan_id', $karyawan_id);
+        }
+
 
         if ($tanggal_awal && $tanggal_akhir) {
             $query->whereDate('tanggal_awal', '>=', $tanggal_awal)
