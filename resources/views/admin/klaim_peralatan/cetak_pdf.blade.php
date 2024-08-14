@@ -11,6 +11,7 @@
         body {
             font-family: Arial, sans-serif;
             color: black;
+            margin: 15px
         }
 
         table {
@@ -216,10 +217,10 @@
     <table style="width: 100%; border-top: 1px solid black; margin-top:7px;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">Kode Part</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">Nama Barang</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">Keterangan</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">Jumlah</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Kode Part</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Nama Barang</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Keterangan</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">Jumlah</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">Harga</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">Total</td>
         </tr>
@@ -234,15 +235,15 @@
             <tr>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
                     {{ $item->sparepart->kode_partdetail }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">
                     {{ $item->sparepart->nama_barang }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">{{ $item->keterangan }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">{{ $item->keterangan }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">
+                <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ $item->jumlah }}</td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">
                     {{ number_format($item->harga, 2, ',', '.') }}</td>
@@ -287,7 +288,7 @@
         </tr>
     </table>
 
-    <br><br><br>
+    <br><br>
 
     <div style=" margin-top:12px; margin-bottom:27px; font-size:12px">
         <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
