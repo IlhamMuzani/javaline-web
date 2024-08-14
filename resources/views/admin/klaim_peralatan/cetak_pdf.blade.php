@@ -221,7 +221,7 @@
         <tr>
             <td class="td" style="text-align: center; padding: 5px; font-size: 12px;">No.</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Kode Peralatan</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Nama Barang</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Nama Peralatan</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 12px;">Keterangan</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">Jumlah</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 12px;">Harga</td>
