@@ -532,7 +532,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+        {{-- @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/status_pemberiando') }}"
                     class="nav-link {{ request()->is('admin/status_pemberiando*') ? 'active' : '' }}">
@@ -540,7 +540,7 @@
                     <p style="font-size: 13px;">Status Pengambilan DO</p>
                 </a>
             </li>
-        @endif
+        @endif --}}
         @if (auth()->check() && auth()->user()->menu['pemasangan part'])
             <li class="nav-item">
                 <a href="{{ url('admin/pemakaian_peralatan') }}"
@@ -550,7 +550,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+        {{-- @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/pengambilan_do') }}"
                     class="nav-link {{ request()->is('admin/pengambilan_do*') ? 'active' : '' }}">
@@ -558,7 +558,7 @@
                     <p style="font-size: 14px;">Pemberian DO</p>
                 </a>
             </li>
-        @endif
+        @endif --}}
     </ul>
 </li>
 @php
