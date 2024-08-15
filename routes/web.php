@@ -774,6 +774,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_pemakaianperalatan', \App\Http\Controllers\Admin\InqueryPemakaianperalatanController::class);
     Route::resource('klaim_peralatan', \App\Http\Controllers\Admin\KlaimperalatanController::class);
     Route::resource('inquery_klaimperalatan', \App\Http\Controllers\Admin\InqueryKlaimperalatanController::class);
+    Route::resource('marketing', \App\Http\Controllers\Admin\MarketingController::class);
 
     Route::get('laporan_pemakaianperalatan', [\App\Http\Controllers\Admin\LaporanpemakaianperalatanController::class, 'index']);
     Route::get('print_pemakaianperalatan', [\App\Http\Controllers\Admin\LaporanpemakaianperalatanController::class, 'print_pemakaianperalatan']);
