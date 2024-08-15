@@ -91,9 +91,11 @@ class InqueryFakturekspedisispkController extends Controller
                 'tarif_id' => 'required',
                 'jumlah' => 'required|numeric',
                 'satuan' => 'required',
+                'karyawan_id' => 'required',
             ],
             [
                 'kategori.required' => 'Pilih kategori',
+                'karyawan_id.required' => 'Pilih karyawan',
                 'pelanggan_id.required_without' => 'Pilih Pelanggan atau Vendor, tetapi tidak keduanya',
                 'vendor_id.required_without' => 'Pilih Pelanggan atau Vendor, tetapi tidak keduanya',
                 'tarif_id.required' => 'Pilih Tarif',
