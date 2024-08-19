@@ -98,7 +98,7 @@ class VendorController extends Controller
             ]
         ));
 
-        return redirect('admin/vendor')->with('success', 'Berhasil menambahkan Vendor');
+        return redirect('admin/vendor')->with('success', 'Berhasil menambahkan Rekanan');
     }
 
     public function cetakpdf($id)
@@ -198,7 +198,7 @@ class VendorController extends Controller
 
         $vendor->save();
 
-        return redirect('admin/vendor')->with('success', 'Berhasil memperbarui vendor');
+        return redirect('admin/vendor')->with('success', 'Berhasil memperbarui Rekanan');
     }
 
     public function destroy($id)
@@ -206,6 +206,6 @@ class VendorController extends Controller
         $vendor = Vendor::find($id);
         $vendor->delete();
 
-        return redirect('admin/vendor')->with('success', 'Berhasil menghapus Vendor');
+        return redirect('admin/vendor')->with('success', 'Berhasil menghapus Rekanan');
     }
 }

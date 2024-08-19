@@ -66,7 +66,7 @@
                                 <th>Kode Harga</th>
                                 <th>Nama Rute</th>
                                 <th>Nama Rekanan</th>
-                                <th>harga</th>
+                                <th class="text-right">harga</th>
                                 <th class="text-center" width="90">Opsi</th>
                             </tr>
                         </thead>
