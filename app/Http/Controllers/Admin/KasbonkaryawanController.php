@@ -17,7 +17,7 @@ class KasbonkaryawanController extends Controller
 {
     public function index()
     {
-        $karyawanAll = Karyawan::whereIn('departemen_id', [1, 3])->get();
+        $karyawanAll = Karyawan::whereNotIn('departemen_id', [2])->get();
         return view('admin.kasbon_karyawan.index', compact('karyawanAll'));
     }
 

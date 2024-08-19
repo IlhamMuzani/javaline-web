@@ -667,6 +667,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_pemasukandeposit', \App\Http\Controllers\Admin\InqueryPemasukandepositController::class);
     Route::resource('laporan_depositdriver', \App\Http\Controllers\Admin\LaporanDepositdriverController::class);
     Route::resource('tarif', \App\Http\Controllers\Admin\TarifController::class);
+    Route::resource('tarif_rekanan', \App\Http\Controllers\Admin\TarifrekananController::class);
     Route::resource('faktur_ekspedisi', \App\Http\Controllers\Admin\FakturekspedisiController::class);
     Route::resource('inquery_fakturekspedisi', \App\Http\Controllers\Admin\InqueryFakturekspedisiController::class);
     Route::resource('tagihan_ekspedisi', \App\Http\Controllers\Admin\TagihanekspedisiController::class);
