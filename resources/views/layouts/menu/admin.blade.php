@@ -174,7 +174,7 @@
                 <a href="{{ url('admin/marketing') }}"
                     class="nav-link {{ request()->is('admin/marketing*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Marekting</p>
+                    <p style="font-size: 14px;">Data Marketing</p>
                 </a>
             </li>
         @endif

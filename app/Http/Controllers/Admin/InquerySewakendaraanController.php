@@ -79,7 +79,7 @@ class InquerySewakendaraanController extends Controller
 
         $sewa_kendaraan->save();
 
-        return redirect('admin/inquery_sewakendaraan')->with('success', 'Berhasil menambahkan');
+        return redirect('admin/inquery_sewakendaraan')->with('success', 'Berhasil memperbarui');
     }
 
 
