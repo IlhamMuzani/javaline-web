@@ -28,7 +28,7 @@
     request()->is('admin/satuan*') ||
     request()->is('admin/driver*') ||
     request()->is('admin/tarif*') ||
-    request()->is('admin/tarif_rekanan*') ||
+    request()->is('admin/rekanan_tarif*') ||
     request()->is('admin/potongan_memo*') ||
     request()->is('admin/biaya_tambahan*') ||
     request()->is('admin/rute_perjalanan*') ||
@@ -64,7 +64,7 @@
         request()->is('admin/satuan*') ||
         request()->is('admin/driver*') ||
         request()->is('admin/tarif*') ||
-        request()->is('admin/tarif_rekanan*') ||
+        request()->is('admin/rekanan_tarif*') ||
         request()->is('admin/potongan_memo*') ||
         request()->is('admin/biaya_tambahan*') ||
         request()->is('admin/rute_perjalanan*') ||
@@ -325,8 +325,8 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['tarif'])
             <li class="nav-item">
-                <a href="{{ url('admin/tarif_rekanan') }}"
-                    class="nav-link {{ request()->is('admin/tarif_rekanan*') ? 'active' : '' }}">
+                <a href="{{ url('admin/rekanan_tarif') }}"
+                    class="nav-link {{ request()->is('admin/rekanan_tarif*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Tarif Rekanan</p>
                 </a>

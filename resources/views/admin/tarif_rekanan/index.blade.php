@@ -51,7 +51,7 @@
                     <h3 class="card-title">Data Tarif</h3>
                     <div class="float-right">
                         @if (auth()->check() && auth()->user()->fitur['tarif create'])
-                            <a href="{{ url('admin/tarif_rekanan/create') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('admin/rekanan_tarif/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         @endif
@@ -90,7 +90,7 @@
                                     </td>
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['tarif update'])
-                                            <a href="{{ url('admin/tarif_rekanan/' . $tarif->id . '/edit') }}"
+                                            <a href="{{ url('admin/rekanan_tarif/' . $tarif->id . '/edit') }}"
                                                 class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -121,7 +121,7 @@
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/tarif_rekanan/' . $tarif->id) }}" method="POST">
+                                                <form action="{{ url('admin/rekanan_tarif/' . $tarif->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="btn btn-danger">Hapus</button>

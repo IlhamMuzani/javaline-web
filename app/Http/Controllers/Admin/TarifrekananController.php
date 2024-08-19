@@ -68,7 +68,7 @@ class TarifrekananController extends Controller
             ],
         ));
 
-        return redirect('admin/tarif_rekanan')->with('success', 'Berhasil menambahkan tarif rekanan');
+        return redirect('admin/rekanan_tarif')->with('success', 'Berhasil menambahkan tarif rekanan');
     }
 
 
@@ -144,7 +144,7 @@ class TarifrekananController extends Controller
 
         $tarifs->save();
 
-        return redirect('admin/tarif_rekanan')->with('success', 'Berhasil memperbarui tarif rekanan');
+        return redirect('admin/rekanan_tarif')->with('success', 'Berhasil memperbarui tarif rekanan');
     }
 
     public function destroy($id)
@@ -152,6 +152,6 @@ class TarifrekananController extends Controller
         $tarifs = Tarif::find($id);
         $tarifs->delete();
 
-        return redirect('admin/tarif_rekanan')->with('success', 'Berhasil menghapus tarif rekanan');
+        return redirect('admin/rekanan_tarif')->with('success', 'Berhasil menghapus tarif rekanan');
     }
 }

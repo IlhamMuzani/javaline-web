@@ -34,7 +34,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/tarif_rekanan/' . $tarifs->id) }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ url('admin/rekanan_tarif/' . $tarifs->id) }}" method="POST" enctype="multipart/form-data"
                 autocomplete="off">
                 @csrf
                 @method('put')

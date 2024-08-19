@@ -26,7 +26,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/tarif_rekanan') }}">Tarif</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/rekanan_tarif') }}">Tarif</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div><!-- /.col -->
@@ -48,7 +48,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/tarif_rekanan') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <form action="{{ url('admin/rekanan_tarif') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card">
                     <div class="card-header">
