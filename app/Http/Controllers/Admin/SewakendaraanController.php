@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Harga_sewa;
 use App\Models\Pelanggan;
 use App\Models\Rute_perjalanan;
 use App\Models\Sewa_kendaraan;
+use App\Models\Tarif;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,8 +38,9 @@ class SewakendaraanController extends Controller
         $ruteperjalanans = Rute_perjalanan::all();
         $pelanggans = Pelanggan::all();
         $vendors = Vendor::all();
+        $harga_sewas = Harga_sewa::all();
 
-        return view('admin.sewa_kendaraan.create', compact('vendors', 'ruteperjalanans', 'pelanggans'));
+        return view('admin.sewa_kendaraan.create', compact('harga_sewas', 'vendors', 'ruteperjalanans', 'pelanggans'));
     }
 
     public function store(Request $request)
@@ -72,6 +75,7 @@ class SewakendaraanController extends Controller
             [
                 'kode_sewa' => $this->kode(),
                 'admin' => auth()->user()->karyawan->nama_lengkap,
+                'harga_sewa_id' => $request->harga_sewa_id,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'nama_rute' => $request->nama_rute,
                 'nama_driver' =>$request->nama_driver,

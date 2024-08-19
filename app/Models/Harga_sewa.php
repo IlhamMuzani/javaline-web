@@ -37,6 +37,11 @@ class Harga_sewa extends Model
         return $this->belongsTo(Vendor::class);
     }
 
+    public function sewa_kendaraan()
+    {
+        return $this->hasMany(Sewa_kendaraan::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('harga_sewas')->orderBy('id', 'DESC')->take(1)->get();

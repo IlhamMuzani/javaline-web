@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Harga_sewa;
 use App\Models\Pelanggan;
 use App\Models\Rute_perjalanan;
 use App\Models\Sewa_kendaraan;
@@ -35,8 +36,9 @@ class InquerySewakendaraanController extends Controller
         $ruteperjalanans = Rute_perjalanan::all();
         $pelanggans = Pelanggan::all();
         $vendors = Vendor::all();
+        $harga_sewas = Harga_sewa::all();
 
-        return view('admin.inquery_sewakendaraan.edit', compact('inquery', 'vendors', 'ruteperjalanans', 'pelanggans'));
+        return view('admin.inquery_sewakendaraan.edit', compact('harga_sewas', 'inquery', 'vendors', 'ruteperjalanans', 'pelanggans'));
     }
 
     public function update(Request $request, $id)
@@ -68,6 +70,7 @@ class InquerySewakendaraanController extends Controller
 
         $sewa_kendaraan->vendor_id = $request->vendor_id;
         $sewa_kendaraan->rute_perjalanan_id = $request->rute_perjalanan_id;
+        $sewa_kendaraan->harga_sewa_id = $request->harga_sewa_id;
         $sewa_kendaraan->pelanggan_id = $request->pelanggan_id;
         $sewa_kendaraan->nama_driver = $request->nama_driver;
         $sewa_kendaraan->telp_driver = $request->telp_driver;

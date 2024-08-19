@@ -119,7 +119,22 @@
                                         type="text" class="form-control" id="rute_perjalanan" readonly
                                         name="nama_rute" placeholder="" value="{{ old('nama_rute') }}">
                                 </div>
-                                <div class="form-check" style="color:white; margin-top:102px">
+                                <label style="font-size:14px" class="form-label" for="harga_sewa">Harga Sewa</label>
+                                <div class="form-group d-flex">
+                                    <input hidden class="form-control"
+                                        id="harga_sewa_id" name="harga_sewa_id" type="text" placeholder=""
+                                        value="{{ old('harga_sewa_id') }}" readonly
+                                        style="margin-right: 10px; font-size:14px" />
+                                    <input onclick="showCategoryModalhargasewa(this.value)" class="form-control"
+                                        id="harga_sewa" name="harga_sewa" type="text" placeholder=""
+                                        value="{{ old('harga_sewa') }}" readonly
+                                        style="margin-right: 10px; font-size:14px" />
+                                    <button class="btn btn-primary" type="button"
+                                        onclick="showCategoryModalhargasewa(this.value)">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <div class="form-check" style="color:white">
                                     <label class="form-check-label">
                                         .
                                     </label>
@@ -355,6 +370,54 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="tableHarga" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Harga Sewa</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Harga</th>
+                                        <th>Rute Perjalanan</th>
+                                        <th>Harga</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($harga_sewas as $harga_sewa)
+                                        <tr onclick="getSelectedDatahargasewa('{{ $harga_sewa->id }}', '{{ $harga_sewa->nominal }}')"
+                                            class="selectable-row">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $harga_sewa->kode_tarif }}
+                                            </td>
+                                            <td>{{ $harga_sewa->nama_tarif }}
+                                            </td>
+                                            <td>{{ $harga_sewa->nominal }}
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDatahargasewa('{{ $harga_sewa->id }}', '{{ $harga_sewa->nominal }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <script>
@@ -415,6 +478,20 @@
             document.getElementById('rute_perjalanan').value = NamaRute;
             // Close the modal (if needed)
             $('#tableRute').modal('hide');
+        }
+    </script>
+
+    <script>
+        function showCategoryModalhargasewa(selectedCategory) {
+            $('#tableHarga').modal('show');
+        }
+
+        function getSelectedDatahargasewa(Harga_Sewaid, HargaSewa) {
+
+            document.getElementById('harga_sewa_id').value = Harga_Sewaid;
+            document.getElementById('harga_sewa').value = HargaSewa;
+            // Close the modal (if needed)
+            $('#tableHarga').modal('hide');
         }
     </script>
 

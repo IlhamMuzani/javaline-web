@@ -24,6 +24,7 @@ class Sewa_kendaraan extends Model
         'pelanggan_id',
         'vendor_id',
         'rute_perjalanan_id',
+        'harga_sewa_id',
         'nama_pelanggan',
         'nama_vendor',
         'nama_driver',
@@ -59,6 +60,11 @@ class Sewa_kendaraan extends Model
     public function vendor()
     {
         return $this->belongsTo(Vendor::class);
+    }
+
+    public function harga_sewa()
+    {
+        return $this->belongsTo(Harga_sewa::class);
     }
 
     public function faktur_ekspedisi()
