@@ -757,6 +757,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_memoekspedisispk/postingmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisispkController::class, 'postingmemo']);
     Route::delete('inquery_fakturekspedisispk/delettariftambahan/{id}', [\App\Http\Controllers\Admin\InqueryFakturekspedisispkController::class, 'delettariftambahan']);
     Route::get('hapusspk/{id}', [\App\Http\Controllers\Admin\InquerySpkController::class, 'hapusspk'])->name('hapusspk');
+    Route::get('hapussewa/{id}', [\App\Http\Controllers\Admin\SewakendaraanController::class, 'hapussewa'])->name('hapussewa');
     Route::resource('spk', \App\Http\Controllers\Admin\SpkController::class);
     Route::resource('inquery_spk', \App\Http\Controllers\Admin\InquerySpkController::class);
     Route::resource('status_spk', \App\Http\Controllers\Admin\StatusSpkController::class);
@@ -775,6 +776,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('klaim_peralatan', \App\Http\Controllers\Admin\KlaimperalatanController::class);
     Route::resource('inquery_klaimperalatan', \App\Http\Controllers\Admin\InqueryKlaimperalatanController::class);
     Route::resource('marketing', \App\Http\Controllers\Admin\MarketingController::class);
+    Route::resource('sewa_kendaraan', \App\Http\Controllers\Admin\SewakendaraanController::class);
+    Route::resource('harga_sewa', \App\Http\Controllers\Admin\HargasewaController::class);
 
     Route::get('laporan_pemakaianperalatan', [\App\Http\Controllers\Admin\LaporanpemakaianperalatanController::class, 'index']);
     Route::get('print_pemakaianperalatan', [\App\Http\Controllers\Admin\LaporanpemakaianperalatanController::class, 'print_pemakaianperalatan']);
@@ -793,4 +796,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('inquery_fakturpelunasan/unpostpelunasan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'unpostpelunasan']);
     Route::get('inquery_fakturpelunasan/postingpelunasan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'postingpelunasan']);
+
+
+    Route::resource('inquery_sewakendaraan', \App\Http\Controllers\Admin\InquerySewakendaraanController::class);
+    Route::get('inquery_sewakendaraan/unpostsewakendaraan/{id}', [\App\Http\Controllers\Admin\InquerySewakendaraanController::class, 'unpostsewakendaraan']);
+    Route::get('inquery_sewakendaraan/postingsewakendaraan/{id}', [\App\Http\Controllers\Admin\InquerySewakendaraanController::class, 'postingsewakendaraan']);
 });

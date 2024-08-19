@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Perbarui Tarif')
+@section('title', 'Perbarui Harga Sewa')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Perbarui Tarif</h1>
+                    <h1 class="m-0">Perbarui Harga Sewa</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/biaya_tambahan') }}">Perbarui Tarif</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/harga_sewa') }}">Perbarui Tarif</a></li>
                         <li class="breadcrumb-item active">Perbarui</li>
                     </ol>
                 </div><!-- /.col -->
@@ -34,42 +34,42 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/tarif/' . $tarifs->id) }}" method="POST" enctype="multipart/form-data"
+            <form action="{{ url('admin/harga_sewa/' . $harga_sewas->id) }}" method="POST" enctype="multipart/form-data"
                 autocomplete="off">
                 @csrf
                 @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Tarif</h3>
+                        <h3 class="card-title">Perbarui harga sewa</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="form-group">
                             <div class="form-group" style="flex: 8;">
-                                <label for="pelanggan_id">Nama Pelanggan</label>
-                                <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
-                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
-                                    tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                <label for="vendor_id">Nama Rekanan</label>
+                                <select class="select2bs4 select22-hidden-accessible" name="vendor_id"
+                                    data-placeholder="Cari Vendor.." style="width: 100%;" data-select22-id="23"
+                                    tabindex="-1" aria-hidden="true" id="vendor_id">
                                     <option value="">- Pilih -</option>
-                                    @foreach ($pelanggans as $pelanggan)
-                                        <option value="{{ $pelanggan->id }}"
-                                            {{ old('pelanggan_id', $tarifs->pelanggan_id) == $pelanggan->id ? 'selected' : '' }}>
-                                            {{ $pelanggan->nama_pell }}
+                                    @foreach ($vendors as $vendor)
+                                        <option value="{{ $vendor->id }}"
+                                            {{ old('vendor_id', $harga_sewas->vendor_id) == $vendor->id ? 'selected' : '' }}>
+                                            {{ $vendor->nama_vendor }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="nama_tarif">Nama Tarif</label>
+                            <label for="nama_tarif">Nama Rute</label>
                             <input type="text" class="form-control" id="nama_tarif" name="nama_tarif"
-                                placeholder="masukkan nama biaya" value="{{ old('nama_tarif', $tarifs->nama_tarif) }}">
+                                placeholder="masukkan nama harga" value="{{ old('nama_tarif', $harga_sewas->nama_tarif) }}">
                         </div>
                         <div class="form-group">
                             <label for="nominal">Nominal</label>
                             <input type="text" class="form-control" id="nominal" name="nominal"
                                 placeholder="masukkan nominal"
-                                value="{{ old('nominal', number_format($tarifs->nominal, 2, ',', '.')) }}"
+                                value="{{ old('nominal', number_format($harga_sewas->nominal, 2, ',', '.')) }}"
                                 oninput="formatRupiah(this)">
                             {{-- onkeypress="return event.charCode >= 48 && event.charCode <= 57" --}}
                         </div>

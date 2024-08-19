@@ -9,18 +9,17 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Detail_memotambahan extends Model
+class Harga_sewa extends Model
 {
     use HasFactory;
     use LogsActivity;
 
-    protected $fillable = [
-        'memotambahan_id',
-        'qty',
-        'satuans',
-        'hargasatuan',
-        'keterangan_tambahan',
-        'nominal_tambahan',
+    protected $fillable =
+    [
+        'vendor_id',
+        'kode_tarif',
+        'nama_tarif',
+        'nominal',
         'tanggal_awal',
     ];
 
@@ -32,14 +31,14 @@ class Detail_memotambahan extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
-    public function memo_ekpedisi()
+
+    public function vendor()
     {
-        return $this->belongsTo(Memotambahan::class);
+        return $this->belongsTo(Vendor::class);
     }
 
-    public function detail_pengeluaran()
+    public static function getId()
     {
-        return $this->hasMany(Detail_pengeluaran::class);
+        return $getId = DB::table('harga_sewas')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

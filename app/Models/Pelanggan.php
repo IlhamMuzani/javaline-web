@@ -16,6 +16,7 @@ class Pelanggan extends Model
 
     protected $fillable = [
         'kode_pelanggan',
+        'marketing_id',
         'nama_pell',
         'nama_alias',
         'qrcode_pelanggan',
@@ -75,6 +76,11 @@ class Pelanggan extends Model
     public function spk()
     {
         return $this->hasMany(Spk::class);
+    }
+
+    public function karyawan()
+    {
+        return $this->belongsTo(Karyawan::class);
     }
     
     public static function getId()

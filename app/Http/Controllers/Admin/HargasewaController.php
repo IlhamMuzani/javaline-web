@@ -11,13 +11,13 @@ use App\Models\Tarif;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
-class TarifController extends Controller
+class HargasewaController extends Controller
 {
     public function index()
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
-        $tarifs = Tarif::where('vendor_id', null)->orderBy('created_at', 'DESC')->get();
-        return view('admin/tarif.index', compact('tarifs'));
+        $harga_sewas = Tarif::where('pelanggan_id', null)->orderBy('created_at', 'DESC')->get();
+        return view('admin/harga_sewa.index', compact('harga_sewas'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -27,9 +27,9 @@ class TarifController extends Controller
     public function create()
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
-        $pelanggans = Pelanggan::all();
+        $vendors = Vendor::all();
 
-        return view('admin/tarif.create', compact('pelanggans'));
+        return view('admin/harga_sewa.create', compact('vendors'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -41,13 +41,13 @@ class TarifController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'pelanggan_id' => 'required',
+                'vendor_id' => 'required',
                 'nama_tarif' => 'required',
                 'nominal' => 'required',
             ],
             [
-                'pelanggan_id.required' => 'Pilih nama pelanggan',
-                'nama_tarif.required' => 'Masukkan nama tarif',
+                'vendor_id.required' => 'Pilih Vendor',
+                'nama_tarif.required' => 'Masukkan nama harga_sewa',
                 'nominal.required' => 'Masukkan nominal',
             ]
         );
@@ -64,19 +64,19 @@ class TarifController extends Controller
             [
                 'kode_tarif' => $this->kode(),
                 'nominal' =>str_replace(',', '.', str_replace('.', '', $request->nominal)),
-                // 'qrcode_rute' => 'https://javaline.id/tarif/' . $kode,
+                // 'qrcode_rute' => 'https://javaline.id/harga_sewa/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ],
         ));
 
-        return redirect('admin/tarif')->with('success', 'Berhasil menambahkan tarif');
+        return redirect('admin/harga_sewa')->with('success', 'Berhasil menambahkan harga sewa');
     }
 
 
     public function kode()
     {
         // Ambil tarif terakhir yang kodenya dimulai dengan 'HS'
-        $lastBarang = Tarif::where('kode_tarif', 'LIKE', 'TF%')->latest('id')->first();
+        $lastBarang = Tarif::where('kode_tarif', 'LIKE', 'HS%')->latest('id')->first();
 
         // Jika tidak ada tarif dalam database dengan awalan 'HS'
         if (!$lastBarang) {
@@ -85,7 +85,7 @@ class TarifController extends Controller
             // Ambil kode tarif terakhir
             $lastCode = $lastBarang->kode_tarif;
 
-            // Ambil angka setelah awalan 'TF'
+            // Ambil angka setelah awalan 'HS'
             $num = (int) substr($lastCode, 2) + 1;
         }
 
@@ -93,7 +93,7 @@ class TarifController extends Controller
         $formattedNum = sprintf("%06s", $num);
 
         // Tentukan awalan kode
-        $prefix = 'TF';
+        $prefix = 'HS';
 
         // Gabungkan awalan dengan nomor yang diformat untuk mendapatkan kode baru
         $newCode = $prefix . $formattedNum;
@@ -101,14 +101,15 @@ class TarifController extends Controller
         return $newCode;
     }
 
+
+
     public function edit($id)
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
-        $tarifs = Tarif::where('id', $id)->first();
-        $pelanggans = Pelanggan::all();
+        $harga_sewas = Tarif::where('id', $id)->first();
+        $vendors = Vendor::all();
 
-
-        return view('admin/tarif.update', compact('vendors', 'tarifs', 'pelanggans'));
+        return view('admin/harga_sewa.update', compact('vendors', 'harga_sewas'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));
@@ -120,13 +121,13 @@ class TarifController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'pelanggan_id' => 'required',
+                'vendor_id' => 'required',
                 'nama_tarif' => 'required',
                 'nominal' => 'required',
             ],
             [
-                'pelanggan_id.required' => 'Pilih nama pelanggan',
-                'nama_tarif.required' => 'Masukkan nama tarif',
+                'vendor_id.required' => 'Pilih nama vendor',
+                'nama_tarif.required' => 'Masukkan nama harga sewa',
                 'nominal.required' => 'Masukkan nominal',
             ]
         );
@@ -136,23 +137,22 @@ class TarifController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $tarifs = Tarif::findOrFail($id);
+        $harga_sewas = Tarif::findOrFail($id);
 
-        $tarifs->pelanggan_id = $request->pelanggan_id;
-        $tarifs->vendor_id = $request->vendor_id;
-        $tarifs->nama_tarif = $request->nama_tarif;
-        $tarifs->nominal = str_replace(',', '.', str_replace('.', '', $request->nominal));
+        $harga_sewas->vendor_id = $request->vendor_id;
+        $harga_sewas->nama_tarif = $request->nama_tarif;
+        $harga_sewas->nominal = str_replace(',', '.', str_replace('.', '', $request->nominal));
 
-        $tarifs->save();
+        $harga_sewas->save();
 
-        return redirect('admin/tarif')->with('success', 'Berhasil memperbarui tarif');
+        return redirect('admin/harga_sewa')->with('success', 'Berhasil memperbarui harga sewa');
     }
 
     public function destroy($id)
     {
-        $tarifs = Tarif::find($id);
-        $tarifs->delete();
+        $harga_sewas = Tarif::find($id);
+        $harga_sewas->delete();
 
-        return redirect('admin/tarif')->with('success', 'Berhasil menghapus tarif');
+        return redirect('admin/harga_sewa')->with('success', 'Berhasil menghapus harga sewa');
     }
 }

@@ -195,7 +195,7 @@
 <body style="margin: 0; padding: 0;">
     <table cellpadding="2" cellspacing="0">
         <tr>
-            <td class="info-catatan2" style="font-size: 17px;">PT. BINA ANUGERAH TRANSINDO</td>
+            <td class="info-catatan2" style="font-size: 17px;">PT. JAVA LINE LOGISTICS</td>
             <td class="text-align: left" style="font-size: 17px; margin-left: 40px; display: block;">Nama Pelanggan</td>
             <td style="text-align: left; font-size: 17px;">
                 <span class="content2">
@@ -288,9 +288,13 @@
             <td class="text-align: left" style="font-size: 17px; display: block;">Kota Tujuan</td>
             <td style="text-align: left; font-size: 17px;">
                 <span class="content2">
-                    :@foreach ($details as $item)
-                        {{ $item->nama_rute }}, {{ $item->nama_rutetambahan }}
-                    @endforeach
+                    @if ($cetakpdf->kategoris == 'memo')
+                        :@foreach ($cetakpdf->detail_faktur as $item)
+                            {{ $item->nama_rute }}
+                        @endforeach
+                    @else
+                        : {{ $cetakpdf->sewa_kendaraan->rute_perjalanan->nama_rute ?? null }}
+                    @endif
                 </span>
                 <br>
             </td>

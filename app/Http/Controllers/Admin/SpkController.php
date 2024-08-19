@@ -148,6 +148,7 @@ class SpkController extends Controller
                 'kendaraan_id' => $request->kendaraan_id,
                 'rute_perjalanan_id' => $request->rute_perjalanan_id,
                 'user_id' => $request->user_id,
+                'km_awal' => $request->km_awal,
                 'tanggal_awal' => $tanggal,
                 'tanggal' => $format_tanggal,
                 'status' => 'posting',

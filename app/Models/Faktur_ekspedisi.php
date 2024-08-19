@@ -19,6 +19,8 @@ class Faktur_ekspedisi extends Model
         'user_id',
         'spk_id',
         'karyawan_id',
+        'sewa_kendaraan_id',
+        'kode_sewa',
         'kode_spk',
         'kode_faktur',
         'kategori',
@@ -40,6 +42,7 @@ class Faktur_ekspedisi extends Model
         'kode_tarif',
         'nama_tarif',
         'nama_sopir',
+        'telp_sopir',
         'telp_driver',
         'harga_tarif',
         'jumlah',
@@ -83,6 +86,11 @@ class Faktur_ekspedisi extends Model
     public function spk()
     {
         return $this->belongsTo(Spk::class);
+    }
+
+    public function sewa_kendaraan()
+    {
+        return $this->belongsTo(Sewa_kendaraan::class);
     }
 
     public function detail_tagihan()

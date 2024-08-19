@@ -102,6 +102,7 @@
                                 <th>No Kabin</th>
                                 <th>No Registrasi</th>
                                 <th>Jenis Kendaraan</th>
+                                <th>Nominal Klaim</th>
                                 <th class="text-center" width="40">Opsi</th>
                             </tr>
                         </thead>
@@ -135,6 +136,8 @@
                                             nama tidak ada
                                         @endif
                                     </td>
+                                    <td>{{ number_format($klaim->harga_klaim, 2, ',', '.') }}</td>
+
                                     <td class="text-center">
                                         @if ($klaim->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">

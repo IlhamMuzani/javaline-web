@@ -20,6 +20,10 @@ class Pengambilan_do extends Model
         'user_id',
         'spk_id',
         'kendaraan_id',
+        'km_awal',
+        'km_akhir',
+        'waktu_awal',
+        'waktu_akhir',
         'rute_perjalanan_id',
         'alamat_muat_id',
         'alamat_bongkar_id',
@@ -84,7 +88,7 @@ class Pengambilan_do extends Model
     {
         return $this->belongsTo(Alamat_bongkar::class);
     }
-    
+
     public static function getId()
     {
         return $getId = DB::table('pengambilan_dos')->orderBy('id', 'DESC')->take(1)->get();

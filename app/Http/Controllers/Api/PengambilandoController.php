@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
 use App\Models\Pengambilan_do;
+use App\Models\Timer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,8 +37,8 @@ class PengambilandoController extends Controller
             ['user_id', $id],
             ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
         ])
-        ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
-        ->orderByRaw("CASE WHEN status = 'selesai' THEN 1 ELSE 0 END") // Place 'selesai' status items at the bottom
+            ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+            ->orderByRaw("CASE WHEN status = 'selesai' THEN 1 ELSE 0 END") // Place 'selesai' status items at the bottom
             ->orderBy('id', 'asc') // Order by ID or another column to ensure consistent ordering
             ->get();
 
@@ -108,6 +109,7 @@ class PengambilandoController extends Controller
         $proses = $pengambilan_do->update([
             'user_id' => $request->user_id,
             'status' => 'loading muat',
+            'waktu_awal' => now()->format('Y-m-d H:i:s')
         ]);
 
 
@@ -118,12 +120,33 @@ class PengambilandoController extends Controller
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
         $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
+
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+
         $proses = $kendaraan->update([
             'user_id' => $request->user_id,
             'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
-            'timer' => $jarakWaktu
+            'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
+
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
 
 
         if ($proses) {
@@ -196,11 +219,32 @@ class PengambilandoController extends Controller
 
         // Memperbarui kendaraan terkait
         $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
+
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+
         if ($kendaraan) {
             $kendaraan->update([
                 'status_perjalanan' => 'Perjalanan Isi',
                 'timer' => $jarakWaktu,
+                'waktu' => now()->format('Y-m-d H:i:s')
             ]);
+
+            // Retrieve the updated status_perjalanan for status_akhir
+            $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+            $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+            // Create Timer record with the old and new status, and the old timer
+            Timer::create(array_merge(
+                $request->all(),
+                [
+                    'kendaraan_id' => $id,
+                    'status_awal' => $currentStatusPerjalanan,
+                    'status_akhir' => $updatedStatusPerjalanan,
+                    'timer_awal' => $currentTimer,
+                    'timer_akhir' => $currentTimestamp,
+                ]
+            ));
         }
 
         return response()->json([
@@ -240,7 +284,9 @@ class PengambilandoController extends Controller
         // Memperbarui entri di database
         $pengambilan_do->update([
             'bukti' => $namabukti,
-            'status' => 'loading bongkar',
+            'status' => 'selesai',
+            'waktu_akhir' => now()->format('Y-m-d H:i:s')
+
         ]);
 
         // Menghitung jarak waktu
@@ -250,11 +296,31 @@ class PengambilandoController extends Controller
 
         // Memperbarui kendaraan terkait
         $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+
         if ($kendaraan) {
             $kendaraan->update([
                 'status_perjalanan' => 'Perjalanan Kosong',
                 'timer' => $jarakWaktu,
+                'waktu' => now()->format('Y-m-d H:i:s')
             ]);
+
+            // Retrieve the updated status_perjalanan for status_akhir
+            $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+            $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+            // Create Timer record with the old and new status, and the old timer
+            Timer::create(array_merge(
+                $request->all(),
+                [
+                    'kendaraan_id' => $id,
+                    'status_awal' => $currentStatusPerjalanan,
+                    'status_akhir' => $updatedStatusPerjalanan,
+                    'timer_awal' => $currentTimer,
+                    'timer_akhir' => $currentTimestamp,
+                ]
+            ));
         }
 
         return response()->json([
@@ -299,11 +365,32 @@ class PengambilandoController extends Controller
 
         // Memperbarui kendaraan terkait
         $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
+
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+
         if ($kendaraan) {
             $kendaraan->update([
                 'status_perjalanan' => null,
                 'timer' => $jarakWaktu,
+                'waktu' => now()->format('Y-m-d H:i:s')
             ]);
+
+            // Retrieve the updated status_perjalanan for status_akhir
+            $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+            $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+            // Create Timer record with the old and new status, and the old timer
+            Timer::create(array_merge(
+                $request->all(),
+                [
+                    'kendaraan_id' => $id,
+                    'status_awal' => $currentStatusPerjalanan,
+                    'status_akhir' => $updatedStatusPerjalanan,
+                    'timer_awal' => $currentTimer,
+                    'timer_akhir' => $currentTimestamp,
+                ]
+            ));
         }
 
         return response()->json([

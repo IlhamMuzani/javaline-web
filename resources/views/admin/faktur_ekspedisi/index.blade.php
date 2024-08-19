@@ -182,39 +182,32 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="kode_karyawan">Kode Marketing</label>
-                                        <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="kode_karyawan" readonly
-                                            name="kode_karyawan" placeholder="" value="{{ old('kode_karyawan') }}">
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="kode_karyawan" readonly name="kode_karyawan" placeholder=""
+                                            value="{{ old('kode_karyawan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama
                                         Marketing</label>
                                     <div class="form-group d-flex">
-                                        <input onclick="showCategoryModalMarketing(this.value)" class="form-control"
-                                            id="nama_lengkap" name="nama_lengkap" type="text" placeholder=""
-                                            value="{{ old('nama_lengkap') }}" readonly
-                                            style="margin-right: 10px; font-size:14px" />
-                                        <button class="btn btn-primary" type="button"
-                                            onclick="showCategoryModalMarketing(this.value)">
-                                            <i class="fas fa-search"></i>
-                                        </button>
+                                        <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text"
+                                            placeholder="" value="{{ old('nama_lengkap') }}" readonly
+                                            style="font-size:14px" />
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="telp">No. Telp</label>
-                                        <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="telp" readonly
-                                            name="telp" placeholder="" value="{{ old('telp') }}">
+                                        <input style="font-size:14px" type="text" class="form-control" id="telp"
+                                            readonly name="telp" placeholder="" value="{{ old('telp') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
-                                        <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="alamat_karyawan" readonly
-                                            name="alamat_karyawan" placeholder=""
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="alamat_karyawan" readonly name="alamat_karyawan" placeholder=""
                                             value="{{ old('alamat_karyawan') }}">
                                     </div>
                                 </div>
@@ -763,21 +756,23 @@
                                     <th>Nama Pelanggan</th>
                                     <th>Alamat</th>
                                     <th>No. Telp</th>
+                                    <th>Nama Marketing</th>
                                     <th>Opsi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($pelanggans as $pelanggan)
                                     <tr
-                                        onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
+                                        onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}', '{{ $pelanggan->karyawan_id }}', '{{ $pelanggan->karyawan->kode_karyawan ?? '' }}', '{{ $pelanggan->karyawan->nama_lengkap ?? '' }}', '{{ $pelanggan->karyawan->telp ?? '' }}', '{{ $pelanggan->karyawan->alamat ?? '' }}')">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $pelanggan->kode_pelanggan }}</td>
                                         <td>{{ $pelanggan->nama_pell }}</td>
                                         <td>{{ $pelanggan->alamat }}</td>
                                         <td>{{ $pelanggan->telp }}</td>
+                                        <td>{{ $pelanggan->karyawan->nama_lengkap ?? null }}</td>
                                         <td class="text-center">
                                             <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
+                                                onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}', '{{ $pelanggan->karyawan_id }}', '{{ $pelanggan->karyawan->kode_karyawan ?? '' }}', '{{ $pelanggan->karyawan->nama_lengkap ?? '' }}', '{{ $pelanggan->karyawan->telp ?? '' }}', '{{ $pelanggan->karyawan->alamat ?? '' }}')">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </td>
@@ -890,7 +885,7 @@
                                     <tr
                                         onclick="getTarifs('{{ $tarif->id }}', '{{ $tarif->kode_tarif }}', '{{ $tarif->nama_tarif }}', '{{ $tarif->nominal }}')">
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td hidden>{{ $tarif->pelanggan->id }}</td>
+                                        <td hidden>{{ $tarif->pelanggan->id ?? null }}</td>
                                         <td>{{ $tarif->kode_tarif }}</td>
                                         <td>{{ $tarif->nama_tarif }}</td>
                                         <td>{{ number_format($tarif->nominal, 0, ',', '.') }}</td>
@@ -1046,13 +1041,19 @@
             $('#tablePelanggan').modal('show');
         }
 
-        function getSelectedDataPelanggan(Pelanggan_id, KodePelanggan, NamaPell, AlamatPel, Telpel) {
+        function getSelectedDataPelanggan(Pelanggan_id, KodePelanggan, NamaPell, AlamatPel, Telpel, Marketing_id,
+            KodeKaryawan, NamaKaryawan, Telp, Alamat) {
             // Set the values in the form fields
             document.getElementById('pelanggan_id').value = Pelanggan_id;
             document.getElementById('kode_pelanggan').value = KodePelanggan;
             document.getElementById('nama_pelanggan').value = NamaPell;
             document.getElementById('alamat_pelanggan').value = AlamatPel;
             document.getElementById('telp_pelanggan').value = Telpel;
+            document.getElementById('karyawan_id').value = Marketing_id;
+            document.getElementById('kode_karyawan').value = KodeKaryawan;
+            document.getElementById('nama_lengkap').value = NamaKaryawan;
+            document.getElementById('telp').value = Telp;
+            document.getElementById('alamat_karyawan').value = Alamat;
             // Close the modal (if needed)
             $('#tablePelanggan').modal('hide');
         }

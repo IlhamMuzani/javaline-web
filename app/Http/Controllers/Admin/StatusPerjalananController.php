@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\Kota;
 use App\Models\Laporanperjalanan;
+use App\Models\Timer;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -97,11 +98,30 @@ class StatusPerjalananController extends Controller
         }
 
         $kendaraan = Kendaraan::findOrFail($id);
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
+        $kendaraan->update([
+            'kota_id' => $request->kota_id,
+            'status_perjalanan' => $request->status_perjalanan,
+            'waktu' => now()->format('Y-m-d H:i:s')
+        ]);
 
-        $kendaraan->kota_id = $request->kota_id;
-        $kendaraan->status_perjalanan = $request->status_perjalanan;
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
 
-        $kendaraan->save();
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
 
         return redirect('admin/status_perjalanan')->with('success', 'Berhasil merubah');
 

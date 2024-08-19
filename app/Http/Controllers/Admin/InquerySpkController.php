@@ -161,13 +161,11 @@ class InquerySpkController extends Controller
         return redirect('admin/inquery_spk')->with('success', 'Berhasil memperbarui spk');
     }
 
-
-
     public function postingspk($id)
     {
-        $ban = Spk::where('id', $id)->first();
+        $item = Spk::where('id', $id)->first();
 
-        $ban->update([
+        $item->update([
             'status' => 'posting'
         ]);
 
@@ -176,9 +174,9 @@ class InquerySpkController extends Controller
 
     public function unpostspk($id)
     {
-        $ban = Spk::where('id', $id)->first();
+        $item = Spk::where('id', $id)->first();
 
-        $ban->update([
+        $item->update([
             'status' => 'unpost'
         ]);
 

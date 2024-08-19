@@ -56,6 +56,7 @@ class Kendaraan extends Model
         'gambar_barcodesolar',
         'gambar_stnk',
         'timer',
+        'waktu',
         'kota_id',
     ];
 

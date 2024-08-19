@@ -43,65 +43,6 @@
                 </div>
                 <div>
                     <div>
-                        <div class="form-group">
-                            <label style="font-size:14px" class="form-label" for="kategori">Pilih
-                                Jenis SPK</label>
-                            <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
-                                <option value="">- Pilih -</option>
-                                <option selected value="memo" {{ old('kategori') == 'memo' ? 'selected' : null }}>
-                                    MEMO</option>
-                                <option value="non memo" {{ old('kategori') == 'non memo' ? 'selected' : null }}>
-                                    NON MEMO</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <div id="vendorspk" class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Vendor</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group" hidden>
-                                        <label for="vendor_id">Vendor Id</label>
-                                        <input type="text" class="form-control" id="vendor_id" readonly name="vendor_id"
-                                            placeholder="" value="{{ old('vendor_id') }}">
-                                    </div>
-                                    <div class="form-group" hidden>
-                                        <label for="kode_vendor">kode Vendor</label>
-                                        <input type="text" class="form-control" id="kode_vendor" readonly
-                                            name="kode_vendor" placeholder="" value="{{ old('kode_vendor') }}">
-                                    </div>
-                                    <label style="font-size:14px" class="form-label" for="nama_vendor">Nama
-                                        Vendor</label>
-                                    <div class="form-group d-flex">
-                                        <input onclick="showCategoryModalVendor(this.value)" class="form-control"
-                                            id="nama_vendor" name="nama_vendor" type="text" placeholder=""
-                                            value="{{ old('nama_vendor') }}" readonly
-                                            style="margin-right: 10px; font-size:14px" />
-                                        <button class="btn btn-primary" type="button"
-                                            onclick="showCategoryModalVendor(this.value)">
-                                            <i class="fas fa-search"></i>
-                                        </button>
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="font-size:14px" for="alamat_vendor">Alamat</label>
-                                        <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="alamat_vendor" readonly
-                                            name="alamat_vendor" placeholder="" value="{{ old('alamat_vendor') }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <label style="font-size:14px" for="telp_vendor">No. Telp</label>
-                                        <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px"
-                                            type="text" class="form-control" id="telp_vendor" readonly name="telp_vendor"
-                                            placeholder="" value="{{ old('telp_vendor') }}">
-                                    </div>
-                                    <div class="form-check" style="color:white">
-                                        <label class="form-check-label">
-                                            .
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div id="pelangganspk" class="card">
@@ -117,8 +58,7 @@
                                         <div class="form-group" hidden>
                                             <label for="kode_pelanggan">kode Pelanggan</label>
                                             <input type="text" class="form-control" id="kode_pelanggan" readonly
-                                                name="kode_pelanggan" placeholder=""
-                                                value="{{ old('kode_pelanggan') }}">
+                                                name="kode_pelanggan" placeholder="" value="{{ old('kode_pelanggan') }}">
                                         </div>
                                         <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
                                             Pelanggan</label>
@@ -143,8 +83,7 @@
                                             <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
                                             <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
                                                 type="text" class="form-control" id="telp_pelanggan" readonly
-                                                name="telp_pelanggan" placeholder=""
-                                                value="{{ old('telp_pelanggan') }}">
+                                                name="telp_pelanggan" placeholder="" value="{{ old('telp_pelanggan') }}">
                                         </div>
                                         <div class="form-check" style="color:white">
                                             <label class="form-check-label">
@@ -398,7 +337,6 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Tujuan Muat</th>
                                         <th>Nama Pelanggan</th>
-                                        <th>Nama Vendor</th>
                                         <th>Alamat</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -410,7 +348,6 @@
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $alamat_muat->kode_alamat }}</td>
                                             <td>{{ $alamat_muat->pelanggan->nama_pell ?? 'tidak ada' }}</td>
-                                            <td>{{ $alamat_muat->vendor->nama_vendor ?? 'tidak ada' }}</td>
                                             <td>{{ $alamat_muat->alamat }}</td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
@@ -443,7 +380,6 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Tujuan Bongkar</th>
                                         <th>Nama Pelanggan</th>
-                                        <th>Nama Vendor</th>
                                         <th>Alamat</th>
                                         <th>Opsi</th>
                                     </tr>
@@ -455,7 +391,6 @@
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $alamat_bongkar->kode_alamat }}</td>
                                             <td>{{ $alamat_bongkar->pelanggan->nama_pell ?? 'tidak ada' }}</td>
-                                            <td>{{ $alamat_bongkar->vendor->nama_vendor ?? 'tidak ada' }}</td>
                                             <td>{{ $alamat_bongkar->alamat }}</td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
@@ -505,51 +440,6 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="tableVendor" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Data Vendor</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <table id="datatables2" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th>Kode Vendor</th>
-                                        <th>Nama Vendor</th>
-                                        <th>Alamat</th>
-                                        <th>No. Telp</th>
-                                        <th>Opsi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($vendors as $vendor)
-                                        <tr
-                                            onclick="getSelectedDataVendor('{{ $vendor->id }}', '{{ $vendor->kode_vendor }}', '{{ $vendor->nama_vendor }}', '{{ $vendor->alamat }}', '{{ $vendor->telp }}')">
-                                            <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $vendor->kode_vendor }}</td>
-                                            <td>{{ $vendor->nama_vendor }}</td>
-                                            <td>{{ $vendor->alamat }}</td>
-                                            <td>{{ $vendor->telp }}</td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="getSelectedDataVendor('{{ $vendor->id }}', '{{ $vendor->kode_vendor }}', '{{ $vendor->nama_vendor }}', '{{ $vendor->alamat }}', '{{ $vendor->telp }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -916,23 +806,6 @@
             $('#tablePelanggan').modal('hide');
         }
 
-
-        function showCategoryModalVendor(selectedCategory) {
-            $('#tableVendor').modal('show');
-        }
-
-        function getSelectedDataVendor(Vendor_id, KodeVendor, NamaVendor, AlamatVendord, TelpVendor) {
-            // Set the values in the form fields
-            document.getElementById('vendor_id').value = Vendor_id;
-            document.getElementById('kode_vendor').value = KodeVendor;
-            document.getElementById('nama_vendor').value = NamaVendor;
-            document.getElementById('alamat_vendor').value = AlamatVendord;
-            document.getElementById('telp_vendor').value = TelpVendor;
-            // Close the modal (if needed)
-            $('#tableVendor').modal('hide');
-        }
-
-
         function showCategoryModaldriver(selectedCategory) {
             $('#tableDriver').modal('show');
         }
@@ -1064,7 +937,6 @@
             var Kendaraanspk = document.getElementById('kendaraanspk');
             var RuteSpk = document.getElementById('rutespk');
             var SopirSpk = document.getElementById('sopirspk');
-            var Vendorspk = document.getElementById('vendorspk');
             var AlamatJalan = document.getElementById('alamat_jalan');
 
             if (kategori.value === 'memo') {
@@ -1073,9 +945,7 @@
                 RuteSpk.style.display = 'block';
                 SopirSpk.style.display = 'block';
                 AlamatJalan.style.display = 'block';
-                Vendorspk.style.display = 'none';
             } else if (kategori.value === 'non memo') {
-                Vendorspk.style.display = 'block';
                 Pelangganspk.style.display = 'none';
                 Kendaraanspk.style.display = 'none';
                 RuteSpk.style.display = 'none';

@@ -15,6 +15,7 @@ use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
 use App\Models\Pph;
+use App\Models\Sewa_kendaraan;
 use App\Models\Spk;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,7 @@ class FakturekspedisispkController extends Controller
         // Gabungkan dua koleksi menjadi satu
         $memos = $memoEkspedisi->concat($memoTambahan);
         $tarifs = Tarif::all();
+        $sewa_kendaraans = Sewa_kendaraan::all();
 
         return view('admin.faktur_ekspedisispk.index', compact(
             'spks',
@@ -51,6 +53,7 @@ class FakturekspedisispkController extends Controller
             'tarifs',
             'memoEkspedisi',
             'karyawans',
+            'sewa_kendaraans',
             'memoTambahan'
         ));
     }
@@ -205,6 +208,8 @@ class FakturekspedisispkController extends Controller
             'user_id' => auth()->user()->id,
             'spk_id' => $request->spk_id,
             'karyawan_id' => $request->karyawan_id,
+            'sewa_kendaraan_id' => $request->sewa_kendaraan_id,
+            'kode_sewa' => $request->kode_sewa,
             'kode_spk' => $request->kode_spk,
             'kode_faktur' => $this->kode(),
             'kategori' => $request->kategori,
@@ -215,6 +220,7 @@ class FakturekspedisispkController extends Controller
             'no_kabin' => $request->no_kabin[0] ?? $request->no_kabins,
             'no_pol' => $request->no_pol[0] ?? $request->no_pols,
             'nama_sopir' => $request->nama_sopir,
+            'telp_sopir' => $request->telp_sopir,
             'tarif_id' => $request->tarif_id,
             'tanggal_memo' => $request->tanggal_memo[0] ?? null ? \Carbon\Carbon::parse($request->tanggal_memo[0])->format('d M Y') : null,
             'pelanggan_id' => $request->pelanggan_id,

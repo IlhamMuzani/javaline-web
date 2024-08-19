@@ -7,8 +7,9 @@ use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Pelanggan;
 use App\Models\Kota;
+use App\Models\Pengambilan_do;
 use Illuminate\Http\Request;
-use App\Models\Laporanperjalanan;
+use App\Models\Timer;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -47,12 +48,12 @@ class DriverController extends Controller
 
         $karyawan = Karyawan::find($id);
         $karyawan = Karyawan::where('id', $id);
-        $proses = $karyawan->update([
+        $kendaraan = $karyawan->update([
             'nama_lengkap' => $request->nama_lengkap,
             'telp' => $request->telp,
         ]);
 
-        if ($proses) {
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Profil berhasil di perbarui',
@@ -145,6 +146,8 @@ class DriverController extends Controller
         }
 
         $kendaraan = Kendaraan::find($id);
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
 
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
@@ -152,15 +155,32 @@ class DriverController extends Controller
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        // Update Kendaraan status and timer
+        $kendaraan->update([
             'user_id' => $request->user_id,
             'status_perjalanan' => 'Tunggu Muat',
             'km' => $request->km,
             'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Status Tunggu Muat',
@@ -177,21 +197,40 @@ class DriverController extends Controller
     {
         $kendaraan = Kendaraan::find($id);
 
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        $kendaraan->update([
             'user_id' => $request->user_id,
             'status_perjalanan' => 'Loading Muat',
             'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
             // 'pelanggan_id' => $request->pelanggan_id,
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Status Loading Muat',
@@ -226,16 +265,17 @@ class DriverController extends Controller
         // }
 
         $kendaraan = Kendaraan::find($id);
-
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
         $tanggal = Carbon::now()->format('Y-m-d');
-        $proses = $kendaraan->update([
+        $kendaraan->update([
             'user_id' => $request->user_id,
             // 'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Isi',
@@ -243,10 +283,27 @@ class DriverController extends Controller
             // 'kota_id' => $request->kota_id,
             'tanggal_awalperjalanan' => $tanggal,
             'tanggal_awalwaktuperjalanan' => Carbon::now('Asia/Jakarta'), // Menggunakan zona waktu Asia/Jakarta (WIB)
+            'waktu' => now()->format('Y-m-d H:i:s')
 
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+        
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Status Perjalanan Isi',
@@ -278,21 +335,39 @@ class DriverController extends Controller
         // }
 
         $kendaraan = Kendaraan::find($id);
-
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        $kendaraan->update([
             'user_id' => $request->user_id,
             'status_perjalanan' => 'Tunggu Bongkar',
-            'timer' => $jarakWaktu
+            'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Status Tunggu Bongkar',
@@ -325,7 +400,9 @@ class DriverController extends Controller
         }
 
         $kendaraan = Kendaraan::find($id);
-
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -377,19 +454,85 @@ class DriverController extends Controller
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        $kendaraan->update([
             'user_id' => $request->user_id,
             'pelanggan_id' => null,
             'km' => $request->km,
             'status_perjalanan' => 'Loading Bongkar',
-            'timer' => $jarakWaktu
+            'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)->first();
+        $pengambilan_do->update([
+            'km_akhir' => $kendaraan->km,
+        ]);
+        
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Status Loading Bongkar',
+            ]);
+        } else {
+            $this->error('Gagal !');
+        }
+    }
+
+    public function kosong(Request $request, $id)
+    {
+        $kendaraan = Kendaraan::find($id);
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
+        $waktuTungguMuat = $kendaraan->updated_at;
+        $waktuPerjalananIsi = now();
+
+        // Format "hari jam:menit:detik"
+        $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
+
+        $kendaraan->update([
+            'user_id' => $request->user_id,
+            'status_perjalanan' => 'Kosong',
+            'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
+        ]);
+
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        if ($kendaraan) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Status Kosong',
             ]);
         } else {
             $this->error('Gagal !');
@@ -420,23 +563,41 @@ class DriverController extends Controller
         }
 
         $kendaraan = Kendaraan::find($id);
-
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        $kendaraan->update([
             'user_id' => $request->user_id,
             'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu,
-            'kota_id' => $request->kota_id
+            'kota_id' => $request->kota_id,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+        
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Status Perjalanan Kosong',
@@ -468,22 +629,40 @@ class DriverController extends Controller
         }
 
         $kendaraan = Kendaraan::find($id);
-
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        $kendaraan = $kendaraan->update([
             'user_id' => $request->user_id,
             'km' => $request->km,
             'status_perjalanan' => 'Perbaikan di garasi',
-            'timer' => $jarakWaktu
+            'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Perbaikan di garasi',
@@ -515,22 +694,40 @@ class DriverController extends Controller
         }
 
         $kendaraan = Kendaraan::find($id);
-
+        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+        $currentTimer = $kendaraan->waktu;
+        
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $id);
-        $proses = $kendaraan->update([
+        $kendaraan = $kendaraan->update([
             'user_id' => $request->user_id,
             'km' => $request->km,
             'status_perjalanan' => 'Perbaikan di jalan',
-            'timer' => $jarakWaktu
+            'timer' => $jarakWaktu,
+            'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        if ($proses) {
+        // Retrieve the updated status_perjalanan for status_akhir
+        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $currentTimestamp = now()->format('Y-m-d H:i:s');
+
+        // Create Timer record with the old and new status, and the old timer
+        Timer::create(array_merge(
+            $request->all(),
+            [
+                'kendaraan_id' => $id,
+                'status_awal' => $currentStatusPerjalanan,
+                'status_akhir' => $updatedStatusPerjalanan,
+                'timer_awal' => $currentTimer,
+                'timer_akhir' => $currentTimestamp,
+            ]
+        ));
+
+        if ($kendaraan) {
             return response()->json([
                 'status' => true,
                 'msg' => 'Perbaikan di jalan',

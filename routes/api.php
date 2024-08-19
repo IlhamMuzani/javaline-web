@@ -43,6 +43,7 @@ Route::post('kendaraan-perjalananisi/{id}', [\App\Http\Controllers\Api\DriverCon
 Route::post('kendaraan-tunggubongkar/{id}', [\App\Http\Controllers\Api\DriverController::class, 'tunggu_bongkar']);
 Route::post('kendaraan-loadingbongkar/{id}', [\App\Http\Controllers\Api\DriverController::class, 'loading_bongkar']);
 Route::post('kendaraan-perjalanankosong/{id}', [\App\Http\Controllers\Api\DriverController::class, 'perjalanan_kosong']);
+Route::post('kendaraan-kosong/{id}', [\App\Http\Controllers\Api\DriverController::class, 'kosong']);
 Route::post('kendaraan-perbaikandijalan/{id}', [\App\Http\Controllers\Api\DriverController::class, 'perbaikan_dijalan']);
 Route::post('kendaraan-perbaikandigarasi/{id}', [\App\Http\Controllers\Api\DriverController::class, 'perbaikan_digarasi']);
 Route::get('list-pelanggan', [\App\Http\Controllers\Api\DriverController::class, 'pelangganlist']);

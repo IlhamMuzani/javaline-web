@@ -69,6 +69,11 @@ class Detail_pengeluaran extends Model
     {
         return $this->belongsTo(Kasbon_karyawan::class);
     }
+
+    public function detail_memotambahan()
+    {
+        return $this->belongsTo(Detail_memotambahan::class);
+    }
     
     public static function getId()
     {

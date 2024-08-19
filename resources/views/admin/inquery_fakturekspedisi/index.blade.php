@@ -193,8 +193,13 @@
                                                 @endif
                                                 @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update'])
                                                     @if ($faktur->spk_id == null)
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
+                                                        @if ($faktur->kategoris == 'memo')
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_fakturekspedisispk/' . $faktur->id . '/edit') }}">Update</a>
+                                                        @endif
                                                     @else
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_fakturekspedisispk/' . $faktur->id . '/edit') }}">Update</a>

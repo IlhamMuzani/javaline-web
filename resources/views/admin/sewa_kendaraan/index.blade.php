@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Faktur Ekspedisi')
+@section('title', 'Faktur Sewa Kendaraan')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -23,11 +23,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Faktur Ekspedisi</h1>
+                    <h1 class="m-0">Faktur Sewa Kendaraan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Faktur Ekspedisi</li>
+                        <li class="breadcrumb-item active">Faktur Sewa Kendaraan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -42,7 +42,7 @@
                 <div class="alert alert-success alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
-                        <i class="icon fas fa-check"></i> Success!
+                        <i class="icon fas fa-check"></i> Berhasil!
                     </h5>
                     {{ session('success') }}
                 </div>
@@ -56,15 +56,22 @@
                     {{ session('error') }}
                 </div>
             @endif
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Faktur Ekspedisi</h3>
+                    <h3 class="card-title">Faktur Sewa Kendaraan</h3>
                     <div class="float-right">
-                        @if (auth()->check() && auth()->user()->fitur['creates faktur ekspedisi'])
-                            <a href="{{ url('admin/faktur_ekspedisispk') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Tambah
-                            </a>
-                        @endif
+                        <a href="{{ url('admin/sewa_kendaraan/create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Tambah
+                        </a>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -73,145 +80,85 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Faktur Ekspedisi</th>
+                                <th>No</th>
+                                <th>Kode Sewa Kendaraan</th>
+                                <th>Nama Rekanan</th>
                                 <th>Tanggal</th>
-                                <th>Bag.inp</th>
-                                <th>Kategori</th>
-                                <th>No Kabin</th>
+                                <th>Bag.input</th>
                                 <th>Sopir</th>
-                                <th>Tujuan</th>
+                                <th>No Pol</th>
                                 <th>Pelanggan</th>
-                                <th>Tarif</th>
-                                <th>PPH</th>
-                                {{-- <th>U. Tambahan</th> --}}
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
+                                <th>Rute</th>
+                                <th>Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($inquery as $faktur)
-                                <tr class="dropdown"{{ $faktur->id }}>
+                            @foreach ($sewa_kendaraans as $sewa_kendaraan)
+                                <tr class="dropdown"{{ $sewa_kendaraan->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $faktur->id }}">
+                                            value="{{ $sewa_kendaraan->id }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
-                                        {{ $faktur->kode_faktur }}
+                                        {{ $sewa_kendaraan->kode_sewa }}
                                     </td>
                                     <td>
-                                        {{ $faktur->tanggal_awal }}
+                                        {{ $sewa_kendaraan->vendor->nama_vendor ?? null }}
                                     </td>
                                     <td>
-                                        @if ($faktur->user)
-                                            {{ $faktur->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
+                                        {{ $sewa_kendaraan->tanggal_awal }}
                                     </td>
                                     <td>
-                                        {{ $faktur->kategori }}
+                                        {{ $sewa_kendaraan->admin }}
                                     </td>
                                     <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->no_kabin }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
+                                        {{ $sewa_kendaraan->nama_driver }}
                                     </td>
                                     <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->nama_driver }}
-                                        @else
-                                            {{ $faktur->nama_sopir }}
-                                        @endif
+                                        {{ $sewa_kendaraan->no_pol }}
                                     </td>
                                     <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->nama_rute }}
-                                        @else
-                                            {{ $faktur->sewa_kendaraan->rute_perjalanan->nama_rute ?? null }}
-                                        @endif
+                                        {{ $sewa_kendaraan->pelanggan->nama_pell ?? null }}
                                     </td>
                                     <td>
-                                        {{ $faktur->nama_pelanggan }}
+                                        {{ $sewa_kendaraan->rute_perjalanan->nama_rute ?? null }}
                                     </td>
-                                    <td class="text-right">
-                                        {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($faktur->pph, 2, ',', '.') }}
-                                    </td>
-
-                                    {{-- <td class="text-right">
-                                        {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}</td> --}}
-                                    <td class="text-right">{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
                                     <td class="text-center">
-                                        @if ($faktur->status == 'posting')
+                                        @if ($sewa_kendaraan->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
-                                        @if ($faktur->status == 'selesai')
+                                        @if ($sewa_kendaraan->status == 'selesai')
                                             <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Roda Mobil">
+                                                width="40" alt="Document">
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($faktur->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['postings faktur ekspedisi'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $faktur->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['updates faktur ekspedisi'])
-                                                    @if ($faktur->spk_id == null)
-                                                        @if ($faktur->kategoris == 'memo')
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_fakturekspedisispk/' . $faktur->id . '/edit') }}">Update</a>
-                                                        @endif
-                                                    @else
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_fakturekspedisispk/' . $faktur->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['deletes faktur ekspedisi'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusfaktur', ['id' => $faktur->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
+                                            @if ($sewa_kendaraan->status == 'unpost')
+                                                <a class="dropdown-item posting-btn"
+                                                    data-memo-id="{{ $sewa_kendaraan->id }}">Posting</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_sewakendaraan/' . $sewa_kendaraan->id . '/edit') }}">Update</a>
+                                                <form style="margin-top:5px" method="GET"
+                                                    action="{{ route('hapussewa', ['id' => $sewa_kendaraan->id]) }}">
+                                                    <button type="submit"
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                        </i> Delete
+                                                    </button>
+                                                </form>
+                                                {{-- @endif --}}
                                             @endif
-                                            @if ($faktur->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['unposts faktur ekspedisi'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $faktur->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                @endif
+                                            @if ($sewa_kendaraan->status == 'posting')
+                                                {{-- @if (auth()->check() && auth()->user()->fitur['unposts sewa_kendaraan ekspedisi']) --}}
+                                                <a class="dropdown-item unpost-btn"
+                                                    data-memo-id="{{ $sewa_kendaraan->id }}">Unpost</a>
                                             @endif
-                                            @if ($faktur->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['shows faktur ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($faktur->detail_tagihan->first())
-                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Invoice
-                                                    <strong>{{ $faktur->detail_tagihan->first()->tagihan_ekspedisi->kode_tagihan }}</strong>
+                                            @if ($sewa_kendaraan->faktur_ekspedisi->first())
+                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
+                                                    Ekspedisi
+                                                    <strong>{{ $sewa_kendaraan->faktur_ekspedisi->first()->kode_faktur }}</strong>
                                                 </p>
                                             @else
-                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
                                             @endif
                                         </div>
                                     </td>
@@ -261,33 +208,8 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_fakturekspedisi') }}";
+            form.action = "{{ url('admin/sewa_kendaraan') }}";
             form.submit();
-        }
-    </script>
-
-    <script>
-        $(function(e) {
-            $("#select_all_ids").click(function() {
-                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
-            })
-        });
-
-        function printSelectedData() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum mencetak.");
-            } else {
-                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                var selectedIds = [];
-                selectedCheckboxes.forEach(function(checkbox) {
-                    selectedIds.push(checkbox.value);
-                });
-                document.getElementById('selectedIds').value = selectedIds.join(',');
-                var selectedIdsString = selectedIds.join(',');
-                window.location.href = "{{ url('admin/cetak_fakturekspedisifilter') }}?ids=" + selectedIdsString;
-                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
-            }
         }
     </script>
 
@@ -302,7 +224,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_fakturekspedisi/unpostfaktur/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_sewakendaraan/unpostsewakendaraan/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -342,7 +264,8 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_fakturekspedisi/postingfaktur/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_sewakendaraan/postingsewakendaraan/') }}/" +
+                        memoId,
                     type: 'GET',
                     data: {
                         id: memoId

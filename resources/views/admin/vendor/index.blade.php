@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Vendor')
+@section('title', 'Data Rekanan')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Data Vendor</h1>
+                    <h1 class="m-0">Data Rekanan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data Vendor</li>
+                        <li class="breadcrumb-item active">Data Rekanan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Vendor</h3>
+                    <h3 class="card-title">Data Rekanan</h3>
                     <div class="float-right">
                         {{-- @if (auth()->check() && auth()->user()->fitur['vendor create']) --}}
                             <a href="{{ url('admin/vendor/create') }}" class="btn btn-primary btn-sm">
@@ -62,7 +62,7 @@
                     <div class="row p-3">
                         <div class="col-0 col-md-8"></div>
                         <div class="col-md-4">
-                            <label for="keyword">Cari Vendor :</label>
+                            <label for="keyword">Cari Rekanan :</label>
                             <div class="input-group">
                                 <input type="search" class="form-control" name="keyword" id="keyword"
                                     value="{{ Request::get('keyword') }}"
@@ -83,7 +83,7 @@
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
-                                <th>Nama Vendor</th>
+                                <th>Nama Rekanan</th>
                                 {{-- <th>Nama Alias</th> --}}
                                 <th>Nama</th>
                                 <th>Telepon</th>
@@ -133,7 +133,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Vendor</h4>
+                                                <h4 class="modal-title">Hapus Rekanan</h4>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>

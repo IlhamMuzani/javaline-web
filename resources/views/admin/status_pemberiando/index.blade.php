@@ -23,11 +23,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Status Pemberian Do</h1>
+                    <h1 class="m-0">Status Pengambilan Do</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Status Pemberian Do</li>
+                        <li class="breadcrumb-item active">Status Pengambilan Do</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -58,7 +58,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Status Pemberian Do</h3>
+                    <h3 class="card-title">Status Pengambilan Do</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -93,10 +93,8 @@
                                 <th>PELANGGAN</th>
                                 <th>TUJUAN</th>
                                 <th style="width: 10%">MENUNGGU</th>
-                                <th style="width: 10%">LOADING MUAT</th>
-                                <th style="width: 10%">TUNGGU BONGKAR</th>
-                                <th style="width: 10%">LOADING BONGKAR</th>
-                                <th style="width: 10%">SELESAI</th>
+                                <th style="width: 10%">UPLOAD SJ MUAT</th>
+                                <th style="width: 10%">UPLOAD SJ TERBONGKAR</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,11 +104,9 @@
 
                                     // Define the order of statuses
                                     $statusOrder = [
-                                        'posting' => 1,
-                                        'loading muat' => 2,
-                                        'tunggu bongkar' => 3,
-                                        'loading bongkar' => 4,
-                                        'selesai' => 5,
+                                        'loading muat' => 1,
+                                        'tunggu bongkar' => 2,
+                                        'selesai' => 3,
                                     ];
 
                                     // Determine the current status order value
@@ -118,10 +114,8 @@
 
                                     // Check the status for each button
                                     $isGreen = [
-                                        'posting' => $currentStatusOrder >= $statusOrder['posting'],
                                         'loading muat' => $currentStatusOrder >= $statusOrder['loading muat'],
                                         'tunggu bongkar' => $currentStatusOrder >= $statusOrder['tunggu bongkar'],
-                                        'loading bongkar' => $currentStatusOrder >= $statusOrder['loading bongkar'],
                                         'selesai' => $currentStatusOrder >= $statusOrder['selesai'],
                                     ];
                                 @endphp
@@ -136,19 +130,11 @@
                                     <td>{{ $buktipotongpajak->spk->nama_rute ?? null }}</td>
                                     <td>
                                         <button type="button"
-                                            class="btn {{ $isGreen['posting'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
                                             class="btn {{ $isGreen['loading muat'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
                                     </td>
                                     <td>
                                         <button type="button"
                                             class="btn {{ $isGreen['tunggu bongkar'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['loading bongkar'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
                                     </td>
                                     <td>
                                         <button type="button"
