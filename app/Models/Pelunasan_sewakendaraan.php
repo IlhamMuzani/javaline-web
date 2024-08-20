@@ -9,7 +9,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Invoice_sewakendaraan extends Model
+class Pelunasan_sewakendaraan extends Model
 {
     use HasFactory;
     use LogsActivity;
@@ -17,32 +17,37 @@ class Invoice_sewakendaraan extends Model
     protected $fillable =
     [
         'user_id',
+        'invoice_sewakendaraan_id',
         'kode_tagihan',
+        'kode_pelunasan',
+        'qrcode_pelunasan',
         'kategori',
-        'qrcode_tagihan',
         'vendor_id',
         'kode_vendor',
         'nama_vendor',
         'alamat_vendor',
         'telp_vendor',
         'keterangan',
-        'sub_total',
-        'pph',
-        'sisa',
-        'grand_total',
-        'gambar_bukti',
-        'nomor_buktitagihan',
-        'tanggal_nomortagihan',
+        'potongan',
+        'saldo_masuk',
+        'ongkos_bongkar',
+        'kategoris',
+        'nomor',
+        'tanggal_transfer',
+        'nominal',
+        'keterangan',
+        'potonganselisih',
+        'totalpenjualan',
+        'dp',
+        'totalpembayaran',
+        'selisih',
         'tanggal',
         'tanggal_awal',
         'tanggal_akhir',
         'status',
-        'status_pelunasan',
-        'status_terpakai',
-        'periode_awal',
-        'periode_akhir',
         'status_notif',
     ];
+
 
 
     use SoftDeletes;
@@ -63,14 +68,24 @@ class Invoice_sewakendaraan extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
-    public function detail_invoice()
+
+    public function invoice_sewakendaraan()
     {
-        return $this->hasMany(Detail_invoice::class);
+        return $this->belongsTo(Invoice_sewakendaraan::class);
     }
-    
+
     public static function getId()
     {
-        return $getId = DB::table('invoice_sewakendaraans')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('pelunasan_sewakendaraan')->orderBy('id', 'DESC')->take(1)->get();
+    }
+
+    public function detail_pelunasansewa()
+    {
+        return $this->hasMany(Detail_pelunasansewa::class);
+    }
+
+    public function detail_pelunasanpotongan()
+    {
+        return $this->hasMany(Detail_pelunasanpotongan::class);
     }
 }

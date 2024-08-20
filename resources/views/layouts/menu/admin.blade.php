@@ -632,6 +632,7 @@
     request()->is('admin/spk*') ||
     request()->is('admin/penerimaan_sj*') ||
     request()->is('admin/sewa_kendaraan*') ||
+    request()->is('admin/pelunasan_sewakeninvoice*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
         : '' }}">
@@ -664,6 +665,7 @@
         request()->is('admin/spk*') ||
         request()->is('admin/penerimaan_sj*') ||
         request()->is('admin/sewa_kendaraan*') ||
+        request()->is('admin/pelunasan_sewakeninvoice*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">
@@ -806,7 +808,7 @@
                 </a>
             </li>
         @endif
-    @if (auth()->check() && auth()->user()->menu['invoice faktur ekspedisi'])
+        @if (auth()->check() && auth()->user()->menu['invoice faktur ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/invoice_sewakendaraan') }}"
                     class="nav-link {{ request()->is('admin/invoice_sewakendaraan*') ? 'active' : '' }}">
@@ -841,6 +843,17 @@
                     class="nav-link {{ request()->is('admin/tablepelunasan*') || request()->is('admin/faktur_pelunasan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Pelunasan Faktur Ekspedisi</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['faktur pelunasan ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pelunasan_sewakeninvoice') }}"
+                    class="nav-link {{ request()->is('admin/pelunasan_sewakeninvoice*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Pelunasan Faktur -<br>
+                        <span style="margin-left: 32px">Sewa Kendaraan</span>
+                    </p>
                 </a>
             </li>
         @endif
@@ -923,6 +936,8 @@
     request()->is('admin/inquery_pemakaianperalatan*') ||
     request()->is('admin/inquery_pengambilando*') ||
     request()->is('admin/inquery_sewakendaraan*') ||
+    request()->is('admin/inquery_invoicesewakendaraan*') ||
+    request()->is('admin/inquery_pelunasansewakendaraan*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -963,6 +978,8 @@
         request()->is('admin/inquery_pemakaianperalatan*') ||
         request()->is('admin/inquery_pengambilando*') ||
         request()->is('admin/inquery_sewakendaraan*') ||
+        request()->is('admin/inquery_invoicesewakendaraan*') ||
+        request()->is('admin/inquery_pelunasansewakendaraan*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">
@@ -1263,6 +1280,17 @@
                 </a>
             </li>
         @endif
+        @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_invoicesewakendaraan') }}"
+                    class="nav-link {{ request()->is('admin/inquery_invoicesewakendaraan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Inquery Invoice Faktur -<br>
+                        <span style="margin-left: 32px">Sewa Kendaraan</span>
+                    </p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['inquery return ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/pilih_inqueryreturnekspedisi') }}"
@@ -1289,6 +1317,17 @@
                     class="nav-link {{ request()->is('admin/inquery_fakturpelunasan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Inquery Pelunasan Ekspedisi
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['inquery pelunasan ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_pelunasansewakendaraan') }}"
+                    class="nav-link {{ request()->is('admin/inquery_pelunasansewakendaraan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Inquery Pelunasan F -<br>
+                        <span style="margin-left: 32px">Sewa Kendaraan</span>
                     </p>
                 </a>
             </li>

@@ -20,7 +20,17 @@ class Sewa_kendaraan extends Model
         'kategori',
         'qrcode_sewa',
         'admin',
+        
         'pph',
+        'harga_tarif',
+        'total_tarif',
+        'grand_total',
+        'sisa',
+        'biaya_tambahan',
+        'keterangan',
+        
+        'jumlah',
+        'satuan',
         'pelanggan_id',
         'vendor_id',
         'rute_perjalanan_id',
@@ -68,11 +78,10 @@ class Sewa_kendaraan extends Model
         return $this->belongsTo(Harga_sewa::class);
     }
 
-    public function faktur_ekspedisi()
+    public function detail_invoice()
     {
-        return $this->hasMany(Faktur_ekspedisi::class);
+        return $this->hasMany(Detail_invoice::class);
     }
-
     public static function getId()
     {
         return $getId = DB::table('sewa_kendaraan')->orderBy('id', 'DESC')->take(1)->get();

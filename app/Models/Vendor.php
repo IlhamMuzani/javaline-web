@@ -46,6 +46,11 @@ class Vendor extends Model
         return $this->hasMany(Sewa_kendaraan::class);
     }
 
+    public function invoice_sewakendaraan()
+    {
+        return $this->hasMany(Invoice_sewakendaraan::class);
+    }
+
 
     public static function getId()
     {

@@ -135,21 +135,7 @@
                                         type="text" class="form-control" id="rute_perjalanan" readonly
                                         name="nama_rute" placeholder="" value="{{ old('nama_rute') }}">
                                 </div>
-                                <label style="font-size:14px" class="form-label" for="harga_sewa">Harga Sewa</label>
-                                <div class="form-group d-flex">
-                                    <input hidden class="form-control" id="harga_sewa_id" name="harga_sewa_id"
-                                        type="text" placeholder="" value="{{ old('harga_sewa_id') }}" readonly
-                                        style="margin-right: 10px; font-size:14px" />
-                                    <input onclick="showCategoryModalhargasewa(this.value)" class="form-control"
-                                        id="harga_sewa" name="harga_sewa" type="text" placeholder=""
-                                        value="{{ old('harga_sewa') }}" readonly
-                                        style="margin-right: 10px; font-size:14px" />
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="showCategoryModalhargasewa(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-check" style="color:white">
+                                <div class="form-check;" style="color:white; margin-top:102px">
                                     <label class="form-check-label">
                                         .
                                     </label>
@@ -238,13 +224,312 @@
                     </div>
                 </div>
 
-                <div class="card-footer text-right">
-                    <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
-                    <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
-                    <div id="loading" style="display: none;">
-                        <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Harga Sewa <span>
+                            </span></h3>
+                        <div class="float-right">
+                            {{-- <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                                <i class="fas fa-plus"></i>
+                            </button> --}}
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="font-size:14px">Kode Harga</th>
+                                    <th style="font-size:14px">Nama Harga</th>
+                                    <th style="font-size:14px">Harga Harga</th>
+                                    <th style="font-size:14px">Qty</th>
+                                    <th style="font-size:14px">Satuan</th>
+                                    <th style="font-size:14px">Total</th>
+                                    <th style="font-size:14px; text-align:center">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-pembelian">
+                                <tr id="pembelian-0">
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input onclick="showCategoryModalhargasewa(0)" type="text"
+                                                class="form-control" id="harga_sewa_id"
+                                                value="{{ old('harga_sewa_id') }}" name="harga_sewa_id">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="showCategoryModalhargasewa(0)" style="font-size:14px"
+                                                type="text" class="form-control" readonly id="kode_tarif"
+                                                name="kode_tarif" value="{{ old('kode_tarif') }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="showCategoryModalhargasewa(0)" style="font-size:14px"
+                                                type="text" class="form-control" readonly id="nama_tarif"
+                                                name="nama_tarif" value="{{ old('nama_tarif') }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="showCategoryModalhargasewa(0)" style="font-size:14px"
+                                                type="text" class="form-control harga_tarif" readonly id="harga_tarif"
+                                                name="harga_tarif" data-row-id="0" value="{{ old('harga_tarif') }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control jumlah"
+                                                id="jumlah" name="jumlah" data-row-id="0"
+                                                value="{{ old('jumlah') }}" onkeypress="return isNumberKey(event)">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select style="font-size:14px" class="form-control" id="satuan"
+                                                name="satuan">
+                                                <option value="">- Pilih -</option>
+                                                <option value="pcs" {{ old('satuan') == 'pcs' ? 'selected' : null }}>
+                                                    pcs</option>
+                                                <option value="ltr" {{ old('satuan') == 'ltr' ? 'selected' : null }}>
+                                                    ltr</option>
+                                                <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : null }}>
+                                                    kg</option>
+                                                <option value="ton" {{ old('satuan') == 'ton' ? 'selected' : null }}>
+                                                    ton</option>
+                                                <option value="dus" {{ old('satuan') == 'dus' ? 'selected' : null }}>
+                                                    dus</option>
+                                                <option value="M3" {{ old('satuan') == 'M3' ? 'selected' : null }}>
+                                                    M&sup3;</option>
+                                                <option value="rit" {{ old('satuan') == 'rit' ? 'selected' : null }}>
+                                                    rit</option>
+                                                <option value="hr" {{ old('satuan') == 'hr' ? 'selected' : null }}>
+                                                    hr</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="showCategoryModalhargasewa(0)" style="font-size:14px"
+                                                type="text" class="form-control total_tarif" readonly id="total_tarif"
+                                                name="total_tarif" value="{{ old('total_tarif') }}">
+                                        </div>
+                                    </td>
+                                    <td style="width: 50px">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="showCategoryModalhargasewa(0)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-group mt-2">
+                            <label style="font-size:14px" for="keterangan">Keterangan</label>
+                            <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
+                                placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                        </div>
                     </div>
                 </div>
+                <div>
+                    <div>
+                        {{-- <div class="row"> --}}
+                        <div hidden class="col-md-6">
+                            <div class="card" id="form_biayatambahan">
+                                <div class="card-header">
+                                    <h3 class="card-title">Biaya Tambahan <span>
+                                        </span></h3>
+                                    <div class="float-right">
+                                        <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="addMemotambahan()">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="font-size:14px" class="text-center">No</th>
+                                                <th style="font-size:14px">Keterangan</th>
+                                                <th style="font-size:14px">Nominal</th>
+                                                <th style="font-size:14px">Qty</th>
+                                                <th style="font-size:14px">Satuan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabel-memotambahan">
+                                            <tr id="memotambahan-0">
+                                                <td style="width: 70px; font-size:14px" class="text-center"
+                                                    id="urutantambahan">1
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" type="text" class="form-control"
+                                                            id="keterangan_tambahan-0" name="keterangan_tambahan[]">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" type="number" class="form-control"
+                                                            id="nominal_tambahan-0" name="nominal_tambahan[]">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input style="font-size:14px" type="number" class="form-control"
+                                                            id="qty_tambahan-0" name="qty_tambahan[]">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <select style="font-size:14px" class="form-control"
+                                                        id="satuan_tambahan-0" name="satuan_tambahan[]">
+                                                        <option value="">- Pilih -</option>
+                                                        <option value="M3"
+                                                            {{ old('satuan_tambahan') == 'M3' ? 'selected' : null }}>
+                                                            M&sup3;</option>
+                                                        <option value="ton"
+                                                            {{ old('satuan_tambahan') == 'ton' ? 'selected' : null }}>
+                                                            ton</option>
+                                                        <option value="krtn"
+                                                            {{ old('satuan_tambahan') == 'krtn' ? 'selected' : null }}>
+                                                            krtn</option>
+                                                        <option value="dus"
+                                                            {{ old('satuan_tambahan') == 'dus' ? 'selected' : null }}>
+                                                            dus</option>
+                                                        <option value="rit"
+                                                            {{ old('satuan_tambahan') == 'rit' ? 'selected' : null }}>
+                                                            rit</option>
+                                                        <option value="kg"
+                                                            {{ old('satuan_tambahan') == 'kg' ? 'selected' : null }}>
+                                                            kg</option>
+                                                        <option value="ltr"
+                                                            {{ old('satuan_tambahan') == 'ltr' ? 'selected' : null }}>
+                                                            ltr</option>
+                                                        <option value="pcs"
+                                                            {{ old('satuan_tambahan') == 'pcs' ? 'selected' : null }}>
+                                                            pcs</option>
+                                                        <option value="hr"
+                                                            {{ old('satuan_tambahan') == 'hr' ? 'selected' : null }}>
+                                                            hr</option>
+                                                        <option value="ZAK"
+                                                            {{ old('satuan_tambahan') == 'ZAK' ? 'selected' : null }}>
+                                                            ZAK</option>
+                                                    </select>
+                                                </td>
+                                                <td style="width: 50px">
+                                                    <button style="margin-left:5px" type="button"
+                                                        class="btn btn-danger btn-sm" onclick="removememotambahans(0)">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="tarif">Tarif
+                                                    <span style="margin-left:89px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control total_tarif2" readonly id="total_tarif2"
+                                                    name="total_tarif2" placeholder=""
+                                                    value="{{ old('total_tarif2') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="tarif">PPH 2%
+                                                    <span style="margin-left:69px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control pph2" readonly id="pph2" name="pph"
+                                                    placeholder="" value="{{ old('pph') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <hr
+                                            style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
+                                        <span
+                                            style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="tarif">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control sisa" readonly id="sisa" name="sisa"
+                                                    placeholder="" value="{{ old('sisa') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="tarif">Biaya
+                                                    Tambahan
+                                                    <span class="ml-3">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control" readonly id="biaya_tambahan"
+                                                    name="biaya_tambahan" placeholder=""
+                                                    value="{{ old('biaya_tambahan') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr
+                                        style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
+                                    <span
+                                        style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 17px; vertical-align: middle;">+</span>
+
+                                    <div class="col-lg-6">
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="font-size:14px; margin-top:5px" for="sub_total">Grand
+                                            Total <span style="margin-left:46px">:</span></label>
+                                        <input style="text-align: end; margin:right:10px; font-size:14px;" type="text"
+                                            class="form-control sub_total" readonly id="sub_total" name="sub_total"
+                                            placeholder="" value="{{ old('sub_total') }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- </div> --}}
+                        <div class="card-footer text-right">
+                            <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                            <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                            <div id="loading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                            </div>
+                        </div>
+                    </div>
             </form>
         </div>
 
@@ -409,7 +694,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($harga_sewas as $harga_sewa)
-                                        <tr onclick="getSelectedDatahargasewa('{{ $harga_sewa->id }}', '{{ $harga_sewa->nominal }}')"
+                                        <tr onclick="getSelectedDatahargasewa('{{ $harga_sewa->id }}', '{{ $harga_sewa->kode_tarif }}', '{{ $harga_sewa->nama_tarif }}', '{{ $harga_sewa->nominal }}')"
                                             class="selectable-row">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $harga_sewa->kode_tarif }}
@@ -420,7 +705,7 @@
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="getSelectedDatahargasewa('{{ $harga_sewa->id }}', '{{ $harga_sewa->nominal }}')">
+                                                    onclick="getSelectedDatahargasewa('{{ $harga_sewa->id }}', '{{ $harga_sewa->kode_tarif }}', '{{ $harga_sewa->nama_tarif }}', '{{ $harga_sewa->nominal }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -501,13 +786,74 @@
             $('#tableHarga').modal('show');
         }
 
-        function getSelectedDatahargasewa(Harga_Sewaid, HargaSewa) {
+        function getSelectedDatahargasewa(Harga_Sewaid, KodeTarif, NamaTarif, HargaTarif) {
 
             document.getElementById('harga_sewa_id').value = Harga_Sewaid;
-            document.getElementById('harga_sewa').value = HargaSewa;
+            document.getElementById('kode_tarif').value = KodeTarif;
+            document.getElementById('nama_tarif').value = NamaTarif;
+            document.getElementById('harga_tarif').value = HargaTarif;
             // Close the modal (if needed)
+            updateHarga();
             $('#tableHarga').modal('hide');
         }
+
+        function updateHarga() {
+            var selectedValue = document.getElementById("kategori").value;
+            var hargasatuan = parseFloat($(".harga_tarif").val().replace(/\./g, '')) || 0;
+            var jumlah = parseFloat($(".jumlah").val()) || 0;
+            var biaya_tambahan = parseFloat($("#biaya_tambahan").val().replace(/\./g, "")) || 0;
+            console.log(biaya_tambahan);
+
+            var hargas = hargasatuan * jumlah;
+            var harga = hargasatuan * jumlah + biaya_tambahan;
+
+
+            $(".total_tarif").val(hargas.toLocaleString('id-ID'));
+            $(".total_tarif2").val(harga.toLocaleString('id-ID'));
+
+            if (selectedValue == "PPH") {
+                var pph = 0.02 * harga;
+                var sisa = harga - pph;
+                var Subtotal = sisa;
+                $(".pph2").val(pph.toLocaleString('id-ID'));
+                $(".sisa").val(sisa.toLocaleString('id-ID'));
+                $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
+            } else {
+                // Jika kategori NON PPH, tidak kurangkan 2%
+                $(".pph2").val(0);
+                $(".sisa").val(harga.toLocaleString('id-ID'));
+                var Subtotal = harga;
+                $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
+            }
+        }
+
+        $(document).on("input", ".harga_tarif, .jumlah, #biaya_tambahan", function() {
+            updateHarga();
+        });
+    </script>
+
+    <script>
+        function setPphValue() {
+            var kategori = document.getElementById("kategori").value;
+            var pphInput = document.getElementById("pph2");
+
+            // Jika kategori adalah NON PPH, atur nilai pph2 menjadi 0
+            if (kategori === "NON PPH") {
+                pphInput.value = 0;
+                updateHarga();
+            }
+            // Jika kategori adalah PPH, atur nilai pph2 sesuai dengan nilai dari server
+            else if (kategori === "PPH") {
+                updateHarga();
+
+            }
+        }
+
+        // Panggil fungsi setPphValue() saat halaman dimuat ulang
+        document.addEventListener("DOMContentLoaded", setPphValue);
+
+        // Tambahkan event listener untuk mendeteksi perubahan pada elemen <select>
+        document.getElementById("kategori").addEventListener("change", setPphValue);
     </script>
 
 @endsection

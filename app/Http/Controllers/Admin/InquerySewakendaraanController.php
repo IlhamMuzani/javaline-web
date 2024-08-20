@@ -73,13 +73,22 @@ class InquerySewakendaraanController extends Controller
         $sewa_kendaraan->rute_perjalanan_id = $request->rute_perjalanan_id;
         $sewa_kendaraan->harga_sewa_id = $request->harga_sewa_id;
         $sewa_kendaraan->pelanggan_id = $request->pelanggan_id;
+        $sewa_kendaraan->jumlah = $request->jumlah;
+        $sewa_kendaraan->satuan = $request->satuan;
         $sewa_kendaraan->nama_driver = $request->nama_driver;
         $sewa_kendaraan->telp_driver = $request->telp_driver;
         $sewa_kendaraan->no_pol = $request->no_pol;
         $sewa_kendaraan->nama_pelanggan = $request->nama_pelanggan;
         $sewa_kendaraan->nama_rute = $request->nama_rute;
-        $sewa_kendaraan->nama_driver = $request->nama_driver;
-        $sewa_kendaraan->nominal = str_replace(',', '.', str_replace('.', '', $request->harga_sewa));
+        // $sewa_kendaraan->nominal = str_replace(',', '.', str_replace('.', '', $request->harga_sewa));
+        $sewa_kendaraan->pph = str_replace(',', '.', str_replace('.', '', $request->pph));
+        $sewa_kendaraan->harga_tarif = str_replace(',', '.', str_replace('.', '', $request->harga_tarif));
+        $sewa_kendaraan->total_tarif = str_replace(',', '.', str_replace('.', '', $request->total_tarif));
+        $sewa_kendaraan->grand_total = str_replace(',', '.', str_replace('.', '', $request->sub_total));
+        $sewa_kendaraan->sisa = str_replace(',', '.', str_replace('.', '', $request->sisa));
+        $sewa_kendaraan->biaya_tambahan =  str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan));
+        $sewa_kendaraan->keterangan = $request->keterangan;
+
         $sewa_kendaraan->status = 'posting';
 
         $sewa_kendaraan->save();

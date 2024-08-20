@@ -6,12 +6,11 @@ use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Detail_tagihan;
+use App\Models\Detail_invoice;
 use App\Models\Sewa_kendaraan;
 use App\Models\Invoice_sewakendaraan;
 use App\Models\Pelanggan;
 use App\Models\Spk;
-use App\Models\Tagihan_ekspedisi;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,8 +18,10 @@ class InvoiceSewakendaraanController extends Controller
 {
     public function index()
     {
+
         $today = Carbon::today();
-        $spks = Invoice_sewakendaraan::whereDate('created_at', $today)
+
+        $inquery = Invoice_sewakendaraan::whereDate('created_at', $today)
             ->orWhere(function ($query) use ($today) {
                 $query->where('status', 'unpost')
                     ->whereDate('created_at', '<', $today);
@@ -28,7 +29,7 @@ class InvoiceSewakendaraanController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.invoice_sewakendaraan.index', compact('spks'));
+        return view('admin.invoice_sewakendaraan.index', compact('inquery'));
     }
 
     public function create()
@@ -36,32 +37,30 @@ class InvoiceSewakendaraanController extends Controller
         // $pelanggans = Pelanggan::all();
         $fakturs = Sewa_kendaraan::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'PPH'])->get();
 
-        return view('admin.tagihan_ekspedisi.create', compact('fakturs'));
+        return view('admin.invoice_sewakendaraan.create', compact('fakturs'));
     }
 
-    public function indexnonpph()
+    public function indexinvoice_nonpph()
     {
         // $pelanggans = Pelanggan::all();
         $fakturs = Sewa_kendaraan::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'NON PPH'])->get();
         $tarifs = Tarif::all();
 
-        return view('admin.tagihan_ekspedisi.indexnonpph', compact('fakturs', 'tarifs'));
+        return view('admin.invoice_sewakendaraan.createnonpph', compact('fakturs', 'tarifs'));
     }
 
-    public function get_fakturtagihan($pelanggan_id)
+    public function get_faktursewa($vendor_id)
     {
-        $fakturs = Sewa_kendaraan::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'PPH', 'pelanggan_id' => $pelanggan_id])
-            ->with('pelanggan')
-            ->with('detail_faktur')
+        $fakturs = Sewa_kendaraan::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'PPH', 'vendor_id' => $vendor_id])
+            ->with('vendor')
             ->get();
         return response()->json($fakturs);
     }
 
-    public function get_fakturtagihannonpph($pelanggan_id)
+    public function get_faktursewanonpph($vendor_id)
     {
-        $fakturs = Sewa_kendaraan::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'NON PPH', 'pelanggan_id' => $pelanggan_id])
-            ->with('pelanggan')
-            ->with('detail_faktur')
+        $fakturs = Sewa_kendaraan::where(['status_tagihan' => null, 'status' => 'posting', 'kategori' => 'NON PPH', 'vendor_id' => $vendor_id])
+            ->with('vendor')
             ->get();
         return response()->json($fakturs);
     }
@@ -73,12 +72,12 @@ class InvoiceSewakendaraanController extends Controller
             $request->all(),
             [
                 'kategori' => 'required',
-                'pelanggan_id' => 'required',
+                'vendor_id' => 'required',
                 'grand_total' => 'required',
             ],
             [
                 'kategori.required' => 'Pilih kategori',
-                'pelanggan_id.required' => 'Pilih Pelanggan',
+                'vendor_id.required' => 'Pilih Pelanggan',
                 'grand_total.required' => 'Masukkan grand total',
             ]
         );
@@ -92,10 +91,10 @@ class InvoiceSewakendaraanController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
 
-        if ($request->has('faktur_ekspedisi_id')) {
-            for ($i = 0; $i < count($request->faktur_ekspedisi_id); $i++) {
+        if ($request->has('sewa_kendaraan_id')) {
+            for ($i = 0; $i < count($request->sewa_kendaraan_id); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
-                    'faktur_ekspedisi_id.' . $i => 'required',
+                    'sewa_kendaraan_id.' . $i => 'required',
                     'kode_faktur.' . $i => 'required',
                     'nama_rute.' . $i => 'required',
                     // 'no_memo.' . $i => 'required',
@@ -114,7 +113,7 @@ class InvoiceSewakendaraanController extends Controller
                     array_push($error_pesanans, "Faktur nomor " . ($i + 1) . " belum dilengkapi!"); // Corrected the syntax for concatenation and indexing
                 }
 
-                $faktur_ekspedisi_id = is_null($request->faktur_ekspedisi_id[$i]) ? '' : $request->faktur_ekspedisi_id[$i];
+                $sewa_kendaraan_id = is_null($request->sewa_kendaraan_id[$i]) ? '' : $request->sewa_kendaraan_id[$i];
                 $kode_faktur = is_null($request->kode_faktur[$i]) ? '' : $request->kode_faktur[$i];
                 $nama_rute = is_null($request->nama_rute[$i]) ? '' : $request->nama_rute[$i];
                 $no_memo = is_null($request->no_memo[$i]) ? '' : $request->no_memo[$i];
@@ -129,7 +128,7 @@ class InvoiceSewakendaraanController extends Controller
                 $total = is_null($request->total[$i]) ? '' : $request->total[$i];
 
                 $data_pembelians->push([
-                    'faktur_ekspedisi_id' => $faktur_ekspedisi_id,
+                    'sewa_kendaraan_id' => $sewa_kendaraan_id,
                     'kode_faktur' => $kode_faktur,
                     'nama_rute' => $nama_rute,
                     'no_memo' => $no_memo,
@@ -155,22 +154,22 @@ class InvoiceSewakendaraanController extends Controller
                 ->with('data_pembelians', $data_pembelians);
         }
 
-        $kodePelanggan = $request->kode_pelanggan; // Mendapatkan kode pelanggan dari request
+        $kodePelanggan = $request->kode_vendor; // Mendapatkan kode pelanggan dari request
         $kode = $this->kode($kodePelanggan); // Memanggil fungsi kode() dengan melewatkan kode pelanggan
 
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
 
         $tanggal = Carbon::now()->format('Y-m-d');
-        $cetakpdf = Tagihan_ekspedisi::create([
+        $cetakpdf = Invoice_sewakendaraan::create([
             'user_id' => auth()->user()->id,
             'kode_tagihan' => $kode,
             'kategori' => $request->kategori,
-            'pelanggan_id' => $request->pelanggan_id,
-            'kode_pelanggan' => $request->kode_pelanggan,
-            'nama_pelanggan' => $request->nama_pelanggan,
-            'alamat_pelanggan' => $request->alamat_pelanggan,
-            'telp_pelanggan' => $request->telp_pelanggan,
+            'vendor_id' => $request->vendor_id,
+            'kode_vendor' => $request->kode_vendor,
+            'nama_vendor' => $request->nama_vendor,
+            'alamat_vendor' => $request->alamat_vendor,
+            'telp_vendor' => $request->telp_vendor,
             'periode_awal' => $request->periode_awal,
             'periode_akhir' => $request->periode_akhir,
             'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
@@ -179,7 +178,7 @@ class InvoiceSewakendaraanController extends Controller
             'keterangan' => $request->keterangan,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
-            'qrcode_tagihan' => 'https://javaline.id/tagihan_ekspedisi/' . $kode,
+            'qrcode_tagihan' => 'https://javaline.id/invoice_sewakendaraan/' . $kode,
             'status' => 'posting',
             'status_notif' => false,
         ]);
@@ -188,41 +187,33 @@ class InvoiceSewakendaraanController extends Controller
 
         if ($cetakpdf) {
             foreach ($data_pembelians as $data_pesanan) {
-                $detailTagihan = Detail_tagihan::create([
-                    'tagihan_ekspedisi_id' => $cetakpdf->id,
-                    'faktur_ekspedisi_id' => $data_pesanan['faktur_ekspedisi_id'],
+                $detailTagihan = Detail_invoice::create([
+                    'invoice_sewakendaraan_id' => $cetakpdf->id,
+                    'sewa_kendaraan_id' => $data_pesanan['sewa_kendaraan_id'],
                     'kode_faktur' => $data_pesanan['kode_faktur'],
                     'nama_rute' => $data_pesanan['nama_rute'],
                     'no_memo' => $data_pesanan['no_memo'],
                     'no_do' => $data_pesanan['no_do'],
-                    // 'no_po' => $data_pesanan['no_po'],
                     'tanggal_memo' => $data_pesanan['tanggal_memo'],
                     'no_kabin' => $data_pesanan['no_kabin'],
                     'no_pol' => $data_pesanan['no_pol'],
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
-                    // 'jumlah' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['jumlah'])),
                     'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                     'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
 
                 ]);
-                // Update status faktur
-                $faktur = Sewa_kendaraan::find($detailTagihan->faktur_ekspedisi_id);
+
+                $faktur = Sewa_kendaraan::find($detailTagihan->sewa_kendaraan_id);
                 if ($faktur) {
                     $faktur->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
-
-                    // Update status spk
-                    $spk = Spk::find($faktur->spk_id);
-                    if ($spk) {
-                        $spk->update(['status_spk' => 'invoice']);
-                    }
                 }
             }
         }
 
-        $details = Detail_tagihan::where('tagihan_ekspedisi_id', $cetakpdf->id)->get();
+        $details = Detail_invoice::where('invoice_sewakendaraan_id', $cetakpdf->id)->get();
 
-        return view('admin.tagihan_ekspedisi.show', compact('cetakpdf', 'details'));
+        return view('admin.invoice_sewakendaraan.show', compact('cetakpdf', 'details'));
     }
 
 
@@ -232,8 +223,8 @@ class InvoiceSewakendaraanController extends Controller
         $lastThreeDigits = substr($kodePelanggan, -3);
 
         // Mendapatkan tagihan terbaru dengan kode pelanggan yang sama
-        $lastBarang = Tagihan_ekspedisi::where('kode_tagihan', 'like', 'IF%')
-            ->where('kode_pelanggan', $kodePelanggan)
+        $lastBarang = Invoice_sewakendaraan::where('kode_tagihan', 'like', 'IS%')
+            ->where('kode_vendor', $kodePelanggan)
             ->latest()
             ->first();
 
@@ -262,7 +253,7 @@ class InvoiceSewakendaraanController extends Controller
         $formattedNum = sprintf("%03s", $num);
 
         // Prefix untuk kode tagihan
-        $prefix = 'IFAD';
+        $prefix = 'ISAV';
 
         // Tanggal
         $tanggal = date('dm');
@@ -279,15 +270,15 @@ class InvoiceSewakendaraanController extends Controller
     {
         $cetakpdf = Sewa_kendaraan::where('id', $id)->first();
 
-        return view('admin.memo_ekspedisi.show', compact('cetakpdf'));
+        return view('admin.invoice_sewakendaraan.show', compact('cetakpdf'));
     }
 
     public function cetakpdf($id)
     {
-        $cetakpdf = Tagihan_ekspedisi::where('id', $id)->first();
-        $details = Detail_tagihan::where('tagihan_ekspedisi_id', $cetakpdf->id)->get();
+        $cetakpdf = Invoice_sewakendaraan::where('id', $id)->first();
+        $details = Detail_invoice::where('invoice_sewakendaraan_id', $cetakpdf->id)->get();
 
-        $pdf = PDF::loadView('admin.tagihan_ekspedisi.cetak_pdf', compact('cetakpdf', 'details'));
+        $pdf = PDF::loadView('admin.invoice_sewakendaraan.cetak_pdf', compact('cetakpdf', 'details'));
         $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
         return $pdf->stream('Invoice_ekspedisi.pdf');

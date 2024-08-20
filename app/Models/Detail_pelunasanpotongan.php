@@ -16,7 +16,9 @@ class Detail_pelunasanpotongan extends Model
 
     protected $fillable = [
         'faktur_pelunasan_id',
+        'pelunasan_sewakendaraan_id',
         'faktur_ekspedisi_id',
+        'sewa_kendaraan_id',
         'potongan_penjualan_id',
         'kode_potonganlain',
         'tanggal_potongan',

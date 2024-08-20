@@ -9,29 +9,22 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Detail_invoice extends Model
+class Detail_pelunasansewa extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
-        'invoice_sewakendaraan_id',
+        'pelunasan_sewakendaraan_id',
         'sewa_kendaraan_id',
         'kode_faktur',
-        'nama_rute',
-        'no_memo',
-        'no_do',
-        'no_po',
-        'tanggal_memo',
-        'no_kabin',
-        'no_pol',
-        'jumlah',
-        'satuan',
-        'harga',
+        'tanggal_faktur',
+        'status',
+        'nota_return_id',
+        'kode_return',
+        'tanggal_return',
+        'total_return',
         'total',
-        'gambar_buktifaktur',
-        'nomor_buktifaktur',
-        'tanggal_nomorfaktur',
         'tanggal_awal',
         'tanggal_akhir',
     ];
@@ -39,20 +32,19 @@ class Detail_invoice extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
+    
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logFillable('*');
     }
-    public function invoice_sewakendaraan()
+    public function pelunasan_sewakendaraan()
     {
-        return $this->belongsTo(Invoice_sewakendaraan::class);
+        return $this->belongsTo(Pelunasan_sewakendaraan::class);
     }
-
     public function sewa_kendaraan()
     {
         return $this->belongsTo(Sewa_kendaraan::class);
     }
-
 
 }

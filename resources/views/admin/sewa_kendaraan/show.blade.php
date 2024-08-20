@@ -316,18 +316,20 @@
             </td>
 
             <td class="td" style="text-align: right; padding-right: 90px; font-size: 12px;">
-                {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
+                {{ number_format($cetakpdf->harga_tarif, 2, ',', '.') }}
             </td>
             <td class="td" style="text-align: right; padding-right: 10px; font-size: 12px;">
-                1,00 </td>
+                {{ number_format($cetakpdf->jumlah, 2, ',', '.') }}
+            </td>
             <td class="td" style="text-align: left; padding: 2px; font-size: 12px;">
-                kg
+                {{ $cetakpdf->satuan }}
+
             </td>
             {{-- @php
                 $formattedGrandTotaltotal_tarif = number_format($cetakpdf->total_tarif, $cetakpdf->total_tarif - floor($cetakpdf->total_tarif) > 0 ? 1 : 0, ',', '.');
             @endphp --}}
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
+                {{ number_format($cetakpdf->total_tarif, 2, ',', '.') }}
             </td>
         </tr>
 
@@ -351,7 +353,7 @@
 
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
+                {{ number_format($cetakpdf->total_tarif, 2, ',', '.') }}
             </td>
         </tr>
 
@@ -372,10 +374,6 @@
         <!-- Add horizontal line below this row -->
 
         @if ($cetakpdf->kategori == 'PPH')
-            @php
-                $nominal = $cetakpdf->nominal;
-                $dpp = $nominal * 0.02;
-            @endphp
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
 
@@ -394,7 +392,7 @@
                 </td>
 
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                    {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
+                    {{ number_format($cetakpdf->total_tarif, 2, ',', '.') }}
 
                 </td>
             </tr>
@@ -418,7 +416,7 @@
 
 
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                    {{ number_format($dpp, 2, ',', '.') }}
+                    {{ number_format($cetakpdf->pph, 2, ',', '.') }}
                 </td>
             </tr>
         @endif
@@ -444,7 +442,7 @@
                 Grand Total :
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                {{ number_format($cetakpdf->nominal - ($dpp ?? '0'), 2, ',', '.') }}
+                {{ number_format($cetakpdf->total_tarif - ($cetakpdf->pph ?? null), 2, ',', '.') }}
             </td>
         </tr>
 
@@ -502,6 +500,7 @@
         </div>
     </div>
 </body>
+
 
 <div class="container">
     <a href="{{ url('admin/sewa_kendaraan') }}" class="blue-button">Kembali</a>

@@ -70,20 +70,34 @@ class SewakendaraanController extends Controller
         }
 
         $kode = $this->kode();
-
+        $tanggal1 = Carbon::now('Asia/Jakarta');
+        $format_tanggal = $tanggal1->format('d F Y');
+        $tanggal = Carbon::now()->format('Y-m-d');
         $sewa_kendaraan = Sewa_kendaraan::create(array_merge(
             $request->all(),
             [
                 'kode_sewa' => $this->kode(),
                 'admin' => auth()->user()->karyawan->nama_lengkap,
                 'kategori' => $request->kategori,
+                'jumlah' => $request->jumlah,
+                'satuan' => $request->satuan,
                 'harga_sewa_id' => $request->harga_sewa_id,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'nama_rute' => $request->nama_rute,
                 'nama_driver' => $request->nama_driver,
-                'nominal' => str_replace(',', '.', str_replace('.', '', $request->harga_sewa)),
+                // 'nominal' => str_replace(',', '.', str_replace('.', '', $request->harga_sewa)),
+                
+                'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
+                'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),
+                'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
+                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+                'sisa' => str_replace(',', '.', str_replace('.', '', $request->sisa)),
+                'biaya_tambahan' => str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan)),
+                'keterangan' => $request->keterangan,
+                
                 'qrcode_sewa' => 'https://javaline.id/sewa_kendaraan/' . $kode,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                'tanggal' => $format_tanggal,
+                'tanggal_awal' => $tanggal,
                 'status' => 'posting',
             ],
         ));
