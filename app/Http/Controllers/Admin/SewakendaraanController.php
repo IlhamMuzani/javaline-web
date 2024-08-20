@@ -11,6 +11,7 @@ use App\Models\Rute_perjalanan;
 use App\Models\Sewa_kendaraan;
 use App\Models\Tarif;
 use App\Models\Vendor;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -70,7 +71,7 @@ class SewakendaraanController extends Controller
 
         $kode = $this->kode();
 
-        Sewa_kendaraan::create(array_merge(
+        $sewa_kendaraan = Sewa_kendaraan::create(array_merge(
             $request->all(),
             [
                 'kode_sewa' => $this->kode(),
@@ -78,15 +79,32 @@ class SewakendaraanController extends Controller
                 'harga_sewa_id' => $request->harga_sewa_id,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'nama_rute' => $request->nama_rute,
-                'nama_driver' =>$request->nama_driver,
+                'nama_driver' => $request->nama_driver,
+                'nominal' => str_replace(',', '.', str_replace('.', '', $request->harga_sewa)),
                 'qrcode_sewa' => 'https://javaline.id/sewa_kendaraan/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 'status' => 'posting',
             ],
         ));
-        return redirect('admin/sewa_kendaraan')->with('success', 'Berhasil menambahkan');
+        $cetakpdf = Sewa_kendaraan::where('id', $sewa_kendaraan->id)->first();
+
+        return view('admin.sewa_kendaraan.show', compact('cetakpdf'));
     }
 
+    public function show($id)
+    {
+        $cetakpdf = Sewa_kendaraan::where('id', $id)->first();
+
+        return view('admin.sewa_kendaraan.show', compact('cetakpdf'));
+    }
+
+    public function cetakpdf($id)
+    {
+        $cetakpdf = Sewa_kendaraan::where('id', $id)->first();
+        $pdf = PDF::loadView('admin.sewa_kendaraan.cetak_pdf', compact('cetakpdf'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('Faktur_sewa_kendaraan.pdf');
+    }
 
     public function kode()
     {

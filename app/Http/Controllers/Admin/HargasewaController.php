@@ -7,7 +7,7 @@ use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Pelanggan;
-use App\Models\Tarif;
+use App\Models\Harga_sewa;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,7 +16,7 @@ class HargasewaController extends Controller
     public function index()
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
-        $harga_sewas = Tarif::where('pelanggan_id', null)->orderBy('created_at', 'DESC')->get();
+        $harga_sewas = Harga_sewa::where('pelanggan_id', null)->orderBy('created_at', 'DESC')->get();
         return view('admin/harga_sewa.index', compact('harga_sewas'));
         // } else {
         //     // tidak memiliki akses
@@ -59,7 +59,7 @@ class HargasewaController extends Controller
 
         $kode = $this->kode();
 
-        Tarif::create(array_merge(
+        Harga_sewa::create(array_merge(
             $request->all(),
             [
                 'kode_tarif' => $this->kode(),
@@ -76,7 +76,7 @@ class HargasewaController extends Controller
     public function kode()
     {
         // Ambil tarif terakhir yang kodenya dimulai dengan 'HS'
-        $lastBarang = Tarif::where('kode_tarif', 'LIKE', 'HS%')->latest('id')->first();
+        $lastBarang = Harga_sewa::where('kode_tarif', 'LIKE', 'HS%')->latest('id')->first();
 
         // Jika tidak ada tarif dalam database dengan awalan 'HS'
         if (!$lastBarang) {
@@ -106,7 +106,7 @@ class HargasewaController extends Controller
     public function edit($id)
     {
         // if (auth()->check() && auth()->user()->menu['rute perjalanan']) {
-        $harga_sewas = Tarif::where('id', $id)->first();
+        $harga_sewas = Harga_sewa::where('id', $id)->first();
         $vendors = Vendor::all();
 
         return view('admin/harga_sewa.update', compact('vendors', 'harga_sewas'));
@@ -137,7 +137,7 @@ class HargasewaController extends Controller
             return back()->withInput()->with('error', $error);
         }
 
-        $harga_sewas = Tarif::findOrFail($id);
+        $harga_sewas = Harga_sewa::findOrFail($id);
 
         $harga_sewas->vendor_id = $request->vendor_id;
         $harga_sewas->nama_tarif = $request->nama_tarif;
@@ -150,7 +150,7 @@ class HargasewaController extends Controller
 
     public function destroy($id)
     {
-        $harga_sewas = Tarif::find($id);
+        $harga_sewas = Harga_sewa::find($id);
         $harga_sewas->delete();
 
         return redirect('admin/harga_sewa')->with('success', 'Berhasil menghapus harga sewa');

@@ -9,33 +9,38 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Sewa_kendaraan extends Model
+class Invoice_sewakendaraan extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable =
     [
-        'kode_sewa',
+        'user_id',
+        'kode_invoice',
         'kategori',
-        'qrcode_sewa',
-        'admin',
-        'pph',
+        'qrcode_invoice',
         'pelanggan_id',
-        'vendor_id',
-        'rute_perjalanan_id',
-        'harga_sewa_id',
+        'kode_pelanggan',
         'nama_pelanggan',
-        'nama_vendor',
-        'nama_driver',
-        'telp_driver',
-        'nama_rute',
-        'nominal',
-        'no_pol',
+        'alamat_pelanggan',
+        'telp_pelanggan',
+        'keterangan',
+        'sub_total',
+        'pph',
+        'sisa',
+        'grand_total',
+        'gambar_bukti',
+        'nomor_buktiinvoice',
+        'tanggal_nomorinvoice',
         'tanggal',
         'tanggal_awal',
         'tanggal_akhir',
         'status',
+        'status_terpakai',
+        'periode_awal',
+        'periode_akhir',
+        'status_notif',
     ];
 
 
@@ -53,28 +58,18 @@ class Sewa_kendaraan extends Model
         return $this->belongsTo(Pelanggan::class);
     }
 
-    public function rute_perjalanan()
+    public function user()
     {
-        return $this->belongsTo(Rute_perjalanan::class);
+        return $this->belongsTo(User::class);
     }
     
-    public function vendor()
+    public function detail_invoice()
     {
-        return $this->belongsTo(Vendor::class);
+        return $this->hasMany(Detail_invoice::class);
     }
-
-    public function harga_sewa()
-    {
-        return $this->belongsTo(Harga_sewa::class);
-    }
-
-    public function faktur_ekspedisi()
-    {
-        return $this->hasMany(Faktur_ekspedisi::class);
-    }
-
+    
     public static function getId()
     {
-        return $getId = DB::table('sewa_kendaraan')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('invoice_sewakendaraans')->orderBy('id', 'DESC')->take(1)->get();
     }
 }

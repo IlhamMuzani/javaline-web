@@ -78,13 +78,22 @@ class InquerySewakendaraanController extends Controller
         $sewa_kendaraan->nama_pelanggan = $request->nama_pelanggan;
         $sewa_kendaraan->nama_rute = $request->nama_rute;
         $sewa_kendaraan->nama_driver = $request->nama_driver;
+        $sewa_kendaraan->nominal = str_replace(',', '.', str_replace('.', '', $request->harga_sewa));
         $sewa_kendaraan->status = 'posting';
 
         $sewa_kendaraan->save();
 
-        return redirect('admin/inquery_sewakendaraan')->with('success', 'Berhasil memperbarui');
+        $cetakpdf = Sewa_kendaraan::where('id', $sewa_kendaraan->id)->first();
+
+        return view('admin.sewa_kendaraan.show', compact('cetakpdf'));
     }
 
+    public function show($id)
+    {
+        $cetakpdf = Sewa_kendaraan::where('id', $id)->first();
+
+        return view('admin.inquery_sewakendaraan.show', compact('cetakpdf'));
+    }
 
     public function kode()
     {

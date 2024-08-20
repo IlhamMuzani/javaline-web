@@ -802,4 +802,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_sewakendaraan', \App\Http\Controllers\Admin\InquerySewakendaraanController::class);
     Route::get('inquery_sewakendaraan/unpostsewakendaraan/{id}', [\App\Http\Controllers\Admin\InquerySewakendaraanController::class, 'unpostsewakendaraan']);
     Route::get('inquery_sewakendaraan/postingsewakendaraan/{id}', [\App\Http\Controllers\Admin\InquerySewakendaraanController::class, 'postingsewakendaraan']);
+
+    Route::resource('invoice_sewakendaraan', \App\Http\Controllers\Admin\InvoiceSewakendaraanController::class);
+    Route::get('sewa_kendaraan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\SewakendaraanController::class, 'cetakpdf']);
+
 });

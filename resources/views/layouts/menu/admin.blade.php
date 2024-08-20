@@ -806,6 +806,17 @@
                 </a>
             </li>
         @endif
+    @if (auth()->check() && auth()->user()->menu['invoice faktur ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/invoice_sewakendaraan') }}"
+                    class="nav-link {{ request()->is('admin/invoice_sewakendaraan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Invoice Faktur -<br>
+                        <span style="margin-left: 32px">Sewa Kendaraan</span>
+                    </p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['return barang ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/pilih_returnekspedisi') }}"
