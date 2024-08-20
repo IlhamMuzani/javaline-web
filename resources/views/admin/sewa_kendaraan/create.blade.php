@@ -40,6 +40,21 @@
                         <h3 class="card-title">Tambah Faktur Sewa Kendaraan</h3>
                     </div>
                 </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label style="font-size:14px" class="form-label" for="kategori">Pilih
+                                Kategori</label>
+                            <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
+                                <option value="">- Pilih -</option>
+                                <option value="PPH" {{ old('kategori') == 'PPH' ? 'selected' : null }}>
+                                    PPH</option>
+                                <option value="NON PPH" {{ old('kategori') == 'NON PPH' ? 'selected' : null }}>
+                                    NON PPH</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div id="pelangganspk" class="card">
@@ -98,7 +113,8 @@
                                 <div class="form-group" hidden>
                                     <label for="rute_perjalanan_id">rute Id</label>
                                     <input type="text" class="form-control" id="rute_perjalanan_id" readonly
-                                        name="rute_perjalanan_id" placeholder="" value="{{ old('rute_perjalanan_id') }}">
+                                        name="rute_perjalanan_id" placeholder=""
+                                        value="{{ old('rute_perjalanan_id') }}">
                                 </div>
 
                                 <label style="font-size:14px" class="form-label" for="kode_rute">Kode
@@ -121,9 +137,8 @@
                                 </div>
                                 <label style="font-size:14px" class="form-label" for="harga_sewa">Harga Sewa</label>
                                 <div class="form-group d-flex">
-                                    <input hidden class="form-control"
-                                        id="harga_sewa_id" name="harga_sewa_id" type="text" placeholder=""
-                                        value="{{ old('harga_sewa_id') }}" readonly
+                                    <input hidden class="form-control" id="harga_sewa_id" name="harga_sewa_id"
+                                        type="text" placeholder="" value="{{ old('harga_sewa_id') }}" readonly
                                         style="margin-right: 10px; font-size:14px" />
                                     <input onclick="showCategoryModalhargasewa(this.value)" class="form-control"
                                         id="harga_sewa" name="harga_sewa" type="text" placeholder=""

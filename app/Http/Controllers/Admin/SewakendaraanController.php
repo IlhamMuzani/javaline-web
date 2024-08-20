@@ -76,6 +76,7 @@ class SewakendaraanController extends Controller
             [
                 'kode_sewa' => $this->kode(),
                 'admin' => auth()->user()->karyawan->nama_lengkap,
+                'kategori' => $request->kategori,
                 'harga_sewa_id' => $request->harga_sewa_id,
                 'nama_pelanggan' => $request->nama_pelanggan,
                 'nama_rute' => $request->nama_rute,

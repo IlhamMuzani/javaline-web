@@ -69,6 +69,7 @@ class InquerySewakendaraanController extends Controller
         $sewa_kendaraan = Sewa_kendaraan::findOrFail($id);
 
         $sewa_kendaraan->vendor_id = $request->vendor_id;
+        $sewa_kendaraan->kategori = $request->kategori;
         $sewa_kendaraan->rute_perjalanan_id = $request->rute_perjalanan_id;
         $sewa_kendaraan->harga_sewa_id = $request->harga_sewa_id;
         $sewa_kendaraan->pelanggan_id = $request->pelanggan_id;
