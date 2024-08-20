@@ -85,7 +85,7 @@ class InquerySewakendaraanController extends Controller
 
         $cetakpdf = Sewa_kendaraan::where('id', $sewa_kendaraan->id)->first();
 
-        return view('admin.sewa_kendaraan.show', compact('cetakpdf'));
+        return view('admin.inquery_sewakendaraan.show', compact('cetakpdf'));
     }
 
     public function show($id)

@@ -41,10 +41,14 @@ class Vendor extends Model
             ->logFillable('*');
     }
 
+    public function sewa_kendaraan()
+    {
+        return $this->hasMany(Sewa_kendaraan::class);
+    }
+
 
     public static function getId()
     {
         return $getId = DB::table('vendors')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

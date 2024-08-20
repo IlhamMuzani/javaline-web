@@ -139,6 +139,8 @@
                                                     data-memo-id="{{ $sewa_kendaraan->id }}">Posting</a>
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_sewakendaraan/' . $sewa_kendaraan->id . '/edit') }}">Update</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/sewa_kendaraan/' . $sewa_kendaraan->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapussewa', ['id' => $sewa_kendaraan->id]) }}">
                                                     <button type="submit"
@@ -152,6 +154,8 @@
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['unposts sewa_kendaraan ekspedisi']) --}}
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $sewa_kendaraan->id }}">Unpost</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/sewa_kendaraan/' . $sewa_kendaraan->id) }}">Show</a>
                                             @endif
                                             @if ($sewa_kendaraan->faktur_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
