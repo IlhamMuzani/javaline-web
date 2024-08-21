@@ -101,6 +101,52 @@ class PengambilandoController extends Controller
         }
     }
 
+    // public function konfirmasi(Request $request, $id)
+    // {
+
+    //     $pengambilan_do = Pengambilan_do::find($id);
+    //     $proses = $pengambilan_do->update([
+    //         'user_id' => $request->user_id,
+    //         'status' => 'loading muat',
+    //         'waktu_awal' => now()->format('Y-m-d H:i:s')
+    //     ]);
+
+    //     $waktuTungguMuat = $pengambilan_do->updated_at;
+    //     $waktuPerjalananIsi = now();
+
+    //     // Format "hari jam:menit:detik"
+    //     $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
+
+    //     $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
+
+    //     $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+    //     $currentTimer = $kendaraan->waktu;
+
+
+    //     $waktuTungguMuat = $pengambilan_do->updated_at;
+    //     $waktuPerjalananIsi = now();
+
+    //     // Format "hari jam:menit:detik"
+    //     $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
+
+    //     $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
+    //     $proses = $kendaraan->update([
+    //         'user_id' => $request->user_id,
+    //         'status_perjalanan' => 'Perjalanan Kosong',
+    //         'timer' => $jarakWaktu
+    //     ]);
+
+
+    //     if ($proses) {
+    //         return response()->json([
+    //             'status' => true,
+    //             'msg' => 'Status Selesai',
+    //         ]);
+    //     } else {
+    //         $this->error('Gagal !');
+    //     }
+    // }
+
 
     public function konfirmasi(Request $request, $id)
     {
@@ -119,7 +165,7 @@ class PengambilandoController extends Controller
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
+        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
 
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
@@ -301,7 +347,7 @@ class PengambilandoController extends Controller
 
         if ($kendaraan) {
             $kendaraan->update([
-                'status_perjalanan' => 'Perjalanan Kosong',
+                'status_perjalanan' => 'Kosong',
                 'timer' => $jarakWaktu,
                 'waktu' => now()->format('Y-m-d H:i:s')
             ]);

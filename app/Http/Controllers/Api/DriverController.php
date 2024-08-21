@@ -164,6 +164,15 @@ class DriverController extends Controller
             'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
+        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)
+            ->first();
+
+        if ($pengambilan_do) {
+            $pengambilan_do->update([
+                'km_awal' => $request->km,
+            ]);
+        }
+
         // Retrieve the updated status_perjalanan for status_akhir
         $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
         $currentTimestamp = now()->format('Y-m-d H:i:s');
@@ -199,7 +208,7 @@ class DriverController extends Controller
 
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -267,7 +276,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -302,7 +311,7 @@ class DriverController extends Controller
                 'timer_akhir' => $currentTimestamp,
             ]
         ));
-        
+
         if ($kendaraan) {
             return response()->json([
                 'status' => true,
@@ -337,7 +346,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -402,7 +411,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -483,7 +492,7 @@ class DriverController extends Controller
         $pengambilan_do->update([
             'km_akhir' => $kendaraan->km,
         ]);
-        
+
         if ($kendaraan) {
             return response()->json([
                 'status' => true,
@@ -499,7 +508,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -565,7 +574,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -596,7 +605,7 @@ class DriverController extends Controller
                 'timer_akhir' => $currentTimestamp,
             ]
         ));
-        
+
         if ($kendaraan) {
             return response()->json([
                 'status' => true,
@@ -631,7 +640,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 
@@ -696,7 +705,7 @@ class DriverController extends Controller
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $waktuTungguMuat = $kendaraan->updated_at;
         $waktuPerjalananIsi = now();
 

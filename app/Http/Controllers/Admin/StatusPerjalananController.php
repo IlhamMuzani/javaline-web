@@ -24,6 +24,7 @@ class StatusPerjalananController extends Controller
         if (auth()->check() && auth()->user()->menu['status perjalanan kendaraan']) {
 
             $status = $request->status_perjalanan;
+            $kendaraanId = $request->kendaraan_id;
 
             // Inisialisasi query builder
             $inquery = Kendaraan::query();
@@ -32,9 +33,20 @@ class StatusPerjalananController extends Controller
                 $inquery->where('status_perjalanan', $status);
             }
 
-            // Urutkan berdasarkan status_perjalanan yang terbaru
-            $kendaraans = $inquery->orderBy('user_id', 'desc')->orderBy('updated_at', 'desc')->get();
+            // Tambahkan kondisi untuk kendaraan_id jika ada dalam request
+            if ($kendaraanId) {
+                $inquery->where('id', $kendaraanId);
+            }
 
+            $kendaraans = $inquery->orderBy('user_id', 'desc')
+                ->orderBy('updated_at', 'desc')
+                ->get()
+                ->sort(function ($a, $b) {
+                    $numberA = (int) filter_var($a->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+                    $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+                    return $numberA - $numberB;
+                });
+                
             $waktuPerjalananIsi = now();
 
             foreach ($kendaraans as $kendaraan) {
@@ -68,15 +80,13 @@ class StatusPerjalananController extends Controller
                 ]);
             }
 
-            $kotas = Kota::all();
-
-
-            return view('admin/status_perjalanan.index', compact('kendaraans', 'kotas'));
+            return view('admin/status_perjalanan.index', compact('kendaraans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
+
 
     public function update(Request $request, $id)
     {
@@ -100,7 +110,7 @@ class StatusPerjalananController extends Controller
         $kendaraan = Kendaraan::findOrFail($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
-        
+
         $kendaraan->update([
             'kota_id' => $request->kota_id,
             'status_perjalanan' => $request->status_perjalanan,
@@ -124,7 +134,6 @@ class StatusPerjalananController extends Controller
         ));
 
         return redirect('admin/status_perjalanan')->with('success', 'Berhasil merubah');
-
     }
 
     public function konfirmasiselesai($id)
