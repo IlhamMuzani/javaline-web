@@ -188,7 +188,7 @@
                                         @if ($kendaraan->status_perjalanan)
                                             {{ $kendaraan->timer }}
                                         @else
-                                            Kosong
+                                            00.00
                                         @endif
                                     </td>
 

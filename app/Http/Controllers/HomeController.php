@@ -15,8 +15,8 @@ class HomeController extends Controller
     {
         if (auth()->user()->isAdmin()) {
             return redirect('admin');
-        } elseif (auth()->user()->isOwner()) {
-            return redirect('owner');
+        } elseif (auth()->user()->isDriver()) {
+            return redirect('driver');
         }
     }
 }

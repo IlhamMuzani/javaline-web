@@ -406,7 +406,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print_pph', [\App\Http\Controllers\Admin\LaporanPphController::class, 'print_pph']);
 
     Route::get('hakaksesdriver', [\App\Http\Controllers\Admin\AksesController::class, 'indexdriver']);
-    
+
 
     Route::get('indexnon', [\App\Http\Controllers\Admin\TagihanekspedisiController::class, 'indexnonpph']);
     Route::get('inquery_depositdriver/unpostdeposit/{id}', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostdeposit']);
@@ -837,5 +837,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_pelunasansewakendaraan/unpost/{id}', [\App\Http\Controllers\Admin\InqueryPelunasansewakendaraanController::class, 'unpost']);
     Route::get('inquery_pelunasansewakendaraan/posting/{id}', [\App\Http\Controllers\Admin\InqueryPelunasansewakendaraanController::class, 'posting']);
     Route::get('hapuspelunasansewa/{id}', [\App\Http\Controllers\Admin\InqueryPelunasansewakendaraanController::class, 'hapuspelunasansewa'])->name('hapuspelunasansewa');
+});
 
+
+Route::middleware('driver')->prefix('driver')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Driver\DashboardController::class, 'index']);
 });

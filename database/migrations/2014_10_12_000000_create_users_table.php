@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('karyawan_id')->references('id')->on('karyawans')->onDelete('set null');
             $table->string('kode_user')->unique();
             $table->string('qrcode_user')->nullable();
-            $table->enum('level', ['admin','owner','staff']);
+            $table->enum('level', ['admin','driver','staff']);
             $table->string('cek_hapus')->nullable();
             $table->json('menu')->nullable();
             $table->json('fitur')->nullable();

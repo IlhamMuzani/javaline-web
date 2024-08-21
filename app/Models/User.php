@@ -95,9 +95,9 @@ class User extends Authenticatable
         return false;
     }
 
-    public function isOwner()
+    public function isDriver()
     {
-        if ($this->level == 'owner') {
+        if ($this->level == 'driver') {
             return true;
         }
         return false;

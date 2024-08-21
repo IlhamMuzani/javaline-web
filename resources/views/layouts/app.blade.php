@@ -1037,9 +1037,9 @@
                         @if (auth()->user()->isAdmin())
                             @include('layouts.menu.admin')
                         @endif
-                        {{-- @if (auth()->user()->isOwner())
-                            @include('layouts.menu.owner')
-                        @endif --}}
+                        @if (auth()->user()->isDriver())
+                            @include('layouts.menu.driver')
+                        @endif
 
                     </ul>
                 </nav>
