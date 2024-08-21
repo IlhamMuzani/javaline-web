@@ -141,4 +141,11 @@ class SewakendaraanController extends Controller
         $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
         return $newCode;
     }
+
+    public function hapussewa($id)
+    {
+        $faktur = Sewa_kendaraan::find($id);
+        $faktur->delete();
+        return back()->with('success', 'Berhasil menghapus Faktur Sewa');
+    }
 }
