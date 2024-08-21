@@ -182,13 +182,13 @@
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_sewakendaraan/' . $sewa_kendaraan->id) }}">Show</a>
                                             @endif
-                                            @if ($sewa_kendaraan->faktur_ekspedisi->first())
+                                            {{-- @if ($sewa_kendaraan->faktur_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
                                                     Ekspedisi
                                                     <strong>{{ $sewa_kendaraan->faktur_ekspedisi->first()->kode_faktur }}</strong>
                                                 </p>
                                             @else
-                                            @endif
+                                            @endif --}}
                                         </div>
                                     </td>
                                 </tr>

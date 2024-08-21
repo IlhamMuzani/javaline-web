@@ -86,6 +86,7 @@
                                             $kendaraan->status_olimesin == 'belum penggantian' ||
                                                 $kendaraan->status_oligardan == 'belum penggantian' ||
                                                 $kendaraan->status_olitransmisi == 'belum penggantian')
+                                                
                                             @if ($kendaraan->status_olimesin == 'belum penggantian')
                                                 <span class="status_olimesin"> Oli Mesin
                                                     <i class="fas fa-exclamation-circle" style="color: red;"></i>
