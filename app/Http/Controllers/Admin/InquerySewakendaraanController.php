@@ -147,4 +147,11 @@ class InquerySewakendaraanController extends Controller
 
         return response()->json(['success' => 'Berhasil unpost sewa kendaraan']);
     }
+
+    public function hapussewa($id)
+    {
+        $faktur = Sewa_kendaraan::find($id);
+        $faktur->delete();
+        return back()->with('success', 'Berhasil menghapus Faktur Sewa');
+    }
 }
