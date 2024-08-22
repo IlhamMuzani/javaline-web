@@ -312,7 +312,7 @@
                 1
             </td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
-                {{ $cetakpdf->rute_perjalanan->nama_rute ?? null }}
+                {{ $cetakpdf->nama_rute }}
             </td>
 
             <td class="td" style="text-align: right; padding-right: 90px; font-size: 12px;">

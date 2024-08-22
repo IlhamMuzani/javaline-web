@@ -47,14 +47,14 @@ class InquerySewakendaraanController extends Controller
             $request->all(),
             [
                 'vendor_id' => 'required',
-                'rute_perjalanan_id' => 'required',
+                // 'rute_perjalanan_id' => 'required',
                 'pelanggan_id' => 'required',
                 'nama_driver' => 'required',
                 'no_pol' => 'required',
             ],
             [
                 'vendor_id' => 'pilih rekan',
-                'rute_perjalanan_id' => 'pilih rute perjalanan',
+                // 'rute_perjalanan_id' => 'pilih rute perjalanan',
                 'pelanggan_id' => 'pilih pelanggan',
                 'nama_driver' => 'masukkan nama sopir',
                 'no_pol' => 'masukkan no pol',
@@ -70,7 +70,7 @@ class InquerySewakendaraanController extends Controller
 
         $sewa_kendaraan->vendor_id = $request->vendor_id;
         $sewa_kendaraan->kategori = $request->kategori;
-        $sewa_kendaraan->rute_perjalanan_id = $request->rute_perjalanan_id;
+        // $sewa_kendaraan->rute_perjalanan_id = $request->rute_perjalanan_id;
         $sewa_kendaraan->harga_sewa_id = $request->harga_sewa_id;
         $sewa_kendaraan->pelanggan_id = $request->pelanggan_id;
         $sewa_kendaraan->jumlah = $request->jumlah;
@@ -79,7 +79,7 @@ class InquerySewakendaraanController extends Controller
         $sewa_kendaraan->telp_driver = $request->telp_driver;
         $sewa_kendaraan->no_pol = $request->no_pol;
         $sewa_kendaraan->nama_pelanggan = $request->nama_pelanggan;
-        $sewa_kendaraan->nama_rute = $request->nama_rute;
+        $sewa_kendaraan->nama_rute = $request->nama_tarif;
         // $sewa_kendaraan->nominal = str_replace(',', '.', str_replace('.', '', $request->harga_sewa));
         $sewa_kendaraan->pph = str_replace(',', '.', str_replace('.', '', $request->pph));
         $sewa_kendaraan->harga_tarif = str_replace(',', '.', str_replace('.', '', $request->harga_tarif));

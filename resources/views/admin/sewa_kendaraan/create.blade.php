@@ -55,8 +55,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
+                {{-- <div class="row"> --}}
+                    <div class="form-group">
                         <div id="pelangganspk" class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Rekanan</h3>
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6" id="form_rute">
+                    {{-- <div class="col-md-6" id="form_rute">
                         <div id="rutespk" class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Rute Perjalanan</h3>
@@ -143,7 +143,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row">
                     <div class="col-md-6">
                         <div id="pelangganspk" class="card">

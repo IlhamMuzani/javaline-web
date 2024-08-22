@@ -59,56 +59,56 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="pelangganspk" class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Rekanan</h3>
+                {{-- <div class="row"> --}}
+                <div class="form-group">
+                    <div id="pelangganspk" class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Rekanan</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group" hidden>
+                                <label for="vendor_id">Rekanan Id</label>
+                                <input type="text" class="form-control" id="vendor_id" readonly name="vendor_id"
+                                    placeholder="" value="{{ old('vendor_id', $inquery->vendor_id) }}">
                             </div>
-                            <div class="card-body">
-                                <div class="form-group" hidden>
-                                    <label for="vendor_id">Rekanan Id</label>
-                                    <input type="text" class="form-control" id="vendor_id" readonly name="vendor_id"
-                                        placeholder="" value="{{ old('vendor_id', $inquery->vendor_id) }}">
-                                </div>
-                                <div class="form-group" hidden>
-                                    <label for="kode_vendor">kode Rekan</label>
-                                    <input type="text" class="form-control" id="kode_vendor" readonly name="kode_vendor"
-                                        placeholder="" value="{{ old('kode_vendor') }}">
-                                </div>
-                                <label style="font-size:14px" class="form-label" for="nama_vendor">Nama
-                                    Rekan</label>
-                                <div class="form-group d-flex">
-                                    <input onclick="showCategoryModalVendor(this.value)" class="form-control"
-                                        id="nama_vendor" name="nama_vendor" type="text" placeholder=""
-                                        value="{{ old('nama_vendor', $inquery->nama_vendor) }}" readonly
-                                        style="margin-right: 10px; font-size:14px" />
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="showCategoryModalVendor(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="alamat_vendor">Alamat</label>
-                                    <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px"
-                                        type="text" class="form-control" id="alamat_vendor" readonly name="alamat_vendor"
-                                        placeholder="" value="{{ old('alamat_vendor', $inquery->vendor->alamat ?? null) }}">
-                                </div>
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="telp_vendor">No. Telp</label>
-                                    <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px"
-                                        type="text" class="form-control" id="telp_vendor" readonly name="telp_vendor"
-                                        placeholder="" value="{{ old('telp_vendor', $inquery->vendor->telp ?? null) }}">
-                                </div>
-                                <div class="form-check" style="color:white">
-                                    <label class="form-check-label">
-                                        .
-                                    </label>
-                                </div>
+                            <div class="form-group" hidden>
+                                <label for="kode_vendor">kode Rekan</label>
+                                <input type="text" class="form-control" id="kode_vendor" readonly name="kode_vendor"
+                                    placeholder="" value="{{ old('kode_vendor') }}">
+                            </div>
+                            <label style="font-size:14px" class="form-label" for="nama_vendor">Nama
+                                Rekan</label>
+                            <div class="form-group d-flex">
+                                <input onclick="showCategoryModalVendor(this.value)" class="form-control" id="nama_vendor"
+                                    name="nama_vendor" type="text" placeholder=""
+                                    value="{{ old('nama_vendor', $inquery->nama_vendor) }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <button class="btn btn-primary" type="button"
+                                    onclick="showCategoryModalVendor(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size:14px" for="alamat_vendor">Alamat</label>
+                                <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px" type="text"
+                                    class="form-control" id="alamat_vendor" readonly name="alamat_vendor" placeholder=""
+                                    value="{{ old('alamat_vendor', $inquery->vendor->alamat ?? null) }}">
+                            </div>
+                            <div class="form-group">
+                                <label style="font-size:14px" for="telp_vendor">No. Telp</label>
+                                <input onclick="showCategoryModalVendor(this.value)" style="font-size:14px" type="text"
+                                    class="form-control" id="telp_vendor" readonly name="telp_vendor" placeholder=""
+                                    value="{{ old('telp_vendor', $inquery->vendor->telp ?? null) }}">
+                            </div>
+                            <div class="form-check" style="color:white">
+                                <label class="form-check-label">
+                                    .
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6" id="form_rute">
+                </div>
+                {{-- <div class="col-md-6" id="form_rute">
                         <div id="rutespk" class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Rute Perjalanan</h3>
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="row">
                     <div class="col-md-6">
                         <div id="pelangganspk" class="card">
@@ -247,9 +247,9 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th style="font-size:14px">Kode Tarif</th>
-                                    <th style="font-size:14px">Nama Tarif</th>
-                                    <th style="font-size:14px">Harga Tarif</th>
+                                    <th style="font-size:14px">Kode Harga</th>
+                                    <th style="font-size:14px">Nama Harga</th>
+                                    <th style="font-size:14px">Harga Harga</th>
                                     <th style="font-size:14px">Qty</th>
                                     <th style="font-size:14px">Satuan</th>
                                     <th style="font-size:14px">Total</th>
@@ -260,22 +260,22 @@
                                 <tr id="pembelian-0">
                                     <td hidden>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="tarif_id"
-                                                value="{{ old('tarif_id', $inquery->tarif_id) }}" name="tarif_id">
+                                            <input type="text" class="form-control" id="harga_sewa_id"
+                                                value="{{ old('harga_sewa_id', $inquery->harga_sewa_id) }}" name="harga_sewa_id">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <input onclick="Tarifs(0)" style="font-size:14px" type="text"
                                                 class="form-control" readonly id="kode_tarif" name="kode_tarif"
-                                                value="{{ old('kode_tarif', $inquery->kode_tarif) }}">
+                                                value="{{ old('kode_tarif', $inquery->harga_sewa->kode_tarif ?? null) }}">
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
                                             <input onclick="Tarifs(0)" style="font-size:14px" type="text"
                                                 class="form-control" readonly id="nama_tarif" name="nama_tarif"
-                                                value="{{ old('nama_tarif', $inquery->nama_tarif) }}">
+                                                value="{{ old('nama_tarif', $inquery->nama_rute) }}">
                                         </div>
                                     </td>
                                     <td>
@@ -334,7 +334,7 @@
                                         </div>
                                     </td>
                                     <td style="width: 50px">
-                                        <button type="button" class="btn btn-primary btn-sm" onclick="Tarifs(0)">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="showCategoryModalhargasewa(0)">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </td>
@@ -794,7 +794,7 @@
             if (selectedValue == "PPH") {
                 var pph = 0.02 * harga;
                 var sisa = harga - pph;
-                 var hasil_potongan = (sisa * nominal_potongan) / 100;
+                var hasil_potongan = (sisa * nominal_potongan) / 100;
                 $("#hasil_potongan").val(hasil_potongan.toLocaleString('id-ID'));
                 var Subtotal = sisa - hasil_potongan;
                 $(".pph2").val(pph.toLocaleString('id-ID'));

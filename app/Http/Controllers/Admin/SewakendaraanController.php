@@ -50,14 +50,14 @@ class SewakendaraanController extends Controller
             $request->all(),
             [
                 'vendor_id' => 'required',
-                'rute_perjalanan_id' => 'required',
+                // 'rute_perjalanan_id' => 'required',
                 'pelanggan_id' => 'required',
                 'nama_driver' => 'required',
                 'no_pol' => 'required',
             ],
             [
                 'vendor_id' => 'pilih rekan',
-                'rute_perjalanan_id' => 'pilih rute perjalanan',
+                // 'rute_perjalanan_id' => 'pilih rute perjalanan',
                 'pelanggan_id' => 'pilih pelanggan',
                 'nama_driver' => 'masukkan nama sopir',
                 'no_pol' => 'masukkan no pol',
@@ -83,7 +83,7 @@ class SewakendaraanController extends Controller
                 'satuan' => $request->satuan,
                 'harga_sewa_id' => $request->harga_sewa_id,
                 'nama_pelanggan' => $request->nama_pelanggan,
-                'nama_rute' => $request->nama_rute,
+                'nama_rute' => $request->nama_tarif,
                 'nama_driver' => $request->nama_driver,
                 // 'nominal' => str_replace(',', '.', str_replace('.', '', $request->harga_sewa)),
 
