@@ -15,6 +15,7 @@ class Detail_penggantianoli extends Model
 
     protected $fillable = [
         'penggantian_oli_id',
+        'lama_penggantianoli_id',
         'kategori',
         'sparepart_id',
         'km_penggantian',
@@ -46,5 +47,10 @@ class Detail_penggantianoli extends Model
     public function sparepart()
     {
         return $this->belongsTo(Sparepart::class);
+    }
+
+    public function lama_penggantianoli()
+    {
+        return $this->belongsTo(Lama_penggantianoli::class);
     }
 }

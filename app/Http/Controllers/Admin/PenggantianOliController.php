@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Detail_penggantianoli;
 use App\Models\Detail_penggantianpart;
+use App\Models\Lama_penggantianoli;
 use Illuminate\Support\Facades\Validator;
 
 class PenggantianOliController extends Controller
@@ -65,248 +66,13 @@ END")->get();
             $kendaraans = Kendaraan::where('id', $id)->first();
             $jenis_kendaraans = Jenis_kendaraan::all();
             $spareparts = Sparepart::where('kategori', 'oli')->get();
-            return view('admin.penggantian_oli.update', compact('jenis_kendaraans', 'kendaraans', 'spareparts'));
+            $lamapenggantians = Lama_penggantianoli::get();
+            return view('admin.penggantian_oli.update', compact('lamapenggantians', 'jenis_kendaraans', 'kendaraans', 'spareparts'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     $kendaraan = Kendaraan::where('id', $id)->first();
-    //     $validasi_pelanggan = Validator::make(
-    //         $request->all(),
-    //         [
-    //             'km' => [
-    //                 'required',
-    //                 'numeric',
-    //                 function ($attribute, $value, $fail) use ($kendaraan) {
-    //                     if ($value <= $kendaraan->km) {
-    //                         $fail('Nilai km akhir harus lebih tinggi dari km awal');
-    //                     }
-    //                 },
-    //             ],
-    //         ],
-    //         [
-    //             'km.required' => 'Masukkan nilai km',
-    //         ]
-    //     );
-
-    //     $error_pelanggans = array();
-
-    //     if ($validasi_pelanggan->fails()) {
-    //         array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
-    //     }
-
-    //     $error_pesanans = array();
-    //     $data_pembelians = collect();
-    //     $data_pembelians2 = collect();
-
-    //     if ($request->has('kategori')) {
-    //         for ($i = 0; $i < count($request->kategori); $i++) {
-    //             $validasi_produk = Validator::make($request->all(), [
-    //                 'kategori.' . $i => 'required',
-    //                 'sparepart_id.' . $i => 'required',
-    //                 'nama_barang.' . $i => 'required',
-    //                 'jumlah.*' => 'required|numeric|min:1',
-    //             ]);
-
-    //             if ($validasi_produk->fails()) {
-    //                 array_push($error_pesanans, "Pergantian Oli nomor " . $i + 1 . " belum dilengkapi!");
-    //             }
-
-
-    //             $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
-    //             $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
-    //             $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
-    //             $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
-
-    //             $data_pembelians->push(['kategori' => $kategori, 'sparepart_id' => $sparepart_id, 'nama_barang' => $nama_barang, 'jumlah' => $jumlah]);
-    //         }
-
-    //         if (!$error_pelanggans && !$error_pesanans) {
-    //             foreach ($request->sparepart_id as $index => $sparepartId) {
-    //                 $jumlahDiminta = $request->jumlah[$index];
-    //                 $sparepart = Sparepart::find($sparepartId);
-
-    //                 if ($sparepart && $jumlahDiminta > $sparepart->jumlah) {
-    //                     array_push($error_pesanans, "Stok Oli nomor " . ($index + 1) . " tidak mencukupi!");
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //     }
-
-    //     if ($request->has('kategori2')) {
-    //         for ($i = 0; $i < count($request->kategori2); $i++) {
-    //             $validasi_produk = Validator::make($request->all(), [
-    //                 'kategori2.' . $i => 'required',
-    //                 'spareparts_id.' . $i => 'required',
-    //                 'nama_barang2.' . $i => 'required',
-    //                 'jumlah2.*' => 'required|numeric|min:1',
-    //             ]);
-
-    //             if ($validasi_produk->fails()) {
-    //                 array_push($error_pesanans, "Pergantian Filter Nomor " . $i + 1 . " belum dilengkapi!");
-    //             }
-
-    //             $kategori2 = is_null($request->kategori2[$i]) ? '' : $request->kategori2[$i];
-    //             $spareparts_id = is_null($request->spareparts_id[$i]) ? '' : $request->spareparts_id[$i];
-    //             $nama_barang2 = is_null($request->nama_barang2[$i]) ? '' : $request->nama_barang2[$i];
-    //             $jumlah2 = is_null($request->jumlah2[$i]) ? '' : $request->jumlah2[$i];
-
-    //             $data_pembelians2->push(['kategori2' => $kategori2, 'spareparts_id' => $spareparts_id, 'nama_barang2' => $nama_barang2, 'jumlah2' => $jumlah2]);
-    //         }
-
-    //         if (!$error_pelanggans && !$error_pesanans) {
-    //             foreach ($request->spareparts_id as $index => $sparepartId) {
-    //                 $jumlahDiminta = $request->jumlah2[$index];
-    //                 $sparepart = Sparepart::find($sparepartId);
-
-    //                 if ($sparepart && $jumlahDiminta > $sparepart->jumlah) {
-    //                     array_push($error_pesanans, "Stok Filter nomor " . ($index + 1) . " tidak mencukupi!");
-    //                 }
-    //             }
-    //         }
-    //     } else {
-    //     }
-
-    //     if ($error_pelanggans || $error_pesanans) {
-    //         return back()
-    //             ->withInput()
-    //             ->with('error_pelanggans', $error_pelanggans)
-    //             ->with('error_pesanans', $error_pesanans)
-    //             ->with('data_pembelians', $data_pembelians)
-    //             ->with('data_pembelians2', $data_pembelians2);
-    //     }
-
-    //     // format tanggal indo
-    //     $tanggal1 = Carbon::now('Asia/Jakarta');
-    //     $format_tanggal = $tanggal1->format('d F Y');
-
-    //     $tanggal = Carbon::now()->format('Y-m-d');
-    //     $transaksi = Penggantian_oli::create([
-    //         'kode_penggantianoli' => $this->kode(),
-    //         'kendaraan_id' => $request->kendaraan_id,
-    //         'tanggal_penggantian' => $format_tanggal,
-    //         'tanggal_awal' => $tanggal,
-    //         'status' => 'posting',
-    //         'status_notif' => false,
-    //     ]);
-
-    //     $transaksi_id = $transaksi->id;
-
-    //     if ($transaksi) {
-    //         foreach ($data_pembelians as $data_pesanan) {
-    //             $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
-    //             if ($sparepart) {
-    //                 // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
-    //                 $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
-
-    //                 // Pastikan jumlah sparepart tidak kurang dari nol
-    //                 $jumlah_sparepart = max(0, $jumlah_sparepart);
-
-    //                 // Memperbarui jumlah sparepart
-    //                 $sparepart->update(['jumlah' => $jumlah_sparepart]);
-
-    //                 // Membuat Detail_pemasanganpart
-    //                 $km_berikutnya = $request->km; // Nilai default
-
-    //                 if ($data_pesanan['kategori'] == 'Oli Mesin') {
-    //                     $km_berikutnya += 10000;
-    //                 } elseif ($data_pesanan['kategori'] == 'Oli Gardan') {
-    //                     $km_berikutnya += 50000;
-    //                 } elseif ($data_pesanan['kategori'] == 'Oli Transmisi') {
-    //                     $km_berikutnya += 50000;
-    //                 }
-
-    //                 Detail_penggantianoli::create([
-    //                     'penggantian_oli_id' => $transaksi->id,
-    //                     'kategori' => $data_pesanan['kategori'],
-    //                     'sparepart_id' => $data_pesanan['sparepart_id'],
-    //                     'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-    //                     'jumlah' => $data_pesanan['jumlah'],
-    //                     'km_penggantian' => $request->km,
-    //                     'km_berikutnya' => $km_berikutnya, // Menggunakan nilai yang telah diubah
-    //                 ]);
-    //             }
-    //         }
-    //     }
-
-    //     if ($transaksi) {
-    //         foreach ($data_pembelians2 as $data_pesanan) {
-    //             $sparepart = Sparepart::find($data_pesanan['spareparts_id']);
-    //             if ($sparepart) {
-    //                 // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
-    //                 $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah2'];
-
-    //                 // Pastikan jumlah sparepart tidak kurang dari nol
-    //                 $jumlah_sparepart = max(0, $jumlah_sparepart);
-
-    //                 // Memperbarui jumlah sparepart
-    //                 $sparepart->update(['jumlah' => $jumlah_sparepart]);
-
-    //                 Detail_penggantianpart::create([
-    //                     'penggantians_oli_id' => $transaksi->id,
-    //                     'kategori2' => $data_pesanan['kategori2'],
-    //                     'spareparts_id' => $data_pesanan['spareparts_id'],
-    //                     'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-    //                     'jumlah2' => $data_pesanan['jumlah2'],
-    //                     'km_penggantian' => $request->km,
-    //                 ]);
-    //             }
-    //         }
-    //     }
-
-    //     $dataToUpdate = [
-    //         'km' => $request->km,
-    //         'km_olimesin' => null,
-    //         'km_oligardan' => null,
-    //         'km_olitransmisi' => null,
-    //         'status_olimesin' => null,
-    //         'status_oligardan' => null,
-    //         'status_olitransmisi' => null,
-    //     ];
-
-    //     if ($request->has('kategori')) {
-    //         if (in_array('Oli Mesin', $request->kategori)) {
-    //             $dataToUpdate['km_olimesin'] = $request->km + 10000;
-    //             $dataToUpdate['status_olimesin'] = 'konfirmasi';
-    //         }
-
-    //         if (in_array('Oli Gardan', $request->kategori)) {
-    //             $dataToUpdate['km_oligardan'] = $request->km + 50000;
-    //             $dataToUpdate['status_oligardan'] = 'konfirmasi';
-    //         }
-
-    //         if (in_array('Oli Transmisi', $request->kategori)) {
-    //             $dataToUpdate['km_olitransmisi'] = $request->km + 50000;
-    //             $dataToUpdate['status_olitransmisi'] = 'konfirmasi';
-    //         }
-    //     }
-
-    //     // Periksa dan biarkan nilai-nilai yang tidak ada dalam request tetap sama seperti sebelumnya
-    //     $dataToUpdate['km_olimesin'] = $dataToUpdate['km_olimesin'] ?? $kendaraan->km_olimesin;
-    //     $dataToUpdate['km_oligardan'] = $dataToUpdate['km_oligardan'] ?? $kendaraan->km_oligardan;
-    //     $dataToUpdate['km_olitransmisi'] = $dataToUpdate['km_olitransmisi'] ?? $kendaraan->km_olitransmisi;
-    //     $dataToUpdate['status_olimesin'] = $dataToUpdate['status_olimesin'] ?? $kendaraan->status_olimesin;
-    //     $dataToUpdate['status_oligardan'] = $dataToUpdate['status_oligardan'] ?? $kendaraan->status_oligardan;
-    //     $dataToUpdate['status_olitransmisi'] = $dataToUpdate['status_olitransmisi'] ?? $kendaraan->status_olitransmisi;
-
-    //     // Update data kendaraan
-    //     $kendaraan->update($dataToUpdate);
-
-    //     Kendaraan::where('id', $id)->update($dataToUpdate);
-
-    //     $pembelians = Penggantian_oli::find($transaksi_id);
-
-    //     // $kendaraan = Kendaraan::where('id', $pembelians->id)->first();
-    //     $parts = Detail_penggantianoli::where('penggantian_oli_id', $pembelians->id)->get();
-    //     $parts2 = Detail_penggantianpart::where('penggantians_oli_id', $pembelians->id)->get();
-
-    //     return view('admin.penggantian_oli.show', compact('parts', 'parts2', 'pembelians'));
-    // }
 
     public function update(Request $request, $id)
     {
@@ -340,10 +106,10 @@ END")->get();
         $data_pembelians = collect();
         $data_pembelians2 = collect();
 
-        if ($request->has('kategori')) {
-            for ($i = 0; $i < count($request->kategori); $i++) {
+        if ($request->has('lama_penggantianoli_id')) {
+            for ($i = 0; $i < count($request->lama_penggantianoli_id); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
-                    'kategori.' . $i => 'required',
+                    'lama_penggantianoli_id.' . $i => 'required',
                     'sparepart_id.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
                     'jumlah.' . $i => 'required|numeric|min:1', // 'jumlah.*' should be 'jumlah.' . $i
@@ -353,49 +119,14 @@ END")->get();
                     array_push($error_pesanans, "Pergantian Oli nomor " . ($i + 1) . " belum dilengkapi!"); // Corrected the syntax for concatenation and indexing
                 }
 
-                $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
+                $lama_penggantianoli_id = is_null($request->lama_penggantianoli_id[$i]) ? '' : $request->lama_penggantianoli_id[$i];
                 $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
 
-                $data_pembelians->push(['kategori' => $kategori, 'sparepart_id' => $sparepart_id, 'nama_barang' => $nama_barang, 'jumlah' => $jumlah]);
+                $data_pembelians->push(['lama_penggantianoli_id' => $lama_penggantianoli_id, 'sparepart_id' => $sparepart_id, 'nama_barang' => $nama_barang, 'jumlah' => $jumlah]);
             }
-
-            // Check for specific conditions based on category
-            // $kategori_to_km = [
-            //     'Oli Mesin' => $kendaraan->km_olimesin,
-            //     'Oli Gardan' => $kendaraan->km_oligardan,
-            //     'Oli Transmisi' => $kendaraan->km_olitransmisi,
-            // ];
-
-            // foreach ($kategori_to_km as $kategori => $km_threshold) {
-            //     if (in_array($kategori, $request->kategori) && $request->km < $km_threshold) {
-            //         array_push($error_pesanans, "Pergantian $kategori tidak dapat dilakukan, belum saatnya penggantian");
-            //     }
-            // }
         }
-
-        // if ($request->has('kategori2')) {
-        //     for ($i = 0; $i < count($request->kategori2); $i++) {
-        //         $validasi_produk = Validator::make($request->all(), [
-        //             'kategori2.' . $i => 'required',
-        //             'spareparts_id.' . $i => 'required',
-        //             'nama_barang2.' . $i => 'required',
-        //             'jumlah2.*' => 'required|numeric|min:1',
-        //         ]);
-
-        //         if ($validasi_produk->fails()) {
-        //             array_push($error_pesanans, "Pergantian Filter Nomor " . $i + 1 . " belum dilengkapi!");
-        //         }
-
-        //         $kategori2 = is_null($request->kategori2[$i]) ? '' : $request->kategori2[$i];
-        //         $spareparts_id = is_null($request->spareparts_id[$i]) ? '' : $request->spareparts_id[$i];
-        //         $nama_barang2 = is_null($request->nama_barang2[$i]) ? '' : $request->nama_barang2[$i];
-        //         $jumlah2 = is_null($request->jumlah2[$i]) ? '' : $request->jumlah2[$i];
-
-        //         $data_pembelians2->push(['kategori2' => $kategori2, 'spareparts_id' => $spareparts_id, 'nama_barang2' => $nama_barang2, 'jumlah2' => $jumlah2]);
-        //     }
-        // }
 
         if ($request->has('kategori2') || $request->has('spareparts_id') || $request->has('nama_barang2') || $request->has('jumlah2')) {
             for ($i = 0; $i < count($request->kategori2); $i++) {
@@ -460,20 +191,15 @@ END")->get();
                     // Memperbarui jumlah sparepart langsung, tanpa membatasi menjadi minimum 0
                     $sparepart->update(['jumlah' => $jumlah_sparepart]);
 
-                    // Membuat Detail_penggantianoli
-                    $km_berikutnya = $request->km; // Nilai default
+                    // Mengambil data lama_penggantianoli berdasarkan ID
+                    $lamapenggantian = Lama_penggantianoli::where('id', $data_pesanan['lama_penggantianoli_id'])->first();
 
-                    if ($data_pesanan['kategori'] == 'Oli Mesin') {
-                        $km_berikutnya += 13000;
-                    } elseif ($data_pesanan['kategori'] == 'Oli Gardan') {
-                        $km_berikutnya += 50000;
-                    } elseif ($data_pesanan['kategori'] == 'Oli Transmisi') {
-                        $km_berikutnya += 50000;
-                    }
+                    // Menghitung nilai km_berikutnya
+                    $km_berikutnya = $request->km + ($lamapenggantian ? $lamapenggantian->km_oli : 0);
 
                     Detail_penggantianoli::create([
                         'penggantian_oli_id' => $transaksi->id,
-                        'kategori' => $data_pesanan['kategori'],
+                        'lama_penggantianoli_id' => $data_pesanan['lama_penggantianoli_id'],
                         'sparepart_id' => $data_pesanan['sparepart_id'],
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                         'jumlah' => $data_pesanan['jumlah'],
@@ -517,20 +243,23 @@ END")->get();
             'status_olitransmisi' => null,
         ];
 
-        if ($request->has('kategori')) {
-            if (in_array('Oli Mesin', $request->kategori)) {
-                $dataToUpdate['km_olimesin'] = $request->km + 13000;
-                $dataToUpdate['status_olimesin'] = 'sudah penggantian';
-            }
+        if ($request->has('lama_penggantianoli_id')) {
+            foreach ($request->lama_penggantianoli_id as $id) {
+                $lama_penggantianoli = Lama_penggantianoli::find($id);
 
-            if (in_array('Oli Gardan', $request->kategori)) {
-                $dataToUpdate['km_oligardan'] = $request->km + 50000;
-                $dataToUpdate['status_oligardan'] = 'sudah penggantian';
-            }
-
-            if (in_array('Oli Transmisi', $request->kategori)) {
-                $dataToUpdate['km_olitransmisi'] = $request->km + 50000;
-                $dataToUpdate['status_olitransmisi'] = 'sudah penggantian';
+                if ($lama_penggantianoli) {
+                    // Update the corresponding km and status fields based on the lama_penggantianoli_id
+                    if ($id == 1) { // Assuming 1 represents 'Oli Mesin'
+                        $dataToUpdate['km_olimesin'] = $request->km + $lama_penggantianoli->km_oli;
+                        $dataToUpdate['status_olimesin'] = 'sudah penggantian';
+                    } elseif ($id == 2) { // Assuming 2 represents 'Oli Gardan'
+                        $dataToUpdate['km_oligardan'] = $request->km + $lama_penggantianoli->km_oli;
+                        $dataToUpdate['status_oligardan'] = 'sudah penggantian';
+                    } elseif ($id == 3) { // Assuming 3 represents 'Oli Transmisi'
+                        $dataToUpdate['km_olitransmisi'] = $request->km + $lama_penggantianoli->km_oli;
+                        $dataToUpdate['status_olitransmisi'] = 'sudah penggantian';
+                    }
+                }
             }
         }
 

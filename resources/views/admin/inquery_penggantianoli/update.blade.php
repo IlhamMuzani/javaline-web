@@ -137,17 +137,16 @@
                                                     value="{{ $detail['id'] }}">
                                             </div>
                                             <div class="form-group">
-                                                <select class="form-control" id="kategori-0" name="kategori[]">
-                                                    <option value="">Pilih</option>
-                                                    <option value="Oli Mesin"
-                                                        {{ old('Oli Mesin', $detail['kategori']) == 'Oli Mesin' ? 'selected' : null }}>
-                                                        Oli Mesin</option>
-                                                    <option value="Oli Gardan"
-                                                        {{ old('Oli Gardan', $detail['kategori']) == 'Oli Gardan' ? 'selected' : null }}>
-                                                        Oli Gardan</option>
-                                                    <option value="Oli Transmisi"
-                                                        {{ old('Oli Transmisi', $detail['kategori']) == 'Oli Transmisi' ? 'selected' : null }}>
-                                                        Oli Transmisi</option>
+                                                <select class="form-control"
+                                                    id="lama_penggantianoli_id-{{ $loop->index }}"
+                                                    name="lama_penggantianoli_id[]">
+                                                    <option value="">- Pilih Part -</option>
+                                                    @foreach ($lamapenggantians as $lama_penggantianoli_id)
+                                                        <option value="{{ $lama_penggantianoli_id->id }}"
+                                                            {{ old('lama_penggantianoli_id.' . $loop->parent->index, $detail['lama_penggantianoli_id']) == $lama_penggantianoli_id->id ? 'selected' : '' }}>
+                                                            {{ $lama_penggantianoli_id->nama }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </td>
@@ -387,38 +386,38 @@
         }
 
         function itemPembelian(urutan, key, value = null) {
-            var kategori = '';
+            var lama_penggantianoli_id = '';
             var sparepart_id = '';
             var nama_barang = '';
             // var keterangan = '';
             var jumlah = '';
 
             if (value !== null) {
-                kategori = value.kategori;
+                lama_penggantianoli_id = value.lama_penggantianoli_id;
                 sparepart_id = value.sparepart_id;
                 nama_barang = value.nama_barang;
                 // keterangan = value.keterangan;
                 jumlah = value.jumlah;
             }
 
-            console.log(kategori);
+            console.log(lama_penggantianoli_id);
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-            item_pembelian += '<td>';
+
+            item_pembelian += '<td style="width: 240px">';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control" id="kategori-' + key +
-                '" name="kategori[]">';
-            item_pembelian += '<option value="">Pilih</option>';
-            item_pembelian += '<option value="Oli Mesin"' + (kategori === 'Oli Mesin' ? ' selected' : '') +
-                '>Oli Mesin</option>';
-            item_pembelian += '<option value="Oli Gardan"' + (kategori === 'Oli Gardan' ? ' selected' : '') +
-                '>Oli Gardan</option>';
-            item_pembelian += '<option value="Oli Transmisi"' + (kategori === 'Oli Transmisi' ? ' selected' : '') +
-                '>Oli Transmisi</option>';
+            item_pembelian += '<select class="form-control select2bs4" id="lama_penggantianoli_id-' + key +
+                '" name="lama_penggantianoli_id[]"onchange="getDataarray(' + key + ')">';
+            item_pembelian += '<option value="">Cari Part..</option>';
+            item_pembelian += '@foreach ($lamapenggantians as $lama_penggantianoli_id)';
+            item_pembelian +=
+                '<option value="{{ $lama_penggantianoli_id->id }}" {{ $lama_penggantianoli_id->id == ' + lama_penggantianoli_id + ' ? 'selected' : '' }}>{{ $lama_penggantianoli_id->nama }}</option>';
+            item_pembelian += '@endforeach';
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
+
             item_pembelian += '<td style="width: 240px">';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control select2bs4" id="sparepart_id-' + key +
@@ -463,7 +462,7 @@
             $('#tabel-pembelian').append(item_pembelian);
 
             if (value !== null) {
-                $('#kategori-' + key).val(value.kategori);
+                $('#lama_penggantianoli_id-' + key).val(value.lama_penggantianoli_id);
                 $('#sparepart_id-' + key).val(value.sparepart_id);
                 $('#nama_barang-' + key).val(value.nama_barang);
                 // $('#keterangan-' + key).val(value.keterangan);

@@ -11,7 +11,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Detail_pemasanganpart;
 use App\Models\Detail_penggantianoli;
 use App\Models\Detail_penggantianpart;
-use App\Models\Lama_penggantianoli;
 use App\Models\Pembelian_ban;
 use App\Models\Penggantian_oli;
 use Illuminate\Support\Facades\Validator;
@@ -66,9 +65,8 @@ class InqueryPenggantianoliController extends Controller
 
             $details = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
             $detailparts = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
-            $lamapenggantians = Lama_penggantianoli::get();
 
-            return view('admin.inquery_penggantianoli.update', compact('lamapenggantians', 'penggantianoli', 'spareparts', 'details', 'detailparts'));
+            return view('admin.inquery_penggantianoli.update', compact('penggantianoli', 'spareparts', 'details', 'detailparts'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -94,10 +92,10 @@ class InqueryPenggantianoliController extends Controller
         }
 
 
-        if ($request->has('lama_penggantianoli_id')) {
-            for ($i = 0; $i < count($request->lama_penggantianoli_id); $i++) {
+        if ($request->has('kategori')) {
+            for ($i = 0; $i < count($request->kategori); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
-                    'lama_penggantianoli_id.' . $i => 'required',
+                    'kategori.' . $i => 'required',
                     'sparepart_id.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
                     'jumlah.' . $i => 'required',
@@ -108,12 +106,12 @@ class InqueryPenggantianoliController extends Controller
                 }
 
 
-                $lama_penggantianoli_id = is_null($request->lama_penggantianoli_id[$i]) ? '' : $request->lama_penggantianoli_id[$i];
+                $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
                 $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
 
-                $data_pembelians->push(['detail_id' => $request->detail_ids[$i] ?? null, 'lama_penggantianoli_id' => $lama_penggantianoli_id, 'sparepart_id' => $sparepart_id, 'nama_barang' => $nama_barang, 'jumlah' => $jumlah]);
+                $data_pembelians->push(['detail_id' => $request->detail_ids[$i] ?? null, 'kategori' => $kategori, 'sparepart_id' => $sparepart_id, 'nama_barang' => $nama_barang, 'jumlah' => $jumlah]);
             }
 
             $transaksi = Penggantian_oli::findOrFail($id);
@@ -128,24 +126,24 @@ class InqueryPenggantianoliController extends Controller
                     'sparepart_id' => $sparepartId,
                 ])->first();
 
-                // if (!$existingDetail) {
-                //     // Handle oil replacement checks only for new 'sparepart_id'
-                //     $kendaraan = Kendaraan::where('id', $transaksi->kendaraan_id)->first();
+                if (!$existingDetail) {
+                    // Handle oil replacement checks only for new 'sparepart_id'
+                    $kendaraan = Kendaraan::where('id', $transaksi->kendaraan_id)->first();
 
-                //     $kategori_to_km = [
-                //         'Oli Mesin' => $kendaraan->km_olimesin,
-                //         'Oli Gardan' => $kendaraan->km_oligardan,
-                //         'Oli Transmisi' => $kendaraan->km_olitransmisi,
-                //     ];
+                    $kategori_to_km = [
+                        'Oli Mesin' => $kendaraan->km_olimesin,
+                        'Oli Gardan' => $kendaraan->km_oligardan,
+                        'Oli Transmisi' => $kendaraan->km_olitransmisi,
+                    ];
 
-                //     foreach ($kategori_to_km as $kategori => $km_threshold) {
-                //         if (in_array($kategori, $request->kategori) && $kendaraan->km < $km_threshold) {
-                //             array_push($error_pesanans, "Penambahan penggantian oli tidak dapat dilakukan, belum waktunya penggantian");
-                //             $performValidation = false; // Disable further validation
-                //             break; // Exit the inner loop
-                //         }
-                //     }
-                // }
+                    foreach ($kategori_to_km as $kategori => $km_threshold) {
+                        if (in_array($kategori, $request->kategori) && $kendaraan->km < $km_threshold) {
+                            array_push($error_pesanans, "Penambahan penggantian oli tidak dapat dilakukan, belum waktunya penggantian");
+                            $performValidation = false; // Disable further validation
+                            break; // Exit the inner loop
+                        }
+                    }
+                }
             }
         } else {
         }
@@ -217,8 +215,6 @@ class InqueryPenggantianoliController extends Controller
             'status' => 'posting',
         ]);
 
-        $kendaraan = Kendaraan::where('id', $request->kendaraan_id)->first();
-
         $transaksi_id = $transaksi->id;
 
         $detailIds = $request->input('detail_ids');
@@ -229,29 +225,37 @@ class InqueryPenggantianoliController extends Controller
             if ($detailId) {
                 // Mendapatkan data Detail_pembelianpart yang akan diupdate
                 $detailToUpdate = Detail_penggantianoli::find($detailId);
-                $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
-                if ($sparepart) {
-                    // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
-                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
 
-                    // Memperbarui jumlah sparepart langsung, tanpa membatasi menjadi minimum 0
-                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
+                if ($detailToUpdate) {
+                    // Menghitung jumlah baru berdasarkan perubahan
+                    $jumlahLamaDetail = $detailToUpdate->jumlah;
+                    $jumlahBaruDetail = $data_pesanan['jumlah'];
 
-                    // Mengambil data lama_penggantianoli berdasarkan ID
-                    $lamapenggantian = Lama_penggantianoli::where('id', $data_pesanan['lama_penggantianoli_id'])->first();
+                    // Menghitung selisih antara stok lama dan stok baru
+                    $selisihStok = $jumlahBaruDetail - $jumlahLamaDetail;
 
-                    // Menghitung nilai km_berikutnya
-                    $km_berikutnya = $request->km + ($lamapenggantian ? $lamapenggantian->km_oli : 0);
+                    // Mendapatkan data Sparepart
+                    $sparepart = Sparepart::find($detailToUpdate->sparepart_id);
 
-                    // Update Detail_pembelianpart
-                    $detailToUpdate->update([
-                        'penggantian_oli_id' => $transaksi->id,
-                        'lama_penggantianoli_id' => $data_pesanan['lama_penggantianoli_id'],
-                        'sparepart_id' => $data_pesanan['sparepart_id'],
-                        'jumlah' => $data_pesanan['jumlah'],
-                        'km_penggantian' => $request->km,
-                        'km_berikutnya' => $km_berikutnya, // Menggunakan nilai yang telah diubah
-                    ]);
+                    if ($sparepart) {
+                        // Menghitung jumlah baru untuk Sparepart
+                        $jumlahLamaSparepart = $sparepart->jumlah;
+                        $jumlahBaruSparepart = $data_pesanan['jumlah'];
+                        $jumlahTotalSparepart = $jumlahLamaSparepart - $selisihStok;
+
+                        // Update Detail_pembelianpart
+                        $detailToUpdate->update([
+                            'penggantian_oli_id' => $transaksi->id,
+                            'kategori' => $data_pesanan['kategori'],
+                            'sparepart_id' => $data_pesanan['sparepart_id'],
+                            'jumlah' => $data_pesanan['jumlah'],
+                        ]);
+
+                        // Temukan semua Detail_pembelianpart dengan sparepart_id yang sama
+                        $sparepart->update([
+                            'jumlah' => $jumlahTotalSparepart,
+                        ]);
+                    }
                 }
             } else {
                 $existingDetail = Detail_penggantianoli::where([
@@ -259,84 +263,85 @@ class InqueryPenggantianoliController extends Controller
                     'sparepart_id' => $data_pesanan['sparepart_id'],
                 ])->first();
 
-
-                $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
                 if (!$existingDetail) {
 
-                    // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
-                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
+                    $penggantianoli = Penggantian_oli::where('id', $id)->first();
+                    $kendaraan = Kendaraan::where('id', $penggantianoli->kendaraan_id)->first();
+                    $km_olimesin = $kendaraan->km_olimesin; // Ambil nilai km_olimesin
+                    $km_oligardan = $kendaraan->km_oligardan; // Ambil nilai km gardan
+                    $km_olitransmisi = $kendaraan->km_olitransmisi; // Ambil nilai km transmisi
+                    $kategori_to_km = [
+                        'Oli Mesin' => $km_olimesin,
+                        'Oli Gardan' => $km_oligardan,
+                        'Oli Transmisi' => $km_olitransmisi,
+                    ];
+                    foreach ($kategori_to_km as $kategori => $km_threshold) {
+                        if (in_array($kategori, $request->kategori) && $kendaraan->km < $km_threshold) {
+                            array_push($error_pesanans, "Pergantian $kategori tidak dapat dilakukan, belum saatnya penggantian");
+                        }
+                    }
 
-                    // Memperbarui jumlah sparepart langsung, tanpa membatasi menjadi minimum 0
-                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
 
-                    // Mengambil data lama_penggantianoli berdasarkan ID
-                    $lamapenggantian = Lama_penggantianoli::where('id', $data_pesanan['lama_penggantianoli_id'])->first();
+                    $penggantianoli = Penggantian_oli::where('id', $id)->first();
+                    $kendaraan = Kendaraan::where('id', $penggantianoli->kendaraan_id)->first();
+                    $km_berikutnya = $kendaraan->km; // Nilai default
 
-                    // Menghitung nilai km_berikutnya
-                    $km_berikutnya = $request->km + ($lamapenggantian ? $lamapenggantian->km_oli : 0);
-
+                    if ($data_pesanan['kategori'] == 'Oli Mesin') {
+                        $km_berikutnya += 13000;
+                    } elseif ($data_pesanan['kategori'] == 'Oli Gardan') {
+                        $km_berikutnya += 50000;
+                    } elseif ($data_pesanan['kategori'] == 'Oli Transmisi') {
+                        $km_berikutnya += 50000;
+                    }
+                    // Membuat Detail_pemasanganpart baru
                     Detail_penggantianoli::create([
                         'penggantian_oli_id' => $transaksi->id,
-                        'lama_penggantianoli_id' => $data_pesanan['lama_penggantianoli_id'],
-                        'sparepart_id' => $data_pesanan['sparepart_id'],
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                        'sparepart_id' => $data_pesanan['sparepart_id'],
+                        'kategori' => $data_pesanan['kategori'],
                         'jumlah' => $data_pesanan['jumlah'],
-                        'km_penggantian' => $request->km,
+                        'km_penggantian' => $kendaraan->km,
                         'km_berikutnya' => $km_berikutnya, // Menggunakan nilai yang telah diubah
                     ]);
-                }
-            }
-        }
 
-        // Ambil kendaraan berdasarkan ID yang ada di request
-        $kendaraan = Kendaraan::where('id', $request->kendaraan_id)->first();
+                    $dataToUpdate = [
+                        'km' => $kendaraan->km,
+                        'km_olimesin' => $kendaraan->km_olimesin, // Tambahkan ini
+                        'km_oligardan' => $kendaraan->km_oligardan, // Tambahkan ini
+                        'km_olitransmisi' => $kendaraan->km_olitransmisi, // Tambahkan ini
+                        'status_olimesin' => null,
+                        'status_oligardan' => null,
+                        'status_olitransmisi' => null,
+                    ];
 
-        if ($kendaraan) {
-            // Persiapkan data yang akan diupdate
-            $dataToUpdate = [
-                'km' => $request->km,
-                'km_olimesin' => null,
-                'km_oligardan' => null,
-                'km_olitransmisi' => null,
-                'status_olimesin' => null,
-                'status_oligardan' => null,
-                'status_olitransmisi' => null,
-            ];
+                    if ($data_pesanan['kategori'] == 'Oli Mesin') {
+                        $dataToUpdate['km_olimesin'] = $km_berikutnya; // Update km_olimesin
+                    } elseif ($data_pesanan['kategori'] == 'Oli Gardan') {
+                        $dataToUpdate['km_oligardan'] = $km_berikutnya; // Update km_oligardan
+                    } elseif ($data_pesanan['kategori'] == 'Oli Transmisi') {
+                        $dataToUpdate['km_olitransmisi'] = $km_berikutnya; // Update km_olitransmisi
+                    }
 
-            // Proses lama_penggantianoli_id untuk memperbarui data
-            if ($request->has('lama_penggantianoli_id')) {
-                foreach ($request->lama_penggantianoli_id as $id) {
-                    $lama_penggantianoli = Lama_penggantianoli::find($id);
+                    $kendaraan->update($dataToUpdate);
 
-                    if ($lama_penggantianoli) {
-                        switch ($id) {
-                            case 1: // Oli Mesin
-                                $dataToUpdate['km_olimesin'] = $request->km + $lama_penggantianoli->km_oli;
-                                $dataToUpdate['status_olimesin'] = 'sudah penggantian';
-                                break;
-                            case 2: // Oli Gardan
-                                $dataToUpdate['km_oligardan'] = $request->km + $lama_penggantianoli->km_oli;
-                                $dataToUpdate['status_oligardan'] = 'sudah penggantian';
-                                break;
-                            case 3: // Oli Transmisi
-                                $dataToUpdate['km_olitransmisi'] = $request->km + $lama_penggantianoli->km_oli;
-                                $dataToUpdate['status_olitransmisi'] = 'sudah penggantian';
-                                break;
-                        }
+                    $penggantianoli = Penggantian_oli::where('id', $id)->first();
+                    Kendaraan::where('id', $penggantianoli->kendaraan_id)->update($dataToUpdate);
+
+
+                    $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
+
+                    if ($sparepart) {
+                        // Mengurangkan jumlah yang ada di tabel Sparepart dengan jumlah yang diminta dalam request
+                        $newQuantity = $sparepart->jumlah - $data_pesanan['jumlah'];
+
+                        // Pastikan jumlah tidak kurang dari nol
+                        $newQuantity = max(0, $newQuantity);
+
+                        // Memperbarui jumlah yang ada di tabel Sparepart
+                        $sparepart->update(['jumlah' => $newQuantity]);
                     }
                 }
             }
-
-            // Pertahankan nilai lama jika tidak ada perubahan pada request
-            $dataToUpdate['km_olimesin'] = $dataToUpdate['km_olimesin'] ?? $kendaraan->km_olimesin;
-            $dataToUpdate['km_oligardan'] = $dataToUpdate['km_oligardan'] ?? $kendaraan->km_oligardan;
-            $dataToUpdate['km_olitransmisi'] = $dataToUpdate['km_olitransmisi'] ?? $kendaraan->km_olitransmisi;
-            $dataToUpdate['status_olimesin'] = $dataToUpdate['status_olimesin'] ?? $kendaraan->status_olimesin;
-            $dataToUpdate['status_oligardan'] = $dataToUpdate['status_oligardan'] ?? $kendaraan->status_oligardan;
-            $dataToUpdate['status_olitransmisi'] = $dataToUpdate['status_olitransmisi'] ?? $kendaraan->status_olitransmisi;
-
-            // Update kendaraan dengan data yang sudah disiapkan
-            $kendaraan->update($dataToUpdate);
         }
 
         $detailIdss = $request->input('details_ids');
@@ -347,21 +352,38 @@ class InqueryPenggantianoliController extends Controller
             if ($detailId) {
                 // Mendapatkan data Detail_pembelianpart yang akan diupdate
                 $detailToUpdate = Detail_penggantianpart::find($detailId);
-                $sparepart = Sparepart::find($data_pesanan['spareparts_id']);
 
-                if ($sparepart) {
-                    // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
-                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah2'];
+                if ($detailToUpdate) {
+                    // Menghitung jumlah baru berdasarkan perubahan
+                    $jumlahLamaDetail = $detailToUpdate->jumlah2;
+                    $jumlahBaruDetail = $data_pesanan['jumlah2'];
 
-                    // Memperbarui jumlah sparepart
-                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
+                    // Menghitung selisih antara stok lama dan stok baru
+                    $selisihStok = $jumlahBaruDetail - $jumlahLamaDetail;
 
-                    $detailToUpdate->update([
-                        'penggantians_oli_id' => $transaksi->id,
-                        'kategori2' => $data_pesanan['kategori2'],
-                        'spareparts_id' => $data_pesanan['spareparts_id'],
-                        'jumlah2' => $data_pesanan['jumlah2'],
-                    ]);
+                    // Mendapatkan data Sparepart
+                    $sparepart = Sparepart::find($detailToUpdate->spareparts_id);
+
+                    if ($sparepart) {
+                        // Menghitung jumlah baru untuk Sparepart
+                        $jumlahLamaSparepart = $sparepart->jumlah;
+                        $jumlahBaruSparepart = $data_pesanan['jumlah2'];
+                        $jumlahTotalSparepart = $jumlahLamaSparepart - $selisihStok;
+
+                        // Mengecek apakah stok cukup
+                        // Update Detail_pembelianpart
+                        $detailToUpdate->update([
+                            'penggantians_oli_id' => $transaksi->id,
+                            'kategori2' => $data_pesanan['kategori2'],
+                            'spareparts_id' => $data_pesanan['spareparts_id'],
+                            'jumlah2' => $data_pesanan['jumlah2'],
+                        ]);
+
+                        // Temukan semua Detail_pembelianpart dengan sparepart_id yang sama
+                        $sparepart->update([
+                            'jumlah' => $jumlahTotalSparepart,
+                        ]);
+                    }
                 }
             } else {
                 $existingDetail = Detail_penggantianpart::where([
@@ -369,22 +391,29 @@ class InqueryPenggantianoliController extends Controller
                     'spareparts_id' => $data_pesanan['spareparts_id'],
                 ])->first();
 
-                $sparepart = Sparepart::find($data_pesanan['spareparts_id']);
                 if (!$existingDetail) {
-                    // Mengurangkan jumlah sparepart yang dipilih dengan jumlah yang dikirim dalam request
-                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah2'];
-
-                    // Memperbarui jumlah sparepart
-                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
-
+                    // Membuat Detail_pemasanganpart baru
                     Detail_penggantianpart::create([
                         'penggantians_oli_id' => $transaksi->id,
-                        'kategori2' => $data_pesanan['kategori2'],
-                        'spareparts_id' => $data_pesanan['spareparts_id'],
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                        'spareparts_id' => $data_pesanan['spareparts_id'],
+                        'kategori2' => $data_pesanan['kategori2'],
                         'jumlah2' => $data_pesanan['jumlah2'],
-                        'km_penggantian' => $request->km,
                     ]);
+
+                    // Mengambil informasi jumlah yang ada di tabel Sparepart
+                    $sparepart = Sparepart::find($data_pesanan['spareparts_id']);
+
+                    if ($sparepart) {
+                        // Mengurangkan jumlah yang ada di tabel Sparepart dengan jumlah yang diminta dalam request
+                        $newQuantity = $sparepart->jumlah - $data_pesanan['jumlah2'];
+
+                        // Pastikan jumlah tidak kurang dari nol
+                        $newQuantity = max(0, $newQuantity);
+
+                        // Memperbarui jumlah yang ada di tabel Sparepart
+                        $sparepart->update(['jumlah' => $newQuantity]);
+                    }
                 }
             }
         }
@@ -493,36 +522,36 @@ class InqueryPenggantianoliController extends Controller
         $kendaraan = Kendaraan::find($part->kendaraan_id);
 
 
-        // foreach ($detailpenggantianoli as $detail) {
-        //     $sparepartId = $detail->sparepart_id;
-        //     $sparepart = Sparepart::find($sparepartId);
+        foreach ($detailpenggantianoli as $detail) {
+            $sparepartId = $detail->sparepart_id;
+            $sparepart = Sparepart::find($sparepartId);
 
-        //     // Add the quantity back to the stock in the Sparepart record
-        //     $newQuantity = $sparepart->jumlah + $detail->jumlah;
-        //     $sparepart->update(['jumlah' => $newQuantity]);
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $sparepart->jumlah + $detail->jumlah;
+            $sparepart->update(['jumlah' => $newQuantity]);
 
-        //     // Check the category and update the Kendaraan status
-        //     if ($detail->kategori == 'Oli Mesin') {
-        //         $kendaraan->update(['km_olimesin' => 0]);
-        //         $kendaraan->update(['status_olimesin' => 'belum penggantian']);
-        //     } elseif ($detail->kategori == 'Oli Transmisi') {
-        //         $kendaraan->update(['km_olitransmisi' => 0]);
-        //         $kendaraan->update(['status_olitransmisi' => 'belum penggantian']);
-        //     } elseif ($detail->kategori == 'Oli Gardan') {
-        //         $kendaraan->update(['km_oligardan' => 0]);
-        //         $kendaraan->update(['status_oligardan' => 'belum penggantian']);
-        //     }
-        // }
+            // Check the category and update the Kendaraan status
+            if ($detail->kategori == 'Oli Mesin') {
+                $kendaraan->update(['km_olimesin' => 0]);
+                $kendaraan->update(['status_olimesin' => 'belum penggantian']);
+            } elseif ($detail->kategori == 'Oli Transmisi') {
+                $kendaraan->update(['km_olitransmisi' => 0]);
+                $kendaraan->update(['status_olitransmisi' => 'belum penggantian']);
+            } elseif ($detail->kategori == 'Oli Gardan') {
+                $kendaraan->update(['km_oligardan' => 0]);
+                $kendaraan->update(['status_oligardan' => 'belum penggantian']);
+            }
+        }
 
 
-        // foreach ($detailpenggantianpart as $detail) {
-        //     $sparepartId = $detail->spareparts_id;
-        //     $sparepart = Sparepart::find($sparepartId);
+        foreach ($detailpenggantianpart as $detail) {
+            $sparepartId = $detail->spareparts_id;
+            $sparepart = Sparepart::find($sparepartId);
 
-        //     // Add the quantity back to the stock in the Sparepart record
-        //     $newQuantity = $sparepart->jumlah + $detail->jumlah2;
-        //     $sparepart->update(['jumlah' => $newQuantity]);
-        // }
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $sparepart->jumlah + $detail->jumlah2;
+            $sparepart->update(['jumlah' => $newQuantity]);
+        }
 
         // Delete the related Detail_penggantianoli records
         $part->detail_oli()->delete();
@@ -541,9 +570,31 @@ class InqueryPenggantianoliController extends Controller
 
         $penggantianoli = Penggantian_oli::where('id', $parts->penggantian_oli_id)->first();
         $kendaraan = Kendaraan::find($penggantianoli->kendaraan_id);
+
+        // Check the category and update the Kendaraan status
+        if ($parts->kategori == 'Oli Mesin') {
+            $kendaraan->update(['km_olimesin' => 0]);
+            $kendaraan->update(['status_olimesin' => 'belum penggantian']);
+        } elseif ($parts->kategori == 'Oli Transmisi') {
+            $kendaraan->update(['km_olitransmisi' => 0]);
+            $kendaraan->update(['status_olitransmisi' => 'belum penggantian']);
+        } elseif ($parts->kategori == 'Oli Gardan') {
+            $kendaraan->update(['km_oligardan' => 0]);
+            $kendaraan->update(['status_oligardan' => 'belum penggantian']);
+        }
+
         if ($part) {
             $sparepart = Sparepart::find($part->sparepart_id);
-            $part->delete();
+
+            if ($sparepart) {
+                $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah]);
+
+                $part->delete();
+
+                return response()->json(['message' => 'Data deleted successfully']);
+            } else {
+                return response()->json(['message' => 'Sparepart not found'], 404);
+            }
         } else {
             return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
         }
@@ -558,36 +609,36 @@ class InqueryPenggantianoliController extends Controller
         $kendaraan = Kendaraan::find($part->kendaraan_id);
 
 
-        // foreach ($detailpenggantianoli as $detail) {
-        //     $sparepartId = $detail->sparepart_id;
-        //     $sparepart = Sparepart::find($sparepartId);
+        foreach ($detailpenggantianoli as $detail) {
+            $sparepartId = $detail->sparepart_id;
+            $sparepart = Sparepart::find($sparepartId);
 
-        //     // Add the quantity back to the stock in the Sparepart record
-        //     $newQuantity = $sparepart->jumlah + $detail->jumlah;
-        //     $sparepart->update(['jumlah' => $newQuantity]);
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $sparepart->jumlah + $detail->jumlah;
+            $sparepart->update(['jumlah' => $newQuantity]);
 
-        //     // Check the category and update the Kendaraan status
-        //     if ($detail->kategori == 'Oli Mesin') {
-        //         $kendaraan->update(['km_olimesin' => 0]);
-        //         $kendaraan->update(['status_olimesin' => 'belum penggantian']);
-        //     } elseif ($detail->kategori == 'Oli Transmisi') {
-        //         $kendaraan->update(['km_olitransmisi' => 0]);
-        //         $kendaraan->update(['status_olitransmisi' => 'belum penggantian']);
-        //     } elseif ($detail->kategori == 'Oli Gardan') {
-        //         $kendaraan->update(['km_oligardan' => 0]);
-        //         $kendaraan->update(['status_oligardan' => 'belum penggantian']);
-        //     }
-        // }
+            // Check the category and update the Kendaraan status
+            if ($detail->kategori == 'Oli Mesin') {
+                $kendaraan->update(['km_olimesin' => 0]);
+                $kendaraan->update(['status_olimesin' => 'belum penggantian']);
+            } elseif ($detail->kategori == 'Oli Transmisi') {
+                $kendaraan->update(['km_olitransmisi' => 0]);
+                $kendaraan->update(['status_olitransmisi' => 'belum penggantian']);
+            } elseif ($detail->kategori == 'Oli Gardan') {
+                $kendaraan->update(['km_oligardan' => 0]);
+                $kendaraan->update(['status_oligardan' => 'belum penggantian']);
+            }
+        }
 
 
-        // foreach ($detailpenggantianpart as $detail) {
-        //     $sparepartId = $detail->spareparts_id;
-        //     $sparepart = Sparepart::find($sparepartId);
+        foreach ($detailpenggantianpart as $detail) {
+            $sparepartId = $detail->spareparts_id;
+            $sparepart = Sparepart::find($sparepartId);
 
-        //     // Add the quantity back to the stock in the Sparepart record
-        //     $newQuantity = $sparepart->jumlah + $detail->jumlah2;
-        //     $sparepart->update(['jumlah' => $newQuantity]);
-        // }
+            // Add the quantity back to the stock in the Sparepart record
+            $newQuantity = $sparepart->jumlah + $detail->jumlah2;
+            $sparepart->update(['jumlah' => $newQuantity]);
+        }
 
         // Delete the related Detail_penggantianoli records
         $part->detail_oli()->delete();
@@ -606,7 +657,7 @@ class InqueryPenggantianoliController extends Controller
             $sparepart = Sparepart::find($part->spareparts_id);
 
             if ($sparepart) {
-                // $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah2]);
+                $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah2]);
 
                 $part->delete();
 

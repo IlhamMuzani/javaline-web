@@ -122,18 +122,19 @@
                             <tbody id="tabel-pembelian">
                                 <tr id="pembelian-0">
                                     <td class="text-center" id="urutan">1</td>
-                                    <td style="width: 240px">
+                                    <td>
                                         <div class="form-group">
-                                            <select class="select2bs4 select21-hidden-accessible"
-                                                id="lama_penggantianoli_id-0" name="lama_penggantianoli_id[]"
-                                                data-placeholder="Kategori.." style="width: 100%;" data-select21-id="23"
-                                                tabindex="-1" aria-hidden="true" onchange="getData1(0)">
-                                                <option value="">- Pilih -</option>
-                                                @foreach ($lamapenggantians as $lamapenggantian)
-                                                    <option value="{{ $lamapenggantian->id }}">
-                                                        {{ $lamapenggantian->nama }}
-                                                    </option>
-                                                @endforeach
+                                            <select class="form-control" id="kategori-0" name="kategori[]">
+                                                <option value="">Pilih</option>
+                                                <option value="Oli Mesin"
+                                                    {{ old('kategori') == 'Oli Mesin' ? 'selected' : null }}>
+                                                    Oli Mesin</option>
+                                                <option value="Oli Gardan"
+                                                    {{ old('kategori') == 'Oli Gardan' ? 'selected' : null }}>
+                                                    Oli Gardan</option>
+                                                <option value="Oli Transmisi"
+                                                    {{ old('kategori') == 'Oli Transmisi' ? 'selected' : null }}>
+                                                    Oli Transmisi</option>
                                             </select>
                                         </div>
                                     </td>
@@ -344,38 +345,38 @@
         }
 
         function itemPembelian(urutan, key, style, value = null) {
-            var lama_penggantianoli_id = '';
+            var kategori = '';
             var sparepart_id = '';
             var nama_barang = '';
             // var keterangan = '';
             var jumlah = '';
 
             if (value !== null) {
-                lama_penggantianoli_id = value.lama_penggantianoli_id;
+                kategori = value.kategori;
                 sparepart_id = value.sparepart_id;
                 nama_barang = value.nama_barang;
                 // keterangan = value.keterangan;
                 jumlah = value.jumlah;
             }
 
-            console.log(lama_penggantianoli_id);
+            console.log(kategori);
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + urutan + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-
-            item_pembelian += '<td style="width: 240px">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control select2bs4" id="lama_penggantianoli_id-' + key +
-                '" name="lama_penggantianoli_id[]"onchange="getDataarray(' + key + ')">';
-            item_pembelian += '<option value="">Kategori..</option>';
-            item_pembelian += '@foreach ($lamapenggantians as $lama_penggantianoli_id)';
-            item_pembelian +=
-                '<option value="{{ $lama_penggantianoli_id->id }}" {{ $lama_penggantianoli_id->id == ' + lama_penggantianoli_id + ' ? 'selected' : '' }}>{{ $lama_penggantianoli_id->nama }}</option>';
-            item_pembelian += '@endforeach';
+            item_pembelian += '<select class="form-control" id="kategori-' + key +
+                '" name="kategori[]">';
+            item_pembelian += '<option value="">Pilih</option>';
+            item_pembelian += '<option value="Oli Mesin"' + (kategori === 'Oli Mesin' ? ' selected' : '') +
+                '>Oli Mesin</option>';
+            item_pembelian += '<option value="Oli Gardan"' + (kategori === 'Oli Gardan' ? ' selected' : '') +
+                '>Oli Gardan</option>';
+            item_pembelian += '<option value="Oli Transmisi"' + (kategori === 'Oli Transmisi' ? ' selected' : '') +
+                '>Oli Transmisi</option>';
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
-
             item_pembelian += '<td style="width: 240px">';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control select2bs4" id="sparepart_id-' + key +
@@ -432,19 +433,12 @@
 
             $('#tabel-pembelian').append(item_pembelian);
 
-            $('#lama_penggantianoli_id-' + key + '').val(lama_penggantianoli_id).attr('selected', true);
             $('#sparepart_id-' + key + '').val(sparepart_id).attr('selected', true);
         }
 
         function select2(id) {
             $(function() {
                 $('#sparepart_id-' + id).select2({
-                    theme: 'bootstrap4'
-                });
-            });
-
-            $(function() {
-                $('#lama_penggantianoli_id-' + id).select2({
                     theme: 'bootstrap4'
                 });
             });
