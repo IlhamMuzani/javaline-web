@@ -172,7 +172,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Faktur Ekspedisi <span>
+                        <h3 class="card-title">Faktur Sewa <span>
                             </span></h3>
                         <div class="float-right">
                             <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
@@ -196,6 +196,7 @@
                                     <th style="font-size:14px">Qty</th>
                                     {{-- <th style="font-size:14px">Satuan</th> --}}
                                     <th style="font-size:14px">Harga</th>
+                                    <th style="font-size:14px">Potongan</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
@@ -277,6 +278,13 @@
                                         <div class="form-group">
                                             <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
                                                 type="text" class="form-control" id="harga-0" name="harga[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="nominal_potongan-0"
+                                                name="nominal_potongan[]">
                                         </div>
                                     </td>
                                     <td>
@@ -585,6 +593,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
+            var nominal_potongan = '';
             var total = '';
 
             if (value !== null) {
@@ -600,6 +609,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
+                nominal_potongan = value.nominal_potongan;
                 total = value.total;
             }
 
@@ -726,6 +736,17 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // nominal_potongan 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="nominal_potongan-' +
+                urutan +
+                '" name="nominal_potongan[]" value="' + nominal_potongan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
             // total 
             item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
@@ -782,6 +803,7 @@
             var jumlah = selectedRow.data('jumlah');
             var satuan = selectedRow.data('satuan');
             var harga = selectedRow.data('harga_tarif');
+            var nominal_potongan = selectedRow.data('nominal_potongan');
             var sub_total = selectedRow.data('total_tarif');
 
             // membuat validasi jika kode sudah ada 
@@ -796,6 +818,8 @@
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
             $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            $('#nominal_potongan-' + activeSpecificationIndex).val(parseFloat(nominal_potongan).toLocaleString(
+                'id-ID'));
             $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
 
             updateGrandTotal();
@@ -965,7 +989,8 @@
 
                 if (pelangganID) {
                     $.ajax({
-                        url: "{{ url('admin/invoice_sewakendaraan/get_faktursewanonpph') }}" + '/' +
+                        url: "{{ url('admin/invoice_sewakendaraan/get_faktursewanonpph') }}" +
+                            '/' +
                             pelangganID,
                         type: "GET",
                         dataType: "json",
@@ -973,6 +998,9 @@
                             $('#tablefaktur tbody').empty();
                             if (data.length > 0) {
                                 $.each(data, function(index, faktur) {
+                                    var nominal_potongan = faktur.nominal_potongan ||
+                                        0; // Replace null with 0
+
                                     var row = '<tr data-id="' + faktur.id +
                                         '" data-kode_faktur="' + faktur.kode_sewa +
                                         '" data-nama_rute="' + faktur.nama_rute +
@@ -983,7 +1011,9 @@
                                         '" data-jumlah="' + faktur.jumlah +
                                         '" data-satuan="' + faktur.satuan +
                                         '" data-harga_tarif="' + faktur.harga_tarif +
-                                        '" data-total_tarif="' + faktur.total_tarif +
+                                        '" data-nominal_potongan="' + nominal_potongan +
+                                        // Use the fallback value
+                                        '" data-total_tarif="' + faktur.grand_total +
                                         '" data-param="' + index + '">' +
                                         '<td class="text-center">' + (index + 1) +
                                         '</td>' +

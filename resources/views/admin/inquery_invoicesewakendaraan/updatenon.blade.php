@@ -175,6 +175,7 @@
                                     <th style="font-size:14px">Qty</th>
                                     {{-- <th style="font-size:14px">Satuan</th> --}}
                                     <th style="font-size:14px">Harga</th>
+                                    <th style="font-size:14px">Potongan</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
@@ -193,8 +194,7 @@
                                         <td hidden>
                                             <div class="form-group">
                                                 <input type="text" class="form-control"
-                                                    id="sewa_kendaraan_id-{{ $loop->index }}"
-                                                    name="sewa_kendaraan_id[]"
+                                                    id="sewa_kendaraan_id-{{ $loop->index }}" name="sewa_kendaraan_id[]"
                                                     value="{{ $detail['sewa_kendaraan_id'] }}">
                                             </div>
                                         </td>
@@ -279,6 +279,15 @@
                                                     style="font-size:14px" readonly type="text" class="form-control"
                                                     id="harga-{{ $loop->index }}" name="harga[]"
                                                     value="{{ number_format($detail['harga'], 0, ',', '.') }}">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
+                                                    style="font-size:14px" readonly type="text" class="form-control"
+                                                    id="nominal_potongan-{{ $loop->index }}" name="nominal_potongan[]"
+                                                    value="{{ number_format($detail['nominal_potongan'], 0, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td>
@@ -644,6 +653,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
+            var nominal_potongan = '';
             var total = '';
 
             if (value !== null) {
@@ -659,6 +669,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
+                nominal_potongan = value.nominal_potongan;
                 total = value.total;
             }
 
@@ -797,6 +808,18 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // nominal_potongan
+            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" readonly style="font-size:14px" id="nominal_potongan-' +
+                identifier +
+                '" name="nominal_potongan[]" value="' +
+                nominal_potongan +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             // total
             item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
@@ -874,6 +897,7 @@
             var jumlah = selectedRow.data('jumlah');
             var satuan = selectedRow.data('satuan');
             var harga = selectedRow.data('harga_tarif');
+            var nominal_potongan = selectedRow.data('nominal_potongan');
             var sub_total = selectedRow.data('total_tarif');
 
             // Update the form fields for the active specification
@@ -888,6 +912,7 @@
             $('#satuan-' + activeSpecificationIndex).val(satuan);
 
             $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            $('#nominal_potongan-' + activeSpecificationIndex).val(parseFloat(nominal_potongan).toLocaleString('id-ID'));
             $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
 
             updateGrandTotal()
@@ -1025,6 +1050,8 @@
                             $('#tablefaktur tbody').empty();
                             if (data.length > 0) {
                                 $.each(data, function(index, faktur) {
+                                    var nominal_potongan = faktur.nominal_potongan ||
+                                        0; // Replace null with 0
                                     var row = '<tr data-id="' + faktur.id +
                                         '" data-kode_faktur="' + faktur.kode_sewa +
                                         '" data-nama_rute="' + faktur.nama_rute +
@@ -1035,7 +1062,9 @@
                                         '" data-jumlah="' + faktur.jumlah +
                                         '" data-satuan="' + faktur.satuan +
                                         '" data-harga_tarif="' + faktur.harga_tarif +
-                                        '" data-total_tarif="' + faktur.total_tarif +
+                                        '" data-nominal_potongan="' + nominal_potongan +
+                                        // Use the fallback value
+                                        '" data-total_tarif="' + faktur.grand_total +
                                         '" data-param="' + index + '">' +
                                         '<td class="text-center">' + (index + 1) +
                                         '</td>' +

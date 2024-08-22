@@ -211,11 +211,12 @@
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Mobil</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Qty</td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Harga</td>
+            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Potongan</td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
         <tr>
-            <td colspan="10" style="padding: 0px;">
+            <td colspan="11" style="padding: 0px;">
                 <hr style="border-top: 1px solid black; margin: 5px 0;">
             </td>
         </tr>
@@ -250,13 +251,12 @@
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                    {{ number_format($item->nominal_potongan, 2, ',', '.') }}
+                </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    @if ($item->faktur_ekspedisi)
-                        @if ($item->faktur_ekspedisi->biaya_tambahan != 0)
-                            {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}
-                        @else
-                            {{ number_format($item->total, 2, ',', '.') }}
-                        @endif
+                    @if ($item->sewa_kendaraan)
+                        {{ number_format($item->sewa_kendaraan->grand_total, 2, ',', '.') }}
                     @else
                         {{ number_format($item->total, 2, ',', '.') }}
                     @endif
@@ -270,7 +270,7 @@
         <tr>
         </tr>
     </table>
-    <td colspan="6" style="padding: 0px; position: relative;">
+    <td colspan="7" style="padding: 0px; position: relative;">
         <hr
             style="border-top: 1px solid black; margin: 3px 0; display: inline-block; width: calc(100% - 25px); vertical-align: middle;">
         <span>
@@ -363,7 +363,7 @@
 
         </tr>
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="6"></td>
+            <td colspan="7"></td>
         </tr>
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
@@ -439,7 +439,11 @@
                         <td>
                             Pembayaran <br>
                             <span>
-                                Bank BCA No. Rek. 3620567000. PT. Java Line Logistics
+                                Bank
+                                {{ $cetakpdf->detail_invoice->first()->sewa_kendaraan->vendor->nama_bank ?? null }} No.
+                                Rek. {{ $cetakpdf->detail_invoice->first()->sewa_kendaraan->vendor->norek ?? null }}.
+                                a.n
+                                {{ $cetakpdf->detail_invoice->first()->sewa_kendaraan->vendor->atas_nama ?? null }}
                             </span>
                         </td>
                     </tr>
@@ -510,6 +514,5 @@
     <a href="{{ url('admin/invoice_sewakendaraan') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/invoice_sewakendaraan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
-
 
 </html>

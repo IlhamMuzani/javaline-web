@@ -125,6 +125,7 @@ class InvoiceSewakendaraanController extends Controller
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
                 $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
                 $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
+                $nominal_potongan = is_null($request->nominal_potongan[$i]) ? '' : $request->nominal_potongan[$i];
                 $total = is_null($request->total[$i]) ? '' : $request->total[$i];
 
                 $data_pembelians->push([
@@ -140,6 +141,7 @@ class InvoiceSewakendaraanController extends Controller
                     'jumlah' => $jumlah,
                     'satuan' => $satuan,
                     'harga' => $harga,
+                    'nominal_potongan' => $nominal_potongan,
                     'total' => $total
                 ]);
             }
@@ -200,6 +202,7 @@ class InvoiceSewakendaraanController extends Controller
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
                     'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                     'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
 
                 ]);

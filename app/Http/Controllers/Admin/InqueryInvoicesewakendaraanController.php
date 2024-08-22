@@ -150,6 +150,7 @@ class InqueryInvoicesewakendaraanController extends Controller
                     'jumlah' => $request->jumlah[$i] ?? '',
                     'satuan' => $request->satuan[$i] ?? '',
                     'harga' => $request->harga[$i] ?? '',
+                    'nominal_potongan' => $request->nominal_potongan[$i] ?? '',
                     'total' => $request->total[$i] ?? ''
                 ]);
             }
@@ -200,6 +201,7 @@ class InqueryInvoicesewakendaraanController extends Controller
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
                     'harga' => str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'nominal_potongan' => str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                     'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]
             );

@@ -27,6 +27,9 @@ class Vendor extends Model
         'fax',
         'hp',
         'email',
+        'nama_bank',
+        'atas_nama',
+        'norek',
         'tanggal_awal',
         'tanggal_akhir',
     ];

@@ -27,6 +27,7 @@ class Detail_invoice extends Model
         'no_pol',
         'jumlah',
         'satuan',
+        'nominal_potongan',
         'harga',
         'total',
         'gambar_buktifaktur',

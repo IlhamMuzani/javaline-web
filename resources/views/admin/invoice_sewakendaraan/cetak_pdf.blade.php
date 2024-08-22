@@ -233,6 +233,7 @@
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:8%">Qty
             </td>
             <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold; width:10%">Harga</td>
+            <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold; width:10%">Potongan</td>
             <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold; width:10%">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
@@ -251,7 +252,7 @@
                     {{ $loop->iteration }}
                 </td>
                 <td class="td" style="text-align: left; padding: 2px; font-size: 10px;">
-                    {{ substr($item->nama_rute, 0, 28) }}
+                    {{ substr($item->nama_rute, 0, 23) }}
                 </td>
 
                 <td class="td" style="text-align: left; padding: 0px; font-size: 10px;">
@@ -275,13 +276,12 @@
                 <td class="td" style="text-align: right; padding-right: 7px; font-size: 10px;">
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
+                <td class="td" style="text-align: right; padding-right: 7px; font-size: 10px;">
+                    {{ number_format($item->nominal_potongan, 2, ',', '.') }}
+                </td>
                 <td class="td" style="text-align: right; font-size: 10px;">
-                    @if ($item->faktur_ekspedisi)
-                        @if ($item->faktur_ekspedisi->biaya_tambahan != 0)
-                            {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}
-                        @else
-                            {{ number_format($item->total, 2, ',', '.') }}
-                        @endif
+                    @if ($item->sewa_kendaraan)
+                        {{ number_format($item->sewa_kendaraan->grand_total, 2, ',', '.') }}
                     @else
                         {{ number_format($item->total, 2, ',', '.') }}
                     @endif
@@ -462,11 +462,9 @@
                 <div>
                     Pembayaran :
                     <br>
-                    @if ($cetakpdf->kategori == 'PPH')
-                        Bank BCA No. Rek. 3620567000. PT. Java Line Logistics
-                    @else
-                        Bank BCA No. Rek. 3620488886. a.n Djohan Wahyudi
-                    @endif
+                    Bank {{ $cetakpdf->detail_invoice->first()->sewa_kendaraan->vendor->nama_bank ?? null }} No.
+                    Rek. {{ $cetakpdf->detail_invoice->first()->sewa_kendaraan->vendor->norek ?? null }}. a.n
+                    {{ $cetakpdf->detail_invoice->first()->sewa_kendaraan->vendor->atas_nama ?? null }}
                     <br>
                     <span style="color: white">.
                     </span>

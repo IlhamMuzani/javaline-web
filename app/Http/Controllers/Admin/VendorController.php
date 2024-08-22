@@ -94,6 +94,9 @@ class VendorController extends Controller
                 'kode_vendor' => $this->kode(),
                 'qrcode_vendor' => 'https://javaline.id/vendor/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
+                'nama_bank' => $request->nama_bank,
+                'atas_nama' => $request->atas_nama,
+                'norek' => $request->norek,
                 // 'qrcode_vendor' => 'http://192.168.1.46/javaline/vendor/' . $kode
             ]
         ));
@@ -194,6 +197,10 @@ class VendorController extends Controller
         $vendor->fax = $request->fax;
         $vendor->hp = $request->hp;
         $vendor->email = $request->email;
+        $vendor->nama_bank = $request->nama_bank;
+        $vendor->atas_nama = $request->atas_nama;
+        $vendor->norek = $request->norek;
+        
         $vendor->tanggal_awal = Carbon::now('Asia/Jakarta');
 
         $vendor->save();

@@ -434,7 +434,11 @@
 
             </td>
             <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
-                Potongan = {{ $cetakpdf->nominal_potongan }}% :
+                Potongan = Potongan = @if ($cetakpdf->nominal_potongan == null)
+                    0% :
+                @else
+                    {{ $cetakpdf->nominal_potongan }}% :
+                @endif
             </td>
 
 
