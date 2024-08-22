@@ -125,7 +125,7 @@ class SewakendaraanController extends Controller
 
     public function kode()
     {
-        $lastBarang = Sewa_kendaraan::where('kode_sewa', 'like', 'RK%')->latest()->first();
+        $lastBarang = Sewa_kendaraan::where('kode_sewa', 'like', 'SK%')->latest()->first();
         $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
         $currentMonth = date('m');
         if (!$lastBarang || $currentMonth != $lastMonth) {
@@ -137,7 +137,7 @@ class SewakendaraanController extends Controller
             $num = (int) $lastNum + 1;
         }
         $formattedNum = sprintf("%03s", $num);
-        $prefix = 'RK';
+        $prefix = 'SK';
         $tahun = date('y');
         $tanggal = date('dm');
         $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
