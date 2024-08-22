@@ -479,15 +479,86 @@ class InqueryFakturpelunasanController extends Controller
     }
 
 
-    public function postingpelunasanfilter(Request $request)
+    public function postingfilterpelunasan(Request $request)
     {
-
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Faktur_pelunasan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            if ($faktur && $faktur->status == 'unpost') {
+                $detailpelunasan = Detail_pelunasan::where('faktur_pelunasan_id', $faktur->id)->get();
+                foreach ($detailpelunasan as $detail) {
+                    if ($detail->faktur_ekspedisi_id) {
+                        $fakturEkspedisi = Faktur_ekspedisi::find($detail->faktur_ekspedisi_id);
+                        if ($fakturEkspedisi && $fakturEkspedisi->status_pelunasan == null) {
+                            $fakturEkspedisi->update(['status_pelunasan' => 'aktif']);
+                            $spk = Spk::find($fakturEkspedisi->spk_id);
+                            if ($spk) {
+                                $spk->update(['status_spk' => 'pelunasan']);
+                            }
+                        }
+                    }
+                    // Update status detail pelunasan menjadi posting
+                    $detail->update(['status' => 'posting']);
+                }
+
+                // Update status untuk Detail_pelunasanreturn dan Detail_pelunasanpotongan
+                foreach (Detail_pelunasanreturn::where('faktur_pelunasan_id', $faktur->id)->get() as $detailReturn) {
+                    $detailReturn->update(['status' => 'posting']);
+                }
+                foreach (Detail_pelunasanpotongan::where('faktur_pelunasan_id', $faktur->id)->get() as $detailPotongan) {
+                    $detailPotongan->update(['status' => 'posting']);
+                    Potongan_penjualan::where(['id' => $detailPotongan->potongan_penjualan_id, 'status' => 'posting'])->update(['status' => 'selesai']);
+                }
+
+                // Update status Tagihan_ekspedisi
+                Tagihan_ekspedisi::where('id', $faktur->tagihan_ekspedisi_id)->update(['status' => 'selesai']);
+
+                // Update status Faktur_pelunasan menjadi posting
+                $faktur->update(['status' => 'posting']);
+            }
+        }
     }
 
-    public function unpostpelunasanfilter(Request $request)
+    public function unpostfilterpelunasan(Request $request)
     {
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Faktur_pelunasan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            if ($faktur && $faktur->status == 'posting') {
+                $detailpelunasan = Detail_pelunasan::where('faktur_pelunasan_id', $faktur->id)->get();
+                foreach ($detailpelunasan as $detail) {
+                    if ($detail->faktur_ekspedisi_id) {
+                        $fakturEkspedisi = Faktur_ekspedisi::find($detail->faktur_ekspedisi_id);
+                        if ($fakturEkspedisi && $fakturEkspedisi->status_pelunasan == 'aktif') {
+                            $fakturEkspedisi->update(['status_pelunasan' => null]);
+                            $spk = Spk::find($fakturEkspedisi->spk_id);
+                            if ($spk) {
+                                $spk->update(['status_spk' => 'invoice']);
+                            }
+                        }
+                    }
+                    // Update status detail pelunasan menjadi posting
+                    $detail->update(['status' => 'unpost']);
+                }
+
+                // Update status untuk Detail_pelunasanreturn dan Detail_pelunasanpotongan
+                foreach (Detail_pelunasanreturn::where('faktur_pelunasan_id', $faktur->id)->get() as $detailReturn) {
+                    $detailReturn->update(['status' => 'unpost']);
+                }
+                foreach (Detail_pelunasanpotongan::where('faktur_pelunasan_id', $faktur->id)->get() as $detailPotongan) {
+                    $detailPotongan->update(['status' => 'unpost']);
+                    Potongan_penjualan::where(['id' => $detailPotongan->potongan_penjualan_id, 'status' => 'unpost'])->update(['status' => 'posting']);
+                }
+
+                // Update status Tagihan_ekspedisi
+                Tagihan_ekspedisi::where('id', $faktur->tagihan_ekspedisi_id)->update(['status' => 'posting']);
+
+                // Update status Faktur_pelunasan menjadi posting
+                $faktur->update(['status' => 'unpost']);
+            }
+        }
     }
 
 

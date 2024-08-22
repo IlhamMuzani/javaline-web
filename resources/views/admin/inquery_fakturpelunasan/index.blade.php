@@ -71,9 +71,18 @@
                                 <label for="tanggal_awal">(Tanggal Akhir)</label>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedData()">
+                                    <i class="fas fa-check-square"></i> Posting Filter
+                                </button>
+                                <button type="button" class="btn btn-warning btn-block mt-1" id="unpostfilter"
+                                    onclick="unpostSelectedData()">
+                                    <i class="fas fa-times-circle"></i> Unpost Filter
+                                </button>
+                                <input type="hidden" name="ids" id="selectedIds" value="">
                             </div>
                         </div>
                     </form>
@@ -81,6 +90,7 @@
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
+                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
                                 <th>No Faktur</th>
                                 <th>Tanggal</th>
@@ -94,6 +104,9 @@
                         <tbody>
                             @foreach ($inquery as $fakturpelunasan)
                                 <tr class="dropdown"{{ $fakturpelunasan->id }}>
+                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $fakturpelunasan->id }}">
+                                    </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
                                     <td>{{ $fakturpelunasan->tanggal_awal }}</td>
@@ -149,77 +162,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                                {{-- <div class="modal fade" id="modal-posting-{{ $fakturpelunasan->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Opsi menu</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Memo ekspedisi
-                                                    <strong>{{ $fakturpelunasan->kode_pelunasan }}</strong>
-                                                </p>
-                                                @if ($fakturpelunasan->status == 'unpost')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi delete'])
-                                                        <form method="GET"
-                                                            action="{{ route('hapuspelunasan', ['id' => $fakturpelunasan->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-danger btn-block mt-2">
-                                                                <i class="fas fa-trash-alt"></i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
-                                                        <a href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}"
-                                                            type="button" class="btn btn-outline-info btn-block">
-                                                            <i class="fas fa-eye"></i> Show
-                                                        </a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi update'])
-                                                        <a href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id . '/edit') }}"
-                                                            type="button" class="btn btn-outline-warning btn-block">
-                                                            <i class="fas fa-edit"></i> Update
-                                                        </a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi posting'])
-                                                        <form method="GET"
-                                                            action="{{ route('postingpelunasan', ['id' => $fakturpelunasan->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-success btn-block mt-2">
-                                                                <i class="fas fa-check"></i> Posting
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                                @if ($fakturpelunasan->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
-                                                        <a href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}"
-                                                            type="button" class="btn btn-outline-info btn-block">
-                                                            <i class="fas fa-eye"></i> Show
-                                                        </a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi unpost'])
-                                                        <form method="GET"
-                                                            action="{{ route('unpostpelunasan', ['id' => $fakturpelunasan->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-primary btn-block mt-2">
-                                                                <i class="fas fa-check"></i> Unpost
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> --}}
                             @endforeach
                         </tbody>
                     </table>
 
+                    <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -232,6 +179,28 @@
                         </div>
                     </div>
 
+                    {{-- validasi gagal  --}}
+                    <div class="modal fade" id="validationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="validationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="validationModalLabel">Validasi Gagal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-times-circle fa-3x text-danger"></i>
+                                    <h4 class="mt-2">Validasi Gagal!</h4>
+                                    <p id="validationMessage"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -431,6 +400,96 @@
                     ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
             });
         });
+    </script>
+
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        function postingSelectedData() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpelunasan') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function unpostSelectedData() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum mengunpost.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/unpostfilterpelunasan') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
     </script>
 
 @endsection

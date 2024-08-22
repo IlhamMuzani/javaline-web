@@ -838,6 +838,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_pelunasansewakendaraan/posting/{id}', [\App\Http\Controllers\Admin\InqueryPelunasansewakendaraanController::class, 'posting']);
     Route::get('hapuspelunasansewa/{id}', [\App\Http\Controllers\Admin\InqueryPelunasansewakendaraanController::class, 'hapuspelunasansewa'])->name('hapuspelunasansewa');
     Route::resource('lama_penggantianoli', \App\Http\Controllers\Admin\LamapenggantianoliController::class);
+
+    Route::get('postingfilterpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'postingfilterpelunasan']);
+    Route::get('unpostfilterpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'unpostfilterpelunasan']);
 });
 
 
