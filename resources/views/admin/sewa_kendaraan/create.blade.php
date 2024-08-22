@@ -530,7 +530,7 @@
                                     <hr
                                         style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
                                     <span
-                                        style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 17px; vertical-align: middle;">+</span>
+                                        style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 17px; vertical-align: middle;">-</span>
 
                                     <div class="col-lg-6">
 
