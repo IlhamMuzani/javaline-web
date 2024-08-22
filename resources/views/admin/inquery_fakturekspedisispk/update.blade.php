@@ -858,11 +858,11 @@
                         <!-- HTML -->
                         <div id="form-group-kendaraan" class="form-group d-flex">
                             <input class="form-control" id="nama_sopir" name="nama_sopir" type="text" placeholder=""
-                                value="{{ old('nama_sopir', $inquery->nama_sopir ?? null) }}" readonly style=" font-size:14px" />
+                                value="{{ old('nama_sopir', $inquery->nama_sopir ?? null) }}" style=" font-size:14px" />
                         </div>
                         <div class="form-group">
                             <label style="font-size:14px" for="telp_sopir">Telp</label>
-                            <input style="font-size:14px" readonly type="text" class="form-control" id="telp_sopir"
+                            <input style="font-size:14px" type="text" class="form-control" id="telp_sopir"
                                 name="telp_sopir" placeholder="" value="{{ old('telp_sopir', $inquery->telp_sopir ?? null) }}">
                         </div>
                         <div hidden class="form-group">
@@ -873,7 +873,7 @@
 
                         <div class="form-group">
                             <label style="font-size:14px" for="no_pols">No. Pol</label>
-                            <input style="font-size:14px" readonly type="text" class="form-control" id="no_pols"
+                            <input style="font-size:14px" type="text" class="form-control" id="no_pols"
                                 name="no_pols" placeholder="" value="{{ old('no_pols', $inquery->no_pol ?? null) }}">
                         </div>
                     </div>

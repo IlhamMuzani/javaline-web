@@ -438,7 +438,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" hidden>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label style="font-size:14px; margin-top:5px" for="tarif">Biaya
@@ -452,6 +452,31 @@
                                                     class="form-control" readonly id="biaya_tambahan"
                                                     name="biaya_tambahan" placeholder=""
                                                     value="{{ number_format($inquery->uang_jalan, 0, ',', '.') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="tarif">Potongan %
+                                                    <span style="margin-left:44px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input style="text-align: end; font-size:14px;" type="number"
+                                                        class="form-control" id="nominal_potongan"
+                                                        name="nominal_potongan" placeholder="masukkan nominal_potongan"
+                                                        value="{{ number_format($inquery->nominal_potongan, 0, ',', '.') }}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <input style="text-align: end; font-size:14px;" type="text"
+                                                        class="form-control" readonly id="hasil_potongan"
+                                                        name="hasil_potongan" placeholder=""
+                                                        value="{{ number_format($inquery->hasil_potongan, 0, ',', '.') }}">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -586,7 +611,7 @@
                             <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                         </div>
                         <div class="table-responsive scrollbar m-2">
-                            <table id="tables" class="table table-bordered table-striped">
+                            <table id="datatables5" class="table table-bordered table-striped">
                                 <thead class="bg-200 text-900">
                                     <tr>
                                         <th class="text-center">No</th>
@@ -754,6 +779,7 @@
             var selectedValue = document.getElementById("kategori").value;
             var hargasatuan = parseFloat($(".harga_tarif").val().replace(/\./g, '')) || 0;
             var jumlah = parseFloat($(".jumlah").val()) || 0;
+            var nominal_potongan = parseFloat($("#nominal_potongan").val()) || 0;
 
             // Remove dots and parse as float for biaya_tambahan
             // var biaya_tambahan = parseFloat($("#biaya_tambahan").val().replace(/\./g, '')) || 0;
@@ -768,20 +794,23 @@
             if (selectedValue == "PPH") {
                 var pph = 0.02 * harga;
                 var sisa = harga - pph;
-                var Subtotal = sisa;
+                 var hasil_potongan = (sisa * nominal_potongan) / 100;
+                $("#hasil_potongan").val(hasil_potongan.toLocaleString('id-ID'));
+                var Subtotal = sisa - hasil_potongan;
                 $(".pph2").val(pph.toLocaleString('id-ID'));
                 $(".sisa").val(sisa.toLocaleString('id-ID'));
                 $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
             } else {
-                // Jika kategori NON PPH, tidak kurangkan 2%
+                var hasil_potongan = (harga * nominal_potongan) / 100;
+                $("#hasil_potongan").val(hasil_potongan.toLocaleString('id-ID'));
                 $(".pph2").val(0);
                 $(".sisa").val(harga.toLocaleString('id-ID'));
-                var Subtotal = harga;
+                var Subtotal = harga - hasil_potongan;
                 $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
             }
         }
 
-        $(document).on("input", ".harga_tarif, .jumlah, #biaya_tambahan", function() {
+        $(document).on("input", ".harga_tarif, .jumlah, #nominal_potongan, #hasil_potongan, #biaya_tambahan", function() {
             updateHarga();
         });
 

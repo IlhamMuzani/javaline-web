@@ -31,6 +31,8 @@ class Sewa_kendaraan extends Model
         
         'jumlah',
         'satuan',
+        'nominal_potongan',
+        'hasil_potongan',
         'pelanggan_id',
         'vendor_id',
         'rute_perjalanan_id',

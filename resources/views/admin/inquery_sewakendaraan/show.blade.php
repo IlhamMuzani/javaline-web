@@ -420,7 +420,28 @@
                 </td>
             </tr>
         @endif
+        <tr>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
 
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
+
+            </td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
+                Potongan = {{ $cetakpdf->nominal_potongan }}% :
+            </td>
+
+
+            <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
+                {{ number_format($cetakpdf->hasil_potongan, 2, ',', '.') }}
+            </td>
+        </tr>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="6"></td>
@@ -506,4 +527,5 @@
     <a href="{{ url('admin/inquery_sewakendaraan') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/sewa_kendaraan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
+
 </html>

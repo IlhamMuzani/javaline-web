@@ -86,15 +86,17 @@ class SewakendaraanController extends Controller
                 'nama_rute' => $request->nama_rute,
                 'nama_driver' => $request->nama_driver,
                 // 'nominal' => str_replace(',', '.', str_replace('.', '', $request->harga_sewa)),
-                
+
                 'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
                 'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),
                 'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
                 'sisa' => str_replace(',', '.', str_replace('.', '', $request->sisa)),
                 'biaya_tambahan' => str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan)),
+                'nominal_potongan' => str_replace(',', '.', str_replace('.', '', $request->nominal_potongan)),
+                'hasil_potongan' => str_replace(',', '.', str_replace('.', '', $request->hasil_potongan)),
                 'keterangan' => $request->keterangan,
-                
+
                 'qrcode_sewa' => 'https://javaline.id/sewa_kendaraan/' . $kode,
                 'tanggal' => $format_tanggal,
                 'tanggal_awal' => $tanggal,
