@@ -50,11 +50,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Harga Sewa</h3>
                     <div class="float-right">
-                        @if (auth()->check() && auth()->user()->fitur['tarif create'])
+                        {{-- @if (auth()->check() && auth()->user()->fitur['tarif create']) --}}
                             <a href="{{ url('admin/harga_sewa/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
-                        @endif
+                        {{-- @endif --}}
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -89,18 +89,18 @@
                                         {{ number_format($tarif->nominal, 2, ',', '.') }}
                                     </td>
                                     <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['tarif update'])
+                                        {{-- @if (auth()->check() && auth()->user()->fitur['tarif update']) --}}
                                             <a href="{{ url('admin/harga_sewa/' . $tarif->id . '/edit') }}"
                                                 class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['tarif delete'])
+                                        {{-- @endif
+                                        @if (auth()->check() && auth()->user()->fitur['tarif delete']) --}}
                                             <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                                 data-target="#modal-hapus-{{ $tarif->id }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                        @endif
+                                        {{-- @endif --}}
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modal-hapus-{{ $tarif->id }}">
