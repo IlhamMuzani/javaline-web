@@ -118,7 +118,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($sewa_kendaraans as $sewa_kendaraan)
+                            @foreach ($inquery as $sewa_kendaraan)
                                 <tr class="dropdown"{{ $sewa_kendaraan->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
                                             value="{{ $sewa_kendaraan->id }}">
