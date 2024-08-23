@@ -26,7 +26,7 @@ class InquerySewakendaraanController extends Controller
         $tanggal_akhir = $request->tanggal_akhir;
 
         // Membuat query awal dengan kategori 'Mingguan'
-        $inquery = Sewa_kendaraan::where('kategori', 'Mingguan');
+        $inquery = Sewa_kendaraan::query();
 
         if ($status) {
             $inquery->where('status', $status);
