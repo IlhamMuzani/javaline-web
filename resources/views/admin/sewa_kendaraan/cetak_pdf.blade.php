@@ -468,7 +468,7 @@
                 Grand Total :
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                {{ number_format($cetakpdf->total_tarif - ($cetakpdf->pph ?? null), 2, ',', '.') }}
+                {{ number_format($cetakpdf->total_tarif - ($cetakpdf->pph ?? null) - $cetakpdf->hasil_potongan, 2, ',', '.') }}
             </td>
         </tr>
 
