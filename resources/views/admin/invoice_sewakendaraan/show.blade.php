@@ -132,6 +132,28 @@
                         </tr>
                         <tr>
                             <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">Kode Rekanan</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 16px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">{{ $cetakpdf->vendor->kode_vendor ?? null }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">Nama Rekanan</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 16px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 16px;">{{ $cetakpdf->vendor->nama_vendor ?? null }}</span>
+                            </td>
+                        </tr>
+                        {{-- <tr>
+                            <td class="info-column">
                                 <span class="info-item" style="font-size: 16px;">Periode</span>
                             </td>
                             <td class="info-column">
@@ -144,8 +166,8 @@
                                         \Carbon\Carbon::parse($cetakpdf->periode_akhir)->locale('id')->isoFormat('D MMMM YYYY') }}
                                 </span>
                             </td>
-                        </tr>
-                        <tr>
+                        </tr> --}}
+                        {{-- <tr>
                             <td class="info-column">
                                 <span class="info-item" style="font-size: 16px;">No. Aproval</span>
                             </td>
@@ -155,7 +177,7 @@
                             <td class="info-column">
                                 <span class="info-item" style="font-size: 16px;"></span>
                             </td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </td>
                 <td style="width: 70%; text-align: left;">
@@ -164,19 +186,19 @@
         </table>
     </div>
 
-    <div style="text-align: left; margin-top:10px">
-        <span>Kepada Yth.</span>
+    {{-- <div style="text-align: left; margin-top:10px">
+        <span>Nama Rekanan.</span>
         <br>
-        <span style="font-weight: bold; font-size: 16px;">{{ $cetakpdf->nama_pelanggan }}</span>
-    </div>
-    <div style="text-align: left;">
+        <span style="font-weight: bold; font-size: 16px;">{{ $cetakpdf->nama_vendor }}</span>
+    </div> --}}
+    {{-- <div style="text-align: left;">
         <table width="100%">
             <tr>
                 <td style="width:40%;">
                     <table>
                         <tr>
                             <td>
-                                <span style="font-size: 16px;">{{ $cetakpdf->alamat_pelanggan }}</span>
+                                <span style="font-size: 16px;">{{ $cetakpdf->alamat_vendor }}</span>
                             </td>
                         </tr>
                     </table>
@@ -185,7 +207,7 @@
                 </td>
             </tr>
         </table>
-    </div>
+    </div> --}}
 
 
     <div style="text-align: center;">
@@ -204,7 +226,7 @@
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Rute</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">tgl. Kirim</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Tgl. Muat</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Faktur</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. DO</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. PO</td>

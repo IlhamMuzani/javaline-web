@@ -17,6 +17,7 @@ class Nota_return extends Model
     protected $fillable =
     [
         'user_id',
+        'faktur_ekspedisi_id',
         'return_ekspedisi_id',
         'kode_return',
         'nomor_suratjalan',
@@ -63,6 +64,11 @@ class Nota_return extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function faktur_ekspedisi()
+    {
+        return $this->belongsTo(Faktur_ekspedisi::class);
     }
 
     public static function getId()

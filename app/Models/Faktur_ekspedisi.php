@@ -133,6 +133,11 @@ class Faktur_ekspedisi extends Model
         return $this->belongsTo(Karyawan::class);
     }
 
+    public function nota_return()
+    {
+        return $this->hasMany(Nota_return::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('faktur_ekspedisis')->orderBy('id', 'DESC')->take(1)->get();

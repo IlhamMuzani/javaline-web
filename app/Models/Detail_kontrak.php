@@ -7,23 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Detail_pelunasanreturn extends Model
+use Illuminate\Database\Eloquent\SoftDeletes;
+class Detail_kontrak extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
-        'faktur_pelunasan_id',
-        'faktur_ekspedisi_id',
-        'kode_fakturekspedisi',
-        'nota_return_id',
-        'keterangan_potongan',
-        'kode_potongan',
-        'tanggal_return',
-        'status',
-        'nominal_potongan',
+        'kontrak_rute_id',
+        'nama_tarif',
+        'kode_tarif',
+        'nominal',
         'tanggal_awal',
         'tanggal_akhir',
     ];
@@ -31,19 +26,14 @@ class Detail_pelunasanreturn extends Model
     use SoftDeletes;
     protected $dates = ['deleted_at'];
 
-    
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
             ->logFillable('*');
     }
-    public function faktur_pelunasan()
+    public function kontrak_rute()
     {
-        return $this->belongsTo(Faktur_pelunasan::class);
-    }
-    public function faktur_ekspedisi()
-    {
-        return $this->belongsTo(Faktur_ekspedisi::class);
+        return $this->belongsTo(Kontrak_rute::class);
     }
 
 }

@@ -841,6 +841,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('postingfilterpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'postingfilterpelunasan']);
     Route::get('unpostfilterpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'unpostfilterpelunasan']);
+    Route::get('nota_returnbarang/get_fakturekspedisi/{id}', [\App\Http\Controllers\Admin\NotareturnController::class, 'get_fakturekspedisi']);
+    Route::resource('kontrak_rute', \App\Http\Controllers\Admin\KontrakruteController::class);
+
+
 });
 
 

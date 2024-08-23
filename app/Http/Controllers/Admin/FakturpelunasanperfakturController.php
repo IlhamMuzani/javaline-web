@@ -16,7 +16,7 @@ class FakturpelunasanperfakturController extends Controller
         $fakturs = Faktur_ekspedisi::where('status_pelunasan', null)
             ->whereIn('status', ['posting', 'selesai'])
             ->get();
-        $returns = Nota_return::all();
+        $returns = Nota_return::where('status', 'posting')->get();
         $potonganlains = Potongan_penjualan::where('status', 'posting')->get();
 
         return view('admin.faktur_pelunasanperfaktur.index', compact('potonganlains', 'pelanggans', 'fakturs', 'returns'));

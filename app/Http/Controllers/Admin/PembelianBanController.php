@@ -202,7 +202,6 @@ class PembelianBanController extends Controller
         $kodeban = $this->kodeban();
 
         if ($transaksi) {
-
             foreach ($data_pembelians as $data_pesanan) {
                 Ban::create([
                     'kode_ban' => $this->kodeban(),

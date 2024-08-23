@@ -644,6 +644,7 @@
     request()->is('admin/penerimaan_sj*') ||
     request()->is('admin/sewa_kendaraan*') ||
     request()->is('admin/pelunasan_sewakeninvoice*') ||
+    request()->is('admin/kontrak_rute*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
         : '' }}">
@@ -677,6 +678,7 @@
         request()->is('admin/penerimaan_sj*') ||
         request()->is('admin/sewa_kendaraan*') ||
         request()->is('admin/pelunasan_sewakeninvoice*') ||
+        request()->is('admin/kontrak_rute*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">
@@ -896,6 +898,15 @@
                     class="nav-link {{ request()->is('admin/buktipotong*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Bukti Potong</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['tarif'])
+            <li class="nav-item">
+                <a href="{{ url('admin/kontrak_rute') }}"
+                    class="nav-link {{ request()->is('admin/kontrak_rute*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Kontrak Rute</p>
                 </a>
             </li>
         @endif

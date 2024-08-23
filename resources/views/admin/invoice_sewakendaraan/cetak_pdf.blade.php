@@ -165,6 +165,30 @@
                                 <span class="info-item" style="font-size: 11px;">{{ $cetakpdf->kode_tagihan }}</span>
                             </td>
                         </tr>
+
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 11px;">Kode Rekanan</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 11px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 11px;">{{ $cetakpdf->vendor->kode_vendor ?? null }}</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 11px;">Nama Rekanan</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-titik" style="font-size: 11px;">:</span>
+                            </td>
+                            <td class="info-column">
+                                <span class="info-item" style="font-size: 11px;">{{ $cetakpdf->nama_vendor }}</span>
+                            </td>
+                        </tr>
                         {{-- <tr>
                             <td class="info-column">
                                 <span class="info-item" style="font-size: 11px;">Periode</span>
@@ -200,15 +224,15 @@
         </table>
     </div>
 
-    <div style="text-align: left; margin-top:0px">
-        <span style="font-size: 11px">Kepada Yth.</span>
+    {{-- <div style="text-align: left; margin-top:0px">
+        <span style="font-size: 11px">Nama Rekanan</span>
         <br>
-        <span style="font-weight: bold; font-size: 11px;">{{ $cetakpdf->nama_pelanggan }}</span>
+        <span style="font-weight: bold; font-size: 11px;">{{ $cetakpdf->nama_vendor }}</span>
         <br>
         <span style="font-size: 11px; display: block; max-width: 45%; word-wrap: break-word;">
-            {{ $cetakpdf->alamat_pelanggan }}
+            {{ $cetakpdf->alamat }}
         </span>
-    </div>
+    </div> --}}
 
 
     <div style="text-align: center;">
@@ -221,7 +245,7 @@
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:25%">
                 Rute</td>
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:10%">
-                Tgl. SJ</td>
+                Tgl. Muat</td>
             <td class="td" style="text-align: left; padding: 0px; font-size: 10px;  font-weight:bold; width:13%">No.
                 Faktur</td>
             <td class="td" style="text-align: left; padding: 2px; font-size: 10px;  font-weight:bold; width:14%">

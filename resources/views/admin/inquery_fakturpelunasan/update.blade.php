@@ -259,18 +259,23 @@
                                                             value="{{ $detail['nota_return_id'] }}">
                                                     </div>
                                                 </td>
-                                                <td style="width:25%">
+                                                <td>
                                                     <div class="form-group">
-                                                        <select class="form-control" id="faktur_id-{{ $loop->index }}"
-                                                            name="faktur_id[]">
-                                                            <option value="">- Pilih Faktur -</option>
-                                                            @foreach ($fakturs as $faktur)
-                                                                <option value="{{ $faktur->id }}"
-                                                                    {{ old('faktur_id.' . $loop->parent->index, $detail['faktur_ekspedisi_id']) == $faktur->id ? 'selected' : '' }}>
-                                                                    {{ $faktur->kode_faktur }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
+                                                        <input onclick="potonganmemo({{ $loop->index }})"
+                                                            style="font-size:14px" type="text" class="form-control"
+                                                            readonly id="faktur_id-{{ $loop->index }}"
+                                                            name="faktur_id[]" {{ $detail['faktur_id'] }}
+                                                            value="{{ $detail['faktur_id'] }}">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input onclick="potonganmemo({{ $loop->index }})"
+                                                            style="font-size:14px" type="text" class="form-control"
+                                                            readonly id="kode_fakturekspedisi-{{ $loop->index }}"
+                                                            name="kode_fakturekspedisi[]"
+                                                            {{ $detail['kode_fakturekspedisi'] }}
+                                                            value="{{ $detail['kode_fakturekspedisi'] }}">
                                                     </div>
                                                 </td>
                                                 <td>
@@ -636,12 +641,14 @@
                             <tbody>
                                 @foreach ($returns as $potongan)
                                     <tr onclick="getPotongan({{ $loop->index }})" data-id="{{ $potongan->id }}"
-                                        data-kode_penjualan="{{ $potongan->kode_penjualan }}"
+                                        data-faktur_id="{{ $potongan->faktur_ekspedisi_id }}"
+                                        data-kode_fakturekspedisi="{{ $potongan->faktur_ekspedisi->kode_faktur ?? null }}"
+                                        data-kode_nota="{{ $potongan->kode_nota }}"
                                         data-tanggal_awal="{{ $potongan->tanggal_awal }}"
                                         data-grand_total="{{ $potongan->grand_total }}"
                                         data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $potongan->kode_penjualan }}</td>
+                                        <td>{{ $potongan->kode_nota }}</td>
                                         <td>{{ $potongan->tanggal_awal }}</td>
                                         <td>{{ number_format($potongan->grand_total, 0, ',', '.') }}</td>
                                         <td class="text-center">
@@ -791,6 +798,7 @@
         function itemPembelian(identifier, key, style, value = null) {
             var nota_return_id = '';
             var faktur_id = '';
+            var kode_fakturekspedisi = '';
             var kode_potongan = '';
             var keterangan_potongan = '';
             var nominal_potongan = '';
@@ -798,6 +806,7 @@
             if (value !== null) {
                 nota_return_id = value.nota_return_id;
                 faktur_id = value.faktur_id;
+                kode_fakturekspedisi = value.kode_fakturekspedisi;
                 kode_potongan = value.kode_potongan;
                 keterangan_potongan = value.keterangan_potongan;
                 nominal_potongan = value.nominal_potongan;
@@ -817,17 +826,20 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // kode_faktur 
-            item_pembelian += '<td style="width:25%">';
-            item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control select2bs4" id="faktur_id-' + key +
-                '" name="faktur_id[]">';
-            item_pembelian += '<option value="">Pilih Faktur..</option>';
-            item_pembelian += '@foreach ($fakturs as $faktur_id)';
-            item_pembelian +=
-                '<option value="{{ $faktur_id->id }}" {{ $faktur_id->id == ' + faktur_id + ' ? 'selected' : '' }}>{{ $faktur_id->kode_faktur }}</option>';
-            item_pembelian += '@endforeach';
-            item_pembelian += '</select>';
+
+            // faktur_id 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" id="faktur_id-' + key +
+                '" name="faktur_id[]" value="' + faktur_id + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kode_fakturekspedisi 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" id="kode_fakturekspedisi-' + key +
+                '" name="kode_fakturekspedisi[]" value="' + kode_fakturekspedisi + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -907,14 +919,18 @@
         }
 
         function getPotongan(rowIndex) {
-            var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var Potongan_id = selectedRow.data('id');
-            var KodePotongan = selectedRow.data('kode_penjualan');
+            var Faktur_id = selectedRow.data('faktur_id');
+            var KodeFaktur = selectedRow.data('kode_fakturekspedisi');
+            var KodePotongan = selectedRow.data('kode_nota');
             var TanggalAwal = selectedRow.data('tanggal_awal');
             var GrandTotal = selectedRow.data('grand_total');
 
             // Update the form fields for the active specification
             $('#nota_return_id-' + activeSpecificationIndex).val(Potongan_id);
+            $('#faktur_id-' + activeSpecificationIndex).val(Faktur_id);
+            $('#kode_fakturekspedisi-' + activeSpecificationIndex).val(KodeFaktur);
             $('#kode_potongan-' + activeSpecificationIndex).val(KodePotongan);
             $('#keterangan_potongan-' + activeSpecificationIndex).val(TanggalAwal);
             $('#nominal_potongan-' + activeSpecificationIndex).val(GrandTotal.toLocaleString('id-ID'));

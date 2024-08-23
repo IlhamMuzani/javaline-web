@@ -223,7 +223,7 @@
                                         <tr>
                                             <th style="font-size:14px" class="text-center">No</th>
                                             <th style="font-size:14px">Kode Faktur</th>
-                                            <th style="font-size:14px">Kode Potongan</th>
+                                            <th style="font-size:14px">Kode Return</th>
                                             <th style="font-size:14px">Keterangan</th>
                                             <th style="font-size:14px">Nominal</th>
                                             <th style="font-size:14px">Opsi</th>
@@ -240,19 +240,18 @@
                                                         name="nota_return_id[]">
                                                 </div>
                                             </td>
+                                            <td hidden style="width:25%">
+                                                <div class="form-group">
+                                                    <input onclick="potonganmemo(0)" style="font-size:14px"
+                                                        type="text" class="form-control" readonly id="faktur_id-0"
+                                                        name="faktur_id[]">
+                                                </div>
+                                            </td>
                                             <td style="width:25%">
                                                 <div class="form-group">
-                                                    <select class="select2bs4 select2-hidden-accessible"
-                                                        name="faktur_id[]" data-placeholder="Pilih Faktur.."
-                                                        style="width: 100%;" data-select2-id="23" tabindex="-1"
-                                                        aria-hidden="true" id="faktur_id-0">
-                                                        <option value="">- Pilih Faktur -</option>
-                                                        @foreach ($fakturs as $faktur)
-                                                            <option value="{{ $faktur->id }}">
-                                                                {{ $faktur->kode_faktur }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                                    <input onclick="potonganmemo(0)" style="font-size:14px"
+                                                        type="text" class="form-control" readonly
+                                                        id="kode_fakturekspedisi-0" name="kode_fakturekspedisi[]">
                                                 </div>
                                             </td>
                                             <td>
@@ -552,13 +551,16 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Data Potongan</h4>
+                        <h4 class="modal-title">Data Return</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="datatables6" class="table table-bordered table-striped">
+                        <div class="m-2">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tables" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -571,12 +573,14 @@
                             <tbody>
                                 @foreach ($returns as $potongan)
                                     <tr onclick="getPotongan({{ $loop->index }})" data-id="{{ $potongan->id }}"
-                                        data-kode_penjualan="{{ $potongan->kode_penjualan }}"
+                                        data-faktur_id="{{ $potongan->faktur_ekspedisi_id }}"
+                                        data-kode_fakturekspedisi="{{ $potongan->faktur_ekspedisi->kode_faktur ?? null }}"
+                                        data-kode_nota="{{ $potongan->kode_nota }}"
                                         data-tanggal_awal="{{ $potongan->tanggal_awal }}"
                                         data-grand_total="{{ $potongan->grand_total }}"
                                         data-param="{{ $loop->index }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $potongan->kode_penjualan }}</td>
+                                        <td>{{ $potongan->kode_nota }}</td>
                                         <td>{{ $potongan->tanggal_awal }}</td>
                                         <td>{{ number_format($potongan->grand_total, 0, ',', '.') }}</td>
                                         <td class="text-center">
@@ -755,6 +759,7 @@
         function itemPembelian(urutan, key, style, value = null) {
             var nota_return_id = '';
             var faktur_id = '';
+            var kode_fakturekspedisi = '';
             var kode_potongan = '';
             var keterangan_potongan = '';
             var nominal_potongan = '';
@@ -762,6 +767,7 @@
             if (value !== null) {
                 nota_return_id = value.nota_return_id;
                 faktur_id = value.faktur_id;
+                kode_fakturekspedisi = value.kode_fakturekspedisi;
                 kode_potongan = value.kode_potongan;
                 keterangan_potongan = value.keterangan_potongan;
                 nominal_potongan = value.nominal_potongan;
@@ -782,17 +788,24 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // kode_faktur 
-            item_pembelian += '<td style="width:25%">';
-            item_pembelian += '<div class="form-group">';
-            item_pembelian += '<select class="form-control select2bs4" id="faktur_id-' + key +
-                '" name="faktur_id[]">';
-            item_pembelian += '<option value="">Pilih Faktur..</option>';
-            item_pembelian += '@foreach ($fakturs as $faktur_id)';
+            // faktur_id 
+            item_pembelian += '<td hidden onclick="potonganmemo(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="faktur_id-' +
+                urutan +
+                '" name="faktur_id[]" value="' + faktur_id + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kode_fakturekspedisi 
+            item_pembelian += '<td onclick="potonganmemo(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<option value="{{ $faktur_id->id }}" {{ $faktur_id->id == ' + faktur_id + ' ? 'selected' : '' }}>{{ $faktur_id->kode_faktur }}</option>';
-            item_pembelian += '@endforeach';
-            item_pembelian += '</select>';
+                '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_fakturekspedisi-' +
+                urutan +
+                '" name="kode_fakturekspedisi[]" value="' + kode_fakturekspedisi + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -872,14 +885,18 @@
         }
 
         function getPotongan(rowIndex) {
-            var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var Potongan_id = selectedRow.data('id');
-            var KodePotongan = selectedRow.data('kode_penjualan');
+            var Faktur_id = selectedRow.data('faktur_id');
+            var KodeFaktur = selectedRow.data('kode_fakturekspedisi');
+            var KodePotongan = selectedRow.data('kode_nota');
             var TanggalAwal = selectedRow.data('tanggal_awal');
             var GrandTotal = selectedRow.data('grand_total');
 
             // Update the form fields for the active specification
             $('#nota_return_id-' + activeSpecificationIndex).val(Potongan_id);
+            $('#faktur_id-' + activeSpecificationIndex).val(Faktur_id);
+            $('#kode_fakturekspedisi-' + activeSpecificationIndex).val(KodeFaktur);
             $('#kode_potongan-' + activeSpecificationIndex).val(KodePotongan);
             $('#keterangan_potongan-' + activeSpecificationIndex).val(TanggalAwal);
             $('#nominal_potongan-' + activeSpecificationIndex).val(GrandTotal.toLocaleString('id-ID'));

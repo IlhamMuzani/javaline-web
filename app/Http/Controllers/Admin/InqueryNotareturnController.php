@@ -64,9 +64,11 @@ class InqueryNotareturnController extends Controller
             $request->all(),
             [
                 'return_ekspedisi_id' => 'required',
+                'faktur_ekspedisi_id' => 'required',
             ],
             [
-                'return_ekspedisi_id.required' => 'Pilih Surat Penerimaan',
+                'return_ekspedisi_id.required' => 'Pilih kode surat penerimaan',
+                'faktur_ekspedisi_id.required' => 'Pilih kode faktur ekspedisi',
             ]
         );
 
@@ -131,6 +133,7 @@ class InqueryNotareturnController extends Controller
         $cetakpdf = Nota_return::findOrFail($id);
 
         $cetakpdf->update([
+            'faktur_ekspedisi_id' => $request->faktur_ekspedisi_id,
             'return_ekspedisi_id' => $request->return_ekspedisi_id,
             'kode_return' => $request->kode_return,
             'nomor_suratjalan' => $request->nomor_suratjalan,

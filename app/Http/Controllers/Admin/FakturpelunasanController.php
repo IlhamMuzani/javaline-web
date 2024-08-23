@@ -90,14 +90,15 @@ class FakturpelunasanController extends Controller
             }
         }
 
-        if ($request->has('nota_return_id') || $request->has('faktur_id') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
+        if ($request->has('nota_return_id') || $request->has('faktur_id') ||$request->has('kode_fakturekspedisi') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
             for ($i = 0; $i < count($request->nota_return_id); $i++) {
-                if (empty($request->nota_return_id[$i])  && empty($request->faktur_id[$i]) && empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])) {
+                if (empty($request->nota_return_id[$i])  && empty($request->faktur_id[$i]) && empty($request->kode_fakturekspedisi[$i]) && empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])) {
                     continue;
                 }
                 $validasi_produk = Validator::make($request->all(), [
                     'nota_return_id.' . $i => 'required',
                     'faktur_id.' . $i => 'required',
+                    'kode_fakturekspedisi.' . $i => 'required',
                     'kode_potongan.' . $i => 'required',
                     'keterangan_potongan.' . $i => 'required',
                     'nominal_potongan.' . $i => 'required',
@@ -108,12 +109,14 @@ class FakturpelunasanController extends Controller
                 }
                 $nota_return_id = $request->nota_return_id[$i] ?? '';
                 $faktur_id = $request->faktur_id[$i] ?? '';
+                $kode_fakturekspedisi = $request->kode_fakturekspedisi[$i] ?? '';
                 $kode_potongan = $request->kode_potongan[$i] ?? '';
                 $keterangan_potongan = $request->keterangan_potongan[$i] ?? '';
                 $nominal_potongan = $request->nominal_potongan[$i] ?? '';
                 $data_pembelians2->push([
                     'nota_return_id' => $nota_return_id,
                     'faktur_id' => $faktur_id,
+                    'kode_fakturekspedisi' => $kode_fakturekspedisi,
                     'kode_potongan' => $kode_potongan,
                     'keterangan_potongan' => $keterangan_potongan,
                     'nominal_potongan' => $nominal_potongan,
@@ -230,6 +233,7 @@ class FakturpelunasanController extends Controller
             $detailPelunasan = Detail_pelunasanreturn::create([
                 'faktur_pelunasan_id' => $cetakpdf->id,
                 'faktur_ekspedisi_id' => $data_pesanan['faktur_id'],
+                'kode_fakturekspedisi' => $data_pesanan['kode_fakturekspedisi'],
                 'nota_return_id' => $data_pesanan['nota_return_id'],
                 'kode_potongan' => $data_pesanan['kode_potongan'],
                 'keterangan_potongan' => $data_pesanan['keterangan_potongan'],

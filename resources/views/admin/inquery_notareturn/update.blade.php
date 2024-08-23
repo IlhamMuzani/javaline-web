@@ -94,6 +94,28 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Tambah Faktur Ekspedisi</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <label style="font-size:14px" class="form-label" for="faktur_ekspedisi_id">Kode Faktur
+                            Ekspedisi</label>
+                        <div class="form-group d-flex">
+                            <input class="form-control" hidden id="faktur_ekspedisi_id" name="faktur_ekspedisi_id"
+                                type="text" placeholder="" value="{{ old('faktur_ekspedisi_id', $inquery->faktur_ekspedisi->id ?? null) }}" readonly
+                                style="margin-right: 10px; font-size:14px" />
+                            <input class="form-control" id="kode_faktur" name="kode_faktur" type="text" placeholder=""
+                                value="{{ old('kode_faktur', $inquery->faktur_ekspedisi->kode_faktur ?? null) }}" readonly style="margin-right: 10px; font-size:14px" />
+                            <button class="btn btn-primary" type="button" onclick="FakturEkspedisis(this.value)">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-4">
                         <div class="card">
@@ -109,14 +131,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="kode_pelanggan"
-                                        readonly name="kode_pelanggan" placeholder=""
+                                    <input style="font-size:14px" type="text" class="form-control"
+                                        id="kode_pelanggan" readonly name="kode_pelanggan" placeholder=""
                                         value="{{ old('kode_pelanggan', $inquery->kode_pelanggan) }}">
                                 </div>
                                 <div class="form-group">
                                     <label style="font-size:14px" for="nama_pelanggan">Nama Pelanggan</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="nama_pelanggan"
-                                        readonly name="nama_pelanggan" placeholder=""
+                                    <input style="font-size:14px" type="text" class="form-control"
+                                        id="nama_pelanggan" readonly name="nama_pelanggan" placeholder=""
                                         value="{{ old('nama_pelanggan', $inquery->nama_pelanggan) }}">
                                 </div>
                                 <div class="form-group" hidden>
@@ -399,6 +421,40 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="tableMemo" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Faktur Ekspedisi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="m-2">
+                            <input type="text" id="searchInputrutes" class="form-control" placeholder="Search...">
+                        </div>
+                        <table id="tablefaktur" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Pelanggan</th>
+                                    <th>Rute</th>
+                                    <th>Kategori</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
                             </tbody>
                         </table>
                     </div>
@@ -826,13 +882,133 @@
 
             $('#forms-container').append(formHtml);
 
-            
+
             $('#barang_utama').empty(); // Clear all content within the element with id "barang_utama"
             updateGrandTotal();
+
+            $('#pelanggan_id').trigger('input');
             $('#tableReturn').modal('hide');
             attachInputEventListenersAfterLoad();
         }
     </script>
 
+    <script>
+        var activeSpecificationIndex = 0;
+        var fakturAlreadySelected = []; // Simpan daftar kode faktur yang sudah dipilih
+
+        function FakturEkspedisis(param) {
+            activeSpecificationIndex = param;
+            // Show the modal and filter rows if necessary
+            $('#tableMemo').modal('show');
+        }
+
+        function getFaktur(rowIndex) {
+            var selectedRow = $('#tablefaktur tbody tr:eq(' + rowIndex + ')');
+            var faktur_ekspedisi_id = selectedRow.data('id');
+            var kode_faktur = selectedRow.data('kode_faktur');
+            if (fakturAlreadySelected.includes(kode_faktur)) {
+                alert('Kode faktur sudah dipilih sebelumnya.');
+                return;
+            }
+            fakturAlreadySelected.push(kode_faktur); // Menambahkan kode faktur ke daftar yang sudah dipilih
+
+            $('#faktur_ekspedisi_id' + activeSpecificationIndex).val(faktur_ekspedisi_id);
+            $('#kode_faktur' + activeSpecificationIndex).val(kode_faktur);
+
+            $('#tableMemo').modal('hide');
+        }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#pelanggan_id').on('input', function() {
+                var pelangganID = $(this).val();
+
+                if (pelangganID) {
+                    $.ajax({
+                        url: "{{ url('admin/nota_returnbarang/get_fakturekspedisi') }}" + '/' +
+                            pelangganID,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data) {
+                            $('#tablefaktur tbody').empty();
+                            if (data.length > 0) {
+                                $.each(data, function(index, faktur) {
+                                    var row = '<tr data-id="' + faktur.id +
+                                        '" data-kode_faktur="' + faktur.kode_faktur +
+                                        '" data-param="' + index + '">' +
+                                        '<td class="text-center">' + (index + 1) +
+                                        '</td>' +
+                                        '<td>' + faktur.kode_faktur + '</td>' +
+                                        '<td>' + faktur.tanggal + '</td>' +
+                                        '<td>' + faktur.pelanggan.nama_pell + '</td>' +
+                                        '<td>' + faktur.nama_tarif + '</td>' +
+                                        '<td>' + faktur.kategori + '</td>' +
+                                        '<td class="text-center">' +
+                                        '<button type="button" id="btnTambah" class="btn btn-primary btn-sm" onclick="getFaktur(' +
+                                        index + ')">' +
+                                        '<i class="fas fa-plus"></i>' +
+                                        '</button>' +
+                                        '</td>' +
+                                        '</tr>';
+                                    $('#tablefaktur tbody').append(row);
+                                });
+                            } else {
+                                $('#tablefaktur tbody').append(
+                                    '<tr><td colspan="7" class="text-center">No data available</td></tr>'
+                                );
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("AJAX Error:", status, error);
+                            $('#tablefaktur tbody').empty();
+                            $('#tablefaktur tbody').append(
+                                '<tr><td colspan="7" class="text-center">Error loading data</td></tr>'
+                            );
+                        }
+                    });
+                } else {
+                    $('#tablefaktur tbody').empty();
+                    $('#tablefaktur tbody').append(
+                        '<tr><td colspan="7" class="text-center">No data available</td></tr>'
+                    );
+                }
+            });
+
+            // Trigger the input event manually on page load if there's a value in the pelanggan_id field
+            if ($('#pelanggan_id').val()) {
+                $('#pelanggan_id').trigger('input');
+            }
+        });
+    </script>
+
+    <script>
+        function filterTablefaktur() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInputrutes");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablefaktur");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 4; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInputrutes").addEventListener("input", filterTablefaktur);
+    </script>
 
 @endsection

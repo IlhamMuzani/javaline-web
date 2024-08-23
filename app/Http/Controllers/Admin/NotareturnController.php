@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Barang;
 use App\Models\Detail_nota;
+use App\Models\Faktur_ekspedisi;
 use App\Models\Nota_return;
 use App\Models\Return_ekspedisi;
 use App\Models\Satuan;
@@ -30,9 +31,11 @@ class NotareturnController extends Controller
             $request->all(),
             [
                 'return_ekspedisi_id' => 'required',
+                'faktur_ekspedisi_id' => 'required',
             ],
             [
-                'return_ekspedisi_id.required' => 'Pilih kode penerimaan',
+                'return_ekspedisi_id.required' => 'Pilih kode surat penerimaan',
+                'faktur_ekspedisi_id.required' => 'Pilih kode faktur ekspedisi',
             ]
         );
 
@@ -99,6 +102,7 @@ class NotareturnController extends Controller
             'admin' => auth()->user()->karyawan->nama_lengkap,
             'kode_nota' => $this->kode(),
             'nomor_suratjalan' => $request->nomor_suratjalan,
+            'faktur_ekspedisi_id' => $request->faktur_ekspedisi_id,
             'return_ekspedisi_id' => $request->return_ekspedisi_id,
             'kode_return' => $request->kode_return,
             'pelanggan_id' => $request->pelanggan_id,
@@ -166,6 +170,16 @@ class NotareturnController extends Controller
 
         return view('admin.nota_returnbarang.show', compact('cetakpdf'));
     }
+
+
+    public function get_fakturekspedisi($pelanggan_id)
+    {
+        $fakturs = Faktur_ekspedisi::where(['status' => 'posting', 'pelanggan_id' => $pelanggan_id])
+            ->with('pelanggan')
+            ->get();
+        return response()->json($fakturs);
+    }
+
 
     public function cetakpdf($id)
     {
