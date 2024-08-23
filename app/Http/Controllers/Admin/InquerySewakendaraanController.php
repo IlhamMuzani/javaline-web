@@ -15,18 +15,39 @@ use Illuminate\Support\Facades\Validator;
 
 class InquerySewakendaraanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $today = Carbon::today();
-        $sewa_kendaraans = Sewa_kendaraan::whereDate('created_at', $today)
-            ->orWhere(function ($query) use ($today) {
-                $query->where('status', 'unpost')
-                    ->whereDate('created_at', '<', $today);
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Memperbaharui status_notif untuk entri yang memenuhi kriteria
+        Sewa_kendaraan::where('status', 'posting')
+        ->update(['status_notif' => true]);
 
-        return view('admin.inquery_sewakendaraan.index', compact('sewa_kendaraans'));
+        $status = $request->status;
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+
+        // Membuat query awal dengan kategori 'Mingguan'
+        $inquery = Sewa_kendaraan::where('kategori', 'Mingguan');
+
+        if ($status) {
+            $inquery->where('status', $status);
+        }
+
+        if ($tanggal_awal && $tanggal_akhir) {
+            $inquery->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
+        } elseif ($tanggal_awal) {
+            $inquery->where('tanggal_awal', '>=', $tanggal_awal);
+        } elseif ($tanggal_akhir) {
+            $inquery->where('tanggal_awal', '<=', $tanggal_akhir);
+        } else {
+            // Jika tidak ada filter tanggal, hanya mengambil hari ini
+            $inquery->whereDate('tanggal_awal', Carbon::today());
+        }
+
+        // Menyusun hasil query
+        $inquery->orderBy('id', 'DESC');
+        $inquery = $inquery->get();
+
+        return view('admin.inquery_sewakendaraan.index', compact('inquery'));
     }
 
 
