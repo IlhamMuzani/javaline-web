@@ -17,10 +17,13 @@ class Tarif extends Model
     protected $fillable =
     [
         'pelanggan_id',
+        'kontrak_rute_id',
+        'detail_kontrak_id',
         'vendor_id',
         'kode_tarif',
         'nama_tarif',
         'nominal',
+        'status',
         'tanggal_awal',
     ];
 

@@ -960,6 +960,7 @@
     request()->is('admin/inquery_sewakendaraan*') ||
     request()->is('admin/inquery_invoicesewakendaraan*') ||
     request()->is('admin/inquery_pelunasansewakendaraan*') ||
+    request()->is('admin/inquery_kontrakrute*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -1002,6 +1003,7 @@
         request()->is('admin/inquery_sewakendaraan*') ||
         request()->is('admin/inquery_invoicesewakendaraan*') ||
         request()->is('admin/inquery_pelunasansewakendaraan*') ||
+        request()->is('admin/inquery_kontrakrute*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">
@@ -1392,6 +1394,16 @@
                     class="nav-link {{ request()->is('admin/inquery_pengambilando*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 13px;">Inquery Pemberian DO
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['inquery faktur ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_kontrakrute') }}"
+                    class="nav-link {{ request()->is('admin/inquery_kontrakrute*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Inquery Kontrak Rute
                     </p>
                 </a>
             </li>

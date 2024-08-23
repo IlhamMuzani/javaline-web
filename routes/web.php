@@ -843,6 +843,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('unpostfilterpelunasan', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'unpostfilterpelunasan']);
     Route::get('nota_returnbarang/get_fakturekspedisi/{id}', [\App\Http\Controllers\Admin\NotareturnController::class, 'get_fakturekspedisi']);
     Route::resource('kontrak_rute', \App\Http\Controllers\Admin\KontrakruteController::class);
+    Route::resource('inquery_kontrakrute', \App\Http\Controllers\Admin\InqueryKontrakruteController::class);
+    Route::get('hapuskontrak/{id}', [\App\Http\Controllers\Admin\InqueryKontrakruteController::class, 'hapuskontrak'])->name('hapuskontrak');
 
 
 });

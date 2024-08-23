@@ -237,7 +237,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/sewa_kendaraan') }}";
+            form.action = "{{ url('admin/inquery_sewakendaraan') }}";
             form.submit();
         }
     </script>

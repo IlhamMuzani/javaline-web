@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kontrak Rute')
+@section('title', 'Inquery Kontrak Rute')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Kontrak Rute</h1>
+                    <h1 class="m-0">Inquery Kontrak Rute</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/kontrak_rute') }}">Kontrak Rute</a>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/inquery_kontrakrute') }}">Inquery Kontrak Rute</a>
                         </li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
@@ -68,9 +68,9 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/kontrak_rute') }}" method="POST" enctype="multipart/form-data"
-                autocomplete="off">
+            <form action="{{ url('admin/inquery_kontrakrute/' . $inquery->id) }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
+                @method('put')
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Pelanggan</h3>
@@ -79,19 +79,21 @@
                         <div class="form-group" hidden>
                             <label for="pelanggan_id">pelanggan Id</label>
                             <input type="text" class="form-control" id="pelanggan_id" readonly name="pelanggan_id"
-                                placeholder="" value="{{ old('pelanggan_id') }}">
+                                placeholder="" value="{{ old('pelanggan_id', $inquery->pelanggan_id) }}">
                         </div>
                         <div class="form-group" hidden>
                             <label for="kode_pelanggan">kode Pelanggan</label>
                             <input type="text" class="form-control" id="kode_pelanggan" readonly name="kode_pelanggan"
-                                placeholder="" value="{{ old('kode_pelanggan') }}">
+                                placeholder=""
+                                value="{{ old('kode_pelanggan', $inquery->pelanggan->kode_pelanggan ?? null) }}">
                         </div>
                         <label style="font-size:14px" class="form-label" for="nama_pelanggan">Nama
                             Pelanggan</label>
                         <div class="form-group d-flex">
                             <input onclick="showCategoryModalPelanggan(this.value)" class="form-control" id="nama_pell"
-                                name="nama_pelanggan" type="text" placeholder="" value="{{ old('nama_pelanggan') }}"
-                                readonly style="margin-right: 10px; font-size:14px" />
+                                name="nama_pelanggan" type="text" placeholder=""
+                                value="{{ old('nama_pelanggan', $inquery->pelanggan->nama_pell ?? null) }}" readonly
+                                style="margin-right: 10px; font-size:14px" />
                             <button class="btn btn-primary" type="button" onclick="showCategoryModalPelanggan(this.value)">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -100,17 +102,17 @@
                             <label style="font-size:14px" for="alamat_pelanggan">Alamat</label>
                             <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px" type="text"
                                 class="form-control" id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
-                                value="{{ old('alamat_pelanggan') }}">
+                                value="{{ old('alamat_pelanggan', $inquery->pelanggan->alamat ?? null) }}">
                         </div>
                         <div class="form-group">
                             <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
                             <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px" type="text"
                                 class="form-control" id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
-                                value="{{ old('telp_pelanggan') }}">
+                                value="{{ old('telp_pelanggan', $inquery->pelanggan->telp ?? null) }}">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Keterangan</label>
-                            <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                            <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan', $inquery->keterangan) }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -137,28 +139,40 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tabel-pembelian">
-                                    <tr id="pembelian-0">
-                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    id="nama_tarif-0" name="nama_tarif[]">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="number" class="form-control"
-                                                    id="nominal-0" name="nominal[]">
-                                            </div>
-                                        </td>
-                                        <td style="width: 50px">
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="removePesanan(0)">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @foreach ($details as $detail)
+                                        <tr id="pembelian-{{ $loop->index }}">
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">
+                                                {{ $loop->index + 1 }}
+                                            </td>
+                                            <td hidden>
+                                                <div class="form-group" hidden>
+                                                    <input type="text" class="form-control" name="detail_ids[]"
+                                                        value="{{ $detail['id'] }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        id="nama_tarif-{{ $loop->index }}" name="nama_tarif[]"
+                                                        value="{{ $detail['nama_tarif'] }}">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="number" class="form-control"
+                                                        id="nominal-{{ $loop->index }}" name="nominal[]"
+                                                        value="{{ $detail['nominal'] }}">
+                                                </div>
+                                            </td>
+                                            <td style="width: 50px">
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm"
+                                                    onclick="removePesanan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -235,57 +249,77 @@
             });
         }
 
+        function updateUrutan() {
+            var urutan = document.querySelectorAll('#urutan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+        var counter = 0;
+
         function addPesanan() {
+            counter++;
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
                 $('#tabel-pembelian').empty();
-            }
-
-            itemPembelian(jumlah_ban, jumlah_ban - 1);
-        }
-
-        function removePesanan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Rute belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
             } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-pembelian tr:last');
+                var lastRowIndex = lastRow.find('#urutan').text();
+                jumlah_ban = parseInt(lastRowIndex) + 1;
             }
+
+            console.log('Current jumlah_ban:', jumlah_ban);
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+            updateUrutan();
         }
 
-        function itemPembelian(urutan, key, value = null) {
+        function removePesanan(identifier) {
+            var row = $('#pembelian-' + identifier);
+            var detailId = row.find("input[name='detail_ids[]']").val();
+
+            row.remove();
+
+            if (detailId) {
+                $.ajax({
+                    url: "{{ url('admin/inquery_pengeluarankaskecil/deletedetailpengeluaran/') }}/" + detailId,
+                    type: "POST",
+                    data: {
+                        _method: 'DELETE',
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log('Data deleted successfully');
+                    },
+                    error: function(error) {
+                        console.error('Failed to delete data:', error);
+                    }
+                });
+            }
+            updateUrutan();
+        }
+
+        function itemPembelian(identifier, key, value = null) {
             var nama_tarif = '';
             var nominal = '';
 
             if (value !== null) {
                 nama_tarif = value.nama_tarif;
                 nominal = value.nominal;
-                keterangan = value.keterangan;
+
             }
 
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td class="text-center" id="urutan">' + urutan + '</td>';
-
+            var item_pembelian = '<tr id="pembelian-' + key + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + key + '</td>';
 
             // nama_tarif 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nama_tarif-' +
-                urutan +
+            item_pembelian += '<input type="nominal" class="form-control" style="font-size:14px" id="nama_tarif-' +
+                key +
                 '" name="nama_tarif[]" value="' + nama_tarif + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -294,16 +328,15 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="nominal-' +
-                urutan +
+                key +
                 '" name="nominal[]" value="' + nominal + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-
             item_pembelian += '<td style="width: 50px">';
             item_pembelian +=
                 '<button type="button" class="btn btn-danger btn-sm" onclick="removePesanan(' +
-                urutan + ')">';
+                key + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';

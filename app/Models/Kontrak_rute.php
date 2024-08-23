@@ -19,6 +19,7 @@ class Kontrak_rute extends Model
         'kode_kontrak',
         'user_id',
         'pelanggan_id',
+        'keterangan',
         'tanggal',
         'tanggal_awal',
         'tanggal_akhir',
@@ -42,28 +43,18 @@ class Kontrak_rute extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
+
     public static function getId()
     {
-        return $getId = DB::table('pembelian_bans')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('kontrak_rutes')->orderBy('id', 'DESC')->take(1)->get();
     }
 
-    public function merek()
+    public function detail_kontrak()
     {
-        return $this->belongsTo(Merek::class);
-    }
-
-    public function ukuran()
-    {
-        return $this->belongsTo(Ukuran::class);
-    }
-
-    public function supplier()
-    {
-        return $this->belongsTo(Supplier::class);
-    }
-
-    public function detail_ban()
-    {
-        return $this->hasMany(Ban::class);
+        return $this->hasMany(Detail_kontrak::class);
     }
 }

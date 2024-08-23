@@ -30,7 +30,7 @@ class KontrakruteController extends Controller
         return view('admin.kontrak_rute.index', compact('kontrak_rutes'));
     }
 
-    public function create() 
+    public function create()
     {
 
         $pelanggans = Pelanggan::get();
@@ -99,6 +99,7 @@ class KontrakruteController extends Controller
             'user_id' => auth()->user()->id,
             'kode_kontrak' => $this->kode(),
             'pelanggan_id' => $request->pelanggan_id,
+            'keterangan' => $request->keterangan,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
             'qrcode_kontrak_rute' => 'https://javaline.id/kontrak_rute/' . $kode,
@@ -112,16 +113,25 @@ class KontrakruteController extends Controller
 
         if ($cetakpdfs) {
             foreach ($data_pembelians as $data_pesanan) {
-                Detail_kontrak::create([
-                    'kode_tarif' => $this->kode_tarif(),
+                $details = Detail_kontrak::create([
                     'kontrak_rute_id' => $cetakpdfs->id,
                     'nama_tarif' => $data_pesanan['nama_tarif'],
                     'nominal' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal'])),
                 ]);
+
+                Tarif::create([
+                    'kode_tarif' => $this->kode_tarif(),
+                    'pelanggan_id' => $cetakpdfs->pelanggan_id,
+                    'kontrak_rute_id' => $cetakpdfs->id,
+                    'detail_kontrak_id' => $details->id,
+                    'nama_tarif' => $data_pesanan['nama_tarif'],
+                    'nominal' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal'])),
+                    'status' =>  'unpost',
+                ]);
             }
         }
 
-        $pembelians = Kontrak_rute::find($cetakpdf);
+        $cetakpdf = Kontrak_rute::find($cetakpdfs);
         $details = Detail_kontrak::where('kontrak_rute_id', $cetakpdf->id)->get();
 
         return view('admin.kontrak_rute.show', compact('cetakpdf', 'details'));
@@ -133,11 +143,11 @@ class KontrakruteController extends Controller
         if (!$lastBarang) {
             $num = 1;
         } else {
-            $lastCode = $lastBarang->kode_pembelian_ban;
-            $num = (int) substr($lastCode, strlen('FB')) + 1;
+            $lastCode = $lastBarang->kode_kontrak;
+            $num = (int) substr($lastCode, strlen('KR')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'FB';
+        $prefix = 'KR';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }
@@ -145,73 +155,33 @@ class KontrakruteController extends Controller
 
     public function kode_tarif()
     {
-        $ban = Tarif::all();
-        if ($ban->isEmpty()) {
-            $num = "000001";
+        // Ambil tarif terakhir yang kodenya dimulai dengan 'HS'
+        $lastBarang = Tarif::where('kode_tarif', 'LIKE', 'TF%')->latest('id')->first();
+
+        // Jika tidak ada tarif dalam database dengan awalan 'HS'
+        if (!$lastBarang) {
+            $num = 1;
         } else {
-            $id = Tarif::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+            // Ambil kode tarif terakhir
+            $lastCode = $lastBarang->kode_tarif;
+
+            // Ambil angka setelah awalan 'TF'
+            $num = (int) substr($lastCode, 2) + 1;
         }
 
-        $data = 'JL';
-        $kode_ban = $data . $num;
-        return $kode_ban;
+        // Format nomor dengan panjang 6 digit (misalnya, 000001)
+        $formattedNum = sprintf("%06s", $num);
+
+        // Tentukan awalan kode
+        $prefix = 'TF';
+
+        // Gabungkan awalan dengan nomor yang diformat untuk mendapatkan kode baru
+        $newCode = $prefix . $formattedNum;
+
+        return $newCode;
     }
 
 
-    public function tambah_akun(Request $request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'nama_barangakun' => 'required',
-            ],
-            [
-                'nama_barangakun.required' => 'Masukkan nama akun',
-            ]
-        );
-
-        if ($validator->fails()) {
-            $error = $validator->errors()->all();
-            return back()->withInput()->with('error', $error);
-        }
-
-        $kodebarang = $this->kodebarang();
-
-        Barang_akun::create(array_merge(
-            $request->all(),
-            [
-                'kode_barangakun' => $this->kodebarang(),
-                'qrcode_barangakun' => 'https://batlink.id/barang_akun/' . $kodebarang,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-
-            ]
-        ));
-
-        return back()->with('success', 'Berhasil menambahkan barang');
-    }
-
-
-    public function kodebarang()
-    {
-        $type = Barang_akun::all();
-        if ($type->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Barang_akun::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
-        }
-
-        $data = 'KA';
-        $kode_type = $data . $num;
-        return $kode_type;
-    }
 
     public function show($id)
     {

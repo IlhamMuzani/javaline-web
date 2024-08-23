@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kontrak Rute')
+@section('title', 'Inquery Kontrak Rute')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -23,11 +23,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Kontrak Rute</h1>
+                    <h1 class="m-0">Inquery Kontrak Rute</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Kontrak Rute</li>
+                        <li class="breadcrumb-item active">Inquery Kontrak Rute</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -67,15 +67,40 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Kontrak Rute</h3>
-                    <div class="float-right">
-                        <a href="{{ url('admin/kontrak_rute/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
-                    </div>
+                    <h3 class="card-title">Inquery Kontrak Rute</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <form method="GET" id="form-action">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <select class="custom-select form-control" id="status" name="status">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
+                                        Posting
+                                    </option>
+                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
+                                        Unpost</option>
+                                </select>
+                                <label for="status">(Pilih Status)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
+                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal Awal)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
+                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal Akhir)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
@@ -88,7 +113,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($kontrak_rutes as $kontrak_rute)
+                            @foreach ($inquery as $kontrak_rute)
                                 <tr class="dropdown"{{ $kontrak_rute->id }}>
                                     <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
                                             value="{{ $kontrak_rute->id }}">
@@ -208,7 +233,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_kontrakrute/unpostsewakendaraan/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_sewakendaraan/unpostsewakendaraan/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -248,7 +273,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_kontrakrute/postingsewakendaraan/') }}/" +
+                    url: "{{ url('admin/inquery_sewakendaraan/postingsewakendaraan/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {
