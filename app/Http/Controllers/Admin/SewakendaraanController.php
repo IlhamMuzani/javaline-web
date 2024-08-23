@@ -93,7 +93,8 @@ class SewakendaraanController extends Controller
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
                 'sisa' => str_replace(',', '.', str_replace('.', '', $request->sisa)),
                 'biaya_tambahan' => str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan)),
-                'nominal_potongan' => str_replace(',', '.', str_replace('.', '', $request->nominal_potongan)),
+                // 'nominal_potongan' => str_replace(',', '.', str_replace('.', '', $request->nominal_potongan)),
+                'nominal_potongan' => $request->nominal_potongan,
                 'hasil_potongan' => str_replace(',', '.', str_replace('.', '', $request->hasil_potongan)),
                 'keterangan' => $request->keterangan,
 

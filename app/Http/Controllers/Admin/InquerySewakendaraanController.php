@@ -108,7 +108,8 @@ class InquerySewakendaraanController extends Controller
         $sewa_kendaraan->grand_total = str_replace(',', '.', str_replace('.', '', $request->sub_total));
         $sewa_kendaraan->sisa = str_replace(',', '.', str_replace('.', '', $request->sisa));
         $sewa_kendaraan->biaya_tambahan =  str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan));
-        $sewa_kendaraan->nominal_potongan = str_replace(',', '.', str_replace('.', '', $request->nominal_potongan));
+        // $sewa_kendaraan->nominal_potongan = str_replace(',', '.', str_replace('.', '', $request->nominal_potongan));
+        $sewa_kendaraan->nominal_potongan = $request->nominal_potongan;
         $sewa_kendaraan->hasil_potongan =  str_replace(',', '.', str_replace('.', '', $request->hasil_potongan));
         $sewa_kendaraan->keterangan = $request->keterangan;
 

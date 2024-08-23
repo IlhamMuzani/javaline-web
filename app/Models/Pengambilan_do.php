@@ -48,7 +48,6 @@ class Pengambilan_do extends Model
             ->logFillable('*');
     }
 
-
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class);
