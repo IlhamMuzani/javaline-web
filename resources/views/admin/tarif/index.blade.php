@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Tarif')
+@section('title', 'Data Tujuan')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Data Tarif</h1>
+                    <h1 class="m-0">Data Tujuan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data Tarif</li>
+                        <li class="breadcrumb-item active">Data Tujuan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Tarif</h3>
+                    <h3 class="card-title">Data Tujuan</h3>
                     <div class="float-right">
                         @if (auth()->check() && auth()->user()->fitur['tarif create'])
                             <a href="{{ url('admin/tarif/create') }}" class="btn btn-primary btn-sm">
@@ -63,8 +63,8 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode Tarif</th>
-                                <th>Nama Tarif</th>
+                                <th>Kode Tujuan</th>
+                                <th>Nama Tujuan</th>
                                 <th>Nama Pelanggan</th>
                                 <th>harga</th>
                                 <th class="text-center" width="90">Opsi</th>

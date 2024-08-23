@@ -980,7 +980,7 @@
                                             <i class="fas fa-plus"></i>
                                         </button>
                                         <button id="tarif_vendor" type="button" class="btn btn-primary btn-sm"
-                                            onclick="Tarifsvendor(0)">
+                                            onclick="Tarifs(0)">
                                             <i class="fas fa-plus"></i>
                                         </button>
                                     </td>

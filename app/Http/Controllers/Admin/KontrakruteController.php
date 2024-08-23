@@ -10,6 +10,7 @@ use App\Models\Barang_akun;
 use App\Models\Kendaraan;
 use App\Models\Detail_kontrak;
 use App\Models\Kontrak_rute;
+use App\Models\Pelanggan;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
 
@@ -17,9 +18,24 @@ class KontrakruteController extends Controller
 {
     public function index()
     {
-        return view('admin.kontrak_rute.index', compact('kendaraans', 'barangakuns'));
+        $today = Carbon::today();
+        $kontrak_rutes = Kontrak_rute::whereDate('created_at', $today)
+            ->orWhere(function ($query) use ($today) {
+                $query->where('status', 'unpost')
+                    ->whereDate('created_at', '<', $today);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.kontrak_rute.index', compact('kontrak_rutes'));
     }
 
+    public function create() 
+    {
+
+        $pelanggans = Pelanggan::get();
+        return view('admin.kontrak_rute.create', compact('pelanggans'));
+    }
 
     public function store(Request $request)
     {
