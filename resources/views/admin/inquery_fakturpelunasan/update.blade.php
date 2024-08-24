@@ -259,13 +259,13 @@
                                                             value="{{ $detail['nota_return_id'] }}">
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td hidden>
                                                     <div class="form-group">
                                                         <input onclick="potonganmemo({{ $loop->index }})"
                                                             style="font-size:14px" type="text" class="form-control"
                                                             readonly id="faktur_id-{{ $loop->index }}"
                                                             name="faktur_id[]" {{ $detail['faktur_id'] }}
-                                                            value="{{ $detail['faktur_id'] }}">
+                                                            value="{{ $detail['faktur_ekspedisi_id'] }}">
                                                     </div>
                                                 </td>
                                                 <td>

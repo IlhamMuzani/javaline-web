@@ -301,7 +301,7 @@
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding-right: 7px; font-size: 10px;">
-                    {{ number_format($item->nominal_potongan, 2, ',', '.') }}
+                    {{ number_format($item->sewa_kendaraan->hasil_potongan, 2, ',', '.') ?? '0,00' }}
                 </td>
                 <td class="td" style="text-align: right; font-size: 10px;">
                     @if ($item->sewa_kendaraan)
@@ -383,7 +383,7 @@
                 @if ($cetakpdf->kategori == 'PPH')
                     {{ number_format($cetakpdf->pph, 2, ',', '.') }}
                 @elseif ($cetakpdf->kategori == 'NON PPH')
-                    0
+                    0,00
                 @endif
             </td>
         </tr>

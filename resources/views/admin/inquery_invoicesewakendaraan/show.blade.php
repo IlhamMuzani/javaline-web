@@ -274,7 +274,7 @@
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    {{ number_format($item->nominal_potongan, 2, ',', '.') }}
+                    {{ number_format($item->sewa_kendaraan->hasil_potongan, 2, ',', '.') ?? '0,00' }}
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
                     @if ($item->sewa_kendaraan)
