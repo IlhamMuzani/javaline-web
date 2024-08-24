@@ -14,6 +14,7 @@ use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
 use App\Models\Pph;
+use App\Models\Sewa_kendaraan;
 use App\Models\Spk;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
@@ -69,9 +70,10 @@ class InqueryFakturekspedisispkController extends Controller
         ->where('departemen_id', '4')
         ->orderBy('nama_lengkap')
         ->get();
-        
+        $sewa_kendaraans = Sewa_kendaraan::all();
+
         $spks = Spk::where('status_spk', 'sj')->get();
-        return view('admin.inquery_fakturekspedisispk.update', compact('karyawans', 'spks', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
+        return view('admin.inquery_fakturekspedisispk.update', compact('sewa_kendaraans', 'karyawans', 'spks', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
     }
 
     public function update(Request $request, $id)

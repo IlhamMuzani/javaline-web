@@ -1261,6 +1261,95 @@
         </div>
 
 
+         <div class="modal fade" id="tableSewa" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Spk</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive scrollbar m-2">
+                            <table id="datatables66" class="table table-bordered table-striped">
+                                <thead class="bg-200 text-900">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>No. Faktur Sewa Kendaraan</th>
+                                        <th>Tanggal</th>
+                                        <th>Nama Rekanan</th>
+                                        <th>Telp</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($sewa_kendaraans as $sewa_kendaraan)
+                                        <tr
+                                            onclick="getSelectedDataSewa(
+                                            '{{ $sewa_kendaraan->id }}',
+                                            '{{ $sewa_kendaraan->kode_sewa }}',
+                                            '{{ $sewa_kendaraan->vendor_id }}',
+                                            '{{ $sewa_kendaraan->vendor->kode_vendor ?? '' }}',
+                                            '{{ $sewa_kendaraan->vendor->nama_vendor ?? '' }}',
+                                            '{{ $sewa_kendaraan->vendor->telp ?? '' }}',
+                                            '{{ $sewa_kendaraan->vendor->alamat ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->id ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->kode_pelanggan ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->nama_pell ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->telp ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->alamat ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->karyawan_id ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->karyawan->kode_karyawan ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->karyawan->nama_lengkap ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->karyawan->telp ?? '' }}',
+                                            '{{ $sewa_kendaraan->pelanggan->karyawan->alamat ?? '' }}',
+                                            '{{ $sewa_kendaraan->nama_driver }}',
+                                            '{{ $sewa_kendaraan->telp_driver }}',
+                                            '{{ $sewa_kendaraan->no_pol }}'
+                                            )">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $sewa_kendaraan->kode_sewa }}</td>
+                                            <td>{{ $sewa_kendaraan->tanggal_awal }}</td>
+                                            <td>{{ $sewa_kendaraan->vendor->nama_vendor ?? null }}</td>
+                                            <td>{{ $sewa_kendaraan->vendor->telp ?? null }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataSewa(
+                                                        '{{ $sewa_kendaraan->id }}',
+                                                        '{{ $sewa_kendaraan->kode_sewa }}',
+                                                        '{{ $sewa_kendaraan->vendor_id }}',
+                                                        '{{ $sewa_kendaraan->vendor->kode_vendor ?? '' }}',
+                                                        '{{ $sewa_kendaraan->vendor->nama_vendor ?? '' }}',
+                                                        '{{ $sewa_kendaraan->vendor->telp ?? '' }}',
+                                                        '{{ $sewa_kendaraan->vendor->alamat ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->id ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->kode_pelanggan ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->nama_pell ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->telp ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->alamat ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->karyawan_id ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->karyawan->kode_karyawan ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->karyawan->nama_lengkap ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->karyawan->telp ?? '' }}',
+                                                        '{{ $sewa_kendaraan->pelanggan->karyawan->alamat ?? '' }}',
+                                                        '{{ $sewa_kendaraan->nama_driver }}',
+                                                        '{{ $sewa_kendaraan->telp_driver }}',
+                                                        '{{ $sewa_kendaraan->no_pol }}'
+                                                        )">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="tableSpk" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -2400,4 +2489,42 @@
             $('#tableKaryawan').modal('hide');
         }
     </script>
+
+
+<script>
+      function showCategoryModalSewa(selectedCategory) {
+            $('#tableSewa').modal('show');
+        }
+
+        function getSelectedDataSewa(SewaId, KodeSewa, VendorId, KodeVendor, NamaVendor, TelpVendor, AlamatVendor,
+            Pelanggan_id, KodePelanggan, NamaPelanggan, Telp, Alamat, Karyawan_id,
+            KodeKaryawan, NamaKaryawan, Telps, Alamats, NamaDrivers, TelpDrivers, NoPols) {
+
+            document.getElementById('sewa_kendaraan_id').value = SewaId;
+            document.getElementById('kode_sewa').value = KodeSewa;
+            document.getElementById('vendor_id').value = VendorId;
+            document.getElementById('kode_vendor').value = KodeVendor;
+            document.getElementById('nama_vendor').value = NamaVendor;
+            document.getElementById('telp_vendor').value = TelpVendor;
+            document.getElementById('alamat_vendor').value = AlamatVendor;
+
+            document.getElementById('pelanggan_id').value = Pelanggan_id;
+            document.getElementById('kode_pelanggan').value = KodePelanggan;
+            document.getElementById('nama_pelanggan').value = NamaPelanggan;
+            document.getElementById('telp_pelanggan').value = Telp;
+            document.getElementById('alamat_pelanggan').value = Alamat;
+
+            document.getElementById('karyawan_id').value = Karyawan_id;
+            document.getElementById('kode_karyawan').value = KodeKaryawan;
+            document.getElementById('nama_lengkap').value = NamaKaryawan;
+            document.getElementById('telp').value = Telps;
+            document.getElementById('alamat_karyawan').value = Alamats;
+
+            document.getElementById('nama_sopir').value = NamaDrivers;
+            document.getElementById('telp_sopir').value = TelpDrivers;
+            document.getElementById('no_pols').value = NoPols;
+
+            $('#tableSewa').modal('hide');
+        }
+</script>
 @endsection

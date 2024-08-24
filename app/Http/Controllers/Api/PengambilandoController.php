@@ -101,6 +101,32 @@ class PengambilandoController extends Controller
         }
     }
 
+    public function pengambilando_detailhome($id)
+    {
+        $pengambilan_do = Pengambilan_do::where('id', $id)
+            ->with([
+                'spk.pelanggan', // Include pelanggan through spk
+                'user',
+                'rute_perjalanan',
+                'alamat_muat',
+                'alamat_bongkar',
+                'kendaraan'
+            ])
+            ->first();
+        if ($pengambilan_do) {
+            return response()->json([
+                'status' => TRUE,
+                'msg' => 'Berhasil',
+                'pengambilan_do' => $pengambilan_do
+            ]);
+        } else {
+            return response()->json([
+                'status' => FALSE,
+                'msg' => 'Error',
+            ]);
+        }
+    }
+
     // public function konfirmasi(Request $request, $id)
     // {
 
