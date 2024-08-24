@@ -295,7 +295,7 @@
                                 {{ $item->nama_rute }}
                             @endforeach
                         @else
-                            : {{ $cetakpdf->sewa_kendaraan->nama_rute ?? null }}
+                            : {{ $cetakpdf->sewa_kendaraan->rute_perjalanan->nama_rute ?? null }}
                         @endif
                     </span>
                     <br>
