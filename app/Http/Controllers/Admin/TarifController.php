@@ -108,7 +108,7 @@ class TarifController extends Controller
         $pelanggans = Pelanggan::all();
 
 
-        return view('admin/tarif.update', compact('vendors', 'tarifs', 'pelanggans'));
+        return view('admin/tarif.update', compact('tarifs', 'pelanggans'));
         // } else {
         //     // tidak memiliki akses
         //     return back()->with('error', array('Anda tidak memiliki akses'));

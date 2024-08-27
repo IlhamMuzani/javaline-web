@@ -55,6 +55,8 @@ Route::post('pengambilan_do-batal_pengambilan/{id}', [\App\Http\Controllers\Api\
 // Route::post('pengambilan_do-bukti_foto/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'bukti_foto']);
 Route::post('pengambilan_do-bukti_foto/{id}', [PengambilandoController::class, 'bukti_foto']);
 Route::post('pengambilan_do-bukti_fotoselesai/{id}', [PengambilandoController::class, 'bukti_fotoselesai']);
+Route::post('pengambilan_do-bukti_fotoperbarui/{id}', [PengambilandoController::class, 'bukti_fotoperbarui']);
+Route::post('pengambilan_do-bukti_fotoselesaiperbarui/{id}', [PengambilandoController::class, 'bukti_fotoselesaiperbarui']);
 Route::post('pengambilan_do-konfirmasi_selesai/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'konfirmasi_selesai']);
 
 // Route::apiResource('kendaraan', [KendaraanController::class, 'kendaraan_search'])->except('index');

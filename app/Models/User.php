@@ -113,8 +113,13 @@ class User extends Authenticatable
         return $this->hasOne(Kendaraan::class, 'user_id');
     }
 
-    public function pengambilan_do()
+    public function pengambilan_do(): HasOne
     {
-        return $this->hasMany(Pengambilan_do::class);
+        return $this->hasOne(Pengambilan_do::class, 'user_id');
     }
+
+    // public function pengambilan_do()
+    // {
+    //     return $this->hasMany(Pengambilan_do::class);
+    // }
 }

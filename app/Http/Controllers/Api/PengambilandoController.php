@@ -101,31 +101,6 @@ class PengambilandoController extends Controller
         }
     }
 
-    public function pengambilando_detailhome($id)
-    {
-        $pengambilan_do = Pengambilan_do::where('id', $id)
-            ->with([
-                'spk.pelanggan', // Include pelanggan through spk
-                'user',
-                'rute_perjalanan',
-                'alamat_muat',
-                'alamat_bongkar',
-                'kendaraan'
-            ])
-            ->first();
-        if ($pengambilan_do) {
-            return response()->json([
-                'status' => TRUE,
-                'msg' => 'Berhasil',
-                'pengambilan_do' => $pengambilan_do
-            ]);
-        } else {
-            return response()->json([
-                'status' => FALSE,
-                'msg' => 'Error',
-            ]);
-        }
-    }
 
     // public function konfirmasi(Request $request, $id)
     // {
@@ -325,6 +300,44 @@ class PengambilandoController extends Controller
         ]);
     }
 
+    public function bukti_fotoperbarui(Request $request, $id)
+    {
+        // Temukan model berdasarkan ID
+        $pengambilan_do = Pengambilan_do::find($id);
+
+        if (!$pengambilan_do) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Data tidak ditemukan.',
+            ], 404);
+        }
+
+        // Validasi bahwa file diupload
+        if (!$request->hasFile('gambar') || !$request->file('gambar')->isValid()) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Gambar tidak valid.',
+            ], 400);
+        }
+
+        // Menyiapkan nama file untuk penyimpanan
+        $bukti = str_replace(' ', '', $request->file('gambar')->getClientOriginalName());
+        $namabukti = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+
+        // Menyimpan file ke storage
+        $request->file('gambar')->storeAs('public/uploads/', $namabukti);
+
+        // Memperbarui entri di database
+        $pengambilan_do->update([
+            'gambar' => $namabukti,
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'msg' => 'Berhasil Memperbarui Foto Muat',
+        ]);
+    }
+
 
     public function bukti_fotoselesai(Request $request, $id)
     {
@@ -394,6 +407,44 @@ class PengambilandoController extends Controller
                 ]
             ));
         }
+
+        return response()->json([
+            'status' => true,
+            'msg' => 'Status Berhasil',
+        ]);
+    }
+
+    public function bukti_fotoselesaiperbarui(Request $request, $id)
+    {
+        // Temukan model berdasarkan ID
+        $pengambilan_do = Pengambilan_do::find($id);
+
+        if (!$pengambilan_do) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Data tidak ditemukan.',
+            ], 404);
+        }
+
+        // Validasi bahwa file diupload
+        if (!$request->hasFile('bukti') || !$request->file('bukti')->isValid()) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'File bukti tidak valid.',
+            ], 400);
+        }
+
+        // Menyiapkan nama file untuk penyimpanan
+        $bukti = str_replace(' ', '', $request->file('bukti')->getClientOriginalName());
+        $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+
+        // Menyimpan file ke storage
+        $request->file('bukti')->storeAs('public/uploads/', $namabukti);
+
+        // Memperbarui entri di database
+        $pengambilan_do->update([
+            'bukti' => $namabukti,
+        ]);
 
         return response()->json([
             'status' => true,

@@ -145,7 +145,7 @@
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_kontrakrute/' . $kontrak_rute->id . '/edit') }}">Update</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/kontrak_rute/' . $kontrak_rute->id) }}">Show</a>
+                                                    href="{{ url('admin/inquery_kontrakrute/' . $kontrak_rute->id) }}">Show</a>
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapuskontrak', ['id' => $kontrak_rute->id]) }}">
                                                     <button type="submit"
@@ -160,7 +160,7 @@
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $kontrak_rute->id }}">Unpost</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ url('admin/kontrak_rute/' . $kontrak_rute->id) }}">Show</a>
+                                                    href="{{ url('admin/inquery_kontrakrute/' . $kontrak_rute->id) }}">Show</a>
                                             @endif
                                             {{-- @if ($kontrak_rute->faktur_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
@@ -217,7 +217,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/kontrak_rute') }}";
+            form.action = "{{ url('admin/inquery_kontrakrute') }}";
             form.submit();
         }
     </script>
@@ -233,7 +233,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_sewakendaraan/unpostsewakendaraan/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_kontrakrute/unpostkontrakrute/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -273,7 +273,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_sewakendaraan/postingsewakendaraan/') }}/" +
+                    url: "{{ url('admin/inquery_kontrakrute/postingkontrakrute/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {

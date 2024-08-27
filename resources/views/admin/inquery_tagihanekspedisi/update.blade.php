@@ -73,10 +73,20 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
                             <input type="text" class="form-control" id="kategori" readonly name="kategori"
                                 placeholder="" value="{{ old('kategori', $inquery->kategori) }}">
+                        </div> --}}
+                        <div class="form-group">
+                            <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
+                            <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
+                                <option value="">- Pilih -</option>
+                                <option value="PPH" {{ old('kategori', $inquery->kategori) == 'PPH' ? 'selected' : null }} selected>
+                                    PPH</option>
+                                <option value="NON PPH" {{ old('kategori', $inquery->kategori) == 'NON PPH' ? 'selected' : null }}>
+                                    NON PPH</option>
+                            </select>
                         </div>
                         <div class="form-group" style="flex: 8;">
                             <div class="row">
@@ -713,7 +723,8 @@
             // no_memo
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_memo-' + identifier +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_memo-' +
+                identifier +
                 '" name="no_memo[]" value="' +
                 no_memo +
                 '" ';
@@ -752,7 +763,8 @@
             item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_pol-' + identifier +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_pol-' +
+                identifier +
                 '" name="no_pol[]" value="' +
                 no_pol +
                 '" ';
@@ -764,7 +776,8 @@
             item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="jumlah-' + identifier +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="jumlah-' +
+                identifier +
                 '" name="jumlah[]" value="' +
                 jumlah +
                 '" ';
@@ -774,7 +787,8 @@
             // satuan
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="satuan-' + identifier +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="satuan-' +
+                identifier +
                 '" name="satuan[]" value="' +
                 satuan +
                 '" ';
@@ -786,7 +800,8 @@
             item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="harga-' + identifier +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="harga-' +
+                identifier +
                 '" name="harga[]" value="' +
                 harga +
                 '" ';
@@ -798,7 +813,8 @@
             item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="total-' + identifier +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="total-' +
+                identifier +
                 '" name="total[]" value="' +
                 total +
                 '" ';
@@ -815,7 +831,8 @@
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             item_pembelian +=
-                '<button  style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' + identifier +
+                '<button  style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
+                identifier +
                 ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';

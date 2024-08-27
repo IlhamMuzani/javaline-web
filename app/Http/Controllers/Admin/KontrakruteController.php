@@ -134,7 +134,7 @@ class KontrakruteController extends Controller
         $cetakpdf = Kontrak_rute::find($cetakpdfs);
         $details = Detail_kontrak::where('kontrak_rute_id', $cetakpdf->id)->get();
 
-        return view('admin.kontrak_rute.show', compact('cetakpdf', 'details'));
+        return view('admin.kontrak_rute.index', compact('cetakpdf', 'details'));
     }
 
     public function kode()
