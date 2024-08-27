@@ -149,7 +149,7 @@
 
         .tdd1 td {
             text-align: center;
-            font-size: 15px;
+            font-size: 13px;
             position: relative;
             padding-top: 10px;
             /* Sesuaikan dengan kebutuhan Anda */
@@ -167,14 +167,14 @@
         .info-1 {}
 
         .label {
-            font-size: 15px;
+            font-size: 13px;
             text-align: center;
             /* Teks menjadi berada di tengah */
 
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 13px;
             /* Atur sesuai kebutuhan Anda */
             text-align: center;
             /* Teks menjadi berada di tengah */
@@ -195,9 +195,9 @@
 <body style="margin: 0; padding: 0;">
     <table cellpadding="2" cellspacing="0">
         <tr>
-            <td class="info-catatan2" style="font-size: 15px;">PT. JAVA LINE LOGISTICS</td>
-            <td class="info-catatan2" style="font-size: 15px; margin-left: 40px; display: block;">Nama Pelanggan</td>
-            <td style="text-align: left; font-size: 15px;">
+            <td class="info-catatan2" style="font-size: 13px;">PT. JAVA LINE LOGISTICS</td>
+            <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">Nama Pelanggan</td>
+            <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
                     {{ $cetakpdf->nama_pelanggan }}
                 </span>
@@ -205,14 +205,14 @@
             </td>
         </tr>
         <tr>
-            <td class="info-text info-left" style="font-size: 15px;">JL. HOS COKRO AMINOTO NO. 5
+            <td class="info-text info-left" style="font-size: 13px;">JL. HOS COKRO AMINOTO NO. 5
                 {{-- <br>
                 SLAWI TEGAL <br>
                 Telp/ Fax 02836195326 02836195187 --}}
             </td>
             </td>
-            <td class="info-catatan2" style="font-size: 15px; margin-left: 40px; display: block;">Alamat</td>
-            <td style="text-align: left; font-size: 15px;">
+            <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">Alamat</td>
+            <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
                     {{ $cetakpdf->alamat_pelanggan }}
                 </span>
@@ -220,10 +220,10 @@
             </td>
         </tr>
         <tr>
-            <td class="info-text info-left" style="font-size: 15px;">SLAWI TEGAL
+            <td class="info-text info-left" style="font-size: 13px;">SLAWI TEGAL
             </td>
-            <td class="info-catatan2" style="font-size: 15px; margin-left: 40px; display: block;">Telp</td>
-            <td style="text-align: left; font-size: 15px;">
+            <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">Telp</td>
+            <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
                     {{ $cetakpdf->telp }}
                 </span>
@@ -231,11 +231,11 @@
             </td>
         </tr>
         <tr>
-            <td class="info-text info-left" style="font-size: 15px;">Telp/ Fax 02836195326 02836195187
+            <td class="info-text info-left" style="font-size: 13px;">Telp/ Fax 02836195326 02836195187
             </td>
-            <td class="info-catatan2" style="font-size: 15px; margin-left: 40px; display: block;">ID Pelanggan</td>
+            <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">ID Pelanggan</td>
 
-            <td style="text-align: left; font-size: 15px;">
+            <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
                     {{ $cetakpdf->kode_pelanggan }}
                 </span>
@@ -251,11 +251,11 @@
     <hr style="border-top: 0.1px solid black;">
     <table style="width: 100%; margin-bottom:5px" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">No.
                 Faktur:{{ $cetakpdf->kode_pelunasan }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                 Tanggal:{{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                 Status: @if ($cetakpdf->selisih == 0)
                     <span style="font-weight: bold;">LUNAS</span>
                 @else
@@ -267,10 +267,12 @@
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">F. Ekspedisi</td>
-            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">Total Ongkos Ekspedisi</td>
-            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">Sub Total</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">F. Ekspedisi</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Total Ongkos Ekspedisi</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">F. Return</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Total Return</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Sub Total</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="8" style="padding: 0px;"></td>
@@ -281,36 +283,71 @@
 
             $diskonquantity = 0;
             $totalDiskon = 0;
-            $totalHarga = 0;
         @endphp
         @foreach ($details as $item)
+            @php
+                // Mendapatkan nilai nominal_potongan
+                $detail_pelunasan_return = $item->faktur_pelunasan->detail_pelunasanreturn
+                    ->where('faktur_ekspedisi_id', $item->faktur_ekspedisi_id)
+                    ->first();
+                $nominal_potongan = $detail_pelunasan_return ? $detail_pelunasan_return->nominal_potongan : 0;
+
+                // Mengurangi nilai total dengan nilai nominal_potongan
+                $total_dengan_potongan = $item->total - $nominal_potongan;
+            @endphp
+
             <tr>
-                <td class="td" style="text-align: center;  font-size: 15px;">{{ $loop->iteration }}</td>
-                <td class="td" style="text-align: center;  font-size: 15px;">{{ $item->kode_faktur }}</td>
-                <td class="info-text info-left" style="font-size: 15px; text-align: right;">
+                <td class="td" style="text-align: center;  font-size: 13px;">{{ $loop->iteration }}</td>
+                <td class="td" style="text-align: center;  font-size: 13px;">{{ $item->kode_faktur }}</td>
+                <td class="info-text info-left" style="font-size: 13px; text-align: right;">
                     {{ number_format($item->total, 2, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: right;  font-size: 15px;">
-                    {{ number_format($item->total, 2, ',', '.') }}
+                <td class="td" style="text-align: center; font-size: 13px;">
+                    @if ($detail_pelunasan_return)
+                        {{ $detail_pelunasan_return->kode_potongan }}
+                    @else
+                    @endif
+                </td>
+                <td class="td" style="text-align: right;  font-size: 13px;">
+                    @if ($detail_pelunasan_return)
+                        {{ number_format($nominal_potongan, 2, ',', '.') }}
+                    @else
+                        0,00
+                    @endif
+                </td>
+                <td class="td" style="text-align: right;  font-size: 13px;">
+                    {{ number_format($total_dengan_potongan, 2, ',', '.') }}
                 </td>
             </tr>
+
             @php
-                $totalHarga += $item->total;
+                $totalQuantity += 1;
+                $totalHarga += $total_dengan_potongan;
+
+                $diskonquantity = 1;
+                $totalDiskon += $nominal_potongan;
             @endphp
         @endforeach
 
         <tr style="border-bottom: 1px solid black;">
             <td colspan="6" style="padding: 0px;"></td>
         </tr>
-
+        {{-- <tr>
+            <td colspan="5"
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+                {{ number_format($totalHarga, 0, ',', '.') }}
+            </td>
+        </tr> --}}
     </table>
     <table style="width: 100%; margin-bottom:0px;">
         <tr>
             <td>
-                <span class="info-item" style="font-size: 15px; font-weight:bold">Rincian Pembayaran :</span>
+                <span class="info-item" style="font-size: 13px; font-weight:bold">Rincian Pembayaran :</span>
                 <br>
             </td>
-            <td style="text-align: right; font-size: 15px; font-weight:bold">
+            <td style="text-align: right; font-size: 13px; font-weight:bold">
                 {{ number_format($totalHarga, 2, ',', '.') }}
             </td>
         </tr>
@@ -322,78 +359,78 @@
                     @if ($cetakpdf->kategori == 'Bilyet Giro')
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">No. BG / Tanggal</span>
+                                <span class="info-item" style="font-size: 13px;">No. BG / Tanggal</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 15px;">:</span>
+                                <span class="info-titik" style="font-size: 13px;">:</span>
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ $cetakpdf->tanggal_transfer }}</span>
+                                    style="font-size: 13px;">{{ $cetakpdf->tanggal_transfer }}</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">Jumlah Nominal</span>
+                                <span class="info-item" style="font-size: 13px;">Jumlah Nominal</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 15px;">:</span>
+                                <span class="info-titik" style="font-size: 13px;">:</span>
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ number_format($cetakpdf->nominal, 2, ',', '.') }}</span>
+                                    style="font-size: 13px;">{{ number_format($cetakpdf->nominal, 2, ',', '.') }}</span>
                             </td>
                         </tr>
                     @endif
                     @if ($cetakpdf->kategori == 'Transfer')
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">No Transfer / Tanggal</span>
+                                <span class="info-item" style="font-size: 13px;">No Transfer / Tanggal</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 15px;">:</span>
+                                <span class="info-titik" style="font-size: 13px;">:</span>
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ $cetakpdf->tanggal_transfer }}</span>
+                                    style="font-size: 13px;">{{ $cetakpdf->tanggal_transfer }}</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">Jumlah Nominal</span>
+                                <span class="info-item" style="font-size: 13px;">Jumlah Nominal</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 15px;">:</span>
+                                <span class="info-titik" style="font-size: 13px;">:</span>
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ number_format($cetakpdf->nominal, 2, ',', '.') }}</span>
+                                    style="font-size: 13px;">{{ number_format($cetakpdf->nominal, 2, ',', '.') }}</span>
                             </td>
                         </tr>
                     @endif
                     @if ($cetakpdf->kategori == 'Tunai')
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">Tanggal</span>
+                                <span class="info-item" style="font-size: 13px;">Tanggal</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 15px;">:</span>
+                                <span class="info-titik" style="font-size: 13px;">:</span>
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ $cetakpdf->tanggal_transfer }}</span>
+                                    style="font-size: 13px;">{{ $cetakpdf->tanggal_transfer }}</span>
                             </td>
                         </tr>
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 15px;">Nominal Tunai</span>
+                                <span class="info-item" style="font-size: 13px;">Nominal Tunai</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 15px;">:</span>
+                                <span class="info-titik" style="font-size: 13px;">:</span>
                             </td>
                             <td class="info-column">
                                 <span class="info-item"
-                                    style="font-size: 15px;">{{ number_format($cetakpdf->nominal, 2, ',', '.') }}</span>
+                                    style="font-size: 13px;">{{ number_format($cetakpdf->nominal, 2, ',', '.') }}</span>
                             </td>
                         </tr>
                     @endif
@@ -401,30 +438,26 @@
             </td>
             <td style="width: 70%;">
                 <table style="width: 100%;" cellpadding="2" cellspacing="0">
+                    {{-- <tr>
+                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
+                            Potongan Penjualan</td>
+                        <td class="td" style="text-align: right; font-size: 13px;">
+                            {{ number_format($cetakpdf->potonganselisih, 2, ',', '.') }}
+                        </td>
+                    </tr> --}}
                     @foreach ($cetakpdf->detail_pelunasanpotongan as $item)
                         <tr>
-                            <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 30%;">
+                            <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
                                 {{ $item->keterangan_potonganlain }} </td>
-                            <td class="td" style="text-align: right; font-size: 15px;">
+                            <td class="td" style="text-align: right; font-size: 13px;">
                                 {{ number_format($item->nominallain, 2, ',', '.') }}
                             </td>
                         </tr>
                     @endforeach
-
-                    @foreach ($detailreturns as $item)
-                        <tr>
-                            <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 30%;">
-                                {{ $item->kode_potongan }} </td>
-                            <td class="td" style="text-align: right; font-size: 15px;">
-                                {{ number_format($item->nominal_potongan, 2, ',', '.') }}
-                            </td>
-                        </tr>
-                    @endforeach
-
                     <tr>
-                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">Ongkos Bongkar
+                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;">Ongkos Bongkar
                         </td>
-                        <td class="td" style="text-align: right; font-size: 15px;">
+                        <td class="td" style="text-align: right; font-size: 13px;">
                             0,00
                         </td>
                     </tr>
@@ -434,16 +467,16 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 30%;">
+                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
                             Total Tagihan</td>
-                        <td class="td" style="text-align: right; font-size: 15px;">
+                        <td class="td" style="text-align: right; font-size: 13px;">
                             {{ number_format($cetakpdf->totalpembayaran, 2, ',', '.') }}
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">Total Bayar
+                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;">Total Bayar
                         </td>
-                        <td class="td" style="text-align: right; font-size: 15px;">
+                        <td class="td" style="text-align: right; font-size: 13px;">
                             {{ number_format($cetakpdf->nominal, 2, ',', '.') }}
                         </td>
                     </tr>
@@ -453,9 +486,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 30%;">
+                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
                             Kekurangan Bayar</td>
-                        <td class="td" style="text-align: right; font-size: 15px;">
+                        <td class="td" style="text-align: right; font-size: 13px;">
                             {{ number_format($cetakpdf->selisih, 2, ',', '.') }}
                         </td>
                     </tr>
@@ -508,11 +541,11 @@
             </td>
         </tr>
     </table>
-</body>
 
-<div class="container">
-    <a href="{{ url('admin/tablepelunasan') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/faktur_pelunasan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
-</div>
+
+    {{-- <div style="text-align: right; font-size:12px; margin-top:5px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div> --}}
+</body>
 
 </html>

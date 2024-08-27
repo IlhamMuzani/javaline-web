@@ -270,8 +270,6 @@
             <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
             <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">F. Ekspedisi</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Total Ongkos Ekspedisi</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">F. Return</td>
-            <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Total Return</td>
             <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Sub Total</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
@@ -283,63 +281,28 @@
 
             $diskonquantity = 0;
             $totalDiskon = 0;
+            $totalHarga = 0;
         @endphp
         @foreach ($details as $item)
-            @php
-                // Mendapatkan nilai nominal_potongan
-                $detail_pelunasan_return = $item->faktur_pelunasan->detail_pelunasanreturn
-                    ->where('faktur_ekspedisi_id', $item->faktur_ekspedisi_id)
-                    ->first();
-                $nominal_potongan = $detail_pelunasan_return ? $detail_pelunasan_return->nominal_potongan : 0;
-
-                // Mengurangi nilai total dengan nilai nominal_potongan
-                $total_dengan_potongan = $item->total - $nominal_potongan;
-            @endphp
-
             <tr>
                 <td class="td" style="text-align: center;  font-size: 13px;">{{ $loop->iteration }}</td>
                 <td class="td" style="text-align: center;  font-size: 13px;">{{ $item->kode_faktur }}</td>
                 <td class="info-text info-left" style="font-size: 13px; text-align: right;">
                     {{ number_format($item->total, 2, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: center; font-size: 13px;">
-                    @if ($detail_pelunasan_return)
-                        {{ $detail_pelunasan_return->kode_potongan }}
-                    @else
-                    @endif
-                </td>
                 <td class="td" style="text-align: right;  font-size: 13px;">
-                    @if ($detail_pelunasan_return)
-                        {{ number_format($nominal_potongan, 2, ',', '.') }}
-                    @else
-                        0,00
-                    @endif
-                </td>
-                <td class="td" style="text-align: right;  font-size: 13px;">
-                    {{ number_format($total_dengan_potongan, 2, ',', '.') }}
+                    {{ number_format($item->total, 2, ',', '.') }}
                 </td>
             </tr>
-
             @php
-                $totalQuantity += 1;
-                $totalHarga += $total_dengan_potongan;
-
-                $diskonquantity = 1;
-                $totalDiskon += $nominal_potongan;
+                $totalHarga += $item->total;
             @endphp
         @endforeach
 
         <tr style="border-bottom: 1px solid black;">
             <td colspan="6" style="padding: 0px;"></td>
         </tr>
-        {{-- <tr>
-            <td colspan="5"
-                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
-            </td>
-            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
-                {{ number_format($totalHarga, 0, ',', '.') }}
-            </td>
-        </tr> --}}
+
     </table>
     <table style="width: 100%; margin-bottom:0px;">
         <tr>
@@ -438,13 +401,6 @@
             </td>
             <td style="width: 70%;">
                 <table style="width: 100%;" cellpadding="2" cellspacing="0">
-                    {{-- <tr>
-                        <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
-                            Potongan Penjualan</td>
-                        <td class="td" style="text-align: right; font-size: 13px;">
-                            {{ number_format($cetakpdf->potonganselisih, 2, ',', '.') }}
-                        </td>
-                    </tr> --}}
                     @foreach ($cetakpdf->detail_pelunasanpotongan as $item)
                         <tr>
                             <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
@@ -454,6 +410,17 @@
                             </td>
                         </tr>
                     @endforeach
+
+                    @foreach ($detailreturns as $item)
+                        <tr>
+                            <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;width: 30%;">
+                                {{ $item->kode_potongan }} </td>
+                            <td class="td" style="text-align: right; font-size: 13px;">
+                                {{ number_format($item->nominal_potongan, 2, ',', '.') }}
+                            </td>
+                        </tr>
+                    @endforeach
+
                     <tr>
                         <td colspan="5" style="text-align: left; padding: 0px; font-size: 13px;">Ongkos Bongkar
                         </td>

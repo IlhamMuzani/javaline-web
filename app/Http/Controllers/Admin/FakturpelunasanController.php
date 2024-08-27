@@ -256,8 +256,9 @@ class FakturpelunasanController extends Controller
         }
 
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
+        $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $cetakpdf->id)->get();
 
-        return view('admin.faktur_pelunasan.show', compact('cetakpdf', 'details'));
+        return view('admin.faktur_pelunasan.show', compact('cetakpdf', 'details', 'detailreturns'));
     }
 
 
@@ -292,16 +293,19 @@ class FakturpelunasanController extends Controller
     public function show($id)
     {
         $cetakpdf = Faktur_pelunasan::where('id', $id)->first();
-
-        return view('admin.faktur_pelunasan.show', compact('cetakpdf'));
+        $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
+        $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $cetakpdf->id)->get();
+        
+        return view('admin.faktur_pelunasan.show', compact('cetakpdf', 'details', 'detailreturns'));
     }
 
     public function cetakpdf($id)
     {
         $cetakpdf = Faktur_pelunasan::where('id', $id)->first();
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
+        $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $cetakpdf->id)->get();
 
-        $pdf = PDF::loadView('admin.faktur_pelunasan.cetak_pdf', compact('cetakpdf', 'details'));
+        $pdf = PDF::loadView('admin.faktur_pelunasan.cetak_pdf', compact('detailreturns','cetakpdf', 'details'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('Faktur_Pelunasan.pdf');
     }

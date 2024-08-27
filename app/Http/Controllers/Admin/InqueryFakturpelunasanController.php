@@ -388,15 +388,16 @@ class InqueryFakturpelunasanController extends Controller
             }
         }
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
+        $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $cetakpdf->id)->get();
 
-        return view('admin.inquery_fakturpelunasan.show', compact('cetakpdf', 'details'));
+        return view('admin.inquery_fakturpelunasan.show', compact('cetakpdf', 'details', 'detailreturns'));
     }
     public function show($id)
     {
         $cetakpdf = Faktur_pelunasan::where('id', $id)->first();
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $id)->get();
-
-        return view('admin.inquery_fakturpelunasan.show', compact('cetakpdf', 'details'));
+        $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $id)->get();
+        return view('admin.inquery_fakturpelunasan.show', compact('detailreturns','cetakpdf', 'details'));
     }
 
     public function unpostpelunasan($id)
