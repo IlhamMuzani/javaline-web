@@ -210,8 +210,9 @@
             Bersama ini kami PT. JAVA LINE LOGISTICS ingin mengajukan harga untuk rute berikut :
         </span>
     </div>
-
-    <br>
+    {{-- <div style="text-align: center;">
+        <span style="font-weight: bold; font-size: 16px;">KONTRAK RUTE</span>
+    </div> --}}
     <hr style="border-top: 0.1px solid black; margin: 5px 0;">
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
@@ -314,7 +315,9 @@
                 <td>
                     <div style="margin-left: 12px">
                         Pembayaran maksimal 30 hari setelah invoice diterima. Pembayaran dilaksanakan lewat transfer
-                        bank BCA ke No. Rekening 3620567000 an. PT. Java Line Logistics
+                        bank BCA ke No. Rekening <span style="font-weight: bold">
+                            3620567000 an. PT. Java Line Logistics
+                        </span>
                     </div>
                 </td>
             </tr>
@@ -380,60 +383,7 @@
                     </tr>
                 </table>
             </td>
-            <td style="width: 20%; color:aliceblue">
-                <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
-                    <tr>
-                        <td style="text-align: center;">
-                            <table style="margin: 0 auto;">
-                                <tr style="text-align: center;">
-                                    <td class="label">
-                                        <span class="info-item" style="font-size: 12px; padding-right:0px">
-                                            Tegal,
-                                            {{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
-                                        </span>
-                                        <br>
-                                        <span class="info-item"
-                                            style="font-size: 12px; padding-right:0px; margin-top:5px">
-                                            Mengetahui,
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                    <td style="color:white" class="">.</td>
-                                </tr>
-                                <tr>
-                                </tr>
-                                <tr style="text-align: center;">
-                                    <td class="label">
-                                        <span class="info-item"
-                                            style="font-size: 12px; padding-right:0px;  font-weight:bold">
-                                            PT. JAVA LINE LOGISTICS
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </td>
+
             <td style="width: 30%;">
                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                     <tr>

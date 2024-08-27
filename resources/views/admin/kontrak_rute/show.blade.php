@@ -81,8 +81,6 @@
             /* Atur properti CSS untuk elemen header di sini */
             /* Misalnya, properti seperti ukuran font, warna teks, latar belakang, dll. */
         }
-
-     
     </style>
 </head>
 
@@ -296,7 +294,9 @@
                 <td>
                     <div style="margin-left: 14px">
                         Pembayaran maksimal 30 hari setelah invoice diterima. Pembayaran dilaksanakan lewat transfer
-                        bank BCA ke No. Rekening 3620567000 an. PT. Java Line Logistics
+                        bank BCA ke No. Rekening <span style="font-weight: bold">
+                            3620567000 an. PT. Java Line Logistics
+                        </span>
                     </div>
                 </td>
             </tr>
