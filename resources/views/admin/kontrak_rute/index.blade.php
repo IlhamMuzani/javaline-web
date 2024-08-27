@@ -208,7 +208,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_kontrakrute/unpostsewakendaraan/') }}/" + memoId,
+                    url: "{{ url('admin/inquery_kontrakrute/unpostkontrakrute/') }}/" + memoId,
                     type: 'GET',
                     data: {
                         id: memoId
@@ -248,7 +248,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_kontrakrute/postingsewakendaraan/') }}/" +
+                    url: "{{ url('admin/inquery_kontrakrute/postingkontrakrute/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {
