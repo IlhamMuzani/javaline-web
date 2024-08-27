@@ -55,6 +55,7 @@
     request()->is('admin/alamat_bongkar*') ||
     request()->is('admin/harga_sewa*') ||
     request()->is('admin/lama_penggantianoli*') ||
+    request()->is('admin/jarak_km*') ||
     request()->is('admin/sparepart')
         ? 'menu-open'
         : '' }}">
@@ -92,6 +93,7 @@
         request()->is('admin/alamat_bongkar*') ||
         request()->is('admin/harga_sewa*') ||
         request()->is('admin/lama_penggantianoli*') ||
+        request()->is('admin/jarak_km*') ||
         request()->is('admin/sparepart')
             ? 'active'
             : '' }}">
@@ -403,6 +405,15 @@
                     class="nav-link {{ request()->is('admin/lama_penggantianoli*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Lama Penggantian Oli</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['kendaraan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/jarak_km') }}"
+                    class="nav-link {{ request()->is('admin/jarak_km*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Jarak Update Km</p>
                 </a>
             </li>
         @endif

@@ -8,6 +8,7 @@ use App\Models\LogAktivitas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Ban;
+use App\Models\Jarak_km;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -30,6 +31,7 @@ class UpdateKMController extends Controller
         $nomorKabin = $request->input('kendaraan_id');
 
         $kendaraan = Kendaraan::where('id', $nomorKabin)->first();
+        $jarak = Jarak_km::first();
 
         $validator = Validator::make(
             $request->all(),
@@ -38,9 +40,11 @@ class UpdateKMController extends Controller
                 'km' => [
                     'required',
                     'numeric',
-                    function ($attribute, $value, $fail) use ($kendaraan) {
+                    function ($attribute, $value, $fail) use ($kendaraan, $jarak) {
                         if ($value <= $kendaraan->km) {
                             $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                        } elseif ($value - $kendaraan->km > $jarak->batas) {
+                            $fail('Nilai km tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
                         }
                     },
                 ],
