@@ -196,7 +196,7 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: left; padding: 0px; font-size: 14px; width:40px">No.</td>
-            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;width:65px">Rute</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">Rute</td>
             <td class="td" style="text-align: right; padding: 0px; font-size: 14px;">Harga</td>
         </tr>
         <!-- Add horizontal line below this row -->
