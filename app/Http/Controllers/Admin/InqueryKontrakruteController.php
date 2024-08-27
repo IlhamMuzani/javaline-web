@@ -227,10 +227,51 @@ class InqueryKontrakruteController extends Controller
         return view('admin.inquery_kontrakrute.show', compact('cetakpdf', 'details'));
     }
 
-    public function unpostpkontrak($id) {}
+    public function unpostkontrakrute($id)
+    {
+        $kontrak = Kontrak_rute::find($id);
+        $details = Detail_kontrak::where('kontrak_rute_id', $id)->get();
+        $tarifs = Tarif::where('kontrak_rute_id', $id)->get();
 
-    public function postingpkontrak($id) {}
+        foreach ($tarifs as $tarif) {
+            $tarif->update([
+                'status' => 'unpost'
+            ]);
+        }
 
+        foreach ($details as $detail) {
+            $detail->update([
+                'status' => 'unpost'
+            ]);
+        }
+        $kontrak->update([
+            'status' => 'unpost'
+        ]);
+        return back()->with('success', 'Berhasil');
+    }
+
+    public function postingkontrakrute($id)
+    {
+        $kontrak = Kontrak_rute::find($id);
+        $details = Detail_kontrak::where('kontrak_rute_id', $id)->get();
+        $tarifs = Tarif::where('kontrak_rute_id', $id)->get();
+
+        foreach ($tarifs as $tarif) {
+            $tarif->update([
+                'status' => 'posting'
+            ]);
+        }
+        
+        foreach ($details as $detail) {
+            $detail->update([
+                'status' => 'posting'
+            ]);
+        }
+        $kontrak->update([
+            'status' => 'posting'
+        ]);
+        return back()->with('success', 'Berhasil');
+    }
 
 
     public function hapuskontrak($id)

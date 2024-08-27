@@ -131,10 +131,10 @@ class KontrakruteController extends Controller
             }
         }
 
-        $cetakpdf = Kontrak_rute::find($cetakpdfs);
-        $details = Detail_kontrak::where('kontrak_rute_id', $cetakpdf->id)->get();
+        $cetakpdf = Kontrak_rute::where('id', $cetakpdfs->id)->first();
+        $details = Detail_kontrak::where('kontrak_rute_id', $cetakpdfs->id)->get();
 
-        return view('admin.kontrak_rute.index', compact('cetakpdf', 'details'));
+        return view('admin.kontrak_rute.show', compact('cetakpdf', 'details'));
     }
 
     public function kode()
@@ -186,18 +186,19 @@ class KontrakruteController extends Controller
     public function show($id)
     {
         $cetakpdf = Kontrak_rute::where('id', $id)->first();
+        $details = Detail_kontrak::where('kontrak_rute_id', $cetakpdf->id)->get();
 
-        return view('admin.kontrak_rute.show', compact('cetakpdf'));
+        return view('admin.kontrak_rute.show', compact('cetakpdf', 'details'));
     }
 
     public function cetakpdf($id)
     {
         $cetakpdf = Kontrak_rute::where('id', $id)->first();
-        $details = Detail_kontrak::where('pengeluaran_kaskecil_id', $cetakpdf->id)->get();
+        $details = Detail_kontrak::where('kontrak_rute_id', $cetakpdf->id)->get();
 
         $pdf = PDF::loadView('admin.kontrak_rute.cetak_pdf', compact('cetakpdf', 'details'));
         $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
-        return $pdf->stream('Pengeluaran_Kaskecil.pdf');
+        return $pdf->stream('Kontrak_rute.pdf');
     }
 }

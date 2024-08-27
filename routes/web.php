@@ -38,6 +38,11 @@ Route::get('supplier/{kode}', [\App\Http\Controllers\SupplierController::class, 
 Route::get('pelanggan/{kode}', [\App\Http\Controllers\PelangganController::class, 'detail']);
 Route::get('stnk/{kode}', [\App\Http\Controllers\StnkController::class, 'detail']);
 
+Route::middleware('driver')->prefix('driver')->group(function () {
+    Route::get('/', [\App\Http\Controllers\Driver\DashboardController::class, 'index']);
+    Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index']);
+    Route::post('profile/update', [\App\Http\Controllers\Admin\ProfileController::class, 'update']);
+});
 
 Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('/', [\App\Http\Controllers\Admin\DashboardController::class, 'index']);
@@ -845,14 +850,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('kontrak_rute', \App\Http\Controllers\Admin\KontrakruteController::class);
     Route::resource('inquery_kontrakrute', \App\Http\Controllers\Admin\InqueryKontrakruteController::class);
     Route::get('hapuskontrak/{id}', [\App\Http\Controllers\Admin\InqueryKontrakruteController::class, 'hapuskontrak'])->name('hapuskontrak');
-
-
-});
-
-
-Route::middleware('driver')->prefix('driver')->group(function () {
-    Route::get('/', [\App\Http\Controllers\Driver\DashboardController::class, 'index']);
-    Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index']);
-    Route::post('profile/update', [\App\Http\Controllers\Admin\ProfileController::class, 'update']);
+    Route::get('inquery_kontrakrute/unpostkontrakrute/{id}', [\App\Http\Controllers\Admin\InqueryKontrakruteController::class, 'unpostkontrakrute']);
+    Route::get('inquery_kontrakrute/postingkontrakrute/{id}', [\App\Http\Controllers\Admin\InqueryKontrakruteController::class, 'postingkontrakrute']);
+    Route::get('kontrak_rute/cetak-pdf/{id}', [\App\Http\Controllers\Admin\KontrakruteController::class, 'cetakpdf']);
 
 });
