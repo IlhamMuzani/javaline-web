@@ -82,6 +82,7 @@
                                 <th class="text-center">No</th>
                                 <th>Kode Sopir</th>
                                 <th>Nama Sopir</th>
+                                <th>Telp</th>
                                 <th class="text-right">Deposit</th>
                                 <th class="text-right">Kasbon</th>
                                 <th class="text-right">Bayar Kasbon</th>
@@ -95,6 +96,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $driver->kode_karyawan }}</td>
                                     <td>{{ $driver->nama_lengkap }}</td>
+                                    <td>{{ $driver->telp }}</td>
                                     <td class="text-right">
                                         {{ number_format($driver->deposit, 0, ',', '.') }}
                                     </td>

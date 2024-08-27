@@ -16,7 +16,7 @@ class DriverController extends Controller
 {
     public function index()
     {
-        $drivers = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'deposit', 'kasbon', 'bayar_kasbon', 'tabungan')
+        $drivers = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'deposit', 'kasbon', 'bayar_kasbon', 'tabungan', 'telp')
             ->where('departemen_id', '2')
             ->orderBy('nama_lengkap')
             ->get();
