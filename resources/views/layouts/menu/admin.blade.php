@@ -655,6 +655,7 @@
     request()->is('admin/penerimaan_sj*') ||
     request()->is('admin/sewa_kendaraan*') ||
     request()->is('admin/pelunasan_sewakeninvoice*') ||
+    request()->is('admin/invoice_sewakendaraan*') ||
     request()->is('admin/kontrak_rute*') ||
     request()->is('admin/pembelian_part*')
         ? 'menu-open'
@@ -690,6 +691,7 @@
         request()->is('admin/sewa_kendaraan*') ||
         request()->is('admin/pelunasan_sewakeninvoice*') ||
         request()->is('admin/kontrak_rute*') ||
+        request()->is('admin/invoice_sewakendaraan*') ||
         request()->is('admin/pembelian_part*')
             ? 'active'
             : '' }}">

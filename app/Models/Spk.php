@@ -39,6 +39,7 @@ class Spk extends Model
         'no_pol',
         'golongan',
         'km_awal',
+        'km_akhir',
         'kode_driver',
         'nama_driver',
         'telp',
