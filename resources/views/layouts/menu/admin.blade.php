@@ -1399,7 +1399,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+        {{-- @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_pengambilando') }}"
                     class="nav-link {{ request()->is('admin/inquery_pengambilando*') ? 'active' : '' }}">
@@ -1408,7 +1408,7 @@
                     </p>
                 </a>
             </li>
-        @endif
+        @endif --}}
         @if (auth()->check() && auth()->user()->menu['inquery faktur ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_kontrakrute') }}"

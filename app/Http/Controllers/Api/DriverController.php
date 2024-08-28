@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Jarak_km;
 use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Pelanggan;
@@ -127,11 +128,21 @@ class DriverController extends Controller
     public function tunggu_muat(Request $request, $id)
     {
         $km = Kendaraan::findOrFail($id);
+        $jarak = Jarak_km::first();
 
         $validator = Validator::make(
             $request->all(),
             [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
+                'km' => [
+                    'required',
+                    'numeric',
+                    'min:' . ($km->km + 1),
+                    function ($attribute, $value, $fail) use ($km, $jarak) {
+                        if ($value - $km->km > $jarak->batas) {
+                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                        }
+                    },
+                ],
             ],
             [
                 'km.required' => 'Masukkan nilai km',
@@ -391,10 +402,21 @@ class DriverController extends Controller
 
         $km = Kendaraan::findOrFail($id);
 
+        $jarak = Jarak_km::first();
+
         $validator = Validator::make(
             $request->all(),
             [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
+                'km' => [
+                    'required',
+                    'numeric',
+                    'min:' . ($km->km + 1),
+                    function ($attribute, $value, $fail) use ($km, $jarak) {
+                        if ($value - $km->km > $jarak->batas) {
+                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                        }
+                    },
+                ],
             ],
             [
                 'km.required' => 'Masukkan nilai km',
@@ -551,11 +573,21 @@ class DriverController extends Controller
     public function perjalanan_kosong(Request $request, $id)
     {
         $km = Kendaraan::findOrFail($id);
+        $jarak = Jarak_km::first();
 
         $validator = Validator::make(
             $request->all(),
             [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
+                'km' => [
+                    'required',
+                    'numeric',
+                    'min:' . ($km->km + 1),
+                    function ($attribute, $value, $fail) use ($km, $jarak) {
+                        if ($value - $km->km > $jarak->batas) {
+                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                        }
+                    },
+                ],
                 'kota_id' => 'required',
             ],
             [
@@ -563,9 +595,10 @@ class DriverController extends Controller
                 'km.numeric' => 'Nilai Km harus berupa angka',
                 'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
                 'kota_id.required' => 'Pilih tujuan',
+
             ]
         );
-
+        
         if ($validator->fails()) {
             $error = $validator->errors()->first();
             return $this->error($error);
@@ -620,10 +653,21 @@ class DriverController extends Controller
     {
         $km = Kendaraan::findOrFail($id);
 
+        $jarak = Jarak_km::first();
+
         $validator = Validator::make(
             $request->all(),
             [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
+                'km' => [
+                    'required',
+                    'numeric',
+                    'min:' . ($km->km + 1),
+                    function ($attribute, $value, $fail) use ($km, $jarak) {
+                        if ($value - $km->km > $jarak->batas) {
+                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                        }
+                    },
+                ],
             ],
             [
                 'km.required' => 'Masukkan nilai km',
@@ -685,10 +729,21 @@ class DriverController extends Controller
     {
         $km = Kendaraan::findOrFail($id);
 
+        $jarak = Jarak_km::first();
+
         $validator = Validator::make(
             $request->all(),
             [
-                'km' => 'required|numeric|min:' . ($km->km + 1),
+                'km' => [
+                    'required',
+                    'numeric',
+                    'min:' . ($km->km + 1),
+                    function ($attribute, $value, $fail) use ($km, $jarak) {
+                        if ($value - $km->km > $jarak->batas) {
+                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                        }
+                    },
+                ],
             ],
             [
                 'km.required' => 'Masukkan nilai km',
@@ -696,6 +751,7 @@ class DriverController extends Controller
                 'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
             ]
         );
+
 
         if ($validator->fails()) {
             $error = $validator->errors()->first();

@@ -9,10 +9,10 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
-            margin: 40px;
+            margin: 30px;
         }
 
         .container {
@@ -66,9 +66,8 @@
     <div id="logo-container">
         <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
     </div>
-    <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 23px;">PENGAMBILAN KAS KECIL</span>
+        <span style="font-weight: bold; font-size: 20px;">PENGAMBILAN KAS KECIL</span>
         <br>
         <br>
     </div>
@@ -92,11 +91,11 @@
 
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px; width:4%">No.</td>
-            <td class="td" style="text-align: left; padding: 0px; font-size: 15px; width:15%">Kode Akun</td>
-            <td class="td" style="text-align: left; padding: 0px; font-size: 15px; width:20%">Nama Akun</td>
-            <td class="td" style="text-align: left; padding: 0px; font-size: 15px; width:40%">Keterangan</td>
-            <td class="td" style="text-align: right; font-size: 15px width:10%; padding-right:7px">Total</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px; width:4%">No.</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px; width:15%">Kode Akun</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px; width:20%">Nama Akun</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px; width:40%">Keterangan</td>
+            <td class="td" style="text-align: right; font-size: 14px width:10%; padding-right:7px">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
         <tr>
@@ -109,19 +108,19 @@
         @endphp
         @foreach ($details as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
                     {{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                     {{ $item->kode_akun }}
                 </td>
-                <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                     {{ $item->nama_akun }}
                 </td>
-                <td class="td" style="text-align: left; padding: 0px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                     {{ $item->keterangan }}
                 </td>
-                <td class="td" style="text-align: right; font-size: 15px; padding-right:7px">
+                <td class="td" style="text-align: right; font-size: 14px; padding-right:7px">
                     {{ number_format($item->nominal, 0, ',', '.') }}
                 </td>
             </tr>
@@ -137,11 +136,11 @@
     <table style="width: 100%; margin-bottom:0px;">
         <tr>
             <td>
-                {{-- <span class="info-item" style="font-size: 15px;">{{ $cetakpdf->keterangan }}</span>
+                {{-- <span class="info-item" style="font-size: 14px;">{{ $cetakpdf->keterangan }}</span>
                 <br> --}}
             </td>
             <td style="text-align: right; padding: 0px;">
-                <span class="info-item" style="font-size: 15px; font-weight:bold; ">
+                <span class="info-item" style="font-size: 14px; font-weight:bold; ">
                     {{ number_format($totalRuteSum, 0, ',', '.') }}
                 </span>
             </td>
@@ -155,7 +154,7 @@
         <tr>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
+                    <tr style="text-align: center; font-size:14px">
                         <td class="label">
                             @if ($cetakpdf->user)
                                 {{ $cetakpdf->user->karyawan->nama_lengkap }}
@@ -167,20 +166,20 @@
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
-                    <tr style="text-align: center;">
+                    <tr style="text-align: center; font-size:14px">
                         <td class="label">Finance</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
-                    <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                    <tr style="text-align: center; font-size:14px">
+                        <td class="label" style="min-height: 15px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
-                    <tr style="text-align: center;">
+                    <tr style="text-align: center; font-size:14px">
                         <td class="label">Penerima</td>
                     </tr>
                 </table>

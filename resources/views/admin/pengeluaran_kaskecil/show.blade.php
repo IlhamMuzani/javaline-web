@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
             margin: 40px;

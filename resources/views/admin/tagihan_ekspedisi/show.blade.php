@@ -9,10 +9,17 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: 'DOSVGA', Arial, Helvetica, sans-serif;
+            /* font-family: 'DOSVGA', monospace; */
             color: black;
-            /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
-            margin: 40px;
+
+            margin-top: 5px;
+            margin-right: 14px;
+            margin-left: 14px;
+            /* Margin kiri sebesar 20 piksel */
+
+            /* font-weight: bold; */
+            /* Atur ketebalan huruf menjadi bold */
         }
 
         .container {
@@ -22,7 +29,7 @@
         }
 
         .blue-button {
-            padding: 10px 20px;
+            padding: 14px 20px;
             background-color: #007bff;
             color: white;
             border: none;
@@ -42,6 +49,7 @@
         }
 
         /* tanda tangan  */
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -59,103 +67,111 @@
             position: relative;
             top: -8px;
         }
+
+        @media print {
+            .header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                /* Pastikan z-index lebih tinggi dari elemen lain yang mungkin ada */
+            }
+
+            /* Atur properti CSS untuk elemen header di sini */
+            /* Misalnya, properti seperti ukuran font, warna teks, latar belakang, dll. */
+        }
     </style>
 </head>
 
-<body style="margin: 0; padding: 0;">
-    <table width="100%">
 
-        <tr>
-            <!-- First column (Nama PT) -->
-            <td style="width:0%;">
-            </td>
-            <td style="width: 70%; text-align: right;">
-            </td>
-        </tr>
-    </table>
+<body style="margin-top: 90; padding: 0;">
+    <div class="welcome-text">
+        <div class="header">
+            <table width="100%">
+                <tr>
+                    <td style="width:20%;">
+                        <div style="text-align: left;">
+                            <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="160"
+                                height="60">
+                        </div>
+                    </td>
+                    <td style="width: 95%; text-align: left;">
+                        <div style="text-align: center;">
+                            <span style="font-weight: bold; font-size: 18px;">PT JAVA LINE LOGISTICS</span>
+                            <br>
+                            <span style=" font-size: 15;">JL. HOS COKRO AMINOTO NO 5 SLAWI TEGAL
+                                {{-- <br>Tegal 52411 --}}
+                            </span>
+                            <br>
+                            <span style=" font-size: 15;">Telp / Fax, 02836195328 02838195187</span>
+                            <br>
+                            <span style=" font-size: 15;">Email : marketing2.javalinelogistics@gmail.com</span>
+                        </div>
+                    </td>
+                    <td style="width: 10%; text-align: left; color:white">
+                        <div style="text-align: center;">
+                            <span style="font-weight: bold; font-size: 16px;">.</span>
+                            <br>
+                            <span style=" font-size: 15px;">..................................
+                                {{-- <br>Tegal 52411 --}}
+                            </span>
+                            <br>
+                            <span style=" font-size: 15px;">.</span>
+                            <br>
+                            <span style=" font-size: 15px;">.</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
+            <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
+        </div>
+    </div>
 
-    <table width="100%">
-        <tr>
-            <td style="width:20%;">
-                <div style="text-align: left;">
-                    <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="150"
-                        height="75">
-                </div>
-            </td>
-            <td style="width: 70%; text-align: left;">
-                <div style="text-align: center;">
-                    <span style="font-weight: bold; font-size: 25px;">PT JAVA LINE LOGISTICS</span>
-                    <br>
-                    <span style=" font-size: 15px;">JL. HOS COKRO AMINOTO NO 5 SLAWI TEGAL
-                        {{-- <br>Tegal 52411 --}}
-                    </span>
-                    <br>
-                    <span style=" font-size: 15px;">Telp / Fax, 02836195328 02838195187</span>
-                    <br>
-                    <span style=" font-size: 15px;">Email : marketing2.javalinelogistics@gmail.com</span>
-                </div>
-            </td>
-            <td style="width: 90%; text-align: left; color:white">
-                <div style="text-align: center;">
-                    <span style="font-weight: bold; font-size: 25px;">.</span>
-                    <br>
-                    <span style=" font-size: 15px;">..................................
-                        {{-- <br>Tegal 52411 --}}
-                    </span>
-                    <br>
-                    <span style=" font-size: 15px;">.</span>
-                    <br>
-                    <span style=" font-size: 15px;">.</span>
-                </div>
-            </td>
-        </tr>
-    </table>
-
-
-    <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
-    <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
-    <div style="text-align: left; margin-top:10px">
+    <div style="text-align: left; margin-top:7px">
         <table width="100%">
             <tr>
-                <td style="width:30%;">
-                    <table style="font-weight: bold; font-size: 16px;">
+                <td style="width:40%;">
+                    <table style="font-weight: bold; font-size: 14px;">
                         <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">No Invoice</span>
+                                <span class="info-item" style="font-size: 14px;">No Invoice</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 16px;">:</span>
+                                <span class="info-titik" style="font-size: 14px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">{{ $cetakpdf->kode_tagihan }}</span>
+                                <span class="info-item" style="font-size: 14px;">{{ $cetakpdf->kode_tagihan }}</span>
                             </td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">Periode</span>
+                                <span class="info-item" style="font-size: 14px;">Periode</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 16px;">:</span>
+                                <span class="info-titik" style="font-size: 14px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">
+                                <span class="info-item" style="font-size: 14px;">
                                     {{ \Carbon\Carbon::parse($cetakpdf->periode_awal)->locale('id')->isoFormat('D MMMM') .
                                         ' - ' .
                                         \Carbon\Carbon::parse($cetakpdf->periode_akhir)->locale('id')->isoFormat('D MMMM YYYY') }}
                                 </span>
                             </td>
-                        </tr>
-                        <tr>
+
+                        </tr> --}}
+                        {{-- <tr>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">No. Aproval</span>
+                                <span class="info-item" style="font-size: 14px;">No. Aproval</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-titik" style="font-size: 16px;">:</span>
+                                <span class="info-titik" style="font-size: 14px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;"></span>
+                                <span class="info-item" style="font-size: 14px;"></span>
                             </td>
-                        </tr>
+                        </tr> --}}
                     </table>
                 </td>
                 <td style="width: 70%; text-align: left;">
@@ -164,19 +180,23 @@
         </table>
     </div>
 
-    <div style="text-align: left; margin-top:10px">
-        <span>Kepada Yth.</span>
+    <div style="text-align: left; margin-top:0px">
+        <span style="font-size: 14px">Kepada Yth.</span>
         <br>
-        <span style="font-weight: bold; font-size: 16px;">{{ $cetakpdf->nama_pelanggan }}</span>
+        <span style="font-weight: bold; font-size: 14px;">{{ $cetakpdf->nama_pelanggan }}</span>
+        <br>
+        <span style="font-size: 14px; display: block; max-width: 45%; word-wrap: break-word;">
+            {{ $cetakpdf->alamat_pelanggan }}
+        </span>
     </div>
-    <div style="text-align: left;">
+    {{-- <div style="text-align: left;">
         <table width="100%">
             <tr>
-                <td style="width:40%;">
+                <td style="width:80%;">
                     <table>
                         <tr>
                             <td>
-                                <span style="font-size: 16px;">{{ $cetakpdf->alamat_pelanggan }}</span>
+                                <span style="font-size: 14px;">{{ $cetakpdf->alamat_pelanggan }}</span>
                             </td>
                         </tr>
                     </table>
@@ -185,38 +205,44 @@
                 </td>
             </tr>
         </table>
-    </div>
-
+    </div> --}}
 
     <div style="text-align: center;">
-        <span style="font-weight: bold; font-size: 20px;">INVOICE FAKTUR EKSPEDISI</span>
+        <span style="font-weight: bold; font-size: 18px;">INVOICE FAKTUR EKSPEDISI</span>
     </div>
     {{-- <div style="text-align: center; margin-top:8px">
-        <span style="font-size: 19px;">Jasa Pengiriman Barang <span
+        <span style="font-size: 14px;">Jasa Pengiriman Barang <span
                 style="font-weight: bold;">{{ $cetakpdf->nama_pelanggan }}</span></span>
     </div>
     <div style="text-align: center;">
-        <span style="font-size: 19px;">Daftar Rincian Sebagai Berikut :</span>
+        <span style="font-size: 14px;">Daftar Rincian Sebagai Berikut :</span>
     </div> --}}
-    <br>
-    <hr style="border: 1px solid;">
-    <table style="width: 100%;" cellpadding="2" cellspacing="0">
+    <table style="width: 100%; border-top: 1px solid #000; margin-top:5px" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Rute</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">tgl. Kirim</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Faktur</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. DO</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. PO</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No. Mobil</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Qty</td>
-            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Harga</td>
-            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;  font-weight:bold; width:3%">
+                No.</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;  font-weight:bold; width:25%">
+                Rute</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;  font-weight:bold; width:10%">
+                Tgl. SJ</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;  font-weight:bold; width:13%">No.
+                Faktur</td>
+            <td class="td" style="text-align: left; padding: 2px; font-size: 14px;  font-weight:bold; width:14%">
+                No. SJ</td>
+            {{-- <td class="td" style="text-align: left; padding: 0px; font-size: 14px;  font-weight:bold; width:12%">No.
+                PO</td> --}}
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;  font-weight:bold; width:9%">No.
+                Mobil</td>
+            <td class="td" style="text-align: left; padding: 0px; font-size: 14px;  font-weight:bold; width:8%">Qty
+            </td>
+            <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold; width:10%">Harga</td>
+            <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold; width:10%">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
         <tr>
             <td colspan="10" style="padding: 0px;">
-                <hr style="border-top: 1px solid black; margin: 5px 0;">
+                <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
+                <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
             </td>
         </tr>
         @php
@@ -224,23 +250,26 @@
         @endphp
         @foreach ($details as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    {{ $loop->iteration }} </td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
-                    {{ $item->nama_rute }}
+                <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                    {{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    {{ $item->tanggal_memo }}</td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 2px; font-size: 14px;">
+                    {{ substr($item->nama_rute, 0, 28) }}
+                </td>
+
+                <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
+                    {{ $item->tanggal_memo }}
+                </td>
+                <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                     {{ $item->kode_faktur }}
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    {{ $item->no_do }}
+                <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
+                    {{ substr($item->no_do, 0, 20) }}
                 </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                {{-- <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                     {{ $item->no_po }}
-                </td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                </td> --}}
+                <td class="td" style="text-align: left; padding: 1px; font-size: 14px;">
                     @if ($item->faktur_ekspedisi)
                         @if ($item->faktur_ekspedisi->kendaraan)
                             {{ $item->faktur_ekspedisi->kendaraan->no_pol }}
@@ -251,13 +280,13 @@
                         -
                     @endif
                 </td>
-                <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
-                    {{ $item->jumlah }} {{ $item->satuan }}
+                <td class="td" style="text-align: left; padding: 1px; font-size: 14px;">
+                    {{ number_format($item->jumlah, 2, ',', '.') }} {{ $item->satuan }}
                 </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                <td class="td" style="text-align: right; padding-right: 7px; font-size: 14px;">
                     {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                <td class="td" style="text-align: right; font-size: 14px;">
                     @if ($item->faktur_ekspedisi)
                         @if ($item->faktur_ekspedisi->biaya_tambahan != 0)
                             {{ number_format($item->faktur_ekspedisi->total_tarif, 2, ',', '.') }}
@@ -275,137 +304,135 @@
 
             @foreach ($item->faktur_ekspedisi->detail_tariftambahan as $detail_tariftambahan)
                 <tr>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                        {{-- {{ $loop->iteration + 1 }} --}}
                     </td>
-                    <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                    <td class="td"
+                        style="text-align: left; padding: 2px; font-size: 14px; text-transform: uppercase;">
                         {{ $detail_tariftambahan->keterangan_tambahan }}
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                        {{ $item->tanggal_memo }}</td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
+                        {{ $item->tanggal_memo }}
+                    </td>
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                         {{ $item->kode_faktur }}
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+                    <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
                         {{ $item->no_do }}
                     </td>
-                    <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                        {{ $item->no_po }}
-                    </td>
-                    <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                    {{-- <td class="td" style="text-align: left; padding: 0px; font-size: 14px;">
+                    {{ $item->no_po }}
+                </td> --}}
+                    <td class="td" style="text-align: left; padding: 1px; font-size: 14px;">
                         {{ $item->no_pol }}
                     </td>
-                    <td class="td" style="text-align: center; padding: 2px; font-size: 15px;">
+                    <td class="td" style="text-align: left; padding: 1px; font-size: 14px;">
                         {{ number_format($detail_tariftambahan->qty_tambahan, 2, ',', '.') }}
                         {{ $detail_tariftambahan->satuan_tambahan }}
                     </td>
-                    <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+                    <td class="td" style="text-align: right; padding-right: 7px; font-size: 14px;">
                         {{ number_format($detail_tariftambahan->nominal_tambahan, 2, ',', '.') }}
                     </td>
-                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+                    <td class="td" style="text-align: right; font-size: 14px;">
                         {{ number_format($detail_tariftambahan->nominal_tambahan, 2, ',', '.') }}
                     </td>
                 </tr>
+                <!-- Add other columns you want to display -->
             @endforeach
         @endforeach
 
+
         <tr>
         </tr>
     </table>
-    <td colspan="6" style="padding: 0px; position: relative;">
-        <hr
-            style="border-top: 1px solid black; margin: 3px 0; display: inline-block; width: calc(100% - 25px); vertical-align: middle;">
-        <span>
-            +
-        </span>
-    </td>
-    <table style="width: 100%; margin-bottom:0px;">
+    <table style="width: 100%; border-top: 1px solid #000;">
         <tr>
             <td>
+
             </td>
-            <td style="text-align: right; padding: 0px;">
-                <span class="info-item" style="font-size: 15px; padding-right:24px">
-                    {{ number_format($totalRuteSum, 2, ',', '.') }}
-                </span>
+            <td style="text-align: right;font-size: 14px;  font-weight:bold">
+                {{ number_format($totalRuteSum, 2, ',', '.') }}
             </td>
         </tr>
     </table>
-    <br>
 
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr style="color: white">
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Nama Tarif</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Harga</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Qty</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">Satuan</td>
-            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">Total</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">No.</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Nama Tarif</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Harga</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Qty</td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">Satuan</td>
+            <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
 
-        @if ($cetakpdf->kategori == 'PPH')
-            <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+        <tr>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    DPP :
-                </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    {{ number_format($totalRuteSum, 2, ',', '.') }}
-                </td>
-            </tr>
+            </td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
+                Dasar Pengenaan Pajak (DPP) :
+            </td>
+            <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
+                {{ number_format($totalRuteSum, 2, ',', '.') }}
+            </td>
+        </tr>
 
-            <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+        <tr>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    PPH23 = 2% :
-                </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+            </td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
+                PPH23 = 2% * Dasar Pengenaan Pajak :
+            </td>
+            <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
+                @if ($cetakpdf->kategori == 'PPH')
                     {{ number_format($cetakpdf->pph, 2, ',', '.') }}
-                </td>
-            </tr>
+                @elseif ($cetakpdf->kategori == 'NON PPH')
+                    0
+                @endif
+            </td>
+        </tr>
 
-            <tr style="color: white">
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
-                    .
-                </td>
-                <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
-                    .
-                </td>
-            </tr>
-        @endif
+        <tr style="color: white">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                .
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                .
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                .
+            </td>
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+                .
+            </td>
+            <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
+                .
+            </td>
+            <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
+                .
+            </td>
+        </tr>
 
 
         </tr>
@@ -413,22 +440,22 @@
             <td colspan="6"></td>
         </tr>
         <tr>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
             </td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
             </td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
             </td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
             </td>
-            <td class="td" style="text-align: right; padding: 2px; font-size: 15px;">
+            <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
                 Grand Total :
             </td>
-            <td class="td" style="text-align: right; padding-right: 23px; font-size: 15px;">
+            <td class="td" style="text-align: right; font-size: 14px; font-weight:bold">
                 {{ number_format($cetakpdf->grand_total, 2, ',', '.') }}
 
             </td>
@@ -468,61 +495,76 @@
         return $hasil;
     }
     ?>
-    <div>
-        Terbilang : <span style="font-weight: bold; font-style: italic;">
+    <div style="font-size: 14px">
+        Terbilang : <span style="font-weight: bold; font-style: italic; margin-right:250px ">
             ({{ terbilang($cetakpdf->grand_total) }}
             Rupiah)
         </span>
     </div>
+
     <br>
-    <br>
-    <br>
-    <br>
+
+
     <table width="100%">
-        <tr>
+        <tr style="font-size: 12px">
             <td style="width:60%;">
-                <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto; font-size: 15px;">
-                    <tr>
-                        <td>
-                            Pembayaran <br>
-                            <span>
-                                Bank BCA No. Rek. 3620567000. PT. Java Line Logistics
-                            </span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: white">
-                            .
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: white">
-                            .
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="color: white">
-                            .
-                        </td>
-                    </tr>
-                </table>
+                <div>
+                    Pembayaran :
+                    <br>
+                    @if ($cetakpdf->kategori == 'PPH')
+                        Bank BCA No. Rek. 3620567000. PT. Java Line Logistics
+                    @else
+                        Bank BCA No. Rek. 3620488886. a.n Djohan Wahyudi
+                    @endif
+                    <br>
+                    <span style="color: white">.
+                    </span>
+                    <br>
+                    <span style="color: white">.
+                    </span>
+                    <br>
+                    <span style="color: white">.
+                    </span>
+                    <br>
+                    <span style="color: white">.
+                    </span>
+                    <br>
+                    <span style="color: white">.
+                    </span>
+                    <span style="color: white">.
+                    </span>
+                    <br>
+                </div>
             </td>
-            <td style="width: 70%; text-align: left;">
+            <td style="width: 30%; text-align: left;">
                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                     <tr>
                         <td style="text-align: center;">
                             <table style="margin: 0 auto;">
                                 <tr style="text-align: center;">
                                     <td class="label">
-                                        <span class="info-item" style="font-size: 15px; padding-right:24px">
+                                        <span class="info-item" style="font-size: 12px; padding-right:0px">
                                             Tegal,
                                             {{ \Carbon\Carbon::parse($cetakpdf->tanggal)->locale('id')->isoFormat('D MMMM YYYY') }}
                                         </span>
                                         <br>
-                                        <span class="info-item" style="font-size: 15px; padding-right:40px">
+                                        <span class="info-item"
+                                            style="font-size: 12px; padding-right:0px; margin-top:5px">
                                             Mengetahui,
                                         </span>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white" class="">.</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white" class="">.</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white" class="">.</td>
+                                </tr>
+                                <tr>
+                                    <td style="color:white" class="">.</td>
                                 </tr>
                                 <tr>
                                     <td style="color:white" class="">.</td>
@@ -538,8 +580,9 @@
                                 </tr>
                                 <tr style="text-align: center;">
                                     <td class="label">
-                                        <span class="info-item" style="font-size: 15px; padding-right:24px">
-                                            PT JAVA LINE LOGISTICS
+                                        <span class="info-item"
+                                            style="font-size: 12px; padding-right:0px;  font-weight:bold">
+                                            PT. JAVA LINE LOGISTICS
                                         </span>
                                     </td>
                                 </tr>
@@ -550,18 +593,14 @@
             </td>
         </tr>
     </table>
-
-
-
-
-
-    <br>
+    {{-- <div style="text-align: right; font-size:14px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div> --}}
 </body>
 
 <div class="container">
     <a href="{{ url('admin/tagihan_ekspedisi') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/tagihan_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
-
 
 </html>
