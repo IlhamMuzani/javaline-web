@@ -241,6 +241,7 @@ class InqueryMemoborongspkController extends Controller
                 'no_pol' => $request->no_pol,
                 'golongan' => $request->golongan,
                 'km_awal' => $request->km_awal,
+                'km_akhir' => $request->km_akhir,
                 'user_id' => $request->user_id,
                 'kode_driver' => $request->kode_driver,
                 'nama_driver' => $request->nama_driver,

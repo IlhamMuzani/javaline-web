@@ -126,13 +126,21 @@
                                                 id="golongan" readonly name="golongan" placeholder=""
                                                 value="{{ old('golongan', $inquery->golongan) }}">
                                         </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="km">KM Awal</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="km" readonly name="km_awal" placeholder=""
-                                                value="{{ old('km_awal', $inquery->km_awal) }}">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label style="font-size:14px" for="km">KM Awal</label>
+                                                <input style="font-size:14px" type="text" class="form-control"
+                                                    id="km" readonly name="km_awal" placeholder=""
+                                                    value="{{ old('km_awal', $inquery->km_awal) }}">
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label style="font-size:14px" for="km_akhir">KM Akhir</label>
+                                                <input style="font-size:14px" type="text" class="form-control"
+                                                    id="km_akhir" readonly name="km_akhir" placeholder=""
+                                                    value="{{ old('km_akhir', $inquery->km_akhir) }}">
+                                            </div>
                                         </div>
-                                        <div class="form-check" style="color:white">
+                                        <div class="form-check" style="color:white; margin-top:16px">
                                             <label class="form-check-label">
                                                 .
                                             </label>
@@ -1022,7 +1030,7 @@
                                     @foreach ($spks as $spk)
                                         <tr
                                             onclick="getSelectedDataspk('{{ $spk->id }}',
-                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->km_awal }}',
+                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->km_awal }}', '{{ $spk->km_akhir }}',
                                                     '{{ $spk->user_id }}', '{{ $spk->user->karyawan->kode_karyawan ?? '' }}', '{{ $spk->user->karyawan->nama_lengkap ?? '' }}', '{{ $spk->user->karyawan->telp ?? '' }}',
                                                     '{{ $spk->user->karyawan->tabungan ?? '' }}','{{ $spk->rute_perjalanan_id ?? '' }}', '{{ $spk->rute_perjalanan->kode_rute ?? '' }}', '{{ $spk->rute_perjalanan->nama_rute ?? '' }}',
                                                     '{{ $spk->uang_jalan }}')">
@@ -1032,7 +1040,7 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDataspk('{{ $spk->id }}',
-                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->km_awal }}',
+                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->km_awal }}', '{{ $spk->km_akhir }}',
                                                     '{{ $spk->user_id }}', '{{ $spk->user->karyawan->kode_karyawan ?? '' }}', '{{ $spk->user->karyawan->nama_lengkap ?? '' }}', '{{ $spk->user->karyawan->telp ?? '' }}',
                                                     '{{ $spk->user->karyawan->tabungan ?? '' }}','{{ $spk->rute_perjalanan_id ?? '' }}', '{{ $spk->rute_perjalanan->kode_rute ?? '' }}', '{{ $spk->rute_perjalanan->nama_rute ?? '' }}',
                                                     '{{ $spk->uang_jalan }}')">
@@ -1057,7 +1065,7 @@
             $('#tableSpk').modal('show');
         }
 
-        function getSelectedDataspk(Spk_id, KodeSpk, Kendaraan_id, NoKabin, Nopol, Golongan, KmAwal, User_id, KodeDriver,
+        function getSelectedDataspk(Spk_id, KodeSpk, Kendaraan_id, NoKabin, Nopol, Golongan, KmAwal, KmAkhir, User_id, KodeDriver,
             NamaDriver, Telp, SaldoDP, Rute_id, KodeRute, NamaRute, UangJalan) {
             // Set the values in the form fields
             document.getElementById('spk_id').value = Spk_id;
@@ -1067,6 +1075,7 @@
             document.getElementById('no_pol').value = Nopol;
             document.getElementById('golongan').value = Golongan;
             document.getElementById('km').value = KmAwal;
+            document.getElementById('km_akhir').value = KmAkhir;
             document.getElementById('user_id').value = User_id;
             document.getElementById('kode_driver').value = KodeDriver;
             document.getElementById('nama_driver').value = NamaDriver;
