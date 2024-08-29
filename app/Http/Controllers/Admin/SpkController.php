@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Alamat_bongkar;
 use App\Models\Alamat_muat;
+use App\Models\Jarak_km;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
@@ -64,16 +65,30 @@ class SpkController extends Controller
 
     public function store(Request $request)
     {
+        $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
         $rules = [
             'kode_spk' => 'unique:spks,kode_spk',
+            'km_akhir' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) use ($request, $jarak) {
+                    $kendaraan = Kendaraan::find($request->kendaraan_id); // Mendapatkan kendaraan berdasarkan ID
+                    if ($kendaraan && $value <= $kendaraan->km) {
+                        $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                    } elseif ($kendaraan && $value - $kendaraan->km > $jarak->batas) {
+                        $fail('Nilai km tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                    }
+                },
+            ],
         ];
 
-        // Define base validation messages
         $messages = [
             'kode_spk.unique' => 'Kode spk sudah ada',
+            'km_akhir.required' => 'Masukkan km akhir',
+            'km_akhir.numeric' => 'Nilai km harus berupa angka',
         ];
 
-        // Add additional rules if kategori is not 'non memo'
+        // Tambahkan aturan tambahan jika kategori bukan 'non memo'
         if ($request->kategori !== 'non memo') {
             $rules['user_id'] = 'required';
             $rules['rute_perjalanan_id'] = 'required';
@@ -83,7 +98,7 @@ class SpkController extends Controller
             $messages['user_id.required'] = 'Pilih driver';
             $messages['rute_perjalanan_id.required'] = 'Pilih rute perjalanan';
             $messages['kendaraan_id.required'] = 'Pilih No Kabin';
-            $messages['uang_jalan.*'] = 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid';
+            $messages['uang_jalan.required'] = 'Masukkan uang jalan';
         } else {
             $rules['vendor_id'] = 'required';
             $messages['vendor_id.required'] = 'Pilih Vendor';
@@ -95,6 +110,36 @@ class SpkController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             return back()->withInput()->with('error', $errors);
+        }
+
+        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+        $kendaraan->update([
+            'km' => $request->km_akhir
+        ]);
+
+        $kms = $request->km_akhir;
+
+        // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
+        if ($kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olimesin = $status_olimesins;
+        }
+
+        if ($kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_oligardan = $status_olimesins;
+        }
+
+        if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olitransmisi = $status_olimesins;
+        }
+
+        // Update umur_ban for related ban
+        foreach ($kendaraan->ban as $ban) {
+            $ban->update([
+                'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
+            ]);
         }
 
         $kode = $this->kode();
