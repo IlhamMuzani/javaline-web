@@ -85,11 +85,11 @@ class MemoekspedisispkController extends Controller
             $request->all(),
             [
                 'kategori' => 'required',
-                'kendaraan_id' => 'required',
+                // 'kendaraan_id' => 'required',
             ],
             [
                 'kategori.required' => 'Pilih kategori',
-                'kendaraan_id.required' => 'Pilih kendaraan',
+                // 'kendaraan_id.required' => 'Pilih kendaraan',
             ]
         );
 
