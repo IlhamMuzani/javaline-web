@@ -854,5 +854,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_kontrakrute/postingkontrakrute/{id}', [\App\Http\Controllers\Admin\InqueryKontrakruteController::class, 'postingkontrakrute']);
     Route::get('kontrak_rute/cetak-pdf/{id}', [\App\Http\Controllers\Admin\KontrakruteController::class, 'cetakpdf']);
     Route::resource('jarak_km', \App\Http\Controllers\Admin\JarakkmController::class);
+    Route::resource('kelompok_pelanggan', \App\Http\Controllers\Admin\KelompokpelangganController::class);
 
 });

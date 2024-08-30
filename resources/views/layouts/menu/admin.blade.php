@@ -56,6 +56,7 @@
     request()->is('admin/harga_sewa*') ||
     request()->is('admin/lama_penggantianoli*') ||
     request()->is('admin/jarak_km*') ||
+    request()->is('admin/kelompok_pelanggan*') ||
     request()->is('admin/sparepart')
         ? 'menu-open'
         : '' }}">
@@ -93,6 +94,7 @@
         request()->is('admin/alamat_bongkar*') ||
         request()->is('admin/harga_sewa*') ||
         request()->is('admin/lama_penggantianoli*') ||
+        request()->is('admin/kelompok_pelanggan*') ||
         request()->is('admin/jarak_km*') ||
         request()->is('admin/sparepart')
             ? 'active'
@@ -163,6 +165,15 @@
                     class="nav-link {{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Pelanggan</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelanggan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/kelompok_pelanggan') }}"
+                    class="nav-link {{ request()->is('admin/kelompok_pelanggan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Kelompok Pelanggan</p>
                 </a>
             </li>
         @endif
@@ -1745,6 +1756,16 @@
                     class="nav-link {{ request()->is('admin/laporan_klaimperalatan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Laporan Klaim Peralatan
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['laporan pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_piutang') }}"
+                    class="nav-link {{ request()->is('admin/laporan_piutang*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan Jurnal Piutang
                     </p>
                 </a>
             </li>

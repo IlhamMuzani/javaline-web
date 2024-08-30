@@ -1927,28 +1927,6 @@
 
         document.getElementById("searchInputken").addEventListener("input", filterTableken);
 
-
-        // filter rute 
-        function filterTable() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("searchInputts");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("tables1");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[2]; // Change index to match the column you want to search
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-        document.getElementById("searchInputts").addEventListener("input", filterTable);
     </script>
 
     <script>
@@ -3205,6 +3183,30 @@
                 }
             });
         });
+    </script>
+
+    <script>
+          // filter rute 
+        function filterTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInputts");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tables1");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2]; // Change index to match the column you want to search
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+        document.getElementById("searchInputts").addEventListener("input", filterTable);
     </script>
 
 @endsection
