@@ -789,7 +789,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="tableKendaraan" data-backdrop="static">
+        {{-- <div class="modal fade" id="tableKendaraan" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -834,9 +834,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="modal fade" id="tableDriver" data-backdrop="static">
+        {{-- <div class="modal fade" id="tableDriver" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -854,7 +854,6 @@
                                         <th>Kode Sopir</th>
                                         <th>Nama Sopir</th>
                                         <th>No. Telp</th>
-                                        {{-- <th>Saldo Deposit</th> --}}
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -866,7 +865,6 @@
                                             <td>{{ $user->karyawan->kode_karyawan }}</td>
                                             <td>{{ $user->karyawan->nama_lengkap }}</td>
                                             <td>{{ $user->karyawan->telp }}</td>
-                                            {{-- <td>{{ $user->saldodp }}</td> --}}
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDatadriver('{{ $user->id }}', '{{ $user->karyawan->kode_karyawan }}', '{{ $user->karyawan->nama_lengkap }}', '{{ $user->karyawan->telp }}', '{{ $user->karyawan->tabungan }}')">
@@ -881,7 +879,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="modal fade" id="tableBiaya" data-backdrop="static">
             <div class="modal-dialog modal-lg">

@@ -41,10 +41,10 @@ class MemoekspedisispkController extends Controller
 {
     public function index()
     {
-        $kendaraans = Kendaraan::all();
-        $drivers = User::whereHas('karyawan', function ($query) {
-            $query->where('departemen_id', '2');
-        })->get();
+        // $kendaraans = Kendaraan::all();
+        // $drivers = User::whereHas('karyawan', function ($query) {
+        //     $query->where('departemen_id', '2');
+        // })->get();
 
         $spks = Spk::where('voucher', '<', 2)
             ->where(function ($query) {
@@ -66,7 +66,7 @@ class MemoekspedisispkController extends Controller
         // })->get();
         $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_memotambahan' => null])->get();
         $saldoTerakhir = Saldo::latest()->first();
-        return view('admin.memo_ekspedisispk.index', compact('spks', 'memos', 'pelanggans', 'kendaraans', 'drivers', 'ruteperjalanans', 'biayatambahan', 'saldoTerakhir', 'potonganmemos'));
+        return view('admin.memo_ekspedisispk.index', compact('spks', 'memos', 'pelanggans', 'ruteperjalanans', 'biayatambahan', 'saldoTerakhir', 'potonganmemos'));
     }
 
 

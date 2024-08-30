@@ -82,7 +82,7 @@ class InqueryMemoborongspkController extends Controller
     {
 
         $inquery = Memo_ekspedisi::where('id', $id)->first();
-        $kendaraans = Kendaraan::all();
+        // $kendaraans = Kendaraan::all();
 
         $spks = Spk::where(
             'voucher',
@@ -98,9 +98,9 @@ class InqueryMemoborongspkController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $drivers = User::whereHas('karyawan', function ($query) {
-            $query->where('departemen_id', '2');
-        })->get();
+        // $drivers = User::whereHas('karyawan', function ($query) {
+        //     $query->where('departemen_id', '2');
+        // })->get();
         $ruteperjalanans = Rute_perjalanan::all();
         $biayatambahan = Biaya_tambahan::all();
         $saldoTerakhir = Saldo::latest()->first();
@@ -108,9 +108,9 @@ class InqueryMemoborongspkController extends Controller
         $memos = Memo_ekspedisi::all();
         return view('admin.inquery_memoborongspk.update', compact(
             'inquery',
-            'kendaraans',
+            // 'kendaraans',
             'biayatambahan',
-            'drivers',
+            // 'drivers',
             'ruteperjalanans',
             'memos',
             'detailstambahan',
