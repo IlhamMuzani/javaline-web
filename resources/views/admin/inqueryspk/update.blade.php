@@ -90,10 +90,10 @@
                                                 name="telp_pelanggan" placeholder=""
                                                 value="{{ old('telp_pelanggan', $inquery->telp_pelanggan) }}">
                                         </div>
-                                        <div class="form-group" style="color:white">
+                                        {{-- <div class="form-group" style="color:white">
                                             <label style="font-size:14px; margin-top:40px" for="telp_pelanggan">No.
                                                 Telp</label>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -140,12 +140,12 @@
                                                 name="km_awal" placeholder=""
                                                 value="{{ old('km_awal', $inquery->km_awal) }}">
                                         </div>
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label style="font-size:14px" for="km_akhir">KM Akhir</label>
                                             <input style="font-size:14px" type="text" class="form-control"
                                                 id="km_akhir" name="km_akhir" placeholder=""
                                                 value="{{ old('km_akhir', $inquery->km_akhir) }}">
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>

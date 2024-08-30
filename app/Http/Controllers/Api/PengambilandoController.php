@@ -151,29 +151,32 @@ class PengambilandoController extends Controller
 
     public function konfirmasi(Request $request, $id)
     {
-
+        // Temukan objek Pengambilan_do berdasarkan id
         $pengambilan_do = Pengambilan_do::find($id);
+
+        // Temukan objek Kendaraan berdasarkan kendaraan_id dari pengambilan_do
+        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
+
+        // Perbarui pengambilan_do dengan km_awal dari kendaraan
         $proses = $pengambilan_do->update([
             'user_id' => $request->user_id,
             'status' => 'loading muat',
+            'km_awal' => $kendaraan->km,
             'waktu_awal' => now()->format('Y-m-d H:i:s')
         ]);
 
-
+        // Hitung jarak waktu antara waktu tunggu muat dan waktu perjalanan isi
         $waktuTungguMuat = $pengambilan_do->updated_at;
         $waktuPerjalananIsi = now();
-
-        // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
-
+        // Ambil status perjalanan dan timer saat ini dari kendaraan
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
 
+        // Perbarui kendaraan dengan data baru
         $proses = $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu,
             'waktu' => now()->format('Y-m-d H:i:s')
@@ -183,7 +186,7 @@ class PengambilandoController extends Controller
         $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
         $currentTimestamp = now()->format('Y-m-d H:i:s');
 
-        // Create Timer record with the old and new status, and the old timer
+        // Buat record Timer dengan status awal dan akhir, serta timer awal dan akhir
         Timer::create(array_merge(
             $request->all(),
             [
@@ -195,7 +198,6 @@ class PengambilandoController extends Controller
             ]
         ));
 
-
         if ($proses) {
             return response()->json([
                 'status' => true,
@@ -205,6 +207,7 @@ class PengambilandoController extends Controller
             $this->error('Gagal !');
         }
     }
+
 
     public function batal_pengambilan(Request $request, $id)
     {

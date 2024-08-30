@@ -705,7 +705,6 @@
     </div>
 </body>
 
-
 <div class="container">
     <a href="{{ url('admin/tablefaktur') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/faktur_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>

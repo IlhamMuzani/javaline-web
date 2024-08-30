@@ -134,8 +134,8 @@
                                             <div class="col-lg-6">
                                                 <label style="font-size:14px" for="km_akhir">KM Akhir</label>
                                                 <input style="font-size:14px" type="text" class="form-control"
-                                                    id="km_akhir" readonly name="km_akhir" placeholder=""
-                                                    value="{{ old('km_akhir', $inquery->km_akhir) }}">
+                                                    id="km_akhir" name="km_akhir" placeholder=""
+                                                    value="{{ old('km_akhir', $inquery->km_akhir) }}" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                                             </div>
                                         </div>
                                         <div class="form-check" style="color:white; margin-top:16px">
@@ -669,7 +669,7 @@
                                     @foreach ($spks as $spk)
                                         <tr
                                             onclick="getSelectedDataspk('{{ $spk->id }}',
-                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->km_awal }}', '{{ $spk->km_akhir }}',
+                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->kendaraan->km ?? null }}', '{{ $spk->km_akhir }}',
                                                     '{{ $spk->user_id }}', '{{ $spk->user->karyawan->kode_karyawan }}', '{{ $spk->user->karyawan->nama_lengkap }}', '{{ $spk->user->karyawan->telp }}',
                                                     '{{ $spk->user->karyawan->tabungan }}','{{ $spk->rute_perjalanan_id }}', '{{ $spk->rute_perjalanan->kode_rute }}', '{{ $spk->rute_perjalanan->nama_rute }}',
                                                     '{{ $spk->uang_jalan }}')">
@@ -682,7 +682,7 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDataspk('{{ $spk->id }}',
-                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->km_awal }}', '{{ $spk->km_akhir }}',
+                                                    '{{ $spk->kode_spk }}','{{ $spk->kendaraan_id }}', '{{ $spk->no_kabin }}', '{{ $spk->no_pol }}', '{{ $spk->golongan }}', '{{ $spk->kendaraan->km ?? null }}', '{{ $spk->km_akhir }}',
                                                     '{{ $spk->user_id }}', '{{ $spk->user->karyawan->kode_karyawan }}', '{{ $spk->user->karyawan->nama_lengkap }}', '{{ $spk->user->karyawan->telp }}',
                                                     '{{ $spk->user->karyawan->tabungan }}','{{ $spk->rute_perjalanan_id }}', '{{ $spk->rute_perjalanan->kode_rute }}', '{{ $spk->rute_perjalanan->nama_rute }}',
                                                     '{{ $spk->uang_jalan }}')">

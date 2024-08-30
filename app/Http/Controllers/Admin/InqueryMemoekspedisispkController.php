@@ -13,6 +13,7 @@ use App\Models\Detail_pengeluaran;
 use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
 use App\Models\Faktur_ekspedisi;
+use App\Models\Jarak_km;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
@@ -168,7 +169,7 @@ class InqueryMemoekspedisispkController extends Controller
         $commonData = [
             'kategori' => $kategori,
         ];
-
+        $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
         $validasi_pelanggan = Validator::make(
             $request->all(),
             [
@@ -195,6 +196,18 @@ class InqueryMemoekspedisispkController extends Controller
                         $fail('Uang jalan harus berupa angka atau dalam format Rupiah yang valid.');
                     }
                 }],
+                'km_akhir' => [
+                    'required',
+                    'numeric',
+                    function ($attribute, $value, $fail) use ($request, $jarak) {
+                        $kendaraan = Kendaraan::find($request->kendaraan_id); // Mendapatkan kendaraan berdasarkan ID
+                        if ($kendaraan && $value < $kendaraan->km) { // Hanya jika km_akhir lebih kecil dari km kendaraan
+                            $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                        } elseif ($kendaraan && $value - $kendaraan->km > $jarak->batas) {
+                            $fail('Nilai km tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                        }
+                    },
+                ],
             ],
             [
                 'spk_id.required' => 'Pilih spk',
@@ -206,6 +219,8 @@ class InqueryMemoekspedisispkController extends Controller
                 'uang_jaminan.required' => 'Cek uang jaminan tidak boleh 0',
                 'uang_jalan.*' => 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid',
                 'sub_total.required' => 'Masukkan total harga',
+                'km_akhir.required' => 'Masukkan km akhir',
+                'km_akhir.numeric' => 'Nilai km harus berupa angka',
             ]
         );
 
@@ -294,14 +309,50 @@ class InqueryMemoekspedisispkController extends Controller
                 ->with('data_pembelians4', $data_pembelians4);
         }
 
+        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+        $kendaraan->update([
+            'km' => $request->km_akhir
+        ]);
+
+        $kms = $request->km_akhir;
+
+        // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
+        if (
+            $kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olimesin = $status_olimesins;
+        }
+
+        if (
+            $kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_oligardan = $status_olimesins;
+        }
+
+        if (
+            $kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olitransmisi = $status_olimesins;
+        }
+
+        // Update umur_ban for related ban
+        foreach ($kendaraan->ban as $ban) {
+            $ban->update([
+                'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
+            ]);
+        }
+
         // tgl indo
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
         $tanggal = Carbon::now()->format('Y-m-d');
-        $uang_jalans = str_replace('.', '', $request->uang_jalan); 
+        $uang_jalans = str_replace('.', '', $request->uang_jalan);
         $uang_jalans = str_replace(',', '.', $uang_jalans);
-        $potongan_memos = str_replace(',', '.', str_replace('.', '', $request->potongan_memo)); 
-        $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan); 
+        $potongan_memos = str_replace(',', '.', str_replace('.', '', $request->potongan_memo));
+        $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
         $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
         $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos;
         $cetakpdf = Memo_ekspedisi::findOrFail($id);
@@ -573,7 +624,7 @@ class InqueryMemoekspedisispkController extends Controller
                 'sisa_saldo' => $sisaSaldo,
             ]);
 
-            $UangUJS = $item->uang_jaminan; 
+            $UangUJS = $item->uang_jaminan;
             $UangUJS = round($UangUJS);
             $lastUjs = Total_ujs::latest()->first();
             if (!$lastUjs) {
@@ -714,8 +765,8 @@ class InqueryMemoekspedisispkController extends Controller
 
                 if ($item->status === 'unpost' && $item->kategori === 'Memo Perjalanan') {
                     $totalDeduction += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo;
-                    $UangUJS = $item->uang_jaminan; 
-                    $UangUJS = round($UangUJS); 
+                    $UangUJS = $item->uang_jaminan;
+                    $UangUJS = round($UangUJS);
                     $totalDeductionujs += $UangUJS;
                 }
             }
@@ -821,7 +872,7 @@ class InqueryMemoekspedisispkController extends Controller
                     ]);
 
                     $lastUjs->update([
-                        $UangUJS = $item->uang_jaminan, 
+                        $UangUJS = $item->uang_jaminan,
                         $UangUJS = round($UangUJS),
                         'sisa_ujs' => $lastUjs->sisa_ujs + ($UangUJS)
                     ]);
@@ -847,7 +898,7 @@ class InqueryMemoekspedisispkController extends Controller
                 if ($item->status === 'posting') {
                     $totalRestoration += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo;
                     $UangUJS = $item->uang_jaminan;
-                    $UangUJS = round($UangUJS); 
+                    $UangUJS = round($UangUJS);
                     $totalRestorationUJS += $UangUJS;
                 }
             }

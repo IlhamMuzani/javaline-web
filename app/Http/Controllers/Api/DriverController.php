@@ -128,33 +128,34 @@ class DriverController extends Controller
     public function tunggu_muat(Request $request, $id)
     {
         $km = Kendaraan::findOrFail($id);
-        $jarak = Jarak_km::first();
+        // $jarak = Jarak_km::first();
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => [
-                    'required',
-                    'numeric',
-                    'min:' . ($km->km + 1),
-                    function ($attribute, $value, $fail) use ($km, $jarak) {
-                        if ($value - $km->km > $jarak->batas) {
-                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-                        }
-                    },
-                ],
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-            ]
-        );
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => [
+        //             'required',
+        //             'numeric',
+        //             'min:' . ($km->km + 1),
+        //             function ($attribute, $value, $fail) use ($km, $jarak) {
+        //                 if ($value - $km->km > $jarak->batas) {
+        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+        //                 }
+        //             },
+        //         ],
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //     ]
+        // );
 
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
@@ -170,19 +171,19 @@ class DriverController extends Controller
         $kendaraan->update([
             'user_id' => $request->user_id,
             'status_perjalanan' => 'Tunggu Muat',
-            'km' => $request->km,
+            // 'km' => $request->km,
             'timer' => $jarakWaktu,
             'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 
-        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)
-            ->first();
+        // $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)
+        //     ->first();
 
-        if ($pengambilan_do) {
-            $pengambilan_do->update([
-                'km_awal' => $request->km,
-            ]);
-        }
+        // if ($pengambilan_do) {
+        //     $pengambilan_do->update([
+        //         'km_awal' => $request->km,
+        //     ]);
+        // }
 
         // Retrieve the updated status_perjalanan for status_akhir
         $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
@@ -401,34 +402,34 @@ class DriverController extends Controller
     {
 
         $km = Kendaraan::findOrFail($id);
-
         $jarak = Jarak_km::first();
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => [
-                    'required',
-                    'numeric',
-                    'min:' . ($km->km + 1),
-                    function ($attribute, $value, $fail) use ($km, $jarak) {
-                        if ($value - $km->km > $jarak->batas) {
-                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-                        }
-                    },
-                ],
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-            ]
-        );
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => [
+        //             'required',
+        //             'numeric',
+        //             'min:' . ($km->km + 1),
+        //             function ($attribute, $value, $fail) use ($km, $jarak) {
+        //                 if ($value - $km->km > $jarak->batas) {
+        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+        //                 }
+        //             },
+        //         ],
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //     ]
+        // );
 
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
@@ -488,7 +489,7 @@ class DriverController extends Controller
         $kendaraan->update([
             'user_id' => $request->user_id,
             'pelanggan_id' => null,
-            'km' => $request->km,
+            // 'km' => $request->km,
             'status_perjalanan' => 'Loading Bongkar',
             'timer' => $jarakWaktu,
             'waktu' => now()->format('Y-m-d H:i:s')
@@ -510,10 +511,10 @@ class DriverController extends Controller
             ]
         ));
 
-        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)->first();
-        $pengambilan_do->update([
-            'km_akhir' => $kendaraan->km,
-        ]);
+        // $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)->first();
+        // $pengambilan_do->update([
+        //     'km_akhir' => $kendaraan->km,
+        // ]);
 
         if ($kendaraan) {
             return response()->json([
@@ -575,34 +576,34 @@ class DriverController extends Controller
         $km = Kendaraan::findOrFail($id);
         $jarak = Jarak_km::first();
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => [
-                    'required',
-                    'numeric',
-                    'min:' . ($km->km + 1),
-                    function ($attribute, $value, $fail) use ($km, $jarak) {
-                        if ($value - $km->km > $jarak->batas) {
-                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-                        }
-                    },
-                ],
-                'kota_id' => 'required',
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-                'kota_id.required' => 'Pilih tujuan',
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => [
+        //             'required',
+        //             'numeric',
+        //             'min:' . ($km->km + 1),
+        //             function ($attribute, $value, $fail) use ($km, $jarak) {
+        //                 if ($value - $km->km > $jarak->batas) {
+        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+        //                 }
+        //             },
+        //         ],
+        //         'kota_id' => 'required',
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //         'kota_id.required' => 'Pilih tujuan',
 
-            ]
-        );
-        
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+        //     ]
+        // );
+
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
@@ -616,7 +617,7 @@ class DriverController extends Controller
 
         $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
+            // 'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu,
             'kota_id' => $request->kota_id,
@@ -655,31 +656,30 @@ class DriverController extends Controller
 
         $jarak = Jarak_km::first();
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => [
-                    'required',
-                    'numeric',
-                    'min:' . ($km->km + 1),
-                    function ($attribute, $value, $fail) use ($km, $jarak) {
-                        if ($value - $km->km > $jarak->batas) {
-                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-                        }
-                    },
-                ],
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-            ]
-        );
-
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => [
+        //             'required',
+        //             'numeric',
+        //             'min:' . ($km->km + 1),
+        //             function ($attribute, $value, $fail) use ($km, $jarak) {
+        //                 if ($value - $km->km > $jarak->batas) {
+        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+        //                 }
+        //             },
+        //         ],
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //     ]
+        // );
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
@@ -693,7 +693,7 @@ class DriverController extends Controller
 
         $kendaraan = $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
+            // 'km' => $request->km,
             'status_perjalanan' => 'Perbaikan di garasi',
             'timer' => $jarakWaktu,
             'waktu' => now()->format('Y-m-d H:i:s')
@@ -729,34 +729,32 @@ class DriverController extends Controller
     {
         $km = Kendaraan::findOrFail($id);
 
-        $jarak = Jarak_km::first();
+        // $jarak = Jarak_km::first();
 
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'km' => [
-                    'required',
-                    'numeric',
-                    'min:' . ($km->km + 1),
-                    function ($attribute, $value, $fail) use ($km, $jarak) {
-                        if ($value - $km->km > $jarak->batas) {
-                            $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-                        }
-                    },
-                ],
-            ],
-            [
-                'km.required' => 'Masukkan nilai km',
-                'km.numeric' => 'Nilai Km harus berupa angka',
-                'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-            ]
-        );
-
-
-        if ($validator->fails()) {
-            $error = $validator->errors()->first();
-            return $this->error($error);
-        }
+        // $validator = Validator::make(
+        //     $request->all(),
+        //     [
+        //         'km' => [
+        //             'required',
+        //             'numeric',
+        //             'min:' . ($km->km + 1),
+        //             function ($attribute, $value, $fail) use ($km, $jarak) {
+        //                 if ($value - $km->km > $jarak->batas) {
+        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+        //                 }
+        //             },
+        //         ],
+        //     ],
+        //     [
+        //         'km.required' => 'Masukkan nilai km',
+        //         'km.numeric' => 'Nilai Km harus berupa angka',
+        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
+        //     ]
+        // );
+        // if ($validator->fails()) {
+        //     $error = $validator->errors()->first();
+        //     return $this->error($error);
+        // }
 
         $kendaraan = Kendaraan::find($id);
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
@@ -770,7 +768,7 @@ class DriverController extends Controller
 
         $kendaraan = $kendaraan->update([
             'user_id' => $request->user_id,
-            'km' => $request->km,
+            // 'km' => $request->km,
             'status_perjalanan' => 'Perbaikan di jalan',
             'timer' => $jarakWaktu,
             'waktu' => now()->format('Y-m-d H:i:s')
