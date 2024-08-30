@@ -109,6 +109,11 @@ class MemoekspedisispkController extends Controller
             case 'Memo Perjalanan':
                 $jarak = Jarak_km::first();
                 $kendaraan = Kendaraan::find($request->kendaraan_id);
+
+                if ($kendaraan == null) {
+                    return back();
+                }
+
                 $validasi_pelanggan = Validator::make(
                     $request->all(),
                     [
@@ -282,19 +287,22 @@ class MemoekspedisispkController extends Controller
                 $kms = $request->km_akhir;
 
                 // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
-                if ($kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin
+                if (
+                    $kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin
                 ) {
                     $status_olimesins = "belum penggantian";
                     $kendaraan->status_olimesin = $status_olimesins;
                 }
 
-                if ($kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan
+                if (
+                    $kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan
                 ) {
                     $status_olimesins = "belum penggantian";
                     $kendaraan->status_oligardan = $status_olimesins;
                 }
 
-                if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi
+                if (
+                    $kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi
                 ) {
                     $status_olimesins = "belum penggantian";
                     $kendaraan->status_olitransmisi = $status_olimesins;
@@ -306,7 +314,7 @@ class MemoekspedisispkController extends Controller
                         'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
                     ]);
                 }
-                
+
 
                 $kode = $this->kode();
                 // tgl indo
@@ -445,6 +453,9 @@ class MemoekspedisispkController extends Controller
             case 'Memo Borong':
                 $jarak = Jarak_km::first();
                 $kendaraan = Kendaraan::find($request->kendaraan_id);
+                if ($kendaraan == null) {
+                    return back();
+                }
                 $validasi_pelanggan = Validator::make(
                     $request->all(),
                     [
@@ -567,19 +578,22 @@ class MemoekspedisispkController extends Controller
                 $kms = $request->km_akhir;
 
                 // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
-                if ($kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin
+                if (
+                    $kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin
                 ) {
                     $status_olimesins = "belum penggantian";
                     $kendaraan->status_olimesin = $status_olimesins;
                 }
 
-                if ($kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan
+                if (
+                    $kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan
                 ) {
                     $status_olimesins = "belum penggantian";
                     $kendaraan->status_oligardan = $status_olimesins;
                 }
 
-                if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi
+                if (
+                    $kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi
                 ) {
                     $status_olimesins = "belum penggantian";
                     $kendaraan->status_olitransmisi = $status_olimesins;
@@ -591,7 +605,7 @@ class MemoekspedisispkController extends Controller
                         'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
                     ]);
                 }
-                
+
                 $kode = $this->kodemb();
                 // tgl indo
                 $tanggal1 = Carbon::now('Asia/Jakarta');
