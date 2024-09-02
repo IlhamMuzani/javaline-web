@@ -127,41 +127,35 @@ class InquerySpkController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
-        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+        // $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
         // $kendaraan->update([
         //     'km' => $request->km_akhir
         // ]);
 
         // $kms = $request->km_akhir;
 
-        // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
-        if (
-            $kendaraan->km > $kendaraan->km_olimesin - 1000 || $kendaraan->km > $kendaraan->km_olimesin
-        ) {
-            $status_olimesins = "belum penggantian";
-            $kendaraan->status_olimesin = $status_olimesins;
-        }
+        // // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
+        // if ($kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin) {
+        //     $status_olimesins = "belum penggantian";
+        //     $kendaraan->status_olimesin = $status_olimesins;
+        // }
 
-        if (
-            $kendaraan->km > $kendaraan->km_oligardan - 5000 || $kendaraan->km > $kendaraan->km_oligardan
-        ) {
-            $status_olimesins = "belum penggantian";
-            $kendaraan->status_oligardan = $status_olimesins;
-        }
+        // if ($kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan) {
+        //     $status_olimesins = "belum penggantian";
+        //     $kendaraan->status_oligardan = $status_olimesins;
+        // }
 
-        if (
-            $kendaraan->km > $kendaraan->km_olitransmisi - 5000 || $kendaraan->km > $kendaraan->km_olitransmisi
-        ) {
-            $status_olimesins = "belum penggantian";
-            $kendaraan->status_olitransmisi = $status_olimesins;
-        }
+        // if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi) {
+        //     $status_olimesins = "belum penggantian";
+        //     $kendaraan->status_olitransmisi = $status_olimesins;
+        // }
 
-        // Update umur_ban for related ban
-        foreach ($kendaraan->ban as $ban) {
-            $ban->update([
-                'umur_ban' => ($kendaraan->km - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
-            ]);
-        }
+        // // Update umur_ban for related ban
+        // foreach ($kendaraan->ban as $ban) {
+        //     $ban->update([
+        //         'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
+        //     ]);
+        // }
 
         // $status_spk = $request->kategori === 'non memo' ? 'non memo' : null;
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
@@ -189,7 +183,6 @@ class InquerySpkController extends Controller
         $spk->no_kabin = $request->no_kabin;
         $spk->golongan = $request->golongan;
         $spk->km_awal = $request->km_awal;
-        // $spk->km_akhir = $request->km_akhir;
         $spk->user_id = $request->user_id;
         $spk->kode_driver = $request->kode_driver;
         $spk->nama_driver = $request->nama_driver;

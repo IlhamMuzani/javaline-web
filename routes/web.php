@@ -858,4 +858,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('laporan_piutang', \App\Http\Controllers\Admin\LaporanpiutangController::class);
     Route::get('print_piutang', [\App\Http\Controllers\Admin\LaporanpiutangController::class, 'print_piutang']);
 
+    Route::post('ambil_km/{id}', [\App\Http\Controllers\Admin\SpkController::class, 'ambil_km'])->name('ambil_km');
+
 });
