@@ -56,19 +56,18 @@
                     <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-2 mb-3">
-                                <div class="form-group" style="flex: 8;">
-                                    <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
-                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
-                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
-                                        <option value="">- Pilih -</option>
-                                        @foreach ($pelanggans as $pelanggan)
-                                            <option value="{{ $pelanggan->id }}"
-                                                {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
-                                                {{ $pelanggan->nama_pell }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
+                                    <option value="">- Pilih -</option>
+                                    {{-- <option value="all" {{ Request::get('pelanggan_id') == 'all' ? 'selected' : '' }}>All Pelanggan --}}
+                                    </option>
+                                    @foreach ($pelanggans as $pelanggan)
+                                        <option value="{{ $pelanggan->id }}"
+                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                            {{ $pelanggan->nama_pell }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
@@ -96,26 +95,46 @@
                                 <th>Tanggal</th>
                                 <th>Pelanggan</th>
                                 <th>No Polisi</th>
-                                <th>Grand Total</th>
+                                <th>DPP</th>
+                                <th>PPH</th>
+                                <th>Sub Total</th>
                                 {{-- <th>Actions</th> <!-- Tambahkan kolom aksi untuk collapse/expand --> --}}
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $totalDPP = 0;
+                                $totalPPH = 0;
+                                $totalSUB = 0;
+                            @endphp
                             @foreach ($inquery as $index => $invoice)
                                 <tr data-toggle="collapse" data-target="#invoice-{{ $index }}"
                                     class="accordion-toggle" style="background: rgb(156, 156, 156)">
                                     <td>{{ $invoice->kode_tagihan }}</td>
                                     <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->nama_pelanggan }}</td>
-                                    <td>{{ $invoice->kendaraan ? $invoice->kendaraan->no_kabin : 'Tidak ada' }}</td>
-                                    <td class="text-right">{{ number_format($invoice->grand_total, 2, ',', '.') }}</td>
+                                    <td>{{ $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan ? $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan->no_pol : 'Tidak ada' }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($invoice->sub_total, 0, ',', '.') }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        @if ($invoice->kategori == 'PPH')
+                                            {{ number_format($invoice->pph, 0, ',', '.') }}
+                                        @else
+                                            0
+                                        @endif
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($invoice->grand_total, 0, ',', '.') }}
+                                    </td>
                                     {{-- <td>
                                         <button class="btn btn-info" data-toggle="collapse"
                                             data-target="#invoice-{{ $index }}">Toggle Detail</button>
                                     </td> --}}
                                 </tr>
                                 <tr>
-                                    <td colspan="6"> 
+                                    <td colspan="7">
                                         <div id="invoice-{{ $index }}" class="collapse">
                                             <table class="table table-sm" style="margin: 0;">
                                                 <thead>
@@ -145,7 +164,46 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @php
+                                    $totalDPP += $invoice->sub_total;
+                                    $totalPPH += $invoice->pph;
+                                    $totalSUB += $invoice->grand_total;
+                                @endphp
                             @endforeach
+                            <tr>
+                                <td colspan="1"></td>
+                                <td>
+                                </td>
+                                <td><strong>Total:</strong></td>
+                                <td>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalDPP, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalPPH, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalSUB, 0, ',', '.') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="1"></td>
+                                <td>
+                                </td>
+                                <td><strong>Total Minggu Kemarin:</strong></td>
+                                <td>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalDPP, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalPPH, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalSUB, 0, ',', '.') }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -154,54 +212,17 @@
     </section>
     <!-- /.card -->
     <script>
-        var tanggalAwal = document.getElementById('created_at');
-        var tanggalAkhir = document.getElementById('tanggal_akhir');
-        var kendaraanId = document.getElementById('kendaraan_id');
         var form = document.getElementById('form-action');
 
-        if (tanggalAwal.value == "") {
-            tanggalAkhir.readOnly = true;
-        }
-
-        tanggalAwal.addEventListener('change', function() {
-            if (this.value == "") {
-                tanggalAkhir.readOnly = true;
-            } else {
-                tanggalAkhir.readOnly = false;
-            }
-            tanggalAkhir.value = "";
-            var today = new Date().toISOString().split('T')[0];
-            tanggalAkhir.value = today;
-            tanggalAkhir.setAttribute('min', this.value);
-        });
-
         function cari() {
-            // Dapatkan nilai tanggal awal dan tanggal akhir
-            var startDate = tanggalAwal.value;
-            var endDate = tanggalAkhir.value;
-            var Kendaraanid = kendaraanId.value;
-
-            // Cek apakah tanggal awal dan tanggal akhir telah diisi
-            if (startDate && endDate && Kendaraanid) {
-                form.action = "{{ url('admin/laporan_mobillogistik') }}";
-                form.submit();
-            } else {
-                alert("Silakan pilih kendaraan dan isi kedua tanggal sebelum mencetak.");
-            }
+            form.action = "{{ url('admin/laporan_piutang') }}";
+            form.submit();
         }
 
 
         function printReport() {
-            var startDate = tanggalAwal.value;
-            var endDate = tanggalAkhir.value;
-
-            if (startDate && endDate) {
-                form.action = "{{ url('admin/print_mobillogistik') }}" + "?start_date=" + startDate + "&end_date=" +
-                    endDate;
-                form.submit();
-            } else {
-                alert("Silakan isi kedua tanggal sebelum mencetak.");
-            }
+            form.action = "{{ url('admin/print_piutang') }}";
+            form.submit();
         }
     </script>
 

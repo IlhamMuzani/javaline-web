@@ -856,5 +856,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('jarak_km', \App\Http\Controllers\Admin\JarakkmController::class);
     Route::resource('kelompok_pelanggan', \App\Http\Controllers\Admin\KelompokpelangganController::class);
     Route::resource('laporan_piutang', \App\Http\Controllers\Admin\LaporanpiutangController::class);
+    Route::get('print_piutang', [\App\Http\Controllers\Admin\LaporanpiutangController::class, 'print_piutang']);
 
 });

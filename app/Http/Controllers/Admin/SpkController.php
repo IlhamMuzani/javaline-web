@@ -18,7 +18,7 @@ use App\Models\Spk;
 use App\Models\User;
 use App\Models\Vendor;
 use Illuminate\Support\Facades\Validator;
-
+use GuzzleHttp\Client;
 
 class SpkController extends Controller
 {
@@ -63,6 +63,7 @@ class SpkController extends Controller
         return view('admin.spk.create', compact('alamat_muats', 'alamat_bongkars', 'vendors', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
     }
 
+
     public function store(Request $request)
     {
         $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
@@ -90,16 +91,87 @@ class SpkController extends Controller
             $messages['vendor_id.required'] = 'Pilih Vendor';
         }
 
-        // Validate the request
+        // Validasi request
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             $errors = $validator->errors()->all();
             return back()->withInput()->with('error', $errors);
         }
-        
+
+        $kendaraan_id = $request->kendaraan_id;
+        $kendaraan = Kendaraan::find($kendaraan_id);
+
+        if ($kendaraan) {
+            $client = new Client();
+            $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'list_vehicle_id' => [$kendaraan->vehicle_id], // Sesuaikan dengan field yang tepat dari tabel Kendaraan
+                    'list_nopol' => [],
+                    'list_no_aset' => [],
+                    'status_vehicle' => 0,
+                    'geo_code' => [],
+                    'min_lastupdate_hour' => null,
+                    'page' => 0,
+                    'encrypted' => 0,
+                ],
+            ]);
+
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+            $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+
+            if ($odometer > 0) {
+                // Update nilai km kendaraan jika odometer valid
+                $kendaraan->km = $odometer;
+                $kendaraan->save();
+            }
+        }
+
+        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+        // $kendaraan->update([
+        //     'km' => $request->km_akhir
+        // ]);
+
+        // $kms = $request->km_akhir;
+
+        // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
+        if (
+            $kendaraan->km > $kendaraan->km_olimesin - 1000 || $kendaraan->km > $kendaraan->km_olimesin
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olimesin = $status_olimesins;
+        }
+
+        if (
+            $kendaraan->km > $kendaraan->km_oligardan - 5000 || $kendaraan->km > $kendaraan->km_oligardan
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_oligardan = $status_olimesins;
+        }
+
+        if (
+            $kendaraan->km > $kendaraan->km_olitransmisi - 5000 || $kendaraan->km > $kendaraan->km_olitransmisi
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olitransmisi = $status_olimesins;
+        }
+
+        // Update umur_ban for related ban
+        foreach ($kendaraan->ban as $ban) {
+            $ban->update([
+                'umur_ban' => ($kendaraan->km - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
+            ]);
+        }
+
+        // Jika kendaraan tidak ditemukan atau odometer tidak valid, lanjutkan dengan proses SPK
         $kode = $this->kode();
-        // tgl indo
         $tanggal = Carbon::now()->format('Y-m-d');
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
@@ -108,11 +180,12 @@ class SpkController extends Controller
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
 
+        $km_akhir = $kendaraan->km;
         $cetakpdf = Spk::create(array_merge(
             $request->all(),
             [
                 'admin' => auth()->user()->karyawan->nama_lengkap,
-                'kode_spk' => $this->kode(),
+                'kode_spk' => $kode,
                 'voucher' => '0',
                 'user_id' => $request->user_id,
                 'pelanggan_id' => $request->pelanggan_id,
@@ -124,7 +197,7 @@ class SpkController extends Controller
                 'no_pol' => $request->no_pol,
                 'golongan' => $request->golongan,
                 'km_awal' => $request->km_awal,
-                'user_id' => $request->user_id,
+                'km_akhir' => $km_akhir,
                 'kode_driver' => $request->kode_driver,
                 'nama_driver' => $request->nama_driver,
                 'telp' => $request->telp,
@@ -133,7 +206,6 @@ class SpkController extends Controller
                 'nama_rute' => $request->nama_rute,
                 'saldo_deposit' => $saldo_deposit,
                 'uang_jalan' => $uang_jalan,
-                'kode_spk' => $this->kode(),
                 'qrcode_spk' => 'https://javaline.id/spk/' . $kode,
                 'tanggal' => $format_tanggal,
                 'tanggal_awal' => $tanggal,
@@ -158,6 +230,50 @@ class SpkController extends Controller
 
         return redirect('admin/spk')->with('success', 'Berhasil menambahkan spk');
     }
+
+
+
+    // public function store(Request $request)
+    // {
+    //     $kendaraan_id = $request->kendaraan_id;
+    //     $kendaraan = Kendaraan::find($kendaraan_id);
+
+    //     if (!$kendaraan) {
+    //         return response()->json(['message' => 'Kendaraan tidak ditemukan'], 404);
+    //     }
+
+    //     $client = new Client();
+    //     $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+    //         'headers' => [
+    //             'accept' => 'application/json',
+    //             'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+    //             'Content-Type' => 'application/json',
+    //         ],
+    //         'json' => [
+    //             'list_vehicle_id' => [$kendaraan->vehicle_id], // Sesuaikan dengan field yang tepat dari tabel Kendaraan
+    //             'list_nopol' => [],
+    //             'list_no_aset' => [],
+    //             'status_vehicle' => 0,
+    //             'geo_code' => [],
+    //             'min_lastupdate_hour' => null,
+    //             'page' => 0,
+    //             'encrypted' => 0,
+    //         ],
+    //     ]);
+
+    //     $data = json_decode($response->getBody()->getContents(), true);
+
+    //     // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+    //     $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+
+    //     if ($odometer > 0) {
+    //         $kendaraan->km = $odometer;
+    //         $kendaraan->save();
+    //         return response()->json(['message' => 'Nilai km berhasil diperbarui']);
+    //     } else {
+    //         return response()->json(['message' => 'Nilai odometer tidak ditemukan atau tidak valid pada response API'], 400);
+    //     }
+    // }
 
 
     public function kode()

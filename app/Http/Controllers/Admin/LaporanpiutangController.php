@@ -17,51 +17,65 @@ class LaporanpiutangController extends Controller
     {
         $pelanggan_id = $request->input('pelanggan_id');
 
-        // Ambil data pelanggan jika diperlukan
+        // Ambil semua pelanggan untuk dropdown
         $pelanggans = Pelanggan::all();
 
-        // Bangun query awal dengan filter status 'selesai'
-        $inquery = Tagihan_ekspedisi::whereDoesntHave('detail_tagihan', function ($query) {
-            $query->whereHas('faktur_ekspedisi', function ($query) {
-                $query->whereNotNull('status_pelunasan');
-            });
-        })->orWhereHas('detail_tagihan', function ($query) {
-            $query->whereHas('faktur_ekspedisi', function ($query) {
-                $query->whereNull('status_pelunasan');
-            });
-        })->get();
+        // Query dasar untuk mengambil data
+        $inquery = Tagihan_ekspedisi::query();
 
+        // Tambahkan kondisi where berdasarkan pelanggan_id
+        if ($pelanggan_id) {
+            $inquery->where('pelanggan_id', $pelanggan_id);
+        }
 
+        // Tambahkan kondisi where terkait detail tagihan
+        $inquery->where(function ($query) {
+            $query->whereDoesntHave('detail_tagihan', function ($query) {
+                $query->whereHas('faktur_ekspedisi', function ($query) {
+                    $query->whereNotNull('status_pelunasan');
+                });
+            })->orWhereHas('detail_tagihan', function ($query) {
+                $query->whereHas('faktur_ekspedisi', function ($query) {
+                    $query->whereNull('status_pelunasan');
+                });
+            });
+        });
+
+        // Jalankan query dan ambil hasilnya
+        $inquery = $inquery->get();
 
         // Kembalikan hasil ke view
         return view('admin.laporan_piutang.index', compact('inquery', 'pelanggans'));
     }
 
-
-    public function print_tagihanekspedisi(Request $request)
+    public function print_piutang(Request $request)
     {
         // if (auth()->check() && auth()->user()->menu['laporan penggantian oli']) {
 
-        $status = $request->status;
-        $tanggal_awal = $request->tanggal_awal;
-        $tanggal_akhir = $request->tanggal_akhir;
+        $pelanggan_id = $request->input('pelanggan_id');
 
-        $query = Tagihan_ekspedisi::orderBy('id', 'DESC');
+        // Query dasar untuk mengambil data
+        $inquery = Tagihan_ekspedisi::query();
 
-
-        if (
-            $status == "posting" || $status == "selesai"
-        ) {
-            $query->where('status', $status);
-        } else {
-            $query->whereIn('status', ['posting', 'selesai']);
+        if ($pelanggan_id) {
+            $inquery->where('pelanggan_id', $pelanggan_id);
         }
+        
+        $inquery->where(function ($query) {
+            $query->whereDoesntHave('detail_tagihan', function ($query) {
+                $query->whereHas('faktur_ekspedisi', function ($query) {
+                    $query->whereNotNull('status_pelunasan');
+                });
+            })->orWhereHas('detail_tagihan', function ($query) {
+                $query->whereHas('faktur_ekspedisi', function ($query) {
+                    $query->whereNull('status_pelunasan');
+                });
+            });
+        });
 
-        if ($tanggal_awal && $tanggal_akhir) {
-            $query->whereDate('tanggal_awal', '>=', $tanggal_awal)
-                ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
-        }
-        $inquery = $query->orderBy('id', 'DESC')->get();
+        $inquery = $inquery->whereIn('status', ['posting', 'selesai'])
+            ->orderBy('id', 'DESC')
+            ->get();
 
         $pdf = PDF::loadView('admin.laporan_piutang.print', compact('inquery'));
         return $pdf->stream('Laporan_piutang.pdf');
