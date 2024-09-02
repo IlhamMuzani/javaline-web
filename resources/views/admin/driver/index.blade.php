@@ -169,6 +169,8 @@
                                 <td colspan="1"></td>
                                 <td>
                                 </td>
+                                <td>
+                                </td>
                                 <td><strong>Total:</strong></td>
                                 <td class="text-right" style="font-weight: bold;">
                                     Rp.{{ number_format($totalDeposit, 0, ',', '.') }}

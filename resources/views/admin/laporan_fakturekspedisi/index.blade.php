@@ -68,36 +68,30 @@
                                 </select>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <div class="form-group" style="flex: 8;">
-                                    <label for="pelanggan_id">Nama Pelanggan</label>
-                                    <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
-                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
-                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
-                                        <option value="">- Pilih -</option>
-                                        @foreach ($pelanggans as $pelanggan)
-                                            <option value="{{ $pelanggan->id }}"
-                                                {{ old('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
-                                                {{ $pelanggan->nama_pell }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <label for="status">Cari Pelanggan</label>
+                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($pelanggans as $pelanggan)
+                                        <option value="{{ $pelanggan->id }}"
+                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                            {{ $pelanggan->nama_pell }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <div class="form-group" style="flex: 8;">
-                                    <label for="karyawan_id">Nama Marketing</label>
-                                    <select class="select2bs4 select22-hidden-accessible" name="karyawan_id"
-                                        data-placeholder="Cari Marketing.." style="width: 100%;" data-select22-id="23"
-                                        tabindex="-1" aria-hidden="true" id="karyawan_id">
-                                        <option value="">- Pilih -</option>
-                                        @foreach ($karyawans as $karyawan)
-                                            <option value="{{ $karyawan->id }}"
-                                                {{ old('karyawan_id') == $karyawan->id ? 'selected' : '' }}>
-                                                {{ $karyawan->nama_lengkap }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                <label for="status">Cari Marketing</label>
+                                <select class="select2bs4 select2-hidden-accessible" name="karyawan_id"
+                                    data-placeholder="Cari Karyawan.." style="width: 100%;" id="karyawan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($karyawans as $karyawan)
+                                        <option value="{{ $karyawan->id }}"
+                                            {{ Request::get('karyawan_id') == $karyawan->id ? 'selected' : '' }}>
+                                            {{ $karyawan->nama_lengkap }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="tanggal_awal">Tanggal Awal</label>
