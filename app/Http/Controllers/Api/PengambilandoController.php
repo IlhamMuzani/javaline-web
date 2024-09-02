@@ -12,14 +12,23 @@ use Illuminate\Support\Facades\Validator;
 class PengambilandoController extends Controller
 {
 
-    // public function list($id)
+    // public function list($id, Request $request)
     // {
+    //     // Ambil token dari header permintaan
+    //     $token = $request->header('Authorization');
+
+    //     // Verifikasi token
+    //     if ($token !== 'ilhammzni23') {
+    //         return $this->response(FALSE, ['Token tidak valid!'], []);
+    //     }
     //     // Assuming you have a 'user_id' column in the Pengambilan_do table
     //     $pengambilando = Pengambilan_do::where([
     //         ['user_id', $id],
     //         ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
     //     ])
-    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan',])
+    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+    //         ->orderByRaw("CASE WHEN status = 'selesai' THEN 1 ELSE 0 END") // Place 'selesai' status items at the bottom
+    //         ->orderBy('id', 'asc') // Order by ID or another column to ensure consistent ordering
     //         ->get();
 
     //     if ($pengambilando->isNotEmpty()) { // Check if there are any records

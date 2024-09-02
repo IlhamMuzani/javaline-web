@@ -3169,7 +3169,6 @@
                 // Get the selected value
                 var selectedValue = $(this).val();
 
-                // Check the selected value and redirect accordingly
                 switch (selectedValue) {
                     case 'spk':
                         window.location.href = "{{ url('admin/memo_ekspedisispk') }}";

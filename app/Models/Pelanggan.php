@@ -16,7 +16,8 @@ class Pelanggan extends Model
 
     protected $fillable = [
         'kode_pelanggan',
-        'marketing_id',
+        'kelompok_pelanggan_id',
+        'karyawan_id',
         'nama_pell',
         'nama_alias',
         'qrcode_pelanggan',
@@ -81,6 +82,11 @@ class Pelanggan extends Model
     public function karyawan()
     {
         return $this->belongsTo(Karyawan::class);
+    }
+
+    public function kelompok_pelanggans()
+    {
+        return $this->belongsTo(Kelompok_pelanggan::class);
     }
     
     public static function getId()

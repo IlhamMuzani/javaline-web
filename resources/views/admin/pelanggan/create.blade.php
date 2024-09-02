@@ -110,7 +110,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label style="font-size:14px" for="nama_lengkap">Kode Marketing</label>
+                                    <label style="font-size:14px" for="nama_lengkap">Nama Marketing</label>
                                     <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
                                         type="text" class="form-control" id="nama_lengkap" readonly
                                         name="nama_lengkap" placeholder="" value="{{ old('nama_lengkap') }}">
@@ -121,11 +121,25 @@
                                         type="text" class="form-control" id="telp" readonly name="telp"
                                         placeholder="" value="{{ old('telp') }}">
                                 </div>
-                                <div class="form-group">
+                                <div hidden class="form-group">
                                     <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
                                     <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
                                         type="text" class="form-control" id="alamat_karyawan" readonly
                                         name="alamat_karyawan" placeholder="" value="{{ old('alamat_karyawan') }}">
+                                </div>
+                                <div class="form-group"> <!-- Adjusted flex value -->
+                                    <label style="font-size:14px" for="kelompok_pelanggan_id">Kelompok pelanggan</label>
+                                    <select class="select2bs4 select2-hidden-accessible" name="kelompok_pelanggan_id"
+                                        data-placeholder="Cari Kelompok.." style="width: 100%;" data-select2-id="23"
+                                        tabindex="-1" aria-hidden="true" id="kelompok_pelanggan_id">
+                                        <option value="">- Pilih -</option>
+                                        @foreach ($kelompok_pelanggans as $kelompok_pelanggan)
+                                            <option value="{{ $kelompok_pelanggan->id }}"
+                                                {{ old('kelompok_pelanggan_id') == $kelompok_pelanggan->id ? 'selected' : '' }}>
+                                                {{ $kelompok_pelanggan->nama }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>

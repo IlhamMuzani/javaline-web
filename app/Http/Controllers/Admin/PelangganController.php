@@ -9,6 +9,7 @@ use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
+use App\Models\Kelompok_pelanggan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,13 +54,13 @@ class PelangganController extends Controller
     public function create()
     {
         if (auth()->check() && auth()->user()->menu['pelanggan']) {
-
+            $kelompok_pelanggans = Kelompok_pelanggan::get();
             $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
                 ->where('departemen_id', '4')
                 ->orderBy('nama_lengkap')
                 ->get();
                 
-            return view('admin/pelanggan.create', compact('karyawans'));
+            return view('admin/pelanggan.create', compact('karyawans', 'kelompok_pelanggans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -109,6 +110,7 @@ class PelangganController extends Controller
             $request->all(),
             [
                 'kode_pelanggan' => $this->kode(),
+                'kelompok_pelanggan_id' => $request->kelompok_pelanggan_id,
                 'qrcode_pelanggan' => 'https://javaline.id/pelanggan/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 // 'qrcode_pelanggan' => 'http://192.168.1.46/javaline/pelanggan/' . $kode
@@ -169,7 +171,8 @@ class PelangganController extends Controller
             ->where('departemen_id', '4')
             ->orderBy('nama_lengkap')
             ->get();
-            return view('admin/pelanggan.update', compact('pelanggan', 'karyawans'));
+            $kelompok_pelanggans = Kelompok_pelanggan::get();
+            return view('admin/pelanggan.update', compact('pelanggan', 'karyawans', 'kelompok_pelanggans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -220,6 +223,7 @@ class PelangganController extends Controller
         $pelanggan->nama_pell = $request->nama_pell;
         $pelanggan->nama_alias = $request->nama_alias;
         $pelanggan->karyawan_id = $request->karyawan_id;
+        $pelanggan->kelompok_pelanggan_id = $request->kelompok_pelanggan_id;
         $pelanggan->npwp = $request->npwp;
         $pelanggan->alamat = $request->alamat;
         $pelanggan->nama_person = $request->nama_person;

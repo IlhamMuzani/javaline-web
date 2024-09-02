@@ -161,19 +161,19 @@
         @endif
         @if (auth()->check() && auth()->user()->menu['pelanggan'])
             <li class="nav-item">
-                <a href="{{ url('admin/pelanggan') }}"
-                    class="nav-link {{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
+                <a href="{{ url('admin/kelompok_pelanggan') }}"
+                    class="nav-link {{ request()->is('admin/kelompok_pelanggan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Pelanggan</p>
+                    <p style="font-size: 14px;">Data Kelompok Pelanggan</p>
                 </a>
             </li>
         @endif
         @if (auth()->check() && auth()->user()->menu['pelanggan'])
             <li class="nav-item">
-                <a href="{{ url('admin/kelompok_pelanggan') }}"
-                    class="nav-link {{ request()->is('admin/kelompok_pelanggan*') ? 'active' : '' }}">
+                <a href="{{ url('admin/pelanggan') }}"
+                    class="nav-link {{ request()->is('admin/pelanggan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Kelompok Pelanggan</p>
+                    <p style="font-size: 14px;">Data Pelanggan</p>
                 </a>
             </li>
         @endif

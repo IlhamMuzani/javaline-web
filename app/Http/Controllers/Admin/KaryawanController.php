@@ -169,7 +169,7 @@ class KaryawanController extends Controller
             $num = (int) substr($lastCode, strlen('FE')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'AD';
+        $prefix = 'ADR';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }
