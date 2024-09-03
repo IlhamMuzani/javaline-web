@@ -121,7 +121,7 @@ class InqueryMemoborongspkController extends Controller
 
     public function update(Request $request, $id)
     {
-        $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
+        // $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
         $validasi_pelanggan = Validator::make(
             $request->all(),
             [
@@ -138,18 +138,18 @@ class InqueryMemoborongspkController extends Controller
                         $fail('Uang jalan harus berupa angka atau dalam format Rupiah yang valid.');
                     }
                 }],
-                'km_akhir' => [
-                    'required',
-                    'numeric',
-                    function ($attribute, $value, $fail) use ($request, $jarak) {
-                        $kendaraan = Kendaraan::find($request->kendaraan_id); // Mendapatkan kendaraan berdasarkan ID
-                        if ($kendaraan && $value < $kendaraan->km) { // Hanya jika km_akhir lebih kecil dari km kendaraan
-                            $fail('Nilai km akhir harus lebih tinggi dari km awal');
-                        } elseif ($kendaraan && $value - $kendaraan->km > $jarak->batas) {
-                            $fail('Nilai km tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-                        }
-                    },
-                ],
+                // 'km_akhir' => [
+                //     'required',
+                //     'numeric',
+                //     function ($attribute, $value, $fail) use ($request, $jarak) {
+                //         $kendaraan = Kendaraan::find($request->kendaraan_id); // Mendapatkan kendaraan berdasarkan ID
+                //         if ($kendaraan && $value < $kendaraan->km) { // Hanya jika km_akhir lebih kecil dari km kendaraan
+                //             $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                //         } elseif ($kendaraan && $value - $kendaraan->km > $jarak->batas) {
+                //             $fail('Nilai km tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
+                //         }
+                //     },
+                // ],
             ],
             [
                 'spk_id.required' => 'Pilih spk',
@@ -160,8 +160,8 @@ class InqueryMemoborongspkController extends Controller
                 'jumlah.required' => 'Masukkan quantity',
                 'satuan.required' => 'Pilih satuan',
                 'harga_rute.*' => 'Uang jalan harus berupa angka atau dalam format Rupiah yang valid',
-                'km_akhir.required' => 'Masukkan km akhir',
-                'km_akhir.numeric' => 'Nilai km harus berupa angka',
+                // 'km_akhir.required' => 'Masukkan km akhir',
+                // 'km_akhir.numeric' => 'Nilai km harus berupa angka',
             ]
         );
 
@@ -232,10 +232,10 @@ class InqueryMemoborongspkController extends Controller
 
         $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
         $kendaraan->update([
-            'km' => $request->km_akhir
+            'km' => $request->km_awal
         ]);
 
-        $kms = $request->km_akhir;
+        $kms = $request->km_awal;
 
         // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
         if (

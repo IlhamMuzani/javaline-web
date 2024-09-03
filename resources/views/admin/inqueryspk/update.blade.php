@@ -633,7 +633,7 @@
                                     <tbody>
                                         @foreach ($kendaraans as $kendaraan)
                                             <tr
-                                                onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->no_pol }}', '{{ $kendaraan->golongan->nama_golongan }}', '{{ $kendaraan->km }}')">
+                                                onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->no_pol }}', '{{ $kendaraan->golongan->nama_golongan }}')">
                                                 <td class="text-center">{{ $loop->iteration }}</td>
                                                 <td>{{ $kendaraan->kode_kendaraan }}</td>
                                                 <td>{{ $kendaraan->no_kabin }}</td>
@@ -642,7 +642,7 @@
                                                 <td>{{ $kendaraan->km }}</td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->no_pol }}', '{{ $kendaraan->golongan->nama_golongan }}', '{{ $kendaraan->km }}')">
+                                                        onclick="getSelectedDatakendaraan('{{ $kendaraan->id }}', '{{ $kendaraan->no_kabin }}', '{{ $kendaraan->no_pol }}', '{{ $kendaraan->golongan->nama_golongan }}')">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </td>
@@ -870,8 +870,39 @@
             document.getElementById('no_kabin').value = NoKabin;
             document.getElementById('no_pol').value = No_pol;
             document.getElementById('golongan').value = Golongan;
-            document.getElementById('km').value = Km;
             $('#tableKendaraan').modal('hide');
+
+            // Setelah nilai kendaraan_id diambil, lakukan request Ajax untuk update KM
+            var kendaraan_id = Kendaraan_id;
+
+            // Pastikan kendaraan_id telah dipilih
+            if (!kendaraan_id) {
+                alert('Silakan pilih kendaraan terlebih dahulu.');
+                return;
+            }
+
+            // Buat URL dengan memasukkan kendaraan_id ke dalam rute
+            var url = '{{ route('ambil_km', ['id' => ':id']) }}';
+            url = url.replace(':id', kendaraan_id);
+
+            // Lakukan request Ajax untuk update KM
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    // Hapus alert berhasil dan langsung update nilai input KM di form
+                    if (response.km) {
+                        $('#km').val(response.km); // Update input dengan ID 'kendaraan_km'
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert('Terjadi kesalahan saat mengupdate KM');
+                }
+            });
         }
 
 

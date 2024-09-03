@@ -79,28 +79,16 @@ class InquerySpkController extends Controller
 
     public function update(Request $request, $id)
     {
-        $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
+        // $jarak = Jarak_km::first(); // Mendapatkan jarak yang akan digunakan untuk validasi
 
         $rules = [
             'kode_spk' => 'unique:spks,kode_spk',
-            // 'km_akhir' => [
-            //     'required',
-            //     'numeric',
-            //     function ($attribute, $value, $fail) use ($request, $jarak) {
-            //         $kendaraan = Kendaraan::find($request->kendaraan_id); // Mendapatkan kendaraan berdasarkan ID
-            //         if ($kendaraan && $value < $kendaraan->km) { // Hanya jika km_akhir lebih kecil dari km kendaraan
-            //             $fail('Nilai km akhir harus lebih tinggi dari km awal');
-            //         } elseif ($kendaraan && $value - $kendaraan->km > $jarak->batas) {
-            //             $fail('Nilai km tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-            //         }
-            //     },
-            // ],
+            'km_awal' => 'required',
         ];
 
         $messages = [
             'kode_spk.unique' => 'Kode spk sudah ada',
-            // 'km_akhir.required' => 'Masukkan km akhir',
-            // 'km_akhir.numeric' => 'Nilai km harus berupa angka',
+            'km_awal.required' => 'Km awal kendaraan tidak boleh kosong',
         ];
 
         // Add additional rules if kategori is not 'non memo'
@@ -126,37 +114,42 @@ class InquerySpkController extends Controller
             $errors = $validator->errors()->all();
             return back()->withInput()->with('error', $errors);
         }
+        $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
+        $kendaraan->update([
+            'km' => $request->km_awal
+        ]);
 
-        // $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
-        // $kendaraan->update([
-        //     'km' => $request->km_akhir
-        // ]);
+        $kms = $request->km_awal;
 
-        // $kms = $request->km_akhir;
+        // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
+        if (
+            $kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olimesin = $status_olimesins;
+        }
 
-        // // Periksa apakah selisih kurang dari 1000 atau lebih tinggi dari km_olimesin
-        // if ($kms > $kendaraan->km_olimesin - 1000 || $kms > $kendaraan->km_olimesin) {
-        //     $status_olimesins = "belum penggantian";
-        //     $kendaraan->status_olimesin = $status_olimesins;
-        // }
+        if (
+            $kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_oligardan = $status_olimesins;
+        }
 
-        // if ($kms > $kendaraan->km_oligardan - 5000 || $kms > $kendaraan->km_oligardan) {
-        //     $status_olimesins = "belum penggantian";
-        //     $kendaraan->status_oligardan = $status_olimesins;
-        // }
+        if (
+            $kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi
+        ) {
+            $status_olimesins = "belum penggantian";
+            $kendaraan->status_olitransmisi = $status_olimesins;
+        }
 
-        // if ($kms > $kendaraan->km_olitransmisi - 5000 || $kms > $kendaraan->km_olitransmisi) {
-        //     $status_olimesins = "belum penggantian";
-        //     $kendaraan->status_olitransmisi = $status_olimesins;
-        // }
-
-        // // Update umur_ban for related ban
-        // foreach ($kendaraan->ban as $ban) {
-        //     $ban->update([
-        //         'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
-        //     ]);
-        // }
-
+        // Update umur_ban for related ban
+        foreach ($kendaraan->ban as $ban) {
+            $ban->update([
+                'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
+            ]);
+        }
+        
         // $status_spk = $request->kategori === 'non memo' ? 'non memo' : null;
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
