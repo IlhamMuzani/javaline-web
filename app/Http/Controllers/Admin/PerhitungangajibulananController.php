@@ -23,7 +23,7 @@ class PerhitungangajibulananController extends Controller
 {
     public function index()
     {
-        $karyawans = Karyawan::where('departemen_id', 1)
+        $karyawans = Karyawan::whereIn('departemen_id', [1, 4])
             ->orderBy('nama_lengkap')
             ->get();
         return view('admin.perhitungan_gajibulanan.index', compact('karyawans'));
