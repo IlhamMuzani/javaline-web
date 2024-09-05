@@ -226,7 +226,7 @@ class InqueryFakturekspedisispkController extends Controller
         $cetakpdf->update([
             'kategori' => $request->kategori,
             'kategoris' => $request->kategoris,
-            // 'karyawan_id' => $request->karyawan_id,
+            'karyawan_id' => $request->karyawan_id,
             'sewa_kendaraan_id' => $request->sewa_kendaraan_id,
             'kode_sewa' => $request->kode_sewa,
             'tarif_id' => $request->tarif_id,

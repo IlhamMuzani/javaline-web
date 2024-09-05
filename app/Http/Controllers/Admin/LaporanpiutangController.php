@@ -15,6 +15,21 @@ class LaporanpiutangController extends Controller
 {
     public function index(Request $request)
     {
+
+        $today = \Carbon\Carbon::now(); // Mengambil tanggal hari ini
+        if ($today->isSaturday()) {
+            $mondayLastWeek = $today->subDays(6); // Mengambil hari Senin dari minggu lalu
+        } else {
+            $mondayLastWeek = $today->previous(\Carbon\Carbon::MONDAY); // Mengambil hari Senin dari minggu ini atau minggu lalu
+        }
+
+        $mondayLastWeekDate = $mondayLastWeek->format('Y-m-d');
+
+        $mondayLastWeekDate = $mondayLastWeek->format('Y-m-d');
+
+        $senin_kemarins = Tagihan_ekspedisi::whereDate('created_at', $mondayLastWeekDate)->get();
+
+        
         $pelanggan_id = $request->input('pelanggan_id');
 
         // Ambil semua pelanggan untuk dropdown
@@ -40,12 +55,11 @@ class LaporanpiutangController extends Controller
                 });
             });
         });
-
         // Jalankan query dan ambil hasilnya
         $inquery = $inquery->get();
 
         // Kembalikan hasil ke view
-        return view('admin.laporan_piutang.index', compact('inquery', 'pelanggans'));
+        return view('admin.laporan_piutang.index', compact('inquery', 'pelanggans', 'senin_kemarins'));
     }
 
     public function print_piutang(Request $request)
@@ -60,7 +74,7 @@ class LaporanpiutangController extends Controller
         if ($pelanggan_id) {
             $inquery->where('pelanggan_id', $pelanggan_id);
         }
-        
+
         $inquery->where(function ($query) {
             $query->whereDoesntHave('detail_tagihan', function ($query) {
                 $query->whereHas('faktur_ekspedisi', function ($query) {

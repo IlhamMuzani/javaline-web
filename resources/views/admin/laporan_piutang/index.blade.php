@@ -102,7 +102,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @php
+                            {{-- @php
                                 $totalDPP = 0;
                                 $totalPPH = 0;
                                 $totalSUB = 0;
@@ -128,10 +128,6 @@
                                     <td style="text-align: end">
                                         {{ number_format($invoice->grand_total, 0, ',', '.') }}
                                     </td>
-                                    {{-- <td>
-                                        <button class="btn btn-info" data-toggle="collapse"
-                                            data-target="#invoice-{{ $index }}">Toggle Detail</button>
-                                    </td> --}}
                                 </tr>
                                 <tr>
                                     <td colspan="7">
@@ -142,20 +138,17 @@
                                                         <th>Kode Faktur</th>
                                                         <th>Tanggal</th>
                                                         <th>Nama Rute</th>
-                                                        <th>Biaya Ekspedisi</th>
-                                                        <th>Jumlah</th>
+                                                        <th>Grand Total</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     @foreach ($invoice->detail_tagihan as $memo)
                                                         <tr>
-                                                            <td>{{ $memo->id }}</td>
-                                                            <td>{{ $memo->id }}</td>
-                                                            <td>{{ $memo->id }}</td>
+                                                            <td>{{ $memo->kode_faktur }}</td>
+                                                            <td>{{ $memo->tanggal_awal }}</td>
+                                                            <td>{{ $memo->nama_rute }}</td>
                                                             <td class="text-right">
-                                                                0
-                                                            <td class="text-right">
-                                                                0
+                                                                {{ number_format($memo->faktur_ekspedisi->grand_total) }}
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -202,6 +195,58 @@
                                 </td>
                                 <td class="text-right" style="font-weight: bold;">
                                     {{ number_format($totalSUB, 0, ',', '.') }}
+                                </td>
+                            </tr> --}}
+
+
+                            @php
+                                $totalDPPsenen = 0;
+                                $totalPPHsenen = 0;
+                                $totalSUBsenen = 0;
+                            @endphp
+                            @foreach ($senin_kemarins as $index => $invoice)
+                                <tr data-toggle="collapse" data-target="#invoice-{{ $index }}"
+                                    class="accordion-toggle" style="background: rgb(156, 156, 156)">
+                                    <td>{{ $invoice->kode_tagihan }}</td>
+                                    <td>{{ $invoice->created_at }}</td>
+                                    <td>{{ $invoice->nama_pelanggan }}</td>
+                                    <td>{{ $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan ? $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan->no_pol : 'Tidak ada' }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($invoice->sub_total, 0, ',', '.') }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        @if ($invoice->kategori == 'PPH')
+                                            {{ number_format($invoice->pph, 0, ',', '.') }}
+                                        @else
+                                            0
+                                        @endif
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($invoice->grand_total, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                                @php
+                                    $totalDPPsenen += $invoice->sub_total;
+                                    $totalPPHsenen += $invoice->pph;
+                                    $totalSUBsenen += $invoice->grand_total;
+                                @endphp
+                            @endforeach
+                            <tr>
+                                <td colspan="1"></td>
+                                <td>
+                                </td>
+                                <td><strong>Total:</strong></td>
+                                <td>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalDPPsenen, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalPPHsenen, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalSUBsenen, 0, ',', '.') }}
                                 </td>
                             </tr>
                         </tbody>
