@@ -1002,7 +1002,7 @@
                             @else
                                 user tidak ada
                             @endif --}}
-                            {{ auth()->user()->karyawan->nama_lengkap }}
+                            {{ $cetakpdf->admin }}
                         </td>
                     </tr>
                     <tr>
