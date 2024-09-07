@@ -210,7 +210,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($KaryawanAll as $kasbon)
+                                    @foreach ($karyawanAll as $kasbon)
                                         <tr>
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $kasbon->kode_karyawan }}</td>

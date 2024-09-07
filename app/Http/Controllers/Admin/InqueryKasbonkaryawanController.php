@@ -60,7 +60,7 @@ class InqueryKasbonkaryawanController extends Controller
         $details  = Detail_cicilan::where('kasbon_karyawan_id', $id)->get();
         $karyawanAll = Karyawan::whereNotIn('departemen_id', [2])->get();
 
-        return view('admin.inquery_kasbonkaryawan.update', compact('inquery', 'KaryawanAll', 'details'));
+        return view('admin.inquery_kasbonkaryawan.update', compact('inquery', 'karyawanAll', 'details'));
     }
 
     public function update(Request $request, $id)
