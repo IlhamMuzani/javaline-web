@@ -28,7 +28,7 @@ class Sewa_kendaraan extends Model
         'sisa',
         'biaya_tambahan',
         'keterangan',
-        
+        'status_pelunasan',
         'jumlah',
         'satuan',
         'nominal_potongan',
