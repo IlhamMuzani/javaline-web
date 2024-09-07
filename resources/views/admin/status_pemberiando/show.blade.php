@@ -165,12 +165,16 @@
                                     <strong>Total Km</strong>
                                 </div>
                                 <div class="col-md-4">
-                                    {{ $cetakpdf->km_akhir - $cetakpdf->km_awal }}
+                                    @if ($cetakpdf->km_akhir == null)
+                                        {{ $cetakpdf->kendaraan->km ?? '0' - $cetakpdf->km_awal }}
+                                    @else
+                                        {{ $cetakpdf->km_akhir - $cetakpdf->km_awal }}
+                                    @endif
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <strong>Foto Memo Muat</strong>
+                                    <strong>Foto Surat Jalan Muat</strong>
                                 </div>
                                 <div class="col-md-4">
                                     @if ($cetakpdf->gambar)
@@ -184,7 +188,7 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col-md-4">
-                                    <strong>Foto Memo Sampai</strong>
+                                    <strong>Foto Surat Jalan Bongkar</strong>
                                 </div>
                                 <div class="col-md-4">
                                     @if ($cetakpdf->gambar)

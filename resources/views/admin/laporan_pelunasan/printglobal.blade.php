@@ -182,7 +182,7 @@
                         {{ $item->faktur_ekspedisi->tanggal_awal }}
                     </td>
                     <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
-                        {{ $item->faktur_pelunasan->tanggal_awal }}
+                        {{ $item->faktur_pelunasan->tanggal_transfer ?? null }}
                     </td>
                     <td class="td" style="text-align: right; padding: 5px; font-size: 10px;">
                         {{ number_format($item->faktur_ekspedisi->grand_total, 2, ',', '.') }}

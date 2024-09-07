@@ -108,10 +108,8 @@ class KaryawanController extends Controller
             $request->gambar->storeAs('public/uploads/', $namaGambar);
         }
 
-        $kode = $this->kode();
-        $kodedriver = $this->kodedriver();
-
-        $kode_karyawan = ($request->departemen_id == 1) ? $kode : (($request->departemen_id == 2) ? $kodedriver : $kode);
+        // Pemilihan kode karyawan berdasarkan departemen
+        $kode_karyawan = ($request->departemen_id == 2) ? $this->kodedriver() : $this->kode();
 
         Karyawan::create([
             'departemen_id' => $request->departemen_id,
@@ -136,7 +134,7 @@ class KaryawanController extends Controller
             'deposit' => 0,
             'status' => 'null',
             'kode_karyawan' => $kode_karyawan,
-            'qrcode_karyawan' => 'https://javaline.id/karyawan/' . $kode,
+            'qrcode_karyawan' => 'https://javaline.id/karyawan/' . $kode_karyawan,
             'tanggal' => Carbon::now('Asia/Jakarta'),
         ]);
 
@@ -144,14 +142,16 @@ class KaryawanController extends Controller
     }
 
 
+
     public function kode()
     {
-        $lastBarang = Karyawan::latest()->first();
+        // Cari karyawan terakhir dengan kode_karyawan yang diawali dengan 'AA'
+        $lastBarang = Karyawan::where('kode_karyawan', 'like', 'AA%')->latest()->first();
         if (!$lastBarang) {
             $num = 1;
         } else {
             $lastCode = $lastBarang->kode_karyawan;
-            $num = (int) substr($lastCode, strlen('FE')) + 1;
+            $num = (int) substr($lastCode, strlen('AA')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
         $prefix = 'AA';
@@ -161,12 +161,13 @@ class KaryawanController extends Controller
 
     public function kodedriver()
     {
-        $lastBarang = Karyawan::latest()->first();
+        // Cari karyawan terakhir dengan kode_karyawan yang diawali dengan 'ADR'
+        $lastBarang = Karyawan::where('kode_karyawan', 'like', 'ADR%')->latest()->first();
         if (!$lastBarang) {
             $num = 1;
         } else {
             $lastCode = $lastBarang->kode_karyawan;
-            $num = (int) substr($lastCode, strlen('FE')) + 1;
+            $num = (int) substr($lastCode, strlen('ADR')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
         $prefix = 'ADR';
@@ -174,6 +175,7 @@ class KaryawanController extends Controller
         return $newCode;
     }
 
+    
     public function cetakpdf($id)
     {
         $cetakpdf = Karyawan::where('id', $id)->first();
@@ -192,7 +194,7 @@ class KaryawanController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             $karyawan = Karyawan::with('departemen')
-                ->select('id', 'kode_karyawan', 'nama_lengkap','no_ktp','no_sim','alamat', 'tanggal_lahir','tanggal_gabung', 'telp', 'departemen_id', 'qrcode_karyawan')
+                ->select('id', 'kode_karyawan', 'nama_lengkap', 'no_ktp', 'no_sim', 'alamat', 'tanggal_lahir', 'tanggal_gabung', 'telp', 'departemen_id', 'qrcode_karyawan')
                 ->where('id', $id)
                 ->first();
 

@@ -236,6 +236,7 @@ class InquerySpkController extends Controller
 
         // If not used, delete the SPK
         if ($spk) {
+            $spk->pengambilan_do()->delete();
             $spk->delete();
             return back()->with('success', 'Berhasil');
         }
