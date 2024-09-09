@@ -46,8 +46,8 @@ class AuthController extends Controller
     public function detail($id)
     {
         $user = User::where('id', $id)
-            ->with(['karyawan', 'kendaraan', 'pengambilan_do' => function ($query) {
-                $query->latest()->first(); // Mengambil yang terbaru
+            ->with(['karyawan', 'kendaraan', 'pengambilan_do', 'latestpengambilan_do' => function ($query) {
+                $query->with('kendaraan');
             }])
             ->first();
 
@@ -57,7 +57,6 @@ class AuthController extends Controller
             return $this->response(FALSE, ['Gagal menampilkan detail!']);
         }
     }
-
 
     public function register(Request $request)
     {

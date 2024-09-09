@@ -33,11 +33,11 @@ class DriverController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'nama_lengkap' => 'required',
+                'nama_kecil' => 'required',
                 'telp' => 'required',
             ],
             [
-                'nama_lengkap.required' => 'Masukkan nama lengkap',
+                'nama_kecil.required' => 'Masukkan nama lengkap',
                 'telp.required' => 'Masukkan telp',
             ]
         );
@@ -50,7 +50,7 @@ class DriverController extends Controller
         $karyawan = Karyawan::find($id);
         $karyawan = Karyawan::where('id', $id);
         $kendaraan = $karyawan->update([
-            'nama_lengkap' => $request->nama_lengkap,
+            'nama_kecil' => $request->nama_lengkap,
             'telp' => $request->telp,
         ]);
 
@@ -620,7 +620,7 @@ class DriverController extends Controller
             // 'km' => $request->km,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu,
-            'kota_id' => $request->kota_id,
+            // 'kota_id' => $request->kota_id,
             'waktu' => now()->format('Y-m-d H:i:s')
         ]);
 

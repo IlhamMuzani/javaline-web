@@ -118,8 +118,15 @@ class User extends Authenticatable
         return $this->hasOne(Pengambilan_do::class, 'user_id');
     }
 
-    // public function pengambilan_do()
-    // {
-    //     return $this->hasMany(Pengambilan_do::class);
-    // }
+    public function latestpengambilan_do()
+    {
+        return $this->hasOne(Pengambilan_do::class)
+            ->where('status', '<>', 'selesai') // Filter status yang bukan 'selesai'
+            ->orderBy('created_at', 'asc') // Urutkan berdasarkan waktu pembuatan yang paling awal
+            ->orWhere(function ($query) {
+                $query->where('status', 'selesai'); // Jika tidak ada yang selain selesai, ambil yang statusnya 'selesai'
+            })
+            ->orderBy('created_at', 'desc'); // Untuk mengambil 'selesai' yang terbaru
+    }
+    
 }

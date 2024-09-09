@@ -9,26 +9,20 @@ use App\Models\Timer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
+
 class PengambilandoController extends Controller
 {
 
-    // public function list($id, Request $request)
+    // public function list($id)
     // {
-    //     // Ambil token dari header permintaan
-    //     $token = $request->header('Authorization');
-
-    //     // Verifikasi token
-    //     if ($token !== 'ilhammzni23') {
-    //         return $this->response(FALSE, ['Token tidak valid!'], []);
-    //     }
     //     // Assuming you have a 'user_id' column in the Pengambilan_do table
     //     $pengambilando = Pengambilan_do::where([
     //         ['user_id', $id],
     //         ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
     //     ])
-    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
-    //         ->orderByRaw("CASE WHEN status = 'selesai' THEN 1 ELSE 0 END") // Place 'selesai' status items at the bottom
-    //         ->orderBy('id', 'asc') // Order by ID or another column to ensure consistent ordering
+    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan',])
     //         ->get();
 
     //     if ($pengambilando->isNotEmpty()) { // Check if there are any records
@@ -41,24 +35,35 @@ class PengambilandoController extends Controller
 
     public function list($id)
     {
-        // Assuming you have a 'user_id' column in the Pengambilan_do table
+        // Mengambil data Pengambilan_do berdasarkan user_id dan status
         $pengambilando = Pengambilan_do::where([
             ['user_id', $id],
             ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
         ])
             ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
-            ->orderByRaw("CASE WHEN status = 'selesai' THEN 1 ELSE 0 END") // Place 'selesai' status items at the bottom
-            ->orderBy('id', 'asc') // Order by ID or another column to ensure consistent ordering
+            ->orderByRaw("
+        CASE 
+            WHEN status = 'posting' THEN 1
+            WHEN status <> 'selesai' THEN 2
+            WHEN status = 'selesai' THEN 3
+            ELSE 4
+        END
+    ") // Urutkan berdasarkan status
+            ->orderByRaw("CASE WHEN status = 'posting' THEN created_at END DESC") // Urutkan berdasarkan created_at untuk status 'posting' (terbaru dulu)
+            ->orderBy('id', 'asc') // Order by ID to ensure consistent ordering
             ->get();
 
         if ($pengambilando->isNotEmpty()) { // Check if there are any records
             return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilando);
         } else {
-            return $this->response(FALSE, ['Gagal menampilkan data!']);
+            return $this->response(
+                FALSE,
+                ['Gagal menampilkan data!']
+            );
         }
     }
 
-
+    
     public function response($status, $message, $data = null)
     {
         return response()->json([
@@ -110,54 +115,6 @@ class PengambilandoController extends Controller
         }
     }
 
-
-    // public function konfirmasi(Request $request, $id)
-    // {
-
-    //     $pengambilan_do = Pengambilan_do::find($id);
-    //     $proses = $pengambilan_do->update([
-    //         'user_id' => $request->user_id,
-    //         'status' => 'loading muat',
-    //         'waktu_awal' => now()->format('Y-m-d H:i:s')
-    //     ]);
-
-    //     $waktuTungguMuat = $pengambilan_do->updated_at;
-    //     $waktuPerjalananIsi = now();
-
-    //     // Format "hari jam:menit:detik"
-    //     $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
-
-    //     $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
-
-    //     $currentStatusPerjalanan = $kendaraan->status_perjalanan;
-    //     $currentTimer = $kendaraan->waktu;
-
-
-    //     $waktuTungguMuat = $pengambilan_do->updated_at;
-    //     $waktuPerjalananIsi = now();
-
-    //     // Format "hari jam:menit:detik"
-    //     $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
-
-    //     $kendaraan = Kendaraan::where('id', $pengambilan_do->kendaraan_id);
-    //     $proses = $kendaraan->update([
-    //         'user_id' => $request->user_id,
-    //         'status_perjalanan' => 'Perjalanan Kosong',
-    //         'timer' => $jarakWaktu
-    //     ]);
-
-
-    //     if ($proses) {
-    //         return response()->json([
-    //             'status' => true,
-    //             'msg' => 'Status Selesai',
-    //         ]);
-    //     } else {
-    //         $this->error('Gagal !');
-    //     }
-    // }
-
-
     public function konfirmasi(Request $request, $id)
     {
         // Temukan objek Pengambilan_do berdasarkan id
@@ -166,11 +123,86 @@ class PengambilandoController extends Controller
         // Temukan objek Kendaraan berdasarkan kendaraan_id dari pengambilan_do
         $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
 
+        $lastPengambilan = Pengambilan_do::where(
+            'user_id',
+            $pengambilan_do->user_id
+        )
+        ->where('id', '<', $id)
+        ->orderBy(
+            'created_at',
+            'desc'
+        )
+            ->take(3)
+            ->get();
+
+        // Cek apakah ada pengambilan DO yang statusnya belum selesai
+        foreach ($lastPengambilan as $pengambilan) {
+            if ($pengambilan->status !== 'selesai') {
+                // Jika ditemukan pengambilan DO yang belum selesai
+                return response()->json([
+                    'status' => false,
+                    'msg' => 'Mohon selesaikan pengambilan DO sebelumnya terlebih dahulu.',
+                ], 400);
+            }
+        }
+        
+        $odometer = null; // Inisialisasi variabel odometer
+
+        if ($kendaraan) {
+            $client = new Client();
+            $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'list_vehicle_id' => [$kendaraan->list_vehicle_id],
+                    'list_nopol' => [],
+                    'list_no_aset' => [],
+                    'geo_code' => [],
+                    'min_lastupdate_hour' => null,
+                    'page' => 0,
+                    'encrypted' => 0,
+                ],
+            ]);
+
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (isset($data['Data'][0]['vehicle_id'])) {
+                $vehicleId = $data['Data'][0]['vehicle_id'];
+
+                // Periksa apakah vehicle_id sama dengan list_vehicle_id
+                if ($vehicleId === $kendaraan->list_vehicle_id) {
+                    // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+                    $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+
+                    if ($odometer > 0) {
+                        $kendaraan->km = $odometer;
+                        $kendaraan->save();
+                    }
+                } else {
+                    // Gunakan API lain jika vehicle_id tidak cocok
+                    $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+                    if ($response->successful()) {
+                        $vehicles = $response->json();
+                        $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+                        if ($matchedVehicle) {
+                            $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+                        } else {
+                            $odometer = $kendaraan->km;
+                        }
+                    }
+                }
+            }
+        }
+
         // Perbarui pengambilan_do dengan km_awal dari kendaraan
         $proses = $pengambilan_do->update([
             'user_id' => $request->user_id,
             'status' => 'loading muat',
-            'km_awal' => $kendaraan->km,
+            'km_awal' => $odometer,
             'waktu_awal' => now()->format('Y-m-d H:i:s')
         ]);
 
@@ -180,8 +212,8 @@ class PengambilandoController extends Controller
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
         // Ambil status perjalanan dan timer saat ini dari kendaraan
-        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
-        $currentTimer = $kendaraan->waktu;
+        $currentStatusPerjalanan = $kendaraan ? $kendaraan->status_perjalanan : null;
+        $currentTimer = $kendaraan ? $kendaraan->waktu : null;
 
         // Perbarui kendaraan dengan data baru
         $proses = $kendaraan->update([
@@ -192,20 +224,17 @@ class PengambilandoController extends Controller
         ]);
 
         // Retrieve the updated status_perjalanan for status_akhir
-        $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
+        $updatedStatusPerjalanan = $kendaraan ? $kendaraan->fresh()->status_perjalanan : null;
         $currentTimestamp = now()->format('Y-m-d H:i:s');
 
         // Buat record Timer dengan status awal dan akhir, serta timer awal dan akhir
-        Timer::create(array_merge(
-            $request->all(),
-            [
-                'kendaraan_id' => $id,
-                'status_awal' => $currentStatusPerjalanan,
-                'status_akhir' => $updatedStatusPerjalanan,
-                'timer_awal' => $currentTimer,
-                'timer_akhir' => $currentTimestamp,
-            ]
-        ));
+        Timer::create([
+            'kendaraan_id' => $id,
+            'status_awal' => $currentStatusPerjalanan,
+            'status_akhir' => $updatedStatusPerjalanan,
+            'timer_awal' => $currentTimer,
+            'timer_akhir' => $currentTimestamp,
+        ]);
 
         if ($proses) {
             return response()->json([
@@ -213,7 +242,11 @@ class PengambilandoController extends Controller
                 'msg' => 'Status loading muat',
             ]);
         } else {
-            $this->error('Gagal !');
+            // Lakukan penanganan error yang sesuai jika update gagal
+            return response()->json([
+                'status' => false,
+                'msg' => 'Gagal memperbarui status',
+            ], 500);
         }
     }
 
@@ -258,16 +291,32 @@ class PengambilandoController extends Controller
             ], 400);
         }
 
-        // Menyiapkan nama file untuk penyimpanan
-        $bukti = str_replace(' ', '', $request->file('gambar')->getClientOriginalName());
-        $namabukti = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+        $gambar1 = str_replace(' ', '', $request->file('gambar')->getClientOriginalName());
+        $namagambar1 = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $gambar1;
 
-        // Menyimpan file ke storage
-        $request->file('gambar')->storeAs('public/uploads/', $namabukti);
+        $request->file('gambar')->storeAs('public/uploads/', $namagambar1);
+
+        // Menyiapkan file 'gambar2' jika ada
+        $namagambar2 = null;
+        if ($request->hasFile('gambar2') && $request->file('gambar2')->isValid()) {
+            $gambar2 = str_replace(' ', '', $request->file('gambar2')->getClientOriginalName());
+            $namagambar2 = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $gambar2;
+            $request->file('gambar2')->storeAs('public/uploads/', $namagambar2);
+        }
+
+        // Menyiapkan file 'gambar3' jika ada
+        $namagambar3 = null;
+        if ($request->hasFile('gambar3') && $request->file('gambar3')->isValid()) {
+            $gambar3 = str_replace(' ', '', $request->file('gambar3')->getClientOriginalName());
+            $namagambar3 = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $gambar3;
+            $request->file('gambar3')->storeAs('public/uploads/', $namagambar3);
+        }
 
         // Memperbarui entri di database
         $pengambilan_do->update([
-            'gambar' => $namabukti,
+            'gambar' => $namagambar1,
+            'gambar2' => $namagambar2,
+            'gambar3' => $namagambar3,
             'status' => 'tunggu bongkar',
         ]);
 
@@ -350,7 +399,6 @@ class PengambilandoController extends Controller
         ]);
     }
 
-
     public function bukti_fotoselesai(Request $request, $id)
     {
         // Temukan model berdasarkan ID
@@ -374,16 +422,88 @@ class PengambilandoController extends Controller
         // Menyiapkan nama file untuk penyimpanan
         $bukti = str_replace(' ', '', $request->file('bukti')->getClientOriginalName());
         $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
-
         // Menyimpan file ke storage
         $request->file('bukti')->storeAs('public/uploads/', $namabukti);
+
+
+        // Menyiapkan file 'bukti2' jika ada
+        $namabukti2 = null;
+        if ($request->hasFile('bukti2') && $request->file('bukti2')->isValid()) {
+            $bukti2 = str_replace(' ', '', $request->file('bukti2')->getClientOriginalName());
+            $namabukti2 = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti2;
+            $request->file('bukti2')->storeAs('public/uploads/', $namabukti2);
+        }
+
+        // Menyiapkan file 'gambar3' jika ada
+        $namabukti3 = null;
+        if ($request->hasFile('bukti3') && $request->file('bukti3')->isValid()) {
+            $bukti3 = str_replace(' ', '', $request->file('bukti3')->getClientOriginalName());
+            $namabukti3 = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti3;
+            $request->file('bukti3')->storeAs('public/uploads/', $namabukti3);
+        }
+
+
+        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
+
+        $odometer = null; // Inisialisasi variabel odometer
+
+        if ($kendaraan) {
+            $client = new Client();
+            $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'list_vehicle_id' => [$kendaraan->list_vehicle_id],
+                    'list_nopol' => [],
+                    'list_no_aset' => [],
+                    'geo_code' => [],
+                    'min_lastupdate_hour' => null,
+                    'page' => 0,
+                    'encrypted' => 0,
+                ],
+            ]);
+
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            if (isset($data['Data'][0]['vehicle_id'])) {
+                $vehicleId = $data['Data'][0]['vehicle_id'];
+
+                if ($vehicleId === $kendaraan->list_vehicle_id) {
+                    // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+                    $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+
+                    if ($odometer > 0) {
+                        $kendaraan->km = $odometer;
+                        $kendaraan->save();
+                    }
+                } else {
+                    // Gunakan API lain jika vehicle_id tidak cocok
+                    $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+                    if ($response->successful()) {
+                        $vehicles = $response->json();
+                        $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+                        if ($matchedVehicle) {
+                            $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+                        } else {
+                            $odometer = $kendaraan->km;
+                        }
+                    }
+                }
+            }
+        }
 
         // Memperbarui entri di database
         $pengambilan_do->update([
             'bukti' => $namabukti,
+            'bukti2' => $namabukti2,
+            'bukti3' => $namabukti3,
             'status' => 'selesai',
+            'km_akhir' => $kendaraan ? $kendaraan->km : null,
             'waktu_akhir' => now()->format('Y-m-d H:i:s')
-
         ]);
 
         // Menghitung jarak waktu
@@ -392,14 +512,14 @@ class PengambilandoController extends Controller
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
         // Memperbarui kendaraan terkait
-        $kendaraan = Kendaraan::find($pengambilan_do->kendaraan_id);
-        $currentStatusPerjalanan = $kendaraan->status_perjalanan;
-        $currentTimer = $kendaraan->waktu;
-
         if ($kendaraan) {
+            $currentStatusPerjalanan = $kendaraan->status_perjalanan;
+            $currentTimer = $kendaraan->waktu;
+
             $kendaraan->update([
                 'status_perjalanan' => 'Kosong',
                 'timer' => $jarakWaktu,
+                'km_akhir' => $kendaraan->km,
                 'waktu' => now()->format('Y-m-d H:i:s')
             ]);
 
@@ -420,11 +540,13 @@ class PengambilandoController extends Controller
             ));
         }
 
+        // Jika proses berhasil, kembalikan respons sukses
         return response()->json([
             'status' => true,
             'msg' => 'Status Berhasil',
         ]);
     }
+
 
     public function bukti_fotoselesaiperbarui(Request $request, $id)
     {

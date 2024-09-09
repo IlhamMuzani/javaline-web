@@ -13,7 +13,7 @@ class KendaraanController extends Controller
     public function listAll()
     {
         $kendaraan = Kendaraan::get();
-        
+
         if (count($kendaraan) > 0) {
             return $this->response(TRUE, array('Berhasil menampilkan data'), $kendaraan);
         } else {
@@ -115,5 +115,4 @@ class KendaraanController extends Controller
             return $this->response(FALSE, array('Gagal memperbarui data!'));
         }
     }
-
 }
