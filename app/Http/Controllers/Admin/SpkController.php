@@ -132,15 +132,15 @@ class SpkController extends Controller
         $rules = [
             'kode_spk' => 'unique:spks,kode_spk',
             'km_awal' => 'required',
-            // 'alamat_muat_id' => 'required',
-            // 'alamat_bongkar_id' => 'required',
+            'alamat_muat_id' => 'required',
+            'alamat_bongkar_id' => 'required',
         ];
 
         $messages = [
             'kode_spk.unique' => 'Kode spk sudah ada',
             'km_awal.required' => 'Km awal kendaraan tidak boleh kosong',
-            // 'alamat_muat_id.required' => 'Pilih alamat muat',
-            // 'alamat_bongkar_id.required' => 'Pilih alamat bongkar',
+            'alamat_muat_id.required' => 'Pilih alamat muat',
+            'alamat_bongkar_id.required' => 'Pilih alamat bongkar',
         ];
 
         // Tambahkan aturan tambahan jika kategori bukan 'non memo'
