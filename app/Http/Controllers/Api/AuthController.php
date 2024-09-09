@@ -43,6 +43,21 @@ class AuthController extends Controller
         }
     }
 
+    // public function detail($id)
+    // {
+    //     $user = User::where('id', $id)
+    //         ->with(['karyawan', 'kendaraan', 'pengambilan_do' => function ($query) {
+    //             $query->latest()->first(); // Mengambil yang terbaru
+    //         }])
+    //         ->first();
+
+    //     if ($user) {
+    //         return $this->response(TRUE, ['Berhasil menampilkan data'], [$user]);
+    //     } else {
+    //         return $this->response(FALSE, ['Gagal menampilkan detail!']);
+    //     }
+    // }
+
     public function detail($id)
     {
         $user = User::where('id', $id)

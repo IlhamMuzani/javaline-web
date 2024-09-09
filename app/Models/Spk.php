@@ -93,7 +93,6 @@ class Spk extends Model
         return $this->hasMany(Pengambilan_do::class);
     }
 
-
     public function rute_perjalanan()
     {
         return $this->belongsTo(Rute_perjalanan::class);

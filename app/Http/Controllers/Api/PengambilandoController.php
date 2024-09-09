@@ -190,8 +190,18 @@ class PengambilandoController extends Controller
 
                         if ($matchedVehicle) {
                             $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
                         } else {
                             $odometer = $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
                         }
                     }
                 }
@@ -200,7 +210,7 @@ class PengambilandoController extends Controller
 
         // Perbarui pengambilan_do dengan km_awal dari kendaraan
         $proses = $pengambilan_do->update([
-            'user_id' => $request->user_id,
+            // 'user_id' => $request->user_id,
             'status' => 'loading muat',
             'km_awal' => $odometer,
             'waktu_awal' => now()->format('Y-m-d H:i:s')
@@ -217,7 +227,7 @@ class PengambilandoController extends Controller
 
         // Perbarui kendaraan dengan data baru
         $proses = $kendaraan->update([
-            'user_id' => $request->user_id,
+            // 'user_id' => $request->user_id,
             'status_perjalanan' => 'Perjalanan Kosong',
             'timer' => $jarakWaktu,
             'waktu' => now()->format('Y-m-d H:i:s')
@@ -488,8 +498,19 @@ class PengambilandoController extends Controller
 
                         if ($matchedVehicle) {
                             $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
+                            
                         } else {
                             $odometer = $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
                         }
                     }
                 }

@@ -389,7 +389,7 @@
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                             <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                                onclick="removeBan({{ $loop->index }})">
+                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
