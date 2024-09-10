@@ -347,11 +347,12 @@
                         {{ $cetakpdf->detail_faktur->first()->nama_driver }}
                     @else
                         @if ($cetakpdf->kendaraan)
-                            @if ($cetakpdf->kendaraan->user)
+                            {{-- @if ($cetakpdf->kendaraan->user)
                                 {{ $cetakpdf->kendaraan->user->karyawan->nama_lengkap }}
                             @else
                                 tidak ada
-                            @endif
+                            @endif --}}
+                            {{ $cetakpdf->nama_sopir }}
                         @else
                             {{ $cetakpdf->nama_sopir }}
                         @endif
