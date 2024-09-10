@@ -88,7 +88,9 @@
                                 <th><input type="checkbox" name="" id="select_all_ids"></th>
                                 <th>NO</th>
                                 <th>KODE SPK</th>
-                                {{-- <th>KODE DO</th> --}}
+                                <th>Nama Driver</th>
+                                <th>Kode Driver</th>
+                                <th>No Kabin</th>
                                 <th>TANGGAL</th>
                                 <th>PELANGGAN</th>
                                 <th>TUJUAN</th>
@@ -124,7 +126,9 @@
                                             value="{{ $buktipotongpajak->id }}"></td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
-                                    {{-- <td>{{ $buktipotongpajak->kode_pengambilan ?? null }}</td> --}}
+                                    <td>{{ $buktipotongpajak->spk->nama_driver ?? null }}</td>
+                                    <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
+                                    <td>{{ $buktipotongpajak->spk->kendaraan->no_kabin ?? null }}</td>
                                     <td>{{ $buktipotongpajak->tanggal_awal }}</td>
                                     <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
                                     <td>{{ $buktipotongpajak->spk->nama_rute ?? null }}</td>
