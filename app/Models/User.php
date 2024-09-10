@@ -121,12 +121,15 @@ class User extends Authenticatable
     public function latestpengambilan_do()
     {
         return $this->hasOne(Pengambilan_do::class)
-            ->where('status', '<>', 'selesai') // Filter status yang bukan 'selesai'
-            ->orderBy('created_at', 'asc') // Urutkan berdasarkan waktu pembuatan yang paling awal
-            ->orWhere(function ($query) {
-                $query->where('status', 'selesai'); // Jika tidak ada yang selain selesai, ambil yang statusnya 'selesai'
-            })
-            ->orderBy('created_at', 'desc'); // Untuk mengambil 'selesai' yang terbaru
+            ->whereIn('status', ['tunggu bongkar', 'loading muat', 'posting', 'selesai'])
+            ->orderByRaw("FIELD(status, 'tunggu bongkar', 'loading muat', 'posting', 'selesai')")
+            ->latest();
     }
+
+       // public function latestpengambilan_do()
+    // {
+    //     return $this->hasOne(Pengambilan_do::class)->latest();
+
+    // }
     
 }

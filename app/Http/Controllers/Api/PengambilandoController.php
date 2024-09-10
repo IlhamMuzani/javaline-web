@@ -17,21 +17,33 @@ class PengambilandoController extends Controller
 
     // public function list($id)
     // {
-    //     // Assuming you have a 'user_id' column in the Pengambilan_do table
+    //     // Mengambil data Pengambilan_do berdasarkan user_id dan status
     //     $pengambilando = Pengambilan_do::where([
     //         ['user_id', $id],
     //         ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
     //     ])
-    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan',])
+    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+    //         ->orderByRaw("
+    //     CASE 
+    //         WHEN status = 'posting' THEN 1
+    //         WHEN status <> 'selesai' THEN 2
+    //         WHEN status = 'selesai' THEN 3
+    //         ELSE 4
+    //     END
+    // ") // Urutkan berdasarkan status
+    //         ->orderByRaw("CASE WHEN status = 'posting' THEN created_at END DESC") // Urutkan berdasarkan created_at untuk status 'posting' (terbaru dulu)
+    //         ->orderBy('id', 'asc') // Order by ID to ensure consistent ordering
     //         ->get();
 
     //     if ($pengambilando->isNotEmpty()) { // Check if there are any records
     //         return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilando);
     //     } else {
-    //         return $this->response(FALSE, ['Gagal menampilkan data!']);
+    //         return $this->response(
+    //             FALSE,
+    //             ['Gagal menampilkan data!']
+    //         );
     //     }
     // }
-
 
     public function list($id)
     {
@@ -40,8 +52,8 @@ class PengambilandoController extends Controller
             ['user_id', $id],
             ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
         ])
-            ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
-            ->orderByRaw("
+        ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+        ->orderByRaw("
         CASE 
             WHEN status = 'posting' THEN 1
             WHEN status <> 'selesai' THEN 2
@@ -50,6 +62,7 @@ class PengambilandoController extends Controller
         END
     ") // Urutkan berdasarkan status
             ->orderByRaw("CASE WHEN status = 'posting' THEN created_at END DESC") // Urutkan berdasarkan created_at untuk status 'posting' (terbaru dulu)
+            ->orderByRaw("CASE WHEN status = 'selesai' THEN created_at END DESC") // Urutkan berdasarkan created_at untuk status 'selesai' (terlama ke terbaru)
             ->orderBy('id', 'asc') // Order by ID to ensure consistent ordering
             ->get();
 
