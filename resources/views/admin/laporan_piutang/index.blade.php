@@ -102,7 +102,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @php
+                            @php
                                 $totalDPP = 0;
                                 $totalPPH = 0;
                                 $totalSUB = 0;
@@ -196,7 +196,7 @@
                                 <td class="text-right" style="font-weight: bold;">
                                     {{ number_format($totalSUB, 0, ',', '.') }}
                                 </td>
-                            </tr> --}}
+                            </tr>
 
 
                             @php

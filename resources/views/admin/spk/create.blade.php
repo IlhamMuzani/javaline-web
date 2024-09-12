@@ -127,7 +127,7 @@
                                         <div class="form-group">
                                             <label style="font-size:14px" for="km">KM Awal</label>
                                             <input onclick="showCategoryModalkendaraan(this.value)" style="font-size:14px"
-                                                type="text" class="form-control" id="km" readonly
+                                                type="text" class="form-control" id="km"
                                                 name="km_awal" placeholder="" value="{{ old('km_awal') }}">
                                         </div>
                                         {{-- <div class="form-group">

@@ -141,7 +141,6 @@
                                                 class="qrcode-logo" alt="Logo">
                                         </div>
                                     </td>
-
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['nokir print'])
                                             <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}"
@@ -193,7 +192,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="modal fade" id="modal-qrcode-{{ $nokir->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
