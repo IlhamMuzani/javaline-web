@@ -52,8 +52,8 @@ class PengambilandoController extends Controller
             ['user_id', $id],
             ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
         ])
-        ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
-        ->orderByRaw("
+            ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+            ->orderByRaw("
         CASE 
             WHEN status = 'posting' THEN 1
             WHEN status <> 'selesai' THEN 2
@@ -76,7 +76,7 @@ class PengambilandoController extends Controller
         }
     }
 
-    
+
     public function response($status, $message, $data = null)
     {
         return response()->json([
@@ -140,11 +140,11 @@ class PengambilandoController extends Controller
             'user_id',
             $pengambilan_do->user_id
         )
-        ->where('id', '<', $id)
-        ->orderBy(
-            'created_at',
-            'desc'
-        )
+            ->where('id', '<', $id)
+            ->orderBy(
+                'created_at',
+                'desc'
+            )
             ->take(3)
             ->get();
 
@@ -158,7 +158,7 @@ class PengambilandoController extends Controller
                 ], 400);
             }
         }
-        
+
         $odometer = null; // Inisialisasi variabel odometer
 
         if ($kendaraan) {
@@ -262,7 +262,7 @@ class PengambilandoController extends Controller
         if ($proses) {
             return response()->json([
                 'status' => true,
-                'msg' => 'Status loading muat',
+                'msg' => 'Status Perjalanan Kosong',
             ]);
         } else {
             // Lakukan penanganan error yang sesuai jika update gagal
@@ -380,7 +380,7 @@ class PengambilandoController extends Controller
 
         return response()->json([
             'status' => true,
-            'msg' => 'Status Tunggu Bongkar',
+            'msg' => 'Status Perjalanan Isi',
         ]);
     }
 
@@ -396,24 +396,36 @@ class PengambilandoController extends Controller
             ], 404);
         }
 
-        // Validasi bahwa file diupload
-        if (!$request->hasFile('gambar') || !$request->file('gambar')->isValid()) {
-            return response()->json([
-                'status' => false,
-                'msg' => 'Gambar tidak valid.',
-            ], 400);
+
+        // Menyiapkan file 'gambar1' jika ada
+        $namagambar1 = null;
+        if ($request->hasFile('gambar') && $request->file('gambar')->isValid()) {
+            $gambar1 = str_replace(' ', '', $request->file('gambar')->getClientOriginalName());
+            $namagambar1 = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $gambar1;
+            $request->file('gambar')->storeAs('public/uploads/', $namagambar1);
         }
 
-        // Menyiapkan nama file untuk penyimpanan
-        $bukti = str_replace(' ', '', $request->file('gambar')->getClientOriginalName());
-        $namabukti = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+        // Menyiapkan file 'gambar2' jika ada
+        $namagambar2 = null;
+        if ($request->hasFile('gambar2') && $request->file('gambar2')->isValid()) {
+            $gambar2 = str_replace(' ', '', $request->file('gambar2')->getClientOriginalName());
+            $namagambar2 = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $gambar2;
+            $request->file('gambar2')->storeAs('public/uploads/', $namagambar2);
+        }
 
-        // Menyimpan file ke storage
-        $request->file('gambar')->storeAs('public/uploads/', $namabukti);
+        // Menyiapkan file 'gambar3' jika ada
+        $namagambar3 = null;
+        if ($request->hasFile('gambar3') && $request->file('gambar3')->isValid()) {
+            $gambar3 = str_replace(' ', '', $request->file('gambar3')->getClientOriginalName());
+            $namagambar3 = 'pengambilan_do/' . date('mYdHs') . rand(1, 10) . '_' . $gambar3;
+            $request->file('gambar3')->storeAs('public/uploads/', $namagambar3);
+        }
 
         // Memperbarui entri di database
         $pengambilan_do->update([
-            'gambar' => $namabukti,
+            'gambar' => $namagambar1,
+            'gambar2' => $namagambar2,
+            'gambar3' => $namagambar3,
         ]);
 
         return response()->json([
@@ -516,7 +528,6 @@ class PengambilandoController extends Controller
                                 $kendaraan->km = $odometer;
                                 $kendaraan->save();
                             }
-                            
                         } else {
                             $odometer = $kendaraan->km;
 
@@ -577,7 +588,7 @@ class PengambilandoController extends Controller
         // Jika proses berhasil, kembalikan respons sukses
         return response()->json([
             'status' => true,
-            'msg' => 'Status Berhasil',
+            'msg' => 'Pengambilan Do Selesai',
         ]);
     }
 
@@ -602,21 +613,40 @@ class PengambilandoController extends Controller
             ], 400);
         }
 
-        // Menyiapkan nama file untuk penyimpanan
-        $bukti = str_replace(' ', '', $request->file('bukti')->getClientOriginalName());
-        $namabukti = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti;
+        // Menyiapkan file 'bukti1' jika ada
+        $namabukti1 = null;
+        if ($request->hasFile('bukti') && $request->file('bukti')->isValid()) {
+            $bukti1 = str_replace(' ', '', $request->file('bukti')->getClientOriginalName());
+            $namabukti1 = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti1;
+            $request->file('bukti')->storeAs('public/uploads/', $namabukti1);
+        }
 
-        // Menyimpan file ke storage
-        $request->file('bukti')->storeAs('public/uploads/', $namabukti);
+        // Menyiapkan file 'bukti2' jika ada
+        $namabukti2 = null;
+        if ($request->hasFile('bukti2') && $request->file('bukti2')->isValid()) {
+            $bukti2 = str_replace(' ', '', $request->file('bukti2')->getClientOriginalName());
+            $namabukti2 = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti2;
+            $request->file('bukti2')->storeAs('public/uploads/', $namabukti2);
+        }
+
+        // Menyiapkan file 'gambar3' jika ada
+        $namabukti3 = null;
+        if ($request->hasFile('bukti3') && $request->file('bukti3')->isValid()) {
+            $bukti3 = str_replace(' ', '', $request->file('bukti3')->getClientOriginalName());
+            $namabukti3 = 'bukti/' . date('mYdHs') . rand(1, 10) . '_' . $bukti3;
+            $request->file('bukti3')->storeAs('public/uploads/', $namabukti3);
+        }
 
         // Memperbarui entri di database
         $pengambilan_do->update([
-            'bukti' => $namabukti,
+            'bukti' => $namabukti1,
+            'bukti2' => $namabukti2,
+            'bukti3' => $namabukti3,
         ]);
 
         return response()->json([
             'status' => true,
-            'msg' => 'Status Berhasil',
+            'msg' => 'Status Berhasil Memperbarui Foto',
         ]);
     }
 

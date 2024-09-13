@@ -126,9 +126,9 @@
                                         </div>
                                         <div class="form-group">
                                             <label style="font-size:14px" for="km">KM Awal</label>
-                                            <input onclick="showCategoryModalkendaraan(this.value)" style="font-size:14px"
-                                                type="text" class="form-control" id="km"
-                                                name="km_awal" placeholder="" value="{{ old('km_awal') }}">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="km" name="km_awal" placeholder=""
+                                                value="{{ old('km_awal') }}" onkeypress="return isNumberKey(event)">
                                         </div>
                                         {{-- <div class="form-group">
                                             <label style="font-size:14px" for="km_akhir">KM Akhir</label>
@@ -987,4 +987,17 @@
         document.getElementById('kategori').addEventListener('change', toggleLabels);
     </script>
 
+    <script>
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            if (charCode == 46) {
+                var currentValue = evt.target.value;
+                // Pastikan hanya satu titik yang diterima
+                if (currentValue.indexOf('.') !== -1) {
+                    return false;
+                }
+            }
+            return !(charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46);
+        }
+    </script>
 @endsection

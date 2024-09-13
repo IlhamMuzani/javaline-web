@@ -135,10 +135,10 @@
                                         </div>
                                         <div class="form-group">
                                             <label style="font-size:14px" for="km">KM Awal</label>
-                                            <input onclick="showCategoryModalkendaraan(this.value)" style="font-size:14px"
-                                                type="text" class="form-control" id="km" readonly
-                                                name="km_awal" placeholder=""
-                                                value="{{ old('km_awal', $inquery->km_awal) }}">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="km" name="km_awal" placeholder=""
+                                                value="{{ old('km_awal', $inquery->km_awal) }}"
+                                                onkeypress="return isNumberKey(event)">
                                         </div>
                                         {{-- <div class="form-group">
                                             <label style="font-size:14px" for="km_akhir">KM Akhir</label>

@@ -150,7 +150,8 @@ class InquerySpkController extends Controller
                 'umur_ban' => ($kms - $ban->km_pemasangan) + ($ban->jumlah_km ?? 0)
             ]);
         }
-        
+
+
         // $status_spk = $request->kategori === 'non memo' ? 'non memo' : null;
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
@@ -196,6 +197,8 @@ class InquerySpkController extends Controller
             // Pastikan status_spk tetap tidak berubah jika tidak diperlukan
         }
 
+
+
         $projects = Pengambilan_do::where('spk_id', $id)->first();
         if ($projects) {
             $projects->update([
@@ -208,7 +211,7 @@ class InquerySpkController extends Controller
                 'status' => 'posting',
             ]);
         } else {
-            return redirect()->back()->with('error', 'Pengambilan DO tidak ditemukan');
+            // return redirect()->back()->with('error', 'Pengambilan DO tidak ditemukan');
         }
 
         $spk->save();
