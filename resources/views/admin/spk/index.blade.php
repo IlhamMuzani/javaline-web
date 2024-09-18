@@ -161,8 +161,8 @@
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
                                                 @endif
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a> --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
                                                 {{-- <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
