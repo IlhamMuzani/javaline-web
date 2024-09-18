@@ -26,7 +26,7 @@
 
         html,
         body {
-            margin-top: 5px;
+            margin-top: 15px;
             margin-right: 20px;
             margin-left: 20px;
             font-family: Arial, sans-serif;
