@@ -191,7 +191,7 @@ class InquerySpkController extends Controller
         $spk->rute_perjalanan_id = $request->rute_perjalanan_id;
         $spk->kode_rute = $request->kode_rute;
         $spk->nama_rute = $request->nama_rute;
-        $spk->status = 'unpost';
+        // $spk->status = 'unpost';
         $spk->saldo_deposit = $saldo_deposit;
         $spk->uang_jalan = $uang_jalan;
         // $spk->status_spk = $status_spk;
@@ -202,25 +202,36 @@ class InquerySpkController extends Controller
             // Jika kategori bukan 'non memo', jangan ubah status_spk
             // Pastikan status_spk tetap tidak berubah jika tidak diperlukan
         }
+        $spk->save();
 
 
-
-        $projects = Pengambilan_do::where('spk_id', $id)->first();
-        if ($projects) {
-            $projects->update([
-                'spk_id' => $id,
+        // Create or update Pengambilan_do
+        $pengambilan_do = Pengambilan_do::where('spk_id', $id)->first();
+        if ($pengambilan_do) {
+            // Update Pengambilan_do if it exists
+            $pengambilan_do->update([
                 'kendaraan_id' => $request->kendaraan_id,
                 'rute_perjalanan_id' => $request->rute_perjalanan_id,
                 'user_id' => $request->user_id,
                 'alamat_muat_id' => $request->alamat_muat_id,
                 'alamat_bongkar_id' => $request->alamat_bongkar_id,
-                'status' => 'unpost',
             ]);
         } else {
-            // return redirect()->back()->with('error', 'Pengambilan DO tidak ditemukan');
-        }
+            // Create Pengambilan_do if it does not exist
+            $tanggal = Carbon::now()->format('Y-m-d');
+            $tanggal1 = Carbon::now('Asia/Jakarta');
+            $format_tanggal = $tanggal1->format('d F Y');
 
-        $spk->save();
+            Pengambilan_do::create(array_merge(
+                $request->all(),
+                [
+                    'spk_id' => $id,
+                    'tanggal_awal' => $tanggal,
+                    'tanggal' => $format_tanggal,
+                    'status' => 'unpost',
+                ]
+            ));
+        }
 
         return redirect('admin/inquery_spk')->with('success', 'Berhasil memperbarui spk');
     }
@@ -248,14 +259,18 @@ class InquerySpkController extends Controller
         // Mencari Pengambilan_do berdasarkan spk_id
         $pengambilando = Pengambilan_do::where('spk_id', $id)->first();
 
-        if (!$pengambilando) {
-            return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
-        }
+        // if (!$pengambilando) {
+        //     return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
+        // }
 
         // Update status menjadi 'posting'
-        $pengambilando->update([
-            'status' => 'posting'
-        ]);
+        // Jika Pengambilan_do ditemukan, update status
+        if ($pengambilando) {
+            $pengambilando->update([
+                'status' => 'posting'
+            ]);
+        }
+
 
         $item->update([
             'status' => 'posting'
@@ -266,6 +281,7 @@ class InquerySpkController extends Controller
 
     public function unpostspk($id)
     {
+        // Mencari SPK berdasarkan ID
         $item = Spk::find($id);
 
         if (!$item) {
@@ -275,22 +291,21 @@ class InquerySpkController extends Controller
         // Mencari Pengambilan_do berdasarkan spk_id
         $pengambilando = Pengambilan_do::where('spk_id', $id)->first();
 
-        if (!$pengambilando) {
-            return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
+        // Jika Pengambilan_do ditemukan, update status
+        if ($pengambilando) {
+            $pengambilando->update([
+                'status' => 'unpost'
+            ]);
         }
 
-        // Update status menjadi 'posting'
-        $pengambilando->update([
-            'status' => 'unpost'
-        ]);
-
+        // Update status SPK menjadi 'unpost'
         $item->update([
             'status' => 'unpost'
         ]);
 
-
         return response()->json(['success' => 'Berhasil unpost spk']);
     }
+
 
     public function postingfilterspk(Request $request)
     {
@@ -318,14 +333,16 @@ class InquerySpkController extends Controller
                     // Mencari Pengambilan_do berdasarkan spk_id
                     $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
 
-                    if (!$pengambilando) {
-                        return response()->json(['error' => 'Pengambilan DO tidak ditemukan untuk SPK dengan id: ' . $id], 404);
-                    }
+                    // if (!$pengambilando) {
+                    //     return response()->json(['error' => 'Pengambilan DO tidak ditemukan untuk SPK dengan id: ' . $id], 404);
+                    // }
 
                     // Update status menjadi 'posting'
-                    $pengambilando->update([
-                        'status' => 'posting'
-                    ]);
+                    if ($pengambilando) {
+                        $pengambilando->update([
+                            'status' => 'posting'
+                        ]);
+                    }
 
                     $item->update([
                         'status' => 'posting'
@@ -355,14 +372,16 @@ class InquerySpkController extends Controller
 
                     $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
 
-                    if (!$pengambilando) {
-                        return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
-                    }
+                    // if (!$pengambilando) {
+                    //     return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
+                    // }
 
                     // Update status menjadi 'posting'
-                    $pengambilando->update([
-                        'status' => 'unpost'
-                    ]);
+                    if ($pengambilando) {
+                        $pengambilando->update([
+                            'status' => 'unpost'
+                        ]);
+                    }
 
                     $item->update([
                         'status' => 'unpost'
