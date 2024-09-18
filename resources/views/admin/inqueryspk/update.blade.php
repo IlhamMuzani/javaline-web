@@ -265,7 +265,7 @@
                                                 <label for="alamat_muat_id">Tujuan Muat ID</label>
                                                 <input type="text" class="form-control" id="alamat_muat_id" readonly
                                                     name="alamat_muat_id" placeholder=""
-                                                    value="{{ old('alamat_muat_id', $inquery->alamat_muat->alamat_muat_id ?? null) }}">
+                                                    value="{{ old('alamat_muat_id', $inquery->alamat_muat->id ?? null) }}">
                                             </div>
 
                                             <label style="font-size:14px" class="form-label" for="kode_alamatmuat">Kode
@@ -301,7 +301,7 @@
                                                 <label for="alamat_bongkar_id">Tujuan Bongkar ID</label>
                                                 <input type="text" class="form-control" id="alamat_bongkar_id"
                                                     readonly name="alamat_bongkar_id" placeholder=""
-                                                    value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar->alamat_bongkar_id ?? null) }}">
+                                                    value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar->id ?? null) }}">
                                             </div>
                                             <label style="font-size:14px" class="form-label"
                                                 for="kode_alamatbongkar">Kode

@@ -1780,6 +1780,7 @@
 
             if (selectedValue == "PPH") {
                 var pph = 0.02 * harga;
+                // var pph = Math.round(0.02 * harga); // Membulatkan nilai PPH
                 var sisa = harga - pph;
                 var Subtotal = sisa;
                 $(".pph2").val(pph.toLocaleString('id-ID'));

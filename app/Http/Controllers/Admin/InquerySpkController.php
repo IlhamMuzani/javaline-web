@@ -174,7 +174,6 @@ class InquerySpkController extends Controller
         $spk->kode_pelanggan = $request->kode_pelanggan;
         $spk->nama_pelanggan = $request->nama_pelanggan;
         $spk->telp_pelanggan = $request->telp_pelanggan;
-        $spk->alamat_pelanggan = $request->alamat_pelanggan;
         $spk->vendor_id = $request->vendor_id;
         $spk->kode_vendor = $request->kode_vendor;
         $spk->nama_vendor = $request->nama_vendor;
@@ -210,6 +209,7 @@ class InquerySpkController extends Controller
         if ($pengambilan_do) {
             // Update Pengambilan_do if it exists
             $pengambilan_do->update([
+                'spk_id' => $id,
                 'kendaraan_id' => $request->kendaraan_id,
                 'rute_perjalanan_id' => $request->rute_perjalanan_id,
                 'user_id' => $request->user_id,
@@ -228,12 +228,56 @@ class InquerySpkController extends Controller
                 $request->all(),
                 [
                     'spk_id' => $id,
+                    'kendaraan_id' => $request->kendaraan_id,
+                    'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'user_id' => $request->user_id,
+                    'km_awal' => $request->km_awal,
                     'tanggal_awal' => $tanggal,
                     'tanggal' => $format_tanggal,
                     'status' => 'unpost',
                 ]
             ));
         }
+
+
+        // if ($pengambilan_do) {
+        //     // Jika status pengambilan_do adalah 'selesai', jangan ubah statusnya
+        //     if ($pengambilan_do->status != 'selesai') {
+        //         // Update Pengambilan_do jika tidak selesai
+        //         $pengambilan_do->update([
+        //             'kendaraan_id' => $request->kendaraan_id,
+        //             'rute_perjalanan_id' => $request->rute_perjalanan_id,
+        //             'user_id' => $request->user_id,
+        //             'alamat_muat_id' => $request->alamat_muat_id,
+        //             'alamat_bongkar_id' => $request->alamat_bongkar_id,
+        //             'status' => 'unpost', // Hanya diubah jika status bukan 'selesai'
+        //         ]);
+        //     } else {
+        //         // Status tetap 'selesai', hanya update data lain tanpa merubah status
+        //         $pengambilan_do->update([
+        //             'kendaraan_id' => $request->kendaraan_id,
+        //             'rute_perjalanan_id' => $request->rute_perjalanan_id,
+        //             'user_id' => $request->user_id,
+        //             'alamat_muat_id' => $request->alamat_muat_id,
+        //             'alamat_bongkar_id' => $request->alamat_bongkar_id,
+        //         ]);
+        //     }
+        // } else {
+        //     // Create Pengambilan_do jika belum ada
+        //     $tanggal = Carbon::now()->format('Y-m-d');
+        //     $tanggal1 = Carbon::now('Asia/Jakarta');
+        //     $format_tanggal = $tanggal1->format('d F Y');
+
+        //     Pengambilan_do::create(array_merge(
+        //         $request->all(),
+        //         [
+        //             'spk_id' => $id,
+        //             'tanggal_awal' => $tanggal,
+        //             'tanggal' => $format_tanggal,
+        //             'status' => 'unpost', // Set default status as 'unpost' for new record
+        //         ]
+        //     ));
+        // }
 
         return redirect('admin/inquery_spk')->with('success', 'Berhasil memperbarui spk');
     }
