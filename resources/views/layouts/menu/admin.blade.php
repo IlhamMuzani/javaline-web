@@ -1469,6 +1469,7 @@
     request()->is('admin/laporan_klaimperalatan*') ||
     request()->is('admin/laporan_pemakaianperalatan*') ||
     request()->is('admin/laporan_klaimban*') ||
+    request()->is('admin/laporan_piutang*') ||
     request()->is('admin/laporan_pengeluaranujs*')
         ? 'menu-open'
         : '' }}">
@@ -1497,6 +1498,7 @@
         request()->is('admin/laporan_klaimperalatan*') ||
         request()->is('admin/laporan_pemakaianperalatan*') ||
         request()->is('admin/laporan_klaimban*') ||
+        request()->is('admin/laporan_piutang*') ||
         request()->is('admin/laporan_pengeluaranujs*')
             ? 'active'
             : '' }}">

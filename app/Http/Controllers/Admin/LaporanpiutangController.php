@@ -16,18 +16,18 @@ class LaporanpiutangController extends Controller
     public function index(Request $request)
     {
 
-        $today = \Carbon\Carbon::now(); // Mengambil tanggal hari ini
-        if ($today->isSaturday()) {
-            $mondayLastWeek = $today->subDays(6); // Mengambil hari Senin dari minggu lalu
-        } else {
-            $mondayLastWeek = $today->previous(\Carbon\Carbon::MONDAY); // Mengambil hari Senin dari minggu ini atau minggu lalu
-        }
+        // $today = \Carbon\Carbon::now(); // Mengambil tanggal hari ini
+        // if ($today->isSaturday()) {
+        //     $mondayLastWeek = $today->subDays(6); // Mengambil hari Senin dari minggu lalu
+        // } else {
+        //     $mondayLastWeek = $today->previous(\Carbon\Carbon::MONDAY); // Mengambil hari Senin dari minggu ini atau minggu lalu
+        // }
 
-        $mondayLastWeekDate = $mondayLastWeek->format('Y-m-d');
+        // $mondayLastWeekDate = $mondayLastWeek->format('Y-m-d');
 
-        $mondayLastWeekDate = $mondayLastWeek->format('Y-m-d');
+        // $mondayLastWeekDate = $mondayLastWeek->format('Y-m-d');
 
-        $senin_kemarins = Tagihan_ekspedisi::whereDate('created_at', $mondayLastWeekDate)->get();
+        // $senin_kemarins = Tagihan_ekspedisi::whereDate('created_at', $mondayLastWeekDate)->get();
 
         
         $pelanggan_id = $request->input('pelanggan_id');
@@ -59,7 +59,7 @@ class LaporanpiutangController extends Controller
         $inquery = $inquery->get();
 
         // Kembalikan hasil ke view
-        return view('admin.laporan_piutang.index', compact('inquery', 'pelanggans', 'senin_kemarins'));
+        return view('admin.laporan_piutang.index', compact('inquery', 'pelanggans'));
     }
 
     public function print_piutang(Request $request)

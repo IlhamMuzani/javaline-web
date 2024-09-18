@@ -65,61 +65,120 @@ class SpkController extends Controller
         return view('admin.spk.create', compact('alamat_muats', 'alamat_bongkars', 'vendors', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
     }
 
+    // public function ambil_km($id)
+    // {
+    //     $kendaraan = Kendaraan::find($id);
+
+    //     if ($kendaraan) {
+    //         $client = new Client();
+    //         $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+    //             'headers' => [
+    //                 'accept' => 'application/json',
+    //                 'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+    //                 'Content-Type' => 'application/json',
+    //             ],
+    //             'json' => [
+    //                 'list_vehicle_id' => [$kendaraan->list_vehicle_id], // Sesuaikan dengan field yang tepat dari tabel Kendaraan
+    //                 'list_nopol' => [],
+    //                 'list_no_aset' => [],
+    //                 'geo_code' => [],
+    //                 'min_lastupdate_hour' => null,
+    //                 'page' => 0,
+    //                 'encrypted' => 0,
+    //             ],
+    //         ]);
+
+    //         $data = json_decode($response->getBody()->getContents(), true);
+
+    //         if (isset($data['Data'][0]['vehicle_id'])) {
+    //             $vehicleId = $data['Data'][0]['vehicle_id'];
+
+    //             // Periksa apakah vehicle_id sama dengan list_vehicle_id
+    //             if ($vehicleId === $kendaraan->list_vehicle_id) {
+    //                 // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+    //                 $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+
+    //                 return response()->json(['km' => $odometer]);
+    //             } else {
+    //                 $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+    //                 if ($response->successful()) {
+    //                     $vehicles = $response->json();
+    //                     $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+    //                     if ($matchedVehicle) {
+    //                         return response()->json(['km' => $matchedVehicle['odometer']]);
+    //                     } else {
+    //                         return response()->json(['km' => $kendaraan->km]);
+    //                     }
+    //                 }
+
+    //                 // return response()->json(['km' => $kendaraan->km]);
+    //             }
+    //         }
+    //     }
+
+    //     // Jika kendaraan tidak ditemukan, kembalikan response error
+    //     return response()->json(['error' => 'Kendaraan tidak ditemukan'], 404);
+    // }
+
     public function ambil_km($id)
     {
         $kendaraan = Kendaraan::find($id);
 
         if ($kendaraan) {
-            $client = new Client();
-            $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-                'headers' => [
-                    'accept' => 'application/json',
-                    'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'list_vehicle_id' => [$kendaraan->list_vehicle_id], // Sesuaikan dengan field yang tepat dari tabel Kendaraan
-                    'list_nopol' => [],
-                    'list_no_aset' => [],
-                    'geo_code' => [],
-                    'min_lastupdate_hour' => null,
-                    'page' => 0,
-                    'encrypted' => 0,
-                ],
-            ]);
+            try {
+                // Panggilan ke API pertama
+                $client = new Client();
+                $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                    'headers' => [
+                        'accept' => 'application/json',
+                        'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'list_vehicle_id' => [$kendaraan->list_vehicle_id],
+                        'list_nopol' => [],
+                        'list_no_aset' => [],
+                        'geo_code' => [],
+                        'min_lastupdate_hour' => null,
+                        'page' => 0,
+                        'encrypted' => 0,
+                    ],
+                ]);
 
-            $data = json_decode($response->getBody()->getContents(), true);
+                $data = json_decode($response->getBody()->getContents(), true);
 
-            if (isset($data['Data'][0]['vehicle_id'])) {
-                $vehicleId = $data['Data'][0]['vehicle_id'];
+                if (isset($data['Data'][0]['vehicle_id'])) {
+                    $vehicleId = $data['Data'][0]['vehicle_id'];
 
-                // Periksa apakah vehicle_id sama dengan list_vehicle_id
-                if ($vehicleId === $kendaraan->list_vehicle_id) {
-                    // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-                    $odometer = intval($data['Data'][0]['odometer'] ?? 0);
-
-                    // if ($odometer > 0) {
-                    //     $kendaraan->km = $odometer;
-                    //     $kendaraan->save();
-                    // }
-
-                    return response()->json(['km' => $odometer]);
-                } else {
-                    $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-                    if ($response->successful()) {
-                        $vehicles = $response->json();
-                        $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-                        if ($matchedVehicle) {
-                            return response()->json(['km' => $matchedVehicle['odometer']]);
-                        } else {
-                            return response()->json(['km' => $kendaraan->km]);
-                        }
+                    // Periksa apakah vehicle_id sama dengan list_vehicle_id
+                    if ($vehicleId === $kendaraan->list_vehicle_id) {
+                        // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+                        $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+                        return response()->json(['km' => $odometer]);
                     }
-
-                    // return response()->json(['km' => $kendaraan->km]);
                 }
+            } catch (\Exception $e) {
+                // Tangkap error dari API pertama
             }
+
+            try {
+                // Jika API pertama gagal atau vehicle_id tidak sesuai, gunakan API kedua
+                $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+                if ($response->successful()) {
+                    $vehicles = $response->json();
+                    $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+                    if ($matchedVehicle) {
+                        return response()->json(['km' => $matchedVehicle['odometer']]);
+                    }
+                }
+            } catch (\Exception $e) {
+                // Tangkap error dari API kedua
+            }
+
+            // Jika kedua API gagal, gunakan nilai km dari database
+            return response()->json(['km' => $kendaraan->km]);
         }
 
         // Jika kendaraan tidak ditemukan, kembalikan response error
@@ -246,7 +305,7 @@ class SpkController extends Controller
                 'tanggal' => $format_tanggal,
                 'tanggal_awal' => $tanggal,
                 'status_spk' => $status_spk,
-                'status' => 'posting',
+                'status' => 'unpost',
             ]
         ));
 
@@ -260,7 +319,7 @@ class SpkController extends Controller
                 'km_awal' => $request->km_awal,
                 'tanggal_awal' => $tanggal,
                 'tanggal' => $format_tanggal,
-                'status' => 'posting',
+                'status' => 'unpost',
             ]
         ));
 

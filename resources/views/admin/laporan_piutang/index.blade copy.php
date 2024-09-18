@@ -180,6 +180,75 @@
                                     {{ number_format($totalSUB, 0, ',', '.') }}
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="1"></td>
+                                <td>
+                                </td>
+                                <td><strong>Total Minggu Kemarin:</strong></td>
+                                <td>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalDPP, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalPPH, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalSUB, 0, ',', '.') }}
+                                </td>
+                            </tr>
+
+
+                            @php
+                                $totalDPPsenen = 0;
+                                $totalPPHsenen = 0;
+                                $totalSUBsenen = 0;
+                            @endphp
+                            @foreach ($senin_kemarins as $index => $invoice)
+                                <tr data-toggle="collapse" data-target="#invoice-{{ $index }}"
+                                    class="accordion-toggle" style="background: rgb(156, 156, 156)">
+                                    <td>{{ $invoice->kode_tagihan }}</td>
+                                    <td>{{ $invoice->created_at }}</td>
+                                    <td>{{ $invoice->nama_pelanggan }}</td>
+                                    <td>{{ $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan ? $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan->no_pol : 'Tidak ada' }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($invoice->sub_total, 0, ',', '.') }}
+                                    </td>
+                                    <td style="text-align: end">
+                                        @if ($invoice->kategori == 'PPH')
+                                            {{ number_format($invoice->pph, 0, ',', '.') }}
+                                        @else
+                                            0
+                                        @endif
+                                    </td>
+                                    <td style="text-align: end">
+                                        {{ number_format($invoice->grand_total, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                                @php
+                                    $totalDPPsenen += $invoice->sub_total;
+                                    $totalPPHsenen += $invoice->pph;
+                                    $totalSUBsenen += $invoice->grand_total;
+                                @endphp
+                            @endforeach
+                            <tr>
+                                <td colspan="1"></td>
+                                <td>
+                                </td>
+                                <td><strong>Total:</strong></td>
+                                <td>
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalDPPsenen, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalPPHsenen, 0, ',', '.') }}
+                                </td>
+                                <td class="text-right" style="font-weight: bold;">
+                                    {{ number_format($totalSUBsenen, 0, ',', '.') }}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -200,6 +269,35 @@
             form.action = "{{ url('admin/print_piutang') }}";
             form.submit();
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#statusx').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'laporandetail':
+                        window.location.href = "{{ url('admin/laporan_mobillogistik') }}";
+                        break;
+                    case 'laporanglobal':
+                        window.location.href = "{{ url('admin/laporan_mobillogistikglobal') }}";
+                        break;
+                        // case 'akun':
+                        //     window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
+                        //     break;
+                        // case 'memo_tambahan':
+                        //     window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                        //     break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
     </script>
 
     <script>

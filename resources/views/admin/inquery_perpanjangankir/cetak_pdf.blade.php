@@ -9,8 +9,11 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
         table {
@@ -21,7 +24,7 @@
         .td {
             text-align: center;
             padding: 5px;
-            font-size: 15px;
+            font-size: 13px;
             /* border: 1px solid black; */
         }
 
@@ -50,7 +53,7 @@
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 13px;
             text-align: center;
         }
 
@@ -75,7 +78,7 @@
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">SURAT PERPANJANGAN KIR</span>
+        <span style="font-weight: bold; font-size: 19px;">SURAT PERPANJANGAN KIR</span>
         <br>
         <br>
     </div>
@@ -83,9 +86,9 @@
 
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
+            <td class="td" style="text-align: center; padding: 3px; font-size: 13px;">
                 Kode Perpanjangan:{{ $cetakpdf->kode_perpanjangan }}</td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
+            <td class="td" style="text-align: center; padding: 3px; font-size: 13px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
     </table>
@@ -93,11 +96,11 @@
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            {{-- <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td> --}}
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No. Kabin</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No. Registrasi</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Berlaku Sampai</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Jumlah</td>
+            {{-- <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td> --}}
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No. Kabin</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No. Registrasi</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Berlaku Sampai</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Jumlah</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -105,24 +108,24 @@
         </tr>
         {{-- @foreach ($bans as $item) --}}
         <tr>
-            {{-- <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
+            {{-- <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">{{ $loop->iteration }}
                 </td> --}}
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">
                 {{ $cetakpdf->nokir->kendaraan->no_kabin }}
             </td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">
                 {{ $cetakpdf->nokir->kendaraan->no_pol }}
             </td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $cetakpdf->masa_berlaku }}
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">{{ $cetakpdf->masa_berlaku }}
             </td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">
                 Rp.{{ number_format($cetakpdf->jumlah, 0, ',', '.') }}
-                {{-- <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                {{-- <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">
                     {{ $item->merek->nama_merek }}</td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">
                     {{ $item->kondisi_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">
                     {{ number_format($item->km_pemasangan, 0, ',', '.') }}
                 </td> --}}
         </tr>
@@ -141,23 +144,23 @@
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Nama Supplier</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Nama Supplier</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pasang_ban->supplier->nama_bank }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">No. Rekening</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">No. Rekening</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pasang_ban->supplier->norek }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Atas Nama</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Atas Nama</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pasang_ban->supplier->atas_nama }}
                             </td>
                         </tr>
@@ -175,46 +178,46 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
+                        <td style="font-size: 13px" class="label">{{ auth()->user()->karyawan->nama_lengkap }}</td>
                     </tr>
 
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Operasional</td>
+                        <td style="font-size: 13px" class="label">Operasional</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size: 13px" class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Financial</td>
+                        <td style="font-size: 13px" class="label">Financial</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size: 13px" class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Accounting</td>
+                        <td style="font-size: 13px" class="label">Accounting</td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
-   <div style="text-align: right; font-size:12px; margin-top:25px">
+    <div style="text-align: right; font-size:12px; margin-top:25px">
         <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
     </div>
 </body>

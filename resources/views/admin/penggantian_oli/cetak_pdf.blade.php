@@ -9,8 +9,11 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
         table {
@@ -71,7 +74,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <div style="font-weight: bold; text-align: center; margin-bottom:5px">
         <span style="font-weight: bold; font-size: 20px;">SURAT PENGGANTIAN OLI</span>
@@ -182,7 +186,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center; font-size:15px">
-                        <td class="label">
+                        <td style="font-size: 13px" class="label">
                             @if ($pemasangans->user)
                                 {{ $pemasangans->user->karyawan->nama_lengkap }}
                             @else
@@ -194,7 +198,7 @@
                         <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center; font-size:15px">
-                        <td class="label">Operasional</td>
+                        <td style="font-size: 13px" class="label">Operasional</td>
                     </tr>
                 </table>
             </td>
@@ -204,10 +208,10 @@
                         <td class="label" style="min-height: 15px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center; font-size:15px">
-                        <td class="label">SPV Sparepart</td>
+                        <td style="font-size: 13px" class="label">SPV Sparepart</td>
                     </tr>
                 </table>
             </td>
@@ -217,17 +221,17 @@
                         <td class="label" style="min-height: 15px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center; font-size:15px">
-                        <td class="label">Gudang</td>
+                        <td style="font-size: 13px" class="label">Gudang</td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
-    
-        <div style="text-align: right; font-size:12px; margin-top:25px">
+
+    <div style="text-align: right; font-size:12px; margin-top:25px">
         <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
     </div>
 </body>

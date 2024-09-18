@@ -26,9 +26,11 @@
 
         html,
         body {
-            margin: 40px;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
             padding: 10px;
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
         }
 
@@ -198,11 +200,11 @@
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 23px;">Saldo Deposit Sopir</span>
+        <span style="font-weight: bold; font-size: 19px;">Saldo Deposit Sopir</span>
         <br>
         <br>
     </div>
-    <hr style="border-top: 0.5px solid black; margin: 3px 0;">
+    <hr style="border-top: 0.1px solid black; margin: 3px 0;">
     </div>
     <?php
     function terbilang($angka)
@@ -237,7 +239,7 @@
     <table width="100%">
         <tr>
             <td>
-                <div class="info-catatan" style="max-width: 230px;">
+                <div class="info-catatan" style="max-width: 230px; font-size:13px">
                     <table>
                         <tr>
                             <td class="info-catatan2">Tanggal</td>
@@ -270,7 +272,7 @@
                         <tr>
                             <td class="info-catatan2">Terbilang</td>
                             <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
+                            <td style="font-weight:bold; font-style:italic" class="info-text info-left">
                                 ({{ terbilang($cetakpdf->tabungan) }}
                                 Rupiah)</td>
                         </tr>
@@ -279,7 +281,7 @@
             </td>
         </tr>
     </table>
-    <hr style="border-top: 0.5px solid black; margin: 3px 0;">
+    <hr style="border-top: 0.1px solid black; margin: 3px 0;">
 
     <br><br><br>
 

@@ -5,142 +5,177 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>faktur Pembelian Ban</title>
+    <title>Laporan Piutang</title>
     <style>
+        html,
         body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'DOSVGA', monospace;
+            font-family: 'DOSVGA', Arial, Helvetica, sans-serif;
             color: black;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .td {
+            text-align: center;
+            padding: 5px;
+            font-size: 10px;
         }
 
         .container {
-            text-align: center;
-            margin-bottom: 20px;
+            position: relative;
+            margin-top: 7rem;
         }
 
-        h1 {
-            font-size: 24px;
-            font-weight: bold;
-            margin: 0;
+        .info-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+            margin: 5px 0;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 12px;
-            /* Atur ukuran font tabel sesuai kebutuhan */
-        }
-
-        th,
-        td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .total {
-            font-weight: bold;
-        }
-
-        .signature {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-
-            /* Menghilangkan garis tepi tabel */
-        }
-
-        td {
-            padding: 5px 10px;
-
-            /* Menghilangkan garis tepi sel */
-
-        }
-
-        .label {
+        .info-text {
             text-align: left;
-            width: 50%;
-            border: none;
-            /* Mengatur lebar kolom teks */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        .value {
-            text-align: right;
-            width: 50%;
-            border: none;
-            /* Mengatur lebar kolom hasil */
+        .info-catatan2 {
+            font-weight: bold;
+            margin-right: 5px;
+            min-width: 120px;
+        }
+
+        .alamat,
+        .nama-pt {
+            color: black;
         }
 
         .separator {
+            padding-top: 10px;
             text-align: center;
-            font-weight: bold;
-            border: none;
+        }
+
+        .separator span {
+            display: inline-block;
+            border-top: 1px solid black;
+            width: 100%;
+            position: relative;
+            top: -8px;
+        }
+
+        @page {
+            margin: 1cm;
+            counter-increment: page;
+            counter-reset: page 1;
+        }
+
+        /* Define the footer with page number */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: start;
+            font-size: 10px;
+        }
+
+        footer::after {
+            content: counter(page);
         }
     </style>
 </head>
 
-<body>
-    <div class="container">
-        <h1>FAKTUR PEMBELIAN BAN - RANGKUMAN</h1>
+<body style="margin: 0; padding: 0;">
+    <div id="logo-container">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
-    <table>
+    <div style="font-weight: bold; text-align: center">
+        <span style="font-weight: bold; font-size: 22px;">LAPORAN PIUTANG</span>
+        <div class="text">
+        </div>
+    </div>
+    <br>
+    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <th>Faktur Pembelian</th>
-            <th>Tanggal</th>
-            <th>Supplier</th>
-            <th>Jumlah Ban</th>
-            <th>Total</th>
+            <td class="td"
+                style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 5%; background:rgb(190, 190, 190)">
+                No</td>
+            <td class="td"
+                style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 25%;  background:rgb(190, 190, 190)">
+                Kode Invoice</td>
+            <td class="td"
+                style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 25%;  background:rgb(190, 190, 190)">
+                Tanggal</td>
+            <td class="td"
+                style="text-align: left; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 35%;  background:rgb(190, 190, 190)">
+                Pelanggan</td>
+            <td class="td"
+                style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 15%;  background:rgb(190, 190, 190)">
+                DPP</td>
+            <td class="td"
+                style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 15%;  background:rgb(190, 190, 190)">
+                PPH</td>
+            <td class="td"
+                style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black; width: 20%;  background:rgb(190, 190, 190)">
+                Sub Total</td>
         </tr>
-        @foreach ($inquery as $piutang)
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="7" style="padding: 0px;"></td>
+        </tr>
+
+        @php
+            $totalDPP = 0;
+            $totalPPH = 0;
+            $totalSUB = 0;
+        @endphp
+        @foreach ($inquery as $item)
             <tr>
-                <td>{{ $piutang->id }}</td>
-                <td> {{ $piutang->tanggal_awal }}</td>
-                <td> {{ $piutang->id }}</td>
-                <td> {{ $piutang->id }}</td>
-                <td> Rp. {{ $piutang->id }}</td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">{{ $loop->iteration }}
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                    {{ $item->kode_tagihan }}</td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                    {{ $item->created_at }}</td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 10px;">
+                    {{ $item->nama_pelanggan }}</td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 10px;">
+                    {{ number_format($item->sub_total, 0, ',', '.') }}
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 10px;">
+                    @if ($item->kategori == 'PPH')
+                        {{ number_format($item->pph, 0, ',', '.') }}
+                    @else
+                        0
+                    @endif
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 10px;">
+                    {{ number_format($item->grand_total, 0, ',', '.') }}</td>
+                @php
+                    $totalDPP += $item->sub_total;
+                    $totalPPH += $item->pph;
+                    $totalSUB += $item->grand_total;
+                @endphp
             </tr>
         @endforeach
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="7" style="padding: 0px;"></td>
+        </tr>
     </table>
+    <br>
+    <br>
+    <div style="text-align: right;">
+        <strong>Sub Total: Rp. {{ number_format($totalSUB, 0, ',', '.') }}</strong>
+    </div>
+    <br>
+    <br>
 
-    {{-- @php
-        $total = 0;
-    @endphp
-
-    @foreach ($inquery as $piutang)
-        @php
-            $total += $piutang->detail_ban->sum('harga');
-        @endphp
-    @endforeach --}}
-
-    {{-- <div class="signature">
-        <table>
-            <tr>
-                <td class="label">Total :</td>
-                <td class="value">Rp. {{ number_format($total, 2) }}</td>
-            </tr>
-            <!-- Tambahkan baris-baris lainnya jika diperlukan -->
-            <tr>
-                <td class="separator" colspan="2">______________________________</td>
-            </tr>
-            <tr>
-                <td class="label">Sub Total :</td>
-                <td class="value">Rp. {{ number_format($total, 2) }}</td>
-            </tr>
-        </table>
-    </div> --}}
-
+    <footer style="position: fixed; bottom: 0; right: 20px; width: auto; text-align: end; font-size: 10px;">Page
+    </footer>
 </body>
-
 
 </html>

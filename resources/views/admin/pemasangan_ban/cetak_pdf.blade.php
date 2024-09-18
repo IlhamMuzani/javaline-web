@@ -9,8 +9,11 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
         }
 
         table {
@@ -21,7 +24,7 @@
         .td {
             text-align: center;
             padding: 5px;
-            font-size: 15px;
+            font-size: 13px;
             /* border: 1px solid black; */
         }
 
@@ -58,7 +61,7 @@
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 13px;
             text-align: center;
         }
 
@@ -83,7 +86,7 @@
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">SURAT PEMASANGAN BAN</span>
+        <span style="font-weight: bold; font-size: 19px;">SURAT PEMASANGAN BAN</span>
         <br>
         <br>
     </div>
@@ -105,14 +108,14 @@
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Posisi Ban</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode Ban</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No. Seri</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Ukuran</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Merek</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kondisi</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Km Pemasangan</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Posisi Ban</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Kode Ban</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">No. Seri</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Ukuran</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Merek</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Kondisi</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Km Pemasangan</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -120,23 +123,23 @@
         </tr>
         @foreach ($bans as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->posisi_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->kode_ban }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->kode_ban }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->no_seri }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->no_seri }}
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->ukuran->ukuran }}</td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->merek->nama_merek }}</td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ number_format($item->jumlah_km, 0, ',', '.') }} km
                 </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ number_format($item->km_pemasangan, 0, ',', '.') }} km
                 </td>
             </tr>
@@ -155,23 +158,23 @@
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Nama Supplier</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Nama Supplier</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pasang_ban->supplier->nama_bank }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">No. Rekening</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">No. Rekening</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pasang_ban->supplier->norek }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Atas Nama</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Atas Nama</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pasang_ban->supplier->atas_nama }}
                             </td>
                         </tr>
@@ -189,7 +192,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">
+                        <td style="font-size: 13px" class="label">
                             @if ($pasang_ban->user)
                                 {{ $pasang_ban->user->karyawan->nama_lengkap }}
                             @else
@@ -198,36 +201,36 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px"  class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Operasional</td>
+                        <td style="font-size: 13px"  class="label">Operasional</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size: 13px"  class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px"  class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">SPV Ban</td>
+                        <td style="font-size: 13px"  class="label">SPV Ban</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size: 13px"  class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px"  class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Accounting</td>
+                        <td style="font-size: 13px"  class="label">Accounting</td>
                     </tr>
                 </table>
             </td>

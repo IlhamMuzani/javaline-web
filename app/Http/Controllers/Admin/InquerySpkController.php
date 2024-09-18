@@ -185,7 +185,7 @@ class InquerySpkController extends Controller
         $spk->rute_perjalanan_id = $request->rute_perjalanan_id;
         $spk->kode_rute = $request->kode_rute;
         $spk->nama_rute = $request->nama_rute;
-        $spk->status = 'posting';
+        $spk->status = 'unpost';
         $spk->saldo_deposit = $saldo_deposit;
         $spk->uang_jalan = $uang_jalan;
         // $spk->status_spk = $status_spk;
@@ -208,7 +208,7 @@ class InquerySpkController extends Controller
                 'user_id' => $request->user_id,
                 'alamat_muat_id' => $request->alamat_muat_id,
                 'alamat_bongkar_id' => $request->alamat_bongkar_id,
-                'status' => 'posting',
+                'status' => 'unpost',
             ]);
         } else {
             // return redirect()->back()->with('error', 'Pengambilan DO tidak ditemukan');
@@ -221,24 +221,154 @@ class InquerySpkController extends Controller
 
     public function postingspk($id)
     {
-        $item = Spk::where('id', $id)->first();
+        // Mencari SPK berdasarkan id
+        $item = Spk::find($id);
+
+        if (!$item) {
+            return response()->json(['error' => 'SPK tidak ditemukan'], 404);
+        }
+
+        if (
+            is_null($item->kendaraan_id) ||
+            is_null($item->pelanggan_id) ||
+            is_null($item->rute_perjalanan_id) ||
+            is_null($item->alamat_muat_id) ||
+            is_null($item->alamat_bongkar_id) ||
+            is_null($item->user_id)
+        ) {
+            return response()->json(['error' => 'Lengkapi spk'], 400);
+        }
+
+        // Mencari Pengambilan_do berdasarkan spk_id
+        $pengambilando = Pengambilan_do::where('spk_id', $id)->first();
+
+        if (!$pengambilando) {
+            return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
+        }
+
+        // Update status menjadi 'posting'
+        $pengambilando->update([
+            'status' => 'posting'
+        ]);
 
         $item->update([
             'status' => 'posting'
         ]);
 
-        return response()->json(['success' => 'Berhasil memposting spk']);
+        return response()->json(['success' => 'Berhasil memposting SPK']);
     }
 
     public function unpostspk($id)
     {
-        $item = Spk::where('id', $id)->first();
+        $item = Spk::find($id);
+
+        if (!$item) {
+            return response()->json(['error' => 'SPK tidak ditemukan'], 404);
+        }
+
+        // Mencari Pengambilan_do berdasarkan spk_id
+        $pengambilando = Pengambilan_do::where('spk_id', $id)->first();
+
+        if (!$pengambilando) {
+            return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
+        }
+
+        // Update status menjadi 'posting'
+        $pengambilando->update([
+            'status' => 'unpost'
+        ]);
 
         $item->update([
             'status' => 'unpost'
         ]);
 
+
         return response()->json(['success' => 'Berhasil unpost spk']);
+    }
+
+    public function postingfilterspk(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+
+        try {
+            foreach ($selectedIds as $id) {
+                $item = Spk::findOrFail($id);
+
+                // Periksa apakah semua field wajib sudah terisi
+                if (
+                    is_null($item->kendaraan_id) ||
+                    is_null($item->pelanggan_id) ||
+                    is_null($item->rute_perjalanan_id) ||
+                    is_null($item->alamat_muat_id) ||
+                    is_null($item->alamat_bongkar_id) ||
+                    is_null($item->user_id)
+                ) {
+                    // Jika ada field yang null, lewati data ini
+                    continue;
+                }
+
+                // Periksa status apakah masih 'unpost'
+                if ($item->status === 'unpost') {
+                    // Mencari Pengambilan_do berdasarkan spk_id
+                    $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
+
+                    if (!$pengambilando) {
+                        return response()->json(['error' => 'Pengambilan DO tidak ditemukan untuk SPK dengan id: ' . $id], 404);
+                    }
+
+                    // Update status menjadi 'posting'
+                    $pengambilando->update([
+                        'status' => 'posting'
+                    ]);
+
+                    $item->update([
+                        'status' => 'posting'
+                    ]);
+                }
+            }
+
+            return back()->with('success', 'Berhasil memposting SPK yang valid');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'Terdapat SPK yang tidak ditemukan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat memposting SPK: ' . $e->getMessage());
+        }
+    }
+
+    public function unpostfilterspk(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+
+        try {
+            // Update transactions and memo statuses
+            foreach ($selectedIds as $id) {
+                $item = Spk::findOrFail($id);
+
+                if ($item->status === 'posting') {
+
+                    $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
+
+                    if (!$pengambilando) {
+                        return response()->json(['error' => 'Pengambilan DO tidak ditemukan'], 404);
+                    }
+
+                    // Update status menjadi 'posting'
+                    $pengambilando->update([
+                        'status' => 'unpost'
+                    ]);
+
+                    $item->update([
+                        'status' => 'unpost'
+                    ]);
+                }
+            }
+
+            return back()->with('success', 'Berhasil mengunpost spk');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'Terdapat surat spk yang tidak ditemukan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat mengunpost spk: ' . $e->getMessage());
+        }
     }
 
     public function hapusspk($id)

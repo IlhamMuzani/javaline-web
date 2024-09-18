@@ -23,13 +23,14 @@
 
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
+            /*font-family: 'DOSVGA', Arial, Helvetica, sans-serif;*/
+            /*font-weight: bold;*/
             color: black;
-            /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
-            /* margin: 40px;
-            padding: 10px; */
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
         }
-
         span.h2 {
             font-size: 24px;
             /* font-weight: 500; */
@@ -157,13 +158,13 @@
         .info-1 {}
 
         /* .label {
-            font-size: 15px;
+            font-size: 13px;
             text-align: center;
 
         } */
 
         .separator {
-            padding-top: 15px;
+            padding-top: 13px;
             /* Atur sesuai kebutuhan Anda */
             text-align: center;
             /* Teks menjadi berada di tengah */
@@ -240,19 +241,19 @@
     </table>
 
     <div style="font-weight: bold; text-align: center;">
-        <span style="font-weight: bold; font-size: 20px;">FAKTUR PEMBELIAN PART</span>
+        <span style="font-weight: bold; font-size: 19px;">FAKTUR PEMBELIAN PART</span>
         <br>
     </div>
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black; margin-bottom:5px">
         <tr>
             <td>
-                <span class="info-item" style="font-size: 15px; padding-left: 5px;">No. Faktur:
+                <span class="info-item" style="font-size: 13px; padding-left: 5px;">No. Faktur:
                     {{ $pembelians->kode_pembelianpart }}</span>
                 <br>
             </td>
             <td style="text-align: right; padding-right: 45px;">
-                <span class="info-item" style="font-size: 15px;">Tanggal:{{ $pembelians->tanggal }}</span>
+                <span class="info-item" style="font-size: 13px;">Tanggal:{{ $pembelians->tanggal }}</span>
                 <br>
             </td>
         </tr>
@@ -260,14 +261,14 @@
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style=" text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style=" padding: 5px; font-size: 15px;">Kode Barang</td>
-            <td class="td" style=" padding: 5px; font-size: 15px;">Nama Barang</td>
-            <td class="td" style=" text-align: center;padding: 5px; font-size: 15px;">Harga Satuan</td>
-            <td class="td" style=" padding: 5px; font-size: 15px;">Qty</td>
-            <td class="td" style=" padding: 5px; font-size: 15px;">Satuan</td>
-            <td class="td" style=" padding: 5px; font-size: 15px; color:white">Rp</td>
-            <td class="td" style=" text-align: right; padding: 5px; font-size: 15px;">Total</td>
+            <td class="td" style=" text-align: center; padding: 5px; font-size: 13px;">No.</td>
+            <td class="td" style=" padding: 5px; font-size: 13px;">Kode Barang</td>
+            <td class="td" style=" padding: 5px; font-size: 13px;">Nama Barang</td>
+            <td class="td" style=" text-align: center;padding: 5px; font-size: 13px;">Harga Satuan</td>
+            <td class="td" style=" padding: 0px; font-size: 13px;">Qty</td>
+            <td class="td" style=" padding: 5px; font-size: 13px;">Satuan</td>
+            <td class="td" style=" padding: 5px; font-size: 13px; color:white">Rp</td>
+            <td class="td" style=" text-align: right; padding: 5px; font-size: 13px;">Total</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="6" style="padding: 0px;"></td>
@@ -278,30 +279,30 @@
         @endphp
         @foreach ($parts as $item)
             <tr>
-                <td class="td" style="text-align: center;  font-size: 15px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: center;  font-size: 13px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="  font-size: 15px;">{{ $item->kode_partdetail }}</td>
-                <td style="font-size: 15px;">
+                <td class="td" style="  font-size: 13px;">{{ $item->kode_partdetail }}</td>
+                <td style="font-size: 13px;">
                     {{ $item->nama_barang }}
                 </td>
-                <td class="td" style="font-size: 15px; text-align: right;">
+                <td class="td" style="font-size: 13px; text-align: right;">
                     <span style="float: center;">Rp.</span>
                     <span
                         style="float: right; margin:right:20px">{{ number_format($item->hargasatuan, 0, ',', '.') }}</span>
                 </td>
-                <!--<td class="td" style=" font-size: 15px; text-align: center">-->
+                <!--<td class="td" style=" font-size: 13px; text-align: center">-->
                 <!--    {{ number_format($item->hargasatuan, 0, ',', '.') }} </td>-->
 
-                <td class="td" style=" font-size: 15px;">
+                <td class="td" style=" font-size: 13px;">
                     {{ $item->jumlah }}
                 </td>
-                <td class="td" style=" font-size: 15px;">
+                <td class="td" style=" font-size: 13px;">
                     {{ $item->satuan }}
                 </td>
-                <td class="td" style="text-align: right; font-size: 15px;">
+                <td class="td" style="text-align: right; font-size: 13px;">
                     Rp.
                 </td>
-                <td class="td" style="text-align: right; font-size: 15px;">
+                <td class="td" style="text-align: right; font-size: 13px;">
                     {{ number_format($item->harga, 0, ',', '.') }}
                 </td>
             </tr>
@@ -315,12 +316,12 @@
         </tr>
         <tr>
             <td colspan="7"
-                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 15px;">Sub
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">Sub
                 Total
                 Rp.
             </td>
             <td class="td"
-                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 15px;">
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
                 {{ number_format($totalHarga, 0, ',', '.') }}
             </td>
         </tr>
@@ -331,23 +332,23 @@
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Nama Supplier</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Nama Supplier</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->nama_bank }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">No. Rekening</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">No. Rekening</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->norek }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2" style="font-size: 15px;">Atas Nama</td>
-                            <td class="info-item" style="font-size: 15px;">:</td>
-                            <td class="info-text info-left" style="font-size: 15px;">
+                            <td class="info-catatan2" style="font-size: 13px;">Atas Nama</td>
+                            <td class="info-item" style="font-size: 13px;">:</td>
+                            <td class="info-text info-left" style="font-size: 13px;">
                                 {{ $pembelians->supplier->atas_nama }}
                             </td>
                         </tr>
@@ -362,20 +363,20 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="font-size:13px; min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size:13px;" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Gudang</td>
+                        <td style="font-size:13px;" class="label">Gudang</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label">
+                        <td style="font-size:13px;" class="label">
                             @if ($pembelians->user)
                                 {{ $pembelians->user->karyawan->nama_lengkap }}
                             @else
@@ -384,23 +385,23 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size:13px;" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Pembelian</td>
+                        <td style="font-size:13px;" class="label">Pembelian</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size:13px;" class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="separator" colspan="2"><span></span></td>
+                        <td style="font-size:13px;" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Accounting</td>
+                        <td style="font-size:13px;" class="label">Accounting</td>
                     </tr>
                 </table>
             </td>

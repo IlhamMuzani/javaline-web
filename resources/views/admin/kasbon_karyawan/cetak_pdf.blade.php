@@ -26,9 +26,11 @@
 
         html,
         body {
-            margin: 40px;
+            margin-top: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
             padding: 10px;
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
         }
 
@@ -87,7 +89,7 @@
             display: flex;
             justify-content: space-between;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 13px;
             margin: 5px 0;
         }
 
@@ -149,7 +151,7 @@
 
         .tdd1 td {
             text-align: center;
-            font-size: 15px;
+            font-size: 13px;
             position: relative;
             padding-top: 10px;
             /* Sesuaikan dengan kebutuhan Anda */
@@ -167,14 +169,14 @@
         .info-1 {}
 
         .label {
-            font-size: 15px;
+            font-size: 13px;
             text-align: center;
             /* Teks menjadi berada di tengah */
 
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 13px;
             /* Atur sesuai kebutuhan Anda */
             text-align: center;
             /* Teks menjadi berada di tengah */
@@ -199,32 +201,32 @@
     <br>
     @if ($cetakpdf->kategori == 'Pengambilan Kasbon')
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">MEMO HUTANG KARYAWAN</span>
+            <span style="font-weight: bold; font-size: 19px;">MEMO HUTANG KARYAWAN</span>
             <br>
             <br>
         </div>
     @else
         <div style="font-weight: bold; text-align: center">
-            <span style="font-weight: bold; font-size: 23px;">MEMO HUTANG KARYAWAN</span>
+            <span style="font-weight: bold; font-size: 19px;">MEMO HUTANG KARYAWAN</span>
             <br>
             <br>
         </div>
     @endif
-    <hr style="border-top: 0.5px solid black; margin: 3px 0;">
+    <hr style="border-top: 0.1px solid black; margin: 3px 0;">
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                 Kode Faktur:{{ $cetakpdf->kode_kasbon }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px; color:white">
                 a</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px; color:white">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px; color:white">
                 a</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 15px;">
+            <td class="td" style="text-align: center; padding: 0px; font-size: 13px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
         </tr>
     </table>
     </div>
-    <hr style="border-top: 0.5px solid black; margin: 3px 0;">
+    <hr style="border-top: 0.1px solid black; margin: 3px 0;">
     <?php
     function terbilang($angka)
     {
@@ -261,9 +263,9 @@
                 <div class="info-catatan" style="max-width: 230px;">
                     <table>
                         <tr>
-                            <td class="info-catatan2">Kode Karyawan</td>
-                            <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
+                            <td style="font-size: 13px" class="info-catatan2">Kode Karyawan</td>
+                            <td style="font-size: 13px" class="info-item">:</td>
+                            <td style="font-weight:bold; font-size:13px" class="info-text info-left">
                                 @if ($cetakpdf->karyawan)
                                     {{ $cetakpdf->karyawan->kode_karyawan }}
                                 @else
@@ -273,9 +275,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2">Nama Karyawan</td>
-                            <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
+                            <td style="font-size: 13px" class="info-catatan2">Nama Karyawan</td>
+                            <td style="font-size: 13px" class="info-item">:</td>
+                            <td style="font-weight:bold; font-size:13px" class="info-text info-left">
                                 @if ($cetakpdf->karyawan)
                                     {{ $cetakpdf->karyawan->nama_lengkap }}
                                 @else
@@ -284,17 +286,17 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2">Nominal</td>
-                            <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
+                            <td style="font-size: 13px" class="info-catatan2">Nominal</td>
+                            <td style="font-size: 13px" class="info-item">:</td>
+                            <td style="font-weight:bold; font-size:13px" class="info-text info-left">
                                 Rp.
                                 {{ number_format($cetakpdf->nominal, 0, ',', '.') }}
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-catatan2">Terbilang</td>
-                            <td class="info-item">:</td>
-                            <td style="font-weight:bold" class="info-text info-left">
+                            <td style="font-size: 13px" class="info-catatan2">Terbilang</td>
+                            <td style="font-size: 13px" class="info-item">:</td>
+                            <td style="font-weight:bold; font-size:13px; font-style:italic" class="info-text info-left">
                                 ({{ terbilang($cetakpdf->nominal) }}
                                 Rupiah)</td>
                         </tr>
@@ -303,13 +305,13 @@
             </td>
         </tr>
     </table>
-    <hr style="border-top: 0.5px solid black; margin: 3px 0;">
+    <hr style="border-top: 0.1px solid black; margin: 3px 0;">
 
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
-            <td style="text-align: left; padding: 0px; font-size: 15px; font-weight:bold">Keterangan :
+            <td style="text-align: left; padding: 0px; font-size: 13px; font-weight:bold">Keterangan :
             </td>
-            <td style="text-align: right; padding: 0px; font-size: 15px; font-weight:bold">Total Kasbon :
+            <td style="text-align: right; padding: 0px; font-size: 13px; font-weight:bold">Total Kasbon :
                 <span>
                     Rp.-{{ number_format($cetakpdf->sub_total, 0, ',', '.') }}
             </td>
@@ -317,7 +319,7 @@
         </tr>
     </table>
     <div>
-        <span style="text-align: left; padding: 0px; font-size: 15px; font-weight:bold; margin-right:300px">
+        <span style="text-align: left; padding: 0px; font-size: 13px; font-weight:bold; margin-right:300px">
             {{ $cetakpdf->keterangan }}</span>
     </div>
 
@@ -341,7 +343,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 15px;">&nbsp;</td>
+                        <td class="label" style="min-height: 13px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
@@ -354,7 +356,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="min-height: 15px;">&nbsp;</td>
+                        <td class="label" style="min-height: 13px;">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>

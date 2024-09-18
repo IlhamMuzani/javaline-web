@@ -859,5 +859,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print_piutang', [\App\Http\Controllers\Admin\LaporanpiutangController::class, 'print_piutang']);
 
     Route::post('ambil_km/{id}', [\App\Http\Controllers\Admin\SpkController::class, 'ambil_km'])->name('ambil_km');
-
+    Route::get('postingfilterspk', [\App\Http\Controllers\Admin\InquerySpkController::class, 'postingfilterspk']);
+    Route::get('unpostfilterspk', [\App\Http\Controllers\Admin\InquerySpkController::class, 'unpostfilterspk']);
 });

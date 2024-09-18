@@ -118,13 +118,23 @@ class User extends Authenticatable
         return $this->hasOne(Pengambilan_do::class, 'user_id');
     }
 
+    // public function latestpengambilan_do()
+    // {
+    //     return $this->hasOne(Pengambilan_do::class)
+    //         ->whereIn('status', ['tunggu bongkar', 'loading muat', 'posting', 'selesai'])
+    //         ->orderByRaw("FIELD(status, 'tunggu bongkar', 'loading muat', 'posting', 'selesai')")
+    //         ->latest();
+    // }
+
     public function latestpengambilan_do()
     {
         return $this->hasOne(Pengambilan_do::class)
+            ->whereNotIn('status', ['unpost']) // Mengecualikan status 'unpost'
             ->whereIn('status', ['tunggu bongkar', 'loading muat', 'posting', 'selesai'])
             ->orderByRaw("FIELD(status, 'tunggu bongkar', 'loading muat', 'posting', 'selesai')")
             ->latest();
     }
+
 
        // public function latestpengambilan_do()
     // {

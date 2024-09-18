@@ -127,6 +127,7 @@ class KendaraanController extends Controller
                 'gambar_barcodesolar' => $namaGambar,
                 'gambar_stnk' => $namaGambarstnk,
                 'kode_kendaraan' => $this->kode(),
+                'status_perjalanan' => 'Kosong',
                 'status' => 'truk',
                 'timer' => '0 00:00',
                 'status_olimesin' => 'belum penggantian',

@@ -161,116 +161,66 @@ class PengambilandoController extends Controller
 
         $odometer = null; // Inisialisasi variabel odometer
 
-        // if ($kendaraan) {
-        //     $client = new Client();
-        //     $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-        //         'headers' => [
-        //             'accept' => 'application/json',
-        //             'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-        //             'Content-Type' => 'application/json',
-        //         ],
-        //         'json' => [
-        //             'list_vehicle_id' => [$kendaraan->list_vehicle_id],
-        //             'list_nopol' => [],
-        //             'list_no_aset' => [],
-        //             'geo_code' => [],
-        //             'min_lastupdate_hour' => null,
-        //             'page' => 0,
-        //             'encrypted' => 0,
-        //         ],
-        //     ]);
-
-        //     $data = json_decode($response->getBody()->getContents(), true);
-
-        //     if (isset($data['Data'][0]['vehicle_id'])) {
-        //         $vehicleId = $data['Data'][0]['vehicle_id'];
-
-        //         // Periksa apakah vehicle_id sama dengan list_vehicle_id
-        //         if ($vehicleId === $kendaraan->list_vehicle_id) {
-        //             // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-        //             $odometer = intval($data['Data'][0]['odometer'] ?? 0);
-
-        //             if ($odometer > 0) {
-        //                 $kendaraan->km = $odometer;
-        //                 $kendaraan->save();
-        //             }
-        //         } else {
-        //             // Gunakan API lain jika vehicle_id tidak cocok
-        //             $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-        //             if ($response->successful()) {
-        //                 $vehicles = $response->json();
-        //                 $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-        //                 if ($matchedVehicle) {
-        //                     $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
-
-        //                     if ($odometer > 0) {
-        //                         $kendaraan->km = $odometer;
-        //                         $kendaraan->save();
-        //                     }
-        //                 } else {
-        //                     $odometer = $kendaraan->km;
-
-        //                     if ($odometer > 0) {
-        //                         $kendaraan->km = $odometer;
-        //                         $kendaraan->save();
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-
         if ($kendaraan) {
-            try {
-                // Panggilan ke API pertama
-                $client = new Client();
-                $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-                    'headers' => [
-                        'accept' => 'application/json',
-                        'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'list_vehicle_id' => [$kendaraan->list_vehicle_id],
-                        'list_nopol' => [],
-                        'list_no_aset' => [],
-                        'geo_code' => [],
-                        'min_lastupdate_hour' => null,
-                        'page' => 0,
-                        'encrypted' => 0,
-                    ],
-                ]);
+            $client = new Client();
+            $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'list_vehicle_id' => [$kendaraan->list_vehicle_id],
+                    'list_nopol' => [],
+                    'list_no_aset' => [],
+                    'geo_code' => [],
+                    'min_lastupdate_hour' => null,
+                    'page' => 0,
+                    'encrypted' => 0,
+                ],
+            ]);
 
-                $data = json_decode($response->getBody()->getContents(), true);
+            $data = json_decode($response->getBody()->getContents(), true);
 
-                if (isset($data['Data'][0]['vehicle_id'])) {
-                    $vehicleId = $data['Data'][0]['vehicle_id'];
+            if (isset($data['Data'][0]['vehicle_id'])) {
+                $vehicleId = $data['Data'][0]['vehicle_id'];
 
-                    // Periksa apakah vehicle_id sama dengan list_vehicle_id
-                    if ($vehicleId === $kendaraan->list_vehicle_id) {
-                        // Ambil nilai 'odometer' dari data API pertama
-                        $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+                // Periksa apakah vehicle_id sama dengan list_vehicle_id
+                if ($vehicleId === $kendaraan->list_vehicle_id) {
+                    // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+                    $odometer = intval($data['Data'][0]['odometer'] ?? 0);
 
-                        if ($odometer > 0) {
-                            $kendaraan->km = $odometer;
-                            $kendaraan->save();
-                        }
-                    } else {
-                        // Gunakan API kedua jika vehicle_id tidak cocok
-                        $this->fetchFromSecondAPI($kendaraan);
+                    if ($odometer > 0) {
+                        $kendaraan->km = $odometer;
+                        $kendaraan->save();
                     }
                 } else {
-                    // Jika vehicle_id tidak ditemukan di API pertama, gunakan API kedua
-                    $this->fetchFromSecondAPI($kendaraan);
+                    // Gunakan API lain jika vehicle_id tidak cocok
+                    $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+                    if ($response->successful()) {
+                        $vehicles = $response->json();
+                        $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+                        if ($matchedVehicle) {
+                            $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
+                        } else {
+                            $odometer = $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
+                        }
+                    }
                 }
-            } catch (\Exception $e) {
-                // Log error jika terjadi kegagalan pada API pertama
-                // Lanjutkan ke API kedua jika terjadi error
-                $this->fetchFromSecondAPI($kendaraan);
             }
         }
+
 
         // Perbarui pengambilan_do dengan km_awal dari kendaraan
         $proses = $pengambilan_do->update([
@@ -321,35 +271,6 @@ class PengambilandoController extends Controller
                 'status' => false,
                 'msg' => 'Gagal memperbarui status',
             ], 500);
-        }
-    }
-
-
-    public function fetchFromSecondAPI($kendaraan)
-    {
-        try {
-            // Panggilan ke API kedua
-            $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-
-            if ($response->successful()) {
-                $vehicles = $response->json();
-                $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-                if ($matchedVehicle) {
-                    $odometer = intval($matchedVehicle['odometer'] ?? $kendaraan->km);
-
-                    if ($odometer > 0) {
-                        $kendaraan->km = $odometer;
-                        $kendaraan->save();
-                    }
-                } else {
-                    // Jika tidak ada kendaraan yang cocok, tetap perbarui km ke nilai km yang ada
-                    $kendaraan->km = $kendaraan->km;
-                    $kendaraan->save();
-                }
-            }
-        } catch (\Exception $e) {
-            // Log error jika API kedua gagal
         }
     }
 
@@ -561,113 +482,62 @@ class PengambilandoController extends Controller
 
         $odometer = null; // Inisialisasi variabel odometer
 
-        // if ($kendaraan) {
-        //     $client = new Client();
-        //     $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-        //         'headers' => [
-        //             'accept' => 'application/json',
-        //             'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-        //             'Content-Type' => 'application/json',
-        //         ],
-        //         'json' => [
-        //             'list_vehicle_id' => [$kendaraan->list_vehicle_id],
-        //             'list_nopol' => [],
-        //             'list_no_aset' => [],
-        //             'geo_code' => [],
-        //             'min_lastupdate_hour' => null,
-        //             'page' => 0,
-        //             'encrypted' => 0,
-        //         ],
-        //     ]);
-
-        //     $data = json_decode($response->getBody()->getContents(), true);
-
-        //     if (isset($data['Data'][0]['vehicle_id'])) {
-        //         $vehicleId = $data['Data'][0]['vehicle_id'];
-
-        //         if ($vehicleId === $kendaraan->list_vehicle_id) {
-        //             // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-        //             $odometer = intval($data['Data'][0]['odometer'] ?? 0);
-
-        //             if ($odometer > 0) {
-        //                 $kendaraan->km = $odometer;
-        //                 $kendaraan->save();
-        //             }
-        //         } else {
-        //             // Gunakan API lain jika vehicle_id tidak cocok
-        //             $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-        //             if ($response->successful()) {
-        //                 $vehicles = $response->json();
-        //                 $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-        //                 if ($matchedVehicle) {
-        //                     $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
-
-        //                     if ($odometer > 0) {
-        //                         $kendaraan->km = $odometer;
-        //                         $kendaraan->save();
-        //                     }
-        //                 } else {
-        //                     $odometer = $kendaraan->km;
-
-        //                     if ($odometer > 0) {
-        //                         $kendaraan->km = $odometer;
-        //                         $kendaraan->save();
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-
         if ($kendaraan) {
-            try {
-                // Panggilan ke API pertama
-                $client = new Client();
-                $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-                    'headers' => [
-                        'accept' => 'application/json',
-                        'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-                        'Content-Type' => 'application/json',
-                    ],
-                    'json' => [
-                        'list_vehicle_id' => [$kendaraan->list_vehicle_id],
-                        'list_nopol' => [],
-                        'list_no_aset' => [],
-                        'geo_code' => [],
-                        'min_lastupdate_hour' => null,
-                        'page' => 0,
-                        'encrypted' => 0,
-                    ],
-                ]);
+            $client = new Client();
+            $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                'headers' => [
+                    'accept' => 'application/json',
+                    'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => [
+                    'list_vehicle_id' => [$kendaraan->list_vehicle_id],
+                    'list_nopol' => [],
+                    'list_no_aset' => [],
+                    'geo_code' => [],
+                    'min_lastupdate_hour' => null,
+                    'page' => 0,
+                    'encrypted' => 0,
+                ],
+            ]);
 
-                $data = json_decode($response->getBody()->getContents(), true);
+            $data = json_decode($response->getBody()->getContents(), true);
 
-                if (isset($data['Data'][0]['vehicle_id'])) {
-                    $vehicleId = $data['Data'][0]['vehicle_id'];
+            if (isset($data['Data'][0]['vehicle_id'])) {
+                $vehicleId = $data['Data'][0]['vehicle_id'];
 
-                    // Periksa apakah vehicle_id sama dengan list_vehicle_id
-                    if ($vehicleId === $kendaraan->list_vehicle_id) {
-                        // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-                        $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+                if ($vehicleId === $kendaraan->list_vehicle_id) {
+                    // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
+                    $odometer = intval($data['Data'][0]['odometer'] ?? 0);
 
-                        if ($odometer > 0) {
-                            $kendaraan->km = $odometer;
-                            $kendaraan->save();
-                        }
-                    } else {
-                        // Gunakan API kedua jika vehicle_id tidak cocok
-                        $this->fetchFromSecondAPIs($kendaraan);
+                    if ($odometer > 0) {
+                        $kendaraan->km = $odometer;
+                        $kendaraan->save();
                     }
                 } else {
-                    // Jika vehicle_id tidak ditemukan, langsung gunakan API kedua
-                    $this->fetchFromSecondAPIs($kendaraan);
+                    // Gunakan API lain jika vehicle_id tidak cocok
+                    $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+                    if ($response->successful()) {
+                        $vehicles = $response->json();
+                        $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+                        if ($matchedVehicle) {
+                            $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
+                        } else {
+                            $odometer = $kendaraan->km;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                                $kendaraan->save();
+                            }
+                        }
+                    }
                 }
-            } catch (\Exception $e) {
-                // Tangkap error dari API pertama dan log error tersebut
-                // Lanjutkan ke API kedua jika API pertama gagal
-                $this->fetchFromSecondAPIs($kendaraan);
             }
         }
 
@@ -724,34 +594,6 @@ class PengambilandoController extends Controller
             'status' => true,
             'msg' => 'Pengambilan Do Selesai',
         ]);
-    }
-
-    public function fetchFromSecondAPIs($kendaraan)
-    {
-        try {
-            // Panggilan ke API kedua
-            $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-
-            if ($response->successful()) {
-                $vehicles = $response->json();
-                $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-                if ($matchedVehicle) {
-                    $odometer = intval($matchedVehicle['odometer'] ?? $kendaraan->km);
-
-                    if ($odometer > 0) {
-                        $kendaraan->km = $odometer;
-                        $kendaraan->save();
-                    }
-                } else {
-                    // Jika tidak ada kendaraan yang cocok, gunakan nilai km yang ada
-                    $kendaraan->km = $kendaraan->km;
-                    $kendaraan->save();
-                }
-            }
-        } catch (\Exception $e) {
-            // Tangkap error dari API kedua dan log error tersebut
-        }
     }
 
     public function bukti_fotoselesaiperbarui(Request $request, $id)
