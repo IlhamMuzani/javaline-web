@@ -166,8 +166,11 @@
                                             </button>
                                         @endif
                                         @if ($buktipotongpajak->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Selesai">
+                                            {{-- <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Selesai"> --}}
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($buktipotongpajak->status == 'unpost')
@@ -209,6 +212,10 @@
                                                 {{-- @endif --}}
                                             @endif
                                             @if ($buktipotongpajak->status == 'selesai')
+                                                @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31)
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                @endif
                                                 {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
 
@@ -224,14 +231,14 @@
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
                                                 {{-- @endif --}}
                                             @endif
-                                            @if ($buktipotongpajak->memo_ekspedisi->first())
+                                            {{-- @if ($buktipotongpajak->memo_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
                                                     Ekspedisi
                                                     <strong>{{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}</strong>
                                                 </p>
                                             @else
                                                 <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif
+                                            @endif --}}
                                         </div>
                                     </td>
                                 </tr>

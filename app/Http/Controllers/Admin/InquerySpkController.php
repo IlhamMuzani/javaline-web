@@ -344,7 +344,8 @@ class InquerySpkController extends Controller
             foreach ($selectedIds as $id) {
                 $item = Spk::findOrFail($id);
 
-                if ($item->status === 'posting') {
+                // if ($item->status === 'posting') {
+                if (in_array($item->status, ['posting', 'selesai'])) {
 
                     $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
 
