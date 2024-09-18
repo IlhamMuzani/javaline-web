@@ -30,7 +30,12 @@ class InquerySpkController extends Controller
         $spks = Spk::query();
 
         if ($status) {
-            $spks->where('status', $status);
+            // Jika status yang dipilih adalah 'posting', tampilkan data dengan status 'posting' dan 'selesai'
+            if ($status == 'posting') {
+                $spks->whereIn('status', ['posting', 'selesai']);
+            } else {
+                $spks->where('status', $status);
+            }
         }
 
         if ($tanggal_awal && $tanggal_akhir) {
@@ -40,7 +45,7 @@ class InquerySpkController extends Controller
         } elseif ($tanggal_akhir) {
             $spks->where('tanggal_awal', '<=', $tanggal_akhir);
         } else {
-            // Jika tidak ada filter tanggal hari ini
+            // Jika tidak ada filter tanggal, tampilkan data untuk hari ini
             $spks->whereDate('tanggal_awal', Carbon::today());
         }
 
@@ -49,6 +54,7 @@ class InquerySpkController extends Controller
 
         return view('admin.inqueryspk.index', compact('spks'));
     }
+
 
     public function edit($id)
     {
