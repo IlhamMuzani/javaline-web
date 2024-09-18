@@ -231,14 +231,14 @@
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
                                                 {{-- @endif --}}
                                             @endif
-                                            {{-- @if ($buktipotongpajak->memo_ekspedisi->first())
+                                            @if ($buktipotongpajak->memo_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
                                                     Ekspedisi
                                                     <strong>{{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}</strong>
                                                 </p>
                                             @else
                                                 <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif --}}
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
