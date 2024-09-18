@@ -191,7 +191,7 @@ class InquerySpkController extends Controller
         $spk->rute_perjalanan_id = $request->rute_perjalanan_id;
         $spk->kode_rute = $request->kode_rute;
         $spk->nama_rute = $request->nama_rute;
-        // $spk->status = 'unpost';
+        $spk->status = 'unpost';
         $spk->saldo_deposit = $saldo_deposit;
         $spk->uang_jalan = $uang_jalan;
         // $spk->status_spk = $status_spk;
@@ -215,6 +215,8 @@ class InquerySpkController extends Controller
                 'user_id' => $request->user_id,
                 'alamat_muat_id' => $request->alamat_muat_id,
                 'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                'status' => 'unpost',
+
             ]);
         } else {
             // Create Pengambilan_do if it does not exist
