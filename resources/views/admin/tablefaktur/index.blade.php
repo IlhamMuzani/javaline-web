@@ -213,6 +213,13 @@
                                             @else
                                                 <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
                                             @endif
+
+                                            @if ($faktur->spk)
+                                                <p style="margin-left:15px; margin-right:15px">Mengambil spk nomor
+                                                    <strong>{{ $faktur->spk->kode_spk }}</strong>
+                                                </p>
+                                            @else
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
