@@ -14,6 +14,7 @@ use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
 use App\Models\Pph;
+use App\Models\Sewa_kendaraan;
 use App\Models\Spk;
 use App\Models\Tarif;
 use Illuminate\Support\Facades\Validator;
@@ -70,7 +71,7 @@ class InqueryFakturekspedisiController extends Controller
             ->where('departemen_id', '4')
             ->orderBy('nama_lengkap')
             ->get();
-            
+
         return view('admin.inquery_fakturekspedisi.update', compact('karyawans', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
     }
 
@@ -458,6 +459,14 @@ class InqueryFakturekspedisiController extends Controller
                 'status' => 'unpost'
             ]);
         }
+
+        if ($faktur->sewa_kendaraan_id != null) {
+            $sewa_kendaraans = Sewa_kendaraan::where('id', $faktur->sewa_kendaraan_id)->first();
+            $sewa_kendaraans->update([
+                'status_faktur' => null
+            ]);
+        }
+
         $faktur->update([
             'status' => 'unpost'
         ]);
@@ -481,7 +490,7 @@ class InqueryFakturekspedisiController extends Controller
                 if ($detail->memo_ekspedisi_id) {
                     $memo = Memo_ekspedisi::where(['id' => $detail->memo_ekspedisi_id, 'status' => 'posting'])->first();
                     if ($memo) {
-                        $memo->update(['status_memo' => 'aktif', 'status' =>'selesai', 'status_spk' => 'selesai']);
+                        $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_spk' => 'selesai']);
                         Spk::where('id', $memo->spk_id)->update(['status_spk' => 'faktur']);
                         $memotambahans = Memotambahan::where(['memo_ekspedisi_id' => $detail->memo_ekspedisi_id, 'status' => 'selesai'])->get();
                         foreach ($memotambahans as $memotambahan) {
@@ -500,6 +509,12 @@ class InqueryFakturekspedisiController extends Controller
             ]);
         }
 
+        if ($faktur->sewa_kendaraan_id != null) {
+            $sewa_kendaraans = Sewa_kendaraan::where('id', $faktur->sewa_kendaraan_id)->first();
+            $sewa_kendaraans->update([
+                'status_faktur' => 'aktif'
+            ]);
+        }
 
         $faktur->update([
             'status' => 'posting'

@@ -27,10 +27,10 @@ class FakturekspedisispkController extends Controller
         $pelanggans = Pelanggan::all();
 
         $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
-        ->where('departemen_id', '4')
-        ->orderBy('nama_lengkap')
-        ->get();
-        
+            ->where('departemen_id', '4')
+            ->orderBy('nama_lengkap')
+            ->get();
+
         $spks = Spk::where('status_spk', 'sj')
             ->orderBy('created_at', 'desc')
             ->get();
@@ -43,7 +43,7 @@ class FakturekspedisispkController extends Controller
         // Gabungkan dua koleksi menjadi satu
         $memos = $memoEkspedisi->concat($memoTambahan);
         $tarifs = Tarif::all();
-        $sewa_kendaraans = Sewa_kendaraan::all();
+        $sewa_kendaraans = Sewa_kendaraan::where('status_faktur', null)->get();
 
         return view('admin.faktur_ekspedisispk.index', compact(
             'spks',
@@ -326,6 +326,13 @@ class FakturekspedisispkController extends Controller
             }
         }
 
+        if ($cetakpdf->sewa_kendaraan_id != null) {
+            $sewa_kendaraans = Sewa_kendaraan::where('id', $cetakpdf->sewa_kendaraan_id)->first();
+            $sewa_kendaraans->update([
+                'status_faktur' => 'aktif'
+            ]);
+        }
+
         $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
 
@@ -368,7 +375,7 @@ class FakturekspedisispkController extends Controller
         $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
         $pdf = PDF::loadView('admin.faktur_ekspedisispk.cetak_pdf', compact('cetakpdf', 'details', 'detailtarifs'));
-        $pdf->setPaper('letter', 'portrait'); 
+        $pdf->setPaper('letter', 'portrait');
 
         return $pdf->stream('Faktur_ekspedisi.pdf');
     }

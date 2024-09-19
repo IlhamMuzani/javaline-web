@@ -20,7 +20,7 @@ class Sewa_kendaraan extends Model
         'kategori',
         'qrcode_sewa',
         'admin',
-        
+        'status_faktur',
         'pph',
         'harga_tarif',
         'total_tarif',

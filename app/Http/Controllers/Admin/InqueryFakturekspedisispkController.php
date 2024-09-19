@@ -67,10 +67,10 @@ class InqueryFakturekspedisispkController extends Controller
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $id)->get();
         $kendaraans = Kendaraan::get();
         $karyawans = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap', 'alamat', 'telp')
-        ->where('departemen_id', '4')
-        ->orderBy('nama_lengkap')
-        ->get();
-        $sewa_kendaraans = Sewa_kendaraan::all();
+            ->where('departemen_id', '4')
+            ->orderBy('nama_lengkap')
+            ->get();
+        $sewa_kendaraans = Sewa_kendaraan::where('status_faktur', null)->get();
 
         $spks = Spk::where('status_spk', 'sj')->get();
         return view('admin.inquery_fakturekspedisispk.update', compact('sewa_kendaraans', 'karyawans', 'spks', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
@@ -406,7 +406,12 @@ class InqueryFakturekspedisispkController extends Controller
             }
         }
 
-
+        if ($cetakpdf->sewa_kendaraan_id != null) {
+            $sewa_kendaraans = Sewa_kendaraan::where('id', $cetakpdf->sewa_kendaraan_id)->first();
+            $sewa_kendaraans->update([
+                'status_faktur' => 'aktif'
+            ]);
+        }
 
         $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
