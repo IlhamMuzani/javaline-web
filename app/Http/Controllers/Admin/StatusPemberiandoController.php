@@ -18,7 +18,8 @@ class StatusPemberiandoController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        $spks = Pengambilan_do::whereNotNull('spk_id');
+        $spks = Pengambilan_do::whereNotNull('spk_id')
+            ->where('status', '!=', 'unpost'); // Menambahkan kondisi untuk mengecualikan status 'unpost'
 
         if ($status) {
             $spks->where('status', $status);
