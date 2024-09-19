@@ -223,6 +223,90 @@ class InqueryDepositdriverController extends Controller
     }
 
 
+    public function postingfilterpengambilandeposit(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+
+        try {
+            // Update transactions and memo statuses
+            foreach ($selectedIds as $id) {
+                $item = Deposit_driver::find($id);
+                if (!$item) {
+                    return back()->with('error', 'Deposit driver tidak ditemukan');
+                }
+                $sopir = Karyawan::find($item->karyawan_id);
+
+                if (!$sopir) {
+                    return back()->with('error', 'Karyawan tidak ditemukan');
+                }
+
+                $kasbon = $sopir->kasbon;
+                $totalKasbon = $item->nominal;
+                $kasbons = $kasbon + $totalKasbon;
+                $tabungan = $sopir->tabungan;
+                $total = $item->nominal;
+                $sub_totals = $tabungan - $total;
+
+                $sopir->update([
+                    'kasbon' => $kasbons,
+                    // 'deposit' => $deposits,
+                    'tabungan' => $sub_totals
+                ]);
+                $item->update([
+                    'status' => 'posting'
+                ]);
+            }
+
+            return back()->with('success', 'Berhasil memposting');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'Terdapat surat deposit yang tidak ditemukan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat memposting deposit: ' . $e->getMessage());
+        }
+    }
+
+    public function unpostfilterpengambilandeposit(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+
+        try {
+            // Update transactions and memo statuses
+            foreach ($selectedIds as $id) {
+                $item = Deposit_driver::find($id);
+                if (!$item) {
+                    return back()->with('error', 'Deposit driver tidak ditemukan');
+                }
+                $sopir = Karyawan::find($item->karyawan_id);
+
+                if (!$sopir) {
+                    return back()->with('error', 'Karyawan tidak ditemukan');
+                }
+                $tabungan = $sopir->tabungan;
+                $total = $item->nominal;
+                $sub_totals = $tabungan + $total;
+
+                $kasbon = $sopir->kasbon;
+                $total = $item->nominal;
+                $kasbons = $kasbon - $total;
+                $sopir->update([
+                    'kasbon' => $kasbons,
+                    // 'deposit' => $deposits,
+                    'tabungan' => $sub_totals,
+                ]);
+
+                $item->update([
+                    'status' => 'unpost'
+                ]);
+            }
+
+            return back()->with('success', 'Berhasil mengunpost');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return back()->with('error', 'Terdapat deposit yang tidak ditemukan');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Terjadi kesalahan saat mengunpost deposit: ' . $e->getMessage());
+        }
+    }
+
     public function hapusdeposit($id)
     {
         $item = Deposit_driver::where('id', $id)->first();

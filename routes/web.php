@@ -861,4 +861,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::post('ambil_km/{id}', [\App\Http\Controllers\Admin\SpkController::class, 'ambil_km'])->name('ambil_km');
     Route::get('postingfilterspk', [\App\Http\Controllers\Admin\InquerySpkController::class, 'postingfilterspk']);
     Route::get('unpostfilterspk', [\App\Http\Controllers\Admin\InquerySpkController::class, 'unpostfilterspk']);
+
+    Route::get('postingfilterpengambilandeposit', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingfilterpengambilandeposit']);
+    Route::get('unpostfilterpengambilandeposit', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostfilterpengambilandeposit']);
 });

@@ -87,7 +87,7 @@
 
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
+            <td class="td" style="text-align: center; padding: 3px; font-size: 13px;">No.
                 Kabin: @if ($pemasangans->kendaraan)
                     {{ $pemasangans->kendaraan->no_kabin }}
                 @else
@@ -96,13 +96,13 @@
             </td>
             {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
                 Registrasi:{{ $pemasangans->kendaraan->no_pol }}</td> --}}
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
+            <td class="td" style="text-align: center; padding: 3px; font-size: 13px;">Jenis
                 Kendaraan: @if ($pemasangans->kendaraan)
                     {{ $pemasangans->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
                 @else
                 @endif
             </td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
+            <td class="td" style="text-align: center; padding: 3px; font-size: 13px;">
                 Tanggal:{{ $pemasangans->tanggal_pemasangan }}</td>
         </tr>
     </table>
@@ -161,14 +161,14 @@
                         <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td class="label">Operasional</td>
+                        <td style="font-size:13px" class="label">Operasional</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px" class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size: 13px" class="label" style="min-height: 16px; font-size:13px">&nbsp;</td>
                     </tr>
                     <tr>
                         <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
@@ -181,7 +181,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px" class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td style="font-size: 13px" class="label" style="min-height: 16px; font-size:13px">&nbsp;</td>
                     </tr>
                     <tr>
                         <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>

@@ -101,7 +101,6 @@
                             <input type="text" class="form-control" id="alamat" name="alamat" readonly placeholder=""
                                 value="{{ old('alamat') }}">
                         </div>
-
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>

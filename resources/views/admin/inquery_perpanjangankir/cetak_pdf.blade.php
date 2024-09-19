@@ -192,7 +192,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px" class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="min-height: 16px; font-size: 13px">&nbsp;</td>
                     </tr>
                     <tr>
                         <td class="separator" colspan="2"><span></span></td>
@@ -205,7 +205,7 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px" class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="min-height: 16px; font-size: 13px">&nbsp;</td>
                     </tr>
                     <tr>
                         <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>

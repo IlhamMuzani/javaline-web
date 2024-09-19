@@ -82,7 +82,8 @@
 
 <body style="margin: 0; padding: 0;">
     <div id="logo-container">
-        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150" height="50">
+        <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
+            height="50">
     </div>
     <br>
     <div style="font-weight: bold; text-align: center">
@@ -201,36 +202,36 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-size: 13px"  class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px"  class="label">Operasional</td>
+                        <td style="font-size: 13px" class="label">Operasional</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px"  class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="min-height: 16px; font-size: 13px">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 13px"  class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px"  class="label">SPV Ban</td>
+                        <td style="font-size: 13px" class="label">SPV Ban</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px"  class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="min-height: 16px; font-size: 13px">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="font-size: 13px"  class="separator" colspan="2"><span></span></td>
+                        <td style="font-size: 13px" class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td style="font-size: 13px"  class="label">Accounting</td>
+                        <td style="font-size: 13px" class="label">Accounting</td>
                     </tr>
                 </table>
             </td>

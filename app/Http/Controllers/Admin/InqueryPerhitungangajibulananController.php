@@ -356,6 +356,7 @@ class InqueryPerhitungangajibulananController extends Controller
         $detailpengeluaran = Detail_pengeluaran::where('perhitungan_gajikaryawan_id', $id)->first();
         $detailpengeluaran->update(
             [
+                'pengeluaran_kaskecil_id' => $pengeluaran->id,
                 'perhitungan_gajikaryawan_id' => $id,
                 'keterangan' => $request->keterangan,
                 'nominal' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),

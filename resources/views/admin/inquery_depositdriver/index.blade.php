@@ -62,15 +62,25 @@
                                 <label for="tanggal_awal">(Tanggal Akhir)</label>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
+                                <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedData()">
+                                    <i class="fas fa-check-square"></i> Posting Filter
+                                </button>
+                                <button type="button" class="btn btn-warning btn-block mt-1" id="unpostfilter"
+                                    onclick="unpostSelectedData()">
+                                    <i class="fas fa-times-circle"></i> Unpost Filter
+                                </button>
+                                <input type="hidden" name="ids" id="selectedIds" value="">
                             </div>
                         </div>
                     </form>
                     <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
+                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
                                 <th>Faktur Deposit Sopir</th>
                                 <th>Tanggal</th>
@@ -83,6 +93,9 @@
                         <tbody>
                             @foreach ($inquery as $deposit)
                                 <tr class="dropdown"{{ $deposit->id }}>
+                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $deposit->id }}">
+                                    </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>
                                         {{ $deposit->kode_deposit }}
@@ -141,6 +154,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -148,6 +162,29 @@
                                 <div class="modal-body text-center">
                                     <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
                                     <h4 class="mt-2">Sedang Menyimpan...</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- validasi gagal  --}}
+                    <div class="modal fade" id="validationModal" tabindex="-1" role="dialog"
+                        aria-labelledby="validationModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="validationModalLabel">Validasi Gagal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-times-circle fa-3x text-danger"></i>
+                                    <h4 class="mt-2">Validasi Gagal!</h4>
+                                    <p id="validationMessage"></p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
                                 </div>
                             </div>
                         </div>
@@ -334,4 +371,151 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('tbody tr.dropdown').click(function(e) {
+                // Memeriksa apakah yang diklik adalah checkbox
+                if ($(e.target).is('input[type="checkbox"]')) {
+                    return; // Jika ya, hentikan eksekusi
+                }
+
+                // Menghapus kelas 'selected' dan mengembalikan warna latar belakang ke warna default dari semua baris
+                $('tr.dropdown').removeClass('selected').css('background-color', '');
+
+                // Menambahkan kelas 'selected' ke baris yang dipilih dan mengubah warna latar belakangnya
+                $(this).addClass('selected').css('background-color', '#b0b0b0');
+
+                // Menyembunyikan dropdown pada baris lain yang tidak dipilih
+                $('tbody tr.dropdown').not(this).find('.dropdown-menu').hide();
+
+                // Mencegah event klik menyebar ke atas (misalnya, saat mengklik dropdown)
+                e.stopPropagation();
+            });
+
+            $('tbody tr.dropdown').contextmenu(function(e) {
+                // Memeriksa apakah baris ini memiliki kelas 'selected'
+                if ($(this).hasClass('selected')) {
+                    // Menampilkan dropdown saat klik kanan
+                    var dropdownMenu = $(this).find('.dropdown-menu');
+                    dropdownMenu.show();
+
+                    // Mendapatkan posisi td yang diklik
+                    var clickedTd = $(e.target).closest('td');
+                    var tdPosition = clickedTd.position();
+
+                    // Menyusun posisi dropdown relatif terhadap td yang di klik
+                    dropdownMenu.css({
+                        'position': 'absolute',
+                        'top': tdPosition.top + clickedTd
+                            .height(), // Menempatkan dropdown sedikit di bawah td yang di klik
+                        'left': tdPosition
+                            .left // Menempatkan dropdown di sebelah kiri td yang di klik
+                    });
+
+                    // Mencegah event klik kanan menyebar ke atas (misalnya, saat mengklik dropdown)
+                    e.stopPropagation();
+                    e.preventDefault(); // Mencegah munculnya konteks menu bawaan browser
+                }
+            });
+
+            // Menyembunyikan dropdown saat klik di tempat lain
+            $(document).click(function() {
+                $('.dropdown-menu').hide();
+                $('tr.dropdown').removeClass('selected').css('background-color',
+                    ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
+            });
+        });
+    </script>
+
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        function postingSelectedData() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpengambilandeposit') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function unpostSelectedData() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum mengunpost.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/unpostfilterpengambilandeposit') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+    </script>
+
 @endsection

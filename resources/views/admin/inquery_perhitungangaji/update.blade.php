@@ -140,8 +140,8 @@
                                             (< 30 MENIT) (> 30 MENIT)
                                         </span>
                                     </th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">ABSEN</th>
-                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL ABSEN</th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">TDK ABSEN</th>
+                                    <th style="font-size:14px; text-align:center; min-width: 150px;">HASIL TDK ABSEN</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">BPJS</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">POTONGAN LAINYA</th>
                                     <th style="font-size:14px; text-align:center; min-width: 150px;">TAMBAHAN LAINYA</th>
