@@ -174,10 +174,10 @@
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($buktipotongpajak->status == 'unpost')
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31)
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
                                                     <a class="dropdown-item posting-btn"
                                                         data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
-                                                @endif
+                                                {{-- @endif --}}
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
                                                 {{-- <a class="dropdown-item"
@@ -191,10 +191,10 @@
                                                 </form>
                                             @endif
                                             @if ($buktipotongpajak->status == 'posting')
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31)
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                                @endif
+                                                {{-- @endif --}}
                                                 @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28)
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>

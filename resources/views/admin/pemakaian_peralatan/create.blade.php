@@ -180,8 +180,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="jumlah-0" name="jumlah[]"
-                                                >
+                                            <input type="text" class="form-control" id="jumlah-0" name="jumlah[]">
                                         </div>
                                     </td>
                                     <td>
@@ -195,8 +194,11 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                    <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                    <div id="loading" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                    </div>
                 </div>
             </form>
         </div>
@@ -365,7 +367,8 @@
             // harga
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
-            item_pembelian += '<input type="text" class="form-control" onkeypress="return isNumberKey(event)" id="jumlah-' + key +
+            item_pembelian += '<input type="text" class="form-control" onkeypress="return isNumberKey(event)" id="jumlah-' +
+                key +
                 '" name="jumlah[]" value="' +
                 jumlah +
                 '" ';
@@ -417,7 +420,7 @@
         }
     </script>
 
-        <script>
+    <script>
         function isNumberKey(evt) {
             var charCode = (evt.which) ? evt.which : event.keyCode;
             if (charCode == 46) {
@@ -429,5 +432,19 @@
             }
             return !(charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46);
         }
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
     </script>
 @endsection
