@@ -217,7 +217,7 @@ class InqueryPenggantianoliController extends Controller
             'status' => 'posting',
         ]);
 
-        $kendaraan = Kendaraan::where('id', $request->kendaraan_id)->first();
+        $kendaraan = Kendaraan::where('id', $transaksi->kendaraan_id)->first();
 
         $transaksi_id = $transaksi->id;
 
@@ -253,6 +253,48 @@ class InqueryPenggantianoliController extends Controller
                         'km_berikutnya' => $km_berikutnya, // Menggunakan nilai yang telah diubah
                     ]);
                 }
+
+                $dataToUpdate = [
+                    'km' => $request->km,
+                    'km_olimesin' => null,
+                    'km_oligardan' => null,
+                    'km_olitransmisi' => null,
+                    'status_olimesin' => null,
+                    'status_oligardan' => null,
+                    'status_olitransmisi' => null,
+                ];
+
+                if ($request->has('lama_penggantianoli_id')) {
+                    foreach ($request->lama_penggantianoli_id as $id) {
+                        $lama_penggantianoli = Lama_penggantianoli::find($id);
+
+                        if ($lama_penggantianoli) {
+                            // Update the corresponding km and status fields based on the lama_penggantianoli_id
+                            if ($id == 1) { // Assuming 1 represents 'Oli Mesin'
+                                $dataToUpdate['km_olimesin'] = $request->km + $lama_penggantianoli->km_oli;
+                                $dataToUpdate['status_olimesin'] = 'sudah penggantian';
+                            } elseif ($id == 2) { // Assuming 2 represents 'Oli Gardan'
+                                $dataToUpdate['km_oligardan'] = $request->km + $lama_penggantianoli->km_oli;
+                                $dataToUpdate['status_oligardan'] = 'sudah penggantian';
+                            } elseif ($id == 3) { // Assuming 3 represents 'Oli Transmisi'
+                                $dataToUpdate['km_olitransmisi'] = $request->km + $lama_penggantianoli->km_oli;
+                                $dataToUpdate['status_olitransmisi'] = 'sudah penggantian';
+                            }
+                        }
+                    }
+                }
+
+                // Periksa dan biarkan nilai-nilai yang tidak ada dalam request tetap sama seperti sebelumnya
+                $dataToUpdate['km_olimesin'] = $dataToUpdate['km_olimesin'] ?? $kendaraan->km_olimesin;
+                $dataToUpdate['km_oligardan'] = $dataToUpdate['km_oligardan'] ?? $kendaraan->km_oligardan;
+                $dataToUpdate['km_olitransmisi'] = $dataToUpdate['km_olitransmisi'] ?? $kendaraan->km_olitransmisi;
+                $dataToUpdate['status_olimesin'] = $dataToUpdate['status_olimesin'] ?? $kendaraan->status_olimesin;
+                $dataToUpdate['status_oligardan'] = $dataToUpdate['status_oligardan'] ?? $kendaraan->status_oligardan;
+                $dataToUpdate['status_olitransmisi'] = $dataToUpdate['status_olitransmisi'] ?? $kendaraan->status_olitransmisi;
+
+                $kendaraan->update($dataToUpdate);
+
+                Kendaraan::where('id', $transaksi->id)->update($dataToUpdate);
             } else {
                 $existingDetail = Detail_penggantianoli::where([
                     'penggantian_oli_id' => $transaksi->id,
