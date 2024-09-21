@@ -162,6 +162,21 @@ class InquerySpkController extends Controller
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
 
+
+        $status_pengambilan_do = 'unpost';
+
+        // Cek apakah semua field tidak null
+        if (
+            !is_null($request->pelanggan_id) &&
+            !is_null($request->kendaraan_id) &&
+            !is_null($request->rute_perjalanan_id) &&
+            !is_null($request->user_id) &&
+            !is_null($request->alamat_muat_id) &&
+            !is_null($request->alamat_bongkar_id)
+        ) {
+            $status_pengambilan_do = 'posting';
+        }
+
         $spk = Spk::findOrFail($id);
 
         $spk->kategori = $request->kategori;
@@ -190,7 +205,7 @@ class InquerySpkController extends Controller
         $spk->rute_perjalanan_id = $request->rute_perjalanan_id;
         $spk->kode_rute = $request->kode_rute;
         $spk->nama_rute = $request->nama_rute;
-        $spk->status = 'unpost';
+        $spk->status = $status_pengambilan_do;
         $spk->saldo_deposit = $saldo_deposit;
         $spk->uang_jalan = $uang_jalan;
         // $spk->status_spk = $status_spk;
@@ -215,7 +230,7 @@ class InquerySpkController extends Controller
                     'user_id' => $request->user_id,
                     'alamat_muat_id' => $request->alamat_muat_id,
                     'alamat_bongkar_id' => $request->alamat_bongkar_id,
-                    'status' => 'unpost',
+                    'status' => $status_pengambilan_do,
                 ]);
             }
         } else {
@@ -234,7 +249,7 @@ class InquerySpkController extends Controller
                     'km_awal' => $request->km_awal,
                     'tanggal_awal' => $tanggal,
                     'tanggal' => $format_tanggal,
-                    'status' => 'unpost',
+                    'status' => $status_pengambilan_do,
                 ]
             ));
         }

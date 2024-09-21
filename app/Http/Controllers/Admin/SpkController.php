@@ -275,6 +275,20 @@ class SpkController extends Controller
         $saldo_deposit = $request->saldo_deposit ? str_replace(',', '.', str_replace('.', '', $request->saldo_deposit)) : '0';
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
 
+        $status_pengambilan_do = 'unpost';
+
+        // Cek apakah semua field tidak null
+        if (
+            !is_null($request->pelanggan_id) &&
+            !is_null($request->kendaraan_id) &&
+            !is_null($request->rute_perjalanan_id) &&
+            !is_null($request->user_id) &&
+            !is_null($request->alamat_muat_id) &&
+            !is_null($request->alamat_bongkar_id)
+        ) {
+            $status_pengambilan_do = 'posting';
+        }
+
         $cetakpdf = Spk::create(array_merge(
             $request->all(),
             [
@@ -305,7 +319,7 @@ class SpkController extends Controller
                 'tanggal' => $format_tanggal,
                 'tanggal_awal' => $tanggal,
                 'status_spk' => $status_spk,
-                'status' => 'unpost',
+                'status' => $status_pengambilan_do,
             ]
         ));
 
@@ -319,7 +333,7 @@ class SpkController extends Controller
                 'km_awal' => $request->km_awal,
                 'tanggal_awal' => $tanggal,
                 'tanggal' => $format_tanggal,
-                'status' => 'unpost',
+                'status' => $status_pengambilan_do,
             ]
         ));
 

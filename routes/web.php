@@ -40,8 +40,8 @@ Route::get('stnk/{kode}', [\App\Http\Controllers\StnkController::class, 'detail'
 
 Route::middleware('driver')->prefix('driver')->group(function () {
     Route::get('/', [\App\Http\Controllers\Driver\DashboardController::class, 'index']);
-    Route::get('profile', [\App\Http\Controllers\Admin\ProfileController::class, 'index']);
-    Route::post('profile/update', [\App\Http\Controllers\Admin\ProfileController::class, 'update']);
+    // Route::get('profile', [\App\Http\Controllers\Driver\ProfileController::class, 'index']);
+    // Route::post('profile/update', [\App\Http\Controllers\Driver\ProfileController::class, 'update']);
 });
 
 Route::middleware('admin')->prefix('admin')->group(function () {

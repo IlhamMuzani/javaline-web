@@ -146,8 +146,8 @@
                                                 {{-- @endif --}}
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a>
+                                                {{-- <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
                                                 <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
