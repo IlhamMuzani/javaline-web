@@ -65,7 +65,7 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="form-row">
-                            <div class="col-md-4 col-sm-12">
+                            <div class="col-md-3 col-sm-12">
                                 {{-- <div class="input-group mb-2"> --}}
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="status_perjalanan"
@@ -127,8 +127,21 @@
                                 <label for="status">(Cari Kendaraan)</label>
                             </div>
                             <div class="col-md-3 mb-3">
+                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($pelanggans as $pelanggan)
+                                        <option value="{{ $pelanggan->id }}"
+                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                            {{ $pelanggan->nama_pell }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <label for="status">(Cari Pelanggan)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
                                 <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-primary" onclick="cari()">
+                                    <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                         <i class="fas fa-search"></i> Cari
                                     </button>
                                 </div>
@@ -173,7 +186,7 @@
                                                 tidak ada
                                             @endif
                                         @else
-                                        -
+                                            -
                                         @endif
                                     </td>
 

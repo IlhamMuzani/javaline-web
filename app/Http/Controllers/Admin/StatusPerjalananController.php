@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\Kota;
 use App\Models\Laporanperjalanan;
+use App\Models\Pelanggan;
 use App\Models\Timer;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
@@ -27,9 +28,10 @@ class StatusPerjalananController extends Controller
 
             $status = $request->status_perjalanan;
             $kendaraanId = $request->kendaraan_id;
+            $pelangganId = $request->pelanggan_id;
 
             // Inisialisasi query builder
-            $inquery = Kendaraan::query();
+            $inquery = Kendaraan::with(['latestpengambilan_do.spk.pelanggan']); // Include relasi pelanggan
 
             if ($status) {
                 $inquery->where('status_perjalanan', $status);
@@ -40,6 +42,14 @@ class StatusPerjalananController extends Controller
                 $inquery->where('id', $kendaraanId);
             }
 
+            // Filter berdasarkan pelanggan_id jika diberikan
+            if ($pelangganId) {
+                $inquery->whereHas('latestpengambilan_do.spk.pelanggan', function ($query) use ($pelangganId) {
+                    $query->where('id', $pelangganId);
+                });
+            }
+            
+            $pelanggans = Pelanggan::get();
             $kendaraans = $inquery->orderBy('user_id', 'desc')
                 ->orderBy('updated_at', 'desc')
                 ->get()
@@ -82,7 +92,7 @@ class StatusPerjalananController extends Controller
                 ]);
             }
 
-            return view('admin/status_perjalanan.index', compact('kendaraans'));
+            return view('admin/status_perjalanan.index', compact('kendaraans', 'pelanggans'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
