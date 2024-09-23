@@ -864,4 +864,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('postingfilterpengambilandeposit', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingfilterpengambilandeposit']);
     Route::get('unpostfilterpengambilandeposit', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostfilterpengambilandeposit']);
+
+    Route::post('status_perjalanan/update_latlong/{id}', [\App\Http\Controllers\Admin\StatusPerjalananController::class, 'update_latlong'])->name('update_latlong');
 });

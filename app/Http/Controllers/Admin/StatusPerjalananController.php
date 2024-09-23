@@ -16,6 +16,8 @@ use App\Models\Laporanperjalanan;
 use App\Models\Timer;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class StatusPerjalananController extends Controller
 {
@@ -46,7 +48,7 @@ class StatusPerjalananController extends Controller
                     $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
                     return $numberA - $numberB;
                 });
-                
+
             $waktuPerjalananIsi = now();
 
             foreach ($kendaraans as $kendaraan) {
@@ -87,6 +89,176 @@ class StatusPerjalananController extends Controller
         }
     }
 
+    public function update_latlong($id)
+    {
+        $kendaraan = Kendaraan::find($id);
+
+        if ($kendaraan->gpsid != null) {
+            if ($kendaraan) {
+                try {
+                    // Panggil API kedua
+                    $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+                    if ($response->successful()) {
+                        $vehicles = $response->json();
+                        $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+                        if ($matchedVehicle) {
+                            $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+                            $latitude = $matchedVehicle['lat'] ?? null; // Ambil latitude
+                            $longitude = $matchedVehicle['long'] ?? null; // Ambil longitude
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                            }
+                            if ($latitude !== null && $longitude !== null) {
+                                $kendaraan->latitude = $latitude;
+                                $kendaraan->longitude = $longitude;
+                            }
+
+                            // Simpan perubahan ke database
+                            $kendaraan->save();
+
+                            return response()->json([
+                                'success' => true,
+                                'latitude' => $latitude,
+                                'longitude' => $longitude,
+                            ]);
+                        } else {
+                            // Jika tidak ditemukan, tetap kembalikan odometer sebelumnya
+                            $odometer = $kendaraan->km;
+                        }
+                    } else {
+                        // Jika respons dari API kedua tidak sukses
+                        $odometer = $kendaraan->km;
+                    }
+                } catch (\Exception $e) {
+                    // Tangkap error dari API kedua dan log jika diperlukan
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Tidak terhubung ke API.',
+                    ]);
+                }
+            }
+        } else {
+            if ($kendaraan) {
+                try {
+                    $client = new \GuzzleHttp\Client();
+                    $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
+                        'headers' => [
+                            'accept' => 'application/json',
+                            'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
+                            'Content-Type' => 'application/json',
+                        ],
+                        'json' => [
+                            'list_vehicle_id' => [$kendaraan->list_vehicle_id],
+                            'list_nopol' => [],
+                            'list_no_aset' => [],
+                            'geo_code' => [],
+                            'min_lastupdate_hour' => null,
+                            'page' => 0,
+                            'encrypted' => 0,
+                        ],
+                    ]);
+
+                    $data = json_decode($response->getBody()->getContents(), true);
+
+                    if (isset($data['Data'][0]['vehicle_id'])) {
+                        $vehicleId = $data['Data'][0]['vehicle_id'];
+
+                        if ($vehicleId === $kendaraan->list_vehicle_id) {
+                            $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+                            $latitude = $data['Data'][0]['lat'] ?? null;
+                            $longitude = $data['Data'][0]['lon'] ?? null;
+
+                            if ($odometer > 0) {
+                                $kendaraan->km = $odometer;
+                            }
+                            if ($latitude !== null && $longitude !== null) {
+                                $kendaraan->latitude = $latitude;
+                                $kendaraan->longitude = $longitude;
+                            }
+
+                            // Simpan perubahan ke database
+                            $kendaraan->save();
+
+                            return response()->json([
+                                'success' => true,
+                                'latitude' => $latitude,
+                                'longitude' => $longitude,
+                            ]);
+                        }
+                    }
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Tidak terhubung ke GPS.'
+                    ]);
+                }
+            }
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Kendaraan tidak ditemukan.',
+        ]);
+    }
+
+
+    // // sudah benar mengambil latlong mulyatrek
+    // public function update_latlong($id)
+    // {
+    //     $kendaraan = Kendaraan::find($id);
+    //     if ($kendaraan) {
+    //         try {
+    //             // Panggil API kedua
+    //             $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
+    //             if ($response->successful()) {
+    //                 $vehicles = $response->json();
+    //                 $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
+
+    //                 if ($matchedVehicle) {
+    //                     $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
+    //                     $latitude = $matchedVehicle['lat'] ?? null; // Ambil latitude
+    //                     $longitude = $matchedVehicle['long'] ?? null; // Ambil longitude
+
+    //                     if ($odometer > 0) {
+    //                         $kendaraan->km = $odometer;
+    //                     }
+    //                     if ($latitude !== null && $longitude !== null) {
+    //                         $kendaraan->latitude = $latitude;
+    //                         $kendaraan->longitude = $longitude;
+    //                     }
+
+    //                     // Simpan perubahan ke database
+    //                     $kendaraan->save();
+
+    //                     return response()->json([
+    //                         'success' => true,
+    //                         'latitude' => $latitude,
+    //                         'longitude' => $longitude,
+    //                     ]);
+    //                 } else {
+    //                     // Jika tidak ditemukan, tetap kembalikan odometer sebelumnya
+    //                     $odometer = $kendaraan->km;
+    //                 }
+    //             } else {
+    //                 // Jika respons dari API kedua tidak sukses
+    //                 $odometer = $kendaraan->km;
+    //             }
+    //         } catch (\Exception $e) {
+    //             // Tangkap error dari API kedua dan log jika diperlukan
+    //             return response()->json([
+    //                 'success' => false,
+    //                 'message' => 'Tidak terhubung ke API.',
+    //             ]);
+    //         }
+    //     }
+
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => 'Kendaraan tidak ditemukan.',
+    //     ]);
+    // }
 
     public function update(Request $request, $id)
     {

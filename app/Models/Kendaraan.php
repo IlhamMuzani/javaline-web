@@ -149,6 +149,15 @@ class Kendaraan extends Model
         return $this->hasMany(Pengambilan_do::class);
     }
 
+    public function latestpengambilan_do()
+    {
+        return $this->hasOne(Pengambilan_do::class)
+            ->whereNotIn('status', ['unpost']) // Mengecualikan status 'unpost'
+            ->whereIn('status', ['tunggu bongkar', 'loading muat', 'posting', 'selesai'])
+            ->orderByRaw("FIELD(status, 'tunggu bongkar', 'loading muat', 'posting', 'selesai')")
+            ->latest();
+    }
+
     public static function getId()
     {
         return $getId = DB::table('kendaraans')->orderBy('id', 'DESC')->take(1)->get();

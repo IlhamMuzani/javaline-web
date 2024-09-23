@@ -71,33 +71,33 @@
                                     <select class="custom-select form-control" id="status_perjalanan"
                                         name="status_perjalanan">
                                         <option value="">- Semua Status -</option>
+                                        <option value="Perjalanan Kosong"
+                                            {{ Request::get('status_perjalanan') == 'Perjalanan Kosong' ? 'selected' : '' }}>
+                                            Perjalanan Kosong
+                                        </option>
+                                        {{-- <option value="Tunggu Muat"
+                                            {{ Request::get('status_perjalanan') == 'Tunggu Muat' ? 'selected' : '' }}>
+                                            Tunggu Muat
+                                        </option> --}}
                                         <option value="Tunggu Muat"
                                             {{ Request::get('status_perjalanan') == 'Tunggu Muat' ? 'selected' : '' }}>
                                             Tunggu Muat
-                                        </option>
-                                        <option value="Loading Muat"
-                                            {{ Request::get('status_perjalanan') == 'Loading Muat' ? 'selected' : '' }}>
-                                            Loading Muat
                                         </option>
                                         <option value="Perjalanan Isi"
                                             {{ Request::get('status_perjalanan') == 'Perjalanan Isi' ? 'selected' : '' }}>
                                             Perjalanan Isi
                                         </option>
+                                        {{-- <option value="Tunggu Bongkar"
+                                            {{ Request::get('status_perjalanan') == 'Tunggu Bongkar' ? 'selected' : '' }}>
+                                            Tunggu Bongkar
+                                        </option> --}}
                                         <option value="Tunggu Bongkar"
                                             {{ Request::get('status_perjalanan') == 'Tunggu Bongkar' ? 'selected' : '' }}>
                                             Tunggu Bongkar
                                         </option>
-                                        <option value="Loading Bongkar"
-                                            {{ Request::get('status_perjalanan') == 'Loading Bongkar' ? 'selected' : '' }}>
-                                            Loading Bongkar
-                                        </option>
                                         <option value="Kosong"
                                             {{ Request::get('status_perjalanan') == 'Kosong' ? 'selected' : '' }}>
                                             Kosong
-                                        </option>
-                                        <option value="Perjalanan Kosong"
-                                            {{ Request::get('status_perjalanan') == 'Perjalanan Kosong' ? 'selected' : '' }}>
-                                            Perjalanan Kosong
                                         </option>
                                         <option value="Perbaikan di jalan"
                                             {{ Request::get('status_perjalanan') == 'Perbaikan di jalan' ? 'selected' : '' }}>
@@ -141,9 +141,12 @@
                                 <th class="text-center">No</th>
                                 <th>No. Kabin</th>
                                 <th>No. Registrasi</th>
-                                <th>Nama Driver</th>
-                                <th>Tujuan</th>
+                                {{-- <th>Nama Driver</th> --}}
                                 <th>Pelanggan</th>
+                                <th>Tujuan</th>
+                                {{-- <th>Map test</th> --}}
+                                <th>Map</th>
+                                {{-- <th>Km Berjalan</th> --}}
                                 <th>Status Kendaraan</th>
                                 <th>Timer</th>
                                 {{-- <th class="text-center" width="40">Opsi</th> --}}
@@ -155,40 +158,81 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $kendaraan->no_kabin }}</td>
                                     <td>{{ $kendaraan->no_pol }}</td>
-                                    <td>
+                                    {{-- <td>
                                         @if ($kendaraan->pengambilan_do->last())
                                             {{ $kendaraan->pengambilan_do->last()->spk->user->karyawan->nama_lengkap ?? 'tidak ada' }}
                                         @else
                                             tidak ada
                                         @endif
-                                    </td>
+                                    </td> --}}
                                     <td>
-                                        @if ($kendaraan->pengambilan_do->last())
-                                            {{ $kendaraan->pengambilan_do->last()->rute_perjalanan->nama_rute ?? 'tidak ada' }}
+                                        @if ($kendaraan->status_perjalanan != 'Kosong')
+                                            @if ($kendaraan->latestpengambilan_do)
+                                                {{ $kendaraan->latestpengambilan_do->spk->pelanggan->nama_pell ?? 'belum ada' }}
+                                            @else
+                                                tidak ada
+                                            @endif
                                         @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($kendaraan->pengambilan_do->last())
-                                            {{ $kendaraan->pengambilan_do->last()->spk->pelanggan->nama_pell ?? 'belum ada' }}
-                                        @else
-                                            tidak ada
+                                        -
                                         @endif
                                     </td>
 
                                     <td>
+                                        @if ($kendaraan->status_perjalanan != 'Kosong')
+                                            @if ($kendaraan->pengambilan_do->whereNotIn('status', ['unpost', 'posting', 'selesai'])->last())
+                                                {{ $kendaraan->pengambilan_do->whereNotIn('status', ['unpost', 'posting', 'selesai'])->last()->rute_perjalanan->nama_rute ?? 'tidak ada' }}
+                                            @else
+                                                -
+                                            @endif
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    {{-- <td>
+                                        <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                            class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-map-marked-alt"></i>
+                                            Maps
+                                        </a>
+                                    </td> --}}
+                                    <td>
+                                        <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                            class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
+                                            onclick="updateLatLong({{ $kendaraan->id }}); return false;">
+                                            <i class="fas fa-map-marked-alt"></i> Maps
+                                        </a>
+                                        <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
+                                            {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
+                                    </td>
+                                    {{-- <td>
+                                        @if ($kendaraan->km_akhir == null)
+                                            {{ $odometer - $kendaraan->km_awal }} Km
+                                        @else
+                                            {{ $kendaraan->km_akhir - $kendaraan->km_awal }} Km
+                                        @endif
+                                    </td> --}}
+                                    <td>
                                         @if ($kendaraan->status_perjalanan)
-                                            {{ $kendaraan->status_perjalanan }}
+                                            @if (strtolower($kendaraan->status_perjalanan) == 'loading muat')
+                                                Tunggu Muat
+                                            @elseif(strtolower($kendaraan->status_perjalanan) == 'loading bongkar')
+                                                Tunggu Bongkar
+                                            @else
+                                                {{ $kendaraan->status_perjalanan }}
+                                            @endif
                                         @else
                                             Kosong
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($kendaraan->status_perjalanan)
-                                            {{ $kendaraan->timer }}
+                                        @if ($kendaraan->status_perjalanan != 'Kosong')
+                                            @if ($kendaraan->status_perjalanan)
+                                                {{ $kendaraan->timer }}
+                                            @else
+                                                00.00
+                                            @endif
                                         @else
-                                            00.00
+                                            -
                                         @endif
                                     </td>
 
@@ -211,4 +255,40 @@
             form.submit();
         }
     </script>
+
+    <script>
+        function updateLatLong(kendaraanId) {
+            // Memanggil API menggunakan AJAX untuk memperbarui koordinat
+            fetch(`{{ url('admin/status_perjalanan/update_latlong') }}/${kendaraanId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}', // Laravel CSRF Token
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Perbarui tampilan lokasi saat ini
+                        document.getElementById('lokasi-saat-ini').innerText = `${data.latitude}, ${data.longitude}`;
+
+                        // Perbarui tautan Google Maps dengan koordinat yang baru
+                        const mapLink = document.getElementById('btn-update-latlong');
+                        mapLink.href = `https://maps.google.com/maps?q=${data.latitude},${data.longitude}`;
+
+                        // Redirect ke Google Maps setelah pembaruan
+                        window.open(mapLink.href, '_blank');
+                    } else {
+                        alert('Gagal memperbarui lokasi!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Terjadi kesalahan saat memperbarui lokasi.');
+                });
+        }
+    </script>
+
+
+
 @endsection

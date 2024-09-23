@@ -17,6 +17,7 @@ class Timer extends Model
 
     protected $fillable = [
         'kendaraan_id',
+        'pengambilan_do_id',
         'user_id',
         'status_awal',
         'status_akhir',
