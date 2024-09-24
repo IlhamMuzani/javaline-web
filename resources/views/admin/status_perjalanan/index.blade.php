@@ -112,7 +112,37 @@
                                 </div>
                                 {{-- </div> --}}
                             </div>
-                            <div class="col-md-3 mb-3">
+                            <div class="col-md-3 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select form-control" id="divisi" name="divisi">
+                                        <option value="">- Cari Kode -</option>
+                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
+                                            K1
+                                        </option>
+                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
+                                            K2
+                                        </option>
+                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
+                                            K3
+                                        </option>
+                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
+                                            K4
+                                        </option>
+                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
+                                            K5
+                                        </option>
+                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
+                                            K6
+                                        </option>
+                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
+                                            K7
+                                        </option>
+                                    </select>
+                                    <label for="status">(Cari Kode)</label>
+                                </div>
+                                {{-- </div> --}}
+                            </div>
+                            {{-- <div class="col-md-3 mb-3">
                                 <select class="select2bs4 select2-hidden-accessible" name="kendaraan_id"
                                     data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23" tabindex="-1"
                                     aria-hidden="true" id="kendaraan_id">
@@ -125,7 +155,7 @@
                                     @endforeach
                                 </select>
                                 <label for="status">(Cari Kendaraan)</label>
-                            </div>
+                            </div> --}}
                             <div class="col-md-3 mb-3">
                                 <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
                                     data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
@@ -154,13 +184,12 @@
                                 <th class="text-center">No</th>
                                 <th>No. Kabin</th>
                                 <th>No. Registrasi</th>
-                                {{-- <th>Nama Driver</th> --}}
                                 <th>Pelanggan</th>
                                 <th>Tujuan</th>
-                                {{-- <th>Map test</th> --}}
-                                <th>Map</th>
-                                {{-- <th>Km Berjalan</th> --}}
                                 <th>Status Kendaraan</th>
+                                <th>Status Perjalanan</th>
+                                <th>Posisi</th>
+                                <th>Map</th>
                                 <th>Timer</th>
                                 {{-- <th class="text-center" width="40">Opsi</th> --}}
                             </tr>
@@ -201,29 +230,6 @@
                                             -
                                         @endif
                                     </td>
-                                    {{-- <td>
-                                        <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
-                                            class="btn btn-secondary btn-sm">
-                                            <i class="fas fa-map-marked-alt"></i>
-                                            Maps
-                                        </a>
-                                    </td> --}}
-                                    <td>
-                                        <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
-                                            class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
-                                            onclick="updateLatLong({{ $kendaraan->id }}); return false;">
-                                            <i class="fas fa-map-marked-alt"></i> Maps
-                                        </a>
-                                        <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
-                                            {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
-                                    </td>
-                                    {{-- <td>
-                                        @if ($kendaraan->km_akhir == null)
-                                            {{ $odometer - $kendaraan->km_awal }} Km
-                                        @else
-                                            {{ $kendaraan->km_akhir - $kendaraan->km_awal }} Km
-                                        @endif
-                                    </td> --}}
                                     <td>
                                         @if ($kendaraan->status_perjalanan)
                                             @if (strtolower($kendaraan->status_perjalanan) == 'loading muat')
@@ -237,6 +243,35 @@
                                             Kosong
                                         @endif
                                     </td>
+                                    <td>
+                                        @if ($kendaraan->status_kendaraan == 2)
+                                            <span style="font-size: 10px" class="badge badge-success">Perjalanan</span>
+                                        @else
+                                            <span style="font-size: 10px" class="badge badge-info">Parkir</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        {{ $kendaraan->lokasi }}
+                                    </td>
+                                    {{-- <td>
+                                        <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                            class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-map-marked-alt"></i>
+                                            Maps
+                                        </a>
+                                    </td> --}}
+                                    <td>
+                                        <a style="font-size:12px"
+                                            href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                            class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
+                                            onclick="updateLatLong({{ $kendaraan->id }}); return false;">
+                                            <i class="fas fa-map-marked-alt"></i> Maps
+                                        </a>
+                                        <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
+                                            {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
+                                    </td>
+
+
                                     <td>
                                         @if ($kendaraan->status_perjalanan != 'Kosong')
                                             @if ($kendaraan->status_perjalanan)

@@ -22,6 +22,7 @@ class LaporanSaldokasController extends Controller
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
+        // saldo awal adalah tanggal 30 april 2024
         // Set default values for dates if not provided
         if (!$tanggal_awal) {
             $tanggal_awal = \Carbon\Carbon::create(2024, 5, 1)->format('Y-m-d');
@@ -80,6 +81,7 @@ class LaporanSaldokasController extends Controller
 
         $sisa_saldo_awal = $sisa_saldo ? $sisa_saldo->sisa_saldo : 0;
 
+        // return $sisa_saldo_awal; 
         // Retrieve the results if search condition is met
         $data = $hasSearch ? $penerimaans->get() : collect();
         $datas = $hasSearch ? $pengeluarans->get() : collect();
