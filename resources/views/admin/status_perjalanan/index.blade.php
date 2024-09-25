@@ -7,10 +7,21 @@
     <div id="loadingSpinner"
         style="display: none; align-items: center; justify-content: center; height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.8); z-index: 9999;">
         <div style="text-align: center;">
-            <div id="progressBarContainer" style="width: 300px; background-color: #f3f3f3; border-radius: 5px;">
-                <div id="progressBar" style="width: 0%; height: 30px; background-color: #4caf50; border-radius: 5px;"></div>
+            <!-- Tambahkan gambar di atas progress bar -->
+            <div>
+                <img src="{{ asset('storage/uploads/user/jam.gif') }}" alt="Loading..."
+                    style="width: 100px; height: 100px; margin-bottom: 20px;">
             </div>
-            <p id="progressText" style="margin-top: 10px;">0%</p>
+
+            <!-- Progress bar container -->
+            <div id="progressBarContainer"
+                style="width: 300px; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
+                <div id="progressBar"
+                    style="width: 0%; height: 30px; background: linear-gradient(to right, #74e1fc, #49d8fc); border-radius: 5px;">
+                </div>
+            </div>
+            <!-- Progress text -->
+            <p id="progressText" style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #000000;">0%</p>
         </div>
     </div>
     <!-- Content Header (Page header) -->
