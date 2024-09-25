@@ -53,7 +53,58 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="form-row">
-                            <div class="col-md-3 col-sm-12">
+
+                            <div class="col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <select class="custom-select form-control" id="divisi" name="divisi">
+                                        <option value="">- Cari Kode -</option>
+                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
+                                            K1
+                                        </option>
+                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
+                                            K2
+                                        </option>
+                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
+                                            K3
+                                        </option>
+                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
+                                            K4
+                                        </option>
+                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
+                                            K5
+                                        </option>
+                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
+                                            K6
+                                        </option>
+                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
+                                            K7
+                                        </option>
+                                        <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
+                                            All
+                                        </option>
+                                    </select>
+                                    <label for="status">(Cari Kode)</label>
+                                </div>
+                                {{-- </div> --}}
+                            </div>
+
+
+                            <div class="col-md-2 mb-3">
+                                <select class="select2bs4 select2-hidden-accessible" name="kendaraan_id"
+                                    data-placeholder="Cari No Kabin.." style="width: 100%;" data-select2-id="23"
+                                    tabindex="-1" aria-hidden="true" id="kendaraan_id">
+                                    <option value="">- Pilih -</option>
+                                    @foreach ($kendaraanall as $kendaraan)
+                                        <option value="{{ $kendaraan->id }}"
+                                            {{ Request::get('kendaraan_id') == $kendaraan->id ? 'selected' : '' }}>
+                                            {{ $kendaraan->no_kabin }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <label for="status">(Cari Kendaraan)</label>
+                            </div>
+
+                            <div class="col-md-2 col-sm-12">
                                 {{-- <div class="input-group mb-2"> --}}
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="status_perjalanan"
@@ -100,50 +151,8 @@
                                 </div>
                                 {{-- </div> --}}
                             </div>
-                            <div class="col-md-3 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select form-control" id="divisi" name="divisi">
-                                        <option value="">- Cari Kode -</option>
-                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
-                                            K1
-                                        </option>
-                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
-                                            K2
-                                        </option>
-                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
-                                            K3
-                                        </option>
-                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
-                                            K4
-                                        </option>
-                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
-                                            K5
-                                        </option>
-                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
-                                            K6
-                                        </option>
-                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
-                                            K7
-                                        </option>
-                                    </select>
-                                    <label for="status">(Cari Kode)</label>
-                                </div>
-                                {{-- </div> --}}
-                            </div>
-                            {{-- <div class="col-md-3 mb-3">
-                                <select class="select2bs4 select2-hidden-accessible" name="kendaraan_id"
-                                    data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23" tabindex="-1"
-                                    aria-hidden="true" id="kendaraan_id">
-                                    <option value="">- Pilih -</option>
-                                    @foreach ($kendaraans as $kendaraan)
-                                        <option value="{{ $kendaraan->id }}"
-                                            {{ Request::get('kendaraan_id') == $kendaraan->id ? 'selected' : '' }}>
-                                            {{ $kendaraan->no_kabin }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="status">(Cari Kendaraan)</label>
-                            </div> --}}
+
+
                             <div class="col-md-3 mb-3">
                                 <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
                                     data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">

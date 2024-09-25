@@ -25,7 +25,14 @@ class StatusPerjalananController extends Controller
     public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['status perjalanan kendaraan']) {
-
+            $kendaraanall = Kendaraan::orderBy('user_id', 'desc')
+                ->orderBy('updated_at', 'desc')
+                ->get()
+                ->sort(function ($a, $b) {
+                    $numberA = (int) filter_var($a->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+                    $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+                    return $numberA - $numberB;
+                });
             $status = $request->status_perjalanan;
             $kendaraanId = $request->kendaraan_id;
             $pelangganId = $request->pelanggan_id;
@@ -54,7 +61,7 @@ class StatusPerjalananController extends Controller
                 }
 
                 // Tambahkan filter berdasarkan divisi (awalan nokabin)
-                if ($divisi) {
+                if ($divisi && $divisi !== 'All') {
                     $inquery->where('no_kabin', 'like', "$divisi%");
                 }
 
@@ -228,7 +235,7 @@ class StatusPerjalananController extends Controller
             }
             $pelanggans = Pelanggan::get();
 
-            return view('admin/status_perjalanan.index', compact('kendaraans', 'pelanggans', 'odometer'));
+            return view('admin/status_perjalanan.index', compact('kendaraans', 'pelanggans', 'odometer', 'kendaraanall'));
         } else {
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
