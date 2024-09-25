@@ -4,31 +4,19 @@
 
 @section('content')
 
-    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    <div id="loadingSpinner"
+        style="display: none; align-items: center; justify-content: center; height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.8); z-index: 9999;">
+        <div style="text-align: center;">
+            <div id="progressBarContainer" style="width: 300px; background-color: #f3f3f3; border-radius: 5px;">
+                <div id="progressBar" style="width: 0%; height: 30px; background-color: #4caf50; border-radius: 5px;"></div>
+            </div>
+            <p id="progressText" style="margin-top: 10px;">0%</p>
+        </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            setTimeout(function() {
-                document.getElementById("loadingSpinner").style.display = "none";
-                document.getElementById("mainContent").style.display = "block";
-                document.getElementById("mainContentSection").style.display = "block";
-            }, 100); // Adjust the delay time as needed
-        });
-    </script>
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
-                {{-- <div class="col-sm-6">
-                    <h1 class="m-0">Status Perjalanan Kendaraan</h1>
-                </div><!-- /.col --> --}}
-                {{-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Status Perjalanan Kendaraan</li>
-                    </ol>
-                </div><!-- /.col --> --}}
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>
@@ -299,10 +287,53 @@
         var form = document.getElementById('form-action');
 
         function cari() {
+            // Tampilkan spinner dan gunakan display: flex agar berada di tengah
+            document.getElementById('loadingSpinner').style.display = 'flex';
+
+            // Set action form
             form.action = "{{ url('admin/status_perjalanan') }}";
-            form.submit();
+
+            // Simulasi progress bar
+            var progressBar = document.getElementById('progressBar');
+            var progressText = document.getElementById('progressText');
+            var progress = 0;
+
+            // Interval untuk meningkatkan progress hingga 90%
+            var interval = setInterval(function() {
+                if (progress < 90) {
+                    progress += 1;
+                    progressBar.style.width = progress + '%';
+                    progressText.innerText = progress + '%';
+                } else {
+                    clearInterval(interval);
+                    // Simulasi proses reload
+                    setTimeout(function() {
+                        // Reload data selesai, set progress ke 100%
+                        progress = 100;
+                        progressBar.style.width = progress + '%';
+                        progressText.innerText = progress + '%';
+
+                        // Submit form setelah proses reload selesai
+                        form.submit();
+                    }, 20000); // Ganti dengan durasi yang sesuai dengan waktu reload Anda
+                }
+            }, 30); // Simulasi loading hingga 90% (30ms * 90 = 2700ms)
+
+            // Kirim form
+            form.submit(); // Ini mengirim form, tetapi akan dihandle di atas saat proses selesai
         }
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Sesuaikan waktu penundaan sesuai kebutuhan
+        });
+    </script>
+
 
     <script>
         function updateLatLong(kendaraanId) {
