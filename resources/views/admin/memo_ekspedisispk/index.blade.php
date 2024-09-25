@@ -1402,7 +1402,7 @@
             </div>
 
             <div class="modal fade" id="tableSpk" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog" style="max-width: 70%;"> <!-- Atur lebar di sini -->
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Data Spk</h4>
@@ -1420,6 +1420,7 @@
                                             <th>Tanggal</th>
                                             <th>Pelanggan</th>
                                             <th>No Kabin</th>
+                                            <th>No Pol</th>
                                             <th>Golongan</th>
                                             <th>Opsi</th>
                                         </tr>
@@ -1437,6 +1438,7 @@
                                                 <td>{{ $spk->tanggal_awal }}</td>
                                                 <td>{{ $spk->nama_pelanggan }}</td>
                                                 <td>{{ $spk->no_kabin }}</td>
+                                                <td>{{ $spk->no_pol }}</td>
                                                 <td>{{ $spk->golongan }}</td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-primary btn-sm"
