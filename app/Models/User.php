@@ -26,6 +26,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'karyawan_id',
+        'pelanggan_id',
         'kode_user',
         'qrcode_user',
         'password',
@@ -71,18 +72,19 @@ class User extends Authenticatable
     }
 
 
-    protected function menu(): Attribute{
+    protected function menu(): Attribute
+    {
         return Attribute::make(
-            get: fn ($value) => json_decode($value, true),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value, true),
+            set: fn($value) => json_encode($value),
         );
     }
 
     protected function fitur(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => json_decode($value, true),
-            set: fn ($value) => json_encode($value),
+            get: fn($value) => json_decode($value, true),
+            set: fn($value) => json_encode($value),
         );
     }
 
@@ -103,11 +105,32 @@ class User extends Authenticatable
         return false;
     }
 
+    public function isPelanggan()
+    {
+        if ($this->level == 'pelanggan') {
+            return true;
+        }
+        return false;
+    }
+
+    // public function isPelanggan()
+    // {
+    //     if ($this->level == 'pelanggan') {
+    //         return true;
+    //     }
+    //     return false;
+    // }
+
     public function karyawan()
     {
         return $this->belongsTo(Karyawan::class);
     }
 
+    public function pelanggan()
+    {
+        return $this->belongsTo(Pelanggan::class);
+    }
+    
     public function kendaraan(): HasOne
     {
         return $this->hasOne(Kendaraan::class, 'user_id');
@@ -136,10 +159,10 @@ class User extends Authenticatable
     }
 
 
-       // public function latestpengambilan_do()
+    // public function latestpengambilan_do()
     // {
     //     return $this->hasOne(Pengambilan_do::class)->latest();
 
     // }
-    
+
 }

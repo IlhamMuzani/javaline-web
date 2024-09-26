@@ -88,6 +88,11 @@ class Pelanggan extends Model
     {
         return $this->belongsTo(Kelompok_pelanggan::class);
     }
+
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
     
     public static function getId()
     {

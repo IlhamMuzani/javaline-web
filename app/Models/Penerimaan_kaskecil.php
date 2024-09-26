@@ -30,6 +30,8 @@ class Penerimaan_kaskecil extends Model
         'tanggaljam',
         'tanggal_awal',
         'tanggal_akhir',
+        'latitude',
+        'longitude',
         'status',
         'status_notif',
     ];

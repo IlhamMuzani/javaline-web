@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Karyawan;
 use App\Models\Kelompok_pelanggan;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -106,7 +107,7 @@ class PelangganController extends Controller
 
         $kode = $this->kode();
 
-        Pelanggan::create(array_merge(
+        $pelanggan = Pelanggan::create(array_merge(
             $request->all(),
             [
                 'kode_pelanggan' => $this->kode(),
@@ -116,6 +117,16 @@ class PelangganController extends Controller
                 // 'qrcode_pelanggan' => 'http://192.168.1.46/javaline/pelanggan/' . $kode
             ]
         ));
+
+        User::create(array_merge(
+            $request->all(),
+            [
+                'pelanggan_id' => $pelanggan->id,
+                'kode_user' => $this->kode(),
+                'level' => 'pelanggan',
+            ]
+        ));
+
 
         return redirect('admin/pelanggan')->with('success', 'Berhasil menambahkan Pelanggan');
     }

@@ -107,6 +107,8 @@
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="latitude" id="latitude">
+                    <input type="hidden" name="longitude" id="longitude">
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
                         <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
@@ -123,6 +125,26 @@
         {{-- </div> --}}
         </div>
     </section>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    document.getElementById("latitude").value = position.coords.latitude;
+                    document.getElementById("longitude").value = position.coords.longitude;
+                }, function() {
+                    alert("Unable to retrieve your location.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Panggil getLocation saat halaman dimuat
+        window.onload = function() {
+            getLocation();
+        };
+    </script>
 
     <script>
         // Fungsi untuk mengonversi angka ke format rupiah

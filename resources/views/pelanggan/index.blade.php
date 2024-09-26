@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Status Perjalanan Kendaraan')
+@section('title', 'Monitoring Kendaraan')
 
 @section('content')
 
@@ -58,49 +58,13 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Status Perjalanan Kendaraan</h3>
+                    <h3 class="card-title">Monitoring Kendaraan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="form-row">
-
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select form-control" id="divisi" name="divisi">
-                                        <option value="">- Cari Kode -</option>
-                                        <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
-                                            -Semua Code-
-                                        </option>
-                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
-                                            K1
-                                        </option>
-                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
-                                            K2
-                                        </option>
-                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
-                                            K3
-                                        </option>
-                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
-                                            K4
-                                        </option>
-                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
-                                            K5
-                                        </option>
-                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
-                                            K6
-                                        </option>
-                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
-                                            K7
-                                        </option>
-                                    </select>
-                                    <label for="status">(Cari Kode)</label>
-                                </div>
-                                {{-- </div> --}}
-                            </div>
-
-
-                            <div class="col-md-2 mb-3">
+                            <div class="col-md-3 mb-3">
                                 <select class="select2bs4 select2-hidden-accessible" name="kendaraan_id"
                                     data-placeholder="Cari No Kabin.." style="width: 100%;" data-select2-id="23"
                                     tabindex="-1" aria-hidden="true" id="kendaraan_id">
@@ -114,10 +78,10 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <label for="status">(Cari Kendaraan)</label>
+                                <label for="kendaraan_id">(Cari Kendaraan)</label>
                             </div>
 
-                            <div class="col-md-2 col-sm-12">
+                            <div class="col-md-3 col-sm-12">
                                 {{-- <div class="input-group mb-2"> --}}
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="status_perjalanan"
@@ -147,10 +111,10 @@
                                             {{ Request::get('status_perjalanan') == 'Tunggu Bongkar' ? 'selected' : '' }}>
                                             Tunggu Bongkar
                                         </option>
-                                        <option value="Kosong"
+                                        {{-- <option value="Kosong"
                                             {{ Request::get('status_perjalanan') == 'Kosong' ? 'selected' : '' }}>
                                             Kosong
-                                        </option>
+                                        </option> --}}
                                         <option value="Perbaikan di jalan"
                                             {{ Request::get('status_perjalanan') == 'Perbaikan di jalan' ? 'selected' : '' }}>
                                             Perbaikan di jalan
@@ -164,23 +128,6 @@
                                 </div>
                                 {{-- </div> --}}
                             </div>
-
-
-                            <div class="col-md-3 mb-3">
-                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
-                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
-                                    <option value="">- Pilih -</option>
-                                    <option value="all" {{ Request::get('pelanggan_id') === 'all' ? 'selected' : '' }}>
-                                        -Semua Pelanggan-</option>
-                                    @foreach ($pelanggans as $pelanggan)
-                                        <option value="{{ $pelanggan->id }}"
-                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
-                                            {{ $pelanggan->nama_pell }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="status">(Cari Pelanggan)</label>
-                            </div>
                             <div class="col-md-3 mb-3">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
@@ -190,6 +137,25 @@
                             </div>
                         </div>
                     </form>
+                    <style>
+                        /* Gaya untuk header tabel */
+                        .thead-custom {
+                            color: white;
+                            /* Warna teks putih */
+                        }
+
+                        .thead-custom th {
+                            background: linear-gradient(to bottom, #74e1fc, #687275);
+                            /* Gradient biru di atas, hitam di bawah */
+                        }
+
+                        /* Gaya untuk tabel */
+                        table {
+                            font-size: 13px;
+                            min-width: 1000px;
+                        }
+                    </style>
+
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
                             style="font-size: 13px; min-width: 1000px;">
@@ -259,8 +225,7 @@
                                         </td>
                                         <td>
                                             @if ($kendaraan->status_kendaraan == 2)
-                                                <span style="font-size: 10px"
-                                                    class="badge badge-success">Perjalanan</span>
+                                                <span style="font-size: 10px" class="badge badge-success">Perjalanan</span>
                                             @else
                                                 <span style="font-size: 10px" class="badge badge-info">Parkir</span>
                                             @endif
@@ -275,12 +240,24 @@
                                             Maps
                                         </a>
                                     </td> --}}
-                                        <td>
+                                        {{-- <td>
                                             <a style="font-size:12px"
                                                 href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
                                                 class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
                                                 onclick="updateLatLong({{ $kendaraan->id }}); return false;">
                                                 <i class="fas fa-map-marked-alt"></i> Maps
+                                            </a>
+                                            <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
+                                                {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
+                                        </td> --}}
+
+                                        <td>
+                                            <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                                class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
+                                                onclick="updateLatLong({{ $kendaraan->id }}); return false;"
+                                                style="display: inline-block; background-color: transparent; /* Membuat latar belakang transparan */ color: transparent; padding: 0; border: none; /* Menghapus border */ text-align: center; text-decoration: none;">
+                                                <img src="{{ asset('storage/uploads/user/map.png') }}" alt="Peta"
+                                                    style="width: 50px; height: 50px; object-fit: contain; display: block; margin: 0 auto;">
                                             </a>
                                             <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
                                                 {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
@@ -319,7 +296,7 @@
             document.getElementById('loadingSpinner').style.display = 'flex';
 
             // Set action form
-            form.action = "{{ url('admin/status_perjalanan') }}";
+            form.action = "{{ url('pelanggan') }}";
 
             // Simulasi progress bar
             var progressBar = document.getElementById('progressBar');
@@ -416,7 +393,7 @@
     <script>
         function updateLatLong(kendaraanId) {
             // Memanggil API menggunakan AJAX untuk memperbarui koordinat
-            fetch(`{{ url('admin/status_perjalanan/update_latlong') }}/${kendaraanId}`, {
+            fetch(`{{ url('pelanggan/monitoring/update_latlong') }}/${kendaraanId}`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}', // Laravel CSRF Token
@@ -444,6 +421,40 @@
                     alert('Terjadi kesalahan saat memperbarui lokasi.');
                 });
         }
+    </script>
+
+
+    <script>
+        const tableContainer = document.querySelector('.table-responsive');
+
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        tableContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            tableContainer.classList.add('active');
+            startX = e.pageX - tableContainer.offsetLeft;
+            scrollLeft = tableContainer.scrollLeft;
+        });
+
+        tableContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            tableContainer.classList.remove('active');
+        });
+
+        tableContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            tableContainer.classList.remove('active');
+        });
+
+        tableContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return; // stop the fn from running
+            e.preventDefault();
+            const x = e.pageX - tableContainer.offsetLeft;
+            const walk = (x - startX) * 2; // the multiplier is for speed
+            tableContainer.scrollLeft = scrollLeft - walk;
+        });
     </script>
 
 
