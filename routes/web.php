@@ -35,13 +35,16 @@ Route::get('karyawan/{kode}', [\App\Http\Controllers\KaryawanController::class, 
 Route::get('kendaraan/{kode}', [\App\Http\Controllers\KendaraanController::class, 'detail']);
 Route::get('ban/{kode}', [\App\Http\Controllers\BanController::class, 'detail']);
 Route::get('supplier/{kode}', [\App\Http\Controllers\SupplierController::class, 'detail']);
-Route::get('pelanggan/{kode}', [\App\Http\Controllers\PelangganController::class, 'detail']);
+// Route::get('pelanggan/{kode}', [\App\Http\Controllers\PelangganController::class, 'detail']);
 Route::get('stnk/{kode}', [\App\Http\Controllers\StnkController::class, 'detail']);
 
 Route::middleware('pelanggan')->prefix('pelanggan')->group(function () {
     Route::get('/', [\App\Http\Controllers\Pelanggan\DashboardController::class, 'index']);
     Route::post('monitoring/update_latlong/{id}', [\App\Http\Controllers\Pelanggan\DashboardController::class, 'update_latlong'])->name('update_latlong');
-    Route::resource('monitoring', \App\Http\Controllers\Pelanggan\DashboardController::class);
+    Route::resource('status_kendaraan', \App\Http\Controllers\Pelanggan\DashboardController::class);
+
+    Route::get('profile', [\App\Http\Controllers\Pelanggan\ProfileController::class, 'index']);
+    Route::post('profile/update', [\App\Http\Controllers\Pelanggan\ProfileController::class, 'update']);
 });
 
 Route::middleware('driver')->prefix('driver')->group(function () {
