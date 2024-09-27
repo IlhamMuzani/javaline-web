@@ -20,7 +20,8 @@
                 </div>
             </div>
             <!-- Progress text -->
-            <p id="progressText" style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #000000;">Memuat 0%</p>
+            Memuat <p id="progressText" style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #000000;">
+                0%</p>
         </div>
     </div>
 
