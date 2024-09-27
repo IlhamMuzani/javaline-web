@@ -672,36 +672,15 @@ class DriverController extends Controller
 
     public function perbaikan_digarasi(Request $request, $id)
     {
-        $km = Kendaraan::findOrFail($id);
-
-        $jarak = Jarak_km::first();
-
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         'km' => [
-        //             'required',
-        //             'numeric',
-        //             'min:' . ($km->km + 1),
-        //             function ($attribute, $value, $fail) use ($km, $jarak) {
-        //                 if ($value - $km->km > $jarak->batas) {
-        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-        //                 }
-        //             },
-        //         ],
-        //     ],
-        //     [
-        //         'km.required' => 'Masukkan nilai km',
-        //         'km.numeric' => 'Nilai Km harus berupa angka',
-        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-        //     ]
-        // );
-        // if ($validator->fails()) {
-        //     $error = $validator->errors()->first();
-        //     return $this->error($error);
-        // }
-
         $kendaraan = Kendaraan::find($id);
+
+        if (!$kendaraan) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Kendaraan tidak ditemukan!',
+            ], 404);
+        }
+
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
 
@@ -711,21 +690,22 @@ class DriverController extends Controller
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = $kendaraan->update([
+        // Update kendaraan tanpa mengganti $kendaraan menjadi boolean
+        $kendaraan->update([
             'user_id' => $request->user_id,
             // 'km' => $request->km,
             'status_perjalanan' => 'Perbaikan di garasi',
             'timer' => $jarakWaktu,
-            'waktu' => now()->format('Y-m-d H:i:s')
+            'waktu' => now()->format('Y-m-d H:i:s'),
         ]);
 
         // Retrieve the updated status_perjalanan for status_akhir
         $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
         $currentTimestamp = now()->format('Y-m-d H:i:s');
 
-        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)
-            ->first();
+        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)->first();
         $pengambilan_do_id = $pengambilan_do ? $pengambilan_do->id : null;
+
         // Create Timer record with the old and new status, and the old timer
         Timer::create(array_merge(
             $request->all(),
@@ -739,48 +719,24 @@ class DriverController extends Controller
             ]
         ));
 
-        if ($kendaraan) {
-            return response()->json([
-                'status' => true,
-                'msg' => 'Perbaikan di garasi',
-            ]);
-        } else {
-            $this->error('Gagal !');
-        }
+        return response()->json([
+            'status' => true,
+            'msg' => 'Perbaikan di garasi',
+        ]);
     }
+
 
     public function perbaikan_dijalan(Request $request, $id)
     {
-        $km = Kendaraan::findOrFail($id);
-
-        // $jarak = Jarak_km::first();
-
-        // $validator = Validator::make(
-        //     $request->all(),
-        //     [
-        //         'km' => [
-        //             'required',
-        //             'numeric',
-        //             'min:' . ($km->km + 1),
-        //             function ($attribute, $value, $fail) use ($km, $jarak) {
-        //                 if ($value - $km->km > $jarak->batas) {
-        //                     $fail('Nilai km baru tidak boleh lebih dari ' . $jarak->batas . ' km dari km awal.');
-        //                 }
-        //             },
-        //         ],
-        //     ],
-        //     [
-        //         'km.required' => 'Masukkan nilai km',
-        //         'km.numeric' => 'Nilai Km harus berupa angka',
-        //         'km.min' => 'Nilai Km harus lebih tinggi dari Km awal',
-        //     ]
-        // );
-        // if ($validator->fails()) {
-        //     $error = $validator->errors()->first();
-        //     return $this->error($error);
-        // }
-
         $kendaraan = Kendaraan::find($id);
+
+        if (!$kendaraan) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Kendaraan tidak ditemukan!',
+            ], 404);
+        }
+
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
 
@@ -790,21 +746,22 @@ class DriverController extends Controller
         // Format "hari jam:menit:detik"
         $jarakWaktu = $waktuTungguMuat->diff($waktuPerjalananIsi)->format('%d %H:%I');
 
-        $kendaraan = $kendaraan->update([
+        // Update kendaraan tanpa mengganti $kendaraan menjadi boolean
+        $kendaraan->update([
             'user_id' => $request->user_id,
             // 'km' => $request->km,
             'status_perjalanan' => 'Perbaikan di jalan',
             'timer' => $jarakWaktu,
-            'waktu' => now()->format('Y-m-d H:i:s')
+            'waktu' => now()->format('Y-m-d H:i:s'),
         ]);
 
         // Retrieve the updated status_perjalanan for status_akhir
         $updatedStatusPerjalanan = $kendaraan->fresh()->status_perjalanan;
         $currentTimestamp = now()->format('Y-m-d H:i:s');
 
-        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)
-            ->first();
+        $pengambilan_do = Pengambilan_do::where('kendaraan_id', $kendaraan->id)->first();
         $pengambilan_do_id = $pengambilan_do ? $pengambilan_do->id : null;
+
         // Create Timer record with the old and new status, and the old timer
         Timer::create(array_merge(
             $request->all(),
@@ -818,15 +775,12 @@ class DriverController extends Controller
             ]
         ));
 
-        if ($kendaraan) {
-            return response()->json([
-                'status' => true,
-                'msg' => 'Perbaikan di jalan',
-            ]);
-        } else {
-            $this->error('Gagal !');
-        }
+        return response()->json([
+            'status' => true,
+            'msg' => 'Perbaikan di jalan',
+        ]);
     }
+
 
     public function kendaraan_detail($id)
     {

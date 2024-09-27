@@ -184,14 +184,6 @@ class InqueryPembelianPartController extends Controller
                 $existingDetail = Detail_pembelianpart::where([
                     'pembelian_part_id' => $transaksi->id,
                     'sparepart_id' => $data_pesanan['sparepart_id'],
-                    'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                    'kategori' => $data_pesanan['kategori'],
-                    'kode_partdetail' => $data_pesanan['kode_partdetail'],
-                    'nama_barang' => $data_pesanan['nama_barang'],
-                    'jumlah' => $data_pesanan['jumlah'],
-                    'satuan' => $data_pesanan['satuan'],
-                    'hargasatuan' => $data_pesanan['hargasatuan'],
-                    'harga' => $data_pesanan['harga'],
                 ])->first();
 
                 if (!$existingDetail) {

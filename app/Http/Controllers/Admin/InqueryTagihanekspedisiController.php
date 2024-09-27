@@ -249,19 +249,6 @@ class InqueryTagihanekspedisiController extends Controller
         ->whereNotIn('faktur_ekspedisi_id', $newFakturEkspedisiIds)
         ->delete();
 
-        // Handle Faktur Ekspedisi not updated
-        $deletedFakturEkspedisiIds = Faktur_ekspedisi::whereNotIn('id', $updatedFakturEkspedisiIds)
-        ->pluck('id');
-        foreach ($deletedFakturEkspedisiIds as $fakturId) {
-            $faktur = Faktur_ekspedisi::find($fakturId);
-            if ($faktur) {
-                $spk = Spk::find($faktur->spk_id);
-                if ($spk) {
-                    $spk->update(['status_spk' => 'faktur']);
-                }
-            }
-        }
-
         // Dapatkan detail tagihan yang diperbarui
         $details = Detail_tagihan::where('tagihan_ekspedisi_id', $cetakpdf->id)->get();
         return view('admin.tagihan_ekspedisi.show', compact('cetakpdf', 'details'));
