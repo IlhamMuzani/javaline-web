@@ -246,8 +246,8 @@ class InqueryTagihanekspedisiController extends Controller
 
         // Delete Detail_tagihan records that are no longer relevant
         Detail_tagihan::where('tagihan_ekspedisi_id', $cetakpdf->id)
-        ->whereNotIn('faktur_ekspedisi_id', $newFakturEkspedisiIds)
-        ->delete();
+            ->whereNotIn('faktur_ekspedisi_id', $newFakturEkspedisiIds)
+            ->delete();
 
         // Dapatkan detail tagihan yang diperbarui
         $details = Detail_tagihan::where('tagihan_ekspedisi_id', $cetakpdf->id)->get();
@@ -315,6 +315,70 @@ class InqueryTagihanekspedisiController extends Controller
 
         return back()->with('success', 'Berhasil');
     }
+
+
+    public function postingfiltertagihan(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $tagihans = Tagihan_ekspedisi::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($tagihans as $tagihan) {
+            if ($tagihan && $tagihan->status == 'unpost') {
+                $detailpelunasan = Detail_tagihan::where('tagihan_ekspedisi_id', $tagihan->id)->get();
+                foreach ($detailpelunasan as $detail) {
+                    $faktur = Faktur_ekspedisi::where(['id' => $detail->faktur_ekspedisi_id, 'status' => 'posting'])->first();
+                    if ($faktur) {
+                        $faktur->update(['status_tagihan' => 'aktif', 'status' => 'selesai']);
+
+                        // Update status spk
+                        $spk = Spk::find($faktur->spk_id);
+                        if ($spk) {
+                            $spk->update(['status_spk' => 'invoice']);
+                        }
+                    }
+                }
+                $tagihan->update([
+                    'status' => 'posting'
+                ]);
+            }
+        }
+    }
+
+    public function unpostfiltertagihan(Request $request)
+    {
+        // Ambil ID yang dipilih, urutkan dari yang terakhir
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        // Ambil data tagihan yang sesuai dengan ID yang dipilih, diurutkan berdasarkan ID dari terbesar
+        $tagihans = Tagihan_ekspedisi::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        // Loop melalui setiap tagihan yang diambil
+        foreach ($tagihans as $tagihan) {
+            // Cek apakah tagihan ada dan statusnya 'posting'
+            if ($tagihan && $tagihan->status == 'posting') {
+                // Ambil detail tagihan yang terkait dengan tagihan saat ini
+                $detailtagihan = Detail_tagihan::where('tagihan_ekspedisi_id', $tagihan->id)->get();
+                foreach ($detailtagihan as $detail) {
+                    // Cek apakah faktur dengan status 'selesai' ada
+                    $faktur = Faktur_ekspedisi::where(['id' => $detail->faktur_ekspedisi_id, 'status' => 'selesai'])->first();
+                    if ($faktur) {
+                        // Update status faktur
+                        $faktur->update(['status_tagihan' => null, 'status' => 'posting']);
+
+                        // Update status spk jika spk ditemukan
+                        $spk = Spk::find($faktur->spk_id);
+                        if ($spk) {
+                            $spk->update(['status_spk' => 'faktur']);
+                        }
+                    }
+                }
+                // Update status tagihan menjadi 'unpost'
+                $tagihan->update([
+                    'status' => 'unpost'
+                ]);
+            }
+        }
+    }
+
 
     public function hapustagihan($id)
     {

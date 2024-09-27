@@ -873,6 +873,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('postingfilterpengambilandeposit', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'postingfilterpengambilandeposit']);
     Route::get('unpostfilterpengambilandeposit', [\App\Http\Controllers\Admin\InqueryDepositdriverController::class, 'unpostfilterpengambilandeposit']);
-
+    Route::get('postingfiltertagihan', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'postingfiltertagihan']);
+    Route::get('unpostfiltertagihan', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'unpostfiltertagihan']);
     Route::post('status_perjalanan/update_latlong/{id}', [\App\Http\Controllers\Admin\StatusPerjalananController::class, 'update_latlong'])->name('update_latlong');
 });
