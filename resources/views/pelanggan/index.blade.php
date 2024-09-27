@@ -6,11 +6,10 @@
 
     <div id="loadingSpinner"
         style="display: none; align-items: center; justify-content: center; height: 100vh; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.8); z-index: 9999;">
-        <div style="text-align: center;">
-            <!-- Tambahkan gambar di atas progress bar -->
-            <div>
-                <img src="{{ asset('storage/uploads/user/jam.gif') }}" alt="Loading..."
-                    style="width: 100px; height: 100px; margin-bottom: 20px;">
+        <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <!-- Animasi loading berputar -->
+            <div class="spinner"
+                style="width: 100px; height: 100px; border: 10px solid #f3f3f3; border-top: 10px solid #74e1fc; border-radius: 50%; animation: spin 2s linear infinite; margin-bottom: 20px;">
             </div>
 
             <!-- Progress bar container -->
@@ -21,9 +20,40 @@
                 </div>
             </div>
             <!-- Progress text -->
-            Memuat <p id="progressText" style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #000000;">0%</p>
+            <p id="progressText" style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #000000;">Memuat 0%</p>
         </div>
     </div>
+
+    <style>
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Gaya untuk header tabel */
+        .thead-custom {
+            color: white;
+            /* Warna teks putih */
+        }
+
+        .thead-custom th {
+            background: linear-gradient(to bottom, #74e1fc, #687275);
+            /* Gradient biru di atas, hitam di bawah */
+        }
+
+        /* Gaya untuk tabel */
+        table {
+            font-size: 13px;
+            min-width: 1000px;
+        }
+    </style>
+
+
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
@@ -137,24 +167,6 @@
                             </div>
                         </div>
                     </form>
-                    <style>
-                        /* Gaya untuk header tabel */
-                        .thead-custom {
-                            color: white;
-                            /* Warna teks putih */
-                        }
-
-                        .thead-custom th {
-                            background: linear-gradient(to bottom, #74e1fc, #687275);
-                            /* Gradient biru di atas, hitam di bawah */
-                        }
-
-                        /* Gaya untuk tabel */
-                        table {
-                            font-size: 13px;
-                            min-width: 1000px;
-                        }
-                    </style>
 
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
