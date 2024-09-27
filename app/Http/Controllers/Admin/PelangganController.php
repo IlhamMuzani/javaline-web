@@ -122,7 +122,7 @@ class PelangganController extends Controller
             $request->all(),
             [
                 'pelanggan_id' => $pelanggan->id,
-                'kode_user' => $this->kode(),
+                'kode_user' => $pelanggan->kode_pelanggan,
                 'level' => 'pelanggan',
             ]
         ));
