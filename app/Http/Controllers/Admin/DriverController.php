@@ -121,10 +121,10 @@ class DriverController extends Controller
             $num = 1;
         } else {
             $lastCode = $lastBarang->kode_karyawan;
-            $num = (int) substr($lastCode, strlen('FE')) + 1;
+            $num = (int) substr($lastCode, strlen('ADR')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'AD';
+        $prefix = 'ADR';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }
