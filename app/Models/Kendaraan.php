@@ -146,6 +146,13 @@ class Kendaraan extends Model
         return $this->hasMany(Detail_inventory::class, 'kendaraan_id');
     }
 
+
+    public function bearing()
+    {
+        return $this->hasMany(Bearing::class);
+    }
+    
+
     public function pengambilan_do()
     {
         return $this->hasMany(Pengambilan_do::class);
