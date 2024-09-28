@@ -174,9 +174,11 @@ class NotareturnController extends Controller
 
     public function get_fakturekspedisi($pelanggan_id)
     {
-        $fakturs = Faktur_ekspedisi::where(['status' => 'posting', 'pelanggan_id' => $pelanggan_id])
+        $fakturs = Faktur_ekspedisi::whereIn('status', ['selesai', 'posting'])
+            ->where('pelanggan_id', $pelanggan_id)
             ->with('pelanggan')
             ->get();
+
         return response()->json($fakturs);
     }
 
