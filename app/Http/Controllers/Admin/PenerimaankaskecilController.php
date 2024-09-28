@@ -77,8 +77,8 @@ class PenerimaankaskecilController extends Controller
                 'jam' => $tanggal1->format('H:i:s'),
                 'tanggal' =>  $format_tanggal,
                 'tanggal_awal' =>  $tanggal,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
+                // 'latitude' => $request->latitude,
+                // 'longitude' => $request->longitude,
                 'status' => 'posting',
             ]
         ));
