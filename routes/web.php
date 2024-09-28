@@ -876,4 +876,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingfiltertagihan', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'postingfiltertagihan']);
     Route::get('unpostfiltertagihan', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'unpostfiltertagihan']);
     Route::post('status_perjalanan/update_latlong/{id}', [\App\Http\Controllers\Admin\StatusPerjalananController::class, 'update_latlong'])->name('update_latlong');
+
+    Route::resource('lama_bearing', \App\Http\Controllers\Admin\LamabearingController::class);
+    Route::resource('penggantian_bearing', \App\Http\Controllers\Admin\PenggantianBearingController::class);
+
 });

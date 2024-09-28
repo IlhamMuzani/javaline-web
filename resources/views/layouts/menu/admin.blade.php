@@ -57,6 +57,7 @@
     request()->is('admin/lama_penggantianoli*') ||
     request()->is('admin/jarak_km*') ||
     request()->is('admin/kelompok_pelanggan*') ||
+    request()->is('admin/lama_bearing*') ||
     request()->is('admin/sparepart')
         ? 'menu-open'
         : '' }}">
@@ -96,6 +97,7 @@
         request()->is('admin/lama_penggantianoli*') ||
         request()->is('admin/kelompok_pelanggan*') ||
         request()->is('admin/jarak_km*') ||
+        request()->is('admin/lama_bearing*') ||
         request()->is('admin/sparepart')
             ? 'active'
             : '' }}">
@@ -415,7 +417,7 @@
                 <a href="{{ url('admin/lama_penggantianoli') }}"
                     class="nav-link {{ request()->is('admin/lama_penggantianoli*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Lama Penggantian Oli</p>
+                    <p style="font-size: 14px;">Lama Penggantian Oli</p>
                 </a>
             </li>
         @endif
@@ -424,7 +426,16 @@
                 <a href="{{ url('admin/jarak_km') }}"
                     class="nav-link {{ request()->is('admin/jarak_km*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Data Jarak Update Km</p>
+                    <p style="font-size: 14px;">Jarak Update Km</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['rute perjalanan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/lama_bearing') }}"
+                    class="nav-link {{ request()->is('admin/lama_penggantianoli*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Lama Penggantian Bearing</p>
                 </a>
             </li>
         @endif
@@ -460,6 +471,7 @@
     request()->is('admin/pelepasan_ban*') ||
     request()->is('admin/pemasangan_part*') ||
     request()->is('admin/penggantian_oli*') ||
+    request()->is('admin/penggantian_bearing*') ||
     request()->is('admin/status_perjalanan*') ||
     request()->is('admin/status_spk*') ||
     request()->is('admin/pengambilan_do*') ||
@@ -475,6 +487,7 @@
         request()->is('admin/pelepasan_ban*') ||
         request()->is('admin/pemasangan_part*') ||
         request()->is('admin/penggantian_oli*') ||
+        request()->is('admin/penggantian_bearing*') ||
         request()->is('admin/status_perjalanan*') ||
         request()->is('admin/status_spk*') ||
         request()->is('admin/pengambilan_do*') ||
@@ -490,6 +503,46 @@
         </p>
     </a>
     <ul class="nav nav-treeview">
+        <li
+            class="nav-item {{ request()->is('admin/penggantian_oli*') || request()->is('admin/penggantian_bearing') ? 'menu-open' : '' }}">
+            <a href="#"
+                class="nav-link">
+
+                <i class="nav-icon fas fa-tools"></i>
+                <p>
+                    <p style="font-size: 13px;">PEMELIHARAAN KENDARAAN
+                    </p>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                @if (auth()->check() && auth()->user()->menu['penggantian oli'])
+                    <li class="nav-item">
+                        <a href="{{ url('admin/penggantian_oli') }}"
+                            class="nav-link {{ request()->is('admin/penggantian_oli*') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                            <p style="font-size: 14px;">Penggantian Oli @if (count($penggantianoli1) > 0)
+                                    <span class="right badge badge-info">{{ count($penggantianoli1) }}</span>
+                                @endif
+                                @if (count($peringatan_oli) > 0)
+                                    <span class="">
+                                        <i class="fas fa-exclamation-circle" style="color: red;"></i>
+                                    </span>
+                                @endif
+                            </p>
+                        </a>
+                    </li>
+                @endif
+                @if (auth()->check() && auth()->user()->menu['penggantian oli'])
+                    <li class="nav-item">
+                        <a href="{{ url('admin/penggantian_bearing') }}"
+                            class="nav-link {{ request()->is('admin/penggantian_bearing*') ? 'active' : '' }}">
+                            <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                            <p style="font-size: 14px;">Penggantian Bearing</p>
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </li>
         @if (auth()->check() && auth()->user()->menu['update km'])
             <li class="nav-item">
                 <a href="{{ url('admin/km') }}" class="nav-link {{ request()->is('admin/km*') ? 'active' : '' }}">
@@ -562,7 +615,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['penggantian oli'])
+        {{-- @if (auth()->check() && auth()->user()->menu['penggantian oli'])
             <li class="nav-item">
                 <a href="{{ url('admin/penggantian_oli') }}"
                     class="nav-link {{ request()->is('admin/penggantian_oli*') ? 'active' : '' }}">
@@ -578,7 +631,7 @@
                     </p>
                 </a>
             </li>
-        @endif
+        @endif --}}
 
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
