@@ -82,83 +82,83 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if ($kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing1a == 'belum penggantian')
                                             <span> axle 1A
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing1b == 'belum penggantian')
                                             <span> axle 1B
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
-                                        @if ($kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing2a == 'belum penggantian')
                                             <span> axle 2A
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing2b == 'belum penggantian')
                                             <span> axle 2B
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing3a == 'belum penggantian')
                                             <span> axle 3A
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing3b == 'belum penggantian')
                                             <span> axle 3B
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing4a == 'belum penggantian')
                                             <span> axle 4A
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing4b == 'belum penggantian')
                                             <span> axle 4B
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing5a == 'belum penggantian')
                                             <span> axle 5A
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing5b == 'belum penggantian')
                                             <span> axle 5B
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing6a == 'belum penggantian')
                                             <span> axle 6A
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>
                                             <br>
                                         @endif
 
-                                        @if ($kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
+                                        @if (optional($kendaraan->bearing->first())->status_bearing6b == 'belum penggantian')
                                             <span> axle 6B
                                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
                                             </span>

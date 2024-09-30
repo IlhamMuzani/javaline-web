@@ -24,11 +24,19 @@ class PenggantianBearingController extends Controller
 {
     public function index()
     {
-
         $kendaraans = Kendaraan::all();
         foreach ($kendaraans as $kendaraan) {
             $updates = [];
+
+            // Cek apakah bearing ditemukan untuk kendaraan
             $bearing = Bearing::where('kendaraan_id', $kendaraan->id)->first();
+
+            // Jika bearing tidak ditemukan, skip ke kendaraan berikutnya
+            if (!$bearing) {
+                continue;
+            }
+
+            // Melakukan pengecekan dan pembaruan berdasarkan kondisi km
             if ($kendaraan->km >= $bearing->bearing1a) {
                 $updates['status_bearing1a'] = 'belum penggantian';
             } else {
@@ -101,6 +109,7 @@ class PenggantianBearingController extends Controller
                 $updates['status_bearing6b'] = 'sudah penggantian';
             }
 
+            // Melakukan pembaruan pada bearing jika ada perubahan
             $bearing->update($updates);
         }
 
