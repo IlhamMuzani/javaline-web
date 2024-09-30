@@ -710,9 +710,25 @@ class UserController extends Controller
         $dompdf->stream();
     }
 
+    // public function kode()
+    // {
+    //     $lastBarang = User::latest()->first();
+    //     if (!$lastBarang) {
+    //         $num = 1;
+    //     } else {
+    //         $lastCode = $lastBarang->kode_user;
+    //         $num = (int) substr($lastCode, strlen('AB')) + 1;
+    //     }
+    //     $formattedNum = sprintf("%06s", $num);
+    //     $prefix = 'AB';
+    //     $newCode = $prefix . $formattedNum;
+    //     return $newCode;
+    // }
+
     public function kode()
     {
-        $lastBarang = User::latest()->first();
+        // Cari karyawan terakhir dengan kode_karyawan yang diawali dengan 'AA'
+        $lastBarang = User::where('kode_user', 'like', 'AB%')->latest()->first();
         if (!$lastBarang) {
             $num = 1;
         } else {

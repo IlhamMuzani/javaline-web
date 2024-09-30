@@ -303,7 +303,7 @@ class PenggantianBearingController extends Controller
                 // Mengambil km kendaraan dan lama_bearing
                 $km_kendaraan = $request->km;
                 $lama_bearing = Lama_bearing::first();
-                $bearing = Bearing::where('kendaraan_id', $transaksi->kendaraan_id)->first();
+                $bearing = Bearing::where('kendaraan_id', $transaksi->id)->first();
 
                 // Memeriksa kategori dan memperbarui bearing yang sesuai
                 switch ($data_pesanan['kategori']) {
@@ -313,6 +313,7 @@ class PenggantianBearingController extends Controller
                             'status_bearing1a' => 'sudah penggantian',
                         ]);
                         break;
+
                     case 'Axle 1B':
                         $bearing->update([
                             'bearing1b' => $km_kendaraan + $lama_bearing->batas,

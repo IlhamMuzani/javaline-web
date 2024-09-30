@@ -505,8 +505,7 @@
     <ul class="nav nav-treeview">
         <li
             class="nav-item {{ request()->is('admin/penggantian_oli*') || request()->is('admin/penggantian_bearing') ? 'menu-open' : '' }}">
-            <a href="#"
-                class="nav-link">
+            <a href="#" class="nav-link">
 
                 <i class="nav-icon fas fa-tools"></i>
                 <p>
@@ -1040,6 +1039,7 @@
     request()->is('admin/inquery_invoicesewakendaraan*') ||
     request()->is('admin/inquery_pelunasansewakendaraan*') ||
     request()->is('admin/inquery_kontrakrute*') ||
+    request()->is('admin/inquery_penggantianbearing*') ||
     request()->is('admin/inquery_pengeluarankaskecil*')
         ? 'menu-open'
         : '' }}">
@@ -1083,6 +1083,7 @@
         request()->is('admin/inquery_invoicesewakendaraan*') ||
         request()->is('admin/inquery_pelunasansewakendaraan*') ||
         request()->is('admin/inquery_kontrakrute*') ||
+        request()->is('admin/inquery_penggantianbearing*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'active'
             : '' }}">
@@ -1278,7 +1279,16 @@
                 </a>
             </li>
         @endif
-
+        @if (auth()->check() && auth()->user()->menu['inquery penggantian oli'])
+            <li class="nav-item">
+                <a href="{{ url('admin/inquery_penggantianbearing') }}"
+                    class="nav-link {{ request()->is('admin/inquery_penggantianbearing*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Inquery Penggantian Bearing
+                    </p>
+                </a>
+            </li>
+        @endif
         @if (auth()->check() && auth()->user()->menu['inquery perpanjangan stnk'])
             <li class="nav-item">
                 <a href="{{ url('admin/inquery_perpanjanganstnk') }}"

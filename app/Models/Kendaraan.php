@@ -152,7 +152,6 @@ class Kendaraan extends Model
         return $this->hasMany(Bearing::class);
     }
     
-
     public function pengambilan_do()
     {
         return $this->hasMany(Pengambilan_do::class);

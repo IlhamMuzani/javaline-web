@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label for="saldo_masuk">Potongan Kasbon</label>
+                                        <label for="saldo_masuk">Kasbon</label>
                                         <input style="text-align: end" type="text" class="form-control" readonly
                                             id="saldo_keluar" name="saldo_keluar" placeholder=""
                                             value="{{ old('saldo_keluar') }}">

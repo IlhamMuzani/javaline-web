@@ -72,9 +72,10 @@
                     {{ session('erorrss') }}
                 </div>
             @endif
-            <form action="{{ url('admin/penggantian_bearing/') }}" method="POST" enctype="multipart/form-data"
-                autocomplete="off">
+            <form action="{{ url('admin/inquery_penggantianbearing/' . $inquery->id) }}" method="POST"
+                enctype="multipart/form-data" autocomplete="off">
                 @csrf
+                @method('put')
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Penggantian Bearing</h3>
@@ -83,35 +84,40 @@
                         <div hidden class="form-group">
                             <label for="nopol">Kendaraan Id</label>
                             <input type="text" class="form-control" id="kendaraan_id" name="kendaraan_id" readonly
-                                placeholder="Masukan no registrasi kendaraan" value="{{ $kendaraan->id }}">
+                                placeholder="Masukan no registrasi kendaraan" value="{{ $inquery->kendaraan->id }}">
                         </div>
                         <div class="form-group">
                             <label for="nopol">No. Kabin</label>
                             <input type="text" class="form-control" id="no_pol" name="no_pol" readonly
-                                placeholder="Masukan no registrasi kendaraan" value="{{ $kendaraan->no_kabin }}">
+                                placeholder="Masukan no registrasi kendaraan" value="{{ $inquery->kendaraan->no_kabin }}">
                         </div>
                         <div class="form-group">
                             <label for="nopol">No. Registrasi Kendaraan</label>
                             <input type="text" class="form-control" id="no_pol" name="no_pol" readonly
-                                placeholder="Masukan no registrasi kendaraan" value="{{ $kendaraan->no_pol }}">
+                                placeholder="Masukan no registrasi kendaraan" value="{{ $inquery->kendaraan->no_pol }}">
                         </div>
                         <div class="form-group">
                             <label for="nama">Jumlah Ban</label>
                             <input type="text" class="form-control" id="jumlah_ban" name="jumlah_ban" readonly
-                                placeholder="Masukan jumlah ban" value="{{ $kendaraan->jenis_kendaraan->total_ban }}">
+                                placeholder="Masukan jumlah ban"
+                                value="{{ $inquery->kendaraan->jenis_kendaraan->total_ban }}">
                         </div>
                         <div class="form-group" id="layoutjenis">
                             <label for="jenis_kendaraan">Jenis Kendaraan</label>
                             <input type="text" class="form-control" id="jenis_kendaraan" name="jenis_kendaraan" readonly
                                 placeholder="Masukan jenis kendaraan"
-                                value="{{ $kendaraan->jenis_kendaraan->nama_jenis_kendaraan ?? null }}">
+                                value="{{ $inquery->kendaraan->jenis_kendaraan->nama_jenis_kendaraan ?? null }}">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Km Penggantian</label>
                             <input type="number" class="form-control" id="km" name="km"
-                                value="{{ old('km') }}">
+                                value="{{ $inquery->kendaraan->km ?? null }}">
                         </div>
                     </div>
+                    {{-- <div class="card-footer text-right">
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div> --}}
                 </div>
 
                 <div class="card">
@@ -126,7 +132,9 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -149,7 +157,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -167,7 +177,9 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -190,7 +202,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -208,7 +222,9 @@
                                     <div class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -231,7 +247,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -250,7 +268,9 @@
                                     <div id="layout_tronton" class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -273,7 +293,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -292,7 +314,9 @@
                                     <div id="layout_trailer_engkel" class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -315,7 +339,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -334,7 +360,9 @@
                                     <div id="layout_trailer_tronton" class="row mb-5">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -357,7 +385,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -399,90 +429,100 @@
                                             </tr>
                                         </thead>
                                         <tbody id="tabel-pembelian">
-                                            <tr id="pembelian-0">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">1
-                                                </td>
-
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="sparepart_id-0" name="sparepart_id[]">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <select class="form-control" id="kategori-0" name="kategori[]">
-                                                            <option value="">- Pilih Kategori -</option>
-                                                            <option value="Axle 1A"
-                                                                {{ old('kategori') == 'Axle 1A' ? 'selected' : null }}>
-                                                                Axle 1A</option>
-                                                            <option value="Axle 1B"
-                                                                {{ old('kategori') == 'Axle 1B' ? 'selected' : null }}>
-                                                                Axle 1B</option>
-                                                            <option value="Axle 2A"
-                                                                {{ old('kategori') == 'Axle 2A' ? 'selected' : null }}>
-                                                                Axle 2A</option>
-                                                            <option value="Axle 2B"
-                                                                {{ old('kategori') == 'Axle 2B' ? 'selected' : null }}>
-                                                                Axle 2B</option>
-                                                            <option value="Axle 3A"
-                                                                {{ old('kategori') == 'Axle 3A' ? 'selected' : null }}>
-                                                                Axle 3A</option>
-                                                            <option value="Axle 3B"
-                                                                {{ old('kategori') == 'Axle 3B' ? 'selected' : null }}>
-                                                                Axle 3B</option>
-                                                            <option value="Axle 4A"
-                                                                {{ old('kategori') == 'Axle 4A' ? 'selected' : null }}>
-                                                                Axle 4A</option>
-                                                            <option value="Axle 4B"
-                                                                {{ old('kategori') == 'Axle 4B' ? 'selected' : null }}>
-                                                                Axle 4B</option>
-                                                            <option value="Axle 5A"
-                                                                {{ old('kategori') == 'Axle 5A' ? 'selected' : null }}>
-                                                                Axle 5A</option>
-                                                            <option value="Axle 5B"
-                                                                {{ old('kategori') == 'Axle 5B' ? 'selected' : null }}>
-                                                                Axle 5B</option>
-                                                            <option value="Axle 6A"
-                                                                {{ old('kategori') == 'Axle 6A' ? 'selected' : null }}>
-                                                                Axle 6A</option>
-                                                            <option value="Axle 6B"
-                                                                {{ old('kategori') == 'Axle 6B' ? 'selected' : null }}>
-                                                                Axle 6B</option>
-                                                        </select>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(0)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-0" name="kode_barang[]">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-0" name="nama_barang[]">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-0" name="jumlah[]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(0)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button style="margin-left:5px" type="button"
-                                                        class="btn btn-danger btn-sm" onclick="removePesanan(0)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            @foreach ($details as $detail)
+                                                <tr id="pembelian-{{ $loop->index }}">
+                                                    <td class="text-center" id="urutan">{{ $loop->index + 1 }}</td>
+                                                    <td hidden>
+                                                        <input type="text" class="form-control" id="nomor_seri-0"
+                                                            name="detail_ids[]" value="{{ $detail['id'] }}">
+                                                        <div class="form-group">
+                                                            <input style="font-size:14px" type="text"
+                                                                class="form-control"
+                                                                id="sparepart_id-{{ $loop->index }}"
+                                                                name="sparepart_id[]"
+                                                                value="{{ $detail['sparepart_id'] }}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <select class="form-control"
+                                                                id="kategori-{{ $loop->index }}" name="kategori[]">
+                                                                <option value="">- Pilih Kategori -</option>
+                                                                <option value="Axle 1A"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 1A' ? 'selected' : null }}>
+                                                                    Axle 1A</option>
+                                                                <option value="Axle 1B"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 1B' ? 'selected' : null }}>
+                                                                    Axle 1B</option>
+                                                                <option value="Axle 2A"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 2A' ? 'selected' : null }}>
+                                                                    Axle 2A</option>
+                                                                <option value="Axle 2B"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 2B' ? 'selected' : null }}>
+                                                                    Axle 2B</option>
+                                                                <option value="Axle 3A"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 3A' ? 'selected' : null }}>
+                                                                    Axle 3A</option>
+                                                                <option value="Axle 3B"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 3B' ? 'selected' : null }}>
+                                                                    Axle 3B</option>
+                                                                <option value="Axle 4A"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 4A' ? 'selected' : null }}>
+                                                                    Axle 4A</option>
+                                                                <option value="Axle 4B"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 4B' ? 'selected' : null }}>
+                                                                    Axle 4B</option>
+                                                                <option value="Axle 5A"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 5A' ? 'selected' : null }}>
+                                                                    Axle 5A</option>
+                                                                <option value="Axle 5B"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 5B' ? 'selected' : null }}>
+                                                                    Axle 5B</option>
+                                                                <option value="Axle 6A"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 6A' ? 'selected' : null }}>
+                                                                    Axle 6A</option>
+                                                                <option value="Axle 6B"
+                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 6B' ? 'selected' : null }}>
+                                                                    Axle 6B</option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td onclick="addPart(0)">
+                                                        <div class="form-group">
+                                                            <input style="font-size:14px" type="text" readonly
+                                                                class="form-control" id="kode_barang-{{ $loop->index }}"
+                                                                name="kode_barang[]"
+                                                                value="{{ $detail['kode_barang'] }}">
+                                                        </div>
+                                                    </td>
+                                                    <td onclick="addPart(0)">
+                                                        <div class="form-group">
+                                                            <input style="font-size:14px" type="text" readonly
+                                                                class="form-control" id="nama_barang-{{ $loop->index }}"
+                                                                name="nama_barang[]"
+                                                                value="{{ $detail['nama_barang'] }}">
+                                                        </div>
+                                                    </td>
+                                                    <td hidden>
+                                                        <div class="form-group">
+                                                            <input style="font-size:14px" type="text" readonly
+                                                                class="form-control" id="jumlah-0" name="jumlah[]"
+                                                                value="1">
+                                                        </div>
+                                                    </td>
+                                                    <td style="width: 100px">
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            onclick="addPart({{ $loop->index }})">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                        <button style="margin-left:5px" type="button"
+                                                            class="btn btn-danger btn-sm"
+                                                            onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
 
                                     </table>
@@ -504,25 +544,29 @@
                                                 <td hidden>
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="sparepart_ids" name="sparepart_ids">
+                                                            class="form-control" id="sparepart_ids" name="sparepart_ids"
+                                                            value="{{ $detailgrease->sparepart_id }}">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_gris" name="kode_gris">
+                                                            class="form-control" id="kode_gris" name="kode_gris"
+                                                            value="{{ $detailgrease->kode_barang }}">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_gris" name="nama_gris">
+                                                            class="form-control" id="nama_gris" name="nama_gris"
+                                                            value="{{ $detailgrease->nama_barang }}">
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" class="form-control"
-                                                            id="jumlah_gris" name="jumlah_gris">
+                                                            id="jumlah_gris" name="jumlah_gris"
+                                                            value="{{ $detailgrease->jumlah }}">
                                                     </div>
                                                 </td>
                                                 <td style="width: 50px">
@@ -537,7 +581,6 @@
                                                 </td>
                                             </tr>
                                         </tbody>
-
                                     </table>
                                 </div>
                                 <div class="card-footer text-right">
@@ -729,38 +772,56 @@
             });
         }
 
+        function updateUrutan() {
+            var urutan = document.querySelectorAll('#urutan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+        var counter = 0;
+
         function addPesanan() {
+            counter++;
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
                 $('#tabel-pembelian').empty();
-            }
-
-            itemPembelian(jumlah_ban, jumlah_ban - 1);
-        }
-
-        function removePesanan(params) {
-            jumlah_ban = jumlah_ban - 1;
-
-            var tabel_pesanan = document.getElementById('tabel-pembelian');
-            var pembelian = document.getElementById('pembelian-' + params);
-
-            tabel_pesanan.removeChild(pembelian);
-
-            if (jumlah_ban === 0) {
-                var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="5">- Part belum ditambahkan -</td>';
-                item_pembelian += '</tr>';
-                $('#tabel-pembelian').html(item_pembelian);
             } else {
-                var urutan = document.querySelectorAll('#urutan');
-                for (let i = 0; i < urutan.length; i++) {
-                    urutan[i].innerText = i + 1;
-                }
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-pembelian tr:last');
+                var lastRowIndex = lastRow.find('#urutan').text();
+                jumlah_ban = parseInt(lastRowIndex) + 1;
             }
+
+            console.log('Current jumlah_ban:', jumlah_ban);
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+            updateUrutan();
         }
 
-        function itemPembelian(urutan, key, value = null) {
+        function removeBan(identifier, detailId) {
+            var row = document.getElementById('pembelian-' + identifier);
+            row.remove();
+
+            $.ajax({
+                url: "{{ url('admin/inquery_penggantianbearing/deletedetailpenggantian/') }}/" + detailId,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Data deleted successfully');
+                },
+                error: function(error) {
+                    console.error('Failed to delete data:', error);
+                }
+            });
+
+            updateUrutan();
+        }
+
+        function itemPembelian(identifier, key, value = null) {
             var sparepart_id = '';
             var kategori = '';
             var kode_barang = '';
@@ -776,16 +837,13 @@
             }
 
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan +
-                '">' +
-                urutan + '</td>';
-
+            var item_pembelian = '<tr id="pembelian-' + key + '">';
+            item_pembelian += '<td class="text-center" id="urutan">' + key + '</td>';
             // sparepart_id 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="sparepart_id-' +
-                urutan +
+                key +
                 '" name="sparepart_id[]" value="' + sparepart_id + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -793,7 +851,7 @@
             // kategori 
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<select class="form-control" id="kategori-' + urutan + '" name="kategori[]">';
+            item_pembelian += '<select class="form-control" id="kategori-' + key + '" name="kategori[]">';
             item_pembelian += '<option value="">- Pilih Kategori -</option>';
             item_pembelian += '<option value="Axle 1A"' + (kategori === 'Axle 1A' ? ' selected' : '') + '>Axle 1A</option>';
             item_pembelian += '<option value="Axle 1B"' + (kategori === 'Axle 1B' ? ' selected' : '') +
@@ -823,11 +881,11 @@
             item_pembelian += '</td>';
 
             // kode_barang 
-            item_pembelian += '<td onclick="addPart(' + urutan +
+            item_pembelian += '<td onclick="addPart(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_barang-' +
-                urutan +
+                key +
                 '" name="kode_barang[]" value="' + kode_barang + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -836,7 +894,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_barang-' +
-                urutan +
+                key +
                 '" name="nama_barang[]" value="' + nama_barang + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -845,20 +903,20 @@
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="jumlah-' +
-                urutan +
+                key +
                 '" name="jumlah[]" value="' + 1 + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
 
             item_pembelian += '<td style="width: 100px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="addPart(' + urutan +
+            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="addPart(' + key +
                 ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             item_pembelian +=
                 '<button style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removePesanan(' +
-                urutan + ')">';
+                key + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';
@@ -904,18 +962,4 @@
         window.onload = getData;
     </script>
 
-    <script>
-        $(document).ready(function() {
-            // Tambahkan event listener pada tombol "Simpan"
-            $('#btnSimpan').click(function() {
-                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
-                $(this).hide();
-                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
-                $('#loading').show();
-
-                // Lakukan pengiriman formulir
-                $('form').submit();
-            });
-        });
-    </script>
 @endsection

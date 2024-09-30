@@ -879,5 +879,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::resource('lama_bearing', \App\Http\Controllers\Admin\LamabearingController::class);
     Route::resource('penggantian_bearing', \App\Http\Controllers\Admin\PenggantianBearingController::class);
+    Route::resource('inquery_penggantianbearing', \App\Http\Controllers\Admin\InqueryPenggantianbearingController::class);
+
+    Route::get('inquery_penggantianbearing/unpostpenggantian/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'unpostpenggantian']);
+    Route::get('inquery_penggantianbearing/postingpenggantian/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'postingpenggantian']);
+    Route::get('penggantian_bearing/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenggantianBearingController::class, 'cetakpdf']);
 
 });
