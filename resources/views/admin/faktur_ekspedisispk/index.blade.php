@@ -1704,7 +1704,7 @@
                 var displayRow = false;
 
                 // Loop through columns (td 1, 2, and 3)
-                for (j = 1; j <= 3; j++) {
+                for (j = 1; j <= 5; j++) {
                     td = tr[i].getElementsByTagName("td")[j];
                     if (td) {
                         txtValue = td.textContent || td.innerText;
