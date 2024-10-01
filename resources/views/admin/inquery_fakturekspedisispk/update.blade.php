@@ -237,13 +237,16 @@
                                 Marketing</label>
                             <div class="form-group d-flex">
                                 <input hidden class="form-control" id="karyawan_id" name="karyawan_id" type="text"
-                                    placeholder=""
-                                    value="{{ old('karyawan_id', $inquery->pelanggan->karyawan->id ?? null) }}" readonly
+                                    placeholder="" value="{{ old('karyawan_id', $inquery->pelanggan->karyawan->id ?? null) }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
-                                <input class="form-control" id="kode_karyawan" name="kode_karyawan" type="text"
-                                    placeholder=""
-                                    value="{{ old('kode_karyawan', $inquery->pelanggan->karyawan->kode_karyawan ?? null) }}"
-                                    readonly style="font-size:14px" />
+                                <input onclick="showCategoryModalSPK(this.value)" class="form-control" id="kode_karyawan"
+                                    name="kode_karyawan" type="text" placeholder=""
+                                    value="{{ old('kode_karyawan', $inquery->pelanggan->karyawan->kode_karyawan ?? null) }}" readonly
+                                    style="margin-right: 10px; font-size:14px" />
+                                <button class="btn btn-primary" type="button"
+                                    onclick="showCategoryModalSPK(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
                             <div class="form-group">
                                 <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama

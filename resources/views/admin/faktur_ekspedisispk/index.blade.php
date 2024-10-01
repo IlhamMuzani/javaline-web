@@ -234,613 +234,592 @@
                                 <input hidden class="form-control" id="karyawan_id" name="karyawan_id" type="text"
                                     placeholder="" value="{{ old('karyawan_id') }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
-                                <input class="form-control" id="kode_karyawan" name="kode_karyawan" type="text"
-                                    placeholder="" value="{{ old('kode_karyawan') }}" readonly style="font-size:14px" />
+                                <input onclick="showCategoryModalMarketing(this.value)" class="form-control" id="kode_karyawan"
+                                    name="kode_karyawan" type="text" placeholder="" value="{{ old('kode_karyawan') }}"
+                                    readonly style="margin-right: 10px; font-size:14px" />
+                                <button class="btn btn-primary" type="button"
+                                    onclick="showCategoryModalMarketing(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama
-                                    Marketing</label>
-                                <div class="form-group d-flex">
-                                    <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text"
-                                        placeholder="" value="{{ old('nama_lengkap') }}" readonly
-                                        style="font-size:14px" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="telp">No. Telp</label>
-                                    <input style="font-size:14px" type="text" class="form-control" id="telp"
-                                        readonly name="telp" placeholder="" value="{{ old('telp') }}">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-group">
-                                    <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
-                                    <input style="font-size:14px" type="text" class="form-control"
-                                        id="alamat_karyawan" readonly name="alamat_karyawan" placeholder=""
-                                        value="{{ old('alamat_karyawan') }}">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="memo_label" class="card">
-                    <div id="memo_label" class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Memo Ekspedisi <span>
-                                </span></h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <div class="card-body">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th style="font-size:14px" class="text-center">No</th>
-                                        <th style="font-size:14px">No Memo</th>
-                                        <th style="font-size:14px">Nama Sopir</th>
-                                        <th style="font-size:14px">Rute Perjalanan</th>
-                                        <th style="font-size:14px">MT</th>
-                                        <th style="font-size:14px">Nama Sopir</th>
-                                        <th style="font-size:14px">Rute</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabel-pembelians">
-                                    <tr>
-                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1</td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="memo_ekspedisi_id-0"
-                                                    name="memo_ekspedisi_id[0]" value="{{ old('memo_ekspedisi_id.0') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="kode_memo-0" name="kode_memo[0]"
-                                                    value="{{ old('kode_memo.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="tanggal_memo-0" name="tanggal_memo[0]"
-                                                    value="{{ old('tanggal_memo.0') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_driver-0" name="nama_driver[0]"
-                                                    value="{{ old('nama_driver.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="telp_driver-0" name="telp_driver[0]"
-                                                    value="{{ old('telp_driver.0') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_rute-0" name="nama_rute[0]"
-                                                    value="{{ old('nama_rute.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="kendaraan_id-0" name="kendaraan_id[0]"
-                                                    value="{{ old('kendaraan_id.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="no_kabin-0" name="no_kabin[0]"
-                                                    value="{{ old('no_kabin.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="no_pol-0" name="no_pol[0]"
-                                                    value="{{ old('no_pol.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="memotambahan_id-0"
-                                                    name="memotambahan_id[0]" value="{{ old('memotambahan_id.0') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="kode_memotambahan-0"
-                                                    name="kode_memotambahan[0]" value="{{ old('kode_memotambahan.0') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="tanggal_memotambahan-0"
-                                                    name="tanggal_memotambahan[0]"
-                                                    value="{{ old('tanggal_memotambahan.0') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_drivertambahan-0"
-                                                    name="nama_drivertambahan[0]"
-                                                    value="{{ old('nama_drivertambahan.0') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_rutetambahan-0"
-                                                    name="nama_rutetambahan[0]" value="{{ old('nama_rutetambahan.0') }}">
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">2</td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="memo_ekspedisi_id-1"
-                                                    name="memo_ekspedisi_id[1]" value="{{ old('memo_ekspedisi_id.1') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="kode_memo-1" name="kode_memo[1]"
-                                                    value="{{ old('kode_memo.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="tanggal_memo-1" name="tanggal_memo[1]"
-                                                    value="{{ old('tanggal_memo.1') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_driver-1" name="nama_driver[1]"
-                                                    value="{{ old('nama_driver.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="telp_driver-1" name="telp_driver[1]"
-                                                    value="{{ old('telp_driver.1') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_rute-1" name="nama_rute[1]"
-                                                    value="{{ old('nama_rute.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="kendaraan_id-1" name="kendaraan_id[1]"
-                                                    value="{{ old('kendaraan_id.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="no_kabin-1" name="no_kabin[1]"
-                                                    value="{{ old('no_kabin.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="no_pol-1" name="no_pol[1]"
-                                                    value="{{ old('no_pol.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" id="memotambahan_id-1"
-                                                    name="memotambahan_id[1]" value="{{ old('memotambahan_id.1') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="kode_memotambahan-1"
-                                                    name="kode_memotambahan[1]" value="{{ old('kode_memotambahan.1') }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" readonly
-                                                    class="form-control" id="tanggal_memotambahan-1"
-                                                    name="tanggal_memotambahan[1]"
-                                                    value="{{ old('tanggal_memotambahan.1') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_drivertambahan-1"
-                                                    name="nama_drivertambahan[1]"
-                                                    value="{{ old('nama_drivertambahan.1') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="nama_rutetambahan-1"
-                                                    name="nama_rutetambahan[1]" value="{{ old('nama_rutetambahan.1') }}">
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div id="non_memo" class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Driver</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="form-group" hidden>
-                            <label for="kendaraan_id">Kendaraan Id</label>
-                            <input type="text" class="form-control" id="kendaraan_ids" readonly name="kendaraan_ids"
-                                placeholder="" value="{{ old('kendaraan_ids') }}">
-                        </div>
-                        <label style="font-size:14px" class="form-label" for="nama_sopir">Nama Driver</label>
-                        <!-- HTML -->
-                        <div id="form-group-kendaraan" class="form-group d-flex">
-                            <input class="form-control" id="nama_sopir" name="nama_sopir" type="text" placeholder=""
-                                value="{{ old('nama_sopir') }}" readonly style=" font-size:14px" />
                         </div>
                         <div class="form-group">
-                            <label style="font-size:14px" for="telp_sopir">Telp</label>
-                            <input style="font-size:14px" readonly type="text" class="form-control" id="telp_sopir"
-                                name="telp_sopir" placeholder="" value="{{ old('telp_sopir') }}">
+                            <label style="font-size:14px" class="form-label" for="nama_lengkap">Nama
+                                Marketing</label>
+                            <div class="form-group d-flex">
+                                <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text"
+                                    placeholder="" value="{{ old('nama_lengkap') }}" readonly style="font-size:14px" />
+                            </div>
                         </div>
-                        <div hidden class="form-group">
-                            <label style="font-size:14px" for="no_kabins">No. Kabin</label>
-                            <input style="font-size:14px" type="text" class="form-control" id="no_kabins"
-                                name="no_kabins" placeholder="" value="{{ old('no_kabins') }}">
-                        </div>
-
                         <div class="form-group">
-                            <label style="font-size:14px" for="no_pols">No. Pol</label>
-                            <input style="font-size:14px" readonly type="text" class="form-control" id="no_pols"
-                                name="no_pols" placeholder="" value="{{ old('no_pols') }}">
+                            <div class="form-group">
+                                <label style="font-size:14px" for="telp">No. Telp</label>
+                                <input style="font-size:14px" type="text" class="form-control" id="telp"
+                                    readonly name="telp" placeholder="" value="{{ old('telp') }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
+                                <input style="font-size:14px" type="text" class="form-control" id="alamat_karyawan"
+                                    readonly name="alamat_karyawan" placeholder="" value="{{ old('alamat_karyawan') }}">
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Tarif <span>
-                            </span></h3>
-                        <div class="float-right">
-                            {{-- <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+        </div>
+
+        <div id="memo_label" class="card">
+            <div id="memo_label" class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Memo Ekspedisi <span>
+                        </span></h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="font-size:14px" class="text-center">No</th>
+                                <th style="font-size:14px">No Memo</th>
+                                <th style="font-size:14px">Nama Sopir</th>
+                                <th style="font-size:14px">Rute Perjalanan</th>
+                                <th style="font-size:14px">MT</th>
+                                <th style="font-size:14px">Nama Sopir</th>
+                                <th style="font-size:14px">Rute</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabel-pembelians">
+                            <tr>
+                                <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1</td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="memo_ekspedisi_id-0"
+                                            name="memo_ekspedisi_id[0]" value="{{ old('memo_ekspedisi_id.0') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="kode_memo-0" name="kode_memo[0]" value="{{ old('kode_memo.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="tanggal_memo-0" name="tanggal_memo[0]"
+                                            value="{{ old('tanggal_memo.0') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_driver-0" name="nama_driver[0]" value="{{ old('nama_driver.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="telp_driver-0" name="telp_driver[0]" value="{{ old('telp_driver.0') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_rute-0" name="nama_rute[0]" value="{{ old('nama_rute.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="kendaraan_id-0" name="kendaraan_id[0]"
+                                            value="{{ old('kendaraan_id.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="no_kabin-0" name="no_kabin[0]" value="{{ old('no_kabin.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="no_pol-0" name="no_pol[0]" value="{{ old('no_pol.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="memotambahan_id-0"
+                                            name="memotambahan_id[0]" value="{{ old('memotambahan_id.0') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="kode_memotambahan-0" name="kode_memotambahan[0]"
+                                            value="{{ old('kode_memotambahan.0') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="tanggal_memotambahan-0" name="tanggal_memotambahan[0]"
+                                            value="{{ old('tanggal_memotambahan.0') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_drivertambahan-0" name="nama_drivertambahan[0]"
+                                            value="{{ old('nama_drivertambahan.0') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_rutetambahan-0" name="nama_rutetambahan[0]"
+                                            value="{{ old('nama_rutetambahan.0') }}">
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 70px; font-size:14px" class="text-center" id="urutan">2</td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="memo_ekspedisi_id-1"
+                                            name="memo_ekspedisi_id[1]" value="{{ old('memo_ekspedisi_id.1') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="kode_memo-1" name="kode_memo[1]" value="{{ old('kode_memo.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="tanggal_memo-1" name="tanggal_memo[1]"
+                                            value="{{ old('tanggal_memo.1') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_driver-1" name="nama_driver[1]" value="{{ old('nama_driver.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="telp_driver-1" name="telp_driver[1]" value="{{ old('telp_driver.1') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_rute-1" name="nama_rute[1]" value="{{ old('nama_rute.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="kendaraan_id-1" name="kendaraan_id[1]"
+                                            value="{{ old('kendaraan_id.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="no_kabin-1" name="no_kabin[1]" value="{{ old('no_kabin.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="no_pol-1" name="no_pol[1]" value="{{ old('no_pol.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="memotambahan_id-1"
+                                            name="memotambahan_id[1]" value="{{ old('memotambahan_id.1') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="kode_memotambahan-1" name="kode_memotambahan[1]"
+                                            value="{{ old('kode_memotambahan.1') }}">
+                                    </div>
+                                </td>
+                                <td hidden>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" type="text" readonly class="form-control"
+                                            id="tanggal_memotambahan-1" name="tanggal_memotambahan[1]"
+                                            value="{{ old('tanggal_memotambahan.1') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_drivertambahan-1" name="nama_drivertambahan[1]"
+                                            value="{{ old('nama_drivertambahan.1') }}">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input style="font-size:14px" readonly type="text" class="form-control"
+                                            id="nama_rutetambahan-1" name="nama_rutetambahan[1]"
+                                            value="{{ old('nama_rutetambahan.1') }}">
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="non_memo" class="card">
+            <div class="card-header">
+                <h3 class="card-title">Driver</h3>
+            </div>
+            <div class="card-body">
+                <div class="form-group" hidden>
+                    <label for="kendaraan_id">Kendaraan Id</label>
+                    <input type="text" class="form-control" id="kendaraan_ids" readonly name="kendaraan_ids"
+                        placeholder="" value="{{ old('kendaraan_ids') }}">
+                </div>
+                <label style="font-size:14px" class="form-label" for="nama_sopir">Nama Driver</label>
+                <!-- HTML -->
+                <div id="form-group-kendaraan" class="form-group d-flex">
+                    <input class="form-control" id="nama_sopir" name="nama_sopir" type="text" placeholder=""
+                        value="{{ old('nama_sopir') }}" readonly style=" font-size:14px" />
+                </div>
+                <div class="form-group">
+                    <label style="font-size:14px" for="telp_sopir">Telp</label>
+                    <input style="font-size:14px" readonly type="text" class="form-control" id="telp_sopir"
+                        name="telp_sopir" placeholder="" value="{{ old('telp_sopir') }}">
+                </div>
+                <div hidden class="form-group">
+                    <label style="font-size:14px" for="no_kabins">No. Kabin</label>
+                    <input style="font-size:14px" type="text" class="form-control" id="no_kabins" name="no_kabins"
+                        placeholder="" value="{{ old('no_kabins') }}">
+                </div>
+
+                <div class="form-group">
+                    <label style="font-size:14px" for="no_pols">No. Pol</label>
+                    <input style="font-size:14px" readonly type="text" class="form-control" id="no_pols"
+                        name="no_pols" placeholder="" value="{{ old('no_pols') }}">
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tarif <span>
+                    </span></h3>
+                <div class="float-right">
+                    {{-- <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
                                 <i class="fas fa-plus"></i>
                             </button> --}}
+                </div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="font-size:14px">Kode Tarif</th>
+                            <th style="font-size:14px">Nama Tarif</th>
+                            <th style="font-size:14px">Harga Tarif</th>
+                            <th style="font-size:14px">Qty</th>
+                            <th style="font-size:14px">Satuan</th>
+                            <th style="font-size:14px">Total</th>
+                            <th style="font-size:14px; text-align:center">Opsi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabel-pembelian">
+                        <tr id="pembelian-0">
+                            <td hidden>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="tarif_id"
+                                        value="{{ old('tarif_id') }}" name="tarif_id">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input style="font-size:14px" type="text" class="form-control" readonly
+                                        id="kode_tarif" name="kode_tarif" value="{{ old('kode_tarif') }}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input style="font-size:14px" type="text" class="form-control" readonly
+                                        id="nama_tarif" name="nama_tarif" value="{{ old('nama_tarif') }}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input style="font-size:14px" type="text" class="form-control harga_tarif"
+                                        readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
+                                        value="{{ old('harga_tarif') }}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input style="font-size:14px" type="text" class="form-control jumlah"
+                                        id="jumlah" name="jumlah" data-row-id="0" value="{{ old('jumlah') }}"
+                                        onkeypress="return isNumberKey(event)">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <select style="font-size:14px" class="form-control" id="satuan" name="satuan">
+                                        <option value="">- Pilih -</option>
+                                        <option value="pcs" {{ old('satuan') == 'pcs' ? 'selected' : null }}>
+                                            pcs</option>
+                                        <option value="ltr" {{ old('satuan') == 'ltr' ? 'selected' : null }}>
+                                            ltr</option>
+                                        <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : null }}>
+                                            kg</option>
+                                        <option value="ton" {{ old('satuan') == 'ton' ? 'selected' : null }}>
+                                            ton</option>
+                                        <option value="dus" {{ old('satuan') == 'dus' ? 'selected' : null }}>
+                                            dus</option>
+                                        <option value="M3" {{ old('satuan') == 'M3' ? 'selected' : null }}>
+                                            M&sup3;</option>
+                                        <option value="rit" {{ old('satuan') == 'rit' ? 'selected' : null }}>
+                                            rit</option>
+                                        <option value="hr" {{ old('satuan') == 'hr' ? 'selected' : null }}>
+                                            hr</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input style="font-size:14px" type="text" class="form-control total_tarif"
+                                        readonly id="total_tarif" name="total_tarif" value="{{ old('total_tarif') }}">
+                                </div>
+                            </td>
+                            <td style="width: 50px">
+                                <button id="tarif_pelanggan" type="button" class="btn btn-primary btn-sm"
+                                    onclick="Tarifs(0)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button id="tarif_vendor" type="button" class="btn btn-primary btn-sm"
+                                    onclick="Tarifs(0)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-group mt-2">
+                    <label style="font-size:14px" for="keterangan">Keterangan</label>
+                    <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
+                        placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card" id="form_biayatambahan">
+                            <div class="card-header">
+                                <h3 class="card-title">Biaya Tambahan <span>
+                                    </span></h3>
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="addMemotambahan()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-size:14px" class="text-center">No</th>
+                                            <th style="font-size:14px">Keterangan</th>
+                                            <th style="font-size:14px">Nominal</th>
+                                            <th style="font-size:14px">Qty</th>
+                                            <th style="font-size:14px">Satuan</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabel-memotambahan">
+                                        <tr id="memotambahan-0">
+                                            <td style="width: 70px; font-size:14px" class="text-center"
+                                                id="urutantambahan">1
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        id="keterangan_tambahan-0" name="keterangan_tambahan[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="number" class="form-control"
+                                                        id="nominal_tambahan-0" name="nominal_tambahan[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="number" class="form-control"
+                                                        id="qty_tambahan-0" name="qty_tambahan[]">
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <select style="font-size:14px" class="form-control"
+                                                    id="satuan_tambahan-0" name="satuan_tambahan[]">
+                                                    <option value="">- Pilih -</option>
+                                                    <option value="M3"
+                                                        {{ old('satuan_tambahan') == 'M3' ? 'selected' : null }}>
+                                                        M&sup3;</option>
+                                                    <option value="ton"
+                                                        {{ old('satuan_tambahan') == 'ton' ? 'selected' : null }}>
+                                                        ton</option>
+                                                    <option value="krtn"
+                                                        {{ old('satuan_tambahan') == 'krtn' ? 'selected' : null }}>
+                                                        krtn</option>
+                                                    <option value="dus"
+                                                        {{ old('satuan_tambahan') == 'dus' ? 'selected' : null }}>
+                                                        dus</option>
+                                                    <option value="rit"
+                                                        {{ old('satuan_tambahan') == 'rit' ? 'selected' : null }}>
+                                                        rit</option>
+                                                    <option value="kg"
+                                                        {{ old('satuan_tambahan') == 'kg' ? 'selected' : null }}>
+                                                        kg</option>
+                                                    <option value="ltr"
+                                                        {{ old('satuan_tambahan') == 'ltr' ? 'selected' : null }}>
+                                                        ltr</option>
+                                                    <option value="pcs"
+                                                        {{ old('satuan_tambahan') == 'pcs' ? 'selected' : null }}>
+                                                        pcs</option>
+                                                    <option value="hr"
+                                                        {{ old('satuan_tambahan') == 'hr' ? 'selected' : null }}>
+                                                        hr</option>
+                                                    <option value="ZAK"
+                                                        {{ old('satuan_tambahan') == 'ZAK' ? 'selected' : null }}>
+                                                        ZAK</option>
+                                                </select>
+                                            </td>
+                                            <td style="width: 50px">
+                                                <button style="margin-left:5px" type="button"
+                                                    class="btn btn-danger btn-sm" onclick="removememotambahans(0)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <!-- /.card-header -->
-                    <div class="card-body">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="font-size:14px">Kode Tarif</th>
-                                    <th style="font-size:14px">Nama Tarif</th>
-                                    <th style="font-size:14px">Harga Tarif</th>
-                                    <th style="font-size:14px">Qty</th>
-                                    <th style="font-size:14px">Satuan</th>
-                                    <th style="font-size:14px">Total</th>
-                                    <th style="font-size:14px; text-align:center">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabel-pembelian">
-                                <tr id="pembelian-0">
-                                    <td hidden>
+
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="tarif_id"
-                                                value="{{ old('tarif_id') }}" name="tarif_id">
+                                            <label style="font-size:14px; margin-top:5px" for="tarif">Tarif
+                                                <span style="margin-left:89px">:</span></label>
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control" readonly
-                                                id="kode_tarif" name="kode_tarif" value="{{ old('kode_tarif') }}">
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control total_tarif2" readonly id="total_tarif2"
+                                                name="total_tarif2" placeholder="" value="{{ old('total_tarif2') }}">
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control" readonly
-                                                id="nama_tarif" name="nama_tarif" value="{{ old('nama_tarif') }}">
+                                            <label style="font-size:14px; margin-top:5px" for="tarif">PPH 2%
+                                                <span style="margin-left:69px">:</span></label>
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control harga_tarif"
-                                                readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
-                                                value="{{ old('harga_tarif') }}">
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control pph2" readonly id="pph2" name="pph"
+                                                placeholder="" value="{{ old('pph') }}">
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                </div>
+                                <div>
+                                    <hr
+                                        style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
+                                    <span
+                                        style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control jumlah"
-                                                id="jumlah" name="jumlah" data-row-id="0"
-                                                value="{{ old('jumlah') }}" onkeypress="return isNumberKey(event)">
+                                            <label style="font-size:14px; margin-top:5px" for="tarif">
+                                            </label>
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <select style="font-size:14px" class="form-control" id="satuan"
-                                                name="satuan">
-                                                <option value="">- Pilih -</option>
-                                                <option value="pcs" {{ old('satuan') == 'pcs' ? 'selected' : null }}>
-                                                    pcs</option>
-                                                <option value="ltr" {{ old('satuan') == 'ltr' ? 'selected' : null }}>
-                                                    ltr</option>
-                                                <option value="kg" {{ old('satuan') == 'kg' ? 'selected' : null }}>
-                                                    kg</option>
-                                                <option value="ton" {{ old('satuan') == 'ton' ? 'selected' : null }}>
-                                                    ton</option>
-                                                <option value="dus" {{ old('satuan') == 'dus' ? 'selected' : null }}>
-                                                    dus</option>
-                                                <option value="M3" {{ old('satuan') == 'M3' ? 'selected' : null }}>
-                                                    M&sup3;</option>
-                                                <option value="rit" {{ old('satuan') == 'rit' ? 'selected' : null }}>
-                                                    rit</option>
-                                                <option value="hr" {{ old('satuan') == 'hr' ? 'selected' : null }}>
-                                                    hr</option>
-                                            </select>
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control sisa" readonly id="sisa" name="sisa"
+                                                placeholder="" value="{{ old('sisa') }}">
                                         </div>
-                                    </td>
-                                    <td>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <input style="font-size:14px" type="text" class="form-control total_tarif"
-                                                readonly id="total_tarif" name="total_tarif"
-                                                value="{{ old('total_tarif') }}">
+                                            <label style="font-size:14px; margin-top:5px" for="tarif">Biaya
+                                                Tambahan
+                                                <span class="ml-3">:</span></label>
                                         </div>
-                                    </td>
-                                    <td style="width: 50px">
-                                        <button id="tarif_pelanggan" type="button" class="btn btn-primary btn-sm"
-                                            onclick="Tarifs(0)">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                        <button id="tarif_vendor" type="button" class="btn btn-primary btn-sm"
-                                            onclick="Tarifs(0)">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="form-group mt-2">
-                            <label style="font-size:14px" for="keterangan">Keterangan</label>
-                            <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
-                                placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control" readonly id="biaya_tambahan" name="biaya_tambahan"
+                                                placeholder="" value="{{ old('biaya_tambahan') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr
+                                    style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
+                                <span
+                                    style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 17px; vertical-align: middle;">+</span>
+
+                                <div class="col-lg-6">
+
+                                </div>
+                                <div class="form-group">
+                                    <label style="font-size:14px; margin-top:5px" for="sub_total">Grand
+                                        Total <span style="margin-left:46px">:</span></label>
+                                    <input style="text-align: end; margin:right:10px; font-size:14px;" type="text"
+                                        class="form-control sub_total" readonly id="sub_total" name="sub_total"
+                                        placeholder="" value="{{ old('sub_total') }}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="card" id="form_biayatambahan">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Biaya Tambahan <span>
-                                            </span></h3>
-                                        <div class="float-right">
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="addMemotambahan()">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th style="font-size:14px" class="text-center">No</th>
-                                                    <th style="font-size:14px">Keterangan</th>
-                                                    <th style="font-size:14px">Nominal</th>
-                                                    <th style="font-size:14px">Qty</th>
-                                                    <th style="font-size:14px">Satuan</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tabel-memotambahan">
-                                                <tr id="memotambahan-0">
-                                                    <td style="width: 70px; font-size:14px" class="text-center"
-                                                        id="urutantambahan">1
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text"
-                                                                class="form-control" id="keterangan_tambahan-0"
-                                                                name="keterangan_tambahan[]">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="number"
-                                                                class="form-control" id="nominal_tambahan-0"
-                                                                name="nominal_tambahan[]">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="number"
-                                                                class="form-control" id="qty_tambahan-0"
-                                                                name="qty_tambahan[]">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <select style="font-size:14px" class="form-control"
-                                                            id="satuan_tambahan-0" name="satuan_tambahan[]">
-                                                            <option value="">- Pilih -</option>
-                                                            <option value="M3"
-                                                                {{ old('satuan_tambahan') == 'M3' ? 'selected' : null }}>
-                                                                M&sup3;</option>
-                                                            <option value="ton"
-                                                                {{ old('satuan_tambahan') == 'ton' ? 'selected' : null }}>
-                                                                ton</option>
-                                                            <option value="krtn"
-                                                                {{ old('satuan_tambahan') == 'krtn' ? 'selected' : null }}>
-                                                                krtn</option>
-                                                            <option value="dus"
-                                                                {{ old('satuan_tambahan') == 'dus' ? 'selected' : null }}>
-                                                                dus</option>
-                                                            <option value="rit"
-                                                                {{ old('satuan_tambahan') == 'rit' ? 'selected' : null }}>
-                                                                rit</option>
-                                                            <option value="kg"
-                                                                {{ old('satuan_tambahan') == 'kg' ? 'selected' : null }}>
-                                                                kg</option>
-                                                            <option value="ltr"
-                                                                {{ old('satuan_tambahan') == 'ltr' ? 'selected' : null }}>
-                                                                ltr</option>
-                                                            <option value="pcs"
-                                                                {{ old('satuan_tambahan') == 'pcs' ? 'selected' : null }}>
-                                                                pcs</option>
-                                                            <option value="hr"
-                                                                {{ old('satuan_tambahan') == 'hr' ? 'selected' : null }}>
-                                                                hr</option>
-                                                            <option value="ZAK"
-                                                                {{ old('satuan_tambahan') == 'ZAK' ? 'selected' : null }}>
-                                                                ZAK</option>
-                                                        </select>
-                                                    </td>
-                                                    <td style="width: 50px">
-                                                        <button style="margin-left:5px" type="button"
-                                                            class="btn btn-danger btn-sm"
-                                                            onclick="removememotambahans(0)">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-md-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label style="font-size:14px; margin-top:5px" for="tarif">Tarif
-                                                        <span style="margin-left:89px">:</span></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input style="text-align: end; font-size:14px;" type="text"
-                                                        class="form-control total_tarif2" readonly id="total_tarif2"
-                                                        name="total_tarif2" placeholder=""
-                                                        value="{{ old('total_tarif2') }}">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label style="font-size:14px; margin-top:5px" for="tarif">PPH 2%
-                                                        <span style="margin-left:69px">:</span></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input style="text-align: end; font-size:14px;" type="text"
-                                                        class="form-control pph2" readonly id="pph2" name="pph"
-                                                        placeholder="" value="{{ old('pph') }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <hr
-                                                style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
-                                            <span
-                                                style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label style="font-size:14px; margin-top:5px" for="tarif">
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input style="text-align: end; font-size:14px;" type="text"
-                                                        class="form-control sisa" readonly id="sisa" name="sisa"
-                                                        placeholder="" value="{{ old('sisa') }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label style="font-size:14px; margin-top:5px" for="tarif">Biaya
-                                                        Tambahan
-                                                        <span class="ml-3">:</span></label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <input style="text-align: end; font-size:14px;" type="text"
-                                                        class="form-control" readonly id="biaya_tambahan"
-                                                        name="biaya_tambahan" placeholder=""
-                                                        value="{{ old('biaya_tambahan') }}">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <hr
-                                            style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
-                                        <span
-                                            style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 17px; vertical-align: middle;">+</span>
-
-                                        <div class="col-lg-6">
-
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px; margin-top:5px" for="sub_total">Grand
-                                                Total <span style="margin-left:46px">:</span></label>
-                                            <input style="text-align: end; margin:right:10px; font-size:14px;"
-                                                type="text" class="form-control sub_total" readonly id="sub_total"
-                                                name="sub_total" placeholder="" value="{{ old('sub_total') }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-footer text-right">
-                            <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
-                            <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
-                            <div id="loading" style="display: none;">
-                                <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
-                            </div>
-                        </div>
+                <div class="card-footer text-right">
+                    <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                    <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                    <div id="loading" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
                     </div>
+                </div>
+            </div>
             </form>
         </div>
 
@@ -1924,7 +1903,8 @@
 
         function getSelectedDataspk(Spk_id, Kode_spk, Pelanggan_id, KodePelanggan, NamaPelanggan, Telp, Alamat,
             Marketing_id, KodeKaryawan,
-            NamaKaryawan, Telps, Alamats, MemoEkspedisi_id_0, MemoEkspedisi_id_1, KodeMemo_0, KodeMemo_1, Tanggal_0, Tanggal_1, NamaDriver_0,
+            NamaKaryawan, Telps, Alamats, MemoEkspedisi_id_0, MemoEkspedisi_id_1, KodeMemo_0, KodeMemo_1, Tanggal_0,
+            Tanggal_1, NamaDriver_0,
             NamaDriver_1,
             TelpDriver_0, TelpDriver_1, NamaRute_0, NamaRute_1, Kendaraan_id_0, Kendaraan_id_1, NoKabin_0, NoKabin_1,
             Nopol_0, Nopol_1, Memotambahan_id_0, Memotambahan_id_1, KodeMemotambahan_0, KodeMemotambahan_1,

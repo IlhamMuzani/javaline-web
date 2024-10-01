@@ -204,18 +204,18 @@ class PenggantianBearingController extends Controller
         $kendaraan = Kendaraan::where('id', $kendaraan_id)->first();
         $validasi_pelanggan = Validator::make($request->all(), [
             'kendaraan_id' => 'required',
-            // 'km' => [
-            //     'required',
-            //     'numeric',
-            //     function ($attribute, $value, $fail) use ($kendaraan) {
-            //         if ($value <= $kendaraan->km) {
-            //             $fail('Nilai km akhir harus lebih tinggi dari km awal');
-            //         }
-            //     },
-            // ],
+            'km' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) use ($kendaraan) {
+                    if ($value <= $kendaraan->km) {
+                        $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                    }
+                },
+            ],
         ], [
             'kendaraan_id.required' => 'Pilih no kabin',
-            // 'km.required' => 'Masukkan nilai km',
+            'km.required' => 'Masukkan nilai km',
         ]);
 
         $error_pelanggans = array();

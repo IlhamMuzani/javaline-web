@@ -443,47 +443,102 @@
                                                                 value="{{ $detail['sparepart_id'] }}">
                                                         </div>
                                                     </td>
+
                                                     <td>
                                                         <div class="form-group">
                                                             <select class="form-control"
                                                                 id="kategori-{{ $loop->index }}" name="kategori[]">
                                                                 <option value="">- Pilih Kategori -</option>
-                                                                <option value="Axle 1A"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 1A' ? 'selected' : null }}>
-                                                                    Axle 1A</option>
-                                                                <option value="Axle 1B"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 1B' ? 'selected' : null }}>
-                                                                    Axle 1B</option>
-                                                                <option value="Axle 2A"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 2A' ? 'selected' : null }}>
-                                                                    Axle 2A</option>
-                                                                <option value="Axle 2B"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 2B' ? 'selected' : null }}>
-                                                                    Axle 2B</option>
-                                                                <option value="Axle 3A"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 3A' ? 'selected' : null }}>
-                                                                    Axle 3A</option>
-                                                                <option value="Axle 3B"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 3B' ? 'selected' : null }}>
-                                                                    Axle 3B</option>
-                                                                <option value="Axle 4A"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 4A' ? 'selected' : null }}>
-                                                                    Axle 4A</option>
-                                                                <option value="Axle 4B"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 4B' ? 'selected' : null }}>
-                                                                    Axle 4B</option>
-                                                                <option value="Axle 5A"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 5A' ? 'selected' : null }}>
-                                                                    Axle 5A</option>
-                                                                <option value="Axle 5B"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 5B' ? 'selected' : null }}>
-                                                                    Axle 5B</option>
-                                                                <option value="Axle 6A"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 6A' ? 'selected' : null }}>
-                                                                    Axle 6A</option>
-                                                                <option value="Axle 6B"
-                                                                    {{ old('kategori', $detail['kategori']) == 'Axle 6B' ? 'selected' : null }}>
-                                                                    Axle 6B</option>
+                                                                @if (
+                                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                        strtolower($inquery->kendaraan->bearing->first()->status_bearing1a) == 'belum penggantian')
+                                                                    <option value="Axle 1A"
+                                                                        {{ old('kategori', $detail['kategori']) == 'Axle 1A' ? 'selected' : null }}>
+                                                                        Axle 1A
+                                                                    </option>
+                                                                @endif
+
+                                                                @if (
+                                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                        $inquery->kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
+                                                                    <option value="Axle 1B"
+                                                                        {{ old('kategori', $detail['kategori']) == 'Axle 1B' ? 'selected' : null }}>
+                                                                        Axle 1B</option>
+                                                                @endif
+                                                                @if (
+                                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                        $inquery->kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
+                                                                    <option value="Axle 2A"
+                                                                        {{ old('kategori', $detail['kategori']) == 'Axle 2A' ? 'selected' : null }}>
+                                                                        Axle 2A</option>
+                                                                @endif
+                                                                @if (
+                                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                        $inquery->kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
+                                                                    <option value="Axle 2B"
+                                                                        {{ old('kategori', $detail['kategori']) == 'Axle 2B' ? 'selected' : null }}>
+                                                                        Axle 2B</option>
+                                                                @endif
+                                                                @if (
+                                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                        $inquery->kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
+                                                                    <option value="Axle 3A"
+                                                                        {{ old('kategori', $detail['kategori']) == 'Axle 3A' ? 'selected' : null }}>
+                                                                        Axle 3A</option>
+                                                                @endif
+                                                                @if (
+                                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                        $inquery->kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
+                                                                    <option value="Axle 3B"
+                                                                        {{ old('kategori', $detail['kategori']) == 'Axle 3B' ? 'selected' : null }}>
+                                                                        Axle 3B</option>
+                                                                @endif
+                                                                @if (in_array($inquery->kendaraan->jenis_kendaraan->total_ban, [18, 22]))
+                                                                    @if (
+                                                                        $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                            $inquery->kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
+                                                                        <option value="Axle 4A"
+                                                                            {{ old('kategori', $detail['kategori']) == 'Axle 4A' ? 'selected' : null }}>
+                                                                            Axle 4A</option>
+                                                                    @endif
+                                                                    @if (
+                                                                        $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                            $inquery->kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
+                                                                        <option value="Axle 4B"
+                                                                            {{ old('kategori', $detail['kategori']) == 'Axle 4B' ? 'selected' : null }}>
+                                                                            Axle 4B</option>
+                                                                    @endif
+                                                                    @if (
+                                                                        $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                            $inquery->kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
+                                                                        <option value="Axle 5A"
+                                                                            {{ old('kategori', $detail['kategori']) == 'Axle 5A' ? 'selected' : null }}>
+                                                                            Axle 5A</option>
+                                                                    @endif
+                                                                    @if (
+                                                                        $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                            $inquery->kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
+                                                                        <option value="Axle 5B"
+                                                                            {{ old('kategori', $detail['kategori']) == 'Axle 5B' ? 'selected' : null }}>
+                                                                            Axle 5B</option>
+                                                                    @endif
+                                                                @endif
+                                                                @if ($inquery->kendaraan->jenis_kendaraan->total_ban == 22)
+                                                                    @if (
+                                                                        $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                            $inquery->kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
+                                                                        <option value="Axle 6A"
+                                                                            {{ old('kategori', $detail['kategori']) == 'Axle 6A' ? 'selected' : null }}>
+                                                                            Axle 6A</option>
+                                                                    @endif
+                                                                    @if (
+                                                                        $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                                            $inquery->kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
+                                                                        <option value="Axle 6B"
+                                                                            {{ old('kategori', $detail['kategori']) == 'Axle 6B' ? 'selected' : null }}>
+                                                                            Axle 6B</option>
+                                                                    @endif
+                                                                @endif
                                                             </select>
                                                         </div>
                                                     </td>
@@ -835,6 +890,8 @@
                 nama_barang = value.nama_barang;
                 jumlah = value.jumlah;
             }
+            var total_ban = {!! json_encode($inquery->kendaraan->jenis_kendaraan->total_ban) !!};
+            var bearing = {!! json_encode($inquery->kendaraan->bearing->first()) !!};
 
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + key + '">';
@@ -848,34 +905,70 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // kategori 
+            // kategori
             item_pembelian += '<td>';
-            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control" id="kategori-' + key + '" name="kategori[]">';
             item_pembelian += '<option value="">- Pilih Kategori -</option>';
-            item_pembelian += '<option value="Axle 1A"' + (kategori === 'Axle 1A' ? ' selected' : '') + '>Axle 1A</option>';
-            item_pembelian += '<option value="Axle 1B"' + (kategori === 'Axle 1B' ? ' selected' : '') +
-                '>Axle 1B</option>';
-            item_pembelian += '<option value="Axle 2A"' + (kategori === 'Axle 2A' ? ' selected' : '') +
-                '>Axle 2A</option>';
-            item_pembelian += '<option value="Axle 2B"' + (kategori === 'Axle 2B' ? ' selected' : '') +
-                '>Axle 2B</option>';
-            item_pembelian += '<option value="Axle 3A"' + (kategori === 'Axle 3A' ? ' selected' : '') +
-                '>Axle 3A</option>';
-            item_pembelian += '<option value="Axle 3B"' + (kategori === 'Axle 3B' ? ' selected' : '') +
-                '>Axle 3B</option>';
-            item_pembelian += '<option value="Axle 4A"' + (kategori === 'Axle 4A' ? ' selected' : '') +
-                '>Axle 4A</option>';
-            item_pembelian += '<option value="Axle 4B"' + (kategori === 'Axle 4B' ? ' selected' : '') +
-                '>Axle 4B</option>';
-            item_pembelian += '<option value="Axle 5A"' + (kategori === 'Axle 5A' ? ' selected' : '') +
-                '>Axle 5A</option>';
-            item_pembelian += '<option value="Axle 5B"' + (kategori === 'Axle 5B' ? ' selected' : '') +
-                '>Axle 5B</option>';
-            item_pembelian += '<option value="Axle 6A"' + (kategori === 'Axle 6A' ? ' selected' : '') +
-                '>Axle 6A</option>';
-            item_pembelian += '<option value="Axle 6B"' + (kategori === 'Axle 6B' ? ' selected' : '') +
-                '>Axle 6B</option>';
+
+            // Cek nilai total ban, misalnya 18 atau 22
+            if (bearing && bearing.status_bearing1a === 'belum penggantian') {
+                item_pembelian += '<option value="Axle 1A"' + (kategori === 'Axle 1A' ? ' selected' : '') +
+                    '>Axle 1A</option>';
+            }
+            if (bearing && bearing.status_bearing1b === 'belum penggantian') {
+                item_pembelian += '<option value="Axle 1B"' + (kategori === 'Axle 1B' ? ' selected' : '') +
+                    '>Axle 1B</option>';
+            }
+            if (bearing && bearing.status_bearing2a === 'belum penggantian') {
+                item_pembelian += '<option value="Axle 2A"' + (kategori === 'Axle 2A' ? ' selected' : '') +
+                    '>Axle 2A</option>';
+            }
+            if (bearing && bearing.status_bearing2b === 'belum penggantian') {
+                item_pembelian += '<option value="Axle 2B"' + (kategori === 'Axle 2B' ? ' selected' : '') +
+                    '>Axle 2B</option>';
+            }
+            if (bearing && bearing.status_bearing3a === 'belum penggantian') {
+                item_pembelian += '<option value="Axle 3A"' + (kategori === 'Axle 3A' ? ' selected' : '') +
+                    '>Axle 3A</option>';
+            }
+            if (bearing && bearing.status_bearing3b === 'belum penggantian') {
+                item_pembelian += '<option value="Axle 3B"' + (kategori === 'Axle 3B' ? ' selected' : '') +
+                    '>Axle 3B</option>';
+            }
+            if (total_ban === 18 || total_ban === 22) {
+                if (bearing && bearing.status_bearing4a === 'belum penggantian') {
+                    item_pembelian += '<option value="Axle 4A"' + (kategori === 'Axle 4A' ? ' selected' : '') +
+                        '>Axle 4A</option>';
+                }
+                if (bearing && bearing.status_bearing4b === 'belum penggantian') {
+
+                    item_pembelian += '<option value="Axle 4B"' + (kategori === 'Axle 4B' ? ' selected' : '') +
+                        '>Axle 4B</option>';
+                }
+                if (bearing && bearing.status_bearing5a === 'belum penggantian') {
+
+                    item_pembelian += '<option value="Axle 5A"' + (kategori === 'Axle 5A' ? ' selected' : '') +
+                        '>Axle 5A</option>';
+                }
+                if (bearing && bearing.status_bearing5b === 'belum penggantian') {
+
+                    item_pembelian += '<option value="Axle 5B"' + (kategori === 'Axle 5B' ? ' selected' : '') +
+                        '>Axle 5B</option>';
+                }
+                // Tambahkan opsi Axle 6 jika total ban adalah 22
+                if (total_ban === 22) {
+                    if (bearing && bearing.status_bearing6a === 'belum penggantian') {
+                        item_pembelian += '<option value="Axle 6A"' + (kategori === 'Axle 6A' ? ' selected' : '') +
+                            '>Axle 6A</option>';
+                    }
+                    if (bearing && bearing.status_bearing6b === 'belum penggantian') {
+                        item_pembelian += '<option value="Axle 6B"' + (kategori === 'Axle 6B' ? ' selected' : '') +
+                            '>Axle 6B</option>';
+                    }
+                }
+            }
+
             item_pembelian += '</select>';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
