@@ -413,7 +413,7 @@
                                                 <td>
                                                     <div class="form-group">
                                                         <select class="form-control" id="kategori-0" name="kategori[]">
-                                                            <option value="">- Pilih Kategori -</option>
+                                                            <option value="">- Pilih Posisi -</option>
                                                             @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
                                                                 <option value="Axle 1A"
                                                                     {{ old('kategori') == 'Axle 1A' ? 'selected' : null }}>
@@ -824,7 +824,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control" id="kategori-' + urutan + '" name="kategori[]">';
-            item_pembelian += '<option value="">- Pilih Kategori -</option>';
+            item_pembelian += '<option value="">- Pilih Posisi -</option>';
 
             // Cek nilai total ban, misalnya 18 atau 22
             if (bearing && bearing.status_bearing1a === 'belum penggantian') {

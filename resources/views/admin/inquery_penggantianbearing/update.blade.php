@@ -448,7 +448,7 @@
                                                         <div class="form-group">
                                                             <select class="form-control"
                                                                 id="kategori-{{ $loop->index }}" name="kategori[]">
-                                                                <option value="">- Pilih Kategori -</option>
+                                                                <option value="">- Pilih Posisi -</option>
                                                                 @if (
                                                                     $inquery->kendaraan->bearing->isNotEmpty() &&
                                                                         strtolower($inquery->kendaraan->bearing->first()->status_bearing1a) == 'belum penggantian')
@@ -909,7 +909,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">';
             item_pembelian += '<select class="form-control" id="kategori-' + key + '" name="kategori[]">';
-            item_pembelian += '<option value="">- Pilih Kategori -</option>';
+            item_pembelian += '<option value="">- Pilih Posisi -</option>';
 
             // Cek nilai total ban, misalnya 18 atau 22
             if (bearing && bearing.status_bearing1a === 'belum penggantian') {
