@@ -96,7 +96,7 @@
                             <input type="text" class="form-control" id="no_pol" name="no_pol" readonly
                                 placeholder="Masukan no registrasi kendaraan" value="{{ $inquery->kendaraan->no_pol }}">
                         </div>
-                        <div class="form-group">
+                        <div hidden class="form-group">
                             <label for="nama">Jumlah Ban</label>
                             <input type="text" class="form-control" id="jumlah_ban" name="jumlah_ban" readonly
                                 placeholder="Masukan jumlah ban"
