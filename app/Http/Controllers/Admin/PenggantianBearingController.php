@@ -194,7 +194,7 @@ class PenggantianBearingController extends Controller
         }
 
         $bearing->update($updates);
-        $spareparts = Sparepart::get();
+        $spareparts = Sparepart::where('kategori', 'sasis')->get();
         return view('admin.penggantian_bearing.update', compact('kendaraan', 'spareparts'));
     }
 

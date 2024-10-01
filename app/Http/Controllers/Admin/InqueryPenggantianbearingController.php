@@ -65,7 +65,7 @@ class InqueryPenggantianbearingController extends Controller
         if (auth()->check() && auth()->user()->menu['inquery penggantian oli']) {
 
             $inquery = Penggantian_bearing::where('id', $id)->first();
-            $spareparts = Sparepart::get();
+            $spareparts = Sparepart::where('kategori', 'sasis')->get();
 
             $details = Detail_penggantianbearing::where('penggantian_bearing_id', $id)
                 ->whereNotNull('kategori') // Memastikan kategori tidak null
@@ -660,5 +660,4 @@ class InqueryPenggantianbearingController extends Controller
 
         return redirect('admin/inquery_penggantianbearing')->with('success', 'Berhasil menghapus Penggantian');
     }
-
 }
