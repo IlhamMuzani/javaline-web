@@ -1535,6 +1535,7 @@
     request()->is('admin/laporan_pemakaianperalatan*') ||
     request()->is('admin/laporan_klaimban*') ||
     request()->is('admin/laporan_piutang*') ||
+    request()->is('admin/laporan_penggantianbearing*') ||
     request()->is('admin/laporan_pengeluaranujs*')
         ? 'menu-open'
         : '' }}">
@@ -1564,6 +1565,7 @@
         request()->is('admin/laporan_pemakaianperalatan*') ||
         request()->is('admin/laporan_klaimban*') ||
         request()->is('admin/laporan_piutang*') ||
+        request()->is('admin/laporan_penggantianbearing*') ||
         request()->is('admin/laporan_pengeluaranujs*')
             ? 'active'
             : '' }}">
@@ -1823,6 +1825,16 @@
                     class="nav-link {{ request()->is('admin/laporan_klaimperalatan*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Laporan Klaim Peralatan
+                    </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['laporan pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporan_penggantianbearing') }}"
+                    class="nav-link {{ request()->is('admin/laporan_penggantianbearing*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Laporan Penggantian Bearing
                     </p>
                 </a>
             </li>

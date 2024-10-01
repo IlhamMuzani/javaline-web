@@ -73,6 +73,7 @@
         request()->is('admin/inquery_perhitungangaji*') ||
         request()->is('admin/inquery_perhitungangajibulanan*') ||
         request()->is('admin/penggantian_bearing*') ||
+        request()->is('admin/inquery_penggantianbearing*') ||
         // request()->is('admin/status_pemberiando*') ||
         request()->is('admin/laporan_memotambahan*')) sidebar-open sidebar-collapse @endif">
     <div class="wrapper">

@@ -887,4 +887,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapuspenggantianbearing/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'hapuspenggantianbearing'])->name('hapuspenggantianbearing');
     Route::delete('inquery_penggantianbearing/deletedetailpenggantian/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'deletedetailpenggantian']);
 
+    Route::get('laporan_penggantianbearing', [\App\Http\Controllers\Admin\LaporanPenggantianbearingController::class, 'index']);
+    Route::get('print_penggantianbearing', [\App\Http\Controllers\Admin\LaporanPenggantianbearingController::class, 'print_penggantianbearing']);
 });
