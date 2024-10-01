@@ -603,14 +603,14 @@
                                                             value="{{ $detailgrease->sparepart_id }}">
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td onclick="showCategoryModalVendor(this.value)">
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
                                                             class="form-control" id="kode_gris" name="kode_gris"
                                                             value="{{ $detailgrease->kode_barang }}">
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td onclick="showCategoryModalVendor(this.value)">
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
                                                             class="form-control" id="nama_gris" name="nama_gris"
@@ -656,7 +656,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Data Rekanan</h4>
+                        <h4 class="modal-title">Data Sparepart</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -666,8 +666,8 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th>Kode Rekanan</th>
-                                    <th>Nama Rekanan</th>
+                                    <th>Kode Part</th>
+                                    <th>Nama Nama Part</th>
                                     <th>Alamat</th>
                                     <th>No. Telp</th>
                                     <th>Opsi</th>
@@ -984,7 +984,8 @@
             item_pembelian += '</td>';
 
             // nama_barang 
-            item_pembelian += '<td>';
+            item_pembelian += '<td onclick="addPart(' + key +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_barang-' +
                 key +
