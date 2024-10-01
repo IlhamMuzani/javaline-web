@@ -146,7 +146,7 @@
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
                                                     <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuspemakaian', ['id' => $penggantianoli->id]) }}">
+                                                        action="{{ route('hapuspenggantianbearing', ['id' => $penggantianoli->id]) }}">
                                                         <button type="submit"
                                                             class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                             </i> Delete

@@ -884,5 +884,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_penggantianbearing/unpostpenggantian/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'unpostpenggantian']);
     Route::get('inquery_penggantianbearing/postingpenggantian/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'postingpenggantian']);
     Route::get('penggantian_bearing/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PenggantianBearingController::class, 'cetakpdf']);
+    Route::get('hapuspenggantianbearing/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'hapuspenggantianbearing'])->name('hapuspenggantianbearing');
+    Route::delete('inquery_penggantianbearing/deletedetailpenggantian/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianbearingController::class, 'deletedetailpenggantian']);
 
 });

@@ -643,31 +643,17 @@ class InqueryPenggantianbearingController extends Controller
     }
 
 
-    public function deleteoli($id)
+    public function deletedetailpenggantian($id)
     {
-        $part = Detail_penggantianoli::find($id);
-        $parts = Detail_penggantianoli::where('id', $id)->first();
-
-        $penggantianbearing = Penggantian_bearing::where('id', $parts->penggantian_bearing_id)->first();
-        $kendaraan = Kendaraan::find($penggantianbearing->kendaraan_id);
-        if ($part) {
-            $sparepart = Sparepart::find($part->sparepart_id);
-            $part->delete();
-        } else {
-            return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
-        }
+        $part = Detail_penggantianbearing::find($id);
+        $part->delete();
     }
 
-    public function hapuspenggantianoli($id)
+    public function hapuspenggantianbearing($id)
     {
         $part = Penggantian_bearing::find($id);
-        $detailpenggantianoli = Detail_penggantianoli::where('penggantian_bearing_id', $id)->get();
-        $detailpenggantianpart = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
-
-        $kendaraan = Kendaraan::find($part->kendaraan_id);
-
         // Delete the related Detail_penggantianoli records
-        $part->detail_oli()->delete();
+        $part->detail_penggantianbearing()->delete();
 
         // Delete the Penggantian_bearing record
         $part->delete();
@@ -675,24 +661,4 @@ class InqueryPenggantianbearingController extends Controller
         return redirect('admin/inquery_penggantianbearing')->with('success', 'Berhasil menghapus Penggantian');
     }
 
-    public function deletefilter($id)
-    {
-        $part = Detail_penggantianpart::find($id);
-
-        if ($part) {
-            $sparepart = Sparepart::find($part->spareparts_id);
-
-            if ($sparepart) {
-                // $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah2]);
-
-                $part->delete();
-
-                return response()->json(['message' => 'Data deleted successfully']);
-            } else {
-                return response()->json(['message' => 'Sparepart not found'], 404);
-            }
-        } else {
-            return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
-        }
-    }
 }
