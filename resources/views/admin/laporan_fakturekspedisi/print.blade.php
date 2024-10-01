@@ -112,6 +112,11 @@
                 <p>Periode: Tidak ada tanggal awal dan akhir yang diteruskan.</p>
             @endif
         </div>
+        @if ($karyawan != null)
+            <div style="font-size:13px; text-align: left; margin-bottom:5px">
+                Marketing : {{ $karyawan->nama_lengkap }}
+            </div>
+        @endif
     </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
 

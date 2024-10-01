@@ -106,6 +106,8 @@ class UserController extends Controller
                 'cek_hapus' => 'tidak',
                 'kode_user' => $this->kode(),
                 'qrcode_user' => "-",
+                'password' => bcrypt('123456'),
+                // 'level' => 'admin',
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
                 'menu' => [
                     'karyawan' => false,

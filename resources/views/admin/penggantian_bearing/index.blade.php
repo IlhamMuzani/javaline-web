@@ -61,7 +61,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode</th>
+                                <th>Kode Kendaraan</th>
                                 <th>No. Kabin</th>
                                 <th>Jenis Kendaraan</th>
                                 <th>Keterangan</th>

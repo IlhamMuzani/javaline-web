@@ -232,7 +232,7 @@ class LaporanFakturekspedisiController extends Controller
         $inquery = $query->get();
 
         // Membuat laporan PDF menggunakan data hasil query
-        $pdf = PDF::loadView('admin.laporan_fakturekspedisi.print', compact('inquery'));
+        $pdf = PDF::loadView('admin.laporan_fakturekspedisi.print', compact('inquery', 'karyawan'));
 
         // Mengembalikan laporan PDF sebagai respons stream
         return $pdf->stream('Laporan_Faktur_Ekspedisi.pdf');

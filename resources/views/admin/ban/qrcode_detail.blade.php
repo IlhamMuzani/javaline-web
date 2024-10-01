@@ -64,9 +64,9 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 {{-- <li class="nav-item d-none d-sm-inline-block">
-          <h4 class="nav-link">
+        <h4 class="nav-link">
             <span class="font-weight-bold">Selamat Datang di Sistem Java Snack</span>
-          </h4>
+        </h4>
         </li> --}}
                 <li class="nav-item d-none d-sm-inline-block">
                     <img class="animation__wobble" src="{{ asset('storage/uploads/user/logo.png') }}"
