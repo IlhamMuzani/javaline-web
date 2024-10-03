@@ -235,87 +235,110 @@ class InqueryPenggantianbearingController extends Controller
                 // Memeriksa kategori dan memperbarui bearing yang sesuai
                 switch ($data_pesanan['kategori']) {
                     case 'Axle 1A':
-                        $bearing->update([
-                            'bearing1a' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing1a' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing1a' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing1a' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
-
                     case 'Axle 1B':
-                        $bearing->update([
-                            'bearing1b' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing1b' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing1b' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing1b' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 2A':
-                        $bearing->update([
-                            'bearing2a' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing2a' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing2a' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing2a' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 2B':
-                        $bearing->update([
-                            'bearing2b' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing2b' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing2b' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing2b' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 3A':
-                        $bearing->update([
-                            'bearing3a' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing3a' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing3a' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing3a' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 3B':
-                        $bearing->update([
-                            'bearing3b' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing3b' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing3b' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing3b' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 4A':
-                        $bearing->update([
-                            'bearing4a' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing4a' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing4a' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing4a' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 4B':
-                        $bearing->update([
-                            'bearing4b' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing4b' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing4b' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing4b' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 5A':
-                        $bearing->update([
-                            'bearing5a' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing5a' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing5a' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing5a' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 5B':
-                        $bearing->update([
-                            'bearing5b' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing5b' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing5b' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing5b' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 6A':
-                        $bearing->update([
-                            'bearing6a' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing6a' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing6a' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing6a' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     case 'Axle 6B':
-                        $bearing->update([
-                            'bearing6b' => $km_kendaraan + $lama_bearing->batas,
-                            'status_bearing6b' => 'sudah penggantian',
-                        ]);
+                        if (!empty($data_pesanan['spareparts_id'])) {
+                            $bearing->update([
+                                'bearing6b' => $km_kendaraan + $lama_bearing->batas,
+                                'status_bearing6b' => 'sudah penggantian',
+                            ]);
+                        }
                         break;
 
                     default:
@@ -384,87 +407,110 @@ class InqueryPenggantianbearingController extends Controller
                     // Memeriksa kategori dan memperbarui bearing yang sesuai
                     switch ($data_pesanan['kategori']) {
                         case 'Axle 1A':
-                            $bearing->update([
-                                'bearing1a' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing1a' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing1a' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing1a' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
-
                         case 'Axle 1B':
-                            $bearing->update([
-                                'bearing1b' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing1b' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing1b' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing1b' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 2A':
-                            $bearing->update([
-                                'bearing2a' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing2a' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing2a' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing2a' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 2B':
-                            $bearing->update([
-                                'bearing2b' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing2b' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing2b' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing2b' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 3A':
-                            $bearing->update([
-                                'bearing3a' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing3a' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing3a' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing3a' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 3B':
-                            $bearing->update([
-                                'bearing3b' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing3b' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing3b' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing3b' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 4A':
-                            $bearing->update([
-                                'bearing4a' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing4a' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing4a' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing4a' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 4B':
-                            $bearing->update([
-                                'bearing4b' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing4b' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing4b' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing4b' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 5A':
-                            $bearing->update([
-                                'bearing5a' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing5a' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing5a' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing5a' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 5B':
-                            $bearing->update([
-                                'bearing5b' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing5b' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing5b' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing5b' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 6A':
-                            $bearing->update([
-                                'bearing6a' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing6a' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing6a' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing6a' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         case 'Axle 6B':
-                            $bearing->update([
-                                'bearing6b' => $km_kendaraan + $lama_bearing->batas,
-                                'status_bearing6b' => 'sudah penggantian',
-                            ]);
+                            if (!empty($data_pesanan['spareparts_id'])) {
+                                $bearing->update([
+                                    'bearing6b' => $km_kendaraan + $lama_bearing->batas,
+                                    'status_bearing6b' => 'sudah penggantian',
+                                ]);
+                            }
                             break;
 
                         default:
