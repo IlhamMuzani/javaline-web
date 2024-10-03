@@ -175,7 +175,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="number" class="form-control jumlah" id="jumlah-0"
+                                            <input type="text" class="form-control jumlah" id="jumlah-0"
                                                 name="jumlah[]" data-row-id="0">
                                         </div>
                                     </td>
