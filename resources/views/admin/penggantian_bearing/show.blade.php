@@ -109,11 +109,15 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Km
-                Penggantian:{{ $penggantian->detail_penggantianbearing->first()->km_penggantian ?? null }}</td>
+                Penggantian:
+                {{ number_format($penggantian->detail_penggantianbearing->first()->km_penggantian ?? null, 0, ',', '.') }}
+            </td>
             {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">No.
                 Registrasi:{{ $penggantian->kendaraan->no_pol }}</td> --}}
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Km
-                Berikutnya:{{ $penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null }}</td>
+                Berikutnya:
+                {{ number_format($penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null, 0, ',', '.') }}
+            </td>
         </tr>
     </table>
     </div>
@@ -223,4 +227,5 @@
     <a href="{{ url('admin/inquery_penggantianbearing') }}" class="blue-button">Kembali</a>
     <a href="{{ url('admin/penggantian_bearing/cetak-pdf/' . $penggantian->id) }}" class="blue-button">Cetak</a>
 </div>
+
 </html>

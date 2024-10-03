@@ -27,13 +27,12 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('admin/kasbon_karyawan') }}">Memo Hutang Karyawan</a></li>
-                        <li class="breadcrumb-item active">Tambah</li>
+                        <li class="breadcrumb-item active">Perbarui</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-
 
     <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
@@ -53,7 +52,7 @@
                 @csrf
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah</h3>
+                        <h3 class="card-title">Perbarui</h3>
                     </div>
                     <div class="card-body">
 

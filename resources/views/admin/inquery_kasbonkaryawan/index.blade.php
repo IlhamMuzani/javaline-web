@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Kasbon Karyawan')
+@section('title', 'Inquery Memo Hutang Karyawan')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Kasbon Karyawan</h1>
+                    <h1 class="m-0">Inquery Memo Hutang Karyawan</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Kasbon Karyawan</li>
+                        <li class="breadcrumb-item active">Inquery Memo Hutang Karyawan</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Kasbon Karyawan</h3>
+                    <h3 class="card-title">Data Inquery Memo Hutang Karyawan</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">

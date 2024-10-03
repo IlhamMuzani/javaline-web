@@ -97,11 +97,15 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">Km.
-                Penggantian:{{ $penggantian->detail_penggantianbearing->first()->km_penggantian ?? null }}</td>
+                Penggantian:
+                {{ number_format($penggantian->detail_penggantianbearing->first()->km_penggantian ?? null, 0, ',', '.') }}
+            </td>
             {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">No.
                 Registrasi:{{ $penggantian->kendaraan->no_pol }}</td> --}}
             <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">Km
-                Berikutnya:{{ $penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null }}</td>
+                Berikutnya:
+                {{ number_format($penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null, 0, ',', '.') }}
+            </td>
         </tr>
     </table>
     </div>
@@ -129,7 +133,7 @@
                     {{ $item->kategori }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
-                    {{ $item->sparepart->kode_partdetail ?? null}}
+                    {{ $item->sparepart->kode_partdetail ?? null }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->sparepart->nama_barang ?? null }}

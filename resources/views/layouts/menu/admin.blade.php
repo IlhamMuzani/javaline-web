@@ -462,6 +462,22 @@
             ->orWhere('status_oligardan', 'belum penggantian')
             ->orWhere('status_olitransmisi', 'belum penggantian');
     })->get();
+
+    $peringatan_bearing = \App\Models\Bearing::where(function ($query) {
+        $query
+            ->where('status_bearing1a', 'belum penggantian')
+            ->orWhere('status_bearing1b', 'belum penggantian')
+            ->orWhere('status_bearing2a', 'belum penggantian')
+            ->orWhere('status_bearing2b', 'belum penggantian')
+            ->orWhere('status_bearing3a', 'belum penggantian')
+            ->orWhere('status_bearing3b', 'belum penggantian')
+            ->orWhere('status_bearing4a', 'belum penggantian')
+            ->orWhere('status_bearing4b', 'belum penggantian')
+            ->orWhere('status_bearing5a', 'belum penggantian')
+            ->orWhere('status_bearing5b', 'belum penggantian')
+            ->orWhere('status_bearing6a', 'belum penggantian')
+            ->orWhere('status_bearing6b', 'belum penggantian');
+    })->get();
 @endphp
 <li
     class="nav-item {{ request()->is('admin/km*') ||
@@ -689,7 +705,13 @@
                 <a href="{{ url('admin/penggantian_bearing') }}"
                     class="nav-link {{ request()->is('admin/penggantian_bearing*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Penggantian Bearing</p>
+                    <p style="font-size: 14px;">Penggantian Bearing
+                        @if (count($peringatan_bearing) > 0)
+                            <span class="">
+                                <i class="fas fa-exclamation-circle" style="color: red;"></i>
+                            </span>
+                        @endif
+                    </p>
                 </a>
             </li>
         @endif
