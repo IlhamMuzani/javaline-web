@@ -413,7 +413,7 @@
                                     <tbody id="tabel-pembelian">
                                         {{-- axle 1a  --}}
                                         <tr id="pembelian-0">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-0">1
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
@@ -486,18 +486,21 @@
                                                         value="{{ old('jumlah_grease.0') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(0)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
-
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(0)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
 
                                         {{-- axle 1b  --}}
                                         <tr id="pembelian-1">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">2
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-1">2
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
@@ -575,13 +578,16 @@
                                                     onclick="addParts(1)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
-
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(1)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
 
                                         {{-- axle 2a  --}}
                                         <tr id="pembelian-2">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">3
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-2">3
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
@@ -654,17 +660,21 @@
                                                         value="{{ old('jumlah_grease.2') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(2)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(2)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
 
                                         {{-- axle 2b --}}
                                         <tr id="pembelian-3">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">4
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-3">4
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
@@ -737,17 +747,21 @@
                                                         value="{{ old('jumlah_grease.3') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(3)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(3)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
 
                                         {{-- axle 3a  --}}
                                         <tr id="pembelian-4">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">5
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-4">5
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
@@ -820,17 +834,21 @@
                                                         value="{{ old('jumlah_grease.4') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(4)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(4)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
 
                                         {{-- axle 3b --}}
                                         <tr id="pembelian-5">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">6
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-5">6
                                             </td>
                                             <td hidden>
                                                 <div class="form-group">
@@ -903,10 +921,14 @@
                                                         value="{{ old('jumlah_grease.5') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(5)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(5)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -914,7 +936,7 @@
                                             {{-- axle 4a  --}}
                                             <tr id="pembelian-6">
                                                 <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">7
+                                                    id="urutan-6">7
                                                 </td>
                                                 <td hidden>
                                                     <div class="form-group">
@@ -988,10 +1010,14 @@
                                                             value="{{ old('jumlah_grease.6') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(6)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(6)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -999,7 +1025,7 @@
                                             {{-- axle 4b --}}
                                             <tr id="pembelian-7">
                                                 <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">8
+                                                    id="urutan-7">8
                                                 </td>
                                                 <td hidden>
                                                     <div class="form-group">
@@ -1027,8 +1053,8 @@
                                                 <td onclick="addPart(7)">
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-7" name="nama_barang[7]"
-                                                            value="{{ old('nama_barang.7') }}">
+                                                            class="form-control" id="nama_barang-7"
+                                                            name="nama_barang[7]" value="{{ old('nama_barang.7') }}">
                                                     </div>
                                                 </td>
                                                 <td hidden>
@@ -1074,10 +1100,14 @@
                                                             value="{{ old('jumlah_grease.7') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(7)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(7)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1085,7 +1115,7 @@
                                             {{-- axle 5a  --}}
                                             <tr id="pembelian-8">
                                                 <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">9
+                                                    id="urutan-8">9
                                                 </td>
                                                 <td hidden>
                                                     <div class="form-group">
@@ -1161,10 +1191,14 @@
                                                             value="{{ old('jumlah_grease.8') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(8)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(8)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1172,7 +1206,7 @@
                                             {{-- axle 5b --}}
                                             <tr id="pembelian-9">
                                                 <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">10
+                                                    id="urutan-9">10
                                                 </td>
                                                 <td hidden>
                                                     <div class="form-group">
@@ -1248,10 +1282,14 @@
                                                             value="{{ old('jumlah_grease.9') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(9)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(9)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1260,7 +1298,7 @@
                                             {{-- axle 6a  --}}
                                             <tr id="pembelian-10">
                                                 <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">11
+                                                    id="urutan-10">11
                                                 </td>
                                                 <td hidden>
                                                     <div class="form-group">
@@ -1340,10 +1378,14 @@
                                                             value="{{ old('jumlah_grease.10') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(10)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(10)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1351,7 +1393,7 @@
                                             {{-- axle 6b --}}
                                             <tr id="pembelian-11">
                                                 <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan">12
+                                                    id="urutan-11">12
                                                 </td>
                                                 <td hidden>
                                                     <div class="form-group">
@@ -1431,10 +1473,14 @@
                                                             value="{{ old('jumlah_grease.11') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(11)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(11)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1712,21 +1758,31 @@
     </script>
 
     <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
+        function removeRow(index) {
+            var row = document.getElementById("pembelian-" + index);
+            if (row) {
+                console.log("Menghapus baris: ", index, row.innerHTML);
+                row.parentNode.removeChild(row);
+            }
+            updateOrder();
+        }
+
+        function updateOrder() {
+            var rows = document.querySelectorAll("tbody tr[id^='pembelian-']");
+            rows.forEach(function(row, index) {
+                var urutanCell = row.querySelector(".text-center");
+                if (urutanCell) {
+                    urutanCell.textContent = index + 1; // Update nomor urutan
+                    urutanCell.id = "urutan-" + index; // Update id
+                    row.id = "pembelian-" + index; // Update id baris
+                    var inputs = row.querySelectorAll("input");
+                    inputs.forEach(function(input) {
+                        input.name = input.name.replace(/\[\d+\]/, "[" + index + "]"); // Update nama input
+                        input.id = input.id.replace(/-\d+$/, "-" + index); // Update id input
+                    });
+                }
+            });
         }
     </script>
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
+
 @endsection

@@ -47,7 +47,7 @@ class Penggantian_bearing extends Model
 
     public function detail_penggantianbearing()
     {
-        return $this->hasMany(detail_penggantianbearing::class);
+        return $this->hasMany(Detail_penggantianbearing::class);
     }
 
     public static function getId()

@@ -486,12 +486,15 @@
                                                         value="{{ old('jumlah_grease.0') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(0)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
-
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(0)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -575,7 +578,10 @@
                                                     onclick="addParts(1)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
-
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(1)">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -654,10 +660,14 @@
                                                         value="{{ old('jumlah_grease.2') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(2)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(2)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -737,10 +747,14 @@
                                                         value="{{ old('jumlah_grease.3') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(3)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(3)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -820,10 +834,14 @@
                                                         value="{{ old('jumlah_grease.4') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(4)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(4)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -903,10 +921,14 @@
                                                         value="{{ old('jumlah_grease.5') }}">
                                                 </div>
                                             </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addParts(5)">
                                                     <i class="fas fa-plus"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="removeRow(5)">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -988,10 +1010,14 @@
                                                             value="{{ old('jumlah_grease.6') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(6)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(6)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1027,8 +1053,8 @@
                                                 <td onclick="addPart(7)">
                                                     <div class="form-group">
                                                         <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-7" name="nama_barang[7]"
-                                                            value="{{ old('nama_barang.7') }}">
+                                                            class="form-control" id="nama_barang-7"
+                                                            name="nama_barang[7]" value="{{ old('nama_barang.7') }}">
                                                     </div>
                                                 </td>
                                                 <td hidden>
@@ -1074,10 +1100,14 @@
                                                             value="{{ old('jumlah_grease.7') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(7)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(7)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1161,10 +1191,14 @@
                                                             value="{{ old('jumlah_grease.8') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(8)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(8)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1248,10 +1282,14 @@
                                                             value="{{ old('jumlah_grease.9') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(9)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(9)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1340,10 +1378,14 @@
                                                             value="{{ old('jumlah_grease.10') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(10)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(10)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1431,10 +1473,14 @@
                                                             value="{{ old('jumlah_grease.11') }}">
                                                     </div>
                                                 </td>
-                                                <td style="width: 50px">
+                                                <td style="width: 100px">
                                                     <button type="button" class="btn btn-primary btn-sm"
                                                         onclick="addParts(11)">
                                                         <i class="fas fa-plus"></i>
+                                                    </button>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="removeRow(11)">
+                                                        <i class="fas fa-trash"></i>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -1711,22 +1757,28 @@
         });
     </script>
 
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
+   <script>
+    function removeRow(index) {
+    // Hapus baris yang sesuai dengan index
+    var row = document.getElementById("pembelian-" + index);
+    if (row) {
+        row.parentNode.removeChild(row);
+    }
+    // Memperbarui urutan setiap baris setelah penghapusan
+    updateOrder();
+}
+
+function updateOrder() {
+    // Ambil semua baris dengan ID yang dimulai dengan 'pembelian-'
+    var rows = document.querySelectorAll("tr[id^='pembelian-']");
+    rows.forEach((row, index) => {
+        // Update urutan berdasarkan index
+        var urutanCell = row.querySelector("#urutan");
+        if (urutanCell) {
+            urutanCell.textContent = index + 1; // Urutan dimulai dari 1
         }
-    </script>
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
+    });
+}
+
+   </script>
 @endsection

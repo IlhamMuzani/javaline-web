@@ -106,16 +106,29 @@
                 Tanggal:{{ $penggantian->tanggal_penggantian }}</td>
         </tr>
     </table>
+    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
+        <tr>
+            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Km
+                Penggantian:{{ $penggantian->detail_penggantianbearing->first()->km_penggantian ?? null }}</td>
+            {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">No.
+                Registrasi:{{ $penggantian->kendaraan->no_pol }}</td> --}}
+            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Km
+                Berikutnya:{{ $penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null }}</td>
+        </tr>
+    </table>
     </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No.</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Posisi</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Qty</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Km Penggantian</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Km Berikutnya</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Grease</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Grease</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Qty Grease</td>
+
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -126,58 +139,27 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->sparepart->kode_partdetail }}
+                    {{ $item->kategori }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->sparepart->nama_barang }}
+                    {{ $item->sparepart->kode_partdetail ?? null }}
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
+                    {{ $item->sparepart->nama_barang ?? null }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->jumlah }}</td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->km_penggantian }}
+                    {{ $item->kode_grease }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->km_berikutnya }}
+                    {{ $item->nama_grease }}
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
+                    {{ $item->jumlah_grease }}
                 </td>
             </tr>
         @endforeach
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="8" style="padding: 0px;">
-            </td>
-        </tr>
-    </table>
-
-    <div style="font-weight: bold; text-align: left">
-        <br>
-        <span style="font-weight: bold; font-size: 15px;">PENGGANTIAN PART</span>
-    </div>
-    <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
-        <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Barang</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Barang</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Qty</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Satuan</td>
-        </tr>
-        <tr style="border-bottom: 1px solid black;">
-            <td colspan="7" style="padding: 0px;">
-            </td>
-        </tr>
-        <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">1
-            </td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                {{ $detailgrease->kode_barang }}
-            </td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                {{ $detailgrease->nama_barang }}
-            </td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                {{ $item->jumlah }}</td>
-
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">pcs
-            </td>
-        </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="8" style="padding: 0px;">
             </td>

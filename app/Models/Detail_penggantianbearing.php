@@ -19,11 +19,15 @@ class Detail_penggantianbearing extends Model
         'kategori',
         'kode_barang',
         'nama_barang',
+        'jumlah',
         'km_penggantian',
         'km_berikutnya',
+        'spareparts_id',
+        'kode_grease',
+        'nama_grease',
+        'jumlah_grease',
         'keterangan',
         'tanggal_awal',
-        'jumlah',
     ];
 
     use SoftDeletes;

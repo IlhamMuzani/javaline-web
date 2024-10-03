@@ -24,11 +24,19 @@ class PenggantianBearingController extends Controller
 {
     public function index()
     {
-
         $kendaraans = Kendaraan::all();
         foreach ($kendaraans as $kendaraan) {
             $updates = [];
+
+            // Cek apakah bearing ditemukan untuk kendaraan
             $bearing = Bearing::where('kendaraan_id', $kendaraan->id)->first();
+
+            // Jika bearing tidak ditemukan, skip ke kendaraan berikutnya
+            if (!$bearing) {
+                continue;
+            }
+
+            // Melakukan pengecekan dan pembaruan berdasarkan kondisi km
             if ($kendaraan->km >= $bearing->bearing1a) {
                 $updates['status_bearing1a'] = 'belum penggantian';
             } else {
@@ -101,6 +109,7 @@ class PenggantianBearingController extends Controller
                 $updates['status_bearing6b'] = 'sudah penggantian';
             }
 
+            // Melakukan pembaruan pada bearing jika ada perubahan
             $bearing->update($updates);
         }
 
@@ -185,7 +194,7 @@ class PenggantianBearingController extends Controller
         }
 
         $bearing->update($updates);
-        $spareparts = Sparepart::get();
+        $spareparts = Sparepart::where('kategori', 'sasis')->get();
         return view('admin.penggantian_bearing.update', compact('kendaraan', 'spareparts'));
     }
 
@@ -195,18 +204,18 @@ class PenggantianBearingController extends Controller
         $kendaraan = Kendaraan::where('id', $kendaraan_id)->first();
         $validasi_pelanggan = Validator::make($request->all(), [
             'kendaraan_id' => 'required',
-            // 'km' => [
-            //     'required',
-            //     'numeric',
-            //     function ($attribute, $value, $fail) use ($kendaraan) {
-            //         if ($value <= $kendaraan->km) {
-            //             $fail('Nilai km akhir harus lebih tinggi dari km awal');
-            //         }
-            //     },
-            // ],
+            'km' => [
+                'required',
+                'numeric',
+                function ($attribute, $value, $fail) use ($kendaraan) {
+                    if ($value <= $kendaraan->km) {
+                        $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                    }
+                },
+            ],
         ], [
             'kendaraan_id.required' => 'Pilih no kabin',
-            // 'km.required' => 'Masukkan nilai km',
+            'km.required' => 'Masukkan nilai km',
         ]);
 
         $error_pelanggans = array();
@@ -218,29 +227,47 @@ class PenggantianBearingController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
 
-        if ($request->has('sparepart_id')) {
-            for ($i = 0; $i < count($request->sparepart_id); $i++) {
+        if ($request->has('sparepart_id') || $request->has('kategori') || $request->has('kode_barang') || $request->has('nama_barang') || $request->has('jumlah') || $request->has('spareparts_id') || $request->has('kode_grease') || $request->has('nama_grease') || $request->has('jumlah_grease')) {
+            for ($i = 0; $i < count($request->spareparts_id); $i++) {
+                if (
+                    empty($request->spareparts_id[$i]) && empty($request->kategori[$i]) && empty($request->kode_barang[$i]) && empty($request->nama_barang[$i]) && empty($request->jumlah[$i]) && empty($request->sparepart_id[$i]) && empty($request->kode_grease[$i]) && empty($request->nama_grease[$i]) && empty($request->jumlah_grease[$i])
+                ) {
+                    continue;
+                }
+
                 $validasi_produk = Validator::make($request->all(), [
-                    'sparepart_id.' . $i => 'required',
-                    'kategori.' . $i => 'required',
-                    'kode_barang.' . $i => 'required',
-                    'nama_barang.' . $i => 'required',
-                    'jumlah.*' => 'required|numeric|min:1',
+                    'spareparts_id.' . $i => 'required',
+                    'kode_grease.' . $i => 'required',
+                    'nama_grease.' . $i => 'required',
+                    'jumlah_grease.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Pemakain Bearing nomor " . $i + 1 . " belum dilengkapi!");
+                    array_push($error_pesanans, "Bearing nomor " . ($i + 1) . " belum dilengkapi!");
                 }
 
-                $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
-                $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
-                $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
-                $kode_barang = is_null($request->kode_barang[$i]) ? '' : $request->kode_barang[$i];
-                $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
+                $sparepart_id = $request->sparepart_id[$i] ?? '';
+                $kategori = $request->kategori[$i] ?? '';
+                $kode_barang = $request->kode_barang[$i] ?? '';
+                $nama_barang = $request->nama_barang[$i] ?? '';
+                $jumlah = $request->jumlah[$i] ?? '';
+                $spareparts_id = $request->spareparts_id[$i] ?? '';
+                $kode_grease = $request->kode_grease[$i] ?? '';
+                $nama_grease = $request->nama_grease[$i] ?? '';
+                $jumlah_grease = $request->jumlah_grease[$i] ?? '';
 
-                $data_pembelians->push(['sparepart_id' => $sparepart_id, 'kategori' => $kategori, 'kode_barang' => $kode_barang, 'nama_barang' => $nama_barang, 'jumlah' => $jumlah]);
+                $data_pembelians->push([
+                    'sparepart_id' => $sparepart_id,
+                    'kategori' => $kategori,
+                    'kode_barang' => $kode_barang,
+                    'nama_barang' => $nama_barang,
+                    'jumlah' => $jumlah,
+                    'spareparts_id' => $spareparts_id,
+                    'kode_grease' => $kode_grease,
+                    'nama_grease' => $nama_grease,
+                    'jumlah_grease' => $jumlah_grease
+                ]);
             }
-        } else {
         }
 
         if ($error_pelanggans || $error_pesanans) {
@@ -250,15 +277,6 @@ class PenggantianBearingController extends Controller
                 ->with('error_pesanans', $error_pesanans)
                 ->with('data_pembelians', $data_pembelians);
         }
-
-        $data = request()->all(); // Mengambil semua data dari request
-
-        // Validasi manual untuk memastikan semua data tidak kosong dan valid
-        if (empty($data['sparepart_ids']) || empty($data['kode_gris']) || empty($data['nama_gris']) || empty($data['jumlah_gris']) || !is_numeric($data['jumlah_gris'])) {
-            return back()->with('erorrss', 'Data gris tidak lengkap')->withInput();
-        }
-
-        // Lanjutkan proses jika validasi lolos
 
         // format tanggal indo
         $tanggal1 = Carbon::now('Asia/Jakarta');
@@ -280,30 +298,61 @@ class PenggantianBearingController extends Controller
         if ($transaksi) {
             foreach ($data_pembelians as $data_pesanan) {
                 $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
-                if ($sparepart) {
+                $spareparts = Sparepart::find($data_pesanan['spareparts_id']);
+                if ($spareparts) {
                     // Mengurangkan jumlah sparepart
-                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
-                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
+                    if ($sparepart) {
+                        $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
+                        $sparepart->update(['jumlah' => $jumlah_sparepart]);
+                    }
+
+                    if ($spareparts) {
+                        $jumlah_spareparts = $spareparts->jumlah - $data_pesanan['jumlah_grease'];
+                        $spareparts->update(['jumlah' => $jumlah_spareparts]);
+                    }
 
                     $lama_bearing = Lama_bearing::first();
-                    $detail_pemakaians = Detail_penggantianbearing::create([
+                    $detail_pemakaians_data = [
                         'kendaraan_id' => $request->kendaraan_id,
                         'penggantian_bearing_id' => $transaksi->id,
-                        'sparepart_id' => $data_pesanan['sparepart_id'],
-                        'kategori' => $data_pesanan['kategori'],
-                        'kode_barang' => $data_pesanan['kode_barang'],
-                        'nama_barang' => $data_pesanan['nama_barang'],
-                        'jumlah' => $data_pesanan['jumlah'],
                         'km_penggantian' => $kendaraan->km,
                         'km_berikutnya' => $kendaraan->km + $lama_bearing->batas,
+                        'spareparts_id' => $data_pesanan['spareparts_id'],
+                        'kode_grease' => $data_pesanan['kode_grease'],
+                        'nama_grease' => $data_pesanan['nama_grease'],
+                        'jumlah_grease' => $data_pesanan['jumlah_grease'],
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                    ]);
+                    ];
+
+                    // Hanya tambahkan jika tidak null atau kosong
+                    if (!empty($data_pesanan['sparepart_id'])) {
+                        $detail_pemakaians_data['sparepart_id'] = $data_pesanan['sparepart_id'];
+                    }
+
+                    if (!empty($data_pesanan['kategori'])) {
+                        $detail_pemakaians_data['kategori'] = $data_pesanan['kategori'];
+                    }
+
+                    if (!empty($data_pesanan['kode_barang'])) {
+                        $detail_pemakaians_data['kode_barang'] = $data_pesanan['kode_barang'];
+                    }
+
+                    if (!empty($data_pesanan['nama_barang'])) {
+                        $detail_pemakaians_data['nama_barang'] = $data_pesanan['nama_barang'];
+                    }
+
+                    if (!empty($data_pesanan['jumlah'])) {
+                        $detail_pemakaians_data['jumlah'] = $data_pesanan['jumlah'];
+                    }
+
+                    // Membuat detail_pemakaians
+                    $detail_pemakaians = Detail_penggantianbearing::create($detail_pemakaians_data);
                 }
 
                 // Mengambil km kendaraan dan lama_bearing
                 $km_kendaraan = $request->km;
                 $lama_bearing = Lama_bearing::first();
-                $bearing = Bearing::where('kendaraan_id', $transaksi->id)->first();
+                $bearing = Bearing::where('kendaraan_id', $transaksi->kendaraan_id)->first();
 
                 // Memeriksa kategori dan memperbarui bearing yang sesuai
                 switch ($data_pesanan['kategori']) {
@@ -313,7 +362,6 @@ class PenggantianBearingController extends Controller
                             'status_bearing1a' => 'sudah penggantian',
                         ]);
                         break;
-
                     case 'Axle 1B':
                         $bearing->update([
                             'bearing1b' => $km_kendaraan + $lama_bearing->batas,
@@ -400,22 +448,22 @@ class PenggantianBearingController extends Controller
 
         $penggantian = Penggantian_bearing::find($transaksi_id);
 
-        $detail_gris = Detail_penggantianbearing::create([
-            'sparepart_id' => $request->sparepart_ids,
-            'penggantian_bearing_id' => $transaksi->id,
-            'kode_barang' => $request->kode_gris,
-            'nama_barang' => $request->nama_gris,
-            'jumlah' => $request->jumlah_gris,
-            'kendaraan_id' => $request->kendaraan_id,
-            'tanggal_penggantian' => $format_tanggal,
-            'tanggal_awal' => $tanggal,
-            'status_notif' => false,
-        ]);
-        $sparepart = Sparepart::find($request->sparepart_ids);
-        if ($sparepart) {
-            $jumlah_sparepart = $sparepart->jumlah - $request->jumlah_gris;
-            $sparepart->update(['jumlah' => $jumlah_sparepart]);
-        }
+        // $detail_gris = Detail_penggantianbearing::create([
+        //     'sparepart_id' => $request->sparepart_ids,
+        //     'penggantian_bearing_id' => $transaksi->id,
+        //     'kode_barang' => $request->kode_gris,
+        //     'nama_barang' => $request->nama_gris,
+        //     'jumlah' => $request->jumlah_gris,
+        //     'kendaraan_id' => $request->kendaraan_id,
+        //     'tanggal_penggantian' => $format_tanggal,
+        //     'tanggal_awal' => $tanggal,
+        //     'status_notif' => false,
+        // ]);
+        // $sparepart = Sparepart::find($request->sparepart_ids);
+        // if ($sparepart) {
+        //     $jumlah_sparepart = $sparepart->jumlah - $request->jumlah_gris;
+        //     $sparepart->update(['jumlah' => $jumlah_sparepart]);
+        // }
 
         $details = Detail_penggantianbearing::where('penggantian_bearing_id', $penggantian->id)
             ->whereNotNull('kategori') // Memastikan kategori tidak null
