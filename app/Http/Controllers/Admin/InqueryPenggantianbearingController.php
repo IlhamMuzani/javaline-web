@@ -120,10 +120,10 @@ class InqueryPenggantianbearingController extends Controller
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
-                    'spareparts_id.' . $i => 'required',
-                    'kode_grease.' . $i => 'required',
-                    'nama_grease.' . $i => 'required',
-                    'jumlah_grease.' . $i => 'required',
+                    // 'spareparts_id.' . $i => 'required',
+                    // 'kode_grease.' . $i => 'required',
+                    // 'nama_grease.' . $i => 'required',
+                    // 'jumlah_grease.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {

@@ -1710,23 +1710,4 @@
             });
         });
     </script>
-
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
-    <script>
-        function hideRow(rowId) {
-            // Menyembunyikan baris dengan ID tertentu
-            document.getElementById('pembelian-' + rowId).style.display = 'none';
-        }
-    </script>
 @endsection

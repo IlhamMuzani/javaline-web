@@ -236,10 +236,10 @@ class PenggantianBearingController extends Controller
                 }
 
                 $validasi_produk = Validator::make($request->all(), [
-                    // 'spareparts_id.' . $i => 'required',
-                    // 'kode_grease.' . $i => 'required',
-                    // 'nama_grease.' . $i => 'required',
-                    // 'jumlah_grease.' . $i => 'required',
+                    'spareparts_id.' . $i => 'required',
+                    'kode_grease.' . $i => 'required',
+                    'nama_grease.' . $i => 'required',
+                    'jumlah_grease.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {
@@ -448,6 +448,22 @@ class PenggantianBearingController extends Controller
 
         $penggantian = Penggantian_bearing::find($transaksi_id);
 
+        // $detail_gris = Detail_penggantianbearing::create([
+        //     'sparepart_id' => $request->sparepart_ids,
+        //     'penggantian_bearing_id' => $transaksi->id,
+        //     'kode_barang' => $request->kode_gris,
+        //     'nama_barang' => $request->nama_gris,
+        //     'jumlah' => $request->jumlah_gris,
+        //     'kendaraan_id' => $request->kendaraan_id,
+        //     'tanggal_penggantian' => $format_tanggal,
+        //     'tanggal_awal' => $tanggal,
+        //     'status_notif' => false,
+        // ]);
+        // $sparepart = Sparepart::find($request->sparepart_ids);
+        // if ($sparepart) {
+        //     $jumlah_sparepart = $sparepart->jumlah - $request->jumlah_gris;
+        //     $sparepart->update(['jumlah' => $jumlah_sparepart]);
+        // }
 
         $details = Detail_penggantianbearing::where('penggantian_bearing_id', $penggantian->id)
             ->whereNotNull('kategori') // Memastikan kategori tidak null
