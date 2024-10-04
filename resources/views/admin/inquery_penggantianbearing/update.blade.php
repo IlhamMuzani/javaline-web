@@ -467,9 +467,9 @@
                                                 </td>
                                                 <td>
                                                     <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="jumlah-{{ $loop->index }}"
-                                                            name="jumlah[]" value="{{ $detail['jumlah'] }}">
+                                                        <input style="font-size:14px" type="text" class="form-control"
+                                                            id="jumlah-{{ $loop->index }}" name="jumlah[]"
+                                                            value="{{ $detail['jumlah'] }}">
                                                     </div>
                                                 </td>
                                                 <td style="width: 50px">
@@ -919,10 +919,9 @@
             item_pembelian += '</td>';
 
             // jumlah 
-            item_pembelian += '<td onclick="addPart(' + key +
-                ')">';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="jumlah-' +
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="jumlah-' +
                 key +
                 '" name="jumlah[]" value="' + jumlah + '" ';
             item_pembelian += '</div>';
