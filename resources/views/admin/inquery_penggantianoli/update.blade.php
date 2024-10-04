@@ -550,7 +550,7 @@
             updateUrutan2();
         }
 
-        function itemPembelian2(urutan, key, value = null) {
+        function itemPembelian2(identifier, key, value = null) {
             var kategori2 = '';
             var spareparts_id = '';
             var nama_barang2 = '';

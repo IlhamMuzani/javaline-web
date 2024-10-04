@@ -122,6 +122,7 @@
                                 <th>Bag.input</th>
                                 <th>Sopir</th>
                                 <th>No Kabin</th>
+                                <th>No Pol</th>
                                 <th>Pelanggan</th>
                                 <th>Rute</th>
                                 <th>Opsi</th>
@@ -154,6 +155,9 @@
                                         {{ $buktipotongpajak->no_kabin }}
                                     </td>
                                     <td>
+                                        {{ $buktipotongpajak->no_pol }}
+                                    </td>
+                                    <td>
                                         {{ $buktipotongpajak->nama_pelanggan }}
                                     </td>
                                     <td>
@@ -175,8 +179,8 @@
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($buktipotongpajak->status == 'unpost')
                                                 {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                                <a class="dropdown-item posting-btn"
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
                                                 {{-- @endif --}}
                                                 <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
@@ -192,8 +196,8 @@
                                             @endif
                                             @if ($buktipotongpajak->status == 'posting')
                                                 {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                <a class="dropdown-item unpost-btn"
+                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
                                                 {{-- @endif --}}
                                                 @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28)
                                                     <a class="dropdown-item"

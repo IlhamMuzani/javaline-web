@@ -422,6 +422,7 @@
                                             <th style="font-size:14px">Posisi</th>
                                             <th style="font-size:14px">Kode Part</th>
                                             <th style="font-size:14px">Nama Part</th>
+                                            <th style="font-size:14px">Qty</th>
                                             <th style="font-size:14px">Opsi</th>
                                             <th style="font-size:14px">Kode Grease</th>
                                             <th style="font-size:14px">Nama Grease</th>
@@ -464,9 +465,9 @@
                                                             name="nama_barang[]" value="{{ $detail['nama_barang'] }}">
                                                     </div>
                                                 </td>
-                                                <td hidden>
+                                                <td>
                                                     <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
+                                                        <input style="font-size:14px" type="text"
                                                             class="form-control" id="jumlah-{{ $loop->index }}"
                                                             name="jumlah[]" value="{{ $detail['jumlah'] }}">
                                                     </div>
@@ -705,12 +706,12 @@
             var sparepart_id = selectedRow.data('sparepart_id');
             var kode_barang = selectedRow.data('kode_barang');
             var nama_barang = selectedRow.data('nama_barang');
-            var jumlah = 1;
+            // var jumlah = 1;
 
             $('#sparepart_id-' + activeSpecificationIndex).val(sparepart_id);
             $('#kode_barang-' + activeSpecificationIndex).val(kode_barang);
             $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
-            $('#jumlah-' + activeSpecificationIndex).val(jumlah);
+            // $('#jumlah-' + activeSpecificationIndex).val(jumlah);
 
             $('#tableKategori').modal('hide');
         }

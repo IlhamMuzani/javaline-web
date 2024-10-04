@@ -162,6 +162,13 @@
                                                         href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
                                                 @endif
                                             @endif
+                                            @if ($tagihanekspedisi->faktur_pelunasan->first())
+                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Pelunasan
+                                                    <strong>{{ $tagihanekspedisi->faktur_pelunasan->first()->kode_pelunasan }}</strong>
+                                                </p>
+                                            @else
+                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>
@@ -351,5 +358,5 @@
         });
     </script>
 
-   
+
 @endsection
