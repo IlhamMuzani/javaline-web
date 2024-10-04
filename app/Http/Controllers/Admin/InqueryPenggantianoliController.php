@@ -637,7 +637,7 @@ class InqueryPenggantianoliController extends Controller
         // Delete the Penggantian_oli record
         $part->delete();
 
-        return redirect('admin/inquery_penggantianoli')->with('success', 'Berhasil menghapus Penggantian');
+        return back()->with('success', 'Berhasil');
     }
 
     public function deletefilter($id)

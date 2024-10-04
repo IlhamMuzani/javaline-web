@@ -248,7 +248,7 @@ class InqueryPelepasanbanController extends Controller
 
         $item->delete();
 
-        return redirect('admin/inquery_pelepasanban')->with('success', 'Berhasil menghapus Pelepasan');
+        return back()->with('success', 'Berhasil');
     }
 
     public function update(Request $request, $id)
@@ -278,11 +278,11 @@ class InqueryPelepasanbanController extends Controller
                 ->value('umur_ban') ?? 0;
 
             $kmBanRecords = Km_ban::where('ban_id', $ban->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+                ->orderBy('created_at', 'desc')
+                ->get();
             $umurBanTerakhirKedua = $kmBanRecords->skip(1)->first();
             $kmUmr = $umurBanTerakhirKedua ? $umurBanTerakhirKedua->umur_ban : 0;
-            
+
             $ban->update([
                 'status' => 'stok',
                 'status_pelepasan' => 'true',

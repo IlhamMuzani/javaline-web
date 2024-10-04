@@ -216,6 +216,9 @@
                                                 <option value="Filter Angin"
                                                     {{ old('kategori2') == 'Filter Angin' ? 'selected' : null }}>
                                                     Filter Angin</option>
+                                                <option value="Filter Transmisi"
+                                                    {{ old('kategori2') == 'Filter Transmisi' ? 'selected' : null }}>
+                                                    Filter Transmisi</option>
                                                 <option value="Gemuk"
                                                     {{ old('kategori2') == 'Gemuk' ? 'selected' : null }}>
                                                     Gemuk</option>
@@ -493,7 +496,7 @@
         }
 
         function addPesanan2() {
-            if (jumlah_ban2 < 4) { // Cek apakah jumlah_ban kurang dari 3
+            if (jumlah_ban2 < 5) { // Cek apakah jumlah_ban kurang dari 3
                 jumlah_ban2++; // Tambahkan 1 ke jumlah_ban
                 if (jumlah_ban2 === 1) {
                     $('#tabel-pembelian2').empty();
@@ -501,7 +504,7 @@
                 itemPembelian2(jumlah_ban2, jumlah_ban2 - 1, true);
             } else {
                 // Jumlah penambahan mencapai batas maksimum (3), tindakan lain dapat diambil di sini jika diperlukan.
-                alert('Anda telah mencapai batas maksimum (4) penambahan.');
+                alert('Anda telah mencapai batas maksimum (5) penambahan.');
             }
         }
 
@@ -563,6 +566,9 @@
             item_pembelian += '<option value="Filter Angin"' + (kategori2 === 'Filter Angin' ? ' selected' :
                     '') +
                 '>Filter Angin</option>';
+            item_pembelian += '<option value="Filter Transmisi"' + (kategori2 === 'Filter Transmisi' ? ' selected' :
+                    '') +
+                '>Filter Transmisi</option>';
             item_pembelian += '<option value="Gemuk"' + (kategori2 === 'Gemuk' ? ' selected' :
                     '') +
                 '>Gemuk</option>';

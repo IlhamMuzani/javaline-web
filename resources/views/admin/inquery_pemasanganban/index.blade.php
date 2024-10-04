@@ -99,8 +99,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($inquery as $pemasangan_ban)
-                                    <tr id="editMemoekspedisi" data-toggle="modal"
-                                        data-target="#modal-posting-{{ $pemasangan_ban->id }}" style="cursor: pointer;">
+                                    <tr class="dropdown"{{ $pemasangan_ban->id }}>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $pemasangan_ban->kode_pemasangan }}</td>
                                         <td>{{ $pemasangan_ban->tanggal_awal }}</td>
@@ -138,128 +137,57 @@
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($pemasangan_ban->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $pemasangan_ban->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_pemasanganban/' . $pemasangan_ban->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapuspemasanganban', ['id' => $pemasangan_ban->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($pemasangan_ban->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $pemasangan_ban->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
-                                    <div class="modal fade" id="modal-posting-{{ $pemasangan_ban->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Opsi menu</h4>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Pemasangan Ban
-                                                        <strong>{{ $pemasangan_ban->kode_pemasangan }}</strong>
-                                                    </p>
-                                                    @if ($pemasangan_ban->status == 'unpost')
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban delete'])
-                                                            <form method="GET"
-                                                                action="{{ route('hapuspemasanganban', ['id' => $pemasangan_ban->id]) }}">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-danger btn-block mt-2">
-                                                                    <i class="fas fa-trash-alt"></i> Delete
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
-                                                            <a href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}"
-                                                                type="button" class="btn btn-outline-info btn-block">
-                                                                <i class="fas fa-eye"></i> Show
-                                                            </a>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban update'])
-                                                            <a href="{{ url('admin/inquery_pemasanganban/' . $pemasangan_ban->id . '/edit') }}"
-                                                                type="button" class="btn btn-outline-warning btn-block">
-                                                                <i class="fas fa-edit"></i> Update
-                                                            </a>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban posting'])
-                                                            <form method="GET"
-                                                                action="{{ route('postingpemasangan', ['id' => $pemasangan_ban->id]) }}">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-success btn-block mt-2">
-                                                                    <i class="fas fa-check"></i> Posting
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                    @endif
-                                                    @if ($pemasangan_ban->status == 'posting')
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
-                                                            <a href="{{ url('admin/lihat_pemasangan/' . $pemasangan_ban->id) }}"
-                                                                type="button" class="btn btn-outline-info btn-block">
-                                                                <i class="fas fa-eye"></i> Show
-                                                            </a>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban unpost'])
-                                                            <form method="GET"
-                                                                action="{{ route('unpostpemasangan', ['id' => $pemasangan_ban->id]) }}">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-primary btn-block mt-2">
-                                                                    <i class="fas fa-check"></i> Unpost
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="modal fade" id="modal-unpost-{{ $pemasangan_ban->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">UNPOST</h4>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Unpost pemasangan ban
-                                                        <strong>{{ $pemasangan_ban->kode_pembelian_ban }}</strong>?
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <a class="btn btn-primary"
-                                                        href="{{ route('unpostpemasangan', ['id' => $pemasangan_ban->id]) }}">Ya</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="modal fade" id="modal-posting-{{ $pemasangan_ban->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">UNPOST</h4>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Posting pemasangan ban
-                                                        <strong>{{ $pemasangan_ban->kode_pembelian_ban }}</strong>?
-                                                    </p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <a class="btn btn-primary"
-                                                        href="{{ route('postingpemasangan', ['id' => $pemasangan_ban->id]) }}">Ya</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
+                            aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body text-center">
+                                        <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+                                        <h4 class="mt-2">Sedang Menyimpan...</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -294,4 +222,150 @@
             form.submit();
         }
     </script>
+
+    {{-- unpost deposit  --}}
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        $(document).ready(function() {
+            $('.unpost-btn').click(function() {
+                var memoId = $(this).data('memo-id');
+
+                // Tampilkan modal loading saat permintaan AJAX diproses
+                $('#modal-loading').modal('show');
+
+                // Kirim permintaan AJAX untuk melakukan unpost
+                $.ajax({
+                    url: "{{ url('admin/inquery_pemasanganban/unpostpemasangan/') }}/" +
+                        memoId,
+                    type: 'GET',
+                    data: {
+                        id: memoId
+                    },
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Tutup modal setelah berhasil unpost
+                        $('#modal-posting-' + memoId).modal('hide');
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+    {{-- posting deposit --}}
+    <script>
+        $(document).ready(function() {
+            $('.posting-btn').click(function() {
+                var memoId = $(this).data('memo-id');
+
+                // Tampilkan modal loading saat permintaan AJAX diproses
+                $('#modal-loading').modal('show');
+
+                // Kirim permintaan AJAX untuk melakukan posting
+                $.ajax({
+                    url: "{{ url('admin/inquery_pemasanganban/postingpemasangan/') }}/" +
+                        memoId,
+                    type: 'GET',
+                    data: {
+                        id: memoId
+                    },
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Tutup modal setelah berhasil posting
+                        $('#modal-posting-' + memoId).modal('hide');
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('tbody tr.dropdown').click(function(e) {
+                // Memeriksa apakah yang diklik adalah checkbox
+                if ($(e.target).is('input[type="checkbox"]')) {
+                    return; // Jika ya, hentikan eksekusi
+                }
+
+                // Menghapus kelas 'selected' dan mengembalikan warna latar belakang ke warna default dari semua baris
+                $('tr.dropdown').removeClass('selected').css('background-color', '');
+
+                // Menambahkan kelas 'selected' ke baris yang dipilih dan mengubah warna latar belakangnya
+                $(this).addClass('selected').css('background-color', '#b0b0b0');
+
+                // Menyembunyikan dropdown pada baris lain yang tidak dipilih
+                $('tbody tr.dropdown').not(this).find('.dropdown-menu').hide();
+
+                // Mencegah event klik menyebar ke atas (misalnya, saat mengklik dropdown)
+                e.stopPropagation();
+            });
+
+            $('tbody tr.dropdown').contextmenu(function(e) {
+                // Memeriksa apakah baris ini memiliki kelas 'selected'
+                if ($(this).hasClass('selected')) {
+                    // Menampilkan dropdown saat klik kanan
+                    var dropdownMenu = $(this).find('.dropdown-menu');
+                    dropdownMenu.show();
+
+                    // Mendapatkan posisi td yang diklik
+                    var clickedTd = $(e.target).closest('td');
+                    var tdPosition = clickedTd.position();
+
+                    // Menyusun posisi dropdown relatif terhadap td yang di klik
+                    dropdownMenu.css({
+                        'position': 'absolute',
+                        'top': tdPosition.top + clickedTd
+                            .height(), // Menempatkan dropdown sedikit di bawah td yang di klik
+                        'left': tdPosition
+                            .left // Menempatkan dropdown di sebelah kiri td yang di klik
+                    });
+
+                    // Mencegah event klik kanan menyebar ke atas (misalnya, saat mengklik dropdown)
+                    e.stopPropagation();
+                    e.preventDefault(); // Mencegah munculnya konteks menu bawaan browser
+                }
+            });
+
+            // Menyembunyikan dropdown saat klik di tempat lain
+            $(document).click(function() {
+                $('.dropdown-menu').hide();
+                $('tr.dropdown').removeClass('selected').css('background-color',
+                    ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
+            });
+        });
+    </script>
+
 @endsection

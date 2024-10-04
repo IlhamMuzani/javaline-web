@@ -207,7 +207,7 @@ class InqueryPemasanganpartController extends Controller
         return view('admin.inquery_pemasanganpart.show', compact('parts', 'pemasangan_part'));
     }
 
-    public function unpostpemasanganpart($id)
+    public function unpostpemasangan_part($id)
     {
         $part = Pemasangan_part::where('id', $id)->first();
 
@@ -226,12 +226,10 @@ class InqueryPemasanganpartController extends Controller
             'status' => 'unpost'
         ]);
 
-
-
         return back()->with('success', 'Berhasil');
     }
 
-    public function postingpemasanganpart($id)
+    public function postingpemasangan_part($id)
     {
         $part = Pemasangan_part::where('id', $id)->first();
         $detailpemasangan = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
@@ -266,21 +264,13 @@ class InqueryPemasanganpartController extends Controller
         }
     }
 
-    public function delete($id)
+    public function hapuspemasangan_part($id)
     {
         $part = Pemasangan_part::find($id);
-        $detailpenggantianpart = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
-
-        foreach ($detailpenggantianpart as $detail) {
-            $sparepartId = $detail->sparepart_id;
-            $sparepart = Sparepart::find($sparepartId);
-            $newQuantity = $sparepart->jumlah + $detail->jumlah;
-            $sparepart->update(['jumlah' => $newQuantity]);
-        }
         $part->detail_part()->delete();
         $part->delete();
 
-        return redirect('admin/inquery_pemasanganpart')->with('success', 'Berhasil menghapus Pemasangan');
+        return back()->with('success', 'Berhasil');
     }
 
     public function deletepart($id)

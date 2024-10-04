@@ -192,7 +192,7 @@ class InqueryPemasanganbanController extends Controller
         $ban = Pemasangan_ban::findOrFail($id);
         $ban->delete();
 
-        return redirect()->route('inquery_pemasanganban.index')->with('success', 'Berhasil menghapus Pemasangan');
+        return back()->with('success', 'Berhasil');
     }
 
     public function update(Request $request, $id)
