@@ -483,8 +483,6 @@
     class="nav-item {{ request()->is('admin/km*') ||
     request()->is('admin/perpanjangan_stnk*') ||
     request()->is('admin/perpanjangan_kir*') ||
-    request()->is('admin/pemasangan_ban*') ||
-    request()->is('admin/pelepasan_ban*') ||
     request()->is('admin/pemasangan_part*') ||
     request()->is('admin/status_perjalanan*') ||
     request()->is('admin/status_spk*') ||
@@ -497,8 +495,6 @@
         class="nav-link {{ request()->is('admin/km*') ||
         request()->is('admin/perpanjangan_stnk*') ||
         request()->is('admin/perpanjangan_kir*') ||
-        request()->is('admin/pemasangan_ban*') ||
-        request()->is('admin/pelepasan_ban*') ||
         request()->is('admin/pemasangan_part*') ||
         request()->is('admin/status_perjalanan*') ||
         request()->is('admin/status_spk*') ||
@@ -557,24 +553,6 @@
                             </span>
                         @endif
                     </p>
-                </a>
-            </li>
-        @endif
-        @if (auth()->check() && auth()->user()->menu['pemasangan ban'])
-            <li class="nav-item">
-                <a href="{{ url('admin/pemasangan_ban') }}"
-                    class="nav-link {{ request()->is('admin/pemasangan_ban*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Pemasangan Ban</p>
-                </a>
-            </li>
-        @endif
-        @if (auth()->check() && auth()->user()->menu['pelepasan ban'])
-            <li class="nav-item">
-                <a href="{{ url('admin/pelepasan_ban') }}"
-                    class="nav-link {{ request()->is('admin/pelepasan_ban*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Pelepasan Ban</p>
                 </a>
             </li>
         @endif
@@ -655,19 +633,19 @@
     </ul>
 </li>
 <li
-    class="nav-item {{ request()->is('admin/penggantian_oli*') || request()->is('admin/penggantian_bearing') ? 'menu-open' : '' }}">
-    {{-- <a href="#"
-        class="nav-link {{ request()->is('admin/penggantian_oli*') || request()->is('admin/penggantian_bearing*') ? 'active' : '' }}">
-
-        <i class="nav-icon fas fa-tools"></i>
-        <p>
-            <strong style="color: rgb(255, 255, 255);">PEMELIHARAAN KENDARAAN</strong>
-            <i class="right fas fa-angle-left"></i>
-        </p>
-    </a> --}}
-
+    class="nav-item {{ request()->is('admin/penggantian_oli*') ||
+    request()->is('admin/pemasangan_ban*') ||
+    request()->is('admin/pelepasan_ban*') ||
+    request()->is('admin/penggantian_bearing')
+        ? 'menu-open'
+        : '' }}">
     <a href="#"
-        class="nav-link {{ request()->is('admin/penggantian_oli*') || request()->is('admin/penggantian_bearing*') ? 'active' : '' }}">
+        class="nav-link {{ request()->is('admin/penggantian_oli*') ||
+        request()->is('admin/pemasangan_ban*') ||
+        request()->is('admin/pelepasan_ban*') ||
+        request()->is('admin/penggantian_bearing*')
+            ? 'active'
+            : '' }}">
 
         <i class="nav-icon fas fa-tools"></i>
         <p>
@@ -712,6 +690,24 @@
                             </span>
                         @endif
                     </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pemasangan ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pemasangan_ban') }}"
+                    class="nav-link {{ request()->is('admin/pemasangan_ban*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Pemasangan Ban</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelepasan ban'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pelepasan_ban') }}"
+                    class="nav-link {{ request()->is('admin/pelepasan_ban*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Pelepasan Ban</p>
                 </a>
             </li>
         @endif
