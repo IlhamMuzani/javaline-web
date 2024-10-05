@@ -577,14 +577,27 @@ class InqueryPenggantianbearingController extends Controller
             $sparepart = Sparepart::find($sparepartId);
 
             // Cek apakah sparepart ditemukan
+            $sparepartId = $detail->sparepart_id;
+            $sparepart = Sparepart::find($sparepartId);
+
+            // Cek apakah sparepart ditemukan dan kurangi jumlah stok
             if ($sparepart) {
-                // Tambahkan jumlah sparepart yang digunakan kembali ke stok
+                // Kurangi stok sparepart berdasarkan jumlah
                 $newQuantity = $sparepart->jumlah + $detail->jumlah;
                 $sparepart->update(['jumlah' => $newQuantity]);
-            } else {
-                // Jika sparepart tidak ditemukan, lanjutkan ke item berikutnya
-                continue;
             }
+
+            // Ambil sparepart terkait dari spareparts_id
+            $sparepartsId = $detail->spareparts_id;
+            $spareparts = Sparepart::find($sparepartsId);
+
+            // Cek apakah spareparts ditemukan dan kurangi jumlah stok
+            if ($spareparts) {
+                // Kurangi stok spareparts berdasarkan jumlah grease
+                $newQuantitys = $spareparts->jumlah + $detail->jumlah_grease;
+                $spareparts->update(['jumlah' => $newQuantitys]);
+            }
+
 
             // Inisialisasi array untuk menampung perubahan pada bearing
             $newBearingData = [];
@@ -660,91 +673,113 @@ class InqueryPenggantianbearingController extends Controller
 
     public function postingpenggantian($id)
     {
-        $part = Penggantian_bearing::where('id', $id)->first(); {
+        $part = Penggantian_bearing::where('id', $id)->first();
 
-            $detailpenggantianoli = Detail_penggantianbearing::where('penggantian_bearing_id', $id)->get();
+        $detailpenggantianoli = Detail_penggantianbearing::where('penggantian_bearing_id', $id)->get();
 
-            $kendaraan = Kendaraan::find($part->kendaraan_id);
-            $bearing = Bearing::where('kendaraan_id', $part->kendaraan_id)->first();
+        $kendaraan = Kendaraan::find($part->kendaraan_id);
+        $bearing = Bearing::where('kendaraan_id', $part->kendaraan_id)->first();
 
-            // Jika kendaraan atau bearing tidak ditemukan, kembalikan pesan error
-            if (!$kendaraan || !$bearing) {
-                return back()->with('error', 'Data kendaraan atau bearing tidak ditemukan');
-            }
-            foreach ($detailpenggantianoli as $detail) {
-                $sparepartId = $detail->sparepart_id;
-                $sparepart = Sparepart::find($sparepartId);
+        // Jika kendaraan atau bearing tidak ditemukan, kembalikan pesan error
+        if (!$kendaraan || !$bearing) {
+            return back()->with('error', 'Data kendaraan atau bearing tidak ditemukan');
+        }
 
-                // Add the quantity back to the stock in the Sparepart record
+        foreach ($detailpenggantianoli as $detail) {
+            // Lewati jika sparepart_id kosong
+            $sparepartId = $detail->sparepart_id;
+            $sparepart = Sparepart::find($sparepartId);
+
+            // Cek apakah sparepart ditemukan
+            $sparepartId = $detail->sparepart_id;
+            $sparepart = Sparepart::find($sparepartId);
+
+            // Cek apakah sparepart ditemukan dan kurangi jumlah stok
+            if ($sparepart) {
+                // Kurangi stok sparepart berdasarkan jumlah
                 $newQuantity = $sparepart->jumlah - $detail->jumlah;
                 $sparepart->update(['jumlah' => $newQuantity]);
-                // Inisialisasi array untuk menampung perubahan pada bearing
-                $newBearingData = [];
-
-                // Update status bearing berdasarkan kategori
-                switch ($detail->kategori) {
-                    case 'Axle 1A':
-                        $newBearingData['bearing1a'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing1a'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 1B':
-                        $newBearingData['bearing1b'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing1b'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 2A':
-                        $newBearingData['bearing2a'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing2a'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 2B':
-                        $newBearingData['bearing2b'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing2b'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 3A':
-                        $newBearingData['bearing3a'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing3a'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 3B':
-                        $newBearingData['bearing3b'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing3b'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 4A':
-                        $newBearingData['bearing4a'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing4a'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 4B':
-                        $newBearingData['bearing4b'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing4b'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 5A':
-                        $newBearingData['bearing5a'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing5a'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 5B':
-                        $newBearingData['bearing5b'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing5b'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 6A':
-                        $newBearingData['bearing6a'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing6a'] = 'sudah penggantian';
-                        break;
-                    case 'Axle 6B':
-                        $newBearingData['bearing6b'] = $detail->km_berikutnya;
-                        $newBearingData['status_bearing6b'] = 'sudah penggantian';
-                        break;
-                    default:
-                }
-
-                // Update data bearing jika ada perubahan
-                if (!empty($newBearingData)) {
-                    $bearing->update($newBearingData);
-                }
             }
-            $part->update([
-                'status' => 'posting'
-            ]);
-            return back()->with('success', 'Berhasil');
+
+            // Ambil sparepart terkait dari spareparts_id
+            $sparepartsId = $detail->spareparts_id;
+            $spareparts = Sparepart::find($sparepartsId);
+
+            // Cek apakah spareparts ditemukan dan kurangi jumlah stok
+            if ($spareparts) {
+                // Kurangi stok spareparts berdasarkan jumlah grease
+                $newQuantitys = $spareparts->jumlah - $detail->jumlah_grease;
+                $spareparts->update(['jumlah' => $newQuantitys]);
+            }
+
+            // Inisialisasi array untuk menampung perubahan pada bearing
+            $newBearingData = [];
+
+            // Update status bearing berdasarkan kategori
+            switch ($detail->kategori) {
+                case 'Axle 1A':
+                    $newBearingData['bearing1a'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing1a'] = 'sudah penggantian';
+                    break;
+                case 'Axle 1B':
+                    $newBearingData['bearing1b'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing1b'] = 'sudah penggantian';
+                    break;
+                case 'Axle 2A':
+                    $newBearingData['bearing2a'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing2a'] = 'sudah penggantian';
+                    break;
+                case 'Axle 2B':
+                    $newBearingData['bearing2b'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing2b'] = 'sudah penggantian';
+                    break;
+                case 'Axle 3A':
+                    $newBearingData['bearing3a'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing3a'] = 'sudah penggantian';
+                    break;
+                case 'Axle 3B':
+                    $newBearingData['bearing3b'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing3b'] = 'sudah penggantian';
+                    break;
+                case 'Axle 4A':
+                    $newBearingData['bearing4a'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing4a'] = 'sudah penggantian';
+                    break;
+                case 'Axle 4B':
+                    $newBearingData['bearing4b'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing4b'] = 'sudah penggantian';
+                    break;
+                case 'Axle 5A':
+                    $newBearingData['bearing5a'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing5a'] = 'sudah penggantian';
+                    break;
+                case 'Axle 5B':
+                    $newBearingData['bearing5b'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing5b'] = 'sudah penggantian';
+                    break;
+                case 'Axle 6A':
+                    $newBearingData['bearing6a'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing6a'] = 'sudah penggantian';
+                    break;
+                case 'Axle 6B':
+                    $newBearingData['bearing6b'] = $detail->km_berikutnya;
+                    $newBearingData['status_bearing6b'] = 'sudah penggantian';
+                    break;
+                default:
+            }
+
+            // Update data bearing jika ada perubahan
+            if (!empty($newBearingData)) {
+                $bearing->update($newBearingData);
+            }
         }
+
+        // Update status penggantian bearing
+        $part->update(['status' => 'posting']);
+
+        return back()->with('success', 'Berhasil');
     }
+
 
 
     public function deletedetailpenggantian($id)
