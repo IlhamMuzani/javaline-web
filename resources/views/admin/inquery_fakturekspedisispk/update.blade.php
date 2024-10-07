@@ -2304,26 +2304,26 @@
             var harga = hargasatuan * jumlah + biaya_tambahan;
 
 
-            $(".total_tarif").val(hargas.toLocaleString('id-ID'));
-            $(".total_tarif2").val(harga.toLocaleString('id-ID'));
+            // $(".total_tarif").val(hargas.toLocaleString('id-ID'));
+            // $(".total_tarif2").val(harga.toLocaleString('id-ID'));
 
-            // $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
-            // $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
+            $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
+            $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
 
             if (selectedValue == "PPH") {
                 // var pph = 0.02 * harga;
                 var pph = Math.round(0.02 * harga); // Membulatkan nilai PPH
                 var sisa = harga - pph;
                 var Subtotal = sisa;
-                $(".pph2").val(pph.toLocaleString('id-ID'));
-                $(".sisa").val(sisa.toLocaleString('id-ID'));
-                $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
+                $(".pph2").val(Math.round(pph).toLocaleString('id-ID'));
+                $(".sisa").val(Math.round(sisa).toLocaleString('id-ID'));
+                $(".sub_total").val(Math.round(Subtotal).toLocaleString('id-ID'));
             } else {
                 // Jika kategori NON PPH, tidak kurangkan 2%
                 $(".pph2").val(0);
-                $(".sisa").val(harga.toLocaleString('id-ID'));
+                $(".sisa").val(Math.round(harga).toLocaleString('id-ID'));
                 var Subtotal = harga;
-                $(".sub_total").val(Subtotal.toLocaleString('id-ID'));
+                $(".sub_total").val(Math.round(Subtotal).toLocaleString('id-ID'));
             }
         }
 
