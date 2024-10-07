@@ -237,12 +237,13 @@
                                 Marketing</label>
                             <div class="form-group d-flex">
                                 <input hidden class="form-control" id="karyawan_id" name="karyawan_id" type="text"
-                                    placeholder="" value="{{ old('karyawan_id', $inquery->pelanggan->karyawan->id ?? null) }}" readonly
+                                    placeholder=""
+                                    value="{{ old('karyawan_id', $inquery->pelanggan->karyawan->id ?? null) }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
                                 <input onclick="showCategoryModalSPK(this.value)" class="form-control" id="kode_karyawan"
                                     name="kode_karyawan" type="text" placeholder=""
-                                    value="{{ old('kode_karyawan', $inquery->pelanggan->karyawan->kode_karyawan ?? null) }}" readonly
-                                    style="margin-right: 10px; font-size:14px" />
+                                    value="{{ old('kode_karyawan', $inquery->pelanggan->karyawan->kode_karyawan ?? null) }}"
+                                    readonly style="margin-right: 10px; font-size:14px" />
                                 <button class="btn btn-primary" type="button"
                                     onclick="showCategoryModalSPK(this.value)">
                                     <i class="fas fa-search"></i>
@@ -866,7 +867,8 @@
                         <div class="form-group">
                             <label style="font-size:14px" for="telp_sopir">Telp</label>
                             <input style="font-size:14px" type="text" class="form-control" id="telp_sopir"
-                                name="telp_sopir" placeholder="" value="{{ old('telp_sopir', $inquery->telp_sopir ?? null) }}">
+                                name="telp_sopir" placeholder=""
+                                value="{{ old('telp_sopir', $inquery->telp_sopir ?? null) }}">
                         </div>
                         <div hidden class="form-group">
                             <label style="font-size:14px" for="no_kabins">No. Kabin</label>
@@ -1264,7 +1266,7 @@
         </div>
 
 
-         <div class="modal fade" id="tableSewa" data-backdrop="static">
+        <div class="modal fade" id="tableSewa" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -2302,8 +2304,11 @@
             var harga = hargasatuan * jumlah + biaya_tambahan;
 
 
-            $(".total_tarif").val(hargas.toLocaleString('id-ID'));
-            $(".total_tarif2").val(harga.toLocaleString('id-ID'));
+            // $(".total_tarif").val(hargas.toLocaleString('id-ID'));
+            // $(".total_tarif2").val(harga.toLocaleString('id-ID'));
+
+            $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
+            $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
 
             if (selectedValue == "PPH") {
                 // var pph = 0.02 * harga;
@@ -2495,8 +2500,8 @@
     </script>
 
 
-<script>
-      function showCategoryModalSewa(selectedCategory) {
+    <script>
+        function showCategoryModalSewa(selectedCategory) {
             $('#tableSewa').modal('show');
         }
 
@@ -2530,5 +2535,5 @@
 
             $('#tableSewa').modal('hide');
         }
-</script>
+    </script>
 @endsection

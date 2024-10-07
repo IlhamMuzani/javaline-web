@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Penggantian Oli</title>
+    <title>Surat Pengecekan Tromol</title>
     <style>
         html,
         body {
@@ -78,7 +78,7 @@
             height="50">
     </div>
     <div style="font-weight: bold; text-align: center; margin-bottom:5px">
-        <span style="font-weight: bold; font-size: 20px;">SURAT PENGGANTIAN BEARING</span>
+        <span style="font-weight: bold; font-size: 20px;">SURAT PENGECEKAN TROMOL</span>
     </div>
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
 
@@ -91,20 +91,21 @@
             <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">Jenis
                 Kendaraan:{{ $penggantian->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">
-                Tanggal:{{ $penggantian->tanggal_penggantian }}</td>
+                Tanggal: {{ \Carbon\Carbon::parse($penggantian->tanggal_penggantian)->locale('id')->isoFormat('D MMMM') }}
+            </td>
         </tr>
     </table>
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">Km.
-                Penggantian:
-                {{ number_format($penggantian->detail_penggantianbearing->first()->km_penggantian ?? null, 0, ',', '.') }}
+                Pengecekan:
+                {{ number_format($penggantian->km_penggantian ?? null, 0, ',', '.') }}
             </td>
             {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">No.
                 Registrasi:{{ $penggantian->kendaraan->no_pol }}</td> --}}
             <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">Km
                 Berikutnya:
-                {{ number_format($penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null, 0, ',', '.') }}
+                {{ number_format($penggantian->km_berikutnya ?? null, 0, ',', '.') }}
             </td>
         </tr>
     </table>
@@ -113,13 +114,10 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">No.</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Posisi Bearing</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Posisi Tromol</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Kode Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Nama Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Qty</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Kode Grease</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Nama Grease</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Qty Grease</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -140,13 +138,6 @@
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->jumlah }}</td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
-                    {{ $item->kode_grease }}
-                </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->nama_grease }}
-                </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->jumlah_grease }}
-                </td>
             </tr>
         @endforeach
         <tr style="border-bottom: 1px solid black;">

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Penggantian Bearing')
+@section('title', 'Inquery Pengecekan Tromol Axle')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Penggantian Bearing</h1>
+                    <h1 class="m-0">Inquery Pengecekan Tromol Axle</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/penggantian_bearing') }}">Penggantian Bearing</a>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/penggantian_bearing') }}">Inquery Pengecekan Tromol
+                                Axle</a>
                         </li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
@@ -78,7 +79,7 @@
                 @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Penggantian Bearing</h3>
+                        <h3 class="card-title">Inquery Pengecekan Tromol Axle</h3>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
@@ -124,12 +125,11 @@
                             <div class="card-body">
                                 <div class="col">
                                     {{-- baris axle 1  --}}
-                                    <div class="row mb-5">
+
+                                    <div style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -138,9 +138,20 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-1"
-                                                        src="{{ asset('storage/uploads/karyawan/1A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T1.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                {{-- <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
+                                                    alt="AdminLTELogo" height="20" width="20"> --}}
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol1"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol1') ? 'checked' : '' }}>
+                                                </span>
+                                            </div>
+
+                                            <div style="margin-top:300px" id="layout_space" class="mb-5">
                                             </div>
 
                                             <div class="form-group mt-5" style="text-align: center;">
@@ -152,9 +163,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -163,18 +172,24 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-1"
-                                                        src="{{ asset('storage/uploads/karyawan/1B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T2.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol2"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol2') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-5">
+
+
+                                    <div style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -183,10 +198,20 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/2A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T3.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol3"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol3') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
+
+                                            <div style="margin-top:300px" id="layout_spaces" class="mb-5">
+                                            </div>
+
 
                                             <div class="form-group mt-5" style="text-align: center;">
                                                 <label>Axle 2</label>
@@ -197,9 +222,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -208,18 +231,24 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/2B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T4.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol4"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol4') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row mb-5">
+
+
+                                    <div id="layout_box" style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -228,11 +257,16 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/3A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T5.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol5"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol5') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
-
                                             <div class="form-group mt-5" style="text-align: center;">
                                                 <label>Axle 3</label>
                                                 <div class="">
@@ -242,9 +276,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -253,19 +285,23 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/3B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T6.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol6"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol6') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div id="layout_tronton" class="row mb-5">
+                                    <div id="layout_tronton" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -274,9 +310,15 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/4A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T7.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol7"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol7') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
 
                                             <div class="form-group mt-5" style="text-align: center;">
@@ -288,9 +330,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -299,19 +339,23 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/4B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T8.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol9"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol9') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div id="layout_trailer_engkel" class="row mb-5">
+                                    <div id="layout_trailer_engkel" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -320,9 +364,15 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/5A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T9.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol10"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol10') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
 
                                             <div class="form-group mt-5" style="text-align: center;">
@@ -334,9 +384,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -345,19 +393,23 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/5B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T10.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol11"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol11') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div id="layout_trailer_tronton" class="row mb-5">
+                                    <div id="layout_trailer_tronton" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -366,9 +418,15 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/6A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T11.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol12"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol12') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
 
                                             <div class="form-group mt-5" style="text-align: center;">
@@ -380,9 +438,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if (
-                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
-                                                        $inquery->kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
+                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -391,9 +447,15 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/6B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T12.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
+                                                <span style="">OK</span>
+                                                <span>
+                                                    <input type="checkbox" class="large-checkbox" name="tromol1"
+                                                        style="margin-left:5px" value="1"
+                                                        {{ old('tromol1') ? 'checked' : '' }}>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -405,171 +467,133 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Posisi Bearing</h3>
+                        <h3 class="card-title">Penggantian Part Tromol Axle <span>
+                            </span></h3>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Penggantian Bearing <span>
-                                    </span></h3>
-                            </div>
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th style="font-size:14px" class="text-center">No</th>
-                                            <th style="font-size:14px">Posisi</th>
-                                            <th style="font-size:14px">Kode Part</th>
-                                            <th style="font-size:14px">Nama Part</th>
-                                            <th style="font-size:14px">Qty</th>
-                                            <th style="font-size:14px">Opsi</th>
-                                            <th style="font-size:14px">Kode Grease</th>
-                                            <th style="font-size:14px">Nama Grease</th>
-                                            <th style="font-size:14px">Jumlah Grease</th>
-                                            <th style="font-size:14px">Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tabel-pembelian">
-                                        @foreach ($details as $detail)
-                                            <tr id="pembelian-{{ $loop->index }}">
-                                                <td class="text-center" id="urutan">{{ $loop->index + 1 }}</td>
-                                                <td hidden>
-                                                    <input type="text" class="form-control" id="nomor_seri-0"
-                                                        name="detail_ids[]" value="{{ $detail['id'] }}">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="sparepart_id-{{ $loop->index }}" name="sparepart_id[]"
-                                                            value="{{ $detail['sparepart_id'] }}">
-                                                    </div>
-                                                </td>
-
-                                                <td onclick="addPart({{ $loop->index }})">
-                                                    <div class="form-group">
-                                                        <input readonly style="font-size:14px" type="text"
-                                                            class="form-control" id="kategori-{{ $loop->index }}"
-                                                            name="kategori[]" value="{{ $detail['kategori'] }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart({{ $loop->index }})">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-{{ $loop->index }}"
-                                                            name="kode_barang[]" value="{{ $detail['kode_barang'] }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart({{ $loop->index }})">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-{{ $loop->index }}"
-                                                            name="nama_barang[]" value="{{ $detail['nama_barang'] }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="jumlah-{{ $loop->index }}" name="jumlah[]"
-                                                            value="{{ $detail['jumlah'] }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart({{ $loop->index }})">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-{{ $loop->index }}"
-                                                            name="spareparts_id[]"
-                                                            value="{{ $detail['spareparts_id'] }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPa{{ $loop->index }})">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-{{ $loop->index }}"
-                                                            name="kode_grease[]" value="{{ $detail['kode_grease'] }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts({{ $loop->index }})">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-{{ $loop->index }}"
-                                                            name="nama_grease[]" value="{{ $detail['nama_grease'] }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="jumlah_grease-{{ $loop->index }}" name="jumlah_grease[]"
-                                                            value="{{ $detail['jumlah_grease'] }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts({{ $loop->index }})">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="card-footer text-right">
-                                <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
-                                <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
-                                <div id="loading" style="display: none;">
-                                    <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-
-        <div class="modal fade" id="tableKategori2" data-backdrop="static">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Data Part</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="m-2">
-                            <input type="text" id="searchInput2" class="form-control" placeholder="Search...">
-                        </div>
-                        <table id="datatables2" class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th class="text-center">No</th>
-                                    <th>Kode Part</th>
-                                    <th>Nama Part</th>
-                                    <th>Stok</th>
-                                    <th>Satuan</th>
-                                    <th>Opsi</th>
+                                    <th style="font-size:14px" class="text-center">No</th>
+                                    <th style="font-size:14px">Posisi Tromol</th>
+                                    <th style="font-size:14px">Kode Part</th>
+                                    <th style="font-size:14px">Nama Part</th>
+                                    <th style="font-size:14px">Qty</th>
+                                    <th style="font-size:14px">Opsi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($spareparts as $part)
-                                    <tr data-sparepart_id="{{ $part->id }}"
-                                        data-kode_barang="{{ $part->kode_partdetail }}"
-                                        data-nama_barang="{{ $part->nama_barang }}" data-param="{{ $loop->index }}"
-                                        onclick="getBarang2({{ $loop->index }})">
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $part->kode_partdetail }}</td>
-                                        <td>{{ $part->nama_barang }}</td>
-                                        <td>{{ $part->jumlah }}</td>
-                                        <td>{{ $part->satuan }}</td>
-                                        <td class="text-center">
-                                            <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
-                                                onclick="getBarang2({{ $loop->index }})">
+                            <tbody id="tabel-pembelian">
+                                @foreach ($details as $detail)
+                                    <tr id="pembelian-{{ $loop->index }}">
+                                        <td class="text-center" id="urutan">{{ $loop->index + 1 }}</td>
+                                        <td hidden>
+                                            <input type="text" class="form-control" id="nomor_seri-0"
+                                                name="detail_ids[]" value="{{ $detail['id'] }}">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" class="form-control"
+                                                    id="sparepart_id-{{ $loop->index }}" name="sparepart_id[]"
+                                                    value="{{ $detail['sparepart_id'] }}">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div class="form-group">
+                                                <select class="form-control" id="kategori-{{ $loop->index }}"
+                                                    name="kategori[]">
+                                                    <option value="">- Pilih Posisi -</option>
+
+                                                    <option value="All Tromol"
+                                                        {{ old('kategori', $detail['kategori']) == 'All Tromol' ? 'selected' : null }}>
+                                                        All Tromol
+                                                    </option>
+
+                                                    <option value="Tromol 1"
+                                                        {{ old('kategori', $detail['kategori']) == 'Tromol 1' ? 'selected' : null }}>
+                                                        Tromol 1
+                                                    </option>
+
+                                                    <option value="Tromol 2"
+                                                        {{ old('kategori', $detail['kategori']) == 'Tromol 2' ? 'selected' : null }}>
+                                                        Tromol 2</option>
+
+                                                    <option value="Tromol 3"
+                                                        {{ old('kategori', $detail['kategori']) == 'Tromol 3' ? 'selected' : null }}>
+                                                        Tromol 3</option>
+                                                    <option value="Tromol 4"
+                                                        {{ old('kategori', $detail['kategori']) == 'Tromol 4' ? 'selected' : null }}>
+                                                        Tromol 4</option>
+                                                    @if (in_array($inquery->kendaraan->jenis_kendaraan->total_ban, [10, 18, 22]))
+                                                        <option value="Tromol 5"
+                                                            {{ old('kategori', $detail['kategori']) == 'Tromol 5' ? 'selected' : null }}>
+                                                            Tromol 5</option>
+
+                                                        <option value="Tromol 6"
+                                                            {{ old('kategori', $detail['kategori']) == 'Tromol 6' ? 'selected' : null }}>
+                                                            Tromol 6</option>
+                                                    @endif
+                                                    @if (in_array($inquery->kendaraan->jenis_kendaraan->total_ban, [18, 22]))
+                                                        <option value="Axle 4A"
+                                                            {{ old('kategori', $detail['kategori']) == 'Axle 4A' ? 'selected' : null }}>
+                                                            Axle 4A</option>
+
+                                                        <option value="Axle 4B"
+                                                            {{ old('kategori', $detail['kategori']) == 'Axle 4B' ? 'selected' : null }}>
+                                                            Axle 4B</option>
+
+                                                        <option value="Axle 5A"
+                                                            {{ old('kategori', $detail['kategori']) == 'Axle 5A' ? 'selected' : null }}>
+                                                            Axle 5A</option>
+
+                                                        <option value="Axle 5B"
+                                                            {{ old('kategori', $detail['kategori']) == 'Axle 5B' ? 'selected' : null }}>
+                                                            Axle 5B</option>
+                                                    @endif
+                                                    @if ($inquery->kendaraan->jenis_kendaraan->total_ban == 22)
+                                                        <option value="Axle 6A"
+                                                            {{ old('kategori', $detail['kategori']) == 'Axle 6A' ? 'selected' : null }}>
+                                                            Axle 6A</option>
+
+                                                        <option value="Axle 6B"
+                                                            {{ old('kategori', $detail['kategori']) == 'Axle 6B' ? 'selected' : null }}>
+                                                            Axle 6B</option>
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td onclick="addPart($loop->index }})">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="kode_barang-{{ $loop->index }}"
+                                                    name="kode_barang[]" value="{{ $detail['kode_barang'] }}">
+                                            </div>
+                                        </td>
+                                        <td onclick="addPart($loop->index }})">
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" readonly
+                                                    class="form-control" id="nama_barang-{{ $loop->index }}"
+                                                    name="nama_barang[]" value="{{ $detail['nama_barang'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input style="font-size:14px" type="text" class="form-control"
+                                                    id="jumlah-{{ $loop->index }}" name="jumlah[]"
+                                                    value="{{ $detail['jumlah'] }}">
+                                            </div>
+                                        </td>
+                                        <td style="width: 100px">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onclick="addPart({{ $loop->index }})">
                                                 <i class="fas fa-plus"></i>
+                                            </button>
+                                            <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
+                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>
@@ -577,10 +601,16 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="card-footer text-right">
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-
         <div class="modal fade" id="tableKategori" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -665,34 +695,6 @@
         document.getElementById("searchInput").addEventListener("input", filterTable);
 
 
-        function filterTable2() {
-            var input, filter, table, tr, td, i, j, txtValue;
-            input = document.getElementById("searchInput2");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("datatables2");
-            tr = table.getElementsByTagName("tr");
-
-            for (i = 0; i < tr.length; i++) {
-                var displayRow = false;
-
-                // Loop through columns (td 1, 2, and 3)
-                for (j = 1; j <= 3; j++) {
-                    td = tr[i].getElementsByTagName("td")[j];
-                    if (td) {
-                        txtValue = td.textContent || td.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            displayRow = true;
-                            break; // Break the loop if a match is found in any column
-                        }
-                    }
-                }
-
-                // Set the display style based on whether a match is found in any column
-                tr[i].style.display = displayRow ? "" : "none";
-            }
-        }
-        document.getElementById("searchInput2").addEventListener("input", filterTable2);
-
         var activeSpecificationIndex = 0;
 
         function addPart(param) {
@@ -706,36 +708,12 @@
             var sparepart_id = selectedRow.data('sparepart_id');
             var kode_barang = selectedRow.data('kode_barang');
             var nama_barang = selectedRow.data('nama_barang');
-            // var jumlah = 1;
 
             $('#sparepart_id-' + activeSpecificationIndex).val(sparepart_id);
             $('#kode_barang-' + activeSpecificationIndex).val(kode_barang);
             $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
-            // $('#jumlah-' + activeSpecificationIndex).val(jumlah);
 
             $('#tableKategori').modal('hide');
-        }
-
-
-        var activeSpecificationIndex2 = 0;
-
-        function addParts(param) {
-            activeSpecificationIndex2 = param;
-            // Show the modal and filter rows if necessary
-            $('#tableKategori2').modal('show');
-        }
-
-        function getBarang2(rowIndex) {
-            var selectedRow = $('#datatables2 tbody tr:eq(' + rowIndex + ')');
-            var sparepart_id = selectedRow.data('sparepart_id');
-            var kode_barang = selectedRow.data('kode_barang');
-            var nama_barang = selectedRow.data('nama_barang');
-
-            $('#spareparts_id-' + activeSpecificationIndex2).val(sparepart_id);
-            $('#kode_grease-' + activeSpecificationIndex2).val(kode_barang);
-            $('#nama_grease-' + activeSpecificationIndex2).val(nama_barang);
-
-            $('#tableKategori2').modal('hide');
         }
     </script>
     <script>
@@ -816,7 +794,6 @@
                 jumlah = value.jumlah;
             }
             var total_ban = {!! json_encode($inquery->kendaraan->jenis_kendaraan->total_ban) !!};
-            var bearing = {!! json_encode($inquery->kendaraan->bearing->first()) !!};
 
             // urutan 
             var item_pembelian = '<tr id="pembelian-' + key + '">';
@@ -837,61 +814,47 @@
             item_pembelian += '<option value="">- Pilih Posisi -</option>';
 
             // Cek nilai total ban, misalnya 18 atau 22
-            if (bearing && bearing.status_bearing1a === 'belum penggantian') {
-                item_pembelian += '<option value="Axle 1A"' + (kategori === 'Axle 1A' ? ' selected' : '') +
-                    '>Axle 1A</option>';
-            }
-            if (bearing && bearing.status_bearing1b === 'belum penggantian') {
-                item_pembelian += '<option value="Axle 1B"' + (kategori === 'Axle 1B' ? ' selected' : '') +
-                    '>Axle 1B</option>';
-            }
-            if (bearing && bearing.status_bearing2a === 'belum penggantian') {
-                item_pembelian += '<option value="Axle 2A"' + (kategori === 'Axle 2A' ? ' selected' : '') +
-                    '>Axle 2A</option>';
-            }
-            if (bearing && bearing.status_bearing2b === 'belum penggantian') {
-                item_pembelian += '<option value="Axle 2B"' + (kategori === 'Axle 2B' ? ' selected' : '') +
-                    '>Axle 2B</option>';
-            }
-            if (bearing && bearing.status_bearing3a === 'belum penggantian') {
-                item_pembelian += '<option value="Axle 3A"' + (kategori === 'Axle 3A' ? ' selected' : '') +
-                    '>Axle 3A</option>';
-            }
-            if (bearing && bearing.status_bearing3b === 'belum penggantian') {
-                item_pembelian += '<option value="Axle 3B"' + (kategori === 'Axle 3B' ? ' selected' : '') +
-                    '>Axle 3B</option>';
-            }
-            if (total_ban === 18 || total_ban === 22) {
-                if (bearing && bearing.status_bearing4a === 'belum penggantian') {
-                    item_pembelian += '<option value="Axle 4A"' + (kategori === 'Axle 4A' ? ' selected' : '') +
-                        '>Axle 4A</option>';
-                }
-                if (bearing && bearing.status_bearing4b === 'belum penggantian') {
+            item_pembelian += '<option value="All Tromol"' + (kategori === 'All Tromol' ? ' selected' : '') +
+                '>All Tromol</option>';
 
-                    item_pembelian += '<option value="Axle 4B"' + (kategori === 'Axle 4B' ? ' selected' : '') +
-                        '>Axle 4B</option>';
-                }
-                if (bearing && bearing.status_bearing5a === 'belum penggantian') {
+            item_pembelian += '<option value="Tromol 1"' + (kategori === 'Tromol 1' ? ' selected' : '') +
+                '>Tromol 1</option>';
 
-                    item_pembelian += '<option value="Axle 5A"' + (kategori === 'Axle 5A' ? ' selected' : '') +
-                        '>Axle 5A</option>';
-                }
-                if (bearing && bearing.status_bearing5b === 'belum penggantian') {
+            item_pembelian += '<option value="Tromol 2"' + (kategori === 'Tromol 2' ? ' selected' : '') +
+                '>Tromol 2</option>';
 
-                    item_pembelian += '<option value="Axle 5B"' + (kategori === 'Axle 5B' ? ' selected' : '') +
-                        '>Axle 5B</option>';
-                }
-                // Tambahkan opsi Axle 6 jika total ban adalah 22
-                if (total_ban === 22) {
-                    if (bearing && bearing.status_bearing6a === 'belum penggantian') {
-                        item_pembelian += '<option value="Axle 6A"' + (kategori === 'Axle 6A' ? ' selected' : '') +
-                            '>Axle 6A</option>';
-                    }
-                    if (bearing && bearing.status_bearing6b === 'belum penggantian') {
-                        item_pembelian += '<option value="Axle 6B"' + (kategori === 'Axle 6B' ? ' selected' : '') +
-                            '>Axle 6B</option>';
-                    }
-                }
+            item_pembelian += '<option value="Tromol 3"' + (kategori === 'Tromol 3' ? ' selected' : '') +
+                '>Tromol 3</option>';
+
+            item_pembelian += '<option value="Tromol 4"' + (kategori === 'Tromol 4' ? ' selected' : '') +
+                '>Tromol 4</option>';
+            if (total_ban == 10 || total_ban == 18 || total_ban == 22) {
+                item_pembelian += '<option value="Tromol 5"' + (kategori === 'Tromol 5' ? ' selected' : '') +
+                    '>Tromol 5</option>';
+
+                item_pembelian += '<option value="Tromol 6"' + (kategori === 'Tromol 6' ? ' selected' : '') +
+                    '>Tromol 6</option>';
+            }
+            if (total_ban == 18 || total_ban == 22) {
+                item_pembelian += '<option value="Tromol 7"' + (kategori === 'Tromol 7' ? ' selected' : '') +
+                    '>Tromol 7</option>';
+
+                item_pembelian += '<option value="Tromol 8"' + (kategori === 'Tromol 8' ? ' selected' : '') +
+                    '>Tromol 8</option>';
+
+                item_pembelian += '<option value="Tromol 9"' + (kategori === 'Tromol 9' ? ' selected' : '') +
+                    '>Tromol 9</option>';
+
+                item_pembelian += '<option value="Tromol 10"' + (kategori === 'Tromol 10' ? ' selected' : '') +
+                    '>Tromol 10</option>';
+            }
+            // Tambahkan opsi Axle 6 jika total ban adalah 22
+            if (total_ban == 22) {
+                item_pembelian += '<option value="Tromol 11"' + (kategori === 'Tromol 11' ? ' selected' : '') +
+                    '>Tromol 11</option>';
+
+                item_pembelian += '<option value="Tromol 12"' + (kategori === 'Tromol 12' ? ' selected' : '') +
+                    '>Tromol 12</option>';
             }
 
             item_pembelian += '</select>';
@@ -902,7 +865,8 @@
             item_pembelian += '<td onclick="addPart(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_barang-' +
+            item_pembelian +=
+                '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_barang-' +
                 key +
                 '" name="kode_barang[]" value="' + kode_barang + '" ';
             item_pembelian += '</div>';
@@ -912,7 +876,8 @@
             item_pembelian += '<td onclick="addPart(' + key +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_barang-' +
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_barang-' +
                 key +
                 '" name="nama_barang[]" value="' + nama_barang + '" ';
             item_pembelian += '</div>';
@@ -948,29 +913,35 @@
     <script>
         function getData() {
             var jumlah_ban = document.getElementById('jumlah_ban');
+            var layout_box = document.getElementById('layout_box');
             var layout_tronton = document.getElementById('layout_tronton');
             var layout_trailer_engkel = document.getElementById('layout_trailer_engkel');
             var layout_trailer_tronton = document.getElementById('layout_trailer_tronton');
+            var space1 = document.getElementById('layout_space');
+            var spaces = document.getElementById('layout_spaces');
 
             // Mendapatkan value terpilih dari jumlah_ban
             var selectedValue = jumlah_ban.value;
 
             // Menyembunyikan semua layout terlebih dahulu
+            layout_box.style.display = 'none';
             layout_tronton.style.display = 'none';
             layout_trailer_engkel.style.display = 'none';
             layout_trailer_tronton.style.display = 'none';
+            space1.style.display = 'none';
+            spaces.style.display = 'none';
 
             // Memeriksa value terpilih dan menampilkan layout yang sesuai
-            if (selectedValue === '6') {
-                // Tidak ada layout yang perlu ditampilkan untuk kendaraan engkel
-            } else if (selectedValue === '10') {
-                // Tampilkan hanya layout tronton
+            if (selectedValue === '6') {} else if (selectedValue === '10') {
+                layout_box.style.display = 'inline';
+                space1.style.display = 'inline'
             } else if (selectedValue === '18') {
-                // Tampilkan layout tronton dan trailer engkel
+                layout_box.style.display = 'inline';
+                spaces.style.display = 'inline'
                 layout_tronton.style.display = 'inline';
                 layout_trailer_engkel.style.display = 'inline';
             } else if (selectedValue === '22') {
-                // Tampilkan layout tronton, trailer engkel, dan trailer tronton
+                layout_box.style.display = 'inline';
                 layout_tronton.style.display = 'inline';
                 layout_trailer_engkel.style.display = 'inline';
                 layout_trailer_tronton.style.display = 'inline';

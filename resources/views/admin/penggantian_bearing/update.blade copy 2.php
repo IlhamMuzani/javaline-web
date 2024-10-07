@@ -144,7 +144,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-1"
-                                                        src="{{ asset('storage/uploads/karyawan/1A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T1.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -167,7 +167,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-1"
-                                                        src="{{ asset('storage/uploads/karyawan/1B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T2.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -185,7 +185,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/2A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T3.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -208,7 +208,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/2B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T4.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -226,7 +226,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/3A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T5.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -249,7 +249,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/3B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T6.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -268,7 +268,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/4A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T7.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -291,7 +291,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/4B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T8.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -310,7 +310,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/5A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T9.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -333,7 +333,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/5B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T10.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -352,7 +352,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/6A.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T11.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -375,7 +375,7 @@
                                                 @endif
                                                 <div>
                                                     <img class="mt-2"
-                                                        src="{{ asset('storage/uploads/karyawan/6B.png') }}"
+                                                        src="{{ asset('storage/uploads/karyawan/T12.png') }}"
                                                         alt="AdminLTELogo" height="100" width="40">
                                                 </div>
                                             </div>
@@ -391,8 +391,13 @@
                     <div class="card-body">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Penggantian Bearing <span>
+                                <h3 class="card-title">Tromol 1<span>
                                     </span></h3>
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="addTromol1()">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -400,1091 +405,53 @@
                                     <thead>
                                         <tr>
                                             <th style="font-size:14px" class="text-center">No</th>
-                                            <th style="font-size:14px">Posisi</th>
                                             <th style="font-size:14px">Kode Part</th>
                                             <th style="font-size:14px">Nama Part</th>
-                                            <th style="font-size:14px">Opsi</th>
-                                            <th style="font-size:14px">Kode Grease</th>
-                                            <th style="font-size:14px">Nama Grease</th>
-                                            <th style="font-size:14px">Jumlah Grease</th>
+                                            <th style="font-size:14px">Qty</th>
                                             <th style="font-size:14px">Opsi</th>
                                         </tr>
                                     </thead>
                                     <tbody id="tabel-pembelian">
                                         {{-- axle 1a  --}}
                                         <tr id="pembelian-0">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-0">1
+                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
                                             </td>
+
                                             <td hidden>
                                                 <div class="form-group">
                                                     <input style="font-size:14px" type="text" class="form-control"
-                                                        id="sparepart_id-0" name="sparepart_id[0]"
-                                                        value="{{ old('sparepart_id.0') }}">
+                                                        id="sparepart_id-0" name="sparepart_id[]">
+                                                </div>
+                                            </td>
+                                            <td onclick="addPart(0)">
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" readonly
+                                                        class="form-control" id="kode_barang-0" name="kode_barang[]">
+                                                </div>
+                                            </td>
+                                            <td onclick="addPart(0)">
+                                                <div class="form-group">
+                                                    <input style="font-size:14px" type="text" readonly
+                                                        class="form-control" id="nama_barang-0" name="nama_barang[]">
                                                 </div>
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kategori-0" name="kategori[0]"
-                                                            value="Axle 1A">
-                                                    </div>
+                                                    <input style="font-size:14px" type="text" class="form-control"
+                                                        id="jumlah-0" name="jumlah[]">
                                                 </div>
                                             </td>
-                                            <td onclick="addPart(0)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_barang-0" name="kode_barang[0]"
-                                                        value="{{ old('kode_barang.0') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(0)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_barang-0" name="nama_barang[0]"
-                                                        value="{{ old('nama_barang.0') }}">
-                                                </div>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="jumlah-0" name="jumlah[0]"
-                                                        value="1">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
+                                            <td style="width: 100px">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="addPart(0)">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="spareparts_id-0" name="spareparts_id[0]"
-                                                        value="{{ old('spareparts_id.0') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(0)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_grease-0" name="kode_grease[0]"
-                                                        value="{{ old('kode_grease.0') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(0)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_grease-0" name="nama_grease[0]"
-                                                        value="{{ old('nama_grease.0') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="jumlah_grease-0" name="jumlah_grease[0]"
-                                                        value="{{ old('jumlah_grease.0') }}">
-                                                </div>
-                                            </td>
-                                            <td style="width: 100px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addParts(0)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    onclick="removeRow(0)">
+                                                <button style="margin-left:5px" type="button"
+                                                    class="btn btn-danger btn-sm" onclick="removeTromol1(0)">
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
-
-                                        {{-- axle 1b  --}}
-                                        <tr id="pembelian-1">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-1">2
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="sparepart_id-1" name="sparepart_id[1]"
-                                                        value="{{ old('sparepart_id.1') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kategori-1" name="kategori[1]"
-                                                            value="Axle 1B">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(1)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_barang-1" name="kode_barang[1]"
-                                                        value="{{ old('kode_barang.1') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(1)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_barang-1" name="nama_barang[1]"
-                                                        value="{{ old('nama_barang.1') }}">
-                                                </div>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="jumlah-1" name="jumlah[1]"
-                                                        value="1">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addPart(1)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="spareparts_id-1" name="spareparts_id[1]"
-                                                        value="{{ old('spareparts_id.1') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(1)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_grease-1" name="kode_grease[1]"
-                                                        value="{{ old('kode_grease.1') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(1)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_grease-1" name="nama_grease[1]"
-                                                        value="{{ old('nama_grease.1') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="jumlah_grease-1" name="jumlah_grease[1]"
-                                                        value="{{ old('jumlah_grease.1') }}">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addParts(1)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    onclick="removeRow(1)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
-                                        {{-- axle 2a  --}}
-                                        <tr id="pembelian-2">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-2">3
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="sparepart_id-2" name="sparepart_id[2]"
-                                                        value="{{ old('sparepart_id.2') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kategori-2" name="kategori[2]"
-                                                            value="Axle 2A">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(2)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_barang-2" name="kode_barang[2]"
-                                                        value="{{ old('kode_barang.2') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(2)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_barang-2" name="nama_barang[2]"
-                                                        value="{{ old('nama_barang.2') }}">
-                                                </div>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="jumlah-2" name="jumlah[2]"
-                                                        value="1">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addPart(2)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="spareparts_id-2" name="spareparts_id[2]"
-                                                        value="{{ old('spareparts_id.2') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(2)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_grease-2" name="kode_grease[2]"
-                                                        value="{{ old('kode_grease.2') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(2)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_grease-2" name="nama_grease[2]"
-                                                        value="{{ old('nama_grease.2') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="jumlah_grease-2" name="jumlah_grease[2]"
-                                                        value="{{ old('jumlah_grease.2') }}">
-                                                </div>
-                                            </td>
-                                            <td style="width: 100px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addParts(2)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    onclick="removeRow(2)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
-                                        {{-- axle 2b --}}
-                                        <tr id="pembelian-3">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-3">4
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="sparepart_id-3" name="sparepart_id[3]"
-                                                        value="{{ old('sparepart_id.3') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kategori-3" name="kategori[3]"
-                                                            value="Axle 2B">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(3)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_barang-3" name="kode_barang[3]"
-                                                        value="{{ old('kode_barang.3') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(3)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_barang-3" name="nama_barang[3]"
-                                                        value="{{ old('nama_barang.3') }}">
-                                                </div>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="jumlah-3" name="jumlah[3]"
-                                                        value="1">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addPart(3)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="spareparts_id-3" name="spareparts_id[3]"
-                                                        value="{{ old('spareparts_id.3') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(3)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_grease-3" name="kode_grease[3]"
-                                                        value="{{ old('kode_grease.3') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(3)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_grease-3" name="nama_grease[3]"
-                                                        value="{{ old('nama_grease.3') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="jumlah_grease-3" name="jumlah_grease[3]"
-                                                        value="{{ old('jumlah_grease.3') }}">
-                                                </div>
-                                            </td>
-                                            <td style="width: 100px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addParts(3)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    onclick="removeRow(3)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
-                                        {{-- axle 3a  --}}
-                                        <tr id="pembelian-4">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-4">5
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="sparepart_id-4" name="sparepart_id[4]"
-                                                        value="{{ old('sparepart_id.4') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kategori-4" name="kategori[4]"
-                                                            value="Axle 3A">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(4)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_barang-4" name="kode_barang[4]"
-                                                        value="{{ old('kode_barang.4') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(4)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_barang-4" name="nama_barang[4]"
-                                                        value="{{ old('nama_barang.4') }}">
-                                                </div>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="jumlah-4" name="jumlah[4]"
-                                                        value="1">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addPart(4)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="spareparts_id-4" name="spareparts_id[4]"
-                                                        value="{{ old('spareparts_id.4') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(4)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_grease-4" name="kode_grease[4]"
-                                                        value="{{ old('kode_grease.4') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(4)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_grease-4" name="nama_grease[4]"
-                                                        value="{{ old('nama_grease.4') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="jumlah_grease-4" name="jumlah_grease[4]"
-                                                        value="{{ old('jumlah_grease.4') }}">
-                                                </div>
-                                            </td>
-                                            <td style="width: 100px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addParts(4)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    onclick="removeRow(4)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-
-                                        {{-- axle 3b --}}
-                                        <tr id="pembelian-5">
-                                            <td style="width: 70px; font-size:14px" class="text-center" id="urutan-5">6
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="sparepart_id-5" name="sparepart_id[5]"
-                                                        value="{{ old('sparepart_id.5') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kategori-5" name="kategori[5]"
-                                                            value="Axle 3B">
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(5)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_barang-5" name="kode_barang[5]"
-                                                        value="{{ old('kode_barang.5') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addPart(5)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_barang-5" name="nama_barang[5]"
-                                                        value="{{ old('nama_barang.5') }}">
-                                                </div>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="jumlah-5" name="jumlah[5]"
-                                                        value="1">
-                                                </div>
-                                            </td>
-                                            <td style="width: 50px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addPart(5)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </td>
-                                            <td hidden>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="spareparts_id-5" name="spareparts_id[5]"
-                                                        value="{{ old('spareparts_id.5') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(5)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="kode_grease-5" name="kode_grease[5]"
-                                                        value="{{ old('kode_grease.5') }}">
-                                                </div>
-                                            </td>
-                                            <td onclick="addParts(5)">
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" readonly
-                                                        class="form-control" id="nama_grease-5" name="nama_grease[5]"
-                                                        value="{{ old('nama_grease.5') }}">
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control"
-                                                        id="jumlah_grease-5" name="jumlah_grease[5]"
-                                                        value="{{ old('jumlah_grease.5') }}">
-                                                </div>
-                                            </td>
-                                            <td style="width: 100px">
-                                                <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="addParts(5)">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-danger btn-sm"
-                                                    onclick="removeRow(5)">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        @if (in_array($kendaraan->jenis_kendaraan->total_ban, [18, 22]))
-                                            {{-- axle 4a  --}}
-                                            <tr id="pembelian-6">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan-6">7
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="sparepart_id-6" name="sparepart_id[6]"
-                                                            value="{{ old('sparepart_id.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text" readonly
-                                                                class="form-control" id="kategori-6" name="kategori[6]"
-                                                                value="Axle 4A">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(6)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-6" name="kode_barang[6]"
-                                                            value="{{ old('kode_barang.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(6)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-6" name="nama_barang[6]"
-                                                            value="{{ old('nama_barang.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-6" name="jumlah[6]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(6)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-6"
-                                                            name="spareparts_id[6]"
-                                                            value="{{ old('spareparts_id.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(6)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-6" name="kode_grease[6]"
-                                                            value="{{ old('kode_grease.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(6)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-6" name="nama_grease[6]"
-                                                            value="{{ old('nama_grease.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="jumlah_grease-6" name="jumlah_grease[6]"
-                                                            value="{{ old('jumlah_grease.6') }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts(6)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="removeRow(6)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            {{-- axle 4b --}}
-                                            <tr id="pembelian-7">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan-7">8
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" class="form-control"
-                                                            id="sparepart_id-7" name="sparepart_id[7]"
-                                                            value="{{ old('sparepart_id.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text" readonly
-                                                                class="form-control" id="kategori-7" name="kategori[7]"
-                                                                value="Axle 4B">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(7)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-7" name="kode_barang[7]"
-                                                            value="{{ old('kode_barang.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(7)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-7"
-                                                            name="nama_barang[7]" value="{{ old('nama_barang.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-7" name="jumlah[7]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(7)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-7"
-                                                            name="spareparts_id[7]"
-                                                            value="{{ old('spareparts_id.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(7)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-7"
-                                                            name="kode_grease[7]" value="{{ old('kode_grease.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(7)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-7"
-                                                            name="nama_grease[7]" value="{{ old('nama_grease.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="jumlah_grease-7"
-                                                            name="jumlah_grease[7]"
-                                                            value="{{ old('jumlah_grease.7') }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts(7)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="removeRow(7)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            {{-- axle 5a  --}}
-                                            <tr id="pembelian-8">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan-8">9
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="sparepart_id-8"
-                                                            name="sparepart_id[8]"
-                                                            value="{{ old('sparepart_id.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text" readonly
-                                                                class="form-control" id="kategori-8"
-                                                                name="kategori[8]" value="Axle 5A">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(8)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-8"
-                                                            name="kode_barang[8]" value="{{ old('kode_barang.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(8)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-8"
-                                                            name="nama_barang[8]" value="{{ old('nama_barang.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-8" name="jumlah[8]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(8)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-8"
-                                                            name="spareparts_id[8]"
-                                                            value="{{ old('spareparts_id.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(8)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-8"
-                                                            name="kode_grease[8]" value="{{ old('kode_grease.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(8)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-8"
-                                                            name="nama_grease[8]" value="{{ old('nama_grease.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="jumlah_grease-8"
-                                                            name="jumlah_grease[8]"
-                                                            value="{{ old('jumlah_grease.8') }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts(8)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="removeRow(8)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            {{-- axle 5b --}}
-                                            <tr id="pembelian-9">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan-9">10
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="sparepart_id-9"
-                                                            name="sparepart_id[9]"
-                                                            value="{{ old('sparepart_id.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text" readonly
-                                                                class="form-control" id="kategori-9"
-                                                                name="kategori[9]" value="Axle 5B">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(9)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-9"
-                                                            name="kode_barang[9]" value="{{ old('kode_barang.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(9)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-9"
-                                                            name="nama_barang[9]" value="{{ old('nama_barang.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-9" name="jumlah[9]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(9)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-9"
-                                                            name="spareparts_id[9]"
-                                                            value="{{ old('spareparts_id.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(9)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-9"
-                                                            name="kode_grease[9]" value="{{ old('kode_grease.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(9)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-9"
-                                                            name="nama_grease[9]" value="{{ old('nama_grease.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="jumlah_grease-9"
-                                                            name="jumlah_grease[9]"
-                                                            value="{{ old('jumlah_grease.9') }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts(9)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="removeRow(9)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endif
-                                        @if ($kendaraan->jenis_kendaraan->total_ban == 22)
-                                            {{-- axle 6a  --}}
-                                            <tr id="pembelian-10">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan-10">11
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="sparepart_id-10"
-                                                            name="sparepart_id[10]"
-                                                            value="{{ old('sparepart_id.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text" readonly
-                                                                class="form-control" id="kategori-10"
-                                                                name="kategori[10]" value="Axle 6A">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(10)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-10"
-                                                            name="kode_barang[10]"
-                                                            value="{{ old('kode_barang.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(10)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-10"
-                                                            name="nama_barang[10]"
-                                                            value="{{ old('nama_barang.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-10" name="jumlah[10]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(10)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-10"
-                                                            name="spareparts_id[10]"
-                                                            value="{{ old('spareparts_id.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(10)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-10"
-                                                            name="kode_grease[10]"
-                                                            value="{{ old('kode_grease.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(10)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-10"
-                                                            name="nama_grease[10]"
-                                                            value="{{ old('nama_grease.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="jumlah_grease-10"
-                                                            name="jumlah_grease[10]"
-                                                            value="{{ old('jumlah_grease.10') }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts(10)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="removeRow(10)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-
-                                            {{-- axle 6b --}}
-                                            <tr id="pembelian-11">
-                                                <td style="width: 70px; font-size:14px" class="text-center"
-                                                    id="urutan-11">12
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="sparepart_id-11"
-                                                            name="sparepart_id[11]"
-                                                            value="{{ old('sparepart_id.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <div class="form-group">
-                                                            <input style="font-size:14px" type="text" readonly
-                                                                class="form-control" id="kategori-11"
-                                                                name="kategori[11]" value="Axle 6B">
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(11)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_barang-11"
-                                                            name="kode_barang[11]"
-                                                            value="{{ old('kode_barang.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addPart(11)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_barang-11"
-                                                            name="nama_barang[11]"
-                                                            value="{{ old('nama_barang.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="jumlah-11" name="jumlah[11]"
-                                                            value="1">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 50px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addPart(11)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </td>
-                                                <td hidden>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="spareparts_id-11"
-                                                            name="spareparts_id[11]"
-                                                            value="{{ old('spareparts_id.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(11)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="kode_grease-11"
-                                                            name="kode_grease[11]"
-                                                            value="{{ old('kode_grease.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td onclick="addParts(11)">
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text" readonly
-                                                            class="form-control" id="nama_grease-11"
-                                                            name="nama_grease[11]"
-                                                            value="{{ old('nama_grease.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="form-group">
-                                                        <input style="font-size:14px" type="text"
-                                                            class="form-control" id="jumlah_grease-11"
-                                                            name="jumlah_grease[11]"
-                                                            value="{{ old('jumlah_grease.11') }}">
-                                                    </div>
-                                                </td>
-                                                <td style="width: 100px">
-                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                        onclick="addParts(11)">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="removeRow(11)">
-                                                        <i class="fas fa-trash"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -1675,11 +642,12 @@
             var sparepart_id = selectedRow.data('sparepart_id');
             var kode_barang = selectedRow.data('kode_barang');
             var nama_barang = selectedRow.data('nama_barang');
+            // var jumlah = 1;
 
             $('#sparepart_id-' + activeSpecificationIndex).val(sparepart_id);
             $('#kode_barang-' + activeSpecificationIndex).val(kode_barang);
             $('#nama_barang-' + activeSpecificationIndex).val(nama_barang);
-
+            // $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#tableKategori').modal('hide');
         }
 
@@ -1742,6 +710,130 @@
         window.onload = getData;
     </script>
 
+
+    <script>
+        var data_pembelian = @json(session('data_pembelians'));
+        var jumlah_ban = 1;
+
+        if (data_pembelian != null) {
+            jumlah_ban = data_pembelian.length;
+            $('#tabel-pembelian').empty();
+            var urutan = 0;
+            $.each(data_pembelian, function(key, value) {
+                urutan = urutan + 1;
+                itemPembelian(urutan, key, value);
+            });
+        }
+
+        function addTromol1() {
+            jumlah_ban = jumlah_ban + 1;
+
+            if (jumlah_ban === 1) {
+                $('#tabel-pembelian').empty();
+            }
+
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+        }
+
+        function removeTromol1(params) {
+            jumlah_ban = jumlah_ban - 1;
+
+            var tabel_pesanan = document.getElementById('tabel-pembelian');
+            var pembelian = document.getElementById('pembelian-' + params);
+
+            tabel_pesanan.removeChild(pembelian);
+
+            if (jumlah_ban === 0) {
+                var item_pembelian = '<tr>';
+                item_pembelian += '<td class="text-center" colspan="5">- Part belum ditambahkan -</td>';
+                item_pembelian += '</tr>';
+                $('#tabel-pembelian').html(item_pembelian);
+            } else {
+                var urutan = document.querySelectorAll('#urutan');
+                for (let i = 0; i < urutan.length; i++) {
+                    urutan[i].innerText = i + 1;
+                }
+            }
+        }
+
+        function itemPembelian(urutan, key, value = null) {
+            var sparepart_id = '';
+            var kategori = '';
+            var kode_barang = '';
+            var nama_barang = '';
+            var jumlah = '';
+
+            if (value !== null) {
+                sparepart_id = value.sparepart_id;
+                kategori = value.kategori;
+                kode_barang = value.kode_barang;
+                nama_barang = value.nama_barang;
+                jumlah = value.jumlah;
+            }
+            // urutan 
+            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan +
+                '">' +
+                urutan + '</td>';
+
+            // sparepart_id 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="sparepart_id-' +
+                urutan +
+                '" name="sparepart_id[]" value="' + sparepart_id + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kode_barang 
+            item_pembelian += '<td onclick="addPart(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_barang-' +
+                urutan +
+                '" name="kode_barang[]" value="' + kode_barang + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // nama_barang 
+            item_pembelian += '<td onclick="addPart(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_barang-' +
+                urutan +
+                '" name="nama_barang[]" value="' + nama_barang + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // jumlah 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="jumlah-' +
+                urutan +
+                '" name="jumlah[]" value="' + jumlah + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+
+            item_pembelian += '<td style="width: 100px">';
+            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="addPart(' + urutan +
+                ')">';
+            item_pembelian += '<i class="fas fa-plus"></i>';
+            item_pembelian += '</button>';
+            item_pembelian +=
+                '<button style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeTromol1(' +
+                urutan + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
+
+            $('#tabel-pembelian').append(item_pembelian);
+        }
+    </script>
+
+
+
     <script>
         $(document).ready(function() {
             // Tambahkan event listener pada tombol "Simpan"
@@ -1756,33 +848,4 @@
             });
         });
     </script>
-
-    <script>
-        function removeRow(index) {
-            var row = document.getElementById("pembelian-" + index);
-            if (row) {
-                console.log("Menghapus baris: ", index, row.innerHTML);
-                row.parentNode.removeChild(row);
-            }
-            updateOrder();
-        }
-
-        function updateOrder() {
-            var rows = document.querySelectorAll("tbody tr[id^='pembelian-']");
-            rows.forEach(function(row, index) {
-                var urutanCell = row.querySelector(".text-center");
-                if (urutanCell) {
-                    urutanCell.textContent = index + 1; // Update nomor urutan
-                    urutanCell.id = "urutan-" + index; // Update id
-                    row.id = "pembelian-" + index; // Update id baris
-                    var inputs = row.querySelectorAll("input");
-                    inputs.forEach(function(input) {
-                        input.name = input.name.replace(/\[\d+\]/, "[" + index + "]"); // Update nama input
-                        input.id = input.id.replace(/-\d+$/, "-" + index); // Update id input
-                    });
-                }
-            });
-        }
-    </script>
-
 @endsection

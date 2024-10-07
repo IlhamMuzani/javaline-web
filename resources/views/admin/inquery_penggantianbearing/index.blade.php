@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Penggantian Bearing')
+@section('title', 'Inquery Pengecekan Tromol Axle')
 
 @section('content')
 
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Penggantian Bearing</h1>
+                    <h1 class="m-0">Inquery Pengecekan Tromol Axle</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Inquery Penggantian Bearing</li>
+                        <li class="breadcrumb-item active">Inquery Pengecekan Tromol Axle</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Inquery Penggantian Bearing</h3>
+                    <h3 class="card-title">Data Inquery Pengecekan Tromol Axle</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -82,101 +82,98 @@
                             </div>
                         </div>
                     </form>
-                    <div class="card-body">
-                        <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                    <th class="text-center">No</th>
-                                    <th>Kode Penggantian</th>
-                                    <th>Tanggal</th>
-                                    <th>No Kabin</th>
-                                    <th>No Registrasi</th>
-                                    <th>Jenis Kendaraan</th>
-                                    <th class="text-center" width="30">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($inquery as $penggantianoli)
-                                    <tr class="dropdown"{{ $penggantianoli->id }}>
-                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                                value="{{ $penggantianoli->id }}">
-                                        </td>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $penggantianoli->kode_penggantian }}</td>
-                                        <td>{{ $penggantianoli->tanggal_awal }}</td>
-                                        <td>
-                                            @if ($penggantianoli->kendaraan)
-                                                {{ $penggantianoli->kendaraan->no_kabin }}
-                                            @else
-                                                Kabin tidak ada
+                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                <th class="text-center">No</th>
+                                <th>Kode Penggantian</th>
+                                <th>Tanggal</th>
+                                <th>No Kabin</th>
+                                <th>No Registrasi</th>
+                                <th>Jenis Kendaraan</th>
+                                <th class="text-center" width="30">Opsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($inquery as $penggantianoli)
+                                <tr class="dropdown"{{ $penggantianoli->id }}>
+                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $penggantianoli->id }}">
+                                    </td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{ $penggantianoli->kode_penggantian }}</td>
+                                    <td>{{ $penggantianoli->tanggal_awal }}</td>
+                                    <td>
+                                        @if ($penggantianoli->kendaraan)
+                                            {{ $penggantianoli->kendaraan->no_kabin }}
+                                        @else
+                                            Kabin tidak ada
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($penggantianoli->kendaraan)
+                                            {{ $penggantianoli->kendaraan->no_pol }}
+                                        @else
+                                            No pol tidak ada
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($penggantianoli->kendaraan)
+                                            {{ $penggantianoli->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                        @else
+                                            nama tidak ada
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($penggantianoli->status == 'posting')
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        @endif
+                                        @if ($penggantianoli->status == 'selesai')
+                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Roda Mobil">
+                                        @endif
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @if ($penggantianoli->status == 'unpost')
+                                                <a class="dropdown-item posting-btn"
+                                                    data-memo-id="{{ $penggantianoli->id }}">Posting</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id . '/edit') }}">Update</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
+                                                <form style="margin-top:5px" method="GET"
+                                                    action="{{ route('hapuspenggantianbearing', ['id' => $penggantianoli->id]) }}">
+                                                    <button type="submit"
+                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                        </i> Delete
+                                                    </button>
+                                                </form>
                                             @endif
-                                        </td>
-                                        <td>
-                                            @if ($penggantianoli->kendaraan)
-                                                {{ $penggantianoli->kendaraan->no_pol }}
-                                            @else
-                                                No pol tidak ada
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($penggantianoli->kendaraan)
-                                                {{ $penggantianoli->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                            @else
-                                                nama tidak ada
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
                                             @if ($penggantianoli->status == 'posting')
-                                                <button type="button" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
+                                                <a class="dropdown-item unpost-btn"
+                                                    data-memo-id="{{ $penggantianoli->id }}">Unpost</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
                                             @endif
                                             @if ($penggantianoli->status == 'selesai')
-                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                    height="40" width="40" alt="Roda Mobil">
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
                                             @endif
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @if ($penggantianoli->status == 'unpost')
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $penggantianoli->id }}">Posting</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id . '/edit') }}">Update</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuspenggantianbearing', ['id' => $penggantianoli->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                                @if ($penggantianoli->status == 'posting')
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $penggantianoli->id }}">Unpost</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
-                                                @endif
-                                                @if ($penggantianoli->status == 'selesai')
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penggantianbearing/' . $penggantianoli->id) }}">Show</a>
-                                                @endif
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
-                            aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-body text-center">
-                                        <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
-                                        <h4 class="mt-2">Sedang Menyimpan...</h4>
-                                    </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
+                        aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body text-center">
+                                    <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+                                    <h4 class="mt-2">Sedang Menyimpan...</h4>
                                 </div>
                             </div>
                         </div>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Penggantian Bearing</title>
+    <title>Surat Pengecekan Tromol</title>
     <style>
         html,
         body {
@@ -88,7 +88,7 @@
 <body style="margin: 0; padding: 0;">
     <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">SURAT PENGGANTIAN BEARING</span>
+        <span style="font-weight: bold; font-size: 22px;">SURAT PENGECEKAN TROMOL</span>
         <br>
         <br>
     </div>
@@ -104,20 +104,22 @@
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
                 Kendaraan:{{ $penggantian->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}</td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
-                Tanggal:{{ $penggantian->tanggal_penggantian }}</td>
+                Tanggal:
+                {{ \Carbon\Carbon::parse($penggantian->tanggal_penggantian)->locale('id')->isoFormat('D MMMM') }}
+            </td>
         </tr>
     </table>
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Km
-                Penggantian:
-                {{ number_format($penggantian->detail_penggantianbearing->first()->km_penggantian ?? null, 0, ',', '.') }}
+                Pengecekan:
+                {{ number_format($penggantian->km_penggantian ?? null, 0, ',', '.') }}
             </td>
             {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 15px;">No.
                 Registrasi:{{ $penggantian->kendaraan->no_pol }}</td> --}}
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Km
                 Berikutnya:
-                {{ number_format($penggantian->detail_penggantianbearing->first()->km_berikutnya ?? null, 0, ',', '.') }}
+                {{ number_format($penggantian->km_berikutnya ?? null, 0, ',', '.') }}
             </td>
         </tr>
     </table>
@@ -126,13 +128,10 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Posisi</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Posisi Tromol</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Barang</td>
             <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Qty</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Grease</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Grease</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Qty Grease</td>
 
         </tr>
         <tr style="border-bottom: 1px solid black;">
@@ -154,15 +153,6 @@
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
                     {{ $item->jumlah }}</td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->kode_grease }}
-                </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->nama_grease }}
-                </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
-                    {{ $item->jumlah_grease }}
-                </td>
             </tr>
         @endforeach
         <tr style="border-bottom: 1px solid black;">

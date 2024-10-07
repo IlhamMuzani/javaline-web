@@ -683,7 +683,7 @@
                 <a href="{{ url('admin/penggantian_bearing') }}"
                     class="nav-link {{ request()->is('admin/penggantian_bearing*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Penggantian Bearing
+                    <p style="font-size: 14px;">Pengecekan Tromol Axle
                         @if (count($peringatan_bearing) > 0)
                             <span class="">
                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
@@ -1316,7 +1316,7 @@
                 <a href="{{ url('admin/inquery_penggantianbearing') }}"
                     class="nav-link {{ request()->is('admin/inquery_penggantianbearing*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 13px;">Inquery Penggantian Bearing
+                    <p style="font-size: 13px;">Inquery Pengecekan Tromol
                     </p>
                 </a>
             </li>
