@@ -2304,11 +2304,11 @@
             var harga = hargasatuan * jumlah + biaya_tambahan;
 
 
-            // $(".total_tarif").val(hargas.toLocaleString('id-ID'));
-            // $(".total_tarif2").val(harga.toLocaleString('id-ID'));
+            $(".total_tarif").val(hargas.toLocaleString('id-ID'));
+            $(".total_tarif2").val(harga.toLocaleString('id-ID'));
 
-            $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
-            $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
+            // $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
+            // $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
 
             if (selectedValue == "PPH") {
                 // var pph = 0.02 * harga;
