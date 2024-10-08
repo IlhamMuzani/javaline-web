@@ -362,9 +362,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol9"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol8"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol9') ? 'checked' : '' }}>
+                                                        {{ old('tromol8') ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -387,9 +387,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol10"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol9"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol10') ? 'checked' : '' }}>
+                                                        {{ old('tromol9') ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -416,9 +416,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol11"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol10"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol11') ? 'checked' : '' }}>
+                                                        {{ old('tromol10') ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -441,9 +441,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol12"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol11"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol12') ? 'checked' : '' }}>
+                                                        {{ old('tromol11') ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -470,9 +470,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol1"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol12"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol1') ? 'checked' : '' }}>
+                                                        {{ old('tromol12') ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>

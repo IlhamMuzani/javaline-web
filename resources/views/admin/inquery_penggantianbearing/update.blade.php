@@ -129,7 +129,7 @@
                                     <div style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -147,7 +147,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol1"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol1') ? 'checked' : '' }}>
+                                                        {{ old('tromol1', $inquery->tromol1) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -163,7 +163,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -179,7 +179,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol2"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol2') ? 'checked' : '' }}>
+                                                        {{ old('tromol2', $inquery->tromol2) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -189,7 +189,7 @@
                                     <div style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -205,7 +205,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol3"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol3') ? 'checked' : '' }}>
+                                                        {{ old('tromol3', $inquery->tromol3) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -222,7 +222,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -238,7 +238,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol4"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol4') ? 'checked' : '' }}>
+                                                        {{ old('tromol4', $inquery->tromol4) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -248,7 +248,7 @@
                                     <div id="layout_box" style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -264,7 +264,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol5"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol5') ? 'checked' : '' }}>
+                                                        {{ old('tromol5', $inquery->tromol5) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                             <div class="form-group mt-5" style="text-align: center;">
@@ -276,7 +276,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -292,7 +292,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol6"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol6') ? 'checked' : '' }}>
+                                                        {{ old('tromol6', $inquery->tromol6) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -301,7 +301,7 @@
                                     <div id="layout_tronton" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -317,7 +317,7 @@
                                                 <span>
                                                     <input type="checkbox" class="large-checkbox" name="tromol7"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol7') ? 'checked' : '' }}>
+                                                        {{ old('tromol7', $inquery->tromol7) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -330,7 +330,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -344,9 +344,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol9"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol8"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol9') ? 'checked' : '' }}>
+                                                        {{ old('tromol8') ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -355,7 +355,7 @@
                                     <div id="layout_trailer_engkel" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -369,9 +369,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol10"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol9"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol10') ? 'checked' : '' }}>
+                                                        {{ old('tromol9', $inquery->tromol9) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -384,7 +384,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -398,9 +398,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol11"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol10"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol11') ? 'checked' : '' }}>
+                                                        {{ old('tromol10', $inquery->tromol10) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>
@@ -409,7 +409,7 @@
                                     <div id="layout_trailer_tronton" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -423,9 +423,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol12"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol11"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol12') ? 'checked' : '' }}>
+                                                        {{ old('tromol11', $inquery->tromol11) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
 
@@ -438,7 +438,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($kendaraan->bearing->isNotEmpty() && $kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
+                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -452,9 +452,9 @@
                                                 </div>
                                                 <span style="">OK</span>
                                                 <span>
-                                                    <input type="checkbox" class="large-checkbox" name="tromol1"
+                                                    <input type="checkbox" class="large-checkbox" name="tromol12"
                                                         style="margin-left:5px" value="1"
-                                                        {{ old('tromol1') ? 'checked' : '' }}>
+                                                        {{ old('tromol12', $inquery->tromol12) ? 'checked' : '' }}>
                                                 </span>
                                             </div>
                                         </div>

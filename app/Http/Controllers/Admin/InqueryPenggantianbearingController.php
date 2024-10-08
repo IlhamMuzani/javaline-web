@@ -63,18 +63,14 @@ class InqueryPenggantianbearingController extends Controller
     public function edit($id)
     {
         if (auth()->check() && auth()->user()->menu['inquery penggantian oli']) {
-
             $inquery = Penggantian_bearing::where('id', $id)->first();
             $spareparts = Sparepart::where('kategori', 'sasis')->get();
 
             $details = Detail_penggantianbearing::where('penggantian_bearing_id', $id)
                 ->whereNotNull('kategori') // Memastikan kategori tidak null
                 ->get();
-            $detailgrease = Detail_penggantianbearing::where('penggantian_bearing_id', $id)
-                ->whereNull('kategori') // Mencari kategori yang null
-                ->first();
 
-            return view('admin.inquery_penggantianbearing.update', compact('detailgrease', 'inquery', 'spareparts', 'details'));
+            return view('admin.inquery_penggantianbearing.update', compact('inquery', 'spareparts', 'details'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -91,8 +87,8 @@ class InqueryPenggantianbearingController extends Controller
                 'required',
                 'numeric',
                 function ($attribute, $value, $fail) use ($kendaraan) {
-                    if ($value <= $kendaraan->km) {
-                        $fail('Nilai km akhir harus lebih tinggi dari km awal');
+                    if ($value < $kendaraan->km) { // Memastikan km tidak lebih rendah
+                        $fail('Nilai km akhir harus sama atau lebih tinggi dari km awal');
                     }
                 },
             ],
@@ -518,7 +514,7 @@ class InqueryPenggantianbearingController extends Controller
                     'status_bearing3b' => 'belum penggantian',
                 ]);
             }
-            if ($kendaraan->jenis_kendaraan->jumlah_ban == 18) {
+            if ($kendaraan->jenis_kendaraan->total_ban == 18) {
                 $bearing->update([
                     'bearing1a' => null,
                     'status_bearing1a' => 'belum penggantian',
@@ -552,7 +548,7 @@ class InqueryPenggantianbearingController extends Controller
                 ]);
             }
 
-            if ($kendaraan->jenis_kendaraan->jumlah_ban == 22) {
+            if ($kendaraan->jenis_kendaraan->total_ban == 22) {
                 $bearing->update([
                     'bearing1a' => null,
                     'status_bearing1a' => 'belum penggantian',
@@ -669,7 +665,7 @@ class InqueryPenggantianbearingController extends Controller
                 ]);
             }
             if (
-                $kendaraan->jenis_kendaraan->jumlah_ban == 18
+                $kendaraan->jenis_kendaraan->total_ban == 18
             ) {
                 $bearing->update([
                     'bearing1a' => $detail->km_berikutnya,
@@ -705,7 +701,7 @@ class InqueryPenggantianbearingController extends Controller
             }
 
             if (
-                $kendaraan->jenis_kendaraan->jumlah_ban == 22
+                $kendaraan->jenis_kendaraan->total_ban == 22
             ) {
                 $bearing->update([
                     'bearing1a' => $detail->km_berikutnya,
