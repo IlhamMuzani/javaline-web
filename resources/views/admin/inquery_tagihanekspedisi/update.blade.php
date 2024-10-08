@@ -82,9 +82,11 @@
                             <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
                             <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
-                                <option value="PPH" {{ old('kategori', $inquery->kategori) == 'PPH' ? 'selected' : null }} selected>
+                                <option value="PPH"
+                                    {{ old('kategori', $inquery->kategori) == 'PPH' ? 'selected' : null }} selected>
                                     PPH</option>
-                                <option value="NON PPH" {{ old('kategori', $inquery->kategori) == 'NON PPH' ? 'selected' : null }}>
+                                <option value="NON PPH"
+                                    {{ old('kategori', $inquery->kategori) == 'NON PPH' ? 'selected' : null }}>
                                     NON PPH</option>
                             </select>
                         </div>
@@ -940,11 +942,14 @@
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            $('#pph2').val(Math.round(pph2Value).toLocaleString('id-ID'));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
-            $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            $('#grand_total').val(Math.round(grandtotals).toLocaleString('id-ID'));
+
         }
 
         $('body').on('input', 'input[name^="total"]', function() {

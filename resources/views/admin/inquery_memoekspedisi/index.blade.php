@@ -161,7 +161,7 @@
                                 <th>Deposit</th>
                                 {{-- <th>Adm</th> --}}
                                 <th>Total</th>
-                                <th>Opsi</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>

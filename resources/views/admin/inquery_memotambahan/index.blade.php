@@ -154,7 +154,7 @@
                                 <th>No Kabin</th>
                                 <th>Rute</th>
                                 <th style="text-align: center">Uang Tambah</th>
-                                <th>Opsi</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -937,11 +937,13 @@
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            $('#pph2').val(Math.round(pph2Value).toLocaleString('id-ID'));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
-            $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            $('#grand_total').val(Math.round(grandtotals).toLocaleString('id-ID'));
         }
 
         $('body').on('input', 'input[name^="total"]', function() {

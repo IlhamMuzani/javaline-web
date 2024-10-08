@@ -64,6 +64,7 @@ class TarifController extends Controller
             [
                 'kode_tarif' => $this->kode(),
                 'nominal' =>str_replace(',', '.', str_replace('.', '', $request->nominal)),
+                'status' => 'posting',
                 // 'qrcode_rute' => 'https://javaline.id/tarif/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
             ],

@@ -156,7 +156,7 @@
                                 <th style="text-align: center">Deposit Sopir</th>
                                 <th style="text-align: center">Grand Total</th>
                                 <th style="text-align: center" hidden>Hasil Jumlah</th>
-                                <th>Opsi</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
