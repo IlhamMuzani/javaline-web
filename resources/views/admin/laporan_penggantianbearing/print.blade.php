@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Penggantian Bearing</title>
+    <title>Laporan Pengecekan Tromol Axle</title>
     <style>
         body {
             margin: 0;
@@ -113,7 +113,7 @@
 
 <body>
     <div class="container">
-        <h1>LAPORAN PENGGANTIAN BEARING - RANGKUMAN</h1>
+        <h1>LAPORAN PENGECEKAN TROMOL AXLE - RANGKUMAN</h1>
     </div>
     <div class="text">
         @php
@@ -128,7 +128,7 @@
     </div>
     <table>
         <tr>
-            <th>Kode Penggantian</th>
+            <th>Kode Pengecekan</th>
             <th>Tanggal</th>
             <th>No Kabin</th>
             <th>No Registrasi</th>
@@ -149,7 +149,7 @@
                             <th class="thdetail">Kode Barang</th>
                             <th class="thdetail">Nama Barang</th>
                             <th class="thdetail">Qty</th>
-                            <th class="thdetail">Km Penggantian</th>
+                            <th class="thdetail">Km Pengecekan</th>
                             <th class="thdetail">Km Berikutnya</th>
                         </tr>
                         @foreach ($penggantianoli->detail_penggantianbearing as $detail_penggantian)

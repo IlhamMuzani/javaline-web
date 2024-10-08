@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Penggantian Bearing')
+@section('title', 'Laporan Pengecekan Tromol Axle')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Laporan Penggantian Bearing</h1>
+                    <h1 class="m-0">Laporan Pengecekan Tromol Axle</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Penggantian Bearing</li>
+                        <li class="breadcrumb-item active">Laporan Pengecekan Tromol Axle</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Penggantian Bearing</h3>
+                    <h3 class="card-title">Data Laporan Pengecekan Tromol Axle</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -83,7 +83,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
-                                <th>Kode Penggantian</th>
+                                <th>Kode Pengecekan</th>
                                 <th>Tanggal</th>
                                 <th>No Kabin</th>
                                 <th>No Registrasi</th>

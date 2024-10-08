@@ -1866,7 +1866,7 @@
                 <a href="{{ url('admin/laporan_penggantianbearing') }}"
                     class="nav-link {{ request()->is('admin/laporan_penggantianbearing*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 13px;">Laporan Penggantian Bearing
+                    <p style="font-size: 13px;">Laporan Pengecekan Tromol
                     </p>
                 </a>
             </li>

@@ -87,7 +87,7 @@
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
-                                <th>Kode Penggantian</th>
+                                <th>Kode Pengecekan</th>
                                 <th>Tanggal</th>
                                 <th>No Kabin</th>
                                 <th>No Registrasi</th>
