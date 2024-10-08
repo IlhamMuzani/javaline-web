@@ -848,6 +848,7 @@
 
             // Memeriksa value terpilih dan menampilkan layout yang sesuai
             if (selectedValue === '6') {
+                space1.style.display = 'inline'
                 // Tidak ada layout yang perlu ditampilkan untuk kendaraan engkel
             } else if (selectedValue === '10') {
                 layout_box.style.display = 'inline';

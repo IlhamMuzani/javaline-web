@@ -390,6 +390,7 @@ class InqueryPenggantianbearingController extends Controller
                 $existingDetail = Detail_penggantianbearing::where([
                     'penggantian_bearing_id' => $transaksi->id,
                     'kategori' => $data_pesanan['kategori'],
+                    'sparepart_id' => $data_pesanan['sparepart_id'],
                 ])->first();
 
                 $sparepart = Sparepart::find($data_pesanan['sparepart_id']);

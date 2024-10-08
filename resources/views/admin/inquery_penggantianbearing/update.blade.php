@@ -129,7 +129,9 @@
                                     <div style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing1a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -163,7 +165,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing1b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -189,7 +193,9 @@
                                     <div style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing2a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -222,7 +228,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing2b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -248,7 +256,9 @@
                                     <div id="layout_box" style="margin-left:3px" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing3a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -276,7 +286,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing3b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -301,7 +313,9 @@
                                     <div id="layout_tronton" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing4a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -330,7 +344,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing4b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -355,7 +371,9 @@
                                     <div id="layout_trailer_engkel" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing5a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -384,7 +402,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing5b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -409,7 +429,9 @@
                                     <div id="layout_trailer_tronton" class="row mb-0">
                                         <div class="row">
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing6a == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -438,7 +460,9 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mt-2" style="text-align: center;">
-                                                @if ($inquery->kendaraan->bearing->isNotEmpty() && $inquery->kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
+                                                @if (
+                                                    $inquery->kendaraan->bearing->isNotEmpty() &&
+                                                        $inquery->kendaraan->bearing->first()->status_bearing6b == 'belum penggantian')
                                                     <img src="{{ asset('storage/uploads/indikator/merah.png') }}"
                                                         alt="AdminLTELogo" height="20" width="20">
                                                 @else
@@ -932,7 +956,9 @@
             spaces.style.display = 'none';
 
             // Memeriksa value terpilih dan menampilkan layout yang sesuai
-            if (selectedValue === '6') {} else if (selectedValue === '10') {
+            if (selectedValue === '6') {
+                space1.style.display = 'inline'
+            } else if (selectedValue === '10') {
                 layout_box.style.display = 'inline';
                 space1.style.display = 'inline'
             } else if (selectedValue === '18') {
