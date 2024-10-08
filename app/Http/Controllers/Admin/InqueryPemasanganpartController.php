@@ -153,35 +153,32 @@ class InqueryPemasanganpartController extends Controller
 
             if ($detailId) {
                 $detailToUpdate = Detail_pemasanganpart::find($detailId);
+                $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
 
-                if ($detailToUpdate) {
-                    $jumlahLamaDetail = $detailToUpdate->jumlah;
-                    $jumlahBaruDetail = $data_pesanan['jumlah'];
-                    $selisihStok = $jumlahBaruDetail - $jumlahLamaDetail;
-                    $sparepart = Sparepart::find($detailToUpdate->sparepart_id);
-
-                    if ($sparepart) {
-                        $jumlahLamaSparepart = $sparepart->jumlah;
-                        $jumlahBaruSparepart = $data_pesanan['jumlah'];
-                        $jumlahTotalSparepart = $jumlahLamaSparepart - $selisihStok;
-                        $detailToUpdate->update([
-                            'pemasangan_part_id' => $transaksi->id,
-                            'sparepart_id' => $data_pesanan['sparepart_id'],
-                            'keterangan' => $data_pesanan['keterangan'],
-                            'jumlah' => $data_pesanan['jumlah'],
-                        ]);
-                        $sparepart->update([
-                            'jumlah' => $jumlahTotalSparepart,
-                        ]);
-                    }
+                if ($sparepart) {
+                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
+                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
                 }
+
+                $detail_pemakaians_data = [
+                    'pemasangan_part_id' => $transaksi->id,
+                    'sparepart_id' => $data_pesanan['sparepart_id'],
+                    'keterangan' => $data_pesanan['keterangan'],
+                    'jumlah' => $data_pesanan['jumlah'],
+                ];
+                $detailToUpdate->update($detail_pemakaians_data);
+                
             } else {
                 $existingDetail = Detail_pemasanganpart::where([
                     'pemasangan_part_id' => $transaksi->id,
                     'sparepart_id' => $data_pesanan['sparepart_id'],
                 ])->first();
 
+                $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
                 if (!$existingDetail) {
+                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
+                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
+
                     Detail_pemasanganpart::create([
                         'pemasangan_part_id' => $transaksi->id,
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
@@ -189,12 +186,6 @@ class InqueryPemasanganpartController extends Controller
                         'keterangan' => $data_pesanan['keterangan'],
                         'jumlah' => $data_pesanan['jumlah'],
                     ]);
-                    $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
-
-                    if ($sparepart) {
-                        $newQuantity = $sparepart->jumlah - $data_pesanan['jumlah'];
-                        $sparepart->update(['jumlah' => $newQuantity]);
-                    }
                 }
             }
         }
@@ -276,42 +267,14 @@ class InqueryPemasanganpartController extends Controller
     public function deletepart($id)
     {
         $part = Detail_pemasanganpart::find($id);
+        $part->delete();
 
-        if ($part) {
-            $sparepart = Sparepart::find($part->sparepart_id);
-
-            if ($sparepart) {
-                $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah]);
-
-                $part->delete();
-
-                return response()->json(['message' => 'Data deleted successfully']);
-            } else {
-                return response()->json(['message' => 'Sparepart not found'], 404);
-            }
-        } else {
-            return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
-        }
+        return back()->with('success', 'Berhasil');
     }
 
     public function hapuspemasanganpart($id)
     {
         $part = Detail_pemasanganpart::find($id);
-
-        if ($part) {
-            $sparepart = Sparepart::find($part->sparepart_id);
-
-            if ($sparepart) {
-                $sparepart->update(['jumlah' => $sparepart->jumlah + $part->jumlah]);
-
-                $part->delete();
-
-                return response()->json(['message' => 'Data deleted successfully']);
-            } else {
-                return response()->json(['message' => 'Sparepart not found'], 404);
-            }
-        } else {
-            return response()->json(['message' => 'Detail_pemasanganpart not found'], 404);
-        }
+        $part->delete();
     }
 }
