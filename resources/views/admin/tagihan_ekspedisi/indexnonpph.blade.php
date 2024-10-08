@@ -826,7 +826,8 @@
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            $('#pph2').val(Math.round(pph2Value).toLocaleString('id-ID'));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
@@ -846,8 +847,8 @@
 
         function formatRupiah(number) {
             var formatted = new Intl.NumberFormat('id-ID', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
             }).format(number);
             return '' + formatted;
         }
