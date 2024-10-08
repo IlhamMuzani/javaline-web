@@ -90,9 +90,9 @@ class InqueryPemasanganpartController extends Controller
         $today = Carbon::now('Asia/Jakarta')->format('Y-m-d');
         $lastUpdatedDate = $tanggal_awal->format('Y-m-d');
 
-        if ($lastUpdatedDate < $today) {
-            return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
-        }
+        // if ($lastUpdatedDate < $today) {
+        //     return back()->with('errormax', 'Anda tidak dapat melakukan update setelah berganti hari.');
+        // }
 
         if ($validasi_pelanggan->fails()) {
             array_push($error_pelanggans, $validasi_pelanggan->errors()->all()[0]);
