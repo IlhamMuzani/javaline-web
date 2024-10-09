@@ -498,6 +498,10 @@
                 return false; // Cegah pengiriman form
             }
 
+            // Set tanggalAkhir ke hari ini
+            var today = new Date().toISOString().split('T')[0];
+            tanggalAkhir.value = today;
+
             // Jika validasi lolos, kirim form
             form.action = "{{ url('admin/inquery_memoborong') }}";
             form.submit();
