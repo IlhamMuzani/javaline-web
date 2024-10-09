@@ -259,6 +259,22 @@ class MemoekspedisispkController extends Controller
 
                 session()->flash('last_deposit_driver', $request->input('deposit_driver'));
 
+                $kendaraan_id = $request->input('kendaraan_id');
+                $postedCount = Memo_ekspedisi::where(
+                    'kendaraan_id',
+                    $kendaraan_id
+                )
+                    ->where('status', 'rilis')
+                    ->count();
+
+                
+                if (
+                    $postedCount >= 1
+                ) {
+                    return back()->with('erorrss', 'DO sebelumnya belum terambil, hubungi driver untuk segera menyelesaikan do');
+                }
+
+
                 $nama_driver = $request->input('nama_driver');
                 $postedCount = Memo_ekspedisi::where('nama_driver', $nama_driver)
                     ->where('status', 'posting')
@@ -571,6 +587,22 @@ class MemoekspedisispkController extends Controller
                         ->with('error_pesanans', $error_pesanans)
                         ->with('data_pembelians', $data_pembelians);
                 }
+
+                $kendaraan_id = $request->input('kendaraan_id');
+                $postedCount = Memo_ekspedisi::where(
+                    'kendaraan_id',
+                    $kendaraan_id
+                )
+                    ->where('status', 'rilis')
+                    ->count();
+
+
+                if (
+                    $postedCount >= 1
+                ) {
+                    return back()->with('erorrss', 'DO sebelumnya belum terambil, hubungi driver untuk segera menyelesaikan do');
+                }
+                
 
                 $deposit = $request->depositsopir;
 
