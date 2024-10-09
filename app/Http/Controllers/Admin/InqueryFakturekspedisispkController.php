@@ -13,6 +13,7 @@ use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
+use App\Models\Pengambilan_do;
 use App\Models\Pph;
 use App\Models\Sewa_kendaraan;
 use App\Models\Spk;
@@ -413,6 +414,31 @@ class InqueryFakturekspedisispkController extends Controller
             ]);
         }
 
+        $spk = Spk::where('id', $cetakpdf->spk_id)->first();
+
+        if ($spk) {
+            // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
+            $pengambilan_do = Pengambilan_do::where([
+                'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
+                'status_suratjalan' => 'belum pulang',
+            ])->first();
+
+            // Periksa apakah pengambilan_do ditemukan
+            if ($pengambilan_do) {
+                // Update waktu_suratakhir menjadi waktu saat ini
+                $pengambilan_do->update([
+                    'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
+                ]);
+
+                // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+            } else {
+                // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
+                // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+            }
+        } else {
+            // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
+        }
+
         $details = Detail_faktur::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
         $detailtarifs = Detail_tariftambahan::where('faktur_ekspedisi_id', $cetakpdf->id)->get();
 
@@ -473,6 +499,33 @@ class InqueryFakturekspedisispkController extends Controller
                 'status' => 'unpost'
             ]);
         }
+
+        $spk = Spk::where('id', $faktur->spk_id)->first();
+
+        if ($spk) {
+            // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
+            $pengambilan_do = Pengambilan_do::where([
+                'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
+                'status_suratjalan' => 'pulang',
+            ])->first();
+
+            // Periksa apakah pengambilan_do ditemukan
+            if ($pengambilan_do) {
+                // Update waktu_suratakhir menjadi waktu saat ini
+                $pengambilan_do->update([
+                    'waktu_suratakhir' => null,
+                    'status_suratjalan' => 'belum pulang',
+                ]);
+
+                // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+            } else {
+                // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
+                // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+            }
+        } else {
+            // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
+        }
+
         $faktur->update([
             'status' => 'unpost'
         ]);
@@ -516,6 +569,34 @@ class InqueryFakturekspedisispkController extends Controller
                 'status' => 'posting'
             ]);
         }
+
+
+        $spk = Spk::where('id', $faktur->spk_id)->first();
+
+        if ($spk) {
+            // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
+            $pengambilan_do = Pengambilan_do::where([
+                'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
+                'status_suratjalan' => 'belum pulang',
+            ])->first();
+
+            // Periksa apakah pengambilan_do ditemukan
+            if ($pengambilan_do) {
+                // Update waktu_suratakhir menjadi waktu saat ini
+                $pengambilan_do->update([
+                    'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
+                    'status_suratjalan' => 'pulang',
+                ]);
+
+                // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+            } else {
+                // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
+                // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+            }
+        } else {
+            // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
+        }
+
         $faktur->update([
             'status' => 'posting'
         ]);

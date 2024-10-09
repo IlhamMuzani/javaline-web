@@ -380,6 +380,8 @@ class PengambilandoController extends Controller
             'gambar2' => $namagambar2,
             'gambar3' => $namagambar3,
             'status' => 'tunggu bongkar',
+            'waktu_suratawal' => now()->format('Y-m-d H:i:s'),
+            'status_suratjalan' => 'belum pulang'
         ]);
 
         // Menghitung jarak waktu

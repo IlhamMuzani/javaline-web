@@ -901,4 +901,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('inquery_penggantianoli/unpostpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'unpostpenggantianoli'])->name('unpostpenggantianoli');
     Route::get('inquery_penggantianoli/postingpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'postingpenggantianoli'])->name('postingpenggantianoli');
+    Route::resource('monitoring_suratjalan', \App\Http\Controllers\Admin\MonitoringsuratjalanController::class);
+
 });
