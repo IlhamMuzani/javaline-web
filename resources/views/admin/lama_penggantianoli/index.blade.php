@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Lama Penggantian Oli')
+@section('title', 'Target Penggantian Oli')
 
 @section('content')
 
@@ -23,11 +23,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Data Lama Penggantian Oli</h1>
+                    <h1 class="m-0">Target Penggantian Oli</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data Lama Penggantian Oli</li>
+                        <li class="breadcrumb-item active">Target Penggantian Oli</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -49,24 +49,32 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Lama Penggantian Oli</h3>
+                    <h3 class="card-title">Target Penggantian Oli</h3>
                     <div class="float-right">
                         {{-- @if (auth()->check() && auth()->user()->fitur['lama_penggantianoli create']) --}}
-                        <a href="{{ url('admin/lama_penggantianoli/create') }}" class="btn btn-primary btn-sm">
+                        {{-- <a href="{{ url('admin/lama_penggantianoli/create') }}" class="btn btn-primary btn-sm">
                             <i class="fas fa-plus"></i> Tambah
-                        </a>
+                        </a> --}}
                         {{-- @endif --}}
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <div class="col-md-2 mb-3">
+                        <select class="custom-select form-control" id="status" name="status">
+                            <option value="">- Pilih -</option>
+                            <option value="lama_penggantianoli" selected>Target Penggantian Oli</option>
+                            <option value="jarak_km">Target Update Km</option>
+                            <option value="lama_bearing">Target Pengecekan Tromol</option>
+                        </select>
+                    </div>
                     <table id="datatables66" class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
                                 <th>Nama Oli </th>
-                                <th>Lama KM </th>
+                                <th>Target Penggantian Oli </th>
                                 <th class="text-center" width="90">Opsi</th>
                             </tr>
                         </thead>
@@ -86,24 +94,24 @@
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#modal-hapus-{{ $lama_penggantianoli->id }}">
                                             <i class="fas fa-trash"></i>
-                                        </button>
+                                        </button> --}}
                                     </td>
                                 </tr>
                                 <div class="modal fade" id="modal-hapus-{{ $lama_penggantianoli->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title">Hapus lama penggantian oli</h4>
+                                                <h4 class="modal-title">Hapus Target Penggantian Oli</h4>
                                                 <button type="button" class="close" data-dismiss="modal"
                                                     aria-label="Close">
                                                     <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <p>Yakin hapus lama penggantian oli
+                                                <p>Yakin hapus Target Penggantian Oli
                                                     <strong>{{ $lama_penggantianoli->nama }}</strong>?
                                                 </p>
                                             </div>
@@ -129,5 +137,31 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#status').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'lama_penggantianoli':
+                        window.location.href = "{{ url('admin/lama_penggantianoli') }}";
+                        break;
+                    case 'jarak_km':
+                        window.location.href = "{{ url('admin/jarak_km') }}";
+                        break;
+                    case 'lama_bearing':
+                        window.location.href = "{{ url('admin/lama_bearing') }}";
+                        break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
+    </script>
     <!-- /.card -->
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data Jarak Km')
+@section('title', 'Target Update Km')
 
 @section('content')
 
@@ -23,11 +23,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Data Jarak Km</h1>
+                    <h1 class="m-0">Target Update Km</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data Jarak Km</li>
+                        <li class="breadcrumb-item active">Target Update Km</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -49,7 +49,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Jarak Km</h3>
+                    <h3 class="card-title">Target Update Km</h3>
                     <div class="float-right">
                         {{-- @if (auth()->check() && auth()->user()->fitur['jarak_km create']) --}}
                         {{-- <a href="{{ url('admin/jarak_km/create') }}" class="btn btn-primary btn-sm">
@@ -60,12 +60,20 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <div class="col-md-2 mb-3">
+                        <select class="custom-select form-control" id="status" name="status">
+                            <option value="">- Pilih -</option>
+                            <option value="lama_penggantianoli" >Target Update Penggantian Oli</option>
+                            <option value="jarak_km" selected>Target Update Update Km</option>
+                            <option value="lama_bearing">Target Update Pengecekan Tromol</option>
+                        </select>
+                    </div>
                     <table id="datatables66" class="table table-bordered table-striped table-hover">
                         <thead class="thead-dark">
                             <tr>
                                 <th class="text-center">No</th>
                                 <th>Kode</th>
-                                <th>Jarak Km </th>
+                                <th>Target Update Km </th>
                                 <th class="text-center" width="90">Opsi</th>
                             </tr>
                         </thead>
@@ -120,5 +128,31 @@
             </div>
         </div>
     </section>
+
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#status').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'lama_penggantianoli':
+                        window.location.href = "{{ url('admin/lama_penggantianoli') }}";
+                        break;
+                    case 'jarak_km':
+                        window.location.href = "{{ url('admin/jarak_km') }}";
+                        break;
+                    case 'lama_bearing':
+                        window.location.href = "{{ url('admin/lama_bearing') }}";
+                        break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
+    </script>
     <!-- /.card -->
 @endsection

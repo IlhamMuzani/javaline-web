@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Perbarui Jarak Km')
+@section('title', 'Perbarui Target Update Km')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,12 +22,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Lama Jarak Km</h1>
+                    <h1 class="m-0">Target Update Km</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/jarak_km') }}">Jarak Km
-                                Oli</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/jarak_km') }}">Target Km Update
+                            </a></li>
                         <li class="breadcrumb-item active">Perbarui</li>
                     </ol>
                 </div><!-- /.col -->
@@ -55,12 +55,12 @@
                 @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Perbarui Jarak Km</h3>
+                        <h3 class="card-title">Perbarui Target Update Km</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="batas">Jarak Km</label>
+                            <label for="batas">Target Km</label>
                             <input type="text" class="form-control" id="batas" name="batas"
                                 placeholder="masukkan jarak km" value="{{ old('batas', $jarak_km->batas) }}"
                                 oninput="formatRupiah(this)">

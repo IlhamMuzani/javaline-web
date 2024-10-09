@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Perbarui Lama Penggantian Oli')
+@section('title', 'Perbarui Target Penggantian Oli')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Lama Penggantian Oli</h1>
+                    <h1 class="m-0">Target Penggantian Oli</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/lama_penggantianoli') }}">Lama Penggantian
+                        <li class="breadcrumb-item"><a href="{{ url('admin/lama_penggantianoli') }}">Target Penggantian
                                 Oli</a></li>
                         <li class="breadcrumb-item active">Perbarui</li>
                     </ol>
@@ -55,7 +55,7 @@
                 @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Perbarui Lama Penggantian Oli</h3>
+                        <h3 class="card-title">Perbarui Target Penggantian Oli</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -65,7 +65,7 @@
                                 placeholder="masukkan nama" value="{{ old('nama', $lama_penggantianoli->nama) }}">
                         </div>
                         <div class="form-group">
-                            <label for="km_oli">Lama Km</label>
+                            <label for="km_oli">Target Penggantian Oli</label>
                             <input type="text" class="form-control" id="km_oli" name="km_oli"
                                 placeholder="masukkan km oli" value="{{ old('km_oli', $lama_penggantianoli->km_oli) }}"
                                 oninput="formatRupiah(this)">

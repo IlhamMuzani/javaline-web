@@ -415,13 +415,13 @@
         @if (auth()->check() && auth()->user()->menu['rute perjalanan'])
             <li class="nav-item">
                 <a href="{{ url('admin/lama_penggantianoli') }}"
-                    class="nav-link {{ request()->is('admin/lama_penggantianoli*') ? 'active' : '' }}">
+                    class="nav-link {{ request()->is('admin/lama_penggantianoli*')  || request()->is('admin/lama_bearing*')  || request()->is('admin/jarak_km*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Lama Penggantian Oli</p>
+                    <p style="font-size: 14px;">Target KM</p>
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['kendaraan'])
+        {{-- @if (auth()->check() && auth()->user()->menu['kendaraan'])
             <li class="nav-item">
                 <a href="{{ url('admin/jarak_km') }}"
                     class="nav-link {{ request()->is('admin/jarak_km*') ? 'active' : '' }}">
@@ -438,7 +438,7 @@
                     <p style="font-size: 14px;">Lama Penggantian Bearing</p>
                 </a>
             </li>
-        @endif
+        @endif --}}
     </ul>
 </li>
 @php
