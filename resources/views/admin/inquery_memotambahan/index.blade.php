@@ -65,7 +65,7 @@
                         <div class="row">
                             <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control" id="kategori" name="kategori">
-                                    <option value="">- Semua Status -</option>
+                                    <option value="">- Semua Kategori -</option>
                                     <option value="Memo Perjalanan"
                                         {{ Request::get('kategori') == 'Memo Perjalanan' ? 'selected' : '' }}>
                                         Memo Perjalanan
@@ -84,11 +84,16 @@
                             <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
+                                    <option value="selesai" {{ Request::get('status') == 'selesai' ? 'selected' : '' }}>
+                                        Aktif
+                                    </option>
                                     <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
                                         Posting
                                     </option>
                                     <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
                                         Unpost</option>
+                                    <option value="rilis" {{ Request::get('status') == 'rilis' ? 'selected' : '' }}>
+                                        Rilis</option>
                                 </select>
                                 <label for="status">(Pilih Status)</label>
                             </div>
@@ -399,11 +404,16 @@
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
         var tanggalAkhir = document.getElementById('tanggal_akhir');
+        var kategori = document.getElementById('kategori');
+        var form = document.getElementById('form-action');
+        var validationMessage = document.getElementById('validationMessage');
 
+        // Disable tanggalAkhir jika tanggalAwal belum diisi
         if (tanggalAwal.value == "") {
             tanggalAkhir.readOnly = true;
         }
 
+        // Event listener untuk perubahan tanggalAwal
         tanggalAwal.addEventListener('change', function() {
             if (this.value == "") {
                 tanggalAkhir.readOnly = true;
@@ -411,15 +421,30 @@
                 tanggalAkhir.readOnly = false;
             }
 
+            // Reset tanggalAkhir setelah tanggalAwal dipilih
             tanggalAkhir.value = "";
             var today = new Date().toISOString().split('T')[0];
             tanggalAkhir.value = today;
             tanggalAkhir.setAttribute('min', this.value);
         });
 
-        var form = document.getElementById('form-action');
-
+        // Fungsi untuk validasi dan menjalankan pencarian
         function cari() {
+            // Validasi apakah kategori dipilih
+            if (kategori.value === "") {
+                validationMessage.innerText = "Mohon pilih kategori memo terlebih dahulu.";
+                $('#validationModal').modal('show'); // Tampilkan modal
+                return false; // Cegah pengiriman form
+            }
+
+            // Validasi apakah tanggal awal diisi
+            if (tanggalAwal.value === "") {
+                validationMessage.innerText = "Mohon masukkan tanggal awal.";
+                $('#validationModal').modal('show'); // Tampilkan modal
+                return false; // Cegah pengiriman form
+            }
+
+            // Jika validasi lolos, kirim form
             form.action = "{{ url('admin/inquery_memotambahan') }}";
             form.submit();
         }

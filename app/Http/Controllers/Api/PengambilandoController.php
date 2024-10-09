@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
+use App\Models\Memo_ekspedisi;
 use App\Models\Pengambilan_do;
+use App\Models\Spk;
 use App\Models\Timer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -161,68 +163,6 @@ class PengambilandoController extends Controller
         }
 
         $odometer = null; // Inisialisasi variabel odometer
-
-        // if ($kendaraan) {
-        //     $client = new Client();
-        //     $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-        //         'headers' => [
-        //             'accept' => 'application/json',
-        //             'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-        //             'Content-Type' => 'application/json',
-        //         ],
-        //         'json' => [
-        //             'list_vehicle_id' => [$kendaraan->list_vehicle_id],
-        //             'list_nopol' => [],
-        //             'list_no_aset' => [],
-        //             'geo_code' => [],
-        //             'min_lastupdate_hour' => null,
-        //             'page' => 0,
-        //             'encrypted' => 0,
-        //         ],
-        //     ]);
-
-        //     $data = json_decode($response->getBody()->getContents(), true);
-
-        //     if (isset($data['Data'][0]['vehicle_id'])) {
-        //         $vehicleId = $data['Data'][0]['vehicle_id'];
-
-        //         // Periksa apakah vehicle_id sama dengan list_vehicle_id
-        //         if ($vehicleId === $kendaraan->list_vehicle_id) {
-        //             // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-        //             $odometer = intval($data['Data'][0]['odometer'] ?? 0);
-
-        //             if ($odometer > 0) {
-        //                 $kendaraan->km = $odometer;
-        //                 $kendaraan->save();
-        //             }
-        //         } else {
-        //             // Gunakan API lain jika vehicle_id tidak cocok
-        //             $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-        //             if ($response->successful()) {
-        //                 $vehicles = $response->json();
-        //                 $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-        //                 if ($matchedVehicle) {
-        //                     $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
-
-        //                     if ($odometer > 0) {
-        //                         $kendaraan->km = $odometer;
-        //                         $kendaraan->save();
-        //                     }
-        //                 } else {
-        //                     $odometer = $kendaraan->km;
-
-        //                     if ($odometer > 0) {
-        //                         $kendaraan->km = $odometer;
-        //                         $kendaraan->save();
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-
-
         if ($kendaraan) {
             try {
                 // Panggilan ke API pertama
@@ -280,6 +220,24 @@ class PengambilandoController extends Controller
             'km_awal' => $kendaraan ? $kendaraan->km : null,
             'waktu_awal' => now()->format('Y-m-d H:i:s')
         ]);
+
+        $spk = Spk::where('id', $pengambilan_do->spk_id)->first();
+        $memos = Memo_ekspedisi::where('spk_id', $spk->id)
+            ->where('status', 'rilis') // Ambil hanya memo yang statusnya 'rilis'
+            ->get();
+
+        // Cek apakah ada memo yang perlu diupdate
+        if ($memos->isNotEmpty()) {
+            foreach ($memos as $memo) {
+                // Update status memo menjadi 'unpost'
+                $memo->update([
+                    'status' => 'unpost',
+                ]);
+            }
+        } else {
+            // Jika tidak ada memo yang statusnya 'rilis', tidak ada update yang dilakukan
+            // Kamu bisa menambahkan log atau pesan lain di sini jika diperlukan
+        }
 
         // Hitung jarak waktu antara waktu tunggu muat dan waktu perjalanan isi
         $waktuTungguMuat = $pengambilan_do->updated_at;

@@ -15,6 +15,7 @@ use App\Models\Jarak_km;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
+use App\Models\Pengambilan_do;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
@@ -283,6 +284,20 @@ class InqueryMemoborongspkController extends Controller
         $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan;
 
         $tanggal = Carbon::now()->format('Y-m-d');
+
+        $spk_id = $request->spk_id;
+        $spk = Spk::where('id', $spk_id)->first();
+        $pengambilan_do = Pengambilan_do::where('spk_id', $spk->id)->first(); // Mengambil satu pengambilan_do
+
+        $status_memo = 'rilis';
+        if (
+            $pengambilan_do && in_array($pengambilan_do->status, ['unpost', 'posting'])
+        ) {
+            $status_memo = 'rilis';
+        } else {
+            $status_memo = 'unpost';
+        }
+
         $cetakpdf->update(
             [
                 'spk_id' => $request->spk_id,
@@ -320,6 +335,8 @@ class InqueryMemoborongspkController extends Controller
                 'jumlah' => $request->jumlah,
                 'satuan' => $request->satuan,
                 'totalrute' => str_replace(',', '.', str_replace('.', '', $request->totalrute)),
+                'status' => $status_memo,
+
             ]
         );
 

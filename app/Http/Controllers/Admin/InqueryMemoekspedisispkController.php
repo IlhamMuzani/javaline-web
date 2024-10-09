@@ -18,6 +18,7 @@ use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
+use App\Models\Pengambilan_do;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
@@ -355,6 +356,20 @@ class InqueryMemoekspedisispkController extends Controller
         $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
         $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
         $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos;
+
+        $spk_id = $request->spk_id;
+        $spk = Spk::where('id', $spk_id)->first();
+        $pengambilan_do = Pengambilan_do::where('spk_id', $spk->id)->first(); // Mengambil satu pengambilan_do
+
+        $status_memo = 'rilis';
+        if (
+            $pengambilan_do && in_array($pengambilan_do->status, ['unpost', 'posting'])
+        ) {
+            $status_memo = 'rilis';
+        } else {
+            $status_memo = 'unpost';
+        }
+
         $cetakpdf = Memo_ekspedisi::findOrFail($id);
         $cetakpdf->update(
             [
@@ -384,6 +399,7 @@ class InqueryMemoekspedisispkController extends Controller
                 'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
                 'keterangan' => $request->keterangan,
                 'hasil_jumlah' => $hasil_jumlah,
+                'status' => $status_memo,
             ]
         );
 

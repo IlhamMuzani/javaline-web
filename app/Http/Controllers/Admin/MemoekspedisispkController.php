@@ -26,6 +26,7 @@ use App\Models\Memo_tambahan;
 use App\Models\Memotambahan;
 use App\Models\Pelanggan;
 use App\Models\Penerimaan_kaskecil;
+use App\Models\Pengambilan_do;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
@@ -334,6 +335,18 @@ class MemoekspedisispkController extends Controller
 
                 $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos;
 
+                $spk_id = $request->spk_id;
+                $spk = Spk::where('id', $spk_id)->first();
+                $pengambilan_do = Pengambilan_do::where('spk_id', $spk->id)->first(); // Mengambil satu pengambilan_do
+
+                $status_memo = 'rilis';
+                if (
+                    $pengambilan_do && in_array($pengambilan_do->status, ['unpost', 'posting'])
+                ) {
+                    $status_memo = 'rilis';
+                } else {
+                    $status_memo = 'unpost';
+                }
 
                 $cetakpdf = Memo_ekspedisi::create(array_merge(
                     $request->all(),
@@ -371,7 +384,7 @@ class MemoekspedisispkController extends Controller
                         'qrcode_memo' => 'https://javaline.id/memo_ekspedisispk/' . $kode,
                         'tanggal' => $format_tanggal,
                         'tanggal_awal' => $tanggal,
-                        'status' => 'unpost',
+                        'status' => $status_memo,
                     ]
                 ));
 
@@ -622,7 +635,18 @@ class MemoekspedisispkController extends Controller
 
                 $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan;
 
+                $spk_id = $request->spk_id;
+                $spk = Spk::where('id', $spk_id)->first();
+                $pengambilan_do = Pengambilan_do::where('spk_id', $spk->id)->first(); // Mengambil satu pengambilan_do
 
+                $status_memo = 'rilis';
+                if (
+                    $pengambilan_do && in_array($pengambilan_do->status, ['unpost', 'posting'])
+                ) {
+                    $status_memo = 'rilis';
+                } else {
+                    $status_memo = 'unpost';
+                }
 
                 // $uang_jaminan = str_replace('.', '', $request->uang_jaminans); // Menghapus titik
                 // $uang_jaminan = str_replace(',', '.', $uang_jaminan); // Mengganti koma menjadi titik
@@ -674,7 +698,6 @@ class MemoekspedisispkController extends Controller
                         'qrcode_memo' => 'https://javaline.id/memo_ekspedisispk/' . $kode,
                         'tanggal' => $format_tanggal,
                         'tanggal_awal' => $tanggal,
-                        'status' => 'unpost',
                         'rute_perjalanan_id' => $request->rute_id,
                         'kode_rute' => $request->kode_rutes,
                         'nama_rute' => $request->nama_rutes,
@@ -682,11 +705,7 @@ class MemoekspedisispkController extends Controller
                         'jumlah' => $request->jumlah,
                         'satuan' => $request->satuan,
                         'totalrute' => str_replace(',', '.', str_replace('.', '', $request->totalrute)),
-                        // 'biaya_id' => $request->biaya_id,
-                        // 'kode_biaya' => $request->kode_biaya,
-                        // 'nama_biaya' => $request->nama_biaya,
-                        // 'nominal' => $request->has('nominal') ? ($request->nominal != 0 ? str_replace('.', '', $request->nominal) : null) : null,
-
+                        'status' => $status_memo,
                     ]
                 ));
 

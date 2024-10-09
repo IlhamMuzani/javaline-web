@@ -66,7 +66,7 @@
                         <div class="row">
                             <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control" id="kategori" name="kategori">
-                                    <option value="">- Semua Status -</option>
+                                    <option value="">- Semua Kategori -</option>
                                     <option value="Memo Perjalanan"
                                         {{ Request::get('kategori') == 'Memo Perjalanan' ? 'selected' : '' }}>
                                         Memo Perjalanan
@@ -78,16 +78,21 @@
                                         {{ Request::get('') == 'Memo Tambahan' ? 'selected' : '' }}>
                                         Memo Tambahan</option>
                                 </select>
-                                <label for="status">(Pilih Status)</label>
+                                <label for="status">(Pilih Kategori Memo)</label>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
+                                    <option value="selesai" {{ Request::get('status') == 'selesai' ? 'selected' : '' }}>
+                                        Aktif
+                                    </option>
                                     <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
                                         Posting
                                     </option>
                                     <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
                                         Unpost</option>
+                                    <option value="rilis" {{ Request::get('status') == 'rilis' ? 'selected' : '' }}>
+                                        Rilis</option>
                                 </select>
                                 <label for="status">(Pilih Status)</label>
                             </div>
@@ -212,16 +217,51 @@
                                         {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
                                     </td>
                                     <td class="text-center">
+                                        @if ($memoborong->status == 'rilis')
+                                            <button type="button" class="btn btn-primary btn-sm">
+                                                <i class="fas fa-check" style="opacity: 0; background: transparent;"></i>
+                                            </button>
+                                        @endif
+                                        @if ($memoborong->status == 'unpost')
+                                            <button type="button" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-check" style="opacity: 0; background: transparent;"></i>
+                                            </button>
+                                        @endif
                                         @if ($memoborong->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
                                         @if ($memoborong->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Faktur">
+                                            <button type="button" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @if ($memoborong->status == 'rilis')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong update'])
+                                                    @if ($memoborong->spk_id == null)
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}">Update</a>
+                                                    @else
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborongspk/' . $memoborong->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong delete'])
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusmemo', ['id' => $memoborong->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
                                             @if ($memoborong->status == 'unpost')
                                                 @if ($saldoTerakhir->sisa_saldo < $memoborong->hasil_jumlah)
                                                     <a class="dropdown-item">Saldo tidak cukup</a>
@@ -418,11 +458,16 @@
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
         var tanggalAkhir = document.getElementById('tanggal_akhir');
+        var kategori = document.getElementById('kategori');
+        var form = document.getElementById('form-action');
+        var validationMessage = document.getElementById('validationMessage');
 
+        // Disable tanggalAkhir jika tanggalAwal belum diisi
         if (tanggalAwal.value == "") {
             tanggalAkhir.readOnly = true;
         }
 
+        // Event listener untuk perubahan tanggalAwal
         tanggalAwal.addEventListener('change', function() {
             if (this.value == "") {
                 tanggalAkhir.readOnly = true;
@@ -430,15 +475,30 @@
                 tanggalAkhir.readOnly = false;
             }
 
+            // Reset tanggalAkhir setelah tanggalAwal dipilih
             tanggalAkhir.value = "";
             var today = new Date().toISOString().split('T')[0];
             tanggalAkhir.value = today;
             tanggalAkhir.setAttribute('min', this.value);
         });
 
-        var form = document.getElementById('form-action');
-
+        // Fungsi untuk validasi dan menjalankan pencarian
         function cari() {
+            // Validasi apakah kategori dipilih
+            if (kategori.value === "") {
+                validationMessage.innerText = "Mohon pilih kategori memo terlebih dahulu.";
+                $('#validationModal').modal('show'); // Tampilkan modal
+                return false; // Cegah pengiriman form
+            }
+
+            // Validasi apakah tanggal awal diisi
+            if (tanggalAwal.value === "") {
+                validationMessage.innerText = "Mohon masukkan tanggal awal.";
+                $('#validationModal').modal('show'); // Tampilkan modal
+                return false; // Cegah pengiriman form
+            }
+
+            // Jika validasi lolos, kirim form
             form.action = "{{ url('admin/inquery_memoborong') }}";
             form.submit();
         }

@@ -22,8 +22,8 @@ class TablememoController extends Controller
             $query->whereDate('created_at', $today)
                 ->orWhereDate('created_at', '<', $today);
         })
-            ->where(['status' => 'unpost'])
-            ->orderBy('created_at', 'desc') // Menambahkan orderBy untuk mengurutkan hasil secara descending
+            ->whereIn('status', ['unpost', 'rilis']) // Mengambil status "unpost" dan "rilis" untuk Memo Ekspedisi
+            ->orderBy('created_at', 'desc') // Mengurutkan hasil secara descending
             ->get();
 
 
