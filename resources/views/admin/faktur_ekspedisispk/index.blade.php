@@ -1176,6 +1176,7 @@
                                     <th class="text-center">No</th>
                                     <th>Kode Tarif</th>
                                     <th>Nama Tarif</th>
+                                    <th>Pelanggan</th>
                                     <th>Nominal</th>
                                     <th>Opsi</th>
                                 </tr>
@@ -1189,6 +1190,7 @@
                                         <td hidden>{{ $tarif->vendor->id ?? null }}</td>
                                         <td>{{ $tarif->kode_tarif }}</td>
                                         <td>{{ $tarif->nama_tarif }}</td>
+                                        <td>{{ $tarif->pelanggan->nama_pell ?? null }}</td>
                                         <td>{{ number_format($tarif->nominal, 0, ',', '.') }}</td>
                                         <td class="text-center">
                                             <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
