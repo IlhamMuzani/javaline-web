@@ -63,9 +63,9 @@
                     <div class="col-md-2 mb-3">
                         <select class="custom-select form-control" id="status" name="status">
                             <option value="">- Pilih -</option>
-                            <option value="lama_penggantianoli" >Target Update Penggantian Oli</option>
-                            <option value="jarak_km" selected>Target Update Update Km</option>
-                            <option value="lama_bearing">Target Update Pengecekan Tromol</option>
+                            <option value="lama_penggantianoli" >Target Penggantian Oli</option>
+                            <option value="jarak_km" selected>Target Update Km</option>
+                            <option value="lama_bearing">Target Pengecekan Tromol</option>
                         </select>
                     </div>
                     <table id="datatables66" class="table table-bordered table-striped table-hover">
