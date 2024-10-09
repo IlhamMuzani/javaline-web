@@ -186,14 +186,20 @@
                                     <td style="text-align: end">
                                         {{ number_format($memotambahan->grand_total, 0, ',', '.') }}</td>
                                     <td class="text-center">
+                                        @if ($memotambahan->status == 'unpost')
+                                            <button type="button" class="btn btn-warning btn-sm">
+                                                <i class="fas fa-check" style="opacity: 0; background: transparent;"></i>
+                                            </button>
+                                        @endif
                                         @if ($memotambahan->status == 'posting')
                                             <button type="button" class="btn btn-success btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
                                         @if ($memotambahan->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="faktur">
+                                            <button type="button" class="btn btn-danger btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($memotambahan->status == 'unpost')
