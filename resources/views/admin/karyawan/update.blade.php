@@ -208,7 +208,7 @@
                     </div>
                     <div class="form-group">
                         <label for="norek">No. Rekening</label>
-                        <input type="number" class="form-control" id="norek" name="norek"
+                        <input type="text" class="form-control" id="norek" name="norek"
                             placeholder="Masukan no rekening" value="{{ old('norek', $karyawan->norek) }}">
                     </div>
                 </div>

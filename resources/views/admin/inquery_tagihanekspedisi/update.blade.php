@@ -900,6 +900,10 @@
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
 
+            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
+            //     minimumFractionDigits: 10,
+            //     maximumFractionDigits: 10
+            // }));
             $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
             $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
 
