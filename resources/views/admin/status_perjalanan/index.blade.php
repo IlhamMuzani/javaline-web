@@ -78,7 +78,6 @@
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="form-row">
-
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="divisi" name="divisi">

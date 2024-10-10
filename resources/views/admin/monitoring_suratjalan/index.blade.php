@@ -67,9 +67,9 @@
                             <div class="col-md-2 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="divisi" name="divisi">
-                                        <option value="">- Cari Kode -</option>
+                                        <option value="">- Cari Divisi -</option>
                                         <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
-                                            -Semua Code-
+                                            -Semua Divisi-
                                         </option>
                                         <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
                                             K1
@@ -94,7 +94,7 @@
                                         </option>
 
                                     </select>
-                                    <label for="status">(Cari Kode)</label>
+                                    <label for="status">(Cari Divisi)</label>
                                 </div>
                                 {{-- </div> --}}
                             </div>
@@ -114,7 +114,6 @@
                                 <th>NO</th>
                                 <th>KODE SPK</th>
                                 <th>Nama Driver</th>
-                                <th>Kode Driver</th>
                                 <th>No Kabin</th>
                                 <th>TANGGAL</th>
                                 <th>PELANGGAN</th>
@@ -131,7 +130,6 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
                                     <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->user->kode_user ?? '-' }}</td>
                                     <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
                                     <td>{{ $pengambilan_do->tanggal_awal }}</td>
                                     <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
@@ -148,14 +146,8 @@
                                     </td>
                                 </tr>
                             @endforeach
-
-
-
-
                         </tbody>
                     </table>
-
-
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -175,30 +167,10 @@
 
     <!-- /.card -->
     <script>
-        var tanggalAwal = document.getElementById('tanggal_awal');
-        var tanggalAkhir = document.getElementById('tanggal_akhir');
-
-        if (tanggalAwal.value == "") {
-            tanggalAkhir.readOnly = true;
-        }
-
-        tanggalAwal.addEventListener('change', function() {
-            if (this.value == "") {
-                tanggalAkhir.readOnly = true;
-            } else {
-                tanggalAkhir.readOnly = false;
-            }
-
-            tanggalAkhir.value = "";
-            var today = new Date().toISOString().split('T')[0];
-            tanggalAkhir.value = today;
-            tanggalAkhir.setAttribute('min', this.value);
-        });
-
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/status_pemberiando') }}";
+            form.action = "{{ url('admin/monitoring_suratjalan') }}";
             form.submit();
         }
     </script>
