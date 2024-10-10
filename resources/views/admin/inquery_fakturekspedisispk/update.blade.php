@@ -930,7 +930,7 @@
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" class="form-control harga_tarif"
                                                 readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
-                                                value="{{ old('harga_tarif', number_format($inquery->harga_tarif, 0, ',', '.')) }}">
+                                                value="{{ old('harga_tarif', number_format($inquery->harga_tarif, 10, ',', '.')) }}">
                                         </div>
                                     </td>
                                     <td>
@@ -2281,8 +2281,17 @@
             document.getElementById('tarif_id').value = Tarif_id;
             document.getElementById('kode_tarif').value = Kodetarif;
             document.getElementById('nama_tarif').value = NamaTarif;
-            var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
-            // Assuming 'biaya_tambahan' is an input element
+            // var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
+            // // Assuming 'biaya_tambahan' is an input element
+            // document.getElementById('harga_tarif').value = formattedNominal;
+
+            var formattedNominal = parseFloat(Nominal).toFixed(10).toLocaleString('id-ID', {
+                minimumFractionDigits: 10, // Pastikan selalu menunjukkan 10 digit desimal
+                maximumFractionDigits: 10
+            });
+            // Ganti titik dengan koma
+            formattedNominal = formattedNominal.replace('.', ',');
+            // Set value pada input harga_tarif
             document.getElementById('harga_tarif').value = formattedNominal;
             // Close the modal (if needed)
 
@@ -2296,7 +2305,8 @@
 
         function updateHarga() {
             var selectedValue = document.getElementById("kategori").value;
-            var hargasatuan = parseFloat($(".harga_tarif").val().replace(/\./g, '')) || 0;
+            // var hargasatuan = parseFloat($(".harga_tarif").val().replace(/\./g, '')) || 0;
+            var hargasatuan = $(".harga_tarif").val().replace(',', '.'); // Ganti koma menjadi titik jika ada
             var jumlah = parseFloat($(".jumlah").val()) || 0;
 
             // Remove dots and parse as float for biaya_tambahan
