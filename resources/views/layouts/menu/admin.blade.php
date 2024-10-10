@@ -605,7 +605,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['status perjalanan kendaraan'])
+        @if (auth()->check() && auth()->user()->menu['faktur ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/monitoring_suratjalan') }}"
                     class="nav-link {{ request()->is('admin/monitoring_suratjalan*') ? 'active' : '' }}">

@@ -175,7 +175,7 @@
         }
     </script>
 
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('tbody tr.dropdown').click(function(e) {
                 // Memeriksa apakah yang diklik adalah checkbox
@@ -229,6 +229,6 @@
                     ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
             });
         });
-    </script>
+    </script> --}}
 
 @endsection
