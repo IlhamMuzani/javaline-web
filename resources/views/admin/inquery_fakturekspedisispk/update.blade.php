@@ -926,11 +926,19 @@
                                                 value="{{ old('nama_tarif', $inquery->nama_tarif) }}">
                                         </div>
                                     </td>
-                                    <td>
+                                    <td hidden>
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" class="form-control harga_tarif"
                                                 readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
                                                 value="{{ old('harga_tarif', number_format($inquery->harga_tarif, 10, ',', '.')) }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text"
+                                                class="form-control harga_tariftampil" readonly id="harga_tariftampil"
+                                                name="harga_tariftampil" data-row-id="0"
+                                                value="{{ old('harga_tariftampil', number_format($inquery->harga_tarif, 2, ',', '.')) }}">
                                         </div>
                                     </td>
                                     <td>
@@ -972,11 +980,19 @@
                                             </select>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td hidden>
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" class="form-control total_tarif"
                                                 readonly id="total_tarif" name="total_tarif"
                                                 value="{{ old('total_tarif', $inquery->total_tarif) }}">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text"
+                                                class="form-control total_tariftampil" readonly id="total_tariftampil"
+                                                name="total_tariftampil"
+                                                value="{{ old('total_tariftampil', $inquery->total_tarif) }}">
                                         </div>
                                     </td>
                                     <td style="width: 50px">
@@ -2289,11 +2305,11 @@
                 minimumFractionDigits: 10, // Pastikan selalu menunjukkan 10 digit desimal
                 maximumFractionDigits: 10
             });
-            // Ganti titik dengan koma
             formattedNominal = formattedNominal.replace('.', ',');
-            // Set value pada input harga_tarif
             document.getElementById('harga_tarif').value = formattedNominal;
-            // Close the modal (if needed)
+
+            var formattedNominal2 = parseFloat(Nominal).toLocaleString('id-ID');
+            document.getElementById('harga_tariftampil').value = formattedNominal2;
 
             updateHarga();
             $('#tableTarif').modal('hide');
@@ -2321,6 +2337,9 @@
 
             // $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
             // $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
+
+            $(".total_tariftampil").val(harga.toLocaleString('id-ID'));
+
             $(".total_tarif").val(parseFloat(hargas).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
