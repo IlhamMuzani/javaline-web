@@ -222,7 +222,7 @@ class InquerySpkController extends Controller
         // Create or update Pengambilan_do
         $pengambilan_do = Pengambilan_do::where('spk_id', $id)->first();
         if ($pengambilan_do) {
-            if ($pengambilan_do->status !== 'selesai') {
+            if ($pengambilan_do->status == 'unpost' || $pengambilan_do->status == 'posting') {
                 $pengambilan_do->update([
                     'spk_id' => $id,
                     'kendaraan_id' => $request->kendaraan_id,
@@ -231,6 +231,15 @@ class InquerySpkController extends Controller
                     'alamat_muat_id' => $request->alamat_muat_id,
                     'alamat_bongkar_id' => $request->alamat_bongkar_id,
                     'status' => $status_pengambilan_do,
+                ]);
+            } else {
+                $pengambilan_do->update([
+                    'spk_id' => $id,
+                    'kendaraan_id' => $request->kendaraan_id,
+                    'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'user_id' => $request->user_id,
+                    'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_bongkar_id' => $request->alamat_bongkar_id,
                 ]);
             }
         } else {
@@ -282,7 +291,7 @@ class InquerySpkController extends Controller
 
         if ($pengambilando) {
             // Jika status bukan 'selesai', update status menjadi 'posting'
-            if ($pengambilando->status !== 'selesai') {
+            if ($pengambilando->status === 'unpost') {
                 $pengambilando->update([
                     'status' => 'posting'
                 ]);
@@ -312,7 +321,7 @@ class InquerySpkController extends Controller
         // Jika Pengambilan_do ditemukan, update status
         if ($pengambilando) {
             // Jika status bukan 'selesai', update status menjadi 'posting'
-            if ($pengambilando->status !== 'selesai') {
+            if ($pengambilando->status === 'posting') {
                 $pengambilando->update([
                     'status' => 'unpost'
                 ]);
@@ -354,7 +363,7 @@ class InquerySpkController extends Controller
                     // Mencari Pengambilan_do berdasarkan spk_id
                     $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
 
-                    if ($pengambilando->status !== 'selesai') {
+                    if ($pengambilando->status === 'unpost') {
                         if ($pengambilando) {
                             $pengambilando->update([
                                 'status' => 'posting'
@@ -389,7 +398,7 @@ class InquerySpkController extends Controller
 
                     $pengambilando = Pengambilan_do::where('spk_id', $item->id)->first();
 
-                    if ($pengambilando->status !== 'selesai') {
+                    if ($pengambilando->status === 'posting') {
                         if ($pengambilando) {
                             $pengambilando->update([
                                 'status' => 'unpost'
