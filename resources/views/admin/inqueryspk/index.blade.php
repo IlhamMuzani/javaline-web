@@ -172,7 +172,7 @@
                                         @if ($buktipotongpajak->status == 'selesai')
                                             {{-- <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
                                                 width="40" alt="Selesai"> --}}
-                                            <button type="button" class="btn btn-success btn-sm">
+                                            <button type="button" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
                                         @endif
@@ -199,10 +199,10 @@
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
                                                 {{-- @endif --}}
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28)
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                @endif
+                                                {{-- @endif --}}
                                                 {{-- <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
@@ -218,13 +218,13 @@
                                             @endif
                                             @if ($buktipotongpajak->status == 'selesai')
                                                 {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                {{-- <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a> --}}
                                                 {{-- @endif --}}
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28)
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                @endif
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                {{-- @endif --}}
                                                 {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
 

@@ -163,7 +163,7 @@ class InquerySpkController extends Controller
         $uang_jalan = $request->uang_jalan ? str_replace(',', '.', str_replace('.', '', $request->uang_jalan)) : '0';
 
 
-        $status_pengambilan_do = 'unpost';
+        $status_spk = 'unpost';
 
         // Cek apakah semua field tidak null
         if (
@@ -174,7 +174,7 @@ class InquerySpkController extends Controller
             !is_null($request->alamat_muat_id) &&
             !is_null($request->alamat_bongkar_id)
         ) {
-            $status_pengambilan_do = 'posting';
+            $status_spk = 'posting';
         }
 
         $spk = Spk::findOrFail($id);
@@ -205,7 +205,7 @@ class InquerySpkController extends Controller
         $spk->rute_perjalanan_id = $request->rute_perjalanan_id;
         $spk->kode_rute = $request->kode_rute;
         $spk->nama_rute = $request->nama_rute;
-        $spk->status = $status_pengambilan_do;
+        $spk->status = $status_spk;
         $spk->saldo_deposit = $saldo_deposit;
         $spk->uang_jalan = $uang_jalan;
         // $spk->status_spk = $status_spk;
@@ -219,10 +219,37 @@ class InquerySpkController extends Controller
         $spk->save();
 
 
-        // Create or update Pengambilan_do
         $pengambilan_do = Pengambilan_do::where('spk_id', $id)->first();
         if ($pengambilan_do) {
-            if ($pengambilan_do->status !== 'selesai') {
+            $dataUpdate = [
+                'spk_id' => $id,
+                'kendaraan_id' => $request->kendaraan_id,
+                'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                'user_id' => $request->user_id,
+                'alamat_muat_id' => $request->alamat_muat_id,
+                'alamat_bongkar_id' => $request->alamat_bongkar_id,
+            ];
+
+            // Tentukan status
+            if ($spk->status == 'unpost') {
+                $dataUpdate['status'] = 'unpost';
+            } elseif ($spk->status == 'posting' && $pengambilan_do->status == 'posting') {
+                $dataUpdate['status'] = 'posting';
+            } elseif ($spk->status == 'posting' && $pengambilan_do->status != 'posting' || $pengambilan_do->status != 'unpost') {
+                $dataUpdate['status'] = 'posting';
+            } elseif ($spk->status == 'selesai' && $pengambilan_do->status == 'posting') {
+                $dataUpdate['status'] = 'posting';
+            } elseif ($spk->status == 'selesai' && $pengambilan_do->status != 'posting' || $pengambilan_do->status != 'posting' ) {
+                $dataUpdate['status'] = 'posting';
+            }
+
+            $pengambilan_do->update($dataUpdate);
+        }
+
+
+        if ($pengambilan_do) {
+            // Jika status adalah 'unpost' atau 'posting', status tidak diubah
+            if ($spk->status == 'unpost') {
                 $pengambilan_do->update([
                     'spk_id' => $id,
                     'kendaraan_id' => $request->kendaraan_id,
@@ -230,11 +257,53 @@ class InquerySpkController extends Controller
                     'user_id' => $request->user_id,
                     'alamat_muat_id' => $request->alamat_muat_id,
                     'alamat_bongkar_id' => $request->alamat_bongkar_id,
-                    'status' => $status_pengambilan_do,
+                    'status' => 'unpost',
+                ]);
+            }
+            if ($spk->status == 'posting' || $pengambilan_do->status == 'posting') {
+                $pengambilan_do->update([
+                    'spk_id' => $id,
+                    'kendaraan_id' => $request->kendaraan_id,
+                    'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'user_id' => $request->user_id,
+                    'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                    'status' => 'posting',
+                ]);
+            }
+            if ($spk->status == 'posting' || $pengambilan_do->status != 'posting' || $pengambilan_do->status != 'unpost') {
+                $pengambilan_do->update([
+                    'spk_id' => $id,
+                    'kendaraan_id' => $request->kendaraan_id,
+                    'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'user_id' => $request->user_id,
+                    'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                ]);
+            }
+            if ($spk->status == 'selesai' || $pengambilan_do->status == 'posting') {
+                $pengambilan_do->update([
+                    'spk_id' => $id,
+                    'kendaraan_id' => $request->kendaraan_id,
+                    'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'user_id' => $request->user_id,
+                    'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                    'status' => 'posting',
+                ]);
+            }
+            if ($spk->status == 'selesai' || $pengambilan_do->status != 'posting' || $pengambilan_do->status != 'unpost') {
+                $pengambilan_do->update([
+                    'spk_id' => $id,
+                    'kendaraan_id' => $request->kendaraan_id,
+                    'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'user_id' => $request->user_id,
+                    'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_bongkar_id' => $request->alamat_bongkar_id,
                 ]);
             }
         } else {
-            // Create Pengambilan_do if it does not exist
+            // Jika pengambilan_do belum ada, buat baru dengan status yang sesuai
             $tanggal = Carbon::now()->format('Y-m-d');
             $tanggal1 = Carbon::now('Asia/Jakarta');
             $format_tanggal = $tanggal1->format('d F Y');
@@ -249,7 +318,7 @@ class InquerySpkController extends Controller
                     'km_awal' => $request->km_awal,
                     'tanggal_awal' => $tanggal,
                     'tanggal' => $format_tanggal,
-                    'status' => $status_pengambilan_do,
+                    'status' => $status_spk,
                 ]
             ));
         }
@@ -296,6 +365,7 @@ class InquerySpkController extends Controller
 
         return response()->json(['success' => 'Berhasil memposting SPK']);
     }
+
 
     public function unpostspk($id)
     {
@@ -379,6 +449,7 @@ class InquerySpkController extends Controller
     public function unpostfilterspk(Request $request)
     {
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
+
         try {
             // Update transactions and memo statuses
             foreach ($selectedIds as $id) {
