@@ -38,8 +38,8 @@ class User extends Authenticatable
         'tanggal_akhir',
     ];
 
-    use SoftDeletes;
-    protected $dates = ['deleted_at'];
+    // use SoftDeletes;
+    // protected $dates = ['deleted_at'];
 
     public function getActivitylogOptions(): LogOptions
     {
