@@ -136,11 +136,11 @@
                                             </button>
                                         @endif
                                         @if ($buktipotongpajak->status == 'selesai')
-                                            <button type="button" class="btn btn-success btn-sm">
+                                            {{-- <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Selesai"> --}}
+                                            <button type="button" class="btn btn-danger btn-sm">
                                                 <i class="fas fa-check"></i>
                                             </button>
-                                            {{-- <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Document"> --}}
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             @if ($buktipotongpajak->status == 'unpost')
@@ -165,10 +165,10 @@
                                                 <a class="dropdown-item unpost-btn"
                                                     data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
                                                 {{-- @endif --}}
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28)
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                @endif
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                {{-- @endif --}}
                                                 {{-- <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
@@ -176,19 +176,21 @@
                                                         </i> Delete
                                                     </button>
                                                 </form> --}}
+                                                {{-- @endif
+                                                @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
                                                 {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/bukti_potongpajak/' . $buktipotongpajak->id) }}">Show</a> --}}
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
+                                                {{-- @endif --}}
                                             @endif
                                             @if ($buktipotongpajak->status == 'selesai')
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31)
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28)
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                @endif
-
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
+                                                {{-- <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a> --}}
+                                                {{-- @endif --}}
+                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                {{-- @endif --}}
                                                 {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
 
@@ -199,6 +201,10 @@
                                                         </i> Delete
                                                     </button>
                                                 </form> --}}
+                                                {{-- @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
+                                                {{-- <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
+                                                {{-- @endif --}}
                                             @endif
                                             @if ($buktipotongpajak->memo_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo

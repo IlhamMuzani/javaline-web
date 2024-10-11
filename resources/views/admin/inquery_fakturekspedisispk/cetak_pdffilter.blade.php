@@ -400,7 +400,7 @@
                 @else
                     {{ $formattedGrandTotaltotal_tarif }}
                 @endif --}}
-                    {{ number_format($cetakpdf->total_tarif, 2, ',', '.') }}
+                    {{ number_format($cetakpdf->total_tarif, 0, ',', '.') }},00
 
                 </td>
             </tr>
@@ -428,7 +428,7 @@
                             {{ $item->satuan_tambahan }}
                         </td>
                         <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                            {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
+                            {{ number_format($item->nominal_tambahan, 0, ',', '.') }},00
 
                         </td>
                     </tr>
@@ -462,7 +462,7 @@
                     @endforeach
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                    {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 2, ',', '.') }}
+                    {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 0, ',', '.') }},00
                 </td>
             </tr>
             <tr>
@@ -500,7 +500,7 @@
                     </td>
 
                     <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                        {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 2, ',', '.') }}
+                        {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 0, ',', '.') }},00
 
                     </td>
                 </tr>
@@ -524,7 +524,7 @@
 
 
                     <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                        {{ number_format($cetakpdf->pph, 2, ',', '.') }}
+                        {{ number_format($cetakpdf->pph, 0, ',', '.') }},00
                     </td>
                 </tr>
 
@@ -625,7 +625,7 @@
                     Grand Total :
                 </td>
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                    {{ number_format($cetakpdf->grand_total, 2, ',', '.') }}
+                    {{ number_format($cetakpdf->grand_total, 0, ',', '.') }},00
                 </td>
             </tr>
 

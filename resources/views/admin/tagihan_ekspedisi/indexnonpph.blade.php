@@ -781,14 +781,23 @@
             $('#no_pol-' + activeSpecificationIndex).val(no_pol);
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
-            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
-            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            // $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+
+            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+
 
             updateGrandTotal();
 
             $('#tableMemo').modal('hide');
         }
-
 
         function removeFaktur(kode_faktur) {
             var index = fakturAlreadySelected.indexOf(kode_faktur);

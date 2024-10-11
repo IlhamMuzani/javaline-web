@@ -796,8 +796,17 @@
             $('#no_pol-' + activeSpecificationIndex).val(no_pol);
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
-            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
-            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+
+            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            // $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
 
             updateGrandTotal();
 
@@ -840,15 +849,12 @@
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
-            $('#pph2').val(Math.round(pph2Value).toLocaleString('id-ID'));
+            $('#pph2').val(pph2Value.toLocaleString('id-ID'));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
             // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
             $('#grand_total').val(formatRupiah(grandtotals));
-            // $('#grand_total').val(Math.round(grandtotals).toLocaleString('id-ID'));
-
 
         }
 
@@ -863,8 +869,8 @@
 
         function formatRupiah(number) {
             var formatted = new Intl.NumberFormat('id-ID', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }).format(number);
             return '' + formatted;
         }

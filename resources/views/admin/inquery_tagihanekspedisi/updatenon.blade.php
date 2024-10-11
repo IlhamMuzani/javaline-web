@@ -300,7 +300,7 @@
                                                 <input onclick="MemoEkspedisi({{ $loop->index }})"
                                                     style="font-size:14px" readonly type="text" class="form-control"
                                                     id="total-{{ $loop->index }}" name="total[]"
-                                                    value="{{ number_format($detail['total'], 2, ',', '.') }}">
+                                                    value="{{ number_format($detail['total'], 10, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td style="width: 100px">
@@ -895,8 +895,18 @@
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
 
-            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
-            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            // $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+
+            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+
 
             updateGrandTotal()
 

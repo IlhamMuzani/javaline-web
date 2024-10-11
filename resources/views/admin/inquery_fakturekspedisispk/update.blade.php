@@ -2319,7 +2319,12 @@
             // $(".total_tarif").val(hargas.toLocaleString('id-ID'));
             // $(".total_tarif2").val(harga.toLocaleString('id-ID'));
 
-            $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
+            // $(".total_tarif").val(Math.round(hargas).toLocaleString('id-ID'));
+            // $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
+            $(".total_tarif").val(parseFloat(hargas).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
             $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
 
             if (selectedValue == "PPH") {

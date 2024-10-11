@@ -300,7 +300,7 @@
                                                 <input onclick="MemoEkspedisi({{ $loop->index }})"
                                                     style="font-size:14px" readonly type="text" class="form-control"
                                                     id="total-{{ $loop->index }}" name="total[]"
-                                                    value="{{ number_format($detail['total'], 2, ',', '.') }}">
+                                                    value="{{ number_format($detail['total'], 10, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td style="width: 100px">
@@ -900,12 +900,17 @@
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
 
-            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
-            //     minimumFractionDigits: 10,
-            //     maximumFractionDigits: 10
-            // }));
-            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
-            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            // $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
+            $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+            $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
+                minimumFractionDigits: 10,
+                maximumFractionDigits: 10
+            }));
+
 
             updateGrandTotal()
 
@@ -946,14 +951,11 @@
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
-            $('#pph2').val(Math.round(pph2Value).toLocaleString('id-ID'));
+            $('#pph2').val(pph2Value.toLocaleString('id-ID'));
 
             // Check the category and subtract pph2Value only if the category is "PPH"
             var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
-            // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
-            $('#grand_total').val(Math.round(grandtotals).toLocaleString('id-ID'));
-
+            $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
         }
 
         $('body').on('input', 'input[name^="total"]', function() {
