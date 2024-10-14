@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Timer;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class DriverController extends Controller
@@ -29,40 +30,69 @@ class DriverController extends Controller
 
     public function update_profile(Request $request, $id)
     {
+        // Temukan pengguna berdasarkan ID
+        $user = User::find($id);
 
+        // Validasi input dari request
         $validator = Validator::make(
             $request->all(),
             [
                 'nama_kecil' => 'required',
                 'telp' => 'required',
+                'gambar' => 'nullable|image|max:2048', // Validasi gambar, opsional
             ],
             [
                 'nama_kecil.required' => 'Masukkan nama lengkap',
                 'telp.required' => 'Masukkan telp',
+                'gambar.image' => 'File yang diunggah harus berupa gambar.',
+                'gambar.max' => 'Ukuran gambar tidak boleh lebih dari 2 MB.',
             ]
         );
 
+        // Jika validasi gagal, kirimkan pesan error
         if ($validator->fails()) {
             $error = $validator->errors()->first();
             return $this->error($error);
         }
 
-        $karyawan = Karyawan::find($id);
-        $karyawan = Karyawan::where('id', $id);
-        $kendaraan = $karyawan->update([
-            'nama_kecil' => $request->nama_lengkap,
+        // Temukan karyawan berdasarkan karyawan_id dari pengguna
+        $karyawan = Karyawan::where('id', $user->karyawan_id)->first();
+
+        // Jika karyawan tidak ditemukan
+        if (!$karyawan) {
+            return $this->error('Karyawan tidak ditemukan.');
+        }
+
+        // Variabel untuk nama gambar
+        $namaGambar = $karyawan->gambar; // Default ke gambar lama
+
+        // Jika ada gambar baru, proses pengunggahan
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama dari penyimpanan
+            if ($karyawan->gambar) {
+                Storage::disk('local')->delete('public/uploads/' . $karyawan->gambar);
+            }
+
+            // Simpan gambar baru
+            $gambar = str_replace(' ', '', $request->gambar->getClientOriginalName());
+            $namaGambar = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $gambar;
+            $request->gambar->storeAs('public/uploads/', $namaGambar);
+        }
+
+        // Update data karyawan
+        $karyawan->update([
+            'nama_kecil' => $request->nama_kecil,
             'telp' => $request->telp,
+            'gambar' => $namaGambar // Menggunakan nama gambar yang baru atau yang lama
         ]);
 
-        if ($kendaraan) {
-            return response()->json([
-                'status' => true,
-                'msg' => 'Profil berhasil di perbarui',
-            ]);
-        } else {
-            $this->error('Gagal !');
-        }
+        // Mengembalikan respon jika berhasil
+        return response()->json([
+            'status' => true,
+            'msg' => 'Profil berhasil diperbarui',
+        ]);
     }
+
 
     public function update_password(Request $request, $id)
     {
