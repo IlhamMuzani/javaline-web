@@ -171,12 +171,13 @@
 
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px; min-width: 1000px;">
+                            style="font-size: 10px; min-width: 1000px;">
                             <thead class="thead-custom">
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th>No. Kabin</th>
-                                    <th>No. Registrasi</th>
+                                    <th>No Kabin</th>
+                                    <th>No. Pol</th>
+                                    <th>Nama Driver</th>
                                     <th>Pelanggan</th>
                                     <th>Tujuan</th>
                                     <th>Status Kendaraan</th>
@@ -190,16 +191,16 @@
                             <tbody>
                                 @foreach ($kendaraans as $kendaraan)
                                     <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td style="width: 1%" class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $kendaraan->no_kabin }}</td>
                                         <td>{{ $kendaraan->no_pol }}</td>
-                                        {{-- <td>
-                                        @if ($kendaraan->pengambilan_do->last())
-                                            {{ $kendaraan->pengambilan_do->last()->spk->user->karyawan->nama_lengkap ?? 'tidak ada' }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td> --}}
+                                        <td style="width: 5%">
+                                            @if ($kendaraan->spk->last())
+                                                {{ $kendaraan->spk->last()->nama_driver ?? 'belum ada' }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($kendaraan->status_perjalanan != 'Kosong')
                                                 @if ($kendaraan->latestpengambilan_do)
@@ -270,7 +271,7 @@
                                                 onclick="updateLatLong({{ $kendaraan->id }}); return false;"
                                                 style="display: inline-block; background-color: transparent; /* Membuat latar belakang transparan */ color: transparent; padding: 0; border: none; /* Menghapus border */ text-align: center; text-decoration: none;">
                                                 <img src="{{ asset('storage/uploads/user/map.png') }}" alt="Peta"
-                                                    style="width: 50px; height: 50px; object-fit: contain; display: block; margin: 0 auto;">
+                                                    style="width: 30px; height: 30px; object-fit: contain; display: block; margin: 0 auto;">
                                             </a>
                                             <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
                                                 {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->

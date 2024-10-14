@@ -113,11 +113,11 @@
                                 <th><input type="checkbox" name="" id="select_all_ids"></th>
                                 <th>NO</th>
                                 <th>KODE SPK</th>
-                                <th>Nama Driver</th>
-                                <th>No Kabin</th>
-                                <th>TANGGAL</th>
                                 <th>PELANGGAN</th>
                                 <th>TUJUAN</th>
+                                <th>TANGGAL</th>
+                                <th>No Kabin</th>
+                                <th>Nama Driver</th>
                                 <th>TIMER</th>
                             </tr>
                         </thead>
@@ -129,17 +129,18 @@
                                             value="{{ $pengambilan_do->id }}"></td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->tanggal_awal }}</td>
                                     <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
                                     <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
+                                    <td>{{ $pengambilan_do->tanggal_awal }}</td>
+                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
+                                    <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
                                     <td>
                                         @if ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
                                             {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
-                                            jam,
+                                            jam
+                                            {{-- ,
                                             {{ $pengambilan_do->durasi_menit }} menit, {{ $pengambilan_do->durasi_detik }}
-                                            detik
+                                            detik --}}
                                         @else
                                             Durasi tidak tersedia
                                         @endif

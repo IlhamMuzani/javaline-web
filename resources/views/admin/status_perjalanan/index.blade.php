@@ -86,25 +86,25 @@
                                             -Semua Code-
                                         </option>
                                         <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
-                                            K1
+                                            M1
                                         </option>
                                         <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
-                                            K2
+                                            M2
                                         </option>
                                         <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
-                                            K3
+                                            M3
                                         </option>
                                         <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
-                                            K4
+                                            M4
                                         </option>
                                         <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
-                                            K5
+                                            M5
                                         </option>
                                         <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
-                                            K6
+                                            M6
                                         </option>
                                         <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
-                                            K7
+                                            M7
                                         </option>
 
                                     </select>
@@ -206,12 +206,13 @@
                     </form>
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px; min-width: 1000px;">
+                            style="font-size: 10px; min-width: 1000px;">
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>No. Kabin</th>
-                                    <th>No. Registrasi</th>
+                                    <th>No. Pol</th>
+                                    <th>Nama Driver</th>
                                     <th>Pelanggan</th>
                                     <th>Tujuan</th>
                                     <th>Status Kendaraan</th>
@@ -228,6 +229,13 @@
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $kendaraan->no_kabin }}</td>
                                         <td>{{ $kendaraan->no_pol }}</td>
+                                        <td>
+                                            @if ($kendaraan->spk->last())
+                                                {{ $kendaraan->spk->last()->nama_driver ?? 'belum ada' }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
                                         {{-- <td>
                                         @if ($kendaraan->pengambilan_do->last())
                                             {{ $kendaraan->pengambilan_do->last()->spk->user->karyawan->nama_lengkap ?? 'tidak ada' }}

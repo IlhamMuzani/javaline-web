@@ -151,6 +151,11 @@ class Kendaraan extends Model
     {
         return $this->hasMany(Bearing::class);
     }
+
+    public function spk()
+    {
+        return $this->hasMany(Spk::class);
+    }
     
     public function pengambilan_do()
     {
