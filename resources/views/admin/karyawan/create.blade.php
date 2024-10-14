@@ -136,15 +136,7 @@
                             <label for="alamat">Alamat</label>
                             <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="gambar">Gambar <small>(Kosongkan saja jika tidak
-                                    ingin menambahkan)</small></label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="gambar" name="gambar"
-                                    accept="image/*">
-                                <label class="custom-file-label" for="gambar">Masukkan gambar</label>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="card">
@@ -198,6 +190,35 @@
                             <label for="norek">No. Rekening</label>
                             <input type="text" class="form-control" id="norek" name="norek"
                                 placeholder="Masukan no rekening" value="{{ old('norek') }}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informasi KTP dan SIM</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="ft_ktp">Foto KTP <small>(Kosongkan saja jika tidak
+                                        ingin menambahkan)</small></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_ktp" name="ft_ktp"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_ktp">Masukkan foto ktp</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="ft_sim">Foto SIM <small>(Kosongkan saja jika tidak
+                                        ingin menambahkan)</small></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_sim" name="ft_sim"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_sim">Masukkan foto sim</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="card-footer text-right">

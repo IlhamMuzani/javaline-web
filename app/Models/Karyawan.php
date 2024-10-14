@@ -29,6 +29,8 @@ class Karyawan extends Model
         'jabatan',
         'alamat',
         'gambar',
+        'ft_ktp',
+        'ft_sim',
         'pembayaran',
         'gaji',
         'tabungan',

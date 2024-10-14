@@ -88,11 +88,28 @@ class DriverController extends Controller
         } else {
             $namaGambar = '';
         }
+
+        $namaGambar2 = '';
+        if ($request->hasFile('ft_ktp')) {
+            $ft_ktp = str_replace(' ', '', $request->ft_ktp->getClientOriginalName());
+            $namaGambar2 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_ktp;
+            $request->ft_ktp->storeAs('public/uploads/', $namaGambar2);
+        }
+
+        $namaGambar3 = '';
+        if ($request->hasFile('ft_sim')) {
+            $ft_sim = str_replace(' ', '', $request->ft_sim->getClientOriginalName());
+            $namaGambar3 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_sim;
+            $request->ft_sim->storeAs('public/uploads/', $namaGambar3);
+        }
+
         $kode = $this->kode();
         Karyawan::create(array_merge(
             $request->all(),
             [
                 'gambar' => $namaGambar,
+                'ft_ktp' => $namaGambar2,
+                'ft_sim' => $namaGambar3,
                 'tanggal_keluar' => '-',
                 'departemen_id' => 2,
                 'gaji' => 0,

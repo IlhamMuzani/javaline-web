@@ -138,6 +138,28 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <div class="row ml-3 mr-3">
+                            <div class="form-group col-md-6">
+                                <label for="ft_ktp">Foto KTP <small>(Kosongkan saja jika tidak
+                                        ingin menambahkan)</small></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_ktp" name="ft_ktp"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_ktp">Masukkan foto ktp</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="ft_sim">Foto SIM <small>(Kosongkan saja jika tidak
+                                        ingin menambahkan)</small></label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_sim" name="ft_sim"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_sim">Masukkan foto sim</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
                         <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
