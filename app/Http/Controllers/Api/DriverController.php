@@ -31,7 +31,7 @@ class DriverController extends Controller
     public function update_profile(Request $request, $id)
     {
         // Temukan pengguna berdasarkan ID
-        $user = User::find($id);
+        // $user = User::find($id);
 
         // Validasi input dari request
         $validator = Validator::make(
@@ -56,7 +56,7 @@ class DriverController extends Controller
         }
 
         // Temukan karyawan berdasarkan karyawan_id dari pengguna
-        $karyawan = Karyawan::where('id', $user->karyawan_id)->first();
+        $karyawan = Karyawan::where('id', $id)->first();
 
         // Jika karyawan tidak ditemukan
         if (!$karyawan) {
