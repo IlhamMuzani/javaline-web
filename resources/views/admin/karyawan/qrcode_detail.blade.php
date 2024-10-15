@@ -244,7 +244,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Lihat Karyawan</h3>
+                            <h3 class="card-title">Foto KTP dan SIM</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">

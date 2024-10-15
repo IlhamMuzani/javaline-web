@@ -267,7 +267,7 @@ class MemoekspedisispkController extends Controller
                     ->where('status', 'rilis')
                     ->count();
 
-                
+
                 if (
                     $postedCount >= 1
                 ) {
@@ -545,6 +545,7 @@ class MemoekspedisispkController extends Controller
 
                 $error_pesanans = array();
                 $data_pembelians = collect();
+                $data_pembelians4 = collect();
 
 
                 if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
@@ -580,13 +581,61 @@ class MemoekspedisispkController extends Controller
                     }
                 }
 
+                if ($request->has('potongan_memo_id') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
+                    for (
+                        $i = 0;
+                        $i < count($request->potongan_memo_id);
+                        $i++
+                    ) {
+                        // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
+                        if (
+                            empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])
+                        ) {
+                            continue; // Skip validation if both are empty
+                        }
+
+                        $validasi_produk = Validator::make($request->all(), [
+                            'potongan_memo_id.' . $i => 'required',
+                            'kode_potongan.' . $i => 'required',
+                            'keterangan_potongan.' . $i => 'required',
+                            'nominal_potongan.' . $i => 'required',
+                        ]);
+
+                        if ($validasi_produk->fails()) {
+                            array_push($error_pesanans, "Potongan nomor " . ($i + 1) . " belum dilengkapi!");
+                        }
+
+                        $potongan_memo_id = $request->potongan_memo_id[$i] ?? '';
+                        $kode_potongan = $request->kode_potongan[$i] ?? '';
+                        $keterangan_potongan = $request->keterangan_potongan[$i] ?? '';
+                        $nominal_potongan = $request->nominal_potongan[$i] ?? '';
+
+                        $data_pembelians4->push([
+                            'potongan_memo_id' => $potongan_memo_id,
+                            'kode_potongan' => $kode_potongan,
+                            'keterangan_potongan' => $keterangan_potongan,
+                            'nominal_potongan' => $nominal_potongan,
+
+                        ]);
+                    }
+                }
+
                 if ($error_pelanggans || $error_pesanans) {
                     return back()
                         ->withInput()
                         ->with('error_pelanggans', $error_pelanggans)
                         ->with('error_pesanans', $error_pesanans)
-                        ->with('data_pembelians', $data_pembelians);
+                        ->with('data_pembelians', $data_pembelians)
+                        ->with('data_pembelians4', $data_pembelians4);
                 }
+
+                // if ($error_pelanggans || $error_pesanans) {
+                //     return back()
+                //         ->withInput()
+                //         ->with('error_pelanggans', $error_pelanggans)
+                //         ->with('error_pesanans', $error_pesanans)
+                //         ->with('data_pembelians', $data_pembelians);
+                // }
 
                 $kendaraan_id = $request->input('kendaraan_id');
                 $postedCount = Memo_ekspedisi::where(
@@ -602,7 +651,7 @@ class MemoekspedisispkController extends Controller
                 ) {
                     return back()->with('erorrss', 'DO sebelumnya belum terambil, hubungi driver untuk segera menyelesaikan do');
                 }
-                
+
 
                 $deposit = $request->depositsopir;
 
@@ -665,7 +714,17 @@ class MemoekspedisispkController extends Controller
                 $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan); // Menghilangkan titik dari biaya tambahan
                 $biaya_tambahan = str_replace(',', '.', $biaya_tambahan); // Mengganti koma dengan titik untuk memastikan format angka yang benar
 
-                $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan;
+                $potongan_memos = $request->potongan_memoborong;
+                // Jika nilai kosong, setel menjadi 0
+                if (empty($potongan_memos)) {
+                    $potongan_memos = 0;
+                } else {
+                    // Menghilangkan titik dan mengganti koma dengan titik pada angka
+                    $potongan_memos = str_replace(',', '.', str_replace('.', '', $potongan_memos));
+                    $potongan_memos = str_replace(',', '.', $potongan_memos); // Pastikan format angka yang benar
+                }
+
+                $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan - $potongan_memos;
 
                 $spk_id = $request->spk_id;
                 $spk = Spk::where('id', $spk_id)->first();
@@ -717,6 +776,8 @@ class MemoekspedisispkController extends Controller
 
                         'biaya_tambahan' => $biaya_tambahan = is_null($request->harga_tambahanborong) ? 0 : str_replace('.', '', $request->harga_tambahanborong),
                         // 'uang_jaminans' => str_replace('.', '', $request->uang_jaminans),
+                        // 'potongan_memo' => str_replace(',', '.', str_replace('.', '', $request->potongan_memoborong)),
+                        'potongan_memo' => $potongan_memos = is_null($request->potongan_memoborong) ? 0 : str_replace('.', '', $request->potongan_memoborong),
 
                         // 'uang_jaminan' => str_replace('.', '', $request->uang_jaminans),
                         // 'deposit_drivers' => str_replace('.', '', $request->depositsopir),
@@ -752,6 +813,19 @@ class MemoekspedisispkController extends Controller
                             'kode_biaya' => $data_pesanan['kode_biaya'],
                             'nama_biaya' => $data_pesanan['nama_biaya'],
                             'nominal' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal'])),
+                        ]);
+                    }
+                }
+
+                if ($cetakpdf) {
+
+                    foreach ($data_pembelians4 as $data_pesanan) {
+                        Detail_potongan::create([
+                            'memo_ekspedisi_id' => $cetakpdf->id,
+                            'potongan_memo_id' => $data_pesanan['potongan_memo_id'],
+                            'kode_potongan' => $data_pesanan['kode_potongan'],
+                            'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                            'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                         ]);
                     }
                 }

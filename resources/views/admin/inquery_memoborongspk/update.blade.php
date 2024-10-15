@@ -414,6 +414,90 @@
                     </div>
                 </div>
 
+                <div class="card" id="form_potonganmemo">
+                    <div class="card-header">
+                        <h3 class="card-title">Potongan Memo <span>
+                            </span></h3>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="font-size:14px" class="text-center">No</th>
+                                    <th style="font-size:14px">Kode Potongan Memo</th>
+                                    <th style="font-size:14px">Keterangan</th>
+                                    <th style="font-size:14px">Nominal</th>
+                                    <th style="font-size:14px">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-potongan">
+                                @foreach ($details as $detail)
+                                    <tr id="potongan-{{ $loop->index }}">
+                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutanpotongan">
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group" hidden>
+                                                <input type="text" class="form-control"
+                                                    id="nomor_seri-{{ $loop->index }}" name="detail_ids[]"
+                                                    value="{{ $detail['id'] }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    id="potongan_memo_id-{{ $loop->index }}" name="potongan_memo_id[]"
+                                                    value="{{ $detail['potongan_memo_id'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="potonganmemo({{ $loop->index }})" style="font-size:14px"
+                                                    type="text" class="form-control" readonly
+                                                    id="kode_potongan-{{ $loop->index }}" name="kode_potongan[]"
+                                                    value="{{ $detail['kode_potongan'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="potonganmemo({{ $loop->index }})" style="font-size:14px"
+                                                    type="text" class="form-control" readonly
+                                                    id="keterangan_potongan-{{ $loop->index }}"
+                                                    name="keterangan_potongan[]"
+                                                    value="{{ $detail['keterangan_potongan'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="potonganmemo({{ $loop->index }})" style="font-size:14px"
+                                                    type="text" class="form-control"
+                                                    id="nominal_potongan-{{ $loop->index }}" readonly
+                                                    name="nominal_potongan[]"
+                                                    value="{{ number_format($detail['nominal_potongan'], 0, ',', '.') }}">
+                                            </div>
+                                        </td>
+                                        <td style="width: 100px">
+                                            <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
+                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onclick="potonganmemo({{ $loop->index }})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
                 <div class="card">
                     <div class="card-body">
                         <div id="borongpph">
@@ -503,6 +587,12 @@
                                                         </label>
                                                     </div>
                                                 </div>
+                                                <div class="col-md-6" style="color: white">
+                                                    <div class="form-group">
+                                                        <label style="font-size:14px; margin-top:14px" for="tarif">.
+                                                            <span class="ml-3">:</span></label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -558,6 +648,24 @@
                                                             class="form-control pph2" readonly id="harga_tambahanborong"
                                                             readonly name="biaya_tambahan"
                                                             value="{{ old('biaya_tambahan', number_format($inquery->biaya_tambahan, 0, ',', '.')) }}">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label style="font-size:14px; margin-top:5px"
+                                                            for="tarif">Potongan Memo
+                                                            <span style="margin-left:17px">:</span></label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input style="text-align: end; font-size:14px;" type="text"
+                                                            class="form-control potongan_memoborong" readonly
+                                                            id="potongan_memoborong" readonly name="potongan_memoborong"
+                                                            value="{{ old('potongan_memoborong', number_format($inquery->potongan_memo, 0, ',', '.')) }}">
 
                                                     </div>
                                                 </div>
@@ -884,6 +992,51 @@
             </div>
         </div> --}}
 
+        <div class="modal fade" id="tablePotongans" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Potongan Memo</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="datatables6" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Potongan Memo</th>
+                                    <th>Keterangan</th>
+                                    <th>Nominal</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($potonganmemos as $potonganmemo)
+                                    <tr onclick="getPotongan({{ $loop->index }})" data-id="{{ $potonganmemo->id }}"
+                                        data-kode_potongan="{{ $potonganmemo->kode_potongan }}"
+                                        data-keterangan="{{ $potonganmemo->keterangan }}"
+                                        data-nominal="{{ $potonganmemo->nominal }}" data-param="{{ $loop->index }}">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $potonganmemo->kode_potongan }}</td>
+                                        <td>{{ $potonganmemo->keterangan }}</td>
+                                        <td>{{ number_format($potonganmemo->nominal, 0, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
+                                                onclick="getPotongan({{ $loop->index }})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="modal fade" id="tableBiaya" data-backdrop="static">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -1184,6 +1337,7 @@
             var saldoMasuk = parseCurrency($('#jumlah').val()) || 0;
             // var sisaSaldo = parseCurrency($('#harga_rute').val()) || 0;
             var sisaSaldo = $('#harga_rute').val().replace(/\./g, '') || 0;
+            var Potonganmemo = parseCurrency($('#potongan_memoborong').val().replace(/\./g, '')) || 0;
             var HargaTambahan = parseCurrency($('#harga_tambahanborong').val().replace(/\./g, '')) || 0;
             var PPh2s = parseCurrency($('#pph2').val()) || 0;
             var UangJaminss = parseCurrency($('#uangjaminanss').val()) || 0;
@@ -1231,7 +1385,7 @@
 
             var GrandBarus = subTotal - DuaPersenPPH;
             var GrandBarus2 = GrandBarus / 2;
-            var GrandBarus23 = GrandBarus2 + HargaTambahan;
+            var GrandBarus23 = GrandBarus2 + HargaTambahan - Potonganmemo;
             console.log(GrandBarus23);
 
             var satupersenbaru = 0.01 * GrandBarus23;
@@ -1470,4 +1624,204 @@
     </script>
 
 
+    <script>
+        var data_pembelian = @json(session('data_pembelians4'));
+        var jumlah_ban = 1;
+
+        if (data_pembelian != null) {
+            jumlah_ban = data_pembelian.length;
+            $('#tabel-potongan').empty();
+            var urutan = 0;
+            $.each(data_pembelian, function(key, value) {
+                urutan = urutan + 1;
+                itemPembelian(urutan, key, value);
+            });
+        }
+
+        var counter = 0;
+
+        function addPesanan() {
+            counter++;
+            jumlah_ban = jumlah_ban + 1;
+
+            if (jumlah_ban === 1) {
+                $('#tabel-potongan').empty();
+            } else {
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-potongan tr:last');
+                var lastRowIndex = lastRow.find('#urutanpotongan').text();
+                jumlah_ban = parseInt(lastRowIndex) + 1;
+            }
+
+            console.log('Current jumlah_ban:', jumlah_ban);
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+            updateUrutans();
+        }
+
+
+        function updateUrutans() {
+            var urutan = document.querySelectorAll('#urutanpotongan');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+
+        function removeBan(identifier, detailId) {
+            var row = document.getElementById('potongan-' + identifier);
+            row.remove();
+
+            console.log(detailId);
+            $.ajax({
+                url: "{{ url('admin/inquery_memoekspedisispk/deletedetailbiayapotongan/') }}/" + detailId,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Data deleted successfully');
+                },
+                error: function(error) {
+                    console.error('Failed to delete data:', error);
+                }
+            });
+
+            updateTotalpotongan()
+            updateSubTotal()
+            updateUrutans();
+        }
+
+        function itemPembelian(identifier, key, value = null) {
+            var potongan_memo_id = '';
+            var kode_potongan = '';
+            var keterangan_potongan = '';
+            var nominal_potongan = '';
+
+            if (value !== null) {
+                potongan_memo_id = value.potongan_memo_id;
+                kode_potongan = value.kode_potongan;
+                keterangan_potongan = value.keterangan_potongan;
+                nominal_potongan = value.nominal_potongan;
+
+            }
+
+            // urutan 
+            var item_pembelian = '<tr id="potongan-' + key + '">';
+            item_pembelian += '<td  style="width: 70px; font-size:14px" class="text-center" id="urutanpotongan">' + key +
+                '</td>';
+
+            // potongan_memo_id 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" id="potongan_memo_id-' + key +
+                '" name="potongan_memo_id[]" value="' + potongan_memo_id + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kode_potongan 
+            item_pembelian += '<td onclick="potonganmemo(' +
+                key +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_potongan-' +
+                key +
+                '" name="kode_potongan[]" value="' + kode_potongan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // keterangan_potongan 
+            item_pembelian += '<td onclick="potonganmemo(' +
+                key +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="keterangan_potongan-' +
+                key +
+                '" name="keterangan_potongan[]" value="' + keterangan_potongan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // nominal_potongan 
+            item_pembelian += '<td onclick="potonganmemo(' +
+                key +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="nominal_potongan-' +
+                key +
+                '" name="nominal_potongan[]" value="' + nominal_potongan + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            //
+            item_pembelian += '<td style="width: 100px">';
+            item_pembelian +=
+                '<button  style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
+                key + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian +=
+                '<button  style="margin-left:3px" type="button" class="btn btn-primary btn-sm" onclick="potonganmemo(' +
+                key +
+                ')">';
+            item_pembelian += '<i class="fas fa-plus"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
+
+            $('#tabel-potongan').append(item_pembelian);
+        }
+    </script>
+
+    <script>
+        function updateTotalpotongan() {
+            var grandTotal = 0;
+
+            // Iterate through all input elements with IDs starting with 'total-'
+            $('input[id^="nominal_potongan-"]').each(function() {
+                // Remove dots and replace comma with dot, then parse as float
+                var nilaiTotal = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
+                grandTotal += nilaiTotal;
+            });
+
+            // Format grandTotal as currency in Indonesian Rupiah
+            var formattedGrandTotal = grandTotal.toLocaleString('id-ID');
+            console.log(formattedGrandTotal);
+            // Set the formatted grandTotal to the target element
+            $('#potongan_memoborong').val(formattedGrandTotal);
+        }
+    </script>
+
+
+    <script>
+        var activeSpecificationIndex = 0;
+
+        function potonganmemo(param) {
+            activeSpecificationIndex = param;
+            // Show the modal and filter rows if necessary
+            $('#tablePotongans').modal('show');
+        }
+
+        function getPotongan(rowIndex) {
+            var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
+            var Potongan_id = selectedRow.data('id');
+            var KodePotongan = selectedRow.data('kode_potongan');
+            var Keterangan = selectedRow.data('keterangan');
+            var Nominal = selectedRow.data('nominal');
+
+            // Update the form fields for the active specification
+            $('#potongan_memo_id-' + activeSpecificationIndex).val(Potongan_id);
+            $('#kode_potongan-' + activeSpecificationIndex).val(KodePotongan);
+            $('#keterangan_potongan-' + activeSpecificationIndex).val(Keterangan);
+            $('#nominal_potongan-' + activeSpecificationIndex).val(Nominal.toLocaleString('id-ID'));
+
+            // var formattedNominal = parseFloat(Nominal).toLocaleString('id-ID');
+            // document.getElementById('nominal_potongan-').value = formattedNominal;
+
+            $('#tablePotongans').modal('hide');
+            updateTotalpotongan()
+            updateSubTotal()
+        }
+    </script>
 @endsection

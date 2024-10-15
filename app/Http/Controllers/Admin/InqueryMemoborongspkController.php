@@ -9,6 +9,7 @@ use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
 use App\Models\Detail_pengeluaran;
+use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Jarak_km;
@@ -17,6 +18,7 @@ use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
 use App\Models\Pengambilan_do;
 use App\Models\Pengeluaran_kaskecil;
+use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
 use App\Models\Spk;
@@ -104,14 +106,16 @@ class InqueryMemoborongspkController extends Controller
         // })->get();
         $ruteperjalanans = Rute_perjalanan::all();
         $biayatambahan = Biaya_tambahan::all();
+        $potonganmemos = Potongan_memo::all();
         $saldoTerakhir = Saldo::latest()->first();
         $detailstambahan = Detail_tambahan::where('memo_ekspedisi_id', $id)->get();
+        $details = Detail_potongan::where('memo_ekspedisi_id', $id)->get();
         $memos = Memo_ekspedisi::all();
         return view('admin.inquery_memoborongspk.update', compact(
             'inquery',
-            // 'kendaraans',
+            'potonganmemos',
             'biayatambahan',
-            // 'drivers',
+            'details',
             'ruteperjalanans',
             'memos',
             'detailstambahan',
@@ -175,6 +179,7 @@ class InqueryMemoborongspkController extends Controller
 
         $error_pesanans = array();
         $data_pembelians = collect();
+        $data_pembelians4 = collect();
 
 
         if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
@@ -210,13 +215,46 @@ class InqueryMemoborongspkController extends Controller
             }
         }
 
+        if ($request->has('potongan_memo_id') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
+            for ($i = 0; $i < count($request->potongan_memo_id); $i++) {
+                if (empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])) {
+                    continue;
+                }
+
+                $validasi_produk = Validator::make($request->all(), [
+                    'potongan_memo_id.' . $i => 'required',
+                    'kode_potongan.' . $i => 'required',
+                    'keterangan_potongan.' . $i => 'required',
+                    'nominal_potongan.' . $i => 'required',
+                ]);
+
+                if ($validasi_produk->fails()) {
+                    array_push($error_pesanans, "Potongan nomor " . ($i + 1) . " belum dilengkapi!");
+                }
+
+                $potongan_memo_id = $request->potongan_memo_id[$i] ?? '';
+                $kode_potongan = $request->kode_potongan[$i] ?? '';
+                $keterangan_potongan = $request->keterangan_potongan[$i] ?? '';
+                $nominal_potongan = $request->nominal_potongan[$i] ?? '';
+
+                $data_pembelians4->push([
+                    'detail_id' => $request->detail_ids[$i] ?? null,
+                    'potongan_memo_id' => $potongan_memo_id,
+                    'kode_potongan' => $kode_potongan,
+                    'keterangan_potongan' => $keterangan_potongan,
+                    'nominal_potongan' => $nominal_potongan,
+
+                ]);
+            }
+        }
 
         if ($error_pelanggans || $error_pesanans) {
             return back()
                 ->withInput()
                 ->with('error_pelanggans', $error_pelanggans)
                 ->with('error_pesanans', $error_pesanans)
-                ->with('data_pembelians', $data_pembelians);
+                ->with('data_pembelians', $data_pembelians)
+                ->with('data_pembelians4', $data_pembelians4);
         }
 
         $deposit = $request->depositsopir;
@@ -281,7 +319,17 @@ class InqueryMemoborongspkController extends Controller
         $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
         $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
 
-        $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan;
+        $potongan_memos = $request->potongan_memoborong;
+        // Jika nilai kosong, setel menjadi 0
+        if (empty($potongan_memos)) {
+            $potongan_memos = 0;
+        } else {
+            // Menghilangkan titik dan mengganti koma dengan titik pada angka
+            $potongan_memos = str_replace(',', '.', str_replace('.', '', $potongan_memos));
+            $potongan_memos = str_replace(',', '.', $potongan_memos); // Pastikan format angka yang benar
+        }
+
+        $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan - $potongan_memos;
 
         $tanggal = Carbon::now()->format('Y-m-d');
 
@@ -325,6 +373,8 @@ class InqueryMemoborongspkController extends Controller
                 'deposit_drivers' => $request->depositsopir ? str_replace('.', '', $request->depositsopir) : 0,
                 'totals' => str_replace(',', '.', str_replace('.', '', $request->totals)),
                 'uang_jaminans' => str_replace(',', '.', str_replace('.', '', $request->uang_jaminans)),
+                // 'potongan_memo' => str_replace(',', '.', str_replace('.', '', $request->potongan_memoborong)),
+                'potongan_memo' => $potongan_memos = is_null($request->potongan_memoborong) ? 0 : str_replace('.', '', $request->potongan_memoborong),
                 'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
                 'hasil_jumlah' => $hasil_jumlah,
                 'keterangan' => $request->keterangan,
@@ -343,6 +393,7 @@ class InqueryMemoborongspkController extends Controller
 
         $transaksi_id = $cetakpdf->id;
         $detailIds = $request->input('detail_idss');
+        $detailIds = $request->input('detail_ids');
 
         foreach ($data_pembelians as $data_pesanan) {
             $detailId = $data_pesanan['detail_idd'];
@@ -373,6 +424,39 @@ class InqueryMemoborongspkController extends Controller
                         'kode_biaya' => $data_pesanan['kode_biaya'],
                         'nama_biaya' => $data_pesanan['nama_biaya'],
                         'nominal' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal'])),
+                    ]);
+                }
+            }
+        }
+
+        foreach ($data_pembelians4 as $data_pesanan) {
+            $detailId = $data_pesanan['detail_id'];
+
+            if ($detailId) {
+                Detail_potongan::where('id', $detailId)->update([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'potongan_memo_id' => $data_pesanan['potongan_memo_id'],
+                    'kode_potongan' => $data_pesanan['kode_potongan'],
+                    'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                    'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
+                ]);
+            } else {
+                $existingDetail = Detail_potongan::where([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'potongan_memo_id' => $data_pesanan['potongan_memo_id'],
+                    'kode_potongan' => $data_pesanan['kode_potongan'],
+                    'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                    'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
+                ])->first();
+
+
+                if (!$existingDetail) {
+                    Detail_potongan::create([
+                        'memo_ekspedisi_id' => $cetakpdf->id,
+                        'potongan_memo_id' => $data_pesanan['potongan_memo_id'],
+                        'kode_potongan' => $data_pesanan['kode_potongan'],
+                        'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
+                        'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                     ]);
                 }
             }

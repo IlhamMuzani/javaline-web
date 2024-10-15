@@ -672,12 +672,21 @@
                 </td>
             </tr>
 
-            <tr>
-                <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Biaya Tambahan</td>
-                <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                    {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }}
-                </td>
-            </tr>
+            @if ($cetakpdf->potongan_memo == 0)
+                <tr>
+                    <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Biaya Tambahan</td>
+                    <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                        {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }}
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Potongan Memo</td>
+                    <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                        {{ number_format($cetakpdf->potongan_memo, 2, ',', '.') }}
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td colspan="5" style="padding: 0px;"></td>
                 <td style="padding: 0px;">

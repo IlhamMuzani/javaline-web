@@ -309,12 +309,23 @@
                         {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 2, ',', '.') }} -
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Biaya Tambahan</td>
-                    <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
-                        {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }} +
-                    </td>
-                </tr>
+                @if ($cetakpdf->potongan_memo == 0)
+                    <tr>
+                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Biaya Tambahan
+                        </td>
+                        <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
+                            {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }} +
+                        </td>
+                    </tr>
+                @else
+                    <tr>
+                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Potongan Memo
+                        </td>
+                        <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
+                            {{ number_format($cetakpdf->potongan_memo, 2, ',', '.') }} +
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <td colspan="4" style="padding: 0px;"></td>
                     <td style="padding: 0px;">
@@ -362,7 +373,7 @@
                     </td>
                 </tr>
             </table>
-        <br style="line-height: 0.1em;">
+            <br style="line-height: 0.1em;">
             <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                 <tr>
                     <td style="text-align: center;">

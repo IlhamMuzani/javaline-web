@@ -919,6 +919,13 @@
                                                                 </label>
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-6" style="color: white">
+                                                            <div class="form-group">
+                                                                <label style="font-size:14px; margin-top:14px"
+                                                                    for="tarif">.
+                                                                    <span class="ml-3">:</span></label>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -977,6 +984,23 @@
                                                                     id="harga_tambahanborong" readonly
                                                                     name="harga_tambahanborong"
                                                                     value="{{ old('harga_tambahanborong') }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label style="font-size:14px; margin-top:5px"
+                                                                    for="tarif">Potongan Memo
+                                                                    <span style="margin-left:19px">:</span></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <input style="text-align: end; font-size:14px;"
+                                                                    type="text" class="form-control"
+                                                                    id="potongan_memoborong" readonly name="potongan_memoborong"
+                                                                    placeholder="" value="{{ old('potongan_memoborong') }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1112,8 +1136,9 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <input style="font-size:14px" type="text" class="form-control qty"
-                                                        id="qty-0" name="qty[]" data-row-id="0"
+                                                    <input style="font-size:14px" type="text"
+                                                        class="form-control qty" id="qty-0" name="qty[]"
+                                                        data-row-id="0"
                                                         onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode == 46">
                                                 </div>
                                             </td>
@@ -2138,7 +2163,7 @@
                     FormRute.style.display = "none";
                     Memoperjlan.style.display = "none";
                     FormPelanggan.style.display = "block";
-                    FormPotongan.style.display = "none";
+                    FormPotongan.style.display = "block";
                     MemoPerjalananBorong.style.display = "block";
                     Memotambahanns.style.display = "none";
                     form_spk.style.display = "block";
@@ -2473,6 +2498,7 @@
             $('#tablePotongans').modal('hide');
             updateTotalpotongan()
             updateSubTotals()
+            updateSubTotal()
         }
         var activeSpecificationIndex = 0;
 
@@ -2558,6 +2584,7 @@
             var saldoMasuk = parseCurrency($('#jumlah').val()) || 0;
             // var sisaSaldo = parseCurrency($('#harga_rute').val()) || 0;
             var sisaSaldo = $('#harga_rute').val().replace(/\./g, '') || 0;
+            var Potonganmemo = parseCurrency($('#potongan_memoborong').val().replace(/\./g, '')) || 0;
             var HargaTambahan = parseCurrency($('#harga_tambahanborong').val().replace(/\./g, '')) || 0;
             var PPh2s = parseCurrency($('#pph2').val()) || 0;
             var UangJaminss = parseCurrency($('#uangjaminanss').val()) || 0;
@@ -2605,7 +2632,7 @@
 
             var GrandBarus = subTotal - DuaPersenPPH;
             var GrandBarus2 = GrandBarus / 2;
-            var GrandBarus23 = GrandBarus2 + HargaTambahan;
+            var GrandBarus23 = GrandBarus2 + HargaTambahan - Potonganmemo;
             console.log(GrandBarus23);
 
             var satupersenbaru = 0.01 * GrandBarus23;
@@ -2913,6 +2940,7 @@
             }
             updateTotalpotongan()
             updateSubTotals()
+            updateSubTotal()
         }
 
         function itemPembelian(urutan, key, value = null) {
@@ -3011,6 +3039,7 @@
             console.log(formattedGrandTotal);
             // Set the formatted grandTotal to the target element
             $('#potongan_memo').val(formattedGrandTotal);
+            $('#potongan_memoborong').val(formattedGrandTotal);
         }
     </script>
 
@@ -3033,9 +3062,6 @@
             $('#harga_tambahanborong').val(formattedGrandTotal);
         }
     </script>
-
-
-
 
     <script>
         var data_pembelian = @json(session('data_pembelians'));
