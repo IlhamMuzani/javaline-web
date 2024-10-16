@@ -124,28 +124,31 @@
                         <tbody>
 
                             @foreach ($spks as $pengambilan_do)
-                                <tr class="dropdown"{{ $pengambilan_do->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $pengambilan_do->id }}"></td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->tanggal_awal }}</td>
-                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                    <td>
-                                        @if ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
-                                            {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
-                                            jam
-                                            {{-- ,
+                                @if (is_null($pengambilan_do->waktu_suratakhir))
+                                    <!-- Kondisi untuk memeriksa waktu_suratakhir null -->
+                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $pengambilan_do->id }}"></td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->tanggal_awal }}</td>
+                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>
+                                            @if ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
+                                                {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
+                                                jam
+                                                {{-- ,
                                             {{ $pengambilan_do->durasi_menit }} menit, {{ $pengambilan_do->durasi_detik }}
                                             detik --}}
-                                        @else
-                                            Durasi tidak tersedia
-                                        @endif
-                                    </td>
-                                </tr>
+                                            @else
+                                                Durasi tidak tersedia
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

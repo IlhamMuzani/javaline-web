@@ -1868,6 +1868,7 @@
                     document.getElementById('depositsdriverss').value = (100000).toLocaleString('id-ID');
                 }
                 updateSubTotals();
+                updateSubTotal();
             } else if (kategori === 'Memo Borong') {
                 // document.getElementById('depositsopir').value = 100000;
                 // document.getElementById('depositsopir2').value = (100000).toLocaleString('id-ID');
@@ -1879,6 +1880,7 @@
                     // depositsopir
                 }
                 updateSubTotal();
+                updateSubTotals();
             }
 
         }
