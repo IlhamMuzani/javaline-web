@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Alamat_bongkar;
 use App\Models\Alamat_muat;
 use App\Models\Jarak_km;
+use App\Models\Karyawan;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Pelanggan;
@@ -337,6 +338,16 @@ class SpkController extends Controller
             ]
         ));
 
+
+        if ($projects->status == 'posting') {
+            $user = User::where('id', $cetakpdf->user_id)->first();
+            $message = "Pengambilan DO Menunggu"  . PHP_EOL;
+
+            $telp = Karyawan::where('id', $user->karyawan_id)->value('telp');
+
+            $this->kirim($telp, $message);
+        }
+
         return redirect('admin/spk')->with('success', 'Berhasil menambahkan spk');
     }
 
@@ -360,5 +371,33 @@ class SpkController extends Controller
         $tanggal = date('dm');
         $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
         return $newCode;
+    }
+
+    public function kirim($telp, $message)
+    {
+        $data = [
+            'target' => $telp,
+            'message' => $message
+        ];
+
+        $curl = curl_init();
+        curl_setopt(
+            $curl,
+            CURLOPT_HTTPHEADER,
+            array(
+                "Authorization: iCXuvUtQ4wQ_E3P#JSGK",
+            )
+        );
+
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_URL, "https://api.fonnte.com/send");
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+
+        $result = json_decode(curl_exec($curl));
+
+        return $result;
     }
 }
