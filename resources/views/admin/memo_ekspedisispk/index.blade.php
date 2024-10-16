@@ -2500,7 +2500,7 @@
             $('#tablePotongans').modal('hide');
             updateTotalpotongan()
             updateSubTotals()
-            updateSubTotal()
+            // updateSubTotal()
         }
         var activeSpecificationIndex = 0;
 
