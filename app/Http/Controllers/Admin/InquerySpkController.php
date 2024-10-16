@@ -270,7 +270,7 @@ class InquerySpkController extends Controller
                 'id',
                 $spk->user_id
             )->first();
-            $message = "ada DO Menunggu"  . PHP_EOL;
+            $message = "Pengambilan DO Menunggu"  . PHP_EOL;
 
             $telp = Karyawan::where('id', $user->karyawan_id)->value('telp');
 
