@@ -238,14 +238,14 @@
                             <div class="form-group d-flex">
                                 <input hidden class="form-control" id="karyawan_id" name="karyawan_id" type="text"
                                     placeholder=""
-                                    value="{{ old('karyawan_id', $inquery->pelanggan->karyawan->id ?? null) }}" readonly
-                                    style="margin-right: 10px; font-size:14px" />
-                                <input onclick="showCategoryModalSPK(this.value)" class="form-control" id="kode_karyawan"
-                                    name="kode_karyawan" type="text" placeholder=""
-                                    value="{{ old('kode_karyawan', $inquery->pelanggan->karyawan->kode_karyawan ?? null) }}"
+                                    value="{{ old('karyawan_id', $inquery->karyawan->id ?? $inquery->pelanggan->karyawan->id) }}"
+                                    readonly style="margin-right: 10px; font-size:14px" />
+                                <input onclick="showCategoryModalMarketing(this.value)" class="form-control"
+                                    id="kode_karyawan" name="kode_karyawan" type="text" placeholder=""
+                                    value="{{ old('kode_karyawan', $inquery->karyawan->kode_karyawan ?? $inquery->pelanggan->karyawan->kode_karyawan) }}"
                                     readonly style="margin-right: 10px; font-size:14px" />
                                 <button class="btn btn-primary" type="button"
-                                    onclick="showCategoryModalSPK(this.value)">
+                                    onclick="showCategoryModalMarketing(this.value)">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -255,7 +255,7 @@
                                 <div class="form-group d-flex">
                                     <input class="form-control" id="nama_lengkap" name="nama_lengkap" type="text"
                                         placeholder=""
-                                        value="{{ old('nama_lengkap', $inquery->pelanggan->karyawan->nama_lengkap ?? null) }}"
+                                        value="{{ old('nama_lengkap', $inquery->karyawan->nama_lengkap ?? $inquery->pelanggan->karyawan->nama_lengkap) }}"
                                         readonly style="font-size:14px" />
                                 </div>
                             </div>
@@ -264,7 +264,7 @@
                                     <label style="font-size:14px" for="telp">No. Telp</label>
                                     <input style="font-size:14px" type="text" class="form-control" id="telp"
                                         readonly name="telp" placeholder=""
-                                        value="{{ old('telp', $inquery->pelanggan->karyawan->telp ?? null) }}">
+                                        value="{{ old('telp', $inquery->karyawan->telp ?? $inquery->pelanggan->karyawan->telp) }}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -272,7 +272,7 @@
                                     <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
                                     <input style="font-size:14px" type="text" class="form-control"
                                         id="alamat_karyawan" readonly name="alamat_karyawan" placeholder=""
-                                        value="{{ old('alamat_karyawan', $inquery->pelanggan->karyawan->alamat ?? null) }}">
+                                        value="{{ old('alamat_karyawan', $inquery->karyawan->alamat ?? $inquery->pelanggan->karyawan->alamat) }}">
                                 </div>
                             </div>
                         </div>

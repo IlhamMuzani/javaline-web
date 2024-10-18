@@ -2499,8 +2499,8 @@
 
             $('#tablePotongans').modal('hide');
             updateTotalpotongan()
+            updateSubTotal()
             updateSubTotals()
-            // updateSubTotal()
         }
         var activeSpecificationIndex = 0;
 

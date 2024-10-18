@@ -674,7 +674,7 @@
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td class="label">{{ $cetakpdf->pelanggan->karyawan->nama_lengkap ?? '.' }}</td>
+                            <td class="label">{{$cetakpdf->karyawan->nama_lengkap ?? $cetakpdf->pelanggan->karyawan->nama_lengkap }}</td>
                         </tr>
                         <tr>
                             <td class="separator" colspan="2"><span></span></td>
