@@ -102,7 +102,8 @@
                             <div class="form-group">
                                 <label for="alamat">Tujuan Bongkar</label>
                                 <input type="text" class="form-control" id="alamat" name="alamat"
-                                    placeholder="masukkan tujuan bongkar" value="{{ old('alamat', $alamatbongkars->alamat) }}">
+                                    placeholder="masukkan tujuan bongkar"
+                                    value="{{ old('alamat', $alamatbongkars->alamat) }}">
                             </div>
                         </div>
 
@@ -110,9 +111,25 @@
                         <div class="form-group">
                             <label style="font-size:14px" for="map">Peta</label>
                             <div id="map"></div>
-                            <input type="hidden" id="latitude" value="{{ old('latitude', $alamatbongkars->latitude) }}" name="latitude" />
-                            <input type="hidden" id="longitude" value="{{ old('longitude', $alamatbongkars->longitude) }}" name="longitude" />
+
+                            @if (auth()->user()->id == 1)
+                                <label for="latitude">Latitude:</label>
+                                <input type="text" id="latitude" name="latitude"
+                                    value="{{ old('latitude', $alamatbongkars->latitude) }}"
+                                    style="margin-right: 10px; font-size:14px" />
+
+                                <label for="longitude">Longitude:</label>
+                                <input type="text" id="longitude" name="longitude"
+                                    value="{{ old('longitude', $alamatbongkars->longitude) }}"
+                                    style="margin-right: 10px; font-size:14px" />
+                            @else
+                                <input type="hidden" id="latitude" value="{{ old('latitude', $alamatbongkars->latitude) }}"
+                                    name="latitude" />
+                                <input type="hidden" id="longitude"
+                                    value="{{ old('longitude', $alamatbongkars->longitude) }}" name="longitude" />
+                            @endif
                         </div>
+
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>

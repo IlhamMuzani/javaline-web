@@ -110,11 +110,25 @@
                         <div class="form-group">
                             <label style="font-size:14px" for="map">Peta</label>
                             <div id="map"></div>
-                            <input type="hidden" id="latitude" value="{{ old('latitude', $alamatmuats->latitude) }}"
-                                name="latitude" />
-                            <input type="hidden" id="longitude" value="{{ old('longitude', $alamatmuats->longitude) }}"
-                                name="longitude" />
+
+                            @if (auth()->user()->id == 1)
+                                <label for="latitude">Latitude:</label>
+                                <input type="text" id="latitude" name="latitude"
+                                    value="{{ old('latitude', $alamatmuats->latitude) }}"
+                                    style="margin-right: 10px; font-size:14px" />
+
+                                <label for="longitude">Longitude:</label>
+                                <input type="text" id="longitude" name="longitude"
+                                    value="{{ old('longitude', $alamatmuats->longitude) }}"
+                                    style="margin-right: 10px; font-size:14px" />
+                            @else
+                                <input type="hidden" id="latitude" value="{{ old('latitude', $alamatmuats->latitude) }}"
+                                    name="latitude" />
+                                <input type="hidden" id="longitude"
+                                    value="{{ old('longitude', $alamatmuats->longitude) }}" name="longitude" />
+                            @endif
                         </div>
+
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>

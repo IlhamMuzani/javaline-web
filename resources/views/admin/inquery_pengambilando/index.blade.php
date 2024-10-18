@@ -97,6 +97,7 @@
                             <tr>
                                 <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                 <th class="text-center">No</th>
+                                <th class="text-center">Id</th>
                                 <th>Kode SPK</th>
                                 <th>No Kabin</th>
                                 <th>Nama Driver</th>
@@ -111,6 +112,7 @@
                                             value="{{ $pengambilan_do->id }}">
                                     </td>
                                     <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $pengambilan_do->id }}</td>
                                     <td>{{ $pengambilan_do->spk->kode_spk ?? 'tidak ada' }}</td>
                                     <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? 'tidak ada' }}</td>
                                     <td>
@@ -134,31 +136,8 @@
                                                 width="40" alt="document">
                                         @endif
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($pengambilan_do->status == 'unpost')
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $pengambilan_do->id }}">Posting</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id . '/edit') }}">Update</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id) }}">Show</a> --}}
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapuspengambilando', ['id' => $pengambilan_do->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
-                                            @endif
-                                            @if ($pengambilan_do->status == 'posting')
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $pengambilan_do->id }}">Unpost</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id) }}">Show</a> --}}
-                                            @endif
-                                            @if ($pengambilan_do->status == 'selesai')
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id) }}">Show</a> --}}
-                                            @endif
+                                            <a class="dropdown-item"
+                                                href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id . '/edit') }}">Update</a>
                                         </div>
                                     </td>
                                 </tr>
