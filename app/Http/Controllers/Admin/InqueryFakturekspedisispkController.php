@@ -94,6 +94,7 @@ class InqueryFakturekspedisispkController extends Controller
                 'tarif_id' => 'required',
                 'jumlah' => 'required|numeric',
                 'satuan' => 'required',
+                // 'total_tarif' => 'numeric',
                 // 'karyawan_id' => 'required',
             ],
             [
@@ -105,6 +106,7 @@ class InqueryFakturekspedisispkController extends Controller
                 'jumlah.required' => 'Masukkan Qty',
                 'jumlah.numeric' => 'Qty harus berupa angka',
                 'satuan.required' => 'Pilih satuan',
+                // 'total_tarif.numeric' => 'Cek Total Tarif',
             ]
         );
 
@@ -231,7 +233,7 @@ class InqueryFakturekspedisispkController extends Controller
             'sewa_kendaraan_id' => $request->sewa_kendaraan_id,
             'kode_sewa' => $request->kode_sewa,
             'tarif_id' => $request->tarif_id,
-            'spk_id' => $request->spk_id,
+            'spk_id' => $request->spk_ids,
             'kode_spk' => $request->kode_spk,
             'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
             'kendaraan_id' => $request->kendaraan_id[0] ?? $request->kendaraan_ids,

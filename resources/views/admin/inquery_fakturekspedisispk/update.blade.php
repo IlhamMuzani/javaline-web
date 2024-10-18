@@ -176,8 +176,8 @@
                         <div id="form_pelanggan">
                             <label style="font-size:14px" class="form-label" for="kode_spk">Pilih SPK</label>
                             <div class="form-group d-flex">
-                                <input hidden class="form-control" id="spk_id" name="spk_id" type="text"
-                                    placeholder="" value="{{ old('spk_id', $inquery->spk_id) }}" readonly
+                                <input hidden class="form-control" id="spk_id" name="spk_ids" type="text"
+                                    placeholder="" value="{{ old('spk_ids', $inquery->spk_id) }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
                                 <input onclick="showCategoryModalSPK(this.value)" class="form-control" id="kode_spk"
                                     name="kode_spk" type="text" placeholder=""
@@ -926,11 +926,11 @@
                                                 value="{{ old('nama_tarif', $inquery->nama_tarif) }}">
                                         </div>
                                     </td>
-                                    <td hidden>
+                                    <td>
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" class="form-control harga_tarif"
                                                 readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
-                                                value="{{ old('harga_tarif', number_format($inquery->harga_tarif, 10, ',', '.')) }}">
+                                                value="{{ old('harga_tarif', $inquery->harga_tarif) }}">
                                         </div>
                                     </td>
                                     <td>
