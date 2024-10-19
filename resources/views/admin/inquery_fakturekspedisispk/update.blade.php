@@ -930,7 +930,7 @@
                                         <div class="form-group">
                                             <input style="font-size:14px" type="text" class="form-control harga_tarif"
                                                 readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
-                                                value="{{ old('harga_tarif', $inquery->harga_tarif) }}">
+                                                value="{{ old('harga_tarif', $inquery->harga_tarif == floor($inquery->harga_tarif) ? $inquery->harga_tarif : str_replace('.', ',', rtrim(rtrim($inquery->harga_tarif, '0'), '.'))) }}">
                                         </div>
                                     </td>
                                     <td>

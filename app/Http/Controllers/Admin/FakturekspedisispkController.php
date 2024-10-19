@@ -205,6 +205,17 @@ class FakturekspedisispkController extends Controller
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
         $tanggal = Carbon::now()->format('Y-m-d');
+
+        $harga_tarif = str_replace(',', '.', str_replace('.', '', $request->harga_tarif));
+
+        // Jika ada nilai koma (desimal), periksa nilai desimalnya
+        if (strpos($harga_tarif, '.') !== false) {
+            // Hapus trailing zeros (nol di akhir desimal)
+            $harga_tarif = rtrim($harga_tarif, '0');
+
+            // Jika setelah menghapus nol, titik koma masih di akhir (contoh: 5000.), hapus titik
+            $harga_tarif = rtrim($harga_tarif, '.');
+        }
         $cetakpdf = Faktur_ekspedisi::create([
             'user_id' => auth()->user()->id,
             'spk_id' => $request->spk_id,
@@ -239,7 +250,7 @@ class FakturekspedisispkController extends Controller
             'jumlah' => $request->jumlah,
             'satuan' => $request->satuan,
             'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
-            'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),
+            'harga_tarif' => $harga_tarif, 
             'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
             'grand_total' => str_replace(
                 ',',
