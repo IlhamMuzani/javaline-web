@@ -39,10 +39,27 @@ class AkseslokasiController extends Controller
         return redirect('admin/akses_lokasi')->with('success', 'Berhasil memperbarui akses lokasi');
     }
 
-    public function destroy($id)
+    public function postingfilterakses(Request $request)
     {
-        $akses_lokasi = Kendaraan::find($id);
-        $akses_lokasi->delete();
-        return redirect('admin/akses_lokasi')->with('success', 'Berhasil menghapus akses lokasi');
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $kendaraans = Kendaraan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($kendaraans as $kendaraan) {
+            if ($kendaraan && $kendaraan->akses_lokasi == 0) {
+                $kendaraan->update(['akses_lokasi' => 1]);
+            }
+        }
+    }
+
+    public function unpostfilterakses(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $kendaraans = Kendaraan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($kendaraans as $kendaraan) {
+            if ($kendaraan && $kendaraan->akses_lokasi == 1) {
+                $kendaraan->update(['akses_lokasi' => 0]);
+            }
+        }
     }
 }

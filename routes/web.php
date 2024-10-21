@@ -904,5 +904,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('monitoring_suratjalan', \App\Http\Controllers\Admin\MonitoringsuratjalanController::class);
     Route::resource('jarak_titik', \App\Http\Controllers\Admin\JaraktitikController::class);
     Route::resource('akses_lokasi', \App\Http\Controllers\Admin\AkseslokasiController::class);
-
+    Route::get('unpostfilterakses', [\App\Http\Controllers\Admin\AkseslokasiController::class, 'unpostfilterakses']);
+    Route::get('postingfilterakses', [\App\Http\Controllers\Admin\AkseslokasiController::class, 'postingfilterakses']);
 });
