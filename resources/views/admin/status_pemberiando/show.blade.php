@@ -83,6 +83,15 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                            @if (auth()->user()->id == 1)
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <strong>Kode Tujuan Muat</strong>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{ $cetakpdf->alamat_muat->kode_alamat ?? null }} </div>
+                                </div>
+                            @endif
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <strong>Tujuan Muat</strong>
@@ -109,6 +118,15 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
+                            @if (auth()->user()->id == 1)
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <strong>Kode Tujuan Bongkar</strong>
+                                    </div>
+                                    <div class="col-md-4">
+                                        {{ $cetakpdf->alamat_bongkar->kode_alamat ?? null }} </div>
+                                </div>
+                            @endif
                             <div class="row mb-3">
                                 <div class="col-md-4">
                                     <strong>Tujuan Bongkar</strong>
@@ -242,7 +260,8 @@
                                                 src="{{ asset('storage/uploads/' . $cetakpdf->gambar3) }}"
                                                 class="rounded border">
                                         @else
-                                            <img id="gambar3" src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
+                                            <img id="gambar3"
+                                                src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
                                                 class="rounded border">
                                         @endif
                                     </div>
