@@ -903,5 +903,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery_penggantianoli/postingpenggantianoli/{id}', [\App\Http\Controllers\Admin\InqueryPenggantianoliController::class, 'postingpenggantianoli'])->name('postingpenggantianoli');
     Route::resource('monitoring_suratjalan', \App\Http\Controllers\Admin\MonitoringsuratjalanController::class);
     Route::resource('jarak_titik', \App\Http\Controllers\Admin\JaraktitikController::class);
+    Route::resource('akses_lokasi', \App\Http\Controllers\Admin\AkseslokasiController::class);
 
 });

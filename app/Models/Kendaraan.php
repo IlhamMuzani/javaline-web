@@ -62,6 +62,7 @@ class Kendaraan extends Model
         'timer',
         'waktu',
         'kota_id',
+        'akses_lokasi',
     ];
 
     use SoftDeletes;
