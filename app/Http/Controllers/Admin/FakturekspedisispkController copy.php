@@ -216,7 +216,6 @@ class FakturekspedisispkController extends Controller
             // Jika setelah menghapus nol, titik koma masih di akhir (contoh: 5000.), hapus titik
             $harga_tarif = rtrim($harga_tarif, '.');
         }
-
         $cetakpdf = Faktur_ekspedisi::create([
             'user_id' => auth()->user()->id,
             'spk_id' => $request->spk_id,
@@ -251,11 +250,7 @@ class FakturekspedisispkController extends Controller
             'jumlah' => $request->jumlah,
             'satuan' => $request->satuan,
             'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
-            'harga_tarif' => $harga_tarif,
-            'fee' => str_replace(',', '.', str_replace('.', '', $request->fee)),
-            'hasil_fee' => str_replace(',', '.', str_replace('.', '', $request->hasil_fee)),
-            'hasil_potongan_fee' => str_replace(',', '.', str_replace('.', '', $request->hasil_potongan_fee)),
-
+            'harga_tarif' => $harga_tarif, 
             'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
             'grand_total' => str_replace(
                 ',',

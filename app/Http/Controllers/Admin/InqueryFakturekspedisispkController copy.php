@@ -267,11 +267,6 @@ class InqueryFakturekspedisispkController extends Controller
             'jumlah' => $request->jumlah,
             'satuan' => $request->satuan,
             'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
-
-            'fee' => str_replace(',', '.', str_replace('.', '', $request->fee)),
-            'hasil_fee' => str_replace(',', '.', str_replace('.', '', $request->hasil_fee)),
-            'hasil_potongan_fee' => str_replace(',', '.', str_replace('.', '', $request->hasil_potongan_fee)),
-
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
             'sisa' => str_replace(',', '.', str_replace('.', '', $request->sisa)),
             'biaya_tambahan' => str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan)),

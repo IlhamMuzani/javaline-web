@@ -411,7 +411,7 @@
                 @else
                     {{ $formattedGrandTotaltotal_tarif }}
                 @endif --}}
-                {{ number_format($cetakpdf->total_tarif, 0, ',', '.') }},00
+                {{ number_format($cetakpdf->total_tarif, 2, ',', '.') }}
 
             </td>
         </tr>
@@ -439,7 +439,7 @@
                         {{ $item->satuan_tambahan }}
                     </td>
                     <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
-                        {{ number_format($item->nominal_tambahan, 0, ',', '.') }},00
+                        {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
 
                     </td>
                 </tr>
@@ -492,7 +492,7 @@
                 @endif
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
-                {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 0, ',', '.') }},00
+                {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 2, ',', '.') }}
             </td>
         </tr>
 
@@ -513,6 +513,30 @@
         <!-- Add horizontal line below this row -->
 
         @if ($cetakpdf->kategori == 'PPH')
+            @if ($cetakpdf->hasil_fee != 0)
+                <tr>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                    </td>
+                    <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                    </td>
+                    <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
+                        FEE :
+                    </td>
+
+                    <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
+                        {{ number_format($cetakpdf->hasil_fee, 2, ',', '.') }}
+
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
@@ -531,7 +555,7 @@
                 </td>
 
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
-                    {{ number_format($cetakpdf->total_tarif + $totalRuteSum, 0, ',', '.') }},00
+                    {{ number_format($cetakpdf->total_tarif + $totalRuteSum - $cetakpdf->hasil_fee, 2, ',', '.') }}
 
                 </td>
             </tr>
@@ -555,7 +579,7 @@
 
 
                 <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
-                    {{ number_format($cetakpdf->pph, 0, ',', '.') }},00
+                    {{ number_format($cetakpdf->pph, 2, ',', '.') }}
                 </td>
             </tr>
         @endif
@@ -634,7 +658,7 @@
                 Grand Total :
             </td>
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">
-                {{ number_format($cetakpdf->grand_total, 0, ',', '.') }},00
+                {{ number_format($cetakpdf->grand_total, 2, ',', '.') }}
             </td>
         </tr>
 
@@ -674,9 +698,7 @@
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td class="label">
-                                {{ $cetakpdf->karyawan->nama_lengkap ?? $cetakpdf->pelanggan->karyawan->nama_lengkap }}
-                            </td>
+                            <td class="label">{{ $cetakpdf->pelanggan->karyawan->nama_lengkap ?? '.' }}</td>
                         </tr>
                         <tr>
                             <td class="separator" colspan="2"><span></span></td>

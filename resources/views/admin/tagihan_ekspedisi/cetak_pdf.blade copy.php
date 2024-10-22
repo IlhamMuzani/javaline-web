@@ -294,7 +294,7 @@
                         @if ($item->faktur_ekspedisi->kendaraan)
                             {{ $item->faktur_ekspedisi->kendaraan->no_pol }}
                         @else
-                            {{ $item->faktur_ekspedisi->no_pol }}
+                        {{ $item->faktur_ekspedisi->no_pol }}
                         @endif
                     @else
                         -
@@ -386,28 +386,7 @@
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 10px;">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
-        @if ($cetakpdf->hasil_feeall != 0)
-            <tr>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 10px;">
 
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 10px;">
-
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 10px;">
-
-                </td>
-                <td class="td" style="text-align: center; padding: 0px; font-size: 10px;">
-
-                </td>
-                <td class="td" style="text-align: right; padding: 2px; font-size: 10px;">
-                    Fee :
-                </td>
-                <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold">
-                    {{ number_format($cetakpdf->hasil_feeall, 0, ',', '.') }},00
-                </td>
-            </tr>
-        @endif
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 10px;">
 
@@ -424,16 +403,9 @@
             <td class="td" style="text-align: right; padding: 2px; font-size: 10px;">
                 Dasar Pengenaan Pajak (DPP) :
             </td>
-            @if ($cetakpdf->hasil_feeall != 0)
-                <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold">
-                    {{ number_format($cetakpdf->hasil_potonganfee, 0, ',', '.') }},00
-                </td>
-            @else
-                <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold">
-                    {{ number_format($totalRuteSum, 0, ',', '.') }},00
-                </td>
-            @endif
-
+            <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold">
+                {{ number_format($totalRuteSum, 0, ',', '.') }},00
+            </td>
         </tr>
 
         <tr>
@@ -641,6 +613,9 @@
             </td>
         </tr>
     </table>
+    {{-- <div style="text-align: right; font-size:10px; margin-top:25px">
+        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
+    </div> --}}
 </body>
 
 </html>

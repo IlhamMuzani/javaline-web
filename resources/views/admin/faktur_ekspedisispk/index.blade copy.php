@@ -562,7 +562,7 @@
                                         id="nama_tarif" name="nama_tarif" value="{{ old('nama_tarif') }}">
                                 </div>
                             </td>
-                            <td>
+                            <td hidden>
                                 <div class="form-group">
                                     <input style="font-size:14px" type="text" class="form-control harga_tarif"
                                         readonly id="harga_tarif" name="harga_tarif" data-row-id="0"
@@ -754,45 +754,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label style="font-size:14px; margin-top:5px" for="tarif">Fee
-                                                <span style="margin-left:96px">:</span></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input style="text-align: end; font-size:14px;" type="text"
-                                                    class="form-control fee" id="fee" name="fee"
-                                                    placeholder="" value="{{ old('fee') }}">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input readonly style="text-align: end; font-size:14px;" type="text"
-                                                    class="form-control hasil_fee" id="hasil_fee" name="hasil_fee"
-                                                    placeholder="" value="{{ old('hasil_fee') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label style="font-size:14px; margin-top:5px" for="tarif">Hasil Potongan
-                                                Fee
-                                                <span style="margin-left:0px">:</span></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input style="text-align: end; font-size:14px;" type="text"
-                                                class="form-control hasil_potongan_fee" readonly id="hasil_potongan_fee"
-                                                name="hasil_potongan_fee" placeholder=""
-                                                value="{{ old('hasil_potongan_fee') }}">
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -1819,7 +1781,6 @@
             var jumlah = parseFloat($(".jumlah").val()) || 0;
             var biaya_tambahan = parseFloat($("#biaya_tambahan").val().replace(/\./g, "")) || 0;
             console.log(biaya_tambahan);
-            var nominal_potongan = parseFloat($("#fee").val()) || 0;
 
             var hargas = hargasatuan * jumlah;
             var harga = hargasatuan * jumlah + biaya_tambahan;
@@ -1839,35 +1800,23 @@
             $(".total_tarif2").val(Math.round(harga).toLocaleString('id-ID'));
 
             if (selectedValue == "PPH") {
-                var hasil_potongan = (harga * nominal_potongan) / 100;
-                $("#hasil_fee").val(Math.round(hasil_potongan).toLocaleString('id-ID'));
-                
-                var hasil_hargaplusfee = harga - hasil_potongan;
-                $(".hasil_potongan_fee").val(Math.round(hasil_hargaplusfee).toLocaleString('id-ID'));
-                var pph = Math.round(0.02 * hasil_hargaplusfee); // Membulatkan nilai PPH
-                var sisa = hasil_hargaplusfee - pph;
-
-
-                // Update the value of the input field using the id selector
-
+                // var pph = 0.02 * harga;
+                var pph = Math.round(0.02 * harga); // Membulatkan nilai PPH
+                var sisa = harga - pph;
                 var Subtotal = sisa;
                 $(".pph2").val(Math.round(pph).toLocaleString('id-ID'));
                 $(".sisa").val(Math.round(sisa).toLocaleString('id-ID'));
                 $(".sub_total").val(Math.round(Subtotal).toLocaleString('id-ID'));
             } else {
-
-                var hasil_potongan = (harga * nominal_potongan) / 100;
-                $("#hasil_fee").val(Math.round(hasil_potongan).toLocaleString('id-ID'));
-                var hasil_hargaplusfee = harga - hasil_potongan;
                 // Jika kategori NON PPH, tidak kurangkan 2%
                 $(".pph2").val(0);
-                $(".sisa").val(Math.round(hasil_hargaplusfee).toLocaleString('id-ID'));
-                var Subtotal = hasil_hargaplusfee;
+                $(".sisa").val(Math.round(harga).toLocaleString('id-ID'));
+                var Subtotal = harga;
                 $(".sub_total").val(Math.round(Subtotal).toLocaleString('id-ID'));
             }
         }
 
-        $(document).on("input", ".harga_tarif, .jumlah, #biaya_tambahan, #fee, #hasil_fee, #hasil_potongan_fee", function() {
+        $(document).on("input", ".harga_tarif, .jumlah, #biaya_tambahan", function() {
             updateHarga();
         });
     </script>

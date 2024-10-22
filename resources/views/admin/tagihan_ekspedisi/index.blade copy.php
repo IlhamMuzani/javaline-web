@@ -1,28 +1,41 @@
 @extends('layouts.app')
 
-@section('title', 'Inquery Invoice F. Ekspedisi')
+@section('title', 'Invoice Faktur Ekspedisi')
 
 @section('content')
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Inquery Invoice F. Ekspedisi</h1>
+                    <h1 class="m-0">Invoice Faktur Ekspedisi</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/inquery_tagihanekspedisi') }}">Inquery Invoice F.
+                        <li class="breadcrumb-item"><a href="{{ url('admin/tagihan_ekspedisi') }}">Invoice Faktur
                                 Ekspedisi</a></li>
-                        <li class="breadcrumb-item active">Perbarui</li>
+                        <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
 
-
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
@@ -63,48 +76,44 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/inquery_tagihanekspedisi/' . $inquery->id) }}" method="POST"
-                enctype="multipart/form-data" autocomplete="off">
+
+            <form action="{{ url('admin/tagihan_ekspedisi') }}" method="POST" enctype="multipart/form-data"
+                autocomplete="off">
                 @csrf
-                @method('put')
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">perbarui Invoice F. Ekspedisi</h3>
+                        <h3 class="card-title">Tambah Invoice Faktur Ekspedisi</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        {{-- <div class="form-group">
-                            <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
-                            <input type="text" class="form-control" id="kategori" readonly name="kategori"
-                                placeholder="" value="{{ old('kategori', $inquery->kategori) }}">
-                        </div> --}}
                         <div class="form-group">
                             <label style="font-size:14px" class="form-label" for="kategori">Pilih Kategori</label>
                             <select style="font-size:14px" class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
-                                <option value="PPH"
-                                    {{ old('kategori', $inquery->kategori) == 'PPH' ? 'selected' : null }} selected>
+                                <option value="PPH" {{ old('kategori') == 'PPH' ? 'selected' : null }} selected>
                                     PPH</option>
-                                <option value="NON PPH"
-                                    {{ old('kategori', $inquery->kategori) == 'NON PPH' ? 'selected' : null }}>
+                                <option value="NON PPH" {{ old('kategori') == 'NON PPH' ? 'selected' : null }}>
                                     NON PPH</option>
                             </select>
                         </div>
                         <div class="form-group" style="flex: 8;">
                             <div class="row">
-                                <div class="form-group" hidden>
+                                {{-- <div class="mb-3 mt-4">
+                                <button class="btn btn-primary btn-sm" type="button" onclick="ShowMemo(this.value)">
+                                    <i class="fas fa-plus mr-2"></i> Pilih Pelanggan
+                                </button>
+                            </div> --}}
+                                <div hidden class="form-group">
                                     <label for="pelanggan_id">pelanggan Id</label>
                                     <input type="text" class="form-control" id="pelanggan_id" readonly
-                                        name="pelanggan_id" placeholder=""
-                                        value="{{ old('pelanggan_id', $inquery->pelanggan_id) }}">
+                                        name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
                                         <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
                                             type="text" class="form-control" id="kode_pelanggan" readonly
-                                            name="kode_pelanggan" placeholder=""
-                                            value="{{ old('kode_pelanggan', $inquery->kode_pelanggan) }}">
+                                            name="kode_pelanggan" placeholder="" value="{{ old('kode_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -113,7 +122,7 @@
                                     <div class="form-group d-flex">
                                         <input onclick="showCategoryModalPelanggan(this.value)" class="form-control"
                                             id="nama_pelanggan" name="nama_pelanggan" type="text" placeholder=""
-                                            value="{{ old('nama_pelanggan', $inquery->nama_pelanggan) }}" readonly
+                                            value="{{ old('nama_pelanggan') }}" readonly
                                             style="margin-right: 10px; font-size:14px" />
                                         <button class="btn btn-primary" type="button"
                                             onclick="showCategoryModalPelanggan(this.value)">
@@ -126,8 +135,7 @@
                                         <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
                                         <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
                                             type="text" class="form-control" id="telp_pelanggan" readonly
-                                            name="telp_pelanggan" placeholder=""
-                                            value="{{ old('telp_pelanggan', $inquery->telp_pelanggan) }}">
+                                            name="telp_pelanggan" placeholder="" value="{{ old('telp_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -136,7 +144,7 @@
                                         <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
                                             type="text" class="form-control" id="alamat_pelanggan" readonly
                                             name="alamat_pelanggan" placeholder=""
-                                            value="{{ old('alamat_pelanggan', $inquery->alamat_pelanggan) }}">
+                                            value="{{ old('alamat_pelanggan') }}">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -145,8 +153,8 @@
                                         <input type="date" id="periode_awal" name="periode_awal"
                                             placeholder="d M Y sampai d M Y"
                                             data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
-                                            value="{{ old('periode_awal', $inquery->periode_awal) }}"
-                                            class="form-control datetimepicker-input" data-target="#reservationdatetime">
+                                            value="{{ old('periode_awal') }}" class="form-control datetimepicker-input"
+                                            data-target="#reservationdatetime">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -155,8 +163,8 @@
                                         <input type="date" id="periode_akhir" name="periode_akhir"
                                             placeholder="d M Y sampai d M Y"
                                             data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
-                                            value="{{ old('periode_akhir', $inquery->periode_akhir) }}"
-                                            class="form-control datetimepicker-input" data-target="#reservationdatetime">
+                                            value="{{ old('periode_akhir') }}" class="form-control datetimepicker-input"
+                                            data-target="#reservationdatetime">
                                     </div>
                                 </div>
                             </div>
@@ -189,147 +197,111 @@
                                     <th style="font-size:14px">Qty</th>
                                     {{-- <th style="font-size:14px">Satuan</th> --}}
                                     <th style="font-size:14px">Harga</th>
-                                    <th style="font-size:14px">Harga Fee</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
                             </thead>
                             <tbody id="tabel-pembelian">
-                                @foreach ($details as $detail)
-                                    <tr id="pembelian-{{ $loop->index }}">
-                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutan">
-                                            {{ $loop->index + 1 }}
-                                        </td>
-                                        <div class="form-group" hidden>
-                                            <input type="text" class="form-control"
-                                                id="nomor_seri-{{ $loop->index }}" name="detail_ids[]"
-                                                value="{{ $detail['id'] }}">
+                                <tr id="pembelian-0">
+                                    <td style="width: 70px; font-size:14px" class="text-center" id="urutan">1
+                                    </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="faktur_ekspedisi_id-0"
+                                                name="faktur_ekspedisi_id[]">
                                         </div>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input type="text" class="form-control"
-                                                    id="faktur_ekspedisi_id-{{ $loop->index }}"
-                                                    name="faktur_ekspedisi_id[]"
-                                                    value="{{ $detail['faktur_ekspedisi_id'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="nama_rute-{{ $loop->index }}" name="nama_rute[]"
-                                                    value="{{ $detail['nama_rute'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    id="tanggal_memo-{{ $loop->index }}" name="tanggal_memo[]"
-                                                    value="{{ $detail['tanggal_memo'] }}">
-                                            </div>
-                                        </td>
-                                        <td style="width: 150px">
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="kode_faktur-{{ $loop->index }}" name="kode_faktur[]"
-                                                    value="{{ $detail['kode_faktur'] }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="no_memo-{{ $loop->index }}"
-                                                    name="no_memo[]" value="{{ $detail['no_memo'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    id="no_do-{{ $loop->index }}" name="no_do[]"
-                                                    value="{{ $detail['no_do'] }}">
-                                            </div>
-                                        </td>
-                                        {{-- <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" type="text" class="form-control"
-                                                    id="no_po-{{ $loop->index }}" name="no_po[]"
-                                                    value="{{ $detail['no_po'] }}">
-                                            </div>
-                                        </td> --}}
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="no_kabin-{{ $loop->index }}"
-                                                    name="no_kabin[]" value="{{ $detail['no_kabin'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="no_pol-{{ $loop->index }}" name="no_pol[]"
-                                                    value="{{ $detail['no_pol'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="jumlah-{{ $loop->index }}" name="jumlah[]"
-                                                    value="{{ $detail['jumlah'] }}">
-                                            </div>
-                                        </td>
-                                        <td hidden>
-                                            <div class="form-group">
-                                                <input style="font-size:14px" readonly type="text"
-                                                    class="form-control" id="satuan-{{ $loop->index }}" name="satuan[]"
-                                                    value="{{ $detail['satuan'] }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="harga-{{ $loop->index }}" name="harga[]"
-                                                    value="{{ number_format($detail['harga'], 0, ',', '.') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="hasil_fee-{{ $loop->index }}" name="hasil_fee[]"
-                                                    value="{{ number_format($detail['hasil_fee'], 0, ',', '.') }}">
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="form-group">
-                                                <input onclick="MemoEkspedisi({{ $loop->index }})"
-                                                    style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="total-{{ $loop->index }}" name="total[]"
-                                                    value="{{ number_format($detail['total'], 10, ',', '.') }}">
-                                            </div>
-                                        </td>
-                                        <td style="width: 100px">
-                                            <button type="button" class="btn btn-primary btn-sm"
-                                                onclick="MemoEkspedisi({{ $loop->index }})">
-                                                <i class="fas fa-plus"></i>
-                                            </button>
-                                            <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
-                                                onclick="removeBan({{ $loop->index }}, {{ $detail['id'] }})">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="nama_rute-0" name="nama_rute[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="tanggal_memo-0" name="tanggal_memo[]">
+                                        </div>
+                                    </td>
+                                    <td style="width: 150px">
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="kode_faktur-0"
+                                                name="kode_faktur[]">
+                                        </div>
+                                    </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="no_memo-0" name="no_memo[]">
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="no_do-0" name="no_do[]">
+                                        </div>
+                                    </td>
+
+                                    {{-- <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="no_po-0" name="no_po[]">
+                                        </div>
+                                    </td> --}}
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="no_kabin-0" name="no_kabin[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="no_pol-0" name="no_pol[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="jumlah-0" name="jumlah[]">
+                                        </div>
+                                    </td>
+                                    <td hidden>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="satuan-0" name="satuan[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="harga-0" name="harga[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="total-0" name="total[]">
+                                        </div>
+                                    </td>
+                                    <td style="width: 100px">
+                                        <button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(0)">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                        <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
+                                            onclick="removeBan(0)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                         <div class="form-group mt-2">
                             <label style="font-size:14px" for="keterangan">Keterangan</label>
                             <textarea style="font-size:14px" type="text" class="form-control" id="keterangan" name="keterangan"
-                                placeholder="Masukan keterangan">{{ old('keterangan', $inquery->keterangan) }}</textarea>
+                                placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -349,41 +321,7 @@
                                             <div class="form-group">
                                                 <input style="text-align: end; font-size:14px;" type="text"
                                                     class="form-control sub_total" readonly id="sub_total"
-                                                    name="sub_total" placeholder=""
-                                                    value="{{ old('sub_total', number_format($inquery->sub_total, 0, ',', '.')) }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label style="font-size:14px; margin-top:5px" for="sub_total">Fee
-                                                    <span style="margin-left:96px">:</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input style="text-align: end; font-size:14px;" type="text"
-                                                    class="form-control hasil_feeall" readonly id="hasil_feeall"
-                                                    name="hasil_feeall" placeholder=""
-                                                    value="{{ old('hasil_feeall') }}">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label style="font-size:14px; margin-top:0px" for="sub_total">Hasil
-                                                    Potongan Fee
-                                                    <span style="margin-left:5px">:</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input style="text-align: end; font-size:14px;" type="text"
-                                                    class="form-control hasil_potonganfee" readonly id="hasil_potonganfee"
-                                                    name="hasil_potonganfee" placeholder=""
-                                                    value="{{ old('hasil_potonganfee') }}">
+                                                    name="sub_total" placeholder="" value="{{ old('sub_total') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -398,13 +336,13 @@
                                             <div class="form-group">
                                                 <input style="text-align: end; font-size:14px;" type="text"
                                                     class="form-control pph2" readonly id="pph2" name="pph"
-                                                    placeholder="" value="{{ old('pph', $inquery->pph) }}">
+                                                    placeholder="" value="{{ old('pph') }}">
                                             </div>
                                         </div>
                                     </div>
                                     <div>
                                         <hr
-                                            style="border: 2px solid black; display: inline-block; width: 98%; vertical-align: middle;">
+                                            style="border: 2px solid black; display: inline-block; width: 97%; vertical-align: middle;">
                                         <span
                                             style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
                                     </div>
@@ -414,12 +352,15 @@
                                         Total <span style="margin-left:46px">:</span></label>
                                     <input style="text-align: end; margin:right:10px; font-size:14px;" type="text"
                                         class="form-control grand_total" readonly id="grand_total" name="grand_total"
-                                        placeholder="" value="{{ old('grand_total', $inquery->grand_total) }}">
+                                        placeholder="" value="{{ old('grand_total') }}">
                                 </div>
                             </div>
                             <div class="card-footer text-right">
-                                <button type="reset" class="btn btn-secondary">Reset</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                                <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                                <div id="loading" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -440,6 +381,7 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
+                                    {{-- <th>nomor</th> --}}
                                     <th>Kode Pelanggan</th>
                                     <th>Nama Pelanggan</th>
                                     <th>Alamat</th>
@@ -462,6 +404,7 @@
                                         <tr
                                             onclick="getSelectedDataPelanggan('{{ $faktur->pelanggan->id }}', '{{ $faktur->pelanggan->kode_pelanggan }}', '{{ $faktur->pelanggan->nama_pell }}', '{{ $faktur->pelanggan->alamat }}', '{{ $faktur->pelanggan->telp }}')">
                                             <td class="text-center">{{ $loop->iteration }}</td>
+                                            {{-- <td>{{ $faktur->pelanggan->id }}</td> --}}
                                             <td>{{ $faktur->pelanggan->kode_pelanggan }}</td>
                                             <td>{{ $faktur->pelanggan->nama_pell }}</td>
                                             <td>{{ $faktur->pelanggan->alamat }}</td>
@@ -572,50 +515,6 @@
         }
     </script>
 
-    {{-- filter kategori  --}}
-    <script>
-        $(document).ready(function() {
-            // Define a function to handle category filtering
-            function filterCategory(selectedCategory) {
-                // Loop through each row in the table
-                $('#datatables66 tbody tr').each(function() {
-                    // Get the category value of the current row
-                    var rowCategory = $(this).find('td:eq(5)')
-                        .text(); // Assuming category is in the 6th column (index 5)
-
-                    // Show or hide the row based on the selected category
-                    if (selectedCategory === '' || selectedCategory === rowCategory) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            }
-
-            // Listen for changes in the category dropdown
-            $('#kategori').change(function() {
-                // Get the selected category value
-                var selectedCategory = $(this).val();
-
-                // Call the filterCategory function
-                filterCategory(selectedCategory);
-            });
-
-            // Call the filterCategory function on page load
-            var selectedCategoryOnLoad = $('#kategori').val();
-            filterCategory(selectedCategoryOnLoad);
-        });
-
-
-        // Function to reset the modal content when it's closed
-        $('#tableMemo').on('hidden.bs.modal', function() {
-            // Show all rows
-            $('#datatables66 tbody tr').show();
-            // Reset the selected category in the dropdown
-            $('#kategori').val('');
-        });
-    </script>
-
     <script>
         var data_pembelian = @json(session('data_pembelians'));
         var jumlah_ban = 1;
@@ -630,63 +529,51 @@
             });
         }
 
-        function updateUrutan() {
-            var urutan = document.querySelectorAll('#urutan');
-            for (let i = 0; i < urutan.length; i++) {
-                urutan[i].innerText = i + 1;
-            }
-        }
-
-        var counter = 0;
-
         function addPesanan() {
-            counter++;
             jumlah_ban = jumlah_ban + 1;
 
             if (jumlah_ban === 1) {
                 $('#tabel-pembelian').empty();
-            } else {
-                // Find the last row and get its index to continue the numbering
-                var lastRow = $('#tabel-pembelian tr:last');
-                var lastRowIndex = lastRow.find('#urutan').text();
-                jumlah_ban = parseInt(lastRowIndex) + 1;
             }
 
-            console.log('Current jumlah_ban:', jumlah_ban);
             itemPembelian(jumlah_ban, jumlah_ban - 1);
-            updateUrutan();
         }
 
-        function removeBan(identifier, detailId) {
-            var row = document.getElementById('pembelian-' + identifier);
+        function removeBan(params) {
+            // Mengurangi jumlah ban
+            jumlah_ban = jumlah_ban - 1;
+
+            var tabel_pesanan = document.getElementById('tabel-pembelian');
+            var pembelian = document.getElementById('pembelian-' + params);
 
             // Mengambil kode faktur yang akan dihapus
-            var kode_faktur = row.querySelector('[id^="kode_faktur"]').value;
+            var kode_faktur = pembelian.querySelector('[id^="kode_faktur"]').value;
+
+            // Memanggil fungsi removeFaktur untuk menghapus kode faktur dari daftar yang sudah dipilih
             removeFaktur(kode_faktur);
 
-            row.remove();
+            // Menghapus elemen baris dari tabel
+            tabel_pesanan.removeChild(pembelian);
 
-            // console.log(detailId);
-
-            $.ajax({
-                url: "{{ url('admin/inquery_tagihanekspedisi/deletedetailtagihan/') }}/" + detailId,
-                type: "POST",
-                data: {
-                    _method: 'DELETE',
-                    _token: '{{ csrf_token() }}'
-                },
-                success: function(response) {
-                    console.log('Data deleted successfully');
-                },
-                error: function(error) {
-                    console.error('Failed to delete data:', error);
+            // Jika jumlah ban menjadi 0, tambahkan baris yang menyatakan memo belum ditambahkan
+            if (jumlah_ban === 0) {
+                var item_pembelian = '<tr>';
+                item_pembelian += '<td class="text-center" colspan="10">- Faktur belum ditambahkan -</td>';
+                item_pembelian += '</tr>';
+                $('#tabel-pembelian').html(item_pembelian);
+            } else {
+                // Memperbarui urutan item yang tersisa
+                var urutan = document.querySelectorAll('#urutan');
+                for (let i = 0; i < urutan.length; i++) {
+                    urutan[i].innerText = i + 1;
                 }
-            });
-            updateUrutan();
-            updateGrandTotal()
+            }
+
+            // Memperbarui total keseluruhan
+            updateGrandTotal();
         }
 
-        function itemPembelian(identifier, key, value = null) {
+        function itemPembelian(urutan, key, value = null) {
             var faktur_ekspedisi_id = '';
             var nama_rute = '';
             var tanggal_memo = '';
@@ -699,7 +586,6 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
-            var hasil_fee = '';
             var total = '';
 
             if (value !== null) {
@@ -715,65 +601,58 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
-                hasil_fee = value.hasil_fee;
                 total = value.total;
             }
 
             // urutan 
-            var item_pembelian = '<tr id="pembelian-' + identifier + '">';
-            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan">' + identifier +
-                '</td>';
+            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
+            item_pembelian += '<td style="width: 70px; font-size:14px" class="text-center" id="urutan-' + urutan + '">' +
+                urutan + '</td>';
 
             // faktur_ekspedisi_id 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="faktur_ekspedisi_id-' + identifier +
-                '" name="faktur_ekspedisi_id[]" value="' +
-                faktur_ekspedisi_id +
-                '" ';
+            item_pembelian += '<input type="text" class="form-control" id="faktur_ekspedisi_id-' + urutan +
+                '" name="faktur_ekspedisi_id[]" value="' + faktur_ekspedisi_id + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // nama_rute
-            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
+            // nama_rute 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="nama_rute-' +
-                identifier + '" name="nama_rute[]" value="' +
-                nama_rute +
-                '" ';
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_rute-' +
+                urutan +
+                '" name="nama_rute[]" value="' + nama_rute + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // tanggal_memo
-            item_pembelian += '<td >';
+            // tanggal_memo 
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="tanggal_memo-' +
-                identifier + '" name="tanggal_memo[]" value="' +
-                tanggal_memo +
-                '" ';
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" id="tanggal_memo-' +
+                urutan +
+                '" name="tanggal_memo[]" value="' + tanggal_memo + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // kode_faktur
-            item_pembelian += '<td style="width: 150px" onclick="MemoEkspedisi(' + identifier +
+            // kode_faktur 
+            item_pembelian += '<td style="width: 150px" onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="kode_faktur-' +
-                identifier + '" name="kode_faktur[]" value="' +
-                kode_faktur +
-                '" ';
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_faktur-' +
+                urutan +
+                '" name="kode_faktur[]" value="' + kode_faktur + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // no_memo
+            // no_memo 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_memo-' +
-                identifier +
-                '" name="no_memo[]" value="' +
-                no_memo +
-                '" ';
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="no_memo-' +
+                urutan +
+                '" name="no_memo[]" value="' + no_memo + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -781,7 +660,7 @@
             item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
             item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="no_do-' +
-                identifier +
+                urutan +
                 '" name="no_do[]" value="' + no_do + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -790,151 +669,112 @@
             // item_pembelian += '<td>';
             // item_pembelian += '<div class="form-group">'
             // item_pembelian += '<input type="text" class="form-control" style="font-size:14px" id="no_po-' +
-            //     identifier +
+            //     urutan +
             //     '" name="no_po[]" value="' + no_po + '" ';
             // item_pembelian += '</div>';
             // item_pembelian += '</td>';
 
-            // no_kabin
+            // no_kabin 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_kabin-' +
-                identifier + '" name="no_kabin[]" value="' +
-                no_kabin +
-                '" ';
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="no_kabin-' +
+                urutan +
+                '" name="no_kabin[]" value="' + no_kabin + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // no_pol
-            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
+            // no_pol 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="no_pol-' +
-                identifier +
-                '" name="no_pol[]" value="' +
-                no_pol +
-                '" ';
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="no_pol-' +
+                urutan +
+                '" name="no_pol[]" value="' + no_pol + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-
-            // jumlah
-            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
+            // jumlah 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="jumlah-' +
-                identifier +
-                '" name="jumlah[]" value="' +
-                jumlah +
-                '" ';
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="jumlah-' +
+                urutan +
+                '" name="jumlah[]" value="' + jumlah + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // satuan
+            // satuan 
             item_pembelian += '<td hidden>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="satuan-' +
-                identifier +
-                '" name="satuan[]" value="' +
-                satuan +
-                '" ';
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="satuan-' +
+                urutan +
+                '" name="satuan[]" value="' + satuan + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-
-            // harga
-            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
+            // harga 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="harga-' +
-                identifier +
-                '" name="harga[]" value="' +
-                harga +
-                '" ';
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="harga-' +
+                urutan +
+                '" name="harga[]" value="' + harga + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil_fee
-            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
+            // total 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="hasil_fee-' +
-                identifier +
-                '" name="hasil_fee[]" value="' +
-                hasil_fee +
-                '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-
-            // total
-            item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
-                ')">';
-            item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="total-' +
-                identifier +
-                '" name="total[]" value="' +
-                total +
-                '" ';
-            item_pembelian += '</div>';
-            item_pembelian += '</td>';
-
-            // delete
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="total-' +
+                urutan +
+                '" name="total[]" value="' + total + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
             item_pembelian += '<td style="width: 100px">';
-            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(' + identifier +
+            item_pembelian += '<button type="button" class="btn btn-primary btn-sm" onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<i class="fas fa-plus"></i>';
             item_pembelian += '</button>';
             item_pembelian +=
-                '<button  style="margin-left:10px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
-                identifier +
-                ')">';
+                '<button style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removeBan(' +
+                urutan + ')">';
             item_pembelian += '<i class="fas fa-trash"></i>';
             item_pembelian += '</button>';
             item_pembelian += '</td>';
             item_pembelian += '</tr>';
 
             $('#tabel-pembelian').append(item_pembelian);
-
         }
     </script>
 
     <script>
         var activeSpecificationIndex = 0;
-        var fakturAlreadySelected = [];
-
-        document.addEventListener('DOMContentLoaded', function() {
-            var tbody = document.getElementById('tabel-pembelian');
-            var inputs = tbody.querySelectorAll('input[name="kode_faktur[]"]');
-
-            inputs.forEach(function(input) {
-                fakturAlreadySelected.push(input.value);
-            });
-
-            console.log(fakturAlreadySelected); // Untuk memeriksa apakah array sudah terisi dengan benar
-        });
+        var fakturAlreadySelected = []; // Simpan daftar kode faktur yang sudah dipilih
 
         function MemoEkspedisi(param) {
             activeSpecificationIndex = param;
             // Show the modal and filter rows if necessary
             $('#tableMemo').modal('show');
-            console.log(param);
         }
 
         function getFaktur(rowIndex) {
             var selectedRow = $('#tablefaktur tbody tr:eq(' + rowIndex + ')');
             var faktur_ekspedisi_id = selectedRow.data('id');
             var kode_faktur = selectedRow.data('kode_faktur');
-
+            // Memeriksa apakah kode faktur sudah ada dalam daftar yang sudah dipilih
             if (fakturAlreadySelected.includes(kode_faktur)) {
                 alert('Kode faktur sudah dipilih sebelumnya.');
                 return;
             }
             fakturAlreadySelected.push(kode_faktur); // Menambahkan kode faktur ke daftar yang sudah dipilih
-
             var nama_rute = selectedRow.data('nama_rute');
             var kode_memo = selectedRow.data('kode_memo');
             var tanggal_awal = selectedRow.data('tanggal_awal');
@@ -943,10 +783,10 @@
             var jumlah = selectedRow.data('jumlah');
             var satuan = selectedRow.data('satuan');
             var harga = selectedRow.data('harga_tarif');
-            var hasil_fee = selectedRow.data('hasil_fee');
             var sub_total = selectedRow.data('total_tarif');
 
-            // Update the form fields for the active specification
+            // membuat validasi jika kode sudah ada 
+
             $('#faktur_ekspedisi_id-' + activeSpecificationIndex).val(faktur_ekspedisi_id);
             $('#kode_faktur-' + activeSpecificationIndex).val(kode_faktur);
             $('#nama_rute-' + activeSpecificationIndex).val(nama_rute);
@@ -956,32 +796,28 @@
             $('#no_pol-' + activeSpecificationIndex).val(no_pol);
             $('#jumlah-' + activeSpecificationIndex).val(jumlah);
             $('#satuan-' + activeSpecificationIndex).val(satuan);
-
-            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
-            // $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
             $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
-            }));
-            $('#hasil_fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
             }));
             $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
             }));
 
+            // $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID'));
+            // $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID'));
 
-            updateGrandTotal()
+            updateGrandTotal();
 
             $('#tableMemo').modal('hide');
         }
 
+
         function removeFaktur(kode_faktur) {
             var index = fakturAlreadySelected.indexOf(kode_faktur);
             if (index > -1) {
-                fakturAlreadySelected.splice(index, 1);
+                fakturAlreadySelected.splice(index, 1); // Menghapus kode faktur dari daftar
             }
         }
 
@@ -999,7 +835,6 @@
     <script>
         function updateGrandTotal() {
             var grandTotal = 0;
-            var hasil_fee = 0;
             var kategori = document.getElementById("kategori").value;
 
             // Loop through all elements with name "nominal_tambahan[]"
@@ -1009,29 +844,18 @@
                 grandTotal += parseFloat(nominalValue) || 0; // Convert to float and sum
             });
 
-            $('input[name^="hasil_fee"]').each(function() {
-                var nominalValuehasil_fee = $(this).val().replace(/\./g, '').replace(',',
-                    '.'); // Replace dots and convert comma to dot
-                hasil_fee += parseFloat(nominalValuehasil_fee) || 0; // Convert to float and sum
-            });
+            var pph2Value = grandTotal * 0.02;
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            $('#hasil_feeall').val(formatRupiah(hasil_fee));
-
-            var HasilPotonganfee = (kategori === "PPH") ? grandTotal - hasil_fee : grandTotal;
-
-            var pph2Value = HasilPotonganfee * 0.02;
             $('#pph2').val(pph2Value.toLocaleString('id-ID'));
 
-            // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
-            $('#hasil_potonganfee').val(formatRupiah(HasilPotonganfee));
-
             // Check the category and subtract pph2Value only if the category is "PPH"
-            var grandtotals = (kategori === "PPH") ? HasilPotonganfee - pph2Value : HasilPotonganfee;
+            var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
             // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
             $('#grand_total').val(formatRupiah(grandtotals));
+
         }
 
         $('body').on('input', 'input[name^="total"]', function() {
@@ -1081,6 +905,20 @@
         document.getElementById("kategori").addEventListener("change", updateGrandTotal);
     </script>
 
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
 
     <script>
         var tanggalAwal = document.getElementById('periode_awal');
@@ -1101,21 +939,43 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            // Detect the change event on the 'status' dropdown
+            $('#kategori').on('change', function() {
+                // Get the selected value
+                var selectedValue = $(this).val();
+
+                // Check the selected value and redirect accordingly
+                switch (selectedValue) {
+                    case 'PPH':
+                        window.location.href = "{{ url('admin/tagihan_ekspedisi') }}";
+                        break;
+                    case 'NON PPH':
+                        window.location.href = "{{ url('admin/indexnon') }}";
+                        break;
+                        // case 'akun':
+                        //     window.location.href = "{{ url('admin/laporan_pengeluarankaskecilakun') }}";
+                        //     break;
+                        // case 'memo_tambahan':
+                        //     window.location.href = "{{ url('admin/laporan_saldokas') }}";
+                        //     break;
+                    default:
+                        // Handle other cases or do nothing
+                        break;
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
             $('#pelanggan_id').on('input', function() {
                 var pelangganID = $(this).val();
 
-                // Jika pelangganID tidak ada, ambil dari nilai pelanggan_id
-                if (!pelangganID) {
-                    pelangganID = $('#pelanggan_id').attr('data-id');
-                }
-
                 if (pelangganID) {
                     $.ajax({
-                        url: "{{ url('admin/inquery_tagihanekspedisi/get_fakturtagihan') }}" +
-                            '/' +
+                        url: "{{ url('admin/tagihan_ekspedisi/get_fakturtagihan') }}" + '/' +
                             pelangganID,
                         type: "GET",
                         dataType: "json",
@@ -1133,7 +993,6 @@
                                         '" data-jumlah="' + faktur.jumlah +
                                         '" data-satuan="' + faktur.satuan +
                                         '" data-harga_tarif="' + faktur.harga_tarif +
-                                        '" data-hasil_fee="' + faktur.hasil_fee +
                                         '" data-total_tarif="' + (parseFloat(faktur
                                             .total_tarif) + parseFloat(faktur
                                             .biaya_tambahan)) +

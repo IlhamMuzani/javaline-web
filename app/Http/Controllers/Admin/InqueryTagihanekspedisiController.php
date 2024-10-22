@@ -173,6 +173,7 @@ class InqueryTagihanekspedisiController extends Controller
                     'jumlah' => $request->jumlah[$i] ?? '',
                     'satuan' => $request->satuan[$i] ?? '',
                     'harga' => $request->harga[$i] ?? '',
+                    'hasil_fee' => $request->hasil_fee[$i] ?? '',
                     'total' => $request->total[$i] ?? ''
                 ]);
             }
@@ -200,6 +201,8 @@ class InqueryTagihanekspedisiController extends Controller
             'periode_akhir' => $request->periode_akhir,
             'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
             'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+            'hasil_feeall' => str_replace(',', '.', str_replace('.', '', $request->hasil_feeall)),
+            'hasil_potonganfee' => str_replace(',', '.', str_replace('.', '', $request->hasil_potonganfee)),
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'keterangan' => $request->keterangan,
             'status' => 'posting',
@@ -223,6 +226,7 @@ class InqueryTagihanekspedisiController extends Controller
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
                     'harga' => str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                    'hasil_fee' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['hasil_fee'])),
                     'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]
             );

@@ -28,6 +28,7 @@ class Detail_tagihan extends Model
         'jumlah',
         'satuan',
         'harga',
+        'hasil_fee',
         'total',
         'gambar_buktifaktur',
         'nomor_buktifaktur',
@@ -53,6 +54,4 @@ class Detail_tagihan extends Model
     {
         return $this->belongsTo(Faktur_ekspedisi::class);
     }
-
-
 }

@@ -366,7 +366,28 @@
             <td class="td" style="text-align: right; padding-right: 23px; font-size: 14px;">Total</td>
         </tr>
         <!-- Add horizontal line below this row -->
+        @if ($cetakpdf->hasil_feeall != 0)
+            <tr>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                </td>
+                <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
+
+                </td>
+                <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
+                    Fee :
+                </td>
+                <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
+                    {{ number_format($cetakpdf->hasil_feeall, 0, ',', '.') }},00
+                </td>
+            </tr>
+        @endif
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 14px;">
 
@@ -383,9 +404,15 @@
             <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
                 Dasar Pengenaan Pajak (DPP) :
             </td>
-            <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
-                {{ number_format($totalRuteSum, 0, ',', '.') }},00
-            </td>
+            @if ($cetakpdf->hasil_feeall != 0)
+                <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
+                    {{ number_format($cetakpdf->hasil_potonganfee, 0, ',', '.') }},00
+                </td>
+            @else
+                <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
+                    {{ number_format($totalRuteSum, 0, ',', '.') }},00
+                </td>
+            @endif
         </tr>
 
         <tr>

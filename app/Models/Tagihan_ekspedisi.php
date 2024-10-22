@@ -29,6 +29,8 @@ class Tagihan_ekspedisi extends Model
         'sub_total',
         'pph',
         'sisa',
+        'hasil_feeall',
+        'hasil_potonganfee',
         'grand_total',
         'gambar_bukti',
         'nomor_buktitagihan',
@@ -72,7 +74,7 @@ class Tagihan_ekspedisi extends Model
     {
         return $this->hasMany(Detail_tagihan::class);
     }
-    
+
     public function detail_bukti()
     {
         return $this->hasMany(Detail_bukti::class);

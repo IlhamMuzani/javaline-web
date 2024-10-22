@@ -197,6 +197,7 @@
                                     <th style="font-size:14px">Qty</th>
                                     {{-- <th style="font-size:14px">Satuan</th> --}}
                                     <th style="font-size:14px">Harga</th>
+                                    <th style="font-size:14px">Hasil Fee</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
@@ -283,6 +284,12 @@
                                     <td>
                                         <div class="form-group">
                                             <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="hasil_fee-0" name="hasil_fee[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
                                                 type="text" class="form-control" id="total-0" name="total[]">
                                         </div>
                                     </td>
@@ -322,6 +329,39 @@
                                                 <input style="text-align: end; font-size:14px;" type="text"
                                                     class="form-control sub_total" readonly id="sub_total"
                                                     name="sub_total" placeholder="" value="{{ old('sub_total') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="sub_total">Fee
+                                                    <span style="margin-left:96px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control hasil_feeall" readonly id="hasil_feeall"
+                                                    name="hasil_feeall" placeholder=""
+                                                    value="{{ old('hasil_feeall') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:0px" for="sub_total">Hasil
+                                                    Potongan Fee
+                                                    <span style="margin-left:5px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control hasil_potonganfee" readonly id="hasil_potonganfee"
+                                                    name="hasil_potonganfee" placeholder=""
+                                                    value="{{ old('hasil_potonganfee') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -586,6 +626,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
+            var hasil_fee = '';
             var total = '';
 
             if (value !== null) {
@@ -601,6 +642,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
+                hasil_fee = value.hasil_fee;
                 total = value.total;
             }
 
@@ -727,6 +769,16 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // hasil fee 
+            item_pembelian += '<td">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="hasil_fee-' +
+                urutan +
+                '" name="hasil_fee[]" value="' + hasil_fee + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
             // total 
             item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
@@ -783,6 +835,7 @@
             var jumlah = selectedRow.data('jumlah');
             var satuan = selectedRow.data('satuan');
             var harga = selectedRow.data('harga_tarif');
+            var hasil_fee = selectedRow.data('hasil_fee');
             var sub_total = selectedRow.data('total_tarif');
 
             // membuat validasi jika kode sudah ada 
@@ -799,6 +852,10 @@
             $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
+            }));
+            $('#hasil_fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }));
             $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
@@ -835,6 +892,7 @@
     <script>
         function updateGrandTotal() {
             var grandTotal = 0;
+            var hasil_fee = 0;
             var kategori = document.getElementById("kategori").value;
 
             // Loop through all elements with name "nominal_tambahan[]"
@@ -844,15 +902,28 @@
                 grandTotal += parseFloat(nominalValue) || 0; // Convert to float and sum
             });
 
-            var pph2Value = grandTotal * 0.02;
+            $('input[name^="hasil_fee"]').each(function() {
+                var nominalValuehasil_fee = $(this).val().replace(/\./g, '').replace(',',
+                    '.'); // Replace dots and convert comma to dot
+                hasil_fee += parseFloat(nominalValuehasil_fee) || 0; // Convert to float and sum
+            });
+
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
+            $('#hasil_feeall').val(formatRupiah(hasil_fee));
+
+            var HasilPotonganfee = (kategori === "PPH") ? grandTotal - hasil_fee : grandTotal;
+
+            var pph2Value = HasilPotonganfee * 0.02;
             $('#pph2').val(pph2Value.toLocaleString('id-ID'));
 
+            // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
+            $('#hasil_potonganfee').val(formatRupiah(HasilPotonganfee));
+
             // Check the category and subtract pph2Value only if the category is "PPH"
-            var grandtotals = (kategori === "PPH") ? grandTotal - pph2Value : grandTotal;
+            var grandtotals = (kategori === "PPH") ? HasilPotonganfee - pph2Value : HasilPotonganfee;
             // $('#grand_total').val(grandtotals.toLocaleString('id-ID'));
             $('#grand_total').val(formatRupiah(grandtotals));
 
@@ -993,6 +1064,7 @@
                                         '" data-jumlah="' + faktur.jumlah +
                                         '" data-satuan="' + faktur.satuan +
                                         '" data-harga_tarif="' + faktur.harga_tarif +
+                                        '" data-hasil_fee="' + faktur.hasil_fee +
                                         '" data-total_tarif="' + (parseFloat(faktur
                                             .total_tarif) + parseFloat(faktur
                                             .biaya_tambahan)) +
