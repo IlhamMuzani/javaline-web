@@ -27,7 +27,7 @@
             /*font-family: 'DOSVGA', Arial, Helvetica, sans-serif;*/
             /*font-weight: bold;*/
             color: black;
-            margin-top: 10px;
+            margin-top: 40px;
             margin-left: 20px;
             margin-right: 20px;
         }
