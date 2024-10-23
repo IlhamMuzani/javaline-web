@@ -698,7 +698,17 @@
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td class="label">{{ $cetakpdf->pelanggan->karyawan->nama_lengkap ?? '.' }}</td>
+                            <td class="label">
+                                @if ($cetakpdf->karyawan)
+                                    {{ $cetakpdf->karyawan->nama_lengkap }}
+                                @else
+                                    @if ($cetakpdf->pelanggan->karyawan)
+                                        {{ $cetakpdf->pelanggan->karyawan->nama_lengkap }}
+                                    @else
+                                        -
+                                    @endif
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <td class="separator" colspan="2"><span></span></td>
