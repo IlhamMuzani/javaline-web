@@ -528,7 +528,7 @@
 
                     </td>
                     <td class="td" style="text-align: right; padding: 2px; font-size: 12px;">
-                        FEE {{ $cetakpdf->fee }}:
+                        FEE {{ $cetakpdf->fee }}%:
                     </td>
 
                     <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
