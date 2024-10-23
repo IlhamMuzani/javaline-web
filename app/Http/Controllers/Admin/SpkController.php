@@ -335,6 +335,7 @@ class SpkController extends Controller
                 'tanggal_awal' => $tanggal,
                 'tanggal' => $format_tanggal,
                 'status' => $status_pengambilan_do,
+                'akses_spk' => 1
             ]
         ));
 
@@ -342,10 +343,10 @@ class SpkController extends Controller
         if ($projects->status == 'posting') {
             $user = User::where('id', $cetakpdf->user_id)->first();
             $message = "Pengambilan DO Menunggu"  . PHP_EOL;
-            $message .= "Untuk upload surat jalan muat mohon di lokasi muat"  . PHP_EOL;
-            $message .= "dan untuk upload surat jalan bongkar mohon di lokasi bongkar"  . PHP_EOL;
-            $message .= "jika ada kendala bisa balas pesan ini"  . PHP_EOL;
-            $message .= "Terimakasih"  . PHP_EOL;
+            // $message .= "Untuk upload surat jalan muat mohon di lokasi muat"  . PHP_EOL;
+            // $message .= "dan untuk upload surat jalan bongkar mohon di lokasi bongkar"  . PHP_EOL;
+            // $message .= "jika ada kendala bisa balas pesan ini"  . PHP_EOL;
+            // $message .= "Terimakasih"  . PHP_EOL;
 
             $telp = Karyawan::where('id', $user->karyawan_id)->value('telp');
 

@@ -906,4 +906,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('akses_lokasi', \App\Http\Controllers\Admin\AkseslokasiController::class);
     Route::get('unpostfilterakses', [\App\Http\Controllers\Admin\AkseslokasiController::class, 'unpostfilterakses']);
     Route::get('postingfilterakses', [\App\Http\Controllers\Admin\AkseslokasiController::class, 'postingfilterakses']);
+
+    Route::resource('akses_spk', \App\Http\Controllers\Admin\AksesspkController::class);
+    Route::get('akses_spk/unpostaksesspk/{id}', [\App\Http\Controllers\Admin\AksesspkController::class, 'unpostaksesspk']);
+    Route::get('akses_spk/postingaksesspk/{id}', [\App\Http\Controllers\Admin\AksesspkController::class, 'postingaksesspk']);
+    Route::get('postingfilterspkakses', [\App\Http\Controllers\Admin\AksesspkController::class, 'postingfilterspkakses']);
+    Route::get('unpostfilterspkakses', [\App\Http\Controllers\Admin\AksesspkController::class, 'unpostfilterspkakses']);
 });

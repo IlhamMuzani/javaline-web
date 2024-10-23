@@ -40,6 +40,7 @@ class Pengambilan_do extends Model
         'waktu_suratawal',
         'waktu_suratakhir',
         'status_suratjalan',
+        'akses_spk',
         'tanggal',
         'tanggal_awal',
         'tanggal_akhir',
