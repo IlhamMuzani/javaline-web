@@ -769,8 +769,9 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil fee 
-            item_pembelian += '<td">';
+            // hasil_fee 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
                 '<input type="text" class="form-control" style="font-size:14px" readonly id="hasil_fee-' +
