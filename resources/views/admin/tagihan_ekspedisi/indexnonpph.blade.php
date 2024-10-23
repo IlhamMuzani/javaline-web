@@ -182,6 +182,7 @@
                                     <th style="font-size:14px">Qty</th>
                                     {{-- <th style="font-size:14px">Satuan</th> --}}
                                     <th style="font-size:14px">Harga</th>
+                                    <th style="font-size:14px">Hasil Fee</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
@@ -268,6 +269,12 @@
                                     <td>
                                         <div class="form-group">
                                             <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
+                                                type="text" class="form-control" id="hasil_fee-0" name="hasil_fee[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
                                                 type="text" class="form-control" id="total-0" name="total[]">
                                         </div>
                                     </td>
@@ -332,6 +339,39 @@
                                             style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
                                     </div>
                                 </div>
+                                 <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:5px" for="sub_total">Fee
+                                                    <span style="margin-left:96px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control hasil_feeall" readonly id="hasil_feeall"
+                                                    name="hasil_feeall" placeholder=""
+                                                    value="0">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label style="font-size:14px; margin-top:0px" for="sub_total">Hasil
+                                                    Potongan Fee
+                                                    <span style="margin-left:5px">:</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <input style="text-align: end; font-size:14px;" type="text"
+                                                    class="form-control hasil_potonganfee" readonly id="hasil_potonganfee"
+                                                    name="hasil_potonganfee" placeholder=""
+                                                    value="0">
+                                            </div>
+                                        </div>
+                                    </div>
                                 <div class="form-group">
                                     <label style="font-size:14px; margin-top:5px" for="grand_total">Grand
                                         Total <span style="margin-left:46px">:</span></label>
@@ -571,6 +611,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
+            var hasil_fee = '';
             var total = '';
 
             if (value !== null) {
@@ -586,6 +627,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
+                hasil_fee = value.hasil_fee;
                 total = value.total;
             }
 
@@ -712,6 +754,17 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
+            // hasil_fee 
+            item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="hasil_fee-' +
+                urutan +
+                '" name="hasil_fee[]" value="' + hasil_fee + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
             // total 
             item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
@@ -768,6 +821,7 @@
             var jumlah = selectedRow.data('jumlah');
             var satuan = selectedRow.data('satuan');
             var harga = selectedRow.data('harga_tarif');
+            var hasil_fee = selectedRow.data('hasil_fee');
             var sub_total = selectedRow.data('total_tarif');
 
             // membuat validasi jika kode sudah ada 
@@ -787,6 +841,10 @@
             $('#harga-' + activeSpecificationIndex).val(parseFloat(harga).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
+            }));
+            $('#hasil_fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
             }));
             $('#total-' + activeSpecificationIndex).val(parseFloat(sub_total).toLocaleString('id-ID', {
                 minimumFractionDigits: 10,
@@ -980,6 +1038,7 @@
                                         '" data-jumlah="' + faktur.jumlah +
                                         '" data-satuan="' + faktur.satuan +
                                         '" data-harga_tarif="' + faktur.harga_tarif +
+                                        '" data-hasil_fee="' + faktur.hasil_fee +
                                         '" data-total_tarif="' + (parseFloat(faktur
                                             .total_tarif) + parseFloat(faktur
                                             .biaya_tambahan)) +
