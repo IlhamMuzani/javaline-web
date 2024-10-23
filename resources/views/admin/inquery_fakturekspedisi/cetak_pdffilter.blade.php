@@ -543,7 +543,7 @@
                     </td>
 
                     <td class="td" style="text-align: right; padding-right: 23px; font-size: 12px;">
-                        {{ number_format($cetakpdf->total_tarif + $totalRuteSum - $hasil_fee, 2, ',', '.') }}
+                        {{ number_format($cetakpdf->total_tarif + $totalRuteSum - $cetakpdf->hasil_fee, 2, ',', '.') }}
 
                     </td>
                 </tr>
