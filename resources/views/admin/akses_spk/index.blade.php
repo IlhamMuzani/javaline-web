@@ -120,7 +120,8 @@
                                 <th>Kode Spk</th>
                                 <th>Tanggal</th>
                                 <th>Bag.input</th>
-                                <th>Sopir</th>
+                                <th>Kode Driver</th>
+                                <th>Driver</th>
                                 <th>No Kabin</th>
                                 <th>No Pol</th>
                                 <th>Pelanggan</th>
@@ -151,6 +152,7 @@
                                             tidak ada
                                         @endif
                                     </td>
+                                    <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
                                     <td>
                                         {{ $buktipotongpajak->spk->no_kabin }}
                                     </td>
