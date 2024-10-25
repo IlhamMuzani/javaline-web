@@ -381,7 +381,7 @@
 
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
-                    Fee {{ $cetakpdf->fee }}% :
+                    Fee {{ $cetakpdf->detail_tagihan->first()->faktur_ekspedisi->fee ?? null}}% :
                 </td>
                 <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
                     {{ number_format($cetakpdf->hasil_feeall, 0, ',', '.') }},00
