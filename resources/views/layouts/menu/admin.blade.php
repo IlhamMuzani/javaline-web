@@ -650,7 +650,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->menu['kendaraan'])
+        @if (auth()->check() && auth()->user()->menu['update km'])
             <li class="nav-item">
                 <a href="{{ url('admin/penerimaansuratjalan') }}"
                     class="nav-link {{ request()->is('admin/penerimaansuratjalan*') ? 'active' : '' }}">

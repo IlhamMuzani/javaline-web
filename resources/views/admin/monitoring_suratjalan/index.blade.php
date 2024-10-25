@@ -125,7 +125,7 @@
                         <tbody>
 
                             @foreach ($spks as $pengambilan_do)
-                                @if (is_null($pengambilan_do->waktu_suratakhir))
+                                {{-- @if (is_null($pengambilan_do->waktu_suratakhir)) --}}
                                     <!-- Kondisi untuk memeriksa waktu_suratakhir null -->
                                     <tr class="dropdown"{{ $pengambilan_do->id }}>
                                         <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
@@ -156,7 +156,7 @@
                                             @endif
                                         </td>
                                     </tr>
-                                @endif
+                                {{-- @endif --}}
                             @endforeach
                         </tbody>
                     </table>

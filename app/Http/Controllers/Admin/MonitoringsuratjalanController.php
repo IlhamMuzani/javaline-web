@@ -19,8 +19,9 @@ class MonitoringsuratjalanController extends Controller
 
         // Query dasar untuk mendapatkan data dengan status_suratjalan 'belum pulang'
         $spks = Pengambilan_do::with('kendaraan')
-        ->whereNotNull('spk_id')
-        ->where('status_suratjalan', 'belum pulang');
+            ->whereNotNull('spk_id')
+            ->where('status_suratjalan', 'belum pulang')
+            ->whereNull('waktu_suratakhir'); // Filter untuk waktu_suratakhir yang null
 
         // Filter berdasarkan nomor kabin kendaraan jika divisi dipilih
         if (!empty($divisi) && $divisi != 'All') {
