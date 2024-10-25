@@ -522,6 +522,7 @@
     request()->is('admin/pengambilan_do*') ||
     request()->is('admin/status_pemberiando*') ||
     request()->is('admin/monitoring_suratjalan*') ||
+    request()->is('admin/penerimaansuratjalan*') ||
     request()->is('admin/pemakaian_peralatan*')
         ? 'menu-open'
         : '' }}">
@@ -535,6 +536,7 @@
         request()->is('admin/pengambilan_do*') ||
         request()->is('admin/status_pemberiando*') ||
         request()->is('admin/monitoring_suratjalan*') ||
+        request()->is('admin/penerimaansuratjalan*') ||
         request()->is('admin/pemakaian_peralatan*')
             ? 'active'
             : '' }}">
@@ -617,7 +619,6 @@
                 </a>
             </li>
         @endif --}}
-
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/status_spk') }}"
@@ -627,6 +628,7 @@
                 </a>
             </li>
         @endif
+
         @if (auth()->check() && auth()->user()->menu['status perjalanan kendaraan'])
             <li class="nav-item">
                 <a href="{{ url('admin/status_perjalanan') }}"
@@ -645,6 +647,15 @@
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Monitoring Surat Jalan
                     </p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['kendaraan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/penerimaansuratjalan') }}"
+                    class="nav-link {{ request()->is('admin/penerimaansuratjalan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 13px;">Penerimaan Surat Jalan</p>
                 </a>
             </li>
         @endif
@@ -953,7 +964,7 @@
                 <a href="{{ url('admin/penerimaan_sj') }}"
                     class="nav-link {{ request()->is('admin/penerimaan_sj*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Penerimaan Surat Jalan</p>
+                    <p style="font-size: 12px;">Penerimaan Surat Jalan(Kantor)</p>
                 </a>
             </li>
         @endif

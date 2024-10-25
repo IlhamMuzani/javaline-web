@@ -118,6 +118,7 @@
                                 <th>TANGGAL</th>
                                 <th>No Kabin</th>
                                 <th>Nama Driver</th>
+                                <th>Posisi</th>
                                 <th>TIMER</th>
                             </tr>
                         </thead>
@@ -136,6 +137,7 @@
                                         <td>{{ $pengambilan_do->tanggal_awal }}</td>
                                         <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
                                         <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->penerima_sj ?? '-' }}</td>
                                         <td>
                                             @if ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
                                                 {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}

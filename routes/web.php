@@ -912,4 +912,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('akses_spk/postingaksesspk/{id}', [\App\Http\Controllers\Admin\AksesspkController::class, 'postingaksesspk']);
     Route::get('postingfilterspkakses', [\App\Http\Controllers\Admin\AksesspkController::class, 'postingfilterspkakses']);
     Route::get('unpostfilterspkakses', [\App\Http\Controllers\Admin\AksesspkController::class, 'unpostfilterspkakses']);
+
+    Route::resource('penerimaansuratjalan', \App\Http\Controllers\Admin\PenerimaansuratjalanController::class);
+    Route::get('penerimaansuratjalan/unpostpenerimaansuratsj/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanController::class, 'unpostpenerimaansuratsj']);
+    Route::get('penerimaansuratjalan/postingpenerimaansuratsj/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanController::class, 'postingpenerimaansuratsj']);
+
 });
