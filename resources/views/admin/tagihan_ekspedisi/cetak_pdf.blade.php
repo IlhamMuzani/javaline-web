@@ -401,7 +401,7 @@
 
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 10px;">
-                    Fee :
+                    Fee {{ $cetakpdf->fee }}% :
                 </td>
                 <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold">
                     {{ number_format($cetakpdf->hasil_feeall, 0, ',', '.') }},00
