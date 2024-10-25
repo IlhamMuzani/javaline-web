@@ -137,7 +137,13 @@
                                         <td>{{ $pengambilan_do->tanggal_awal }}</td>
                                         <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
                                         <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->penerima_sj ?? '-' }}</td>
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                {{ $pengambilan_do->penerima_sj ?? '-' }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
                                                 {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
