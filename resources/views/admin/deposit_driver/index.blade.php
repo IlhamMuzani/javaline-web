@@ -60,9 +60,11 @@
                             <label class="form-label" for="kategori">Pilih Kategori</label>
                             <select class="form-control" id="kategori" name="kategori">
                                 <option value="">- Pilih -</option>
-                                <option value="Pemasukan Deposit"
-                                    {{ old('kategori') == 'Pemasukan Deposit' ? 'selected' : null }}>
-                                    Pemasukan Deposit</option>
+                                @if (auth()->user()->id != 6)
+                                    <option value="Pemasukan Deposit"
+                                        {{ old('kategori') == 'Pemasukan Deposit' ? 'selected' : null }}>
+                                        Pemasukan Deposit</option>
+                                @endif
                                 <option value="Pengambilan Deposit"
                                     {{ old('kategori') == 'Pengambilan Deposit' ? 'selected' : null }}>
                                     Pengambilan Deposit</option>
