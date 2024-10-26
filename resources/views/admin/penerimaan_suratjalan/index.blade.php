@@ -115,12 +115,12 @@
                                     {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
                                     <th>No</th>
                                     <th>Kode Spk</th>
-                                    {{-- <th>Kode Memo</th> --}}
-                                    <th>Tanggal</th>
-                                    <th>Sopir</th>
-                                    <th>No Kabin</th>
                                     <th>Pelanggan</th>
                                     <th>Rute</th>
+                                    {{-- <th>Kode Memo</th> --}}
+                                    <th>Tanggal</th>
+                                    <th>No Kabin</th>
+                                    <th>Driver</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
