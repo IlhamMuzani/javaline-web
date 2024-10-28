@@ -186,7 +186,11 @@ class InquerySpkController extends Controller
         $spk->nama_pelanggan = $request->nama_pelanggan;
         $spk->alamat_pelanggan = $request->alamat_pelanggan;
         $spk->alamat_muat_id = $request->alamat_muat_id;
+        $spk->alamat_muat2_id = $request->alamat_muat2_id;
+        $spk->alamat_muat3_id = $request->alamat_muat3_id;
         $spk->alamat_bongkar_id = $request->alamat_bongkar_id;
+        $spk->alamat_bongkar2_id = $request->alamat_bongkar2_id;
+        $spk->alamat_bongkar3_id = $request->alamat_bongkar3_id;
         $spk->kode_pelanggan = $request->kode_pelanggan;
         $spk->nama_pelanggan = $request->nama_pelanggan;
         $spk->telp_pelanggan = $request->telp_pelanggan;
@@ -230,7 +234,11 @@ class InquerySpkController extends Controller
                     'rute_perjalanan_id' => $request->rute_perjalanan_id,
                     'user_id' => $request->user_id,
                     'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_muat2_id' => $request->alamat_muat2_id,
+                    'alamat_muat3_id' => $request->alamat_muat3_id,
                     'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                    'alamat_bongkar2_id' => $request->alamat_bongkar2_id,
+                    'alamat_bongkar3_id' => $request->alamat_bongkar3_id,
                     'status' => $status_pengambilan_do,
                 ]);
             } else {
@@ -240,7 +248,11 @@ class InquerySpkController extends Controller
                     'rute_perjalanan_id' => $request->rute_perjalanan_id,
                     'user_id' => $request->user_id,
                     'alamat_muat_id' => $request->alamat_muat_id,
+                    'alamat_muat2_id' => $request->alamat_muat2_id,
+                    'alamat_muat3_id' => $request->alamat_muat3_id,
                     'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                    'alamat_bongkar2_id' => $request->alamat_bongkar2_id,
+                    'alamat_bongkar3_id' => $request->alamat_bongkar3_id,
                 ]);
             }
         } else {

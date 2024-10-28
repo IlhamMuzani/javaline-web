@@ -241,7 +241,7 @@
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="card-title">Tujuan Muat</h3>
+                                            <h3 class="card-title">Tujuan Muat 1</h3>
                                         </div>
                                         <div class="card-body">
                                             <div class="form-group" hidden>
@@ -250,24 +250,32 @@
                                                     name="alamat_muat_id" placeholder=""
                                                     value="{{ old('alamat_muat_id') }}">
                                             </div>
-
-                                            <label style="font-size:14px" class="form-label" for="kode_alamatmuat">Kode
-                                                Tujuan Muat</label>
-                                            <div class="form-group d-flex">
-                                                <input onclick="showAlamatMuat(this.value)" class="form-control"
-                                                    id="kode_alamatmuat" name="kode_alamatmuat" type="text"
-                                                    placeholder="" value="{{ old('kode_alamatmuat') }}" readonly
-                                                    style="margin-right: 10px; font-size:14px" />
-                                                <button class="btn btn-primary" type="button"
-                                                    onclick="showAlamatMuat(this.value)">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </div>
-                                            <div class="form-group">
-                                                <label style="font-size:14px" for="alamat_muat">Tujuan Muat</label>
-                                                <input onclick="showAlamatMuat(this.value)" style="font-size:14px"
-                                                    type="text" class="form-control" id="alamat_muat" readonly
-                                                    name="alamat_muat" placeholder="" value="{{ old('alamat_muat') }}">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatmuat">Kode
+                                                        Tujuan Muat</label>
+                                                    <input onclick="showAlamatMuat(this.value)" class="form-control"
+                                                        id="kode_alamatmuat" name="kode_alamatmuat" type="text"
+                                                        placeholder="" value="{{ old('kode_alamatmuat') }}" readonly
+                                                        style="margin-right: 10px; font-size:14px" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatmuat">Kode
+                                                        Tujuan Muat</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatMuat(this.value)"
+                                                            style="margin-right: 10px; font-size:14px" type="text"
+                                                            class="form-control" id="alamat_muat" readonly
+                                                            name="alamat_muat" placeholder=""
+                                                            value="{{ old('alamat_muat') }}">
+                                                        <button class="btn btn-primary" type="button"
+                                                            onclick="showAlamatMuat(this.value)">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -275,7 +283,7 @@
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h3 class="card-title">Tujuan Bongkar</h3>
+                                            <h3 class="card-title">Tujuan Bongkar 1</h3>
                                         </div>
                                         <div class="card-body">
                                             <div class="form-group" hidden>
@@ -284,25 +292,214 @@
                                                     readonly name="alamat_bongkar_id" placeholder=""
                                                     value="{{ old('alamat_bongkar_id') }}">
                                             </div>
-                                            <label style="font-size:14px" class="form-label"
-                                                for="kode_alamatbongkar">Kode
-                                                Tujuan Bongkar</label>
-                                            <div class="form-group d-flex">
-                                                <input onclick="showAlamatBongkar(this.value)" class="form-control"
-                                                    id="kode_alamatbongkar" name="kode_alamatbongkar" type="text"
-                                                    placeholder="" value="{{ old('kode_alamatbongkar') }}" readonly
-                                                    style="margin-right: 10px; font-size:14px" />
-                                                <button class="btn btn-primary" type="button"
-                                                    onclick="showAlamatBongkar(this.value)">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatbongkar">Kode
+                                                        Tujuan Bongkar</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatBongkar(this.value)"
+                                                            class="form-control" id="kode_alamatbongkar"
+                                                            name="kode_alamatbongkar" type="text" placeholder=""
+                                                            value="{{ old('kode_alamatbongkar') }}" readonly
+                                                            style="margin-right: 0px; font-size:14px" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" for="alamat_bongkar">Tujuan
+                                                        Bongkar</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatBongkar(this.value)"
+                                                            style="margin-right: 10px; font-size:14px" type="text"
+                                                            class="form-control" id="alamat_bongkar" readonly
+                                                            name="alamat_bongkar" placeholder=""
+                                                            value="{{ old('alamat_bongkar') }}">
+                                                        <button class="btn btn-primary" type="button"
+                                                            onclick="showAlamatBongkar(this.value)">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label style="font-size:14px" for="alamat_bongkar">Tujuan Bongkar</label>
-                                                <input onclick="showAlamatBongkar(this.value)" style="font-size:14px"
-                                                    type="text" class="form-control" id="alamat_bongkar" readonly
-                                                    name="alamat_bongkar" placeholder=""
-                                                    value="{{ old('alamat_bongkar') }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Tujuan Muat 2</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group" hidden>
+                                                <label for="alamat_muat2_id">Tujuan Muat ID</label>
+                                                <input type="text" class="form-control" id="alamat_muat2_id" readonly
+                                                    name="alamat_muat2_id" placeholder=""
+                                                    value="{{ old('alamat_muat2_id') }}">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatmuat">Kode
+                                                        Tujuan Muat</label>
+                                                    <input onclick="showAlamatMuat2(this.value)" class="form-control"
+                                                        id="kode_alamatmuat2" name="kode_alamatmuat2" type="text"
+                                                        placeholder="" value="{{ old('kode_alamatmuat2') }}" readonly
+                                                        style="margin-right: 10px; font-size:14px" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatmuat2">Kode
+                                                        Tujuan Muat</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatMuat2(this.value)"
+                                                            style="margin-right: 10px; font-size:14px" type="text"
+                                                            class="form-control" id="alamat_muat2" readonly
+                                                            name="alamat_muat2" placeholder=""
+                                                            value="{{ old('alamat_muat2') }}">
+                                                        <button class="btn btn-primary" type="button"
+                                                            onclick="showAlamatMuat2(this.value)">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Tujuan Bongkar 2</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group" hidden>
+                                                <label for="alamat_bongkar_id">Tujuan Bongkar ID</label>
+                                                <input type="text" class="form-control" id="alamat_bongkar2_id"
+                                                    readonly name="alamat_bongkar2_id" placeholder=""
+                                                    value="{{ old('alamat_bongkar2_id') }}">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatbongkar2">Kode
+                                                        Tujuan Bongkar</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatBongkar2(this.value)"
+                                                            class="form-control" id="kode_alamatbongkar2"
+                                                            name="kode_alamatbongkar2" type="text" placeholder=""
+                                                            value="{{ old('kode_alamatbongkar2') }}" readonly
+                                                            style="margin-right: 0px; font-size:14px" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" for="alamat_bongkar">Tujuan
+                                                        Bongkar</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatBongkar2(this.value)"
+                                                            style="margin-right: 10px; font-size:14px" type="text"
+                                                            class="form-control" id="alamat_bongkar2" readonly
+                                                            name="alamat_bongkar2" placeholder=""
+                                                            value="{{ old('alamat_bongkar2') }}">
+                                                        <button class="btn btn-primary" type="button"
+                                                            onclick="showAlamatBongkar2(this.value)">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Tujuan Muat 3</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group" hidden>
+                                                <label for="alamat_muat3_id">Tujuan Muat ID</label>
+                                                <input type="text" class="form-control" id="alamat_muat3_id" readonly
+                                                    name="alamat_muat3_id" placeholder=""
+                                                    value="{{ old('alamat_muat3_id') }}">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatmuat3">Kode
+                                                        Tujuan Muat</label>
+                                                    <input onclick="showAlamatMuat3(this.value)" class="form-control"
+                                                        id="kode_alamatmuat3" name="kode_alamatmuat3" type="text"
+                                                        placeholder="" value="{{ old('kode_alamatmuat3') }}" readonly
+                                                        style="margin-right: 10px; font-size:14px" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatmuat3">Kode
+                                                        Tujuan Muat</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatMuat3(this.value)"
+                                                            style="margin-right: 10px; font-size:14px" type="text"
+                                                            class="form-control" id="alamat_muat3" readonly
+                                                            name="alamat_muat3" placeholder=""
+                                                            value="{{ old('alamat_muat3') }}">
+                                                        <button class="btn btn-primary" type="button"
+                                                            onclick="showAlamatMuat3(this.value)">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">Tujuan Bongkar 3</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="form-group" hidden>
+                                                <label for="alamat_bongkar3_id">Tujuan Bongkar ID</label>
+                                                <input type="text" class="form-control" id="alamat_bongkar3_id"
+                                                    readonly name="alamat_bongkar3_id" placeholder=""
+                                                    value="{{ old('alamat_bongkar3_id') }}">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" class="form-label"
+                                                        for="kode_alamatbongkar3">Kode
+                                                        Tujuan Bongkar</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatBongkar3(this.value)"
+                                                            class="form-control" id="kode_alamatbongkar3"
+                                                            name="kode_alamatbongkar3" type="text" placeholder=""
+                                                            value="{{ old('kode_alamatbongkar3') }}" readonly
+                                                            style="margin-right: 0px; font-size:14px" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label style="font-size:14px" for="alamat_bongkar3">Tujuan
+                                                        Bongkar</label>
+                                                    <div class="form-group d-flex">
+                                                        <input onclick="showAlamatBongkar3(this.value)"
+                                                            style="margin-right: 10px; font-size:14px" type="text"
+                                                            class="form-control" id="alamat_bongkar3" readonly
+                                                            name="alamat_bongkar3" placeholder=""
+                                                            value="{{ old('alamat_bongkar3') }}">
+                                                        <button class="btn btn-primary" type="button"
+                                                            onclick="showAlamatBongkar3(this.value)">
+                                                            <i class="fas fa-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -362,6 +559,97 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="tableAlamatmuat2" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Data Tujuan Muat</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="search-alamatmuat2" class="form-control"
+                                placeholder="Cari Alamat Muat">
+                            <br>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Tujuan Muat</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alamatmuat2-table-body">
+                                    @foreach ($alamat_muats as $alamat_muat)
+                                        <tr
+                                            onclick="getSelectedDataAlamatmuat2('{{ $alamat_muat->id }}', '{{ $alamat_muat->kode_alamat }}', '{{ $alamat_muat->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $alamat_muat->kode_alamat }}</td>
+                                            <td>{{ $alamat_muat->pelanggan->nama_pell ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_muat->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataAlamatmuat2('{{ $alamat_muat->id }}', '{{ $alamat_muat->kode_pelanggan }}', '{{ $alamat_muat->alamat }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="tableAlamatmuat3" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Data Tujuan Muat</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="search-alamatmuat3" class="form-control"
+                                placeholder="Cari Alamat Muat">
+                            <br>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Tujuan Muat</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alamatmuat3-table-body">
+                                    @foreach ($alamat_muats as $alamat_muat)
+                                        <tr
+                                            onclick="getSelectedDataAlamatmuat3('{{ $alamat_muat->id }}', '{{ $alamat_muat->kode_alamat }}', '{{ $alamat_muat->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $alamat_muat->kode_alamat }}</td>
+                                            <td>{{ $alamat_muat->pelanggan->nama_pell ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_muat->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataAlamatmuat3('{{ $alamat_muat->id }}', '{{ $alamat_muat->kode_pelanggan }}', '{{ $alamat_muat->alamat }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="modal fade" id="tableAlamatbongkar" data-backdrop="static">
                 <div class="modal-dialog modal-lg">
@@ -394,6 +682,98 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedDataAlamatbongkar('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_pelanggan }}', '{{ $alamat_bongkar->alamat }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="tableAlamatbongkar2" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Data Tujuan Bongkar</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="search-alamatbongkar2" class="form-control"
+                                placeholder="Cari Alamat Bongkar">
+                            <br>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Tujuan Bongkar</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alamatbongkar2-table-body">
+                                    @foreach ($alamat_bongkars as $alamat_bongkar)
+                                        <tr
+                                            onclick="getSelectedDataAlamatbongkar2('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_alamat }}', '{{ $alamat_bongkar->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $alamat_bongkar->kode_alamat }}</td>
+                                            <td>{{ $alamat_bongkar->pelanggan->nama_pell ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_bongkar->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataAlamatbongkar2('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_pelanggan }}', '{{ $alamat_bongkar->alamat }}')">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="tableAlamatbongkar3" data-backdrop="static">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Data Tujuan Bongkar</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" id="search-alamatbongkar3" class="form-control"
+                                placeholder="Cari Alamat Bongkar">
+                            <br>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Tujuan Bongkar</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Alamat</th>
+                                        <th>Opsi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="alamatbongkar3-table-body">
+                                    @foreach ($alamat_bongkars as $alamat_bongkar)
+                                        <tr
+                                            onclick="getSelectedDataAlamatbongkar3('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_alamat }}', '{{ $alamat_bongkar->alamat }}')">
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $alamat_bongkar->kode_alamat }}</td>
+                                            <td>{{ $alamat_bongkar->pelanggan->nama_pell ?? 'tidak ada' }}</td>
+                                            <td>{{ $alamat_bongkar->alamat }}</td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    onclick="getSelectedDataAlamatbongkar3('{{ $alamat_bongkar->id }}', '{{ $alamat_bongkar->kode_pelanggan }}', '{{ $alamat_bongkar->alamat }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -789,6 +1169,139 @@
             $('#tableAlamatbongkar').modal('hide');
         }
 
+        function showAlamatBongkar2(selectedCategory) {
+            $('#tableAlamatbongkar2').modal('show');
+        }
+
+        function getSelectedDataAlamatbongkar2(AlamatMuat_id, KodeAlamat, Alamats) {
+            // Set the values in the form fields
+            document.getElementById('alamat_bongkar2_id').value = AlamatMuat_id;
+            document.getElementById('kode_alamatbongkar2').value = KodeAlamat;
+            document.getElementById('alamat_bongkar2').value = Alamats;
+            // Close the modal (if needed)
+            $('#tableAlamatbongkar2').modal('hide');
+        }
+
+        function showAlamatBongkar3(selectedCategory) {
+            $('#tableAlamatbongkar3').modal('show');
+        }
+
+        function getSelectedDataAlamatbongkar3(AlamatMuat_id, KodeAlamat, Alamats) {
+            // Set the values in the form fields
+            document.getElementById('alamat_bongkar3_id').value = AlamatMuat_id;
+            document.getElementById('kode_alamatbongkar3').value = KodeAlamat;
+            document.getElementById('alamat_bongkar3').value = Alamats;
+            // Close the modal (if needed)
+            $('#tableAlamatbongkar3').modal('hide');
+        }
+
+
+        function showAlamatMuat2(selectedCategory) {
+            $('#tableAlamatmuat2').modal('show');
+        }
+
+        function getSelectedDataAlamatmuat2(AlamatMuat_id, KodeAlamat, Alamats) {
+            // Set the values in the form fields
+            document.getElementById('alamat_muat2_id').value = AlamatMuat_id;
+            document.getElementById('kode_alamatmuat2').value = KodeAlamat;
+            document.getElementById('alamat_muat2').value = Alamats;
+            // Close the modal (if needed)
+            $('#tableAlamatmuat2').modal('hide');
+        }
+
+        $(document).ready(function() {
+            $('#search-alamatmuat2').on('keyup', function() {
+                let query = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('search.alamatmuat') }}", // Route ke fungsi pencarian
+                    type: "GET",
+                    data: {
+                        'search': query
+                    },
+                    success: function(data) {
+                        // Update tbody dengan data yang diterima
+                        $('#alamatmuat2-table-body').html(data);
+                    },
+                    error: function() {
+                        alert('Terjadi kesalahan, mohon coba lagi.');
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            $('#search-alamatmuat3').on('keyup', function() {
+                let query = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('search.alamatmuat3') }}", // Route ke fungsi pencarian
+                    type: "GET",
+                    data: {
+                        'search': query
+                    },
+                    success: function(data) {
+                        // Update tbody dengan data yang diterima
+                        $('#alamatmuat3-table-body').html(data);
+                    },
+                    error: function() {
+                        alert('Terjadi kesalahan, mohon coba lagi.');
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            $('#search-alamatbongkar2').on('keyup', function() {
+                let query = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('search.alamatbongkar') }}", // Route ke fungsi pencarian
+                    type: "GET",
+                    data: {
+                        'search': query
+                    },
+                    success: function(data) {
+                        // Update tbody dengan data yang diterima
+                        $('#alamatbongkar2-table-body').html(data);
+                    },
+                    error: function() {
+                        alert('Terjadi kesalahan, mohon coba lagi.');
+                    }
+                });
+            });
+        });
+        $(document).ready(function() {
+            $('#search-alamatbongkar3').on('keyup', function() {
+                let query = $(this).val();
+
+                $.ajax({
+                    url: "{{ route('search.alamatbongkar3') }}", // Route ke fungsi pencarian
+                    type: "GET",
+                    data: {
+                        'search': query
+                    },
+                    success: function(data) {
+                        // Update tbody dengan data yang diterima
+                        $('#alamatbongkar3-table-body').html(data);
+                    },
+                    error: function() {
+                        alert('Terjadi kesalahan, mohon coba lagi.');
+                    }
+                });
+            });
+        });
+
+        function showAlamatMuat3(selectedCategory) {
+            $('#tableAlamatmuat3').modal('show');
+        }
+
+        function getSelectedDataAlamatmuat3(AlamatMuat_id, KodeAlamat, Alamats) {
+            // Set the values in the form fields
+            document.getElementById('alamat_muat3_id').value = AlamatMuat_id;
+            document.getElementById('kode_alamatmuat3').value = KodeAlamat;
+            document.getElementById('alamat_muat3').value = Alamats;
+            // Close the modal (if needed)
+            $('#tableAlamatmuat3').modal('hide');
+        }
 
         function showCategoryModalPelanggan(selectedCategory) {
             $('#tablePelanggan').modal('show');

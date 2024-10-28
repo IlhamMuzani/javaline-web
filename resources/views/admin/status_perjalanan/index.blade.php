@@ -205,7 +205,7 @@
                         </div>
                     </form>
                     <div class="table-responsive" style="overflow-x: auto;">
-                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                        <table id="datatables99" class="table table-bordered table-striped table-hover"
                             style="font-size: 10px; min-width: 1000px;">
                             <thead class="thead-dark">
                                 <tr>
@@ -467,6 +467,34 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#datatables99').DataTable({
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ],
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 0
+                    } // Kolom nomor urut tidak dapat diurutkan
+                ],
+                "order": [
+                    [1, 'asc']
+                ], // Urutan default mulai dari kolom ke-2
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    api.column(0, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i +
+                            1; // Mengisi ulang nomor urut berdasarkan urutan yang ditampilkan
+                    });
+                }
+            });
+        });
+    </script>
 
 
 @endsection

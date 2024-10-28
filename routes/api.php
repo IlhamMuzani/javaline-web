@@ -59,4 +59,9 @@ Route::post('pengambilan_do-bukti_fotoperbarui/{id}', [PengambilandoController::
 Route::post('pengambilan_do-bukti_fotoselesaiperbarui/{id}', [PengambilandoController::class, 'bukti_fotoselesaiperbarui']);
 Route::post('pengambilan_do-konfirmasi_selesai/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'konfirmasi_selesai']);
 
+Route::get('list-pengambilanall', [\App\Http\Controllers\Api\PengambilandoController::class, 'listAll']);
+Route::post('search-spk', [\App\Http\Controllers\Api\PengambilandoController::class, 'search']);
+Route::post('pengambilan_do-terima/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'terima']);
+Route::post('pengambilan_do-batal_terima/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'batal_terima']);
+
 // Route::apiResource('kendaraan', [KendaraanController::class, 'kendaraan_search'])->except('index');

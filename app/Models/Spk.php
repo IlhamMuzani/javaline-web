@@ -133,6 +133,7 @@ class Spk extends Model
         return $this->belongsTo(Alamat_bongkar::class, 'alamat_bongkar3_id'); // foreign key untuk alamat ketiga
     }
 
+
     public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class);

@@ -66,62 +66,6 @@ class SpkController extends Controller
         return view('admin.spk.create', compact('alamat_muats', 'alamat_bongkars', 'vendors', 'kendaraans', 'drivers', 'ruteperjalanans', 'pelanggans'));
     }
 
-    // public function ambil_km($id)
-    // {
-    //     $kendaraan = Kendaraan::find($id);
-
-    //     if ($kendaraan) {
-    //         $client = new Client();
-    //         $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-    //             'headers' => [
-    //                 'accept' => 'application/json',
-    //                 'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-    //                 'Content-Type' => 'application/json',
-    //             ],
-    //             'json' => [
-    //                 'list_vehicle_id' => [$kendaraan->list_vehicle_id], // Sesuaikan dengan field yang tepat dari tabel Kendaraan
-    //                 'list_nopol' => [],
-    //                 'list_no_aset' => [],
-    //                 'geo_code' => [],
-    //                 'min_lastupdate_hour' => null,
-    //                 'page' => 0,
-    //                 'encrypted' => 0,
-    //             ],
-    //         ]);
-
-    //         $data = json_decode($response->getBody()->getContents(), true);
-
-    //         if (isset($data['Data'][0]['vehicle_id'])) {
-    //             $vehicleId = $data['Data'][0]['vehicle_id'];
-
-    //             // Periksa apakah vehicle_id sama dengan list_vehicle_id
-    //             if ($vehicleId === $kendaraan->list_vehicle_id) {
-    //                 // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-    //                 $odometer = intval($data['Data'][0]['odometer'] ?? 0);
-
-    //                 return response()->json(['km' => $odometer]);
-    //             } else {
-    //                 $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-    //                 if ($response->successful()) {
-    //                     $vehicles = $response->json();
-    //                     $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-    //                     if ($matchedVehicle) {
-    //                         return response()->json(['km' => $matchedVehicle['odometer']]);
-    //                     } else {
-    //                         return response()->json(['km' => $kendaraan->km]);
-    //                     }
-    //                 }
-
-    //                 // return response()->json(['km' => $kendaraan->km]);
-    //             }
-    //         }
-    //     }
-
-    //     // Jika kendaraan tidak ditemukan, kembalikan response error
-    //     return response()->json(['error' => 'Kendaraan tidak ditemukan'], 404);
-    // }
-
     public function ambil_km($id)
     {
         $kendaraan = Kendaraan::find($id);
@@ -299,7 +243,11 @@ class SpkController extends Controller
                 'user_id' => $request->user_id,
                 'pelanggan_id' => $request->pelanggan_id,
                 'alamat_muat_id' => $request->alamat_muat_id,
+                'alamat_muat2_id' => $request->alamat_muat2_id,
+                'alamat_muat3_id' => $request->alamat_muat3_id,
                 'alamat_bongkar_id' => $request->alamat_bongkar_id,
+                'alamat_bongkar2_id' => $request->alamat_bongkar2_id,
+                'alamat_bongkar3_id' => $request->alamat_bongkar3_id,
                 'vendor_id' => $request->vendor_id,
                 'kendaraan_id' => $request->kendaraan_id,
                 'no_kabin' => $request->no_kabin,
@@ -335,6 +283,7 @@ class SpkController extends Controller
                 'tanggal_awal' => $tanggal,
                 'tanggal' => $format_tanggal,
                 'status' => $status_pengambilan_do,
+                'status_penerimaansj' => 'unpost',
                 'akses_spk' => 1
             ]
         ));
@@ -404,5 +353,139 @@ class SpkController extends Controller
         $result = json_decode(curl_exec($curl));
 
         return $result;
+    }
+
+
+    public function searchAlamatMuat(Request $request)
+    {
+        $query = $request->input('search');
+
+        // Lakukan pencarian berdasarkan kode atau alamat pelanggan
+        $alamat_muats = Alamat_muat::where('kode_alamat', 'LIKE', "%{$query}%")
+            ->orWhere('alamat', 'LIKE', "%{$query}%")
+            ->orWhereHas('pelanggan', function ($q) use ($query) {
+                $q->where('nama_pell', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        // Kembalikan HTML untuk update tabel
+        $html = '';
+        foreach ($alamat_muats as $index => $alamat_muat) {
+            $html .= '
+        <tr onclick="getSelectedDataAlamatmuat2(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+            <td class="text-center">' . ($index + 1) . '</td>
+            <td>' . $alamat_muat->kode_alamat . '</td>
+            <td>' . ($alamat_muat->pelanggan->nama_pell ?? 'tidak ada') . '</td>
+            <td>' . $alamat_muat->alamat . '</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-primary btn-sm" onclick="getSelectedDataAlamatmuat2(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </td>
+        </tr>
+    ';
+        }
+
+        return response()->json($html);
+    }
+
+    public function searchAlamatMuat3(Request $request)
+    {
+        $query = $request->input('search');
+
+        // Lakukan pencarian berdasarkan kode atau alamat pelanggan
+        $alamat_muats = Alamat_muat::where('kode_alamat', 'LIKE', "%{$query}%")
+            ->orWhere('alamat', 'LIKE', "%{$query}%")
+            ->orWhereHas('pelanggan', function ($q) use ($query) {
+                $q->where('nama_pell', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        // Kembalikan HTML untuk update tabel
+        $html = '';
+        foreach ($alamat_muats as $index => $alamat_muat) {
+            $html .= '
+        <tr onclick="getSelectedDataAlamatmuat3(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+            <td class="text-center">' . ($index + 1) . '</td>
+            <td>' . $alamat_muat->kode_alamat . '</td>
+            <td>' . ($alamat_muat->pelanggan->nama_pell ?? 'tidak ada') . '</td>
+            <td>' . $alamat_muat->alamat . '</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-primary btn-sm" onclick="getSelectedDataAlamatmuat3(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </td>
+        </tr>
+    ';
+        }
+
+        return response()->json($html);
+    }
+
+
+    public function searchAlamatBongkar(Request $request)
+    {
+        $query = $request->input('search');
+
+        // Lakukan pencarian berdasarkan kode atau alamat pelanggan
+        $alamat_muats = Alamat_bongkar::where('kode_alamat', 'LIKE', "%{$query}%")
+            ->orWhere('alamat', 'LIKE', "%{$query}%")
+            ->orWhereHas('pelanggan', function ($q) use ($query) {
+                $q->where('nama_pell', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        // Kembalikan HTML untuk update tabel
+        $html = '';
+        foreach ($alamat_muats as $index => $alamat_muat) {
+            $html .= '
+        <tr onclick="getSelectedDataAlamatbongkar2(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+            <td class="text-center">' . ($index + 1) . '</td>
+            <td>' . $alamat_muat->kode_alamat . '</td>
+            <td>' . ($alamat_muat->pelanggan->nama_pell ?? 'tidak ada') . '</td>
+            <td>' . $alamat_muat->alamat . '</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-primary btn-sm" onclick="getSelectedDataAlamatbongkar2(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </td>
+        </tr>
+    ';
+        }
+
+        return response()->json($html);
+    }
+
+    public function searchAlamatBongkar3(Request $request)
+    {
+        $query = $request->input('search');
+
+        // Lakukan pencarian berdasarkan kode atau alamat pelanggan
+        $alamat_muats = Alamat_bongkar::where('kode_alamat', 'LIKE', "%{$query}%")
+            ->orWhere('alamat', 'LIKE', "%{$query}%")
+            ->orWhereHas('pelanggan', function ($q) use ($query) {
+                $q->where('nama_pell', 'LIKE', "%{$query}%");
+            })
+            ->get();
+
+        // Kembalikan HTML untuk update tabel
+        $html = '';
+        foreach ($alamat_muats as $index => $alamat_muat) {
+            $html .= '
+        <tr onclick="getSelectedDataAlamatbongkar3(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+            <td class="text-center">' . ($index + 1) . '</td>
+            <td>' . $alamat_muat->kode_alamat . '</td>
+            <td>' . ($alamat_muat->pelanggan->nama_pell ?? 'tidak ada') . '</td>
+            <td>' . $alamat_muat->alamat . '</td>
+            <td class="text-center">
+                <button type="button" class="btn btn-primary btn-sm" onclick="getSelectedDataAlamatbongkar3(\'' . $alamat_muat->id . '\', \'' . $alamat_muat->kode_alamat . '\', \'' . $alamat_muat->alamat . '\')">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </td>
+        </tr>
+    ';
+        }
+
+        return response()->json($html);
     }
 }

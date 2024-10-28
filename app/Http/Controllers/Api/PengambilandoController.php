@@ -13,42 +13,58 @@ use App\Models\Spk;
 use App\Models\Timer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
 class PengambilandoController extends Controller
 {
 
-    // public function list($id)
-    // {
-    //     // Mengambil data Pengambilan_do berdasarkan user_id dan status
-    //     $pengambilando = Pengambilan_do::where([
-    //         ['user_id', $id],
-    //         ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
-    //     ])
-    //         ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
-    //         ->orderByRaw("
-    //     CASE 
-    //         WHEN status = 'posting' THEN 1
-    //         WHEN status <> 'selesai' THEN 2
-    //         WHEN status = 'selesai' THEN 3
-    //         ELSE 4
-    //     END
-    // ") // Urutkan berdasarkan status
-    //         ->orderByRaw("CASE WHEN status = 'posting' THEN created_at END DESC") // Urutkan berdasarkan created_at untuk status 'posting' (terbaru dulu)
-    //         ->orderBy('id', 'asc') // Order by ID to ensure consistent ordering
-    //         ->get();
+    public function listAll()
+    {
 
-    //     if ($pengambilando->isNotEmpty()) { // Check if there are any records
-    //         return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilando);
-    //     } else {
-    //         return $this->response(
-    //             FALSE,
-    //             ['Gagal menampilkan data!']
-    //         );
-    //     }
-    // }
+        $pengambilando = Pengambilan_do::with(['user.karyawan', 'kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+            ->whereNotNull('spk_id')
+            ->where('status_suratjalan', 'belum pulang')
+            ->whereNull('waktu_suratakhir'); // Filter untuk waktu_suratakhir yang null
+
+        // Filter berdasarkan nomor kabin kendaraan jika divisi dipilih
+        if (!empty($divisi) && $divisi != 'All') {
+            $pengambilando->whereHas('kendaraan', function ($query) use ($divisi) {
+                $query->where('no_kabin', 'LIKE', $divisi . '%');
+            });
+        }
+
+        // Mengurutkan berdasarkan id secara ascending
+        $pengambilando = $pengambilando->orderBy('waktu_suratawal', 'ASC')->get();
+
+        // Perulangan untuk menghitung durasi di controller
+        foreach ($pengambilando as $spk) {
+            if ($spk->waktu_suratawal) {
+                $waktu_awal = Carbon::parse($spk->waktu_suratawal);
+                $waktu_akhir = $spk->waktu_suratakhir ? Carbon::parse($spk->waktu_suratakhir) : Carbon::now();
+                $durasi = $waktu_awal->diff($waktu_akhir);
+                $spk->durasi_hari = $durasi->days;
+                $spk->durasi_jam = $durasi->h;
+                $spk->durasi_menit = $durasi->i;
+                $spk->durasi_detik = $durasi->s;
+            } else {
+                $spk->durasi_hari = '-';
+                $spk->durasi_jam = '-';
+                $spk->durasi_menit = '-';
+                $spk->durasi_detik = '-';
+            }
+        }
+
+        if ($pengambilando->isNotEmpty()) { // Check if there are any records
+            return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilando);
+        } else {
+            return $this->response(
+                FALSE,
+                ['Gagal menampilkan data!']
+            );
+        }
+    }
 
     public function list($id)
     {
@@ -57,7 +73,7 @@ class PengambilandoController extends Controller
             ['user_id', $id],
             ['status', '<>', 'unpost'] // Filter out entries where status is 'unpost'
         ])
-            ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+            ->with(['kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_muat2', 'alamat_muat3', 'alamat_bongkar', 'alamat_bongkar2', 'alamat_bongkar3', 'spk.pelanggan'])
             ->orderByRaw("
         CASE 
             WHEN status = 'posting' THEN 1
@@ -81,6 +97,84 @@ class PengambilandoController extends Controller
         }
     }
 
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+
+        // Pencarian data pengambilan_do berdasarkan relasi dengan tabel spk, kendaraan, pelanggan, dan rute_perjalanan
+        $pengambilan_do = Pengambilan_do::with(['user.karyawan', 'kendaraan', 'rute_perjalanan', 'alamat_muat', 'alamat_bongkar', 'spk.pelanggan'])
+            ->whereNotNull('spk_id')
+            ->where('status_suratjalan', 'belum pulang')
+            ->whereNull('waktu_suratakhir')
+            ->where(function ($query) use ($keyword) {
+                $query->whereHas('spk', function ($spkQuery) use ($keyword) {
+                    $spkQuery->where('kode_spk', 'like', '%' . $keyword . '%')
+                        ->orWhere('nama_driver', 'like', '%' . $keyword . '%')
+                        ->orWhereHas('pelanggan', function ($pelangganQuery) use ($keyword) {
+                            $pelangganQuery->where('nama_pell', 'like', '%' . $keyword . '%');
+                        });
+                })
+                    ->orWhereHas('kendaraan', function ($kendaraanQuery) use ($keyword) {
+                        $kendaraanQuery->where('no_kabin', 'like', '%' . $keyword . '%');
+                    })
+                    ->orWhereHas('rute_perjalanan', function ($ruteQuery) use ($keyword) {
+                        $ruteQuery->where('nama_rute', 'like', '%' . $keyword . '%');
+                    });
+            })
+            ->get();
+
+        // Cek apakah data ditemukan
+        if ($pengambilan_do->isNotEmpty()) {
+            return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilan_do);
+        } else {
+            return $this->response(FALSE, ['Gagal menampilkan data!']);
+        }
+    }
+
+
+    public function terima(Request $request, $id)
+    {
+        $pengambilan = Pengambilan_do::findOrFail($id);
+        $pengambilan->update([
+            'status_penerimaansj' => 'posting',
+            'penerima_sj' => $request->penerima_sj,
+        ]);
+
+        if ($pengambilan) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Status Berhasil',
+            ]);
+        } else {
+            // Lakukan penanganan error yang sesuai jika update gagal
+            return response()->json([
+                'status' => false,
+                'msg' => 'Gagal memperbarui status',
+            ], 500);
+        }
+    }
+
+    public function batal_terima(Request $request, $id)
+    {
+        $pengambilan = Pengambilan_do::findOrFail($id);
+        $pengambilan->update([
+            'status_penerimaansj' => 'unpost',
+            'penerima_sj' => $request->penerima_sj,
+        ]);
+
+        if ($pengambilan) {
+            return response()->json([
+                'status' => true,
+                'msg' => 'Status Berhasil',
+            ]);
+        } else {
+            // Lakukan penanganan error yang sesuai jika update gagal
+            return response()->json([
+                'status' => false,
+                'msg' => 'Gagal memperbarui status',
+            ], 500);
+        }
+    }
 
     public function response($status, $message, $data = null)
     {
@@ -483,6 +577,16 @@ class PengambilandoController extends Controller
                 )->first();
                 // Temukan objek Kendaraan berdasarkan kendaraan_id dari pengambilan_do
 
+                $alamat_muat2 = null;
+                $alamat_muat3 = null;
+
+                if ($pengambilan_do->alamat_muat2_id != null) {
+                    $alamat_muat2 = Alamat_muat::where('id', $pengambilan_do->alamat_muat2_id)->first();
+                }
+                if ($pengambilan_do->alamat_muat3_id != null) {
+                    $alamat_muat3 = Alamat_muat::where('id', $pengambilan_do->alamat_muat3_id)->first();
+                }
+
                 $latitude_do = $alamat_muat->latitude;
                 $longitude_do = $alamat_muat->longitude;
 
@@ -504,6 +608,16 @@ class PengambilandoController extends Controller
                 }
 
                 $allowedRadius = $jarak_titik->jarak;
+
+                // Jika jarak dari alamat pertama terlalu jauh, cek alamat kedua (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat2 != null) {
+                    $distance = $this->calculateDistance($alamat_muat2->latitude, $alamat_muat2->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
+                // Jika jarak dari alamat kedua terlalu jauh, cek alamat ketiga (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat3 != null) {
+                    $distance = $this->calculateDistance($alamat_muat3->latitude, $alamat_muat3->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
 
                 // Jika jarak lebih dari allowedRadius, kembalikan respon bahwa kendaraan masih jauh
                 if ($distance > $allowedRadius) {
@@ -795,6 +909,16 @@ class PengambilandoController extends Controller
                 )->first();
                 // Temukan objek Kendaraan berdasarkan kendaraan_id dari pengambilan_do
 
+                $alamat_muat2 = null;
+                $alamat_muat3 = null;
+
+                if ($pengambilan_do->alamat_bongkar2_id != null) {
+                    $alamat_muat2 = Alamat_bongkar::where('id', $pengambilan_do->alamat_bongkar2_id)->first();
+                }
+                if ($pengambilan_do->alamat_bongkar3_id != null) {
+                    $alamat_muat3 = Alamat_bongkar::where('id', $pengambilan_do->alamat_bongkar3_id)->first();
+                }
+
                 $latitude_do = $alamat_muat->latitude;
                 $longitude_do = $alamat_muat->longitude;
 
@@ -817,6 +941,16 @@ class PengambilandoController extends Controller
 
                 $allowedRadius = $jarak_titik->jarak;
 
+                // Jika jarak dari alamat pertama terlalu jauh, cek alamat kedua (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat2 != null) {
+                    $distance = $this->calculateDistance($alamat_muat2->latitude, $alamat_muat2->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
+                // Jika jarak dari alamat kedua terlalu jauh, cek alamat ketiga (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat3 != null) {
+                    $distance = $this->calculateDistance($alamat_muat3->latitude, $alamat_muat3->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
                 // Jika jarak lebih dari allowedRadius, kembalikan respon bahwa kendaraan masih jauh
                 if ($distance > $allowedRadius) {
                     return response()->json([
@@ -825,13 +959,13 @@ class PengambilandoController extends Controller
                     ], 200);
                 }
             }
-            // Validasi bahwa file diupload
-            if (!$request->hasFile('bukti') || !$request->file('bukti')->isValid()) {
-                return response()->json([
-                    'status' => false,
-                    'msg' => 'File bukti tidak valid.',
-                ], 200);
-            }
+        }
+        // Validasi bahwa file diupload
+        if (!$request->hasFile('bukti') || !$request->file('bukti')->isValid()) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'File bukti tidak valid.',
+            ], 200);
         }
 
         // Menyiapkan nama file untuk penyimpanan
@@ -1123,7 +1257,6 @@ class PengambilandoController extends Controller
             'msg' => 'Status Berhasil',
         ]);
     }
-
 
     public function detail($id)
     {

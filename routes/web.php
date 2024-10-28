@@ -917,4 +917,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('penerimaansuratjalan/unpostpenerimaansuratsj/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanController::class, 'unpostpenerimaansuratsj']);
     Route::get('penerimaansuratjalan/postingpenerimaansuratsj/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanController::class, 'postingpenerimaansuratsj']);
 
+    Route::get('search-alamatmuat', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatMuat'])->name('search.alamatmuat');
+    Route::get('search-alamatmuat3', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatMuat3'])->name('search.alamatmuat3');
+    Route::get('search-alamatbongkar', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatBongkar'])->name('search.alamatbongkar');
+    Route::get('search-alamatbongkar3', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatBongkar3'])->name('search.alamatbongkar3');
+    Route::get('ambil_lokasi', [\App\Http\Controllers\Admin\AlamatmuatController::class, 'ambil_lokasi'])->name('ambil_lokasi');
+
+
 });

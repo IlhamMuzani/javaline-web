@@ -166,9 +166,19 @@ class DriverController extends Controller
         $pengambilan_do = $kendaraan->latestpengambilan_do;
         $alamat_muat = Alamat_muat::where('id', $pengambilan_do->alamat_muat_id)->first();
 
+        $alamat_muat2 = null;
+        $alamat_muat3 = null;
+
+        if ($pengambilan_do->alamat_muat2_id != null) {
+            $alamat_muat2 = Alamat_muat::where('id', $pengambilan_do->alamat_muat2_id)->first();
+        }
+        if ($pengambilan_do->alamat_muat3_id != null) {
+            $alamat_muat3 = Alamat_muat::where('id', $pengambilan_do->alamat_muat3_id)->first();
+        }
 
         if ($kendaraan->akses_lokasi == 1) {
             if ($pengambilan_do->akses_spk == 1) {
+
                 if ($kendaraan->gpsid != null) {
                     if ($kendaraan) {
                         try {
@@ -292,13 +302,11 @@ class DriverController extends Controller
                     }
                 }
 
-                $latitude_do = $alamat_muat->latitude;
-                $longitude_do = $alamat_muat->longitude;
-
                 $latitude_kendaraan = $kendaraan->latitude;
                 $longitude_kendaraan = $kendaraan->longitude;
 
-                $distance = $this->calculateDistance($latitude_do, $longitude_do, $latitude_kendaraan, $longitude_kendaraan);
+                // Cek jarak dari alamat pertama
+                $distance = $this->calculateDistance($alamat_muat->latitude, $alamat_muat->longitude, $latitude_kendaraan, $longitude_kendaraan);
 
                 // Ambil radius yang diperbolehkan dari kolom 'jarak'
                 $jarak_titik = Jarak_titik::first();
@@ -306,12 +314,22 @@ class DriverController extends Controller
                     return response()->json([
                         'status' => false,
                         'msg' => 'Nilai jarak tidak valid.',
-                    ], 200); // Jika tidak ada nilai jarak yang valid, kembalikan error
+                    ], 200);
                 }
 
                 $allowedRadius = $jarak_titik->jarak;
 
-                // Jika jarak lebih dari allowedRadius, kembalikan respon bahwa kendaraan masih jauh
+                // Jika jarak dari alamat pertama terlalu jauh, cek alamat kedua (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat2 != null) {
+                    $distance = $this->calculateDistance($alamat_muat2->latitude, $alamat_muat2->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
+                // Jika jarak dari alamat kedua terlalu jauh, cek alamat ketiga (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat3 != null) {
+                    $distance = $this->calculateDistance($alamat_muat3->latitude, $alamat_muat3->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
+                // Jika jarak masih lebih dari allowedRadius setelah cek ketiga lokasi, kembalikan respon
                 if ($distance > $allowedRadius) {
                     return response()->json([
                         'status' => false,
@@ -320,6 +338,7 @@ class DriverController extends Controller
                 }
             }
         }
+
 
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
@@ -643,6 +662,16 @@ class DriverController extends Controller
         $pengambilan_do = $kendaraan->latestpengambilan_do;
         $alamat_muat = Alamat_bongkar::where('id', $pengambilan_do->alamat_bongkar_id)->first();
 
+        $alamat_muat2 = null;
+        $alamat_muat3 = null;
+
+        if ($pengambilan_do->alamat_bongkar2_id != null) {
+            $alamat_muat2 = Alamat_bongkar::where('id', $pengambilan_do->alamat_bongkar2_id)->first();
+        }
+        if ($pengambilan_do->alamat_bongkar3_id != null) {
+            $alamat_muat3 = Alamat_bongkar::where('id', $pengambilan_do->alamat_bongkar3_id)->first();
+        }
+
         if ($kendaraan->akses_lokasi == 1) {
             if ($pengambilan_do->akses_spk == 1) {
 
@@ -786,9 +815,20 @@ class DriverController extends Controller
                     ], 200); // Jika tidak ada nilai jarak yang valid, kembalikan error
                 }
 
+
                 $allowedRadius = $jarak_titik->jarak;
 
-                // Jika jarak lebih dari allowedRadius, kembalikan respon bahwa kendaraan masih jauh
+                // Jika jarak dari alamat pertama terlalu jauh, cek alamat kedua (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat2 != null) {
+                    $distance = $this->calculateDistance($alamat_muat2->latitude, $alamat_muat2->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
+                // Jika jarak dari alamat kedua terlalu jauh, cek alamat ketiga (jika ada)
+                if ($distance > $allowedRadius && $alamat_muat3 != null) {
+                    $distance = $this->calculateDistance($alamat_muat3->latitude, $alamat_muat3->longitude, $latitude_kendaraan, $longitude_kendaraan);
+                }
+
+                // Jika jarak masih lebih dari allowedRadius setelah cek ketiga lokasi, kembalikan respon
                 if ($distance > $allowedRadius) {
                     return response()->json([
                         'status' => false,
@@ -797,6 +837,7 @@ class DriverController extends Controller
                 }
             }
         }
+
         $currentStatusPerjalanan = $kendaraan->status_perjalanan;
         $currentTimer = $kendaraan->waktu;
 

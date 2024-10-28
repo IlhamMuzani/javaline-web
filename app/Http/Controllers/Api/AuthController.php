@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         $user = User::where('kode_user', $kode_user)
             ->whereHas('karyawan', function ($query) {
-                $query->where('departemen_id', 2);
+                $query->whereIn('departemen_id', [2, 5]); // Mengizinkan departemen 2 dan 5
             })
             ->first();
         if ($user) {
