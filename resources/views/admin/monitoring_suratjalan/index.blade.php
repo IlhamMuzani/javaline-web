@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 11px">
+                    <table  class="table table-bordered table-striped table-hover" style="font-size: 11px">
                         <thead class="thead-dark">
                             <tr>
                                 {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
