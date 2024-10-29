@@ -62,7 +62,6 @@ class PenerimaansuratjalanController extends Controller
         return view('admin.penerimaan_suratjalan.index', compact('spks'));
     }
 
-
     public function postingpenerimaansuratsj($id)
     {
         $pengambilan_do = Pengambilan_do::findOrFail($id);
@@ -102,8 +101,6 @@ class PenerimaansuratjalanController extends Controller
 
         return response()->json(['success' => 'Berhasil memposting penerimaan']);
     }
-
-
 
     public function unpostpenerimaansuratsj($id)
     {
