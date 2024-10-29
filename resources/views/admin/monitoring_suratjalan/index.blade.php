@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 11px">
+                    <table id="aksesTable" class="table table-bordered table-striped table-hover" style="font-size: 11px">
                         <thead class="thead-dark">
                             <tr>
                                 {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
@@ -201,6 +201,147 @@
         </div>
     </section>
 
+
+    <script>
+        $(document).ready(function() {
+            // Fungsi untuk memparsing durasi ke format angka untuk sorting
+            function parseDuration(data) {
+                const match = data.match(/(\d+)\s+hari,\s*(\d+)\s+jam/);
+                if (match) {
+                    // Menghitung total durasi dalam jam agar mudah diurutkan
+                    const days = parseInt(match[1], 10);
+                    const hours = parseInt(match[2], 10);
+                    return (days * 24) + hours;
+                }
+                return 0; // Jika tidak ada format durasi yang cocok
+            }
+
+            // Menambahkan custom sorting untuk kolom durasi
+            $.fn.dataTable.ext.type.order['duration-pre'] = function(d) {
+                return parseDuration(d);
+            };
+
+            // Inisialisasi DataTables
+            $('#aksesTable').DataTable({
+                "paging": false, // Menonaktifkan pagination
+                "ordering": true,
+                "info": true,
+                "order": [], // Nonaktifkan pengurutan awal pada semua kolom
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 0
+                    }, // Nonaktifkan pengurutan untuk kolom No
+                    {
+                        "type": "duration",
+                        "targets": 8
+                    }, // Custom sorting untuk kolom "Posisi" (indeks kolom 8)
+                    {
+                        "type": "duration",
+                        "targets": 9
+                    } // Custom sorting untuk kolom "TIMER TOTAL" (indeks kolom 9)
+                ],
+                "language": {
+                    "search": "Search: ",
+                    "searchPlaceholder": ""
+                },
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    // Mengatur ulang nomor urut pada setiap refresh (filter/pagination)
+                    api.column(0, {
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    {{-- hanya index ke 9  --}}
+    {{-- <script>
+        $(document).ready(function() {
+            // Fungsi untuk memparsing durasi ke format angka untuk sorting
+            function parseDuration(data) {
+                const match = data.match(/(\d+)\s+hari,\s*(\d+)\s+jam/);
+                if (match) {
+                    // Menghitung total durasi dalam jam agar mudah diurutkan
+                    const days = parseInt(match[1], 10);
+                    const hours = parseInt(match[2], 10);
+                    return (days * 24) + hours;
+                }
+                return 0; // Jika tidak ada format durasi yang cocok
+            }
+
+            // Menambahkan custom sorting untuk kolom durasi
+            $.fn.dataTable.ext.type.order['duration-pre'] = function(d) {
+                return parseDuration(d);
+            };
+
+            // Inisialisasi DataTables
+            $('#aksesTable').DataTable({
+                "paging": false, // Menonaktifkan pagination
+                "ordering": true,
+                "info": true,
+                "order": [], // Nonaktifkan pengurutan awal pada semua kolom
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 0
+                    }, // Nonaktifkan pengurutan untuk kolom No
+                    {
+                        "type": "duration",
+                        "targets": 9
+                    } // Mengatur custom sorting di kolom "TIMER TOTAL" (indeks kolom 9)
+                ],
+                "language": {
+                    "search": "Search: ",
+                    "searchPlaceholder": ""
+                },
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    // Mengatur ulang nomor urut pada setiap refresh (filter/pagination)
+                    api.column(0, {
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }
+            });
+        });
+    </script> --}}
+
+
+    {{-- sudah benar  --}}
+    {{-- <script>
+        $(document).ready(function() {
+            // Inisialisasi DataTables
+            $('#aksesTable').DataTable({
+                "paging": false, // Menonaktifkan pagination
+                "ordering": true,
+                "info": true,
+                "order": [], // Nonaktifkan pengurutan awal pada semua kolom
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 0
+                    } // Nonaktifkan pengurutan untuk kolom No
+                ],
+                "language": {
+                    "search": "Search: ",
+                    "searchPlaceholder": ""
+                },
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    // Mengatur ulang nomor urut pada setiap refresh (filter/pagination)
+                    api.column(0, {
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i + 1;
+                    });
+                }
+            });
+        });
+    </script> --}}
+
     <!-- /.card -->
     <script>
         var form = document.getElementById('form-action');
@@ -211,7 +352,8 @@
         }
     </script>
 
-    {{-- <script>
+
+    <script>
         $(document).ready(function() {
             $('tbody tr.dropdown').click(function(e) {
                 // Memeriksa apakah yang diklik adalah checkbox
@@ -263,35 +405,6 @@
                 $('.dropdown-menu').hide();
                 $('tr.dropdown').removeClass('selected').css('background-color',
                     ''); // Menghapus warna latar belakang dari semua baris saat menutup dropdown
-            });
-        });
-    </script> --}}
-
-    <script>
-        $(document).ready(function() {
-            $('#datatables99').DataTable({
-                "lengthMenu": [
-                    [-1],
-                    ["All"]
-                ],
-                "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    } // Kolom nomor urut tidak dapat diurutkan
-                ],
-                "order": [
-                    [1, 'asc']
-                ], // Urutan default mulai dari kolom ke-2
-                "drawCallback": function(settings) {
-                    var api = this.api();
-                    api.column(0, {
-                        search: 'applied',
-                        order: 'applied'
-                    }).nodes().each(function(cell, i) {
-                        cell.innerHTML = i +
-                            1; // Mengisi ulang nomor urut berdasarkan urutan yang ditampilkan
-                    });
-                }
             });
         });
     </script>
