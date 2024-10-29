@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
+use App\Models\Memo_ekspedisi;
 use App\Models\Spk;
 use App\Models\Pelanggan;
 use App\Models\Pengambilan_do;
@@ -66,6 +67,7 @@ class PenerimaansuratjalanController extends Controller
     {
         $pengambilan_do = Pengambilan_do::findOrFail($id);
         $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
+        $spk = Spk::where('id', $pengambilan_do->spk_id)->first();
 
         // Memperbarui timer terakhir jika ada
         if ($timer) {
@@ -81,6 +83,18 @@ class PenerimaansuratjalanController extends Controller
             'timer_awal' => now()->format('Y-m-d H:i:s'),
         ]);
 
+        $spk->update([
+            'status_spk' => 'sj'
+        ]);
+
+        // Mengupdate semua memo yang berelasi dengan spk
+        $memos = Memo_ekspedisi::where('spk_id', $spk->id)->get();
+        foreach ($memos as $memo) {
+            $memo->update([
+                'status_spk' => 'sj'
+            ]);
+        }
+
         $pengambilan_do->update([
             'status_penerimaansj' => 'posting',
             'penerima_sj' => auth()->user()->karyawan->nama_lengkap,
@@ -90,10 +104,12 @@ class PenerimaansuratjalanController extends Controller
     }
 
 
+
     public function unpostpenerimaansuratsj($id)
     {
         $pengambilan_do = Pengambilan_do::findOrFail($id);
         $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
+        $spk = Spk::where('id', $pengambilan_do->spk_id)->first();
 
         // Memperbarui timer terakhir jika ada
         if ($timer) {
@@ -108,6 +124,18 @@ class PenerimaansuratjalanController extends Controller
             'kategori' => 'unpost',
             'timer_awal' => now()->format('Y-m-d H:i:s'),
         ]);
+
+        $spk->update([
+            'status_spk' => 'memo'
+        ]);
+
+        // Mengupdate semua memo yang berelasi dengan spk
+        $memos = Memo_ekspedisi::where('spk_id', $spk->id)->get();
+        foreach ($memos as $memo) {
+            $memo->update([
+                'status_spk' => null
+            ]);
+        }
 
         $pengambilan_do->update([
             'status_penerimaansj' => 'unpost',

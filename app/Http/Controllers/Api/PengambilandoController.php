@@ -138,7 +138,7 @@ class PengambilandoController extends Controller
     public function terima(Request $request, $id)
     {
         $pengambilan = Pengambilan_do::findOrFail($id);
-
+        $spk = Spk::where('id', $pengambilan->spk_id)->first();
         $penerimasj = $request->penerima_sj;
         $user = User::where('id', $penerimasj)->first();
         $karyawan = Karyawan::where('id', $user->karyawan_id)->first();
@@ -157,6 +157,18 @@ class PengambilandoController extends Controller
             'kategori' => 'posting',
             'timer_awal' => now()->format('Y-m-d H:i:s'),
         ]);
+
+        $spk->update([
+            'status_spk' => 'sj'
+        ]);
+
+        // Mengupdate semua memo yang berelasi dengan spk
+        $memos = Memo_ekspedisi::where('spk_id', $spk->id)->get();
+        foreach ($memos as $memo) {
+            $memo->update([
+                'status_spk' => 'sj'
+            ]);
+        }
 
         $pengambilan->update([
             'status_penerimaansj' => 'posting',
@@ -181,7 +193,7 @@ class PengambilandoController extends Controller
     public function batal_terima(Request $request, $id)
     {
         $pengambilan = Pengambilan_do::findOrFail($id);
-
+        $spk = Spk::where('id', $pengambilan->spk_id)->first();
         $penerimasj = $request->penerima_sj;
         $user = User::where('id', $penerimasj)->first();
         $karyawan = Karyawan::where('id', $user->karyawan_id)->first();
@@ -201,6 +213,18 @@ class PengambilandoController extends Controller
             'kategori' => 'unpost',
             'timer_awal' => now()->format('Y-m-d H:i:s'),
         ]);
+
+        $spk->update([
+            'status_spk' => 'memo'
+        ]);
+
+        // Mengupdate semua memo yang berelasi dengan spk
+        $memos = Memo_ekspedisi::where('spk_id', $spk->id)->get();
+        foreach ($memos as $memo) {
+            $memo->update([
+                'status_spk' => null
+            ]);
+        }
 
         $pengambilan->update([
             'status_penerimaansj' => 'unpost',
