@@ -265,7 +265,7 @@
                                                 <label for="alamat_muat_id">Tujuan Muat ID</label>
                                                 <input type="text" class="form-control" id="alamat_muat_id" readonly
                                                     name="alamat_muat_id" placeholder=""
-                                                    value="{{ old('alamat_muat_id', $inquery->alamat_muat->id) }}">
+                                                    value="{{ old('alamat_muat_id', $inquery->alamat_muat->id ?? null) }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -275,7 +275,7 @@
                                                     <input onclick="showAlamatMuat(this.value)" class="form-control"
                                                         id="kode_alamatmuat" name="kode_alamatmuat" type="text"
                                                         placeholder=""
-                                                        value="{{ old('kode_alamatmuat', $inquery->alamat_muat->kode_alamat) }}"
+                                                        value="{{ old('kode_alamatmuat', $inquery->alamat_muat->kode_alamat ?? null) }}"
                                                         readonly style="margin-right: 10px; font-size:14px" />
                                                 </div>
                                                 <div class="col-md-6">
@@ -287,7 +287,7 @@
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_muat" readonly
                                                             name="alamat_muat" placeholder=""
-                                                            value="{{ old('alamat_muat', $inquery->alamat_muat->alamat) }}">
+                                                            value="{{ old('alamat_muat', $inquery->alamat_muat->alamat ?? null) }}">
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -308,7 +308,7 @@
                                                 <label for="alamat_bongkar_id">Tujuan Bongkar ID</label>
                                                 <input type="text" class="form-control" id="alamat_bongkar_id"
                                                     readonly name="alamat_bongkar_id" placeholder=""
-                                                    value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar->id) }}">
+                                                    value="{{ old('alamat_bongkar_id', $inquery->alamat_bongkar->id ?? null) }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -319,7 +319,7 @@
                                                         <input onclick="showAlamatBongkar(this.value)"
                                                             class="form-control" id="kode_alamatbongkar"
                                                             name="kode_alamatbongkar" type="text" placeholder=""
-                                                            value="{{ old('kode_alamatbongkar', $inquery->alamat_bongkar->kode_alamat) }}"
+                                                            value="{{ old('kode_alamatbongkar', $inquery->alamat_bongkar->kode_alamat ?? null) }}"
                                                             readonly style="margin-right: 0px; font-size:14px" />
                                                     </div>
                                                 </div>
@@ -331,7 +331,7 @@
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_bongkar" readonly
                                                             name="alamat_bongkar2" placeholder=""
-                                                            value="{{ old('alamat_bongkar', $inquery->alamat_bongkar->alamat) }}">
+                                                            value="{{ old('alamat_bongkar', $inquery->alamat_bongkar->alamat ?? null) }}">
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -357,7 +357,7 @@
                                                 <label for="alamat_muat2_id">Tujuan Muat ID</label>
                                                 <input type="text" class="form-control" id="alamat_muat2_id" readonly
                                                     name="alamat_muat2_id" placeholder=""
-                                                    value="{{ old('alamat_muat2_id', $inquery->alamat_muat2->id) }}">
+                                                    value="{{ old('alamat_muat2_id', $inquery->alamat_muat2->id ?? null) }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -367,7 +367,7 @@
                                                     <input onclick="showAlamatMuat2(this.value)" class="form-control"
                                                         id="kode_alamatmuat2" name="kode_alamatmuat2" type="text"
                                                         placeholder=""
-                                                        value="{{ old('kode_alamatmuat2', $inquery->alamat_muat2->kode_alamat) }}"
+                                                        value="{{ old('kode_alamatmuat2', $inquery->alamat_muat2->kode_alamat ?? null) }}"
                                                         readonly style="margin-right: 10px; font-size:14px" />
                                                 </div>
                                                 <div class="col-md-6">
@@ -379,7 +379,7 @@
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_muat2" readonly
                                                             name="alamat_muat2" placeholder=""
-                                                            value="{{ old('alamat_muat2', $inquery->alamat_muat2->alamat) }}">
+                                                            value="{{ old('alamat_muat2', $inquery->alamat_muat2->alamat ?? null) }}">
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat2(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -400,7 +400,7 @@
                                                 <label for="alamat_bongkar_id">Tujuan Bongkar ID</label>
                                                 <input type="text" class="form-control" id="alamat_bongkar2_id"
                                                     readonly name="alamat_bongkar2_id" placeholder=""
-                                                    value="{{ old('alamat_bongkar2_id', $inquery->alamat_bongkar2->id) }}">
+                                                    value="{{ old('alamat_bongkar2_id', $inquery->alamat_bongkar2->id ?? null) }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -411,7 +411,7 @@
                                                         <input onclick="showAlamatBongkar2(this.value)"
                                                             class="form-control" id="kode_alamatbongkar2"
                                                             name="kode_alamatbongkar2" type="text" placeholder=""
-                                                            value="{{ old('kode_alamatbongkar2', $inquery->alamat_bongkar2->kode_alamat) }}"
+                                                            value="{{ old('kode_alamatbongkar2', $inquery->alamat_bongkar2->kode_alamat ?? null) }}"
                                                             readonly style="margin-right: 0px; font-size:14px" />
                                                     </div>
                                                 </div>
@@ -423,7 +423,7 @@
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_bongkar2" readonly
                                                             name="alamat_bongkar2" placeholder=""
-                                                            value="{{ old('alamat_bongkar2', $inquery->alamat_bongkar2->alamat) }}">
+                                                            value="{{ old('alamat_bongkar2', $inquery->alamat_bongkar2->alamat ?? null) }}">
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar2(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -448,7 +448,7 @@
                                                 <label for="alamat_muat3_id">Tujuan Muat ID</label>
                                                 <input type="text" class="form-control" id="alamat_muat3_id" readonly
                                                     name="alamat_muat3_id" placeholder=""
-                                                    value="{{ old('alamat_muat3_id', $inquery->alamat_muat3->id) }}">
+                                                    value="{{ old('alamat_muat3_id', $inquery->alamat_muat3->id ?? null) }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -458,7 +458,7 @@
                                                     <input onclick="showAlamatMuat3(this.value)" class="form-control"
                                                         id="kode_alamatmuat3" name="kode_alamatmuat3" type="text"
                                                         placeholder=""
-                                                        value="{{ old('kode_alamatmuat3', $inquery->alamat_muat3->kode_alamat) }}"
+                                                        value="{{ old('kode_alamatmuat3', $inquery->alamat_muat3->kode_alamat ?? null) }}"
                                                         readonly style="margin-right: 10px; font-size:14px" />
                                                 </div>
                                                 <div class="col-md-6">
@@ -470,7 +470,7 @@
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_muat3" readonly
                                                             name="alamat_muat3" placeholder=""
-                                                            value="{{ old('alamat_muat3', $inquery->alamat_muat3->alamat) }}">
+                                                            value="{{ old('alamat_muat3', $inquery->alamat_muat3->alamat ?? null) }}">
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat3(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -491,7 +491,7 @@
                                                 <label for="alamat_bongkar3_id">Tujuan Bongkar ID</label>
                                                 <input type="text" class="form-control" id="alamat_bongkar3_id"
                                                     readonly name="alamat_bongkar3_id" placeholder=""
-                                                    value="{{ old('alamat_bongkar3_id', $inquery->alamat_bongkar3->id) }}">
+                                                    value="{{ old('alamat_bongkar3_id', $inquery->alamat_bongkar3->id ?? null) }}">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
@@ -502,7 +502,7 @@
                                                         <input onclick="showAlamatBongkar3(this.value)"
                                                             class="form-control" id="kode_alamatbongkar3"
                                                             name="kode_alamatbongkar3" type="text" placeholder=""
-                                                            value="{{ old('kode_alamatbongkar3', $inquery->alamat_bongkar3->kode_alamat) }}"
+                                                            value="{{ old('kode_alamatbongkar3', $inquery->alamat_bongkar3->kode_alamat ?? null) }}"
                                                             readonly style="margin-right: 0px; font-size:14px" />
                                                     </div>
                                                 </div>
@@ -514,7 +514,7 @@
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_bongkar3" readonly
                                                             name="alamat_bongkar3" placeholder=""
-                                                            value="{{ old('alamat_bongkar3', $inquery->alamat_bongkar3->alamat) }}">
+                                                            value="{{ old('alamat_bongkar3', $inquery->alamat_bongkar3->alamat ?? null) }}">
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar3(this.value)">
                                                             <i class="fas fa-search"></i>
