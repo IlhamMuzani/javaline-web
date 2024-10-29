@@ -108,7 +108,7 @@
                         </div>
                     </form>
                     <div class="table-responsive" style="overflow-x: auto;">
-                        <table id="datatables99" class="table table-bordered table-striped table-hover"
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
                             style="font-size: 13px">
                             <thead class="thead-dark">
                                 <tr>
