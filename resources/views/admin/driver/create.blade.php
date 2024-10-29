@@ -48,13 +48,10 @@
                     @endforeach
                 </div>
             @endif
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Tambah Driver</h3>
-                </div>
-                <!-- /.card-header -->
-                <form action="{{ url('admin/driver') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
-                    @csrf
+            <!-- /.card-header -->
+            <form action="{{ url('admin/driver') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
+                @csrf
+                <div class="card">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="nama">Nama Lengkap</label>
@@ -115,29 +112,23 @@
                             </select>
                         </div> --}}
                         <div class="form-group">
-                            <label for="telp">No. Telepon</label>
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">+62</span>
-                                </div>
-                                <input type="text" id="telp" name="telp" class="form-control"
-                                    placeholder="Masukan nomor telepon" value="{{ old('telp') }}">
-                            </div>
+                            <label for="nama">No Telp</label>
+                            <input type="text" class="form-control" id="telp" name="telp"
+                                placeholder="Masukan no telp" value="{{ old('telp') }}">
                         </div>
                         <div class="form-group">
                             <label for="alamat">Alamat</label>
                             <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="gambar">Gambar <small>(Kosongkan saja jika tidak
-                                    ingin menambahkan)</small></label>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="gambar" name="gambar"
-                                    accept="image/*">
-                                <label class="custom-file-label" for="gambar">Masukkan gambar</label>
-                            </div>
-                        </div>
 
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Informasi Bank</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="nama_bank">Nama Bank</label>
                             <select class="form-control" id="nama_bank" name="nama_bank">
@@ -181,29 +172,122 @@
                         </div>
                         <div class="form-group">
                             <label for="norek">No. Rekening</label>
-                            <input type="number" class="form-control" id="norek" name="norek"
+                            <input type="text" class="form-control" id="norek" name="norek"
                                 placeholder="Masukan no rekening" value="{{ old('norek') }}">
                         </div>
+                    </div>
+                </div>
 
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="ft_ktp">Foto KTP <small>(Kosongkan saja jika tidak
-                                            ingin menambahkan)</small></label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="ft_ktp" name="ft_ktp"
-                                            accept="image/*">
-                                        <label class="custom-file-label" for="ft_ktp">Masukkan foto ktp</label>
-                                    </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Dokumen Survei</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="ft_kk">Foto KK </label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_kk" name="ft_kk"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_kk">Masukkan foto ktp</label>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="ft_sim">Foto SIM <small>(Kosongkan saja jika tidak
-                                            ingin menambahkan)</small></label>
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="ft_sim" name="ft_sim"
-                                            accept="image/*">
-                                        <label class="custom-file-label" for="ft_sim">Masukkan foto sim</label>
-                                    </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_ktp">Foto KTP</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_ktp" name="ft_ktp"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_ktp">Masukkan foto ktp</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_sim">Foto SIM</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_sim" name="ft_sim"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_sim">Masukkan foto sim</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="ft_kk_penjamin">Foto KK Penjamin</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_kk_penjamin"
+                                        name="ft_kk_penjamin" accept="image/*">
+                                    <label class="custom-file-label" for="ft_kk_penjamin">Masukkan kk penjamin</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_skck">Foto SKCK </label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_skck" name="ft_skck"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_skck">Masukkan foto skck</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_surat_pernyataan">Foto Surat Pernyataan </label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_surat_pernyataan"
+                                        name="ft_surat_pernyataan" accept="image/*">
+                                    <label class="custom-file-label" for="ft_surat_pernyataan">Masukkan foto surat
+                                        pernyataan</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="ft_terbaru">Foto Terbaru</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_terbaru" name="ft_terbaru"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_terbaru">Masukkan foto terbaru</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_rumah">Foto Rumah</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_rumah" name="ft_rumah"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_rumah">Masukkan foto rumah</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_penjamin">Foto Keluarga / Foto Penjamin</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="ft_penjamin" name="ft_penjamin"
+                                        accept="image/*">
+                                    <label class="custom-file-label" for="ft_penjamin">Masukkan foto penjamin</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+
+                        {{-- <div class="form-group">
+                            <label for="titik_koordinat">Masukkan titik koordinat</label>
+                            <input type="text" class="form-control" id="titik_koordinat" name="titik_koordinat"
+                                placeholder="Masukan titik koordinat" value="{{ old('titik_koordinat') }}">
+                        </div> --}}
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="latitude">latitude</label>
+                                <div>
+                                    <input type="text" class="form-control" placeholder="Masukan latitude"
+                                        id="latitude" name="latitude">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="ft_rumah">Longitude</label>
+                                <div>
+                                    <input type="text" class="form-control" placeholder="Masukan longitude"
+                                        id="longitude" name="longitude">
                                 </div>
                             </div>
                         </div>
@@ -215,11 +299,9 @@
                             <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
+            </form>
     </section>
-
 
     <script>
         $(document).ready(function() {
@@ -235,4 +317,5 @@
             });
         });
     </script>
+
 @endsection

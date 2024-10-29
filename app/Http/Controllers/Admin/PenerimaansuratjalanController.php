@@ -11,6 +11,7 @@ use App\Models\Spk;
 use App\Models\Pelanggan;
 use App\Models\Pengambilan_do;
 use App\Models\Rute_perjalanan;
+use App\Models\Timer_suratjalan;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
@@ -63,8 +64,24 @@ class PenerimaansuratjalanController extends Controller
 
     public function postingpenerimaansuratsj($id)
     {
-        $spk = Pengambilan_do::findOrFail($id);
-        $spk->update([
+        $pengambilan_do = Pengambilan_do::findOrFail($id);
+        $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
+
+        // Memperbarui timer terakhir jika ada
+        if ($timer) {
+            $timer->update([
+                'timer_akhir' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        Timer_suratjalan::create([
+            'pengambilan_do_id' => $id,
+            'user_id' => auth()->user()->id,
+            'kategori' => 'posting',
+            'timer_awal' => now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $pengambilan_do->update([
             'status_penerimaansj' => 'posting',
             'penerima_sj' => auth()->user()->karyawan->nama_lengkap,
         ]);
@@ -72,10 +89,27 @@ class PenerimaansuratjalanController extends Controller
         return response()->json(['success' => 'Berhasil memposting penerimaan']);
     }
 
+
     public function unpostpenerimaansuratsj($id)
     {
-        $spk = Pengambilan_do::findOrFail($id);
-        $spk->update([
+        $pengambilan_do = Pengambilan_do::findOrFail($id);
+        $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
+
+        // Memperbarui timer terakhir jika ada
+        if ($timer) {
+            $timer->update([
+                'timer_akhir' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        Timer_suratjalan::create([
+            'pengambilan_do_id' => $id,
+            'user_id' => auth()->user()->id,
+            'kategori' => 'unpost',
+            'timer_awal' => now()->format('Y-m-d H:i:s'),
+        ]);
+
+        $pengambilan_do->update([
             'status_penerimaansj' => 'unpost',
             'penerima_sj' => auth()->user()->karyawan->nama_lengkap,
         ]);

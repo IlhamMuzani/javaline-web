@@ -19,9 +19,9 @@ class MonitoringsuratjalanController extends Controller
 
         // Query dasar untuk mendapatkan data dengan status_suratjalan 'belum pulang'
         $spks = Pengambilan_do::with('kendaraan')
-            ->whereNotNull('spk_id')
-            ->where('status_suratjalan', 'belum pulang')
-            ->whereNull('waktu_suratakhir'); // Filter untuk waktu_suratakhir yang null
+        ->whereNotNull('spk_id')
+        ->where('status_suratjalan', 'belum pulang')
+        ->whereNull('waktu_suratakhir'); // Filter untuk waktu_suratakhir yang null
 
         // Filter berdasarkan nomor kabin kendaraan jika divisi dipilih
         if (!empty($divisi) && $divisi != 'All') {
@@ -49,81 +49,75 @@ class MonitoringsuratjalanController extends Controller
                 $spk->durasi_menit = '-';
                 $spk->durasi_detik = '-';
             }
+
+            // Hitung durasi dari start_waktuditerima hingga saat ini jika status 'posting'
+            if ($spk->status_penerimaansj == 'posting' && $spk->start_waktuditerima) {
+                $startWaktuDiterima = Carbon::parse($spk->start_waktuditerima);
+                $durasiPenerimaan = $startWaktuDiterima->diff(Carbon::now());
+                $spk->durasi_penerimaan_hari = $durasiPenerimaan->days;
+                $spk->durasi_penerimaan_jam = $durasiPenerimaan->h;
+                $spk->durasi_penerimaan_menit = $durasiPenerimaan->i;
+                $spk->durasi_penerimaan_detik = $durasiPenerimaan->s;
+            }
         }
 
         // Kirim data ke Blade
         return view('admin.monitoring_suratjalan.index', compact('spks'));
     }
 
-    // public function show($id)
+
+
+    // public function index(Request $request)
     // {
-    //     $cetakpdf = Pengambilan_do::find($id);
-    //     $kendaraan = Kendaraan::find($cetakpdf->kendaraan_id);
-    //     $odometer = null; // Inisialisasi variabel $odometer
+    //     // Mendapatkan input dari select divisi
+    //     $divisi = $request->input('divisi');
 
-    //     if ($kendaraan) {
-    //         $client = new Client();
-    //         $response = $client->post('https://vtsapi.easygo-gps.co.id/api/Report/lastposition', [
-    //             'headers' => [
-    //                 'accept' => 'application/json',
-    //                 'token' => 'B13E7A18C7FF4E80B9A252F54DB3D939',
-    //                 'Content-Type' => 'application/json',
-    //             ],
-    //             'json' => [
-    //                 'list_vehicle_id' => [$kendaraan->list_vehicle_id],
-    //                 'list_nopol' => [],
-    //                 'list_no_aset' => [],
-    //                 'geo_code' => [],
-    //                 'min_lastupdate_hour' => null,
-    //                 'page' => 0,
-    //                 'encrypted' => 0,
-    //             ],
-    //         ]);
+    //     // Query dasar untuk mendapatkan data dengan status_suratjalan 'belum pulang'
+    //     $spks = Pengambilan_do::with('kendaraan')
+    //     ->whereNotNull('spk_id')
+    //     ->where('status_suratjalan', 'belum pulang')
+    //     ->whereNull('waktu_suratakhir'); // Filter untuk waktu_suratakhir yang null
 
-    //         $data = json_decode($response->getBody()->getContents(), true);
+    //     // Filter berdasarkan nomor kabin kendaraan jika divisi dipilih
+    //     if (!empty($divisi) && $divisi != 'All') {
+    //         $spks->whereHas('kendaraan', function ($query) use ($divisi) {
+    //             $query->where('no_kabin', 'LIKE', $divisi . '%');
+    //         });
+    //     }
 
-    //         if (isset($data['Data'][0]['vehicle_id'])) {
-    //             $vehicleId = $data['Data'][0]['vehicle_id'];
+    //     // Mengurutkan berdasarkan id secara descending
+    //     $spks = $spks->orderBy('waktu_suratawal', 'ASC')->get();
 
-    //             // Periksa apakah vehicle_id sama dengan list_vehicle_id
-    //             if ($vehicleId === $kendaraan->list_vehicle_id) {
-    //                 // Ambil nilai 'odometer' dari data API dan hilangkan bagian desimalnya
-    //                 $odometer = intval($data['Data'][0]['odometer'] ?? 0);
+    //     // Perulangan untuk menghitung durasi di controller
+    //     foreach ($spks as $spk) {
+    //         if ($spk->waktu_suratawal) {
+    //             $waktu_awal = Carbon::parse($spk->waktu_suratawal);
+    //             $waktu_akhir = $spk->waktu_suratakhir ? Carbon::parse($spk->waktu_suratakhir) : Carbon::now();
+    //             $durasi = $waktu_awal->diff($waktu_akhir);
+    //             $spk->durasi_hari = $durasi->days;
+    //             $spk->durasi_jam = $durasi->h;
+    //             $spk->durasi_menit = $durasi->i;
+    //             $spk->durasi_detik = $durasi->s;
+    //         } else {
+    //             $spk->durasi_hari = '-';
+    //             $spk->durasi_jam = '-';
+    //             $spk->durasi_menit = '-';
+    //             $spk->durasi_detik = '-';
+    //         }
 
-    //                 if ($odometer > 0) {
-    //                     $kendaraan->km = $odometer;
-    //                     $kendaraan->save();
-    //                 }
-    //             } else {
-    //                 // Gunakan API lain jika vehicle_id tidak cocok
-    //                 $response = Http::get('https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPosition?sTokenKey=gps-J@va');
-    //                 if ($response->successful()) {
-    //                     $vehicles = $response->json();
-    //                     $matchedVehicle = collect($vehicles)->firstWhere('gpsid', $kendaraan->gpsid);
-
-    //                     if ($matchedVehicle) {
-    //                         $odometer = $matchedVehicle['odometer'] ?? $kendaraan->km;
-
-    //                         if ($odometer > 0) {
-    //                             $kendaraan->km = $odometer;
-    //                             $kendaraan->save();
-    //                         }
-
-    //                     } else {
-    //                         $odometer = $kendaraan->km;
-
-    //                         if ($odometer > 0) {
-    //                             $kendaraan->km = $odometer;
-    //                             $kendaraan->save();
-    //                         }
-    //                     }
-    //                 }
-    //             }
+    //         // Hitung durasi dari start_waktuditerima hingga saat ini jika status 'posting'
+    //         if ($spk->status_penerimaansj == 'posting' && $spk->start_waktuditerima) {
+    //             $startWaktuDiterima = Carbon::parse($spk->start_waktuditerima);
+    //             $durasiPenerimaan = $startWaktuDiterima->diff(Carbon::now());
+    //             $spk->durasi_penerimaan_hari = $durasiPenerimaan->days;
+    //             $spk->durasi_penerimaan_jam = $durasiPenerimaan->h;
+    //             $spk->durasi_penerimaan_menit = $durasiPenerimaan->i;
+    //             $spk->durasi_penerimaan_detik = $durasiPenerimaan->s;
     //         }
     //     }
 
-    //     // Pastikan variabel $odometer dimasukkan dalam compact
-    //     return view('admin.monitoring_suratjalan.show', compact('cetakpdf', 'odometer'));
+    //     // Kirim data ke Blade
+    //     return view('admin.monitoring_suratjalan.index', compact('spks'));
     // }
 
     public function show($id)

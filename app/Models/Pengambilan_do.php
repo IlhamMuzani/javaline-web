@@ -24,6 +24,7 @@ class Pengambilan_do extends Model
         'km_akhir',
         'waktu_awal',
         'waktu_akhir',
+        'start_waktuditerima',
         'rute_perjalanan_id',
         'alamat_muat_id',
         'alamat_muat2_id',
@@ -43,6 +44,7 @@ class Pengambilan_do extends Model
         'longitude',
         'waktu_suratawal',
         'waktu_suratakhir',
+        'hasil_lamawaktu',
         'status_suratjalan',
         'status_penerimaansj',
         'penerima_sj',
@@ -120,6 +122,11 @@ class Pengambilan_do extends Model
     public function alamat_bongkar3()
     {
         return $this->belongsTo(Alamat_bongkar::class, 'alamat_bongkar3_id'); // foreign key untuk alamat ketiga
+    }
+
+    public function timer_suratjalan()
+    {
+        return $this->hasMany(Timer_suratjalan::class);
     }
 
     public static function getId()

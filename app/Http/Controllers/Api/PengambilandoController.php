@@ -12,6 +12,7 @@ use App\Models\Memo_ekspedisi;
 use App\Models\Pengambilan_do;
 use App\Models\Spk;
 use App\Models\Timer;
+use App\Models\Timer_suratjalan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -141,9 +142,26 @@ class PengambilandoController extends Controller
         $penerimasj = $request->penerima_sj;
         $user = User::where('id', $penerimasj)->first();
         $karyawan = Karyawan::where('id', $user->karyawan_id)->first();
+        $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
+
+        // Memperbarui timer terakhir jika ada
+        if ($timer) {
+            $timer->update([
+                'timer_akhir' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        Timer_suratjalan::create([
+            'pengambilan_do_id' => $id,
+            'user_id' => $user->id,
+            'kategori' => 'posting',
+            'timer_awal' => now()->format('Y-m-d H:i:s'),
+        ]);
+
         $pengambilan->update([
             'status_penerimaansj' => 'posting',
             'penerima_sj' => $karyawan->nama_lengkap,
+            // 'start_waktuditerima' => now()->format('Y-m-d H:i:s')
         ]);
 
         if ($pengambilan) {
@@ -167,6 +185,23 @@ class PengambilandoController extends Controller
         $penerimasj = $request->penerima_sj;
         $user = User::where('id', $penerimasj)->first();
         $karyawan = Karyawan::where('id', $user->karyawan_id)->first();
+
+        $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
+
+        // Memperbarui timer terakhir jika ada
+        if ($timer) {
+            $timer->update([
+                'timer_akhir' => now()->format('Y-m-d H:i:s'),
+            ]);
+        }
+
+        Timer_suratjalan::create([
+            'pengambilan_do_id' => $id,
+            'user_id' => $user->id,
+            'kategori' => 'unpost',
+            'timer_awal' => now()->format('Y-m-d H:i:s'),
+        ]);
+
         $pengambilan->update([
             'status_penerimaansj' => 'unpost',
             'penerima_sj' => $karyawan->nama_lengkap,
@@ -444,7 +479,7 @@ class PengambilandoController extends Controller
     {
         // Temukan model berdasarkan ID
         $pengambilan_do = Pengambilan_do::find($id);
-
+        $spk = Spk::where('id', $pengambilan_do->spk_id)->first();
         if (!$pengambilan_do) {
             return response()->json([
                 'status' => false,
@@ -710,6 +745,16 @@ class PengambilandoController extends Controller
                     'status_akhir' => $updatedStatusPerjalanan,
                     'timer_awal' => $currentTimer,
                     'timer_akhir' => $currentTimestamp,
+                ]
+            ));
+
+            Timer_suratjalan::create(array_merge(
+                $request->all(),
+                [
+                    'pengambilan_do_id' => $id,
+                    'user_id' => $spk->user_id,
+                    'timer_awal' => now()->format('Y-m-d H:i:s'),
+                    'kategori' => 'posting',
                 ]
             ));
         }

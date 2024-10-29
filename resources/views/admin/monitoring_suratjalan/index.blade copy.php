@@ -107,7 +107,7 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 11px">
+                    <table id="datatables99" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
                                 {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
@@ -120,7 +120,6 @@
                                 <th>Nama Driver</th>
                                 <th>Posisi</th>
                                 <th>TIMER</th>
-                                <th>TIMER TOTAL</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -136,37 +135,11 @@
                                     <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
                                     <td>
                                         @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
-                                            @else
-                                                {{ $pengambilan_do->penerima_sj ?? '-' }}
-                                            @endif
+                                            {{ $pengambilan_do->penerima_sj ?? '-' }}
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @php
-                                                $timerAwal =
-                                                    $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
-
-                                                // Memeriksa apakah timer_awal ada
-                                                if ($timerAwal) {
-                                                    $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                    $waktuSekarang = \Carbon\Carbon::now();
-                                                    $durasi = $waktuAwal->diff($waktuSekarang);
-
-                                                    // Menampilkan hasil perhitungan durasi
-                                                    echo "{$durasi->days} hari, {$durasi->h} jam";
-                                                } else {
-                                                    echo '-';
-                                                }
-                                            @endphp
-                                        @endif
-                                    </td>
-
-
                                     <td>
                                         @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
                                             {{ $pengambilan_do->durasi_penerimaan_hari }} hari,

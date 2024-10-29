@@ -130,7 +130,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Pelanggan::class);
     }
-    
+
     public function kendaraan(): HasOne
     {
         return $this->hasOne(Kendaraan::class, 'user_id');
@@ -156,6 +156,11 @@ class User extends Authenticatable
             ->whereIn('status', ['tunggu bongkar', 'loading muat', 'posting', 'selesai'])
             ->orderByRaw("FIELD(status, 'tunggu bongkar', 'loading muat', 'posting', 'selesai')")
             ->latest();
+    }
+
+    public function timer_suratjalan()
+    {
+        return $this->hasMany(Timer_suratjalan::class);
     }
 
 

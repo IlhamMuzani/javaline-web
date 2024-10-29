@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/drivers') }}">Driver</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/driver') }}">Driver</a></li>
                         <li class="breadcrumb-item active">Tambah</li>
                     </ol>
                 </div><!-- /.col -->
@@ -45,27 +45,89 @@
                     @method('put')
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="nama">Deposit</label>
-                            <input type="number" class="form-control" id="no_sim" name="deposit"
-                                placeholder="Masukan deposit" value="{{ old('deposit', $drivers->deposit) }}">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap"
+                                placeholder="Masukan nama lengkap"
+                                value="{{ old('nama_lengkap', $drivers->nama_lengkap) }}">
                         </div>
                         <div class="form-group">
-                            <label for="nama">Kasbon</label>
-                            <input type="number" class="form-control" id="kasbon" name="kasbon"
-                                placeholder="Masukan kasbon" value="{{ old('kasbon', $drivers->kasbon) }}">
+                            <label for="nama">Nama Kecil</label>
+                            <input type="text" class="form-control" id="nama_kecil" name="nama_kecil"
+                                placeholder="Masukan nama kecil" value="{{ old('nama_kecil', $drivers->nama_kecil) }}">
                         </div>
                         <div class="form-group">
-                            <label for="nama">Bayar Kasbon</label>
-                            <input type="number" class="form-control" id="bayar_kasbon" name="bayar_kasbon"
-                                placeholder="Masukan bayar" value="{{ old('bayar_kasbon', $drivers->bayar_kasbon) }}">
+                            <label for="nama">No KTP</label>
+                            <input type="text" class="form-control" id="no_ktp" name="no_ktp"
+                                placeholder="Masukan no KTP" value="{{ old('no_ktp', $drivers->no_ktp) }}">
                         </div>
                         <div class="form-group">
-                            <label for="nama">Saldo Deposit</label>
-                            <input type="number" class="form-control" id="no_sim" name="tabungan"
-                                placeholder="Masukan deposit driver" value="{{ old('tabungan', $drivers->tabungan) }}">
+                            <label for="nama">No SIM</label>
+                            <input type="text" class="form-control" id="no_sim" name="no_sim"
+                                placeholder="Masukan no SIM" value="{{ old('no_sim', $drivers->no_sim) }}">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="gender">Pilih Gender</label>
+                            <select class="form-control" id="gender" name="gender">
+                                <option value="">- Pilih -</option>
+                                <option value="L" {{ old('gender', $drivers->gender) == 'L' ? 'selected' : null }}>
+                                    Laki-laki</option>
+                                <option value="P" {{ old('gender', $drivers->gender) == 'P' ? 'selected' : null }}>
+                                    Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Lahir:</label>
+                            <div class="input-group date" id="reservationdatetime">
+                                <input type="date" id="tanggal_lahir" name="tanggal_lahir"
+                                    placeholder="d M Y sampai d M Y"
+                                    data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
+                                    value="{{ old('tanggal_lahir', $drivers->tanggal_lahir) }}"
+                                    class="form-control datetimepicker-input" data-target="#reservationdatetime">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Gabung:</label>
+                            <div class="input-group date" id="reservationdatetime">
+                                <input type="date" id="tanggal_gabung" name="tanggal_gabung"
+                                    placeholder="d M Y sampai d M Y"
+                                    data-options='{"mode":"range","dateFormat":"d M Y","disableMobile":true}'
+                                    value="{{ old('tanggal_gabung', $drivers->tanggal_gabung) }}"
+                                    class="form-control datetimepicker-input" data-target="#reservationdatetime">
+                            </div>
+                        </div>
+                        {{-- <div class="mb-3">
+                            <label class="form-label" for="jabatan">Jabatan</label>
+                            <select class="form-control" id="jabatan" name="jabatan">
+                                <option value="">- Pilih Jabatan -</option>
+                                <option value="STAFF"
+                                    {{ old('jabatan', $drivers->jabatan) == 'STAFF' ? 'selected' : null }}>
+                                    STAFF</option>
+                            </select>
+                        </div> --}}
+                        <div class="form-group">
+                            <label for="nama">No Telp</label>
+                            <input type="text" class="form-control" id="telp" name="telp"
+                                placeholder="Masukan no Telp" value="{{ old('telp', $drivers->telp) }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat">Alamat</label>
+                            <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat"
+                                value="">{{ old('alamat', $drivers->alamat) }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="gambar">
+                                Gambar
+                                <small>(kosongkan saja jika tidak ingin diubah)</small>
+                            </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="gambar" name="gambar"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="gambar">Pilih Gambar</label>
+                            </div>
                         </div>
                     </div>
             </div>
+
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Informasi Bank</h3>
@@ -130,17 +192,216 @@
                     </div>
                     <div class="form-group">
                         <label for="norek">No. Rekening</label>
-                        <input type="number" class="form-control" id="norek" name="norek"
+                        <input type="text" class="form-control" id="norek" name="norek"
                             placeholder="Masukan no rekening" value="{{ old('norek', $drivers->norek) }}">
                     </div>
                 </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Dokumen Survei</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="form-group col-md-4">
+
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_kk == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_kk) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+
+                            <label for="ft_kk">Foto KK </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_kk" name="ft_kk"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_kk">Masukkan foto ktp</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_ktp == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_ktp) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_ktp">Foto KTP</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_ktp" name="ft_ktp"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_ktp">Masukkan foto ktp</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_sim == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_sim) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_sim">Foto SIM</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_sim" name="ft_sim"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_sim">Masukkan foto sim</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_kk_penjamin == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_kk_penjamin) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_kk_penjamin">Foto KK Penjamin</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_kk_penjamin"
+                                    name="ft_kk_penjamin" accept="image/*">
+                                <label class="custom-file-label" for="ft_kk_penjamin">Masukkan kk penjamin</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_skck == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_skck) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_skck">Foto SKCK </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_skck" name="ft_skck"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_skck">Masukkan foto skck</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_surat_pernyataan == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_surat_pernyataan) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_surat_pernyataan">Foto Surat Pernyataan </label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_surat_pernyataan"
+                                    name="ft_surat_pernyataan" accept="image/*">
+                                <label class="custom-file-label" for="ft_surat_pernyataan">Masukkan foto surat
+                                    pernyataan</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_terbaru == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_terbaru) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_terbaru">Foto Terbaru</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_terbaru" name="ft_terbaru"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_terbaru">Masukkan foto terbaru</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_rumah == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_rumah) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_rumah">Foto Rumah</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_rumah" name="ft_rumah"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_rumah">Masukkan foto rumah</label>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group mb-3">
+                                @if ($drivers->ft_penjamin == null)
+                                    <img class="mt-3" src="{{ asset('storage/uploads/gambaricon/imagenoimage.jpg') }}"
+                                        alt="dokumen" height="180" width="200">
+                                @else
+                                    <img class="mt-3" src="{{ asset('storage/uploads/' . $drivers->ft_penjamin) }}"
+                                        alt="dokumen" height="180" width="200">
+                                @endif
+                            </div>
+                            <label for="ft_penjamin">Foto Keluarga / Foto Penjamin</label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="ft_penjamin" name="ft_penjamin"
+                                    accept="image/*">
+                                <label class="custom-file-label" for="ft_penjamin">Masukkan foto penjamin</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+
+                    {{-- <div class="form-group">
+                            <label for="titik_koordinat">Masukkan titik koordinat</label>
+                            <input type="text" class="form-control" id="titik_koordinat" name="titik_koordinat"
+                                placeholder="Masukan titik koordinat" value="{{ old('titik_koordinat') }}">
+                        </div> --}}
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label for="latitude">latitude</label>
+                            <div>
+                                <input type="text" class="form-control" placeholder="Masukan latitude" id="latitude"
+                                    name="latitude" value="{{ old('latitude', $drivers->latitude) }}">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="ft_rumah">Longitude</label>
+                            <div>
+                                <input type="text" class="form-control" placeholder="Masukan longitude"
+                                    id="longitude" name="longitude" value="{{ old('longitude', $drivers->longitude) }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-footer text-right">
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                    <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                    <div id="loading" style="display: none;">
+                        <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                    </div>
                 </div>
             </div>
-            </form>
-        </div>
         </div>
     </section>
 @endsection

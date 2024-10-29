@@ -4,22 +4,22 @@
 
 @section('content')
 
-     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-            <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
-        </div>
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-                setTimeout(function() {
-                    document.getElementById("loadingSpinner").style.display = "none";
-                    document.getElementById("mainContent").style.display = "block";
-                    document.getElementById("mainContentSection").style.display = "block";
-                }, 100); // Adjust the delay time as needed
-            });
-        </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
 
-        <!-- Content Header (Page header) -->
-        <div class="content-header" style="display: none;" id="mainContent">
+    <!-- Content Header (Page header) -->
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -112,20 +112,23 @@
                                     {{-- <td>{{  number_format($driver->tabungan, 0, ',', '.')}}</td> --}}
                                     <td class="text-center">
                                         {{-- @if (auth()->check() && auth()->user()->fitur['driver show']) --}}
-                                        <a href="{{ url('admin/driver/' . $driver->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+                                        <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ url('admin/driver/' . $driver->id) }}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         {{-- @endif --}}
-                                    {{-- @if (auth()->check() && auth()->user()->fitur['driver update']) --}}
-                                    {{-- <td>
+                                        {{-- @if (auth()->check() && auth()->user()->fitur['driver update']) --}}
+                                        {{-- <td>
                                         <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </td> --}}
-                                    {{-- @endif --}}
-                                    {{-- @if (auth()->check() && auth()->user()->fitur['driver delete'])
+                                        {{-- @endif --}}
+                                        {{-- @if (auth()->check() && auth()->user()->fitur['driver delete'])
                                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                                 data-target="#modal-hapus-{{ $driver->id }}">
                                                 <i class="fas fa-trash"></i>
