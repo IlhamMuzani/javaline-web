@@ -114,49 +114,49 @@ class DriverController extends Controller
         $namaGambar4 = '';
         if ($request->hasFile('ft_kk')) {
             $ft_kk = str_replace(' ', '', $request->ft_kk->getClientOriginalName());
-            $namaGambar4 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk;
+            $namaGambar4 = 'ft_kk/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk;
             $request->ft_kk->storeAs('public/uploads/', $namaGambar4);
         }
 
         $namaGambar5 = '';
         if ($request->hasFile('ft_kk_penjamin')) {
             $ft_kk_penjamin = str_replace(' ', '', $request->ft_kk_penjamin->getClientOriginalName());
-            $namaGambar5 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk_penjamin;
+            $namaGambar5 = 'ft_kk_penjamin/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk_penjamin;
             $request->ft_kk_penjamin->storeAs('public/uploads/', $namaGambar5);
         }
 
         $namaGambar6 = '';
         if ($request->hasFile('ft_skck')) {
             $ft_skck = str_replace(' ', '', $request->ft_skck->getClientOriginalName());
-            $namaGambar6 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_skck;
+            $namaGambar6 = 'ft_skck/' . date('mYdHs') . rand(1, 10) . '_' . $ft_skck;
             $request->ft_skck->storeAs('public/uploads/', $namaGambar6);
         }
 
         $namaGambar7 = '';
         if ($request->hasFile('ft_surat_pernyataan')) {
             $ft_surat_pernyataan = str_replace(' ', '', $request->ft_surat_pernyataan->getClientOriginalName());
-            $namaGambar7 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_surat_pernyataan;
+            $namaGambar7 = 'ft_surat_pernyataan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_surat_pernyataan;
             $request->ft_surat_pernyataan->storeAs('public/uploads/', $namaGambar7);
         }
 
         $namaGambar8 = '';
         if ($request->hasFile('ft_terbaru')) {
             $ft_terbaru = str_replace(' ', '', $request->ft_terbaru->getClientOriginalName());
-            $namaGambar8 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_terbaru;
+            $namaGambar8 = 'ft_terbaru/' . date('mYdHs') . rand(1, 10) . '_' . $ft_terbaru;
             $request->ft_terbaru->storeAs('public/uploads/', $namaGambar8);
         }
 
         $namaGambar9 = '';
         if ($request->hasFile('ft_rumah')) {
             $ft_rumah = str_replace(' ', '', $request->ft_rumah->getClientOriginalName());
-            $namaGambar9 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_rumah;
+            $namaGambar9 = 'ft_rumah/' . date('mYdHs') . rand(1, 10) . '_' . $ft_rumah;
             $request->ft_rumah->storeAs('public/uploads/', $namaGambar9);
         }
 
         $namaGambar10 = '';
         if ($request->hasFile('ft_penjamin')) {
             $ft_penjamin = str_replace(' ', '', $request->ft_penjamin->getClientOriginalName());
-            $namaGambar10 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_penjamin;
+            $namaGambar10 = 'ft_penjamin/' . date('mYdHs') . rand(1, 10) . '_' . $ft_penjamin;
             $request->ft_penjamin->storeAs('public/uploads/', $namaGambar10);
         }
 
@@ -267,7 +267,7 @@ class DriverController extends Controller
         if ($request->ft_kk) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_kk);
             $ft_kk = str_replace(' ', '', $request->ft_kk->getClientOriginalName());
-            $namaGambar4 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk;
+            $namaGambar4 = 'ft_kk/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk;
             $request->ft_kk->storeAs('public/uploads/', $namaGambar4);
         } else {
             $namaGambar4 = $karyawan->ft_kk;
@@ -276,7 +276,7 @@ class DriverController extends Controller
         if ($request->ft_kk_penjamin) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_kk_penjamin);
             $ft_kk_penjamin = str_replace(' ', '', $request->ft_kk_penjamin->getClientOriginalName());
-            $namaGambar5 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk_penjamin;
+            $namaGambar5 = 'ft_kk_penjamin/' . date('mYdHs') . rand(1, 10) . '_' . $ft_kk_penjamin;
             $request->ft_kk_penjamin->storeAs('public/uploads/', $namaGambar5);
         } else {
             $namaGambar5 = $karyawan->ft_kk_penjamin;
@@ -285,7 +285,7 @@ class DriverController extends Controller
         if ($request->ft_skck) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_skck);
             $ft_skck = str_replace(' ', '', $request->ft_skck->getClientOriginalName());
-            $namaGambar6 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_skck;
+            $namaGambar6 = 'ft_skck/' . date('mYdHs') . rand(1, 10) . '_' . $ft_skck;
             $request->ft_skck->storeAs('public/uploads/', $namaGambar6);
         } else {
             $namaGambar6 = $karyawan->ft_skck;
@@ -294,7 +294,7 @@ class DriverController extends Controller
         if ($request->ft_surat_pernyataan) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_surat_pernyataan);
             $ft_surat_pernyataan = str_replace(' ', '', $request->ft_surat_pernyataan->getClientOriginalName());
-            $namaGambar7 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_surat_pernyataan;
+            $namaGambar7 = 'ft_surat_pernyataan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_surat_pernyataan;
             $request->ft_surat_pernyataan->storeAs('public/uploads/', $namaGambar7);
         } else {
             $namaGambar7 = $karyawan->ft_surat_pernyataan;
@@ -303,7 +303,7 @@ class DriverController extends Controller
         if ($request->ft_terbaru) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_terbaru);
             $ft_terbaru = str_replace(' ', '', $request->ft_terbaru->getClientOriginalName());
-            $namaGambar8 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_terbaru;
+            $namaGambar8 = 'ft_terbaru/' . date('mYdHs') . rand(1, 10) . '_' . $ft_terbaru;
             $request->ft_terbaru->storeAs('public/uploads/', $namaGambar8);
         } else {
             $namaGambar8 = $karyawan->ft_terbaru;
@@ -312,7 +312,7 @@ class DriverController extends Controller
         if ($request->ft_rumah) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_rumah);
             $ft_rumah = str_replace(' ', '', $request->ft_rumah->getClientOriginalName());
-            $namaGambar9 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_rumah;
+            $namaGambar9 = 'ft_rumah/' . date('mYdHs') . rand(1, 10) . '_' . $ft_rumah;
             $request->ft_rumah->storeAs('public/uploads/', $namaGambar9);
         } else {
             $namaGambar9 = $karyawan->ft_rumah;
@@ -321,7 +321,7 @@ class DriverController extends Controller
         if ($request->ft_penjamin) {
             Storage::disk('local')->delete('public/uploads/' . $karyawan->ft_penjamin);
             $ft_penjamin = str_replace(' ', '', $request->ft_penjamin->getClientOriginalName());
-            $namaGambar10 = 'karyawan/' . date('mYdHs') . rand(1, 10) . '_' . $ft_penjamin;
+            $namaGambar10 = 'ft_penjamin/' . date('mYdHs') . rand(1, 10) . '_' . $ft_penjamin;
             $request->ft_penjamin->storeAs('public/uploads/', $namaGambar10);
         } else {
             $namaGambar10 = $karyawan->ft_penjamin;

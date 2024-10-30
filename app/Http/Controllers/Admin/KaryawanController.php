@@ -210,7 +210,29 @@ class KaryawanController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             $karyawan = Karyawan::with('departemen')
-                ->select('id', 'kode_karyawan', 'nama_lengkap', 'no_ktp', 'no_sim', 'alamat', 'tanggal_lahir', 'tanggal_gabung', 'telp', 'departemen_id', 'qrcode_karyawan', 'gambar', 'ft_ktp', 'ft_sim')
+                ->select(
+                    'id',
+                    'kode_karyawan',
+                    'nama_lengkap',
+                    'no_ktp',
+                    'no_sim',
+                    'alamat',
+                    'tanggal_lahir',
+                    'tanggal_gabung',
+                    'telp',
+                    'departemen_id',
+                    'qrcode_karyawan',
+                    'gambar',
+                    'ft_ktp',
+                    'ft_sim',
+                    'ft_kk',
+                    'ft_kk_penjamin',
+                    'ft_skck',
+                    'ft_surat_pernyataan',
+                    'ft_terbaru',
+                    'ft_rumah',
+                    'ft_penjamin',
+                )
                 ->where('id', $id)
                 ->first();
 
