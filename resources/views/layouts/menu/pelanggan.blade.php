@@ -22,8 +22,8 @@
         <p>Monitoring Surat Jalan</p>
     </a>
 <li class="nav-item">
-    <a href="{{ url('pelanggan/history_suratjalan') }}"
-        class="nav-link {{ request()->is('pelanggan/history_suratjalan') ? 'active' : '' }}">
+    <a href="{{ url('pelanggan/history-suratjalan') }}"
+        class="nav-link {{ request()->is('pelanggan/history-suratjalan') ? 'active' : '' }}">
         <i class="nav-icon fas fa-history"></i>
         <p>History Surat Jalan</p>
     </a>

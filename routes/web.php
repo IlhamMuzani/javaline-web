@@ -43,7 +43,7 @@ Route::middleware('pelanggan')->prefix('pelanggan')->group(function () {
     Route::post('monitoring/update_latlong/{id}', [\App\Http\Controllers\Pelanggan\DashboardController::class, 'update_latlong'])->name('update_latlong');
     Route::resource('monitoring-kendaraan', \App\Http\Controllers\Pelanggan\MonitoringkendaraanController::class);
     Route::resource('monitoring-suratjalan', \App\Http\Controllers\Pelanggan\MonitoringsuratjalanController::class);
-    Route::resource('history-suratjalan', \App\Http\Controllers\Admin\HistorysuratjalanController::class);
+    Route::resource('history-suratjalan', \App\Http\Controllers\Pelanggan\HistorysuratjalanController::class);
 
     Route::get('profile', [\App\Http\Controllers\Pelanggan\ProfileController::class, 'index']);
     Route::post('profile/update', [\App\Http\Controllers\Pelanggan\ProfileController::class, 'update']);

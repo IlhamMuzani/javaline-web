@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pelanggan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
+use App\Models\Pelanggan;
 use App\Models\Pengambilan_do;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
@@ -14,24 +15,19 @@ class MonitoringsuratjalanController extends Controller
 {
     public function index(Request $request)
     {
-        // Mendapatkan input dari select divisi
-        $divisi = $request->input('divisi');
+        $user = auth()->user(); // Dapatkan pengguna yang sedang login
+        $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
 
-        // Query dasar untuk mendapatkan data dengan status_suratjalan 'belum pulang'
-        $spks = Pengambilan_do::with('kendaraan')
+        // Query untuk mendapatkan data Pengambilan_do yang berelasi dengan spk milik pelanggan yang sedang login
+        $spks = Pengambilan_do::with('kendaraan', 'spk') // Pastikan untuk memuat relasi spk juga
+            ->whereHas('spk', function ($query) use ($pelanggan) {
+                $query->where('pelanggan_id', $pelanggan->id); // Filter spk berdasarkan pelanggan yang login
+            })
             ->whereNotNull('spk_id')
             ->where('status_suratjalan', 'belum pulang')
-            ->whereNull('waktu_suratakhir'); // Filter untuk waktu_suratakhir yang null
-
-        // Filter berdasarkan nomor kabin kendaraan jika divisi dipilih
-        if (!empty($divisi) && $divisi != 'All') {
-            $spks->whereHas('kendaraan', function ($query) use ($divisi) {
-                $query->where('no_kabin', 'LIKE', $divisi . '%');
-            });
-        }
-
-        // Mengurutkan berdasarkan id secara descending
-        $spks = $spks->orderBy('waktu_suratawal', 'ASC')->get();
+            ->whereNull('waktu_suratakhir') // Filter untuk waktu_suratakhir yang null
+            ->orderBy('waktu_suratawal', 'ASC')
+            ->get();
 
         // Perulangan untuk menghitung durasi di controller
         foreach ($spks as $spk) {
