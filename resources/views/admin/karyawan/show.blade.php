@@ -271,6 +271,7 @@
                                 @endif
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="col-md-5">
                                 @if ($karyawan->ft_terbaru)
@@ -291,6 +292,7 @@
                                 @endif
                             </div>
                         </div>
+                        <br>
                         <div class="row">
                             <div class="col-md-5">
                                 @if ($karyawan->ft_penjamin)

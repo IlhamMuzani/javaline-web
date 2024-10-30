@@ -5,9 +5,53 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
-        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+        <div class="spinner"></div>
     </div>
+    <style>
 
+        /* Gaya untuk membuat loading spinner menjadi lingkaran berwarna biru */
+    .spinner {
+        width: 50px;              /* Diameter lingkaran */
+        height: 50px;             /* Diameter lingkaran */
+        border: 5px solid #74e1fc; /* Warna biru untuk tepi */
+        border-top: 5px solid transparent; /* Transparan pada bagian atas untuk efek putaran */
+        border-radius: 50%;       /* Membuatnya menjadi lingkaran */
+        animation: spin 1s linear infinite; /* Animasi berputar */
+    }
+
+    /* Definisi animasi berputar */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+        /* @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        } */
+
+        /* Gaya untuk header tabel */
+        .thead-custom {
+            color: white;
+            /* Warna teks putih */
+        }
+
+        .thead-custom th {
+            background: linear-gradient(to bottom, #74e1fc, #687275);
+            /* Gradient biru di atas, hitam di bawah */
+        }
+
+        /* Gaya untuk tabel */
+        table {
+            font-size: 13px;
+            min-width: 1000px;
+        }
+    </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
@@ -62,128 +106,87 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <form method="GET" id="form-action">
-                        <div class="form-row">
-                            <div class="col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <select class="custom-select form-control" id="divisi" name="divisi">
-                                        <option value="">- Cari Divisi -</option>
-                                        <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
-                                            -Semua Divisi-
-                                        </option>
-                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
-                                            K1
-                                        </option>
-                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
-                                            K2
-                                        </option>
-                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
-                                            K3
-                                        </option>
-                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
-                                            K4
-                                        </option>
-                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
-                                            K5
-                                        </option>
-                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
-                                            K6
-                                        </option>
-                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
-                                            K7
-                                        </option>
-
-                                    </select>
-                                    <label for="status">(Cari Divisi)</label>
-                                </div>
-                                {{-- </div> --}}
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <div class="input-group-append">
-                                    <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
-                                        <i class="fas fa-search"></i> Cari
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                    <table id="aksesTable" class="table table-bordered table-striped table-hover" style="font-size: 11px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                <th>NO</th>
-                                <th>KODE SPK</th>
-                                <th>PELANGGAN</th>
-                                <th>TUJUAN</th>
-                                <th>TANGGAL</th>
-                                <th>No Kabin</th>
-                                <th>Nama Driver</th>
-                                <th>Posisi</th>
-                                <th>TIMER</th>
-                                <th>TIMER TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @foreach ($spks as $pengambilan_do)
-                                <tr class="dropdown"{{ $pengambilan_do->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->tanggal_awal }}</td>
-                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
-                                            @else
-                                                {{ $pengambilan_do->penerima_sj ?? '-' }}
-                                            @endif
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @php
-                                                $timerAwal =
-                                                    $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
-
-                                                // Memeriksa apakah timer_awal ada
-                                                if ($timerAwal) {
-                                                    $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                    $waktuSekarang = \Carbon\Carbon::now();
-                                                    $durasi = $waktuAwal->diff($waktuSekarang);
-
-                                                    // Menampilkan hasil perhitungan durasi
-                                                    echo "{$durasi->days} hari, {$durasi->h} jam";
-                                                } else {
-                                                    echo '-';
-                                                }
-                                            @endphp
-                                        @endif
-                                    </td>
-
-
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
-                                            {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
-                                            {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
-                                            {{ $pengambilan_do->durasi_penerimaan_menit }} menit,
-                                            {{ $pengambilan_do->durasi_penerimaan_detik }} detik
-                                        @elseif ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
-                                            {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }} jam
-                                        @else
-                                            Durasi tidak tersedia
-                                        @endif
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="aksesTable" class="table table-bordered table-striped table-hover"
+                            style="font-size: 10px; min-width: 1000px;">
+                            <thead class="thead-custom">
+                                <tr>
+                                    {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th>NO</th>
+                                    <th>KODE SPK</th>
+                                    <th>PELANGGAN</th>
+                                    <th>TUJUAN</th>
+                                    <th>TANGGAL</th>
+                                    <th>No Kabin</th>
+                                    <th>Nama Driver</th>
+                                    <th>Posisi</th>
+                                    <th>TIMER</th>
+                                    <th>TIMER TOTAL</th>
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
 
-                        </tbody>
-                    </table>
+                                @foreach ($spks as $pengambilan_do)
+                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->tanggal_awal }}</td>
+                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
+                                                    {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
+                                                @else
+                                                    {{ $pengambilan_do->penerima_sj ?? '-' }}
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                @php
+                                                    $timerAwal =
+                                                        $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
+
+                                                    // Memeriksa apakah timer_awal ada
+                                                    if ($timerAwal) {
+                                                        $waktuAwal = \Carbon\Carbon::parse($timerAwal);
+                                                        $waktuSekarang = \Carbon\Carbon::now();
+                                                        $durasi = $waktuAwal->diff($waktuSekarang);
+
+                                                        // Menampilkan hasil perhitungan durasi
+                                                        echo "{$durasi->days} hari, {$durasi->h} jam";
+                                                    } else {
+                                                        echo '-';
+                                                    }
+                                                @endphp
+                                            @endif
+                                        </td>
+
+
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
+                                                {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
+                                                {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
+                                                {{ $pengambilan_do->durasi_penerimaan_menit }} menit,
+                                                {{ $pengambilan_do->durasi_penerimaan_detik }} detik
+                                            @elseif ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
+                                                {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
+                                                jam
+                                            @else
+                                                Durasi tidak tersedia
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

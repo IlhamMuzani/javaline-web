@@ -82,7 +82,7 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                    <table id="aksesTable" class="table table-bordered table-striped table-hover" style="font-size: 13px">
                         <thead class="thead-dark">
                             <tr>
                                 {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
@@ -280,6 +280,37 @@
                     }).nodes().each(function(cell, i) {
                         cell.innerHTML = i +
                             1; // Mengisi ulang nomor urut berdasarkan urutan yang ditampilkan
+                    });
+                }
+            });
+        });
+    </script>
+
+    {{-- sudah benar  --}}
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi DataTables
+            $('#aksesTable').DataTable({
+                "paging": false, // Menonaktifkan pagination
+                "ordering": true,
+                "info": true,
+                "order": [], // Nonaktifkan pengurutan awal pada semua kolom
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 0
+                    } // Nonaktifkan pengurutan untuk kolom No
+                ],
+                "language": {
+                    "search": "Search: ",
+                    "searchPlaceholder": ""
+                },
+                "drawCallback": function(settings) {
+                    var api = this.api();
+                    // Mengatur ulang nomor urut pada setiap refresh (filter/pagination)
+                    api.column(0, {
+                        order: 'applied'
+                    }).nodes().each(function(cell, i) {
+                        cell.innerHTML = i + 1;
                     });
                 }
             });
