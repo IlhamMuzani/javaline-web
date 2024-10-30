@@ -20,13 +20,6 @@
         </div>
     </div>
 
-    <style>
-        #map {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
-
     <section class="content">
         <div class="container-fluid">
             @if (session('error'))
@@ -80,10 +73,10 @@
                         <div class="form-group" style="flex: 8;">
                             <div class="form-group">
                                 <div class="form-group" style="flex: 8;">
-                                    <label for="pelanggan_id">Nama Pelanggan</label>
+                                    <label style="font-size: 14px" for="pelanggan_id">Nama Pelanggan</label>
                                     <select class="select2bs4 select22-hidden-accessible" name="pelanggan_id"
-                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" data-select22-id="23"
-                                        tabindex="-1" aria-hidden="true" id="pelanggan_id">
+                                        data-placeholder="Cari Pelanggan.." style="width: 100%; font-size:14px"
+                                        data-select22-id="23" tabindex="-1" aria-hidden="true" id="pelanggan_id">
                                         <option value="">- Pilih -</option>
                                         @foreach ($pelanggans as $pelanggan)
                                             <option value="{{ $pelanggan->id }}"
@@ -95,41 +88,45 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="nama">No Telp</label>
-                                <input type="text" class="form-control" id="telp" name="telp"
-                                    placeholder="Masukan no telp" value="{{ old('telp', $alamatbongkars->telp) }}">
+                                <label style="font-size: 14px" for="nama">No Telp</label>
+                                <input style="font-size: 14px" type="text" class="form-control" id="telp"
+                                    name="telp" placeholder="Masukan no telp"
+                                    value="{{ old('telp', $alamatbongkars->telp) }}">
                             </div>
                             <div class="form-group">
-                                <label for="alamat">Tujuan Bongkar</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat"
-                                    placeholder="masukkan tujuan bongkar"
+                                <label style="font-size: 14px" for="alamat">Tujuan Bongkar</label>
+                                <input style="font-size: 14px" type="text" class="form-control" id="alamat"
+                                    name="alamat" placeholder="masukkan tujuan bongkar"
                                     value="{{ old('alamat', $alamatbongkars->alamat) }}">
                             </div>
                         </div>
 
-                        <!-- Add Leaflet map container -->
-                        <div class="form-group">
-                            <label style="font-size:14px" for="map">Peta</label>
-                            <div id="map"></div>
-
-                            @if (auth()->user()->id == 1)
-                                <label for="latitude">Latitude:</label>
-                                <input type="text" id="latitude" name="latitude"
-                                    value="{{ old('latitude', $alamatbongkars->latitude) }}"
+                        <div>
+                            <label style="font-size: 14px" for="alamat">Ambil Lokasi</label>
+                            <div class="form-group d-flex">
+                                <input onclick="showCategoryLokasi(this.value)" class="form-control" id="nama_lokasi"
+                                    name="nama_lokasi" type="text" placeholder=""
+                                    value="{{ old('nama_lokasi', $alamatbongkars->nama_lokasi) }}" readonly
                                     style="margin-right: 10px; font-size:14px" />
-
-                                <label for="longitude">Longitude:</label>
-                                <input type="text" id="longitude" name="longitude"
-                                    value="{{ old('longitude', $alamatbongkars->longitude) }}"
-                                    style="margin-right: 10px; font-size:14px" />
-                            @else
-                                <input type="hidden" id="latitude" value="{{ old('latitude', $alamatbongkars->latitude) }}"
-                                    name="latitude" />
-                                <input type="hidden" id="longitude"
-                                    value="{{ old('longitude', $alamatbongkars->longitude) }}" name="longitude" />
-                            @endif
+                                <button class="btn btn-primary" type="button" onclick="showCategoryLokasi(this.value)">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
                         </div>
-
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label style="font-size: 14px" for="latitude">Latitude</label>
+                                <input readonly type="text" class="form-control" id="latitude" name="latitude"
+                                    style="font-size: 14px" placeholder=""
+                                    value="{{ old('latitude', $alamatbongkars->latitude) }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label style="font-size: 14px" for="longitude">Longitude</label>
+                                <input readonly type="text" class="form-control" id="longitude" name="longitude"
+                                    style="font-size: 14px" placeholder=""
+                                    value="{{ old('longitude', $alamatbongkars->longitude) }}">
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
@@ -138,9 +135,37 @@
                             <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
                         </div>
                     </div>
+
                     <!-- /.card-body -->
                 </div>
             </form>
+        </div>
+        <div class="modal fade" id="tableLokasi" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Lokasi</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tableid" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Nama Lokasi</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -214,4 +239,73 @@
             });
         });
     </script>
+
+    <script>
+        function showCategoryLokasi(selectedCategory) {
+            // Tampilkan modal
+            $('#tableLokasi').modal('show');
+
+            // Hapus data sebelumnya di tabel
+            $('#tableid tbody').empty();
+
+            // Hapus inisialisasi DataTables jika sudah ada
+            if ($.fn.DataTable.isDataTable('#tableid')) {
+                $('#tableid').DataTable().clear().destroy();
+            }
+
+            // Panggil data lokasi melalui AJAX
+            $.ajax({
+                url: '{{ route('ambil_lokasi') }}',
+                method: 'GET',
+                success: function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+
+                    // Masukkan data ke dalam tabel
+                    $.each(data.Data, function(index, lokasi) {
+                        const lon = lokasi.data_circle ? lokasi.data_circle.lon : '';
+                        const lat = lokasi.data_circle ? lokasi.data_circle.lat : '';
+
+                        $('#tableid tbody').append(
+                            `<tr onclick="getSelectedDataLokasi('${lokasi.geo_nm}', '${lat}', '${lon}')">
+                        <td class="text-center">${index + 1}</td>
+                        <td>${lokasi.geo_nm}</td>
+                        <td>${lat}</td>
+                        <td>${lon}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-primary btn-sm"
+                                onclick="getSelectedDataLokasi('${lokasi.geo_nm}', '${lat}', '${lon}')">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>`
+                        );
+                    });
+
+                    // Inisialisasi DataTables
+                    $('#tableid').DataTable({
+                        searching: true,
+                        paging: true
+                    });
+                },
+                error: function() {
+                    alert('Gagal mengambil data lokasi kendaraan.');
+                }
+            });
+        }
+
+        function getSelectedDataLokasi(nama_lokasi, latitude, longitude) {
+            document.getElementById('nama_lokasi').value = nama_lokasi;
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+            $('#tableLokasi').modal('hide');
+        }
+    </script>
+
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
 @endsection

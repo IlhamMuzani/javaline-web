@@ -19,6 +19,7 @@ class Alamat_muat extends Model
         'kode_alamat',
         'pelanggan_id',
         'telp',
+        'nama_lokasi',
         'latitude',
         'longitude',
         'alamat',

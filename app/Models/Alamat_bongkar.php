@@ -19,6 +19,7 @@ class Alamat_bongkar extends Model
         'pelanggan_id',
         'vendor_id',
         'telp',
+        'nama_lokasi',
         'latitude',
         'longitude',
         'alamat',
