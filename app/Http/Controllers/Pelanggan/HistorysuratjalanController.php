@@ -18,22 +18,18 @@ class HistorysuratjalanController extends Controller
         $user = auth()->user();
         $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
 
-        $status = $request->status;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        // Jika tidak ada filter status atau tanggal, kembalikan data kosong
-        if (!$status && !$tanggal_awal && !$tanggal_akhir) {
+        // Jika tidak ada filter tanggal, kembalikan data kosong
+        if (!$tanggal_awal && !$tanggal_akhir) {
             $spks = collect(); // Data kosong
         } else {
             $spks = Pengambilan_do::with('kendaraan', 'spk')
                 ->whereHas('spk', function ($query) use ($pelanggan) {
                     $query->where('pelanggan_id', $pelanggan->id);
-                });
-
-            if ($status) {
-                $spks->where('status', $status);
-            }
+                })
+                ->where('status', 'selesai'); // Hanya tampilkan yang berstatus selesai
 
             if ($tanggal_awal && $tanggal_akhir) {
                 $spks->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);
