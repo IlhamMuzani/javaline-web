@@ -64,6 +64,7 @@
                                 <th>Kode Tujuan</th>
                                 <th>Nama Pelanggan</th>
                                 <th>Tujuan Bongkar</th>
+                                <th>Maps</th>
                                 <th class="text-center" width="90">Opsi</th>
                             </tr>
                         </thead>
@@ -77,6 +78,14 @@
                                     </td>
 
                                     <td>{{ $alamatbongkar->alamat }}
+                                    </td>
+                                    <td>
+                                        <a href="https://www.google.com/maps/search/?api=1&query={{ $alamatbongkar->latitude }},{{ $alamatbongkar->longitude }}"
+                                            class="btn btn-secondary btn-sm" target="_blank"
+                                            style="padding: 0; border: none; text-align: center; text-decoration: none;">
+                                            <img src="{{ asset('storage/uploads/user/map.png') }}" alt="Peta"
+                                                style="width: 30px; height: 30px; object-fit: contain; display: block; margin: 0 auto;">
+                                        </a>
                                     </td>
                                     <td class="text-center">
                                         {{-- @if (auth()->check() && auth()->user()->fitur['biaya update']) --}}
