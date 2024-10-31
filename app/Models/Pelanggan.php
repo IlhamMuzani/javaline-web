@@ -29,6 +29,7 @@ class Pelanggan extends Model
         'fax',
         'hp',
         'email',
+        'gambar',
         'tanggal_awal',
         'tanggal_akhir',
     ];

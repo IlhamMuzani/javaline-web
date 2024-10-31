@@ -64,4 +64,9 @@ Route::post('search-spk', [\App\Http\Controllers\Api\PengambilandoController::cl
 Route::post('pengambilan_do-terima/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'terima']);
 Route::post('pengambilan_do-batal_terima/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'batal_terima']);
 
-// Route::apiResource('kendaraan', [KendaraanController::class, 'kendaraan_search'])->except('index');
+
+Route::post('pelanggan/login', [\App\Http\Controllers\Api\AuthController::class, 'login_pelanggan']);
+Route::get('pelanggan-detail/{id}', [\App\Http\Controllers\Api\AuthController::class, 'detail_pelanggan']);
+Route::post('list-dopelanggan/{id}', [\App\Http\Controllers\Api\PengambilandopelangganController::class, 'list_dopelanggan']);
+Route::post('list-kendaraanid/{id}', [\App\Http\Controllers\Api\KendaraanpelangganController::class, 'list_kendaraanid']);
+Route::post('kendaraan-search/{id}', [\App\Http\Controllers\Api\KendaraanpelangganController::class, 'kendaraan_search']);

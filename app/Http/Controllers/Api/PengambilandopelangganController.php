@@ -21,7 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
-class PengambilandoController extends Controller
+class PengambilandopelangganController extends Controller
 {
 
     public function listAll()
@@ -70,57 +70,57 @@ class PengambilandoController extends Controller
         }
     }
 
-    // public function list_dopelanggan($id)
-    // {
-    //     $user = User::where('id', $id)->first();
-    //     $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
+    public function list_dopelanggan($id)
+    {
+        $user = User::where('id', $id)->first();
+        $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
 
-    //     if (!$pelanggan) {
-    //         return $this->response(
-    //             FALSE,
-    //             ['Pelanggan tidak ditemukan!']
-    //         );
-    //     }
+        if (!$pelanggan) {
+            return $this->response(
+                FALSE,
+                ['Pelanggan tidak ditemukan!']
+            );
+        }
 
-    //     // Query untuk mendapatkan data Pengambilan_do yang berelasi dengan spk milik pelanggan yang sedang login
-    //     $pengambilando = Pengambilan_do::with('kendaraan', 'spk') // Pastikan untuk memuat relasi spk juga
-    //         ->whereHas('spk', function ($query) use ($pelanggan) {
-    //             $query->where('pelanggan_id', $pelanggan->id); // Filter spk berdasarkan pelanggan yang login
-    //         })
-    //         ->whereNotNull('spk_id')
-    //         ->where('status_suratjalan', 'belum pulang')
-    //         ->whereNull('waktu_suratakhir') // Filter untuk waktu_suratakhir yang null
-    //         ->orderBy('waktu_suratawal', 'ASC') // Urutkan berdasarkan waktu_suratawal secara ascending
-    //         ->get();
+        // Query untuk mendapatkan data Pengambilan_do yang berelasi dengan spk milik pelanggan yang sedang login
+        $pengambilando = Pengambilan_do::with('user.karyawan', 'kendaraan', 'spk', 'rute_perjalanan') // Pastikan untuk memuat relasi spk juga
+            ->whereHas('spk', function ($query) use ($pelanggan) {
+                $query->where('pelanggan_id', $pelanggan->id); // Filter spk berdasarkan pelanggan yang login
+            })
+            ->whereNotNull('spk_id')
+            ->where('status_suratjalan', 'belum pulang')
+            ->whereNull('waktu_suratakhir') // Filter untuk waktu_suratakhir yang null
+            ->orderBy('waktu_suratawal', 'ASC') // Urutkan berdasarkan waktu_suratawal secara ascending
+            ->get();
 
-    //     // Perulangan untuk menghitung durasi di controller
-    //     foreach ($pengambilando as $spk) {
-    //         if ($spk->waktu_suratawal) {
-    //             $waktu_awal = Carbon::parse($spk->waktu_suratawal);
-    //             $waktu_akhir = $spk->waktu_suratakhir ? Carbon::parse($spk->waktu_suratakhir) : Carbon::now();
-    //             $durasi = $waktu_awal->diff($waktu_akhir);
-    //             $spk->durasi_hari = $durasi->days;
-    //             $spk->durasi_jam = $durasi->h;
-    //             $spk->durasi_menit = $durasi->i;
-    //             $spk->durasi_detik = $durasi->s;
-    //         } else {
-    //             $spk->durasi_hari = '-';
-    //             $spk->durasi_jam = '-';
-    //             $spk->durasi_menit = '-';
-    //             $spk->durasi_detik = '-';
-    //         }
-    //     }
+        // Perulangan untuk menghitung durasi di controller
+        foreach ($pengambilando as $spk) {
+            if ($spk->waktu_suratawal) {
+                $waktu_awal = Carbon::parse($spk->waktu_suratawal);
+                $waktu_akhir = $spk->waktu_suratakhir ? Carbon::parse($spk->waktu_suratakhir) : Carbon::now();
+                $durasi = $waktu_awal->diff($waktu_akhir);
+                $spk->durasi_hari = $durasi->days;
+                $spk->durasi_jam = $durasi->h;
+                $spk->durasi_menit = $durasi->i;
+                $spk->durasi_detik = $durasi->s;
+            } else {
+                $spk->durasi_hari = '-';
+                $spk->durasi_jam = '-';
+                $spk->durasi_menit = '-';
+                $spk->durasi_detik = '-';
+            }
+        }
 
-    //     // Cek apakah ada data yang ditemukan
-    //     if ($pengambilando->isNotEmpty()) {
-    //         return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilando);
-    //     } else {
-    //         return $this->response(
-    //             FALSE,
-    //             ['Gagal menampilkan data!']
-    //         );
-    //     }
-    // }
+        // Cek apakah ada data yang ditemukan
+        if ($pengambilando->isNotEmpty()) {
+            return $this->response(TRUE, ['Berhasil menampilkan data'], $pengambilando);
+        } else {
+            return $this->response(
+                FALSE,
+                ['Gagal menampilkan data!']
+            );
+        }
+    }
 
 
 
