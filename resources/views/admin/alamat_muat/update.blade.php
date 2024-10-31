@@ -116,13 +116,13 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label style="font-size: 14px" for="latitude">Latitude</label>
-                                <input readonly type="text" class="form-control" id="latitude" name="latitude"
+                                <input type="text" class="form-control" id="latitude" name="latitude"
                                     style="font-size: 14px" placeholder=""
                                     value="{{ old('latitude', $alamatmuats->latitude) }}">
                             </div>
                             <div class="col-md-6">
                                 <label style="font-size: 14px" for="longitude">Longitude</label>
-                                <input readonly type="text" class="form-control" id="longitude" name="longitude"
+                                <input type="text" class="form-control" id="longitude" name="longitude"
                                     style="font-size: 14px" placeholder=""
                                     value="{{ old('longitude', $alamatmuats->longitude) }}">
                             </div>
