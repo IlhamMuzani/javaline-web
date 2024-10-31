@@ -446,6 +446,7 @@ class InqueryFakturekspedisispkController extends Controller
             if ($pengambilan_do) {
                 // Update waktu_suratakhir menjadi waktu saat ini
                 $pengambilan_do->update([
+                    'status_suratjalan' => 'pulang',
                     'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
                 ]);
 
