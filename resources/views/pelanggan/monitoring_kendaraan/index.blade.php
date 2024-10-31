@@ -286,10 +286,9 @@
                                                     00.00
                                                 @endif
                                             @else
-                                                -
+                                                {{ $kendaraan->timer }}
                                             @endif
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
