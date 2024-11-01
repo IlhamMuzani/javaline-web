@@ -288,6 +288,10 @@
                                                             class="form-control" id="alamat_muat" readonly
                                                             name="alamat_muat" placeholder=""
                                                             value="{{ old('alamat_muat', $inquery->alamat_muat->alamat ?? null) }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowmuat1" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -330,10 +334,13 @@
                                                         <input onclick="showAlamatBongkar(this.value)"
                                                             style="margin-right: 10px; font-size:14px" type="text"
                                                             class="form-control" id="alamat_bongkar" readonly
-                                                            name="alamat_bongkar2" placeholder=""
+                                                            name="alamat_bongkar" placeholder=""
                                                             value="{{ old('alamat_bongkar', $inquery->alamat_bongkar->alamat ?? null) }}">
-                                                        <button class="btn btn-primary" type="button"
-                                                            onclick="showAlamatBongkar(this.value)">
+                                                        <button class="btn btn-danger delete-rowbongkar1" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                        <button style="margin-left:5px" class="btn btn-primary"
+                                                            type="button" onclick="showAlamatBongkar(this.value)">
                                                             <i class="fas fa-search"></i>
                                                         </button>
                                                     </div>
@@ -380,6 +387,10 @@
                                                             class="form-control" id="alamat_muat2" readonly
                                                             name="alamat_muat2" placeholder=""
                                                             value="{{ old('alamat_muat2', $inquery->alamat_muat2->alamat ?? null) }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowmuat2" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat2(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -424,6 +435,10 @@
                                                             class="form-control" id="alamat_bongkar2" readonly
                                                             name="alamat_bongkar2" placeholder=""
                                                             value="{{ old('alamat_bongkar2', $inquery->alamat_bongkar2->alamat ?? null) }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowbongkar2" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar2(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -471,6 +486,10 @@
                                                             class="form-control" id="alamat_muat3" readonly
                                                             name="alamat_muat3" placeholder=""
                                                             value="{{ old('alamat_muat3', $inquery->alamat_muat3->alamat ?? null) }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowmuat3" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat3(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -515,6 +534,10 @@
                                                             class="form-control" id="alamat_bongkar3" readonly
                                                             name="alamat_bongkar3" placeholder=""
                                                             value="{{ old('alamat_bongkar3', $inquery->alamat_bongkar3->alamat ?? null) }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowbongkar3" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar3(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -527,7 +550,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
@@ -1526,4 +1548,53 @@
         toggleLabels();
         document.getElementById('kategori').addEventListener('change', toggleLabels);
     </script>
+
+    <script>
+        // jQuery
+        $(document).ready(function() {
+            // Menambahkan event click pada tombol hapus
+            $('.delete-rowbongkar1').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_bongkar_id').val('');
+                $('#kode_alamatbongkar').val('');
+                $('#alamat_bongkar').val('');
+            });
+
+            $('.delete-rowbongkar2').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_bongkar2_id').val('');
+                $('#kode_alamatbongkar2').val('');
+                $('#alamat_bongkar2').val('');
+            });
+
+            $('.delete-rowbongkar3').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_bongkar3_id').val('');
+                $('#kode_alamatbongkar3').val('');
+                $('#alamat_bongkar3').val('');
+            });
+
+            $('.delete-rowmuat1').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_muat_id').val('');
+                $('#kode_alamatmuat').val('');
+                $('#alamat_muat').val('');
+            });
+
+            $('.delete-rowmuat2').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_muat2_id').val('');
+                $('#kode_alamatmuat2').val('');
+                $('#alamat_muat2').val('');
+            });
+
+            $('.delete-rowmuat3').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_muat3_id').val('');
+                $('#kode_alamatmuat3').val('');
+                $('#alamat_muat3').val('');
+            });
+        });
+    </script>
+
 @endsection
