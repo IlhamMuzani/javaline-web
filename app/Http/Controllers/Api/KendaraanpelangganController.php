@@ -82,7 +82,6 @@ class KendaraanpelangganController extends Controller
         }
     }
 
-
     // public function kendaraan_search(Request $request, $id)
     // {
     //     // Ambil user berdasarkan ID
@@ -138,7 +137,6 @@ class KendaraanpelangganController extends Controller
     //         return $this->response(FALSE, ['Gagal menampilkan data!']);
     //     }
     // }
-
 
     public function kendaraan_search(Request $request, $id)
     {
@@ -199,8 +197,6 @@ class KendaraanpelangganController extends Controller
             return $this->response(FALSE, ['Gagal menampilkan data!']);
         }
     }
-
-
 
     public function response($status, $message, $data = null)
     {

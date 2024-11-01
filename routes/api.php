@@ -70,3 +70,4 @@ Route::get('pelanggan-detail/{id}', [\App\Http\Controllers\Api\AuthController::c
 Route::post('list-dopelanggan/{id}', [\App\Http\Controllers\Api\PengambilandopelangganController::class, 'list_dopelanggan']);
 Route::post('list-kendaraanid/{id}', [\App\Http\Controllers\Api\KendaraanpelangganController::class, 'list_kendaraanid']);
 Route::post('kendaraan-search/{id}', [\App\Http\Controllers\Api\KendaraanpelangganController::class, 'kendaraan_search']);
+Route::post('list-historydo/{id}', [\App\Http\Controllers\Api\HistorysuratjalanController::class, 'list_historydo']);
