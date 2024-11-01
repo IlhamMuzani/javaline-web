@@ -30,7 +30,7 @@ class HistorysuratjalanController extends Controller
         if (!$tanggal_awal && !$tanggal_akhir) {
             $pengambilando = collect(); // Data kosong
         } else {
-            $pengambilando = Pengambilan_do::with('kendaraan', 'spk')
+            $pengambilando = Pengambilan_do::with('user.karyawan', 'kendaraan', 'spk', 'rute_perjalanan')
             ->whereHas('spk', function ($query) use ($pelanggan) {
                 $query->where('pelanggan_id', $pelanggan->id);
             })
