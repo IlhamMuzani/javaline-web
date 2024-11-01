@@ -1398,6 +1398,23 @@ class DriverController extends Controller
         }
     }
 
+    public function pelanggan_detail($id)
+    {
+        $pelanggan = Pelanggan::where('id', $id)->with('user')->first();
+        if ($pelanggan) {
+            return response()->json([
+                'status' => TRUE,
+                'msg' => 'Berhasil',
+                'pelanggan' => $pelanggan
+            ]);
+        } else {
+            return response()->json([
+                'status' => FALSE,
+                'msg' => 'Error',
+            ]);
+        }
+    }
+
     public function error($message)
     {
         return response()->json([
