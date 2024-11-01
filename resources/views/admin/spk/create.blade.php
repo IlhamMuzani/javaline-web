@@ -270,6 +270,10 @@
                                                             class="form-control" id="alamat_muat" readonly
                                                             name="alamat_muat" placeholder=""
                                                             value="{{ old('alamat_muat') }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowmuat1" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -314,6 +318,10 @@
                                                             class="form-control" id="alamat_bongkar" readonly
                                                             name="alamat_bongkar" placeholder=""
                                                             value="{{ old('alamat_bongkar') }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowbongkar1" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -360,7 +368,10 @@
                                                             class="form-control" id="alamat_muat2" readonly
                                                             name="alamat_muat2" placeholder=""
                                                             value="{{ old('alamat_muat2') }}">
-                                                        <button class="btn btn-primary" type="button"
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowmuat2" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button><button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat2(this.value)">
                                                             <i class="fas fa-search"></i>
                                                         </button>
@@ -404,6 +415,10 @@
                                                             class="form-control" id="alamat_bongkar2" readonly
                                                             name="alamat_bongkar2" placeholder=""
                                                             value="{{ old('alamat_bongkar2') }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowbongkar2" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar2(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -450,6 +465,10 @@
                                                             class="form-control" id="alamat_muat3" readonly
                                                             name="alamat_muat3" placeholder=""
                                                             value="{{ old('alamat_muat3') }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowmuat3" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatMuat3(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -494,6 +513,10 @@
                                                             class="form-control" id="alamat_bongkar3" readonly
                                                             name="alamat_bongkar3" placeholder=""
                                                             value="{{ old('alamat_bongkar3') }}">
+                                                        <button style="margin-right:5px"
+                                                            class="btn btn-danger delete-rowbongkar3" type="button">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
                                                         <button class="btn btn-primary" type="button"
                                                             onclick="showAlamatBongkar3(this.value)">
                                                             <i class="fas fa-search"></i>
@@ -1512,5 +1535,53 @@
             }
             return !(charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46);
         }
+    </script>
+
+    <script>
+        // jQuery
+        $(document).ready(function() {
+            // Menambahkan event click pada tombol hapus
+            $('.delete-rowbongkar1').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_bongkar_id').val('');
+                $('#kode_alamatbongkar').val('');
+                $('#alamat_bongkar').val('');
+            });
+
+            $('.delete-rowbongkar2').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_bongkar2_id').val('');
+                $('#kode_alamatbongkar2').val('');
+                $('#alamat_bongkar2').val('');
+            });
+
+            $('.delete-rowbongkar3').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_bongkar3_id').val('');
+                $('#kode_alamatbongkar3').val('');
+                $('#alamat_bongkar3').val('');
+            });
+
+            $('.delete-rowmuat1').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_muat_id').val('');
+                $('#kode_alamatmuat').val('');
+                $('#alamat_muat').val('');
+            });
+
+            $('.delete-rowmuat2').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_muat2_id').val('');
+                $('#kode_alamatmuat2').val('');
+                $('#alamat_muat2').val('');
+            });
+
+            $('.delete-rowmuat3').click(function() {
+                // Menghapus nilai input pada form-group terkait
+                $('#alamat_muat3_id').val('');
+                $('#kode_alamatmuat3').val('');
+                $('#alamat_muat3').val('');
+            });
+        });
     </script>
 @endsection
