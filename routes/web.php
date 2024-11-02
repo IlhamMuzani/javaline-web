@@ -44,6 +44,7 @@ Route::middleware('pelanggan')->prefix('pelanggan')->group(function () {
     Route::resource('monitoring-kendaraan', \App\Http\Controllers\Pelanggan\MonitoringkendaraanController::class);
     Route::resource('monitoring-suratjalan', \App\Http\Controllers\Pelanggan\MonitoringsuratjalanController::class);
     Route::resource('history-suratjalan', \App\Http\Controllers\Pelanggan\HistorysuratjalanController::class);
+    Route::resource('faktur-ekspedisi', \App\Http\Controllers\Pelanggan\FakturekspedisiController::class);
 
     Route::get('profile', [\App\Http\Controllers\Pelanggan\ProfileController::class, 'index']);
     Route::post('profile/update', [\App\Http\Controllers\Pelanggan\ProfileController::class, 'update']);

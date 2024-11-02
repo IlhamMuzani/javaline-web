@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'History Surat Jalan')
+@section('title', 'Faktur Ekspedisi')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -35,16 +35,6 @@
             }
         }
 
-        /* @keyframes spin {
-                                                        0% {
-                                                            transform: rotate(0deg);
-                                                        }
-
-                                                        100% {
-                                                            transform: rotate(360deg);
-                                                        }
-                                                    } */
-
         /* Gaya untuk header tabel */
         .thead-custom {
             color: white;
@@ -77,11 +67,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">History Surat Jalan</h1>
+                    <h1 class="m-0">Faktur Ekspedisi</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">History Surat Jalan</li>
+                        <li class="breadcrumb-item active">Faktur Ekspedisi</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -112,7 +102,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">History Surat Jalan</h3>
+                    <h3 class="card-title">Faktur Ekspedisi</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -144,30 +134,69 @@
                             style="font-size: 10px; min-width: 1000px;">
                             <thead class="thead-custom">
                                 <tr>
-                                    {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                    <th>NO</th>
-                                    <th>KODE SPK</th>
-                                    <th>PELANGGAN</th>
-                                    <th>TUJUAN</th>
-                                    <th>TANGGAL</th>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Ekspedisi</th>
+                                    <th></th>
+                                    <th>Pelanggan</th>
                                     <th>No Kabin</th>
-                                    <th>Nama Driver</th>
+                                    <th>Total</th>
+                                    <th>PPH</th>
+                                    <th>U. Tambahan</th>
+                                    <th>Sub Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-
-                                @foreach ($spks as $pengambilan_do)
-                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                @php
+                                    $totalGrandTotal = 0;
+                                    $pph23 = 0;
+                                @endphp
+                                @foreach ($inquery as $faktur)
+                                    <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->tanggal_awal }}</td>
-                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>
+                                            {{ $faktur->kode_faktur }}
+                                        </td>
+                                        <td>
+                                            {{ $faktur->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $faktur->nama_pelanggan }}
+                                        </td>
+                                        <td>
+                                            @if ($faktur->detail_faktur->first())
+                                                {{ $faktur->detail_faktur->first()->nama_driver }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                            @if ($faktur->detail_faktur->first())
+                                                ({{ $faktur->detail_faktur->first()->no_kabin }})
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right">
+                                            {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
+                                        <td style="text-align: right">
+                                            {{ number_format($faktur->pph, 2, ',', '.') }}</td>
+                                        <td style="text-align: right">
+                                            @if (is_numeric($faktur->biaya_tambahan))
+                                                {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}
+                                            @else
+                                                Format salah
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right">
+                                            {{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
                                     </tr>
-                                @endforeach
+                                    @php
+                                        $totalGrandTotal += $faktur->total_tarif + $faktur->biaya_tambahan;
+                                        $pph23 += $faktur->pph;
+                                    @endphp
 
+                                    @php
+                                        $Totals = $totalGrandTotal - $pph23;
+                                    @endphp
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -226,7 +255,7 @@
                 return;
             }
 
-            form.action = "{{ url('pelanggan/history-suratjalan') }}";
+            form.action = "{{ url('pelanggan/faktur-ekspedisi') }}";
             form.submit();
         }
     </script>

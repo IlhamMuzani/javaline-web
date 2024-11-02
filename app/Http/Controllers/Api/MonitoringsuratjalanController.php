@@ -21,7 +21,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
 
-class PengambilandopelangganController extends Controller
+class MonitoringsuratjalanController extends Controller
 {
 
     public function list_dopelanggan($id)

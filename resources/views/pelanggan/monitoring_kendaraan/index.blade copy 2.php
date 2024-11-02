@@ -102,9 +102,9 @@
                                     <option value="">- Pilih -</option>
                                     <option value="all" {{ Request::get('kendaraan_id') === 'all' ? 'selected' : '' }}>
                                         -Semua Kendaraan-</option> <!-- Opsi All Kendaraan -->
-                                    @foreach ($do_kendaraans as $pengambilan)
-                                        <option value="{{ $pengambilan->kendaraan->id }}"
-                                            {{ Request::get('kendaraan_id') == $pengambilan->kendaraan->id ? 'selected' : '' }}>
+                                    @foreach ($pengambilan_do as $pengambilan)
+                                        <option value="{{ $pengambilan->id }}"
+                                            {{ Request::get('kendaraan_id') == $pengambilan->id ? 'selected' : '' }}>
                                             {{ $pengambilan->kendaraan->no_kabin }}
                                         </option>
                                     @endforeach

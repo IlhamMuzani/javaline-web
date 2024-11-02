@@ -102,10 +102,10 @@
                                     <option value="">- Pilih -</option>
                                     <option value="all" {{ Request::get('kendaraan_id') === 'all' ? 'selected' : '' }}>
                                         -Semua Kendaraan-</option> <!-- Opsi All Kendaraan -->
-                                    @foreach ($do_kendaraans as $pengambilan)
-                                        <option value="{{ $pengambilan->kendaraan->id }}"
-                                            {{ Request::get('kendaraan_id') == $pengambilan->kendaraan->id ? 'selected' : '' }}>
-                                            {{ $pengambilan->kendaraan->no_kabin }}
+                                    @foreach ($kendaraanall as $kendaraan)
+                                        <option value="{{ $kendaraan->id }}"
+                                            {{ Request::get('kendaraan_id') == $kendaraan->id ? 'selected' : '' }}>
+                                            {{ $kendaraan->no_kabin }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -189,45 +189,104 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($pengambilan_do as $pengambilan)
+                                @foreach ($kendaraans as $kendaraan)
                                     <tr>
                                         <td style="width: 1%" class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $pengambilan->kendaraan->no_kabin ?? null }}</td>
-                                        <td>{{ $pengambilan->kendaraan->no_pol ?? null }}</td>
-                                        <td>{{ $pengambilan->spk->nama_driver ?? null }}</td>
-                                        <td>{{ $pengambilan->spk->pelanggan->nama_pell ?? null }}</td>
-                                        <td>{{ $pengambilan->spk->nama_rute ?? null }}</td>
-                                        <td>{{ $pengambilan->kendaraan->status_perjalanan ?? null }}</td>
+                                        <td>{{ $kendaraan->no_kabin }}</td>
+                                        <td>{{ $kendaraan->no_pol }}</td>
+                                        <td style="width: 5%">
+                                            @if ($kendaraan->spk->last())
+                                                {{ $kendaraan->spk->last()->nama_driver ?? 'belum ada' }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
                                         <td>
-                                            @if ($pengambilan->kendaraan->status_kendaraan == 2)
+                                            @if ($kendaraan->status_perjalanan != 'Kosong')
+                                                @if ($kendaraan->latestpengambilan_do)
+                                                    {{ $kendaraan->latestpengambilan_do->spk->pelanggan->nama_pell ?? 'belum ada' }}
+                                                @else
+                                                    tidak ada
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            @if ($kendaraan->status_perjalanan != 'Kosong')
+                                                @if ($kendaraan->pengambilan_do->whereNotIn('status', ['unpost', 'posting', 'selesai'])->last())
+                                                    {{ $kendaraan->pengambilan_do->whereNotIn('status', ['unpost', 'posting', 'selesai'])->last()->rute_perjalanan->nama_rute ?? 'tidak ada' }}
+                                                @else
+                                                    -
+                                                @endif
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($kendaraan->status_perjalanan)
+                                                @if (strtolower($kendaraan->status_perjalanan) == 'loading muat')
+                                                    Tunggu Muat
+                                                @elseif(strtolower($kendaraan->status_perjalanan) == 'loading bongkar')
+                                                    Tunggu Bongkar
+                                                @else
+                                                    {{ $kendaraan->status_perjalanan }}
+                                                @endif
+                                            @else
+                                                Kosong
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($kendaraan->status_kendaraan == 2)
                                                 <span style="font-size: 10px" class="badge badge-success">Perjalanan</span>
                                             @else
                                                 <span style="font-size: 10px" class="badge badge-info">Parkir</span>
                                             @endif
                                         </td>
                                         <td>
-                                            {{ $pengambilan->kendaraan->lokasi ?? null }}
+                                            {{ $kendaraan->lokasi }}
                                         </td>
-                                        <td>
-                                            <a href="https://maps.google.com/maps?q={{ $pengambilan->kendaraan->latitude }},{{ $pengambilan->kendaraan->longitude }}"
+                                        {{-- <td>
+                                        <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                            class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-map-marked-alt"></i>
+                                            Maps
+                                        </a>
+                                    </td> --}}
+                                        {{-- <td>
+                                            <a style="font-size:12px"
+                                                href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
                                                 class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
-                                                onclick="updateLatLong({{ $pengambilan->kendaraan->id }}); return false;"
+                                                onclick="updateLatLong({{ $kendaraan->id }}); return false;">
+                                                <i class="fas fa-map-marked-alt"></i> Maps
+                                            </a>
+                                            <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
+                                                {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
+                                        </td> --}}
+
+                                        <td>
+                                            <a href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
+                                                class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
+                                                onclick="updateLatLong({{ $kendaraan->id }}); return false;"
                                                 style="display: inline-block; background-color: transparent; /* Membuat latar belakang transparan */ color: transparent; padding: 0; border: none; /* Menghapus border */ text-align: center; text-decoration: none;">
                                                 <img src="{{ asset('storage/uploads/user/map.png') }}" alt="Peta"
                                                     style="width: 30px; height: 30px; object-fit: contain; display: block; margin: 0 auto;">
                                             </a>
-                                            <span hidden id="lokasi-saat-ini">{{ $pengambilan->kendaraan->latitude }},
-                                                {{ $pengambilan->kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
+                                            <span hidden id="lokasi-saat-ini">{{ $kendaraan->latitude }},
+                                                {{ $kendaraan->longitude }}</span> <!-- Lokasi terbaru -->
                                         </td>
+
+
                                         <td>
-                                            @if ($pengambilan->kendaraan->status_perjalanan != 'Kosong')
-                                                @if ($pengambilan->kendaraan->status_perjalanan)
-                                                    {{ $pengambilan->kendaraan->timer }}
+                                            @if ($kendaraan->status_perjalanan != 'Kosong')
+                                                @if ($kendaraan->status_perjalanan)
+                                                    {{ $kendaraan->timer }}
                                                 @else
                                                     00.00
                                                 @endif
                                             @else
-                                                {{ $pengambilan->kendaraan->timer }}
+                                                {{ $kendaraan->timer }}
                                             @endif
                                         </td>
                                     </tr>

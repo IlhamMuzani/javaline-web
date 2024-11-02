@@ -64,11 +64,10 @@ Route::post('search-spk', [\App\Http\Controllers\Api\PengambilandoController::cl
 Route::post('pengambilan_do-terima/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'terima']);
 Route::post('pengambilan_do-batal_terima/{id}', [\App\Http\Controllers\Api\PengambilandoController::class, 'batal_terima']);
 
-
 Route::post('pelanggan/login', [\App\Http\Controllers\Api\AuthController::class, 'login_pelanggan']);
 Route::get('pelanggan-detail/{id}', [\App\Http\Controllers\Api\AuthController::class, 'detail_pelanggan']);
-Route::post('list-dopelanggan/{id}', [\App\Http\Controllers\Api\PengambilandopelangganController::class, 'list_dopelanggan']);
-Route::post('list-kendaraanid/{id}', [\App\Http\Controllers\Api\KendaraanpelangganController::class, 'list_kendaraanid']);
-Route::post('kendaraan-search/{id}', [\App\Http\Controllers\Api\KendaraanpelangganController::class, 'kendaraan_search']);
+Route::post('list-dopelanggan/{id}', [\App\Http\Controllers\Api\MonitoringsuratjalanController::class, 'list_dopelanggan']);
+Route::post('list-kendaraanid/{id}', [\App\Http\Controllers\Api\MonitoringkendaraanController::class, 'list_kendaraanid']);
+Route::post('kendaraan-search/{id}', [\App\Http\Controllers\Api\MonitoringkendaraanController::class, 'kendaraan_search']);
 Route::post('list-historydo/{id}', [\App\Http\Controllers\Api\HistorysuratjalanController::class, 'list_historydo']);
 Route::get('pelanggan-detailpelanggan/{id}', [\App\Http\Controllers\Api\DriverController::class, 'pelanggan_detail']);

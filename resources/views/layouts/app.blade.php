@@ -1019,8 +1019,8 @@
                     class="brand-text font-wight-bold">{{ auth()->user()->karyawan->nama_lengkap }}</span>
             </a> --}}
 
-            <a href="" class="brand-link d-flex align-items-center">
-                @if (auth()->user()->karyawan)
+            @if (auth()->user()->karyawan)
+                <a href="" class="brand-link d-flex align-items-center">
                     @if (auth()->user()->karyawan->gambar)
                         <img src="{{ asset('storage/uploads/' . auth()->user()->karyawan->gambar) }}" alt="javaline"
                             class="brand-image rounded-circle">
@@ -1030,13 +1030,13 @@
                     @endif
                     <span style="font-size: 18px"
                         class="brand-text font-wight-bold">{{ implode(' ', array_slice(str_word_count(auth()->user()->karyawan->nama_lengkap, 1), 0, 2)) }}</span>
-                @else
-                    <img src="{{ asset('storage/uploads/user/user.png') }}" alt="javaline"
-                        class="brand-image rounded-circle">
-                    <span style="font-size: 18px"
-                        class="brand-text font-wight-bold">{{ implode(' ', array_slice(str_word_count(auth()->user()->pelanggan->nama_pell, 1), 0, 2)) }}</span>
-                @endif
-            </a>
+                </a>
+            @else
+                {{-- <img src="{{ asset('storage/uploads/user/user.png') }}" alt="javaline"
+                    class="brand-image rounded-circle">
+                <span style="font-size: 18px"
+                    class="brand-text font-wight-bold">{{ implode(' ', array_slice(str_word_count(auth()->user()->pelanggan->nama_pell, 1), 0, 2)) }}</span> --}}
+            @endif
 
             <!-- Sidebar -->
             <div class="sidebar">

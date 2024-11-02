@@ -10,7 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class KendaraanpelangganController extends Controller
+class MonitoringkendaraanController extends Controller
 {
     public function list_kendaraanid($id)
     {
