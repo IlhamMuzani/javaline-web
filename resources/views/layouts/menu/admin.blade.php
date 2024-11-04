@@ -58,6 +58,8 @@
     request()->is('admin/jarak_km*') ||
     request()->is('admin/kelompok_pelanggan*') ||
     request()->is('admin/lama_bearing*') ||
+    request()->is('admin/post-pengurus*') ||
+    request()->is('admin/pengurus*') ||
     request()->is('admin/sparepart')
         ? 'menu-open'
         : '' }}">
@@ -98,6 +100,8 @@
         request()->is('admin/kelompok_pelanggan*') ||
         request()->is('admin/jarak_km*') ||
         request()->is('admin/lama_bearing*') ||
+        request()->is('admin/post-pengurus*') ||
+        request()->is('admin/pengurus*') ||
         request()->is('admin/sparepart')
             ? 'active'
             : '' }}">
@@ -409,6 +413,24 @@
                     class="nav-link {{ request()->is('admin/alamat_bongkar*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Data Tujuan Bongkar</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelanggan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/post-pengurus') }}"
+                    class="nav-link {{ request()->is('admin/post-pengurus*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Post</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pelanggan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pengurus') }}"
+                    class="nav-link {{ request()->is('admin/pengurus*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Data Pengurus</p>
                 </a>
             </li>
         @endif

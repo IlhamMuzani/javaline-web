@@ -14,7 +14,7 @@
             /* Diameter lingkaran */
             height: 50px;
             /* Diameter lingkaran */
-            border: 5px solid #74e1fc;
+            border: 5px solid #9cb4d0;
             /* Warna biru untuk tepi */
             border-top: 5px solid transparent;
             /* Transparan pada bagian atas untuk efek putaran */
@@ -36,14 +36,14 @@
         }
 
         /* @keyframes spin {
-                                                        0% {
-                                                            transform: rotate(0deg);
-                                                        }
+                                                                        0% {
+                                                                            transform: rotate(0deg);
+                                                                        }
 
-                                                        100% {
-                                                            transform: rotate(360deg);
-                                                        }
-                                                    } */
+                                                                        100% {
+                                                                            transform: rotate(360deg);
+                                                                        }
+                                                                    } */
 
         /* Gaya untuk header tabel */
         .thead-custom {
@@ -52,7 +52,7 @@
         }
 
         .thead-custom th {
-            background: linear-gradient(to bottom, #74e1fc, #687275);
+            background: linear-gradient(to bottom, #9cb4d0, #687275);
             /* Gradient biru di atas, hitam di bawah */
         }
 
@@ -150,8 +150,10 @@
                                     <th>PELANGGAN</th>
                                     <th>TUJUAN</th>
                                     <th>TANGGAL</th>
-                                    <th>No Kabin</th>
-                                    <th>Nama Driver</th>
+                                    <th>NO KABIN</th>
+                                    <th>NAMA DRIVER</th>
+                                    <th>POST</th>
+                                    <th>NO RESI</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,6 +167,20 @@
                                         <td>{{ $pengambilan_do->tanggal_awal }}</td>
                                         <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
                                         <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>
+                                            @if ($pengambilan_do->no_resi != null)
+                                                PAKET
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($pengambilan_do->no_resi != null)
+                                                {{ $pengambilan_do->no_resi }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
 

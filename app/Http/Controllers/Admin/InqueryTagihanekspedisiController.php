@@ -267,6 +267,50 @@ class InqueryTagihanekspedisiController extends Controller
         return view('admin.inquery_tagihanekspedisi.show', compact('cetakpdf', 'details'));
     }
 
+
+    public function no_resi(Request $request, $id)
+    {
+        // Ambil semua detail invoice yang berkaitan dengan tagihan ekspedisi
+        $detail_invoice = Detail_tagihan::where('tagihan_ekspedisi_id', $id)->get();
+
+        // Validasi input
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'no_resi' => 'required',
+            ],
+            [
+                'no_resi.required' => 'Masukkan nomor resi.',
+            ]
+        );
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->all();
+            return back()->withInput()->with('error', implode(', ', $errors));
+        }
+
+        // Update kolom no_resi di setiap pengambilan_do yang terkait
+        foreach ($detail_invoice as $detail) {
+            if ($detail->faktur_ekspedisi && $detail->faktur_ekspedisi->spk) {
+                $spk = $detail->faktur_ekspedisi->spk;
+
+                // Pastikan `pengambilan_do` adalah koleksi dari relasi yang benar, lalu iterasi dan update
+                foreach ($spk->pengambilan_do as $pengambilan_do) {
+                    $pengambilan_do->no_resi = $request->no_resi;
+                    $pengambilan_do->save();
+                }
+            }
+        }
+
+        // Update no_resi di tabel tagihan_ekspedisi
+        $item = Tagihan_ekspedisi::findOrFail($id);
+        $item->no_resi = $request->no_resi;
+        $item->save();
+
+        return back()->with('success', 'Nomor resi berhasil disimpan.');
+    }
+
+
     public function unposttagihan($id)
     {
         $item = Tagihan_ekspedisi::findOrFail($id);

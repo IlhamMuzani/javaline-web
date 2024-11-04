@@ -1064,7 +1064,7 @@
                                         '" data-harga_tarif="' + faktur.harga_tarif +
                                         '" data-nominal_potongan="' + nominal_potongan +
                                         // Use the fallback value
-                                        '" data-total_tarif="' + faktur.grand_total +
+                                        '" data-total_tarif="' + faktur.total_tarif +
                                         '" data-param="' + index + '">' +
                                         '<td class="text-center">' + (index + 1) +
                                         '</td>' +

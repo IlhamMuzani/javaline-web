@@ -14,7 +14,7 @@
             /* Diameter lingkaran */
             height: 50px;
             /* Diameter lingkaran */
-            border: 5px solid #74e1fc;
+            border: 5px solid #9cb4d0;
             /* Warna biru untuk tepi */
             border-top: 5px solid transparent;
             /* Transparan pada bagian atas untuk efek putaran */
@@ -42,7 +42,7 @@
         }
 
         .thead-custom th {
-            background: linear-gradient(to bottom, #74e1fc, #687275);
+            background: linear-gradient(to bottom, #9cb4d0, #687275);
             /* Gradient biru di atas, hitam di bawah */
         }
 
@@ -129,6 +129,14 @@
                         </div>
 
                     </form>
+                    <style>
+                        /* Gunakan !important untuk memastikan warna diterapkan */
+                        .bg-blue {
+                            background-color: #8cb0d6 !important;
+                            /* Gunakan warna biru muda yang lebih lembut */
+                        }
+                    </style>
+
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="aksesTable" class="table table-bordered table-striped table-hover"
                             style="font-size: 10px; min-width: 1000px;">
@@ -143,6 +151,7 @@
                                     <th>PPH</th>
                                     <th>U. Tambahan</th>
                                     <th>Sub Total</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -151,17 +160,12 @@
                                     $pph23 = 0;
                                 @endphp
                                 @foreach ($inquery as $faktur)
-                                    <tr>
+                                    <!-- Tambahkan kelas 'bg-blue' jika status_pelunasan == 'aktif' -->
+                                    <tr class="{{ $faktur->status_pelunasan == 'aktif' ? 'bg-blue' : '' }}">
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>
-                                            {{ $faktur->kode_faktur }}
-                                        </td>
-                                        <td>
-                                            {{ $faktur->tanggal_awal }}
-                                        </td>
-                                        <td>
-                                            {{ $faktur->nama_pelanggan }}
-                                        </td>
+                                        <td>{{ $faktur->kode_faktur }}</td>
+                                        <td>{{ $faktur->tanggal_awal }}</td>
+                                        <td>{{ $faktur->nama_pelanggan }}</td>
                                         <td>
                                             @if ($faktur->detail_faktur->first())
                                                 {{ $faktur->detail_faktur->first()->nama_driver }}
@@ -176,8 +180,7 @@
                                         </td>
                                         <td style="text-align: right">
                                             {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
-                                        <td style="text-align: right">
-                                            {{ number_format($faktur->pph, 2, ',', '.') }}</td>
+                                        <td style="text-align: right">{{ number_format($faktur->pph, 2, ',', '.') }}</td>
                                         <td style="text-align: right">
                                             @if (is_numeric($faktur->biaya_tambahan))
                                                 {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}
@@ -187,19 +190,21 @@
                                         </td>
                                         <td style="text-align: right">
                                             {{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
+                                        <td>
+                                            @if ($faktur->status_pelunasan == 'aktif')
+                                                LUNAS
+                                            @endif
+                                        </td>
                                     </tr>
                                     @php
                                         $totalGrandTotal += $faktur->total_tarif + $faktur->biaya_tambahan;
                                         $pph23 += $faktur->pph;
                                     @endphp
-
-                                    @php
-                                        $Totals = $totalGrandTotal - $pph23;
-                                    @endphp
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

@@ -8,24 +8,24 @@
         <div class="spinner"></div>
     </div>
     <style>
-
         /* Gaya untuk membuat loading spinner menjadi lingkaran berwarna biru */
-    .spinner {
-        width: 50px;              /* Diameter lingkaran */
-        height: 50px;             /* Diameter lingkaran */
-        border: 5px solid #74e1fc; /* Warna biru untuk tepi */
-        border-top: 5px solid transparent; /* Transparan pada bagian atas untuk efek putaran */
-        border-radius: 50%;       /* Membuatnya menjadi lingkaran */
-        animation: spin 1s linear infinite; /* Animasi berputar */
-    }
+        .spinner {
+            width: 50px;
+            /* Diameter lingkaran */
+            height: 50px;
+            /* Diameter lingkaran */
+            border: 5px solid #9cb4d0;
+            /* Warna biru untuk tepi */
+            border-top: 5px solid transparent;
+            /* Transparan pada bagian atas untuk efek putaran */
+            border-radius: 50%;
+            /* Membuatnya menjadi lingkaran */
+            animation: spin 1s linear infinite;
+            /* Animasi berputar */
+        }
 
-    /* Definisi animasi berputar */
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-        /* @keyframes spin {
+        /* Definisi animasi berputar */
+        @keyframes spin {
             0% {
                 transform: rotate(0deg);
             }
@@ -33,7 +33,17 @@
             100% {
                 transform: rotate(360deg);
             }
-        } */
+        }
+
+        /* @keyframes spin {
+                                    0% {
+                                        transform: rotate(0deg);
+                                    }
+
+                                    100% {
+                                        transform: rotate(360deg);
+                                    }
+                                } */
 
         /* Gaya untuk header tabel */
         .thead-custom {
@@ -42,7 +52,8 @@
         }
 
         .thead-custom th {
-            background: linear-gradient(to bottom, #74e1fc, #687275);
+            background: linear-gradient(to bottom, #9cb4d0, #687275);
+            /* background: linear-gradient(to bottom, #74e1fc, #687275); */
             /* Gradient biru di atas, hitam di bawah */
         }
 
@@ -117,11 +128,12 @@
                                     <th>PELANGGAN</th>
                                     <th>TUJUAN</th>
                                     <th>TANGGAL</th>
-                                    <th>No Kabin</th>
-                                    <th>Nama Driver</th>
-                                    <th>Posisi</th>
+                                    <th>NO KABIN</th>
+                                    <th>NAMA DRIVER</th>
+                                    <th>POST</th>
+                                    {{-- <th>NO RESI</th> --}}
                                     <th>TIMER</th>
-                                    <th>TIMER TOTAL</th>
+                                    {{-- <th>TIMER TOTAL</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,12 +150,18 @@
                                         <td>
                                             @if ($pengambilan_do->status_penerimaansj == 'posting')
                                                 @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                    {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
+                                                    @if ($pengambilan_do->timer_suratjalan->last()->user->karyawan->post_id == null)
+                                                        PUSAT
+                                                    @else
+                                                        {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->post->nama_post ?? null }}
+                                                    @endif
                                                 @else
-                                                    {{ $pengambilan_do->penerima_sj ?? '-' }}
+                                                    -
                                                 @endif
                                             @else
-                                                -
+                                                {{-- PAKET
+                                                <br>
+                                                NO RESI : 123456789098 --}}
                                             @endif
                                         </td>
                                         <td>
@@ -166,9 +184,7 @@
                                                 @endphp
                                             @endif
                                         </td>
-
-
-                                        <td>
+                                        {{-- <td>
                                             @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
                                                 {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
                                                 {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
@@ -180,7 +196,7 @@
                                             @else
                                                 Durasi tidak tersedia
                                             @endif
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endforeach
 
@@ -238,10 +254,10 @@
                         "type": "duration",
                         "targets": 8
                     }, // Custom sorting untuk kolom "Posisi" (indeks kolom 8)
-                    {
-                        "type": "duration",
-                        "targets": 9
-                    } // Custom sorting untuk kolom "TIMER TOTAL" (indeks kolom 9)
+                    // {
+                    //     "type": "duration",
+                    //     "targets": 9
+                    // } // Custom sorting untuk kolom "TIMER TOTAL" (indeks kolom 9)
                 ],
                 "language": {
                     "search": "Search: ",

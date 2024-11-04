@@ -42,6 +42,7 @@ class Pengambilan_do extends Model
         'bukti3',
         'latitude',
         'longitude',
+        'no_resi',
         'waktu_suratawal',
         'waktu_suratakhir',
         'hasil_lamawaktu',

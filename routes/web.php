@@ -927,4 +927,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('ambil_lokasi', [\App\Http\Controllers\Admin\AlamatmuatController::class, 'ambil_lokasi'])->name('ambil_lokasi');
 
 
+    Route::resource('post-pengurus', \App\Http\Controllers\Admin\PostController::class);
+    Route::resource('pengurus', \App\Http\Controllers\Admin\PengurusController::class);
+    Route::post('no_resi/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'no_resi'])->name('no_resi');
+
+
 });

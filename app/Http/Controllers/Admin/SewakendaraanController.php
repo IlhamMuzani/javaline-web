@@ -89,7 +89,7 @@ class SewakendaraanController extends Controller
 
                 'pph' => str_replace(',', '.', str_replace('.', '', $request->pph)),
                 'harga_tarif' => str_replace(',', '.', str_replace('.', '', $request->harga_tarif)),
-                'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif)),
+                'total_tarif' => str_replace(',', '.', str_replace('.', '', $request->total_tarif2)),
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
                 'sisa' => str_replace(',', '.', str_replace('.', '', $request->sisa)),
                 'biaya_tambahan' => str_replace(',', '.', str_replace('.', '', $request->biaya_tambahan)),

@@ -520,75 +520,127 @@ class MonitoringkendaraanController extends Controller
 
 
 
+
+
+    // public function index(Request $request)
+    // {
+    //     $user = auth()->user();
+    //     $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
+    //     $waktuPerjalananIsi = now();
+    //     $spks = $pelanggan->spk;
+
+    //     // Ambil semua pengambilan_do yang belum selesai dari semua SPK terkait pelanggan
+    //     $do_kendaraans = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
+    //         ->whereNotIn('status', ['unpost', 'posting', 'selesai'])
+    //         ->with('kendaraan')
+    //         ->get();
+
+    //     // Kondisi untuk menentukan apakah filter diterapkan atau tidak
+    //     $hasFilter = ($request->kendaraan_id && $request->kendaraan_id != 'all') || !empty($request->status_perjalanan);
+
+    //     // Jika tidak ada filter, tampilkan semua kendaraan
+    //     if (!$hasFilter) {
+    //         $pengambilan_do = $do_kendaraans;
+    //     } else {
+    //         $pengambilanDoQuery = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
+    //             ->whereNotIn('status', ['unpost', 'posting', 'selesai'])
+    //             ->with('kendaraan');
+
+    //         // Filter kendaraan_id jika tidak bernilai 'all'
+    //         if (!empty($request->kendaraan_id) && $request->kendaraan_id != 'all') {
+    //             $pengambilanDoQuery->where('kendaraan_id', $request->kendaraan_id);
+    //         }
+
+    //         // Filter status_perjalanan jika ada
+    //         if (!empty($request->status_perjalanan)) {
+    //             $pengambilanDoQuery->whereHas('kendaraan', function ($query) use ($request) {
+    //                 $query->where('status_perjalanan', $request->status_perjalanan);
+    //             });
+    //         }
+
+    //         $pengambilan_do = $pengambilanDoQuery->get()->sortBy(function ($do) {
+    //             return (int) filter_var($do->kendaraan->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+    //         });
+    //     }
+
+    //     return view('pelanggan.monitoring_kendaraan.index', compact('do_kendaraans', 'pengambilan_do'));
+    // }
+
+
+
+
+    // sudah benar kurang status perjalanan 
     public function index(Request $request)
     {
         $user = auth()->user();
         $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
-
-        $waktuPerjalananIsi = now();
         $spks = $pelanggan->spk;
 
         // Ambil semua pengambilan_do yang belum selesai dari semua SPK terkait pelanggan
         $do_kendaraans = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
-        ->whereNotIn('status', ['unpost', 'posting', 'selesai'])
-        ->with('kendaraan')
-        ->get();
+            ->whereNotIn('status', ['unpost', 'posting', 'selesai'])
+            ->with('kendaraan')
+            ->get();
 
-        // Update kendaraan
-        foreach ($do_kendaraans as $do_kendaraan) {
-            $kendaraan = $do_kendaraan->kendaraan;
+        // Tentukan apakah ada pencarian atau tidak
+        if ($request->has('kendaraan_id') && $request->kendaraan_id !== '') {
+            
+            // Update kendaraan hanya jika ada pencarian
+            $waktuPerjalananIsi = now();
+            foreach ($do_kendaraans as $do_kendaraan) {
+                $kendaraan = $do_kendaraan->kendaraan;
+                if ($kendaraan) {
+                    $waktuTungguMuat = $kendaraan->updated_at;
+                    $jarakWaktu = $waktuTungguMuat->diffInSeconds($waktuPerjalananIsi);
 
-            if ($kendaraan) {
-                $waktuTungguMuat = $kendaraan->updated_at;
-                $jarakWaktu = $waktuTungguMuat->diffInSeconds($waktuPerjalananIsi);
+                    $timerParts = explode(' ', $kendaraan->timer);
+                    $hari = (int)$timerParts[0];
+                    $jamMenit = explode(':', $timerParts[1]);
+                    $jam = (int)$jamMenit[0];
+                    $menit = (int)$jamMenit[1];
 
-                $timerParts = explode(' ', $kendaraan->timer);
-                $hari = (int)$timerParts[0];
-                $jamMenit = explode(':', $timerParts[1]);
-                $jam = (int)$jamMenit[0];
-                $menit = (int)$jamMenit[1];
+                    $totalDetik = ($hari * 24 * 60 * 60) + ($jam * 60 * 60) + ($menit * 60) + $jarakWaktu;
 
-                $totalDetik = ($hari * 24 * 60 * 60) + ($jam * 60 * 60) + ($menit * 60) + $jarakWaktu;
+                    $hariBaru = floor($totalDetik / (24 * 60 * 60));
+                    $totalDetik %= (24 * 60 * 60);
+                    $jamBaru = floor($totalDetik / (60 * 60));
+                    $totalDetik %= (60 * 60);
+                    $menitBaru = floor($totalDetik / 60);
 
-                $hariBaru = floor($totalDetik / (24 * 60 * 60));
-                $totalDetik %= (24 * 60 * 60);
-                $jamBaru = floor($totalDetik / (60 * 60));
-                $totalDetik %= (60 * 60);
-                $menitBaru = floor($totalDetik / 60);
+                    $formattedTimer = sprintf('%d %02d:%02d', $hariBaru, $jamBaru, $menitBaru);
+                    $kendaraan->update(['timer' => $formattedTimer]);
 
-                $formattedTimer = sprintf('%d %02d:%02d', $hariBaru, $jamBaru, $menitBaru);
-                $kendaraan->update(['timer' => $formattedTimer]);
-
-                // Update data GPS jika ada
-                if ($kendaraan->gpsid) {
-                    $this->updateDataFromGPS($kendaraan);
-                } else {
-                    $this->updateDataFromAPI($kendaraan);
+                    if ($kendaraan->gpsid) {
+                        $this->updateDataFromGPS($kendaraan);
+                    } else {
+                        $this->updateDataFromAPI($kendaraan);
+                    }
                 }
             }
-        }
 
-        // Filter data berdasarkan permintaan pengguna
-        $pengambilanDoQuery = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
-        ->whereNotIn('status', ['unpost', 'posting', 'selesai'])
-        ->with('kendaraan');
+            // Query pengambilan_do berdasarkan pencarian kendaraan_id
+            $pengambilanDoQuery = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
+                ->whereNotIn(
+                    'status',
+                    ['unpost', 'posting', 'selesai']
+                )
+                ->with('kendaraan');
 
-        if (!empty($request->kendaraan_id) && $request->kendaraan_id != 'all') {
-            $pengambilanDoQuery->where('kendaraan_id', $request->kendaraan_id);
-        }
+            if ($request->kendaraan_id != 'all') {
+                $pengambilanDoQuery->where('kendaraan_id', $request->kendaraan_id);
+            }
 
-        if (!empty($request->status_perjalanan)) {
-            $pengambilanDoQuery->whereHas('kendaraan', function ($query) use ($request) {
-                $query->where('status_perjalanan', $request->status_perjalanan);
+            $pengambilan_do = $pengambilanDoQuery->get()->sortBy(function ($do) {
+                return (int) filter_var($do->kendaraan->no_kabin, FILTER_SANITIZE_NUMBER_INT);
             });
+        } else {
+            // Jika tidak ada pencarian, set $pengambilan_do ke koleksi kosong
+            $pengambilan_do = collect();
         }
-
-        $pengambilan_do = $pengambilanDoQuery->get()->sortBy(function ($do) {
-            return (int) filter_var($do->kendaraan->no_kabin, FILTER_SANITIZE_NUMBER_INT);
-        });
 
         return view('pelanggan.monitoring_kendaraan.index', compact('do_kendaraans', 'pengambilan_do'));
     }
+
 
     private function updateDataFromGPS($kendaraan)
     {

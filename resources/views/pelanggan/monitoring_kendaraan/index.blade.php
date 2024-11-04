@@ -9,14 +9,14 @@
         <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
             <!-- Animasi loading berputar -->
             <div class="spinner"
-                style="width: 100px; height: 100px; border: 10px solid #f3f3f3; border-top: 10px solid #74e1fc; border-radius: 50%; animation: spin 2s linear infinite; margin-bottom: 20px;">
+                style="width: 100px; height: 100px; border: 10px solid #f3f3f3; border-top: 10px solid #9cb4d0; border-radius: 50%; animation: spin 2s linear infinite; margin-bottom: 20px;">
             </div>
 
             <!-- Progress bar container -->
             <div id="progressBarContainer"
                 style="width: 300px; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
                 <div id="progressBar"
-                    style="width: 0%; height: 30px; background: linear-gradient(to right, #74e1fc, #687275); border-radius: 5px;">
+                    style="width: 0%; height: 30px; background: linear-gradient(to right, #9cb4d0, #687275); border-radius: 5px;">
                 </div>
             </div>
             <!-- Progress text -->
@@ -43,7 +43,8 @@
         }
 
         .thead-custom th {
-            background: linear-gradient(to bottom, #74e1fc, #687275);
+            background: linear-gradient(to bottom, #9cb4d0, #687275);
+            /* background: linear-gradient(to bottom, #829dbb, #687275); */
             /* Gradient biru di atas, hitam di bawah */
         }
 
@@ -112,8 +113,7 @@
                                 <label for="kendaraan_id">(Cari Kendaraan)</label>
                             </div>
 
-                            <div class="col-md-3 col-sm-12">
-                                {{-- <div class="input-group mb-2"> --}}
+                            {{-- <div class="col-md-3 col-sm-12">
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="status_perjalanan"
                                         name="status_perjalanan">
@@ -122,10 +122,6 @@
                                             {{ Request::get('status_perjalanan') == 'Perjalanan Kosong' ? 'selected' : '' }}>
                                             Perjalanan Kosong
                                         </option>
-                                        {{-- <option value="Tunggu Muat"
-                                            {{ Request::get('status_perjalanan') == 'Tunggu Muat' ? 'selected' : '' }}>
-                                            Tunggu Muat
-                                        </option> --}}
                                         <option value="Tunggu Muat"
                                             {{ Request::get('status_perjalanan') == 'Tunggu Muat' ? 'selected' : '' }}>
                                             Tunggu Muat
@@ -134,18 +130,10 @@
                                             {{ Request::get('status_perjalanan') == 'Perjalanan Isi' ? 'selected' : '' }}>
                                             Perjalanan Isi
                                         </option>
-                                        {{-- <option value="Tunggu Bongkar"
-                                            {{ Request::get('status_perjalanan') == 'Tunggu Bongkar' ? 'selected' : '' }}>
-                                            Tunggu Bongkar
-                                        </option> --}}
                                         <option value="Tunggu Bongkar"
                                             {{ Request::get('status_perjalanan') == 'Tunggu Bongkar' ? 'selected' : '' }}>
                                             Tunggu Bongkar
                                         </option>
-                                        {{-- <option value="Kosong"
-                                            {{ Request::get('status_perjalanan') == 'Kosong' ? 'selected' : '' }}>
-                                            Kosong
-                                        </option> --}}
                                         <option value="Perbaikan di jalan"
                                             {{ Request::get('status_perjalanan') == 'Perbaikan di jalan' ? 'selected' : '' }}>
                                             Perbaikan di jalan
@@ -157,8 +145,7 @@
                                     </select>
                                     <label for="status">(Cari Status)</label>
                                 </div>
-                                {{-- </div> --}}
-                            </div>
+                            </div> --}}
                             <div class="col-md-3 mb-3">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">

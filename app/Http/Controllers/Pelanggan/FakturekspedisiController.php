@@ -26,9 +26,10 @@ class FakturekspedisiController extends Controller
         $tanggal_akhir = $request->tanggal_akhir;
 
         // Query faktur ekspedisi dengan filter status posting atau selesai dan pelanggan yang sedang login
-        $inquery = Faktur_ekspedisi::orderBy('id', 'ASC')
-            ->where('pelanggan_id', $pelanggan->id) // Filter berdasarkan pelanggan yang login
-            ->whereIn('status', ['posting', 'selesai']);
+        $inquery = Faktur_ekspedisi::where('pelanggan_id', $pelanggan->id) // Filter berdasarkan pelanggan yang login
+            ->whereIn('status', ['posting', 'selesai'])
+            ->orderByRaw("CASE WHEN status_pelunasan = 'aktif' THEN 1 ELSE 0 END") // Posisikan 'aktif' di bawah
+            ->orderBy('id', 'ASC'); // Urutkan berdasarkan ID
 
         // Filter berdasarkan tanggal awal dan tanggal akhir jika disediakan
         if ($tanggal_awal && $tanggal_akhir) {

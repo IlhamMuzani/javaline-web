@@ -32,6 +32,7 @@ class Tagihan_ekspedisi extends Model
         'hasil_feeall',
         'hasil_potonganfee',
         'grand_total',
+        'no_resi',
         'gambar_bukti',
         'nomor_buktitagihan',
         'tanggal_nomortagihan',

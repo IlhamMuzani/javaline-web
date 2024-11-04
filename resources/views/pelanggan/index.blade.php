@@ -25,7 +25,9 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-body text-center p-5">
-                        <h3>Selamat Datang <strong>{{ ucfirst(auth()->user()->pelanggan->nama_pell) }}</strong></h3>
+                        <h3>Selamat Datang <strong>
+                                <br>
+                                {{ ucfirst(auth()->user()->pelanggan->nama_pell) }}</strong></h3>
                     </div>
                 </div>
                 <!-- Main row -->

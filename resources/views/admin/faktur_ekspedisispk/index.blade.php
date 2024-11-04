@@ -562,7 +562,7 @@
                                         id="nama_tarif" name="nama_tarif" value="{{ old('nama_tarif') }}">
                                 </div>
                             </td>
-                            <td>
+                            <td hidden>
                                 <div class="form-group">
                                     <input style="font-size:14px" type="text" class="form-control harga_tarif"
                                         readonly id="harga_tarif" name="harga_tarif" data-row-id="0"

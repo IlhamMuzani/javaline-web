@@ -16,6 +16,7 @@ class Karyawan extends Model
     protected $fillable = [
         'kode_karyawan',
         'departemen_id',
+        'post_id',
         'qrcode_karyawan',
         'no_ktp',
         'no_sim',
@@ -76,6 +77,11 @@ class Karyawan extends Model
     public function departemen()
     {
         return $this->belongsTo(Departemen::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 
     public function kasbon_karyyawan()
