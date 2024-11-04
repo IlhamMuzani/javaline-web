@@ -9,14 +9,14 @@
         <div style="display: flex; flex-direction: column; align-items: center; text-align: center;">
             <!-- Animasi loading berputar -->
             <div class="spinner"
-                style="width: 100px; height: 100px; border: 10px solid #f3f3f3; border-top: 10px solid #74e1fc; border-radius: 50%; animation: spin 2s linear infinite; margin-bottom: 20px;">
+                style="width: 100px; height: 100px; border: 10px solid #f3f3f3; border-top: 10px solid #9cb4d0; border-radius: 50%; animation: spin 2s linear infinite; margin-bottom: 20px;">
             </div>
 
             <!-- Progress bar container -->
             <div id="progressBarContainer"
                 style="width: 300px; background-color: #f3f3f3; border-radius: 5px; overflow: hidden;">
                 <div id="progressBar"
-                    style="width: 0%; height: 30px; background: linear-gradient(to right, #74e1fc, #687275); border-radius: 5px;">
+                    style="width: 0%; height: 30px; background: linear-gradient(to right, #9cb4d0, #687275); border-radius: 5px;">
                 </div>
             </div>
             <!-- Progress text -->
@@ -298,7 +298,7 @@
                                         </a>
                                     </td> --}}
                                         <td>
-                                            <a style="font-size:12px"
+                                            <a style="font-size:10px"
                                                 href="https://maps.google.com/maps?q={{ $kendaraan->latitude }},{{ $kendaraan->longitude }}"
                                                 class="btn btn-secondary btn-sm" id="btn-update-latlong" target="_blank"
                                                 onclick="updateLatLong({{ $kendaraan->id }}); return false;">

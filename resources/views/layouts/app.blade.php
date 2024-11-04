@@ -72,7 +72,7 @@
         request()->is('admin/perhitungan_gajibulanan*') ||
         request()->is('admin/inquery_perhitungangaji*') ||
         request()->is('admin/inquery_perhitungangajibulanan*') ||
-        request()->is('admin/status_perjalanan*') ||
+        // request()->is('admin/status_perjalanan*') ||
         // request()->is('pelanggan/status_kendaraan*') ||
         // request()->is('pelanggan*') ||
         // request()->is('admin/penggantian_bearing*') ||
