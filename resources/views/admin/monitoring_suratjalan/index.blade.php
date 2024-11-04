@@ -255,11 +255,11 @@
                     }, // Nonaktifkan pengurutan untuk kolom No
                     {
                         "type": "duration",
-                        "targets": 8
+                        "targets": 9
                     }, // Custom sorting untuk kolom "Posisi" (indeks kolom 8)
                     {
                         "type": "duration",
-                        "targets": 9
+                        "targets": 10
                     } // Custom sorting untuk kolom "TIMER TOTAL" (indeks kolom 9)
                 ],
                 "language": {
