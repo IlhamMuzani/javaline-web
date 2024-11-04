@@ -98,7 +98,7 @@
                         <div class="form-row">
                             <div class="col-md-3 mb-3">
                                 <select class="select2bs4 select2-hidden-accessible" name="kendaraan_id"
-                                    data-placeholder="Cari No Kabin.." style="width: 100%;" data-select2-id="23"
+                                    data-placeholder="Cari No. Pol.." style="width: 100%;" data-select2-id="23"
                                     tabindex="-1" aria-hidden="true" id="kendaraan_id">
                                     <option value="">- Pilih -</option>
                                     <option value="all" {{ Request::get('kendaraan_id') === 'all' ? 'selected' : '' }}>
@@ -106,7 +106,7 @@
                                     @foreach ($do_kendaraans as $pengambilan)
                                         <option value="{{ $pengambilan->kendaraan->id }}"
                                             {{ Request::get('kendaraan_id') == $pengambilan->kendaraan->id ? 'selected' : '' }}>
-                                            {{ $pengambilan->kendaraan->no_kabin }}
+                                            {{ $pengambilan->kendaraan->no_pol }}
                                         </option>
                                     @endforeach
                                 </select>
