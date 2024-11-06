@@ -23,13 +23,14 @@
         <p>Monitoring Surat Jalan</p>
     </a>
 </li>
-{{-- <li class="nav-item">
+<li class="nav-item">
     <a href="{{ url('pelanggan/history-suratjalan') }}"
         class="nav-link {{ request()->is('pelanggan/history-suratjalan') ? 'active' : '' }}">
         <i class="nav-icon fas fa-history"></i>
         <p>History Surat Jalan</p>
     </a>
 </li>
+{{--
 <li class="nav-item">
     <a href="{{ url('pelanggan/faktur-ekspedisi') }}"
         class="nav-link {{ request()->is('pelanggan/faktur-ekspedisi') ? 'active' : '' }}">
@@ -39,8 +40,7 @@
 </li> --}}
 <li class="nav-header">Profile</li>
 <li class="nav-item">
-    <a href="{{ url('pelanggan/profile') }}"
-        class="nav-link {{ request()->is('pelanggan/profile') ? 'active' : '' }}">
+    <a href="{{ url('pelanggan/profile') }}" class="nav-link {{ request()->is('pelanggan/profile') ? 'active' : '' }}">
         <i class="nav-icon fas fa-user-edit"></i>
         <p>Update Profile</p>
     </a>
