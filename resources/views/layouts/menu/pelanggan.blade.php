@@ -23,7 +23,7 @@
         <p>Monitoring Surat Jalan</p>
     </a>
 </li>
-<li class="nav-item">
+{{-- <li class="nav-item">
     <a href="{{ url('pelanggan/history-suratjalan') }}"
         class="nav-link {{ request()->is('pelanggan/history-suratjalan') ? 'active' : '' }}">
         <i class="nav-icon fas fa-history"></i>
@@ -36,7 +36,7 @@
         <i class="nav-icon fas fa-file-invoice"></i>
         <p>Faktur Ekspedisi</p>
     </a>
-</li>
+</li> --}}
 <li class="nav-header">Profile</li>
 <li class="nav-item">
     <a href="{{ url('pelanggan/profile') }}"
