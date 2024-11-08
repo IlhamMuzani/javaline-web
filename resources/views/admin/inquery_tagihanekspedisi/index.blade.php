@@ -100,6 +100,7 @@
                                 <th class="text-center">No</th>
                                 <th>No Faktur</th>
                                 <th>Tanggal</th>
+                                <th>No Resi</th>
                                 <th>Kategori</th>
                                 <th>Admin</th>
                                 <th>Pelanggan</th>
@@ -118,6 +119,9 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
                                     <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                    <td>
+                                        {{ $tagihanekspedisi->no_resi }}
+                                    </td>
                                     <td>{{ $tagihanekspedisi->kategori }}</td>
                                     <td>
                                         {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
@@ -138,17 +142,18 @@
                                     <td style="text-align: end">
                                         {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}
                                     </td>
+
                                     <td class="text-center">
                                         @if ($tagihanekspedisi->status == 'posting' || $tagihanekspedisi->status == 'selesai')
                                             @if (!empty($tagihanekspedisi->no_resi))
-                                                <button type="button" class="btn btn-primary btn-sm">
+                                                <button type="button" class="btn btn-primary btn-sm no-resi-btn"
+                                                    data-id="{{ $tagihanekspedisi->id }}">
                                                     <i class="fas fa-envelope text-light"></i>
-                                                    <!-- Menambahkan kelas text-light untuk membuat ikon putih -->
                                                 </button>
                                             @else
-                                                <button type="button" class="btn btn-secondary btn-sm">
+                                                <button type="button" class="btn btn-secondary btn-sm no-resi-btn"
+                                                    data-id="{{ $tagihanekspedisi->id }}">
                                                     <i class="fas fa-envelope text-light"></i>
-                                                    <!-- Menambahkan kelas text-light untuk membuat ikon putih -->
                                                 </button>
                                             @endif
                                         @endif
@@ -199,19 +204,11 @@
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
-                                                    <a class="dropdown-item no-resi-btn"
-                                                        data-resi-id="{{ $tagihanekspedisi->id }}">No. Resi</a>
-                                                @endif
                                             @endif
                                             @if ($tagihanekspedisi->status == 'selesai')
                                                 @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
-                                                    <a class="dropdown-item no-resi-btn"
-                                                        data-resi-id="{{ $tagihanekspedisi->id }}">No. Resi</a>
                                                 @endif
                                             @endif
 
@@ -225,41 +222,6 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <div class="modal fade" id="resiModal" tabindex="-1" role="dialog"
-                                    aria-labelledby="resiModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Masukkan no resi</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <form action="{{ url('admin/no_resi/' . $tagihanekspedisi->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="no_resi">No. Resi</label>
-                                                        <input type="text" class="form-control" id="no_resi"
-                                                            name="no_resi" placeholder="xxx....."
-                                                            value="{{ old('no_resi', $tagihanekspedisi->no_resi) }}">
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer text-right">
-                                                    <button style="margin-right:10px" type="button"
-                                                        class="btn btn-default" data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary"
-                                                        id="btnSimpan">Simpan</button>
-                                                    <div id="loading" style="display: none;">
-                                                        <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                     </table>
@@ -279,6 +241,60 @@
             </div>
         </div>
     </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Event listener untuk tombol amplop
+            $('.no-resi-btn').click(function() {
+                // Dapatkan ID dari data-id di tombol
+                var tagihanId = $(this).data('id');
+
+                // Buka prompt untuk memasukkan nomor resi
+                var noResi = prompt("Masukkan nomor resi:");
+
+                if (noResi) {
+                    // Tampilkan spinner loading (opsional)
+                    $('#loading').show(); // Tampilkan elemen loading
+
+                    // Kirim nomor resi ke server dengan AJAX
+                    $.ajax({
+                        url: '{{ route('no_resi', ':id') }}'.replace(':id',
+                            tagihanId), // Gantikan :id dengan tagihanId
+                        type: 'POST',
+                        data: {
+                            no_resi: noResi,
+                            _token: '{{ csrf_token() }}' // Laravel CSRF token
+                        },
+                        success: function(response) {
+                            // Sembunyikan spinner loading
+                            $('#loading').hide(); // Sembunyikan elemen loading
+
+                            // Tanggapan dari server
+                            if (response.success) {
+                                alert(response.message); // Menampilkan pesan sukses
+
+                                // Reload halaman setelah sukses
+                                location.reload(); // Memuat ulang halaman
+                            } else {
+                                alert(response.message); // Menampilkan pesan error jika gagal
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Sembunyikan spinner loading
+                            $('#loading').hide(); // Sembunyikan elemen loading
+
+                            console.log(xhr
+                                .responseText); // Menampilkan pesan error dari server
+                            alert("Terjadi kesalahan, silakan coba lagi.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');

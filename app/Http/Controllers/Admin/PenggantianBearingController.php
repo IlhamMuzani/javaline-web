@@ -573,7 +573,7 @@ class PenggantianBearingController extends Controller
             $num = sprintf("%06s", $idbr);
         }
 
-        $data = 'PBB';
+        $data = 'PT';
         $kode_pemasangan = $data . $num;
         return $kode_pemasangan;
     }

@@ -68,31 +68,38 @@
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="divisi" name="divisi">
                                         <option value="">- Cari Divisi -</option>
-                                        <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
-                                            -Semua Divisi-
-                                        </option>
-                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
-                                            K1
-                                        </option>
-                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
-                                            K2
-                                        </option>
-                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
-                                            K3
-                                        </option>
-                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
-                                            K4
-                                        </option>
-                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
-                                            K5
-                                        </option>
-                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
-                                            K6
-                                        </option>
-                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
-                                            K7
-                                        </option>
-
+                                        <!-- Jika user adalah ID 1, hanya tampilkan M3 -->
+                                        @if (auth()->user()->id == 372 || auth()->user()->id == 576)
+                                            <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
+                                                M3
+                                            </option>
+                                        @else
+                                            <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
+                                                -Semua Code-
+                                            </option>
+                                            <!-- Jika user bukan ID 1, tampilkan semua opsi termasuk M1, M2, M4, M5, M6, dan M7 -->
+                                            <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
+                                                M1
+                                            </option>
+                                            <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
+                                                M2
+                                            </option>
+                                            <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
+                                                M3
+                                            </option>
+                                            <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
+                                                M4
+                                            </option>
+                                            <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
+                                                M5
+                                            </option>
+                                            <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
+                                                M6
+                                            </option>
+                                            <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
+                                                M7
+                                            </option>
+                                        @endif
                                     </select>
                                     <label for="status">(Cari Divisi)</label>
                                 </div>
@@ -127,82 +134,90 @@
                         <tbody>
 
                             @foreach ($spks as $pengambilan_do)
-                                {{-- @if ($pengambilan_do->waktu_suratakhir == null) --}}
-                                <tr class="dropdown"{{ $pengambilan_do->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->tanggal_awal }}</td>
-                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
-                                            @else
-                                                {{ $pengambilan_do->penerima_sj ?? '-' }}
-                                            @endif
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                @if ($pengambilan_do->timer_suratjalan->last()->user->karyawan->post_id == null)
-                                                    PUSAT
+                                @php
+                                    $noKabin = $pengambilan_do->spk->kendaraan->no_kabin ?? '-';
+                                    $isUserRestricted =
+                                        in_array(auth()->user()->id, [372, 576]) && strpos($noKabin, 'K3') !== 0;
+                                @endphp
+                                @if (!$isUserRestricted)
+
+                                    {{-- @if ($pengambilan_do->waktu_suratakhir == null) --}}
+                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->tanggal_awal }}</td>
+                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
+                                                    {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
                                                 @else
-                                                    {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->post->nama_post ?? null }}
+                                                    {{ $pengambilan_do->penerima_sj ?? '-' }}
                                                 @endif
                                             @else
                                                 -
                                             @endif
-                                        @else
-                                            {{-- PAKET
+                                        </td>
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
+                                                    @if ($pengambilan_do->timer_suratjalan->last()->user->karyawan->post_id == null)
+                                                        PUSAT
+                                                    @else
+                                                        {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->post->nama_post ?? null }}
+                                                    @endif
+                                                @else
+                                                    -
+                                                @endif
+                                            @else
+                                                {{-- PAKET
                                                 <br>
                                                 NO RESI : 123456789098 --}}
-                                        @endif
-                                    </td>
+                                            @endif
+                                        </td>
 
 
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @php
-                                                $timerAwal =
-                                                    $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                @php
+                                                    $timerAwal =
+                                                        $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
 
-                                                // Memeriksa apakah timer_awal ada
-                                                if ($timerAwal) {
-                                                    $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                    $waktuSekarang = \Carbon\Carbon::now();
-                                                    $durasi = $waktuAwal->diff($waktuSekarang);
+                                                    // Memeriksa apakah timer_awal ada
+                                                    if ($timerAwal) {
+                                                        $waktuAwal = \Carbon\Carbon::parse($timerAwal);
+                                                        $waktuSekarang = \Carbon\Carbon::now();
+                                                        $durasi = $waktuAwal->diff($waktuSekarang);
 
-                                                    // Menampilkan hasil perhitungan durasi
-                                                    echo "{$durasi->days} hari, {$durasi->h} jam";
-                                                } else {
-                                                    echo '-';
-                                                }
-                                            @endphp
-                                        @endif
-                                    </td>
+                                                        // Menampilkan hasil perhitungan durasi
+                                                        echo "{$durasi->days} hari, {$durasi->h} jam";
+                                                    } else {
+                                                        echo '-';
+                                                    }
+                                                @endphp
+                                            @endif
+                                        </td>
 
 
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
-                                            {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
-                                            {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
-                                            {{ $pengambilan_do->durasi_penerimaan_menit }} menit,
-                                            {{ $pengambilan_do->durasi_penerimaan_detik }} detik
-                                        @elseif ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
-                                            {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
-                                            jam
-                                        @else
-                                            Durasi tidak tersedia
-                                        @endif
-                                    </td>
-                                </tr>
-                                {{-- @endif --}}
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
+                                                {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
+                                                {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
+                                                {{ $pengambilan_do->durasi_penerimaan_menit }} menit,
+                                                {{ $pengambilan_do->durasi_penerimaan_detik }} detik
+                                            @elseif ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
+                                                {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
+                                                jam
+                                            @else
+                                                Durasi tidak tersedia
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    {{-- @endif --}}
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

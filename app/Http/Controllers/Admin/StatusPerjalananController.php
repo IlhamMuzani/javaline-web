@@ -25,14 +25,33 @@ class StatusPerjalananController extends Controller
     public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['status perjalanan kendaraan']) {
+            // $kendaraanall = Kendaraan::orderBy('user_id', 'desc')
+            //     ->orderBy('updated_at', 'desc')
+            //     ->get()
+            //     ->sort(function ($a, $b) {
+            //         $numberA = (int) filter_var($a->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+            //         $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+            //         return $numberA - $numberB;
+            //     });
+
             $kendaraanall = Kendaraan::orderBy('user_id', 'desc')
-                ->orderBy('updated_at', 'desc')
-                ->get()
-                ->sort(function ($a, $b) {
-                    $numberA = (int) filter_var($a->no_kabin, FILTER_SANITIZE_NUMBER_INT);
-                    $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
-                    return $numberA - $numberB;
-                });
+                ->orderBy('updated_at', 'desc');
+
+            // Memfilter kendaraan berdasarkan ID pengguna
+            if (
+                auth()->user()->id == 372 || auth()->user()->id == 576
+            ) {
+                // Hanya kendaraan yang memiliki no_kabin dengan awalan "K3" untuk user 372 dan 576
+                $kendaraanall = $kendaraanall->where('no_kabin', 'like', 'K3%');
+            }
+
+            // Eksekusi query dan urutkan kendaraan
+            $kendaraanall = $kendaraanall->get()->sort(function ($a, $b) {
+                $numberA = (int) filter_var($a->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+                $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
+                return $numberA - $numberB;
+            });
+            
             $status = $request->status_perjalanan;
             $kendaraanId = $request->kendaraan_id;
             $pelangganId = $request->pelanggan_id;

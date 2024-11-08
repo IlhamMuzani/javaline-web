@@ -85,7 +85,7 @@
                                 <th>Kode</th>
                                 <th>Nama Pelanggan</th>
                                 {{-- <th>Nama Alias</th> --}}
-                                <th>Nama</th>
+                                {{-- <th>Nama</th> --}}
                                 <th>Telepon</th>
                                 <th class="text-center">Qr Code</th>
                                 <th class="text-center" width="130">Opsi</th>
@@ -98,7 +98,7 @@
                                     <td>{{ $pelanggan->kode_pelanggan }}</td>
                                     <td>{{ $pelanggan->nama_pell }}</td>
                                     {{-- <td>{{ $pelanggan->nama_alias }}</td> --}}
-                                    <td>{{ $pelanggan->nama_person }}</td>
+                                    {{-- <td>{{ $pelanggan->nama_person }}</td> --}}
                                     <td>{{ $pelanggan->telp }}</td>
                                     <td data-toggle="modal" data-target="#modal-qrcode-{{ $pelanggan->id }}"
                                         style="text-align: center;">

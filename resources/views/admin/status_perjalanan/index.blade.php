@@ -82,31 +82,40 @@
                                 <div class="form-group">
                                     <select class="custom-select form-control" id="divisi" name="divisi">
                                         <option value="">- Cari Kode -</option>
-                                        <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
-                                            -Semua Code-
-                                        </option>
-                                        <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
-                                            M1
-                                        </option>
-                                        <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
-                                            M2
-                                        </option>
-                                        <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
-                                            M3
-                                        </option>
-                                        <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
-                                            M4
-                                        </option>
-                                        <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
-                                            M5
-                                        </option>
-                                        <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
-                                            M6
-                                        </option>
-                                        <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
-                                            M7
-                                        </option>
 
+
+                                        <!-- Jika user adalah ID 1, hanya tampilkan M3 -->
+                                        @if (auth()->user()->id == 372 || auth()->user()->id == 576)
+                                            <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
+                                                M3
+                                            </option>
+                                        @else
+                                            <option value="All" {{ Request::get('divisi') == 'All' ? 'selected' : '' }}>
+                                                -Semua Code-
+                                            </option>
+                                            <!-- Jika user bukan ID 1, tampilkan semua opsi termasuk M1, M2, M4, M5, M6, dan M7 -->
+                                            <option value="K1" {{ Request::get('divisi') == 'K1' ? 'selected' : '' }}>
+                                                M1
+                                            </option>
+                                            <option value="K2" {{ Request::get('divisi') == 'K2' ? 'selected' : '' }}>
+                                                M2
+                                            </option>
+                                            <option value="K3" {{ Request::get('divisi') == 'K3' ? 'selected' : '' }}>
+                                                M3
+                                            </option>
+                                            <option value="K4" {{ Request::get('divisi') == 'K4' ? 'selected' : '' }}>
+                                                M4
+                                            </option>
+                                            <option value="K5" {{ Request::get('divisi') == 'K5' ? 'selected' : '' }}>
+                                                M5
+                                            </option>
+                                            <option value="K6" {{ Request::get('divisi') == 'K6' ? 'selected' : '' }}>
+                                                M6
+                                            </option>
+                                            <option value="K7" {{ Request::get('divisi') == 'K7' ? 'selected' : '' }}>
+                                                M7
+                                            </option>
+                                        @endif
                                     </select>
                                     <label for="status">(Cari Kode)</label>
                                 </div>
@@ -179,22 +188,25 @@
                                 {{-- </div> --}}
                             </div>
 
-
-                            <div class="col-md-3 mb-3">
-                                <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
-                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
-                                    <option value="">- Pilih -</option>
-                                    <option value="all" {{ Request::get('pelanggan_id') === 'all' ? 'selected' : '' }}>
-                                        -Semua Pelanggan-</option>
-                                    @foreach ($pelanggans as $pelanggan)
-                                        <option value="{{ $pelanggan->id }}"
-                                            {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
-                                            {{ $pelanggan->nama_pell }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <label for="status">(Cari Pelanggan)</label>
-                            </div>
+                            @if (auth()->user()->id == 372 || auth()->user()->id == 576)
+                            @else
+                                <div class="col-md-3 mb-3">
+                                    <select class="select2bs4 select2-hidden-accessible" name="pelanggan_id"
+                                        data-placeholder="Cari Pelanggan.." style="width: 100%;" id="pelanggan_id">
+                                        <option value="">- Pilih -</option>
+                                        <option value="all"
+                                            {{ Request::get('pelanggan_id') === 'all' ? 'selected' : '' }}>
+                                            -Semua Pelanggan-</option>
+                                        @foreach ($pelanggans as $pelanggan)
+                                            <option value="{{ $pelanggan->id }}"
+                                                {{ Request::get('pelanggan_id') == $pelanggan->id ? 'selected' : '' }}>
+                                                {{ $pelanggan->nama_pell }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <label for="status">(Cari Pelanggan)</label>
+                                </div>
+                            @endif
                             <div class="col-md-3 mb-3">
                                 <div class="input-group-append">
                                     <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">

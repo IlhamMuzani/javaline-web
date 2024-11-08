@@ -307,10 +307,10 @@ class InqueryTagihanekspedisiController extends Controller
         $item->no_resi = $request->no_resi;
         $item->save();
 
-        return back()->with('success', 'Nomor resi berhasil disimpan.');
+        return response()->json(['success' => true, 'message' => 'Nomor resi berhasil disimpan.']);
     }
 
-
+    
     public function unposttagihan($id)
     {
         $item = Tagihan_ekspedisi::findOrFail($id);
