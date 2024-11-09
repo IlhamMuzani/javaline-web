@@ -169,11 +169,16 @@ class LaporanFakturekspedisiController extends Controller
         }
 
         // Filter berdasarkan karyawan_id melalui relasi pelanggan
+        // if ($karyawan_id) {
+        //     $inquery->whereHas('pelanggan', function ($query) use ($karyawan_id) {
+        //         $query->where('karyawan_id', $karyawan_id);
+        //     });
+        // }
+
         if ($karyawan_id) {
-            $inquery->whereHas('pelanggan', function ($query) use ($karyawan_id) {
-                $query->where('karyawan_id', $karyawan_id);
-            });
+            $inquery->where('karyawan_id', $karyawan_id);
         }
+
 
         $inquery = $inquery->get();
         $hasSearch = ($tanggal_awal && $tanggal_akhir) || $pelanggan_id || $karyawan_id;
@@ -199,7 +204,7 @@ class LaporanFakturekspedisiController extends Controller
         $karyawan = Karyawan::where('id', $karyawan_id_input)->first();
 
         $query = Faktur_ekspedisi::orderBy('id', 'ASC')
-        ->whereIn('status', ['posting', 'selesai']);
+            ->whereIn('status', ['posting', 'selesai']);
 
         // Filter berdasarkan kategoris
         if ($kategoris) {
@@ -237,5 +242,4 @@ class LaporanFakturekspedisiController extends Controller
         // Mengembalikan laporan PDF sebagai respons stream
         return $pdf->stream('Laporan_Faktur_Ekspedisi.pdf');
     }
-
 }

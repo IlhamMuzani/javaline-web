@@ -65,7 +65,7 @@ class InqueryPenggantianoliController extends Controller
             $spareparts = Sparepart::where('kategori', 'oli')->get();
 
             $details = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
-            $detailparts = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+            $detailparts = Detail_penggantianpart::where('penggantian_oli_id', $id)->get();
             $lamapenggantians = Lama_penggantianoli::get();
 
             return view('admin.inquery_penggantianoli.update', compact('lamapenggantians', 'penggantianoli', 'spareparts', 'details', 'detailparts'));
@@ -399,7 +399,7 @@ class InqueryPenggantianoliController extends Controller
                     $sparepart->update(['jumlah' => $jumlah_sparepart]);
 
                     $detailToUpdate->update([
-                        'penggantians_oli_id' => $transaksi->id,
+                        'penggantian_oli_id' => $transaksi->id,
                         'kategori2' => $data_pesanan['kategori2'],
                         'spareparts_id' => $data_pesanan['spareparts_id'],
                         'jumlah2' => $data_pesanan['jumlah2'],
@@ -407,7 +407,7 @@ class InqueryPenggantianoliController extends Controller
                 }
             } else {
                 $existingDetail = Detail_penggantianpart::where([
-                    'penggantians_oli_id' => $transaksi->id,
+                    'penggantian_oli_id' => $transaksi->id,
                     'spareparts_id' => $data_pesanan['spareparts_id'],
                 ])->first();
 
@@ -420,7 +420,7 @@ class InqueryPenggantianoliController extends Controller
                     $sparepart->update(['jumlah' => $jumlah_sparepart]);
 
                     Detail_penggantianpart::create([
-                        'penggantians_oli_id' => $transaksi->id,
+                        'penggantian_oli_id' => $transaksi->id,
                         'kategori2' => $data_pesanan['kategori2'],
                         'spareparts_id' => $data_pesanan['spareparts_id'],
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
@@ -435,7 +435,7 @@ class InqueryPenggantianoliController extends Controller
         $pemasangan_part = Penggantian_oli::find($transaksi_id);
 
         $parts = Detail_penggantianoli::where('penggantian_oli_id', $pemasangan_part->id)->get();
-        $parts2 = Detail_penggantianpart::where('penggantians_oli_id', $pemasangan_part->id)->get();
+        $parts2 = Detail_penggantianpart::where('penggantian_oli_id', $pemasangan_part->id)->get();
 
         return view('admin.inquery_penggantianoli.show', compact('parts', 'parts2', 'pemasangan_part'));
     }
@@ -445,7 +445,7 @@ class InqueryPenggantianoliController extends Controller
         $part = Penggantian_oli::where('id', $id)->first(); {
 
             $detailpenggantianoli = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
-            $detailpenggantianpart = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+            $detailpenggantianpart = Detail_penggantianpart::where('penggantian_oli_id', $id)->get();
 
             $kendaraan = Kendaraan::find($part->kendaraan_id);
 
@@ -480,7 +480,7 @@ class InqueryPenggantianoliController extends Controller
         $part = Penggantian_oli::where('id', $id)->first(); {
 
             $detailpenggantianoli = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
-            $detailpenggantianpart = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+            $detailpenggantianpart = Detail_penggantianpart::where('penggantian_oli_id', $id)->get();
 
             $kendaraan = Kendaraan::find($part->kendaraan_id);
 
@@ -516,7 +516,7 @@ class InqueryPenggantianoliController extends Controller
             $pemasangan_part = Penggantian_oli::findOrFail($id);
 
             $parts = Detail_penggantianoli::where('penggantian_oli_id', $id)->with('sparepart')->get();
-            $parts2 = Detail_penggantianpart::where('penggantians_oli_id', $id)->with('spareparts')->get();
+            $parts2 = Detail_penggantianpart::where('penggantian_oli_id', $id)->with('spareparts')->get();
 
             return view('admin.inquery_penggantianoli.show', compact('parts', 'parts2', 'pemasangan_part'));
         } else {
@@ -530,7 +530,7 @@ class InqueryPenggantianoliController extends Controller
     {
         $part = Penggantian_oli::find($id);
         $detailpenggantianoli = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
-        $detailpenggantianpart = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+        $detailpenggantianpart = Detail_penggantianpart::where('penggantian_oli_id', $id)->get();
 
         $kendaraan = Kendaraan::find($part->kendaraan_id);
 
@@ -595,7 +595,7 @@ class InqueryPenggantianoliController extends Controller
     {
         $part = Penggantian_oli::find($id);
         $detailpenggantianoli = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
-        $detailpenggantianpart = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+        $detailpenggantianpart = Detail_penggantianpart::where('penggantian_oli_id', $id)->get();
 
         $kendaraan = Kendaraan::find($part->kendaraan_id);
 

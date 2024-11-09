@@ -51,6 +51,11 @@ class Penggantian_oli extends Model
         return $this->hasMany(Detail_penggantianoli::class);
     }
 
+    public function detail_part()
+    {
+        return $this->hasMany(Detail_penggantianpart::class);
+    }
+
     public static function getId()
     {
         return $getId = DB::table('penggantian_olis')->orderBy('id', 'DESC')->take(1)->get();

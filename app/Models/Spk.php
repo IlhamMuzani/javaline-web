@@ -18,6 +18,7 @@ class Spk extends Model
     [
         'admin',
         'kategori',
+        'userpelanggan_id',
         'kode_spk',
         'qrcode_spk',
         'user_id',
@@ -75,6 +76,11 @@ class Spk extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function userpelanggan()
+    {
+        return $this->belongsTo(User::class, 'userpelanggan_id'); // foreign key untuk alamat kedua
     }
 
     public function kendaraan()

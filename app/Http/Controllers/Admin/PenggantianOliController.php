@@ -252,7 +252,7 @@ class PenggantianOliController extends Controller
                     $sparepart->update(['jumlah' => $jumlah_sparepart]);
 
                     Detail_penggantianpart::create([
-                        'penggantians_oli_id' => $transaksi->id,
+                        'penggantian_oli_id' => $transaksi->id,
                         'kategori2' => $data_pesanan['kategori2'],
                         'spareparts_id' => $data_pesanan['spareparts_id'],
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
@@ -309,7 +309,7 @@ class PenggantianOliController extends Controller
 
         // $kendaraan = Kendaraan::where('id', $pembelians->id)->first();
         $parts = Detail_penggantianoli::where('penggantian_oli_id', $pembelians->id)->get();
-        $parts2 = Detail_penggantianpart::where('penggantians_oli_id', $pembelians->id)->get();
+        $parts2 = Detail_penggantianpart::where('penggantian_oli_id', $pembelians->id)->get();
 
         return view('admin.penggantian_oli.show', compact('parts', 'parts2', 'pembelians'));
     }
@@ -333,7 +333,7 @@ class PenggantianOliController extends Controller
 
             $pemasangans = Penggantian_oli::find($id);
             $parts = Detail_penggantianoli::where('penggantian_oli_id', $id)->get();
-            $parts2 = Detail_penggantianpart::where('penggantians_oli_id', $id)->get();
+            $parts2 = Detail_penggantianpart::where('penggantian_oli_id', $id)->get();
 
 
             $pdf = PDF::loadView('admin/penggantian_oli.cetak_pdf', compact('parts', 'pemasangans', 'parts2'));

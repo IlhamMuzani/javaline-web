@@ -44,6 +44,10 @@ class Pelanggan extends Model
             ->logFillable('*');
     }
 
+    public function detail_pelanggan()
+    {
+        return $this->hasMany(Detail_pelanggan::class);
+    }
 
     public function kendaraan()
     {
@@ -94,10 +98,9 @@ class Pelanggan extends Model
     {
         return $this->hasMany(User::class);
     }
-    
+
     public static function getId()
     {
         return $getId = DB::table('pelanggans')->orderBy('id', 'DESC')->take(1)->get();
     }
-
 }

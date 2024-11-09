@@ -146,19 +146,43 @@
                 <td colspan="5">
                     <table>
                         <tr>
-                            <th class="thdetail">Kode Oli</th>
-                            <th class="thdetail">Nama Oli</th>
-                            <th class="thdetail">Jumlah Liter</th>
-                            <th class="thdetail">Km Penggantian</th>
-                            <th class="thdetail">Km Berikutnya</th>
+                            <th style="text-align: left" class="thdetail">Kode Oli</th>
+                            <th style="text-align: left" class="thdetail">Nama Oli</th>
+                            <th style="text-align: left" class="thdetail">Jumlah Liter</th>
+                            <th style="text-align: left" class="thdetail">Km Penggantian</th>
+                            <th style="text-align: left" class="thdetail">Km Berikutnya</th>
                         </tr>
                         @foreach ($penggantianoli->detail_oli as $detail_oli)
                             <tr>
-                                <td class="detail">{{ $detail_oli->sparepart->kode_partdetail }}</td>
-                                <td class="detail">{{ $detail_oli->sparepart->nama_barang }}</td>
-                                <td class="detail">{{ $detail_oli->jumlah }}</td>
-                                <td class="detail">{{ $detail_oli->km_penggantian }}</td>
-                                <td class="detail">{{ $detail_oli->km_berikutnya }}</td>
+                                <td style="text-align: left" class="detail">
+                                    {{ $detail_oli->sparepart->kode_partdetail }}</td>
+                                <td style="text-align: left" class="detail">{{ $detail_oli->sparepart->nama_barang }}
+                                </td>
+                                <td style="text-align: left" class="detail">{{ $detail_oli->jumlah }}</td>
+                                <td style="text-align: left" class="detail">{{ $detail_oli->km_penggantian }}</td>
+                                <td style="text-align: left" class="detail">{{ $detail_oli->km_berikutnya }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <table>
+                        <tr>
+                            <th style="text-align: left" class="thdetail">Kode Part</th>
+                            <th style="text-align: left" class="thdetail">Nama Part</th>
+                            <th style="text-align: left" class="thdetail">Qty</th>
+                            <th style="text-align: left" class="thdetail">Satuan</th>
+                        </tr>
+                        @foreach ($penggantianoli->detail_part as $detail_part)
+                            <tr>
+                                <td style="text-align: left" class="detail">
+                                    {{ $detail_part->spareparts->kode_partdetail }}</td>
+                                <td style="text-align: left" class="detail">{{ $detail_part->spareparts->nama_barang }}
+                                </td>
+                                <td style="text-align: left" class="detail">{{ $detail_part->jumlah2 }}</td>
+                                <td style="text-align: left" class="detail">{{ $detail_part->spareparts->satuan }}</td>
                             </tr>
                         @endforeach
                     </table>

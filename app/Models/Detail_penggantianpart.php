@@ -14,7 +14,7 @@ class Detail_penggantianpart extends Model
     use LogsActivity;
 
     protected $fillable = [
-        'penggantians_oli_id',
+        'penggantian_oli_id',
         'kategori2',
         'spareparts_id',
         'km_penggantian2',
