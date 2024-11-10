@@ -17,27 +17,30 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['user']) {
+            $query = User::where(['cek_hapus' => 'tidak'])
+                ->with('karyawan')
+                ->whereHas('karyawan', function ($query) {
+                    $query->whereNotIn('departemen_id', [2, 3]); // Menambahkan kondisi departemen_id selain 2 dan 3
+                });
+
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
-                $users = User::where(['cek_hapus' => 'tidak'])
-                    ->with('karyawan')
-                    ->where(function ($query) use ($keyword) {
-                        $query->whereHas('karyawan', function ($query) use ($keyword) {
-                            $query->where('nama_lengkap', 'like', "%$keyword%");
-                        })
-                            ->orWhere('kode_user', 'like', "%$keyword%");
+                $query->where(function ($query) use ($keyword) {
+                    $query->whereHas('karyawan', function ($query) use ($keyword) {
+                        $query->where('nama_lengkap', 'like', "%$keyword%");
                     })
-                    ->paginate(10);
-            } else {
-                $users = User::where(['cek_hapus' => 'tidak'])
-                    ->with('karyawan')
-                    ->paginate(10);
+                        ->orWhere('kode_user', 'like', "%$keyword%");
+                });
             }
+
+            $users = $query->paginate(10);
+
             return view('admin.user.index', compact('users'));
         } else {
             return back()->with('error', 'Anda tidak memiliki akses');
         }
     }
+
 
     public function create()
     {
@@ -772,7 +775,6 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-
         $user = User::find($id);
         Karyawan::where('id', $user->karyawan_id)->update([
             'status' => 'null',

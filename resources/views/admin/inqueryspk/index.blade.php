@@ -124,6 +124,7 @@
                                 <th>No Kabin</th>
                                 <th>No Pol</th>
                                 <th>Pelanggan</th>
+                                <th>Divisi</th>
                                 <th>Rute</th>
                                 <th>Opsi</th>
                             </tr>
@@ -161,6 +162,9 @@
                                         {{ $buktipotongpajak->nama_pelanggan }}
                                     </td>
                                     <td>
+                                        {{ $buktipotongpajak->userpelanggan->detail_pelanggan->nama_divisi ?? null }}
+                                    </td>
+                                    <td>
                                         {{ $buktipotongpajak->nama_rute }}
                                     </td>
                                     <td class="text-center">
@@ -196,12 +200,12 @@
                                             @endif
                                             @if ($buktipotongpajak->status == 'posting')
                                                 @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31)
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
                                                 @endif
                                                 {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
                                                 {{-- @endif --}}
                                                 {{-- <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">

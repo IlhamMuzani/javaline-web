@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Data User')
+@section('title', 'Data User Driver')
 
 @section('content')
 
@@ -12,11 +12,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Data User</h1>
+                    <h1 class="m-0">Data User Driver</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Data User</li>
+                        <li class="breadcrumb-item active">Data User Driver</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -35,10 +35,10 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data User</h3>
+                    <h3 class="card-title">Data User Driver</h3>
                     <div class="float-right">
                         @if (auth()->check() && auth()->user()->fitur['user create'])
-                            <a href="{{ url('admin/user/create') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('admin/userdriver/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         @endif
@@ -52,8 +52,8 @@
                             <label for="status">Kategori</label>
                             <select class="custom-select form-control" id="status" name="status">
                                 <option value="">- Pilih -</option>
-                                <option value="staff" selected>Staff</option>
-                                <option value="driver">Driver</option>
+                                <option value="staff">Staff</option>
+                                <option value="driver"selected>Driver</option>
                                 <option value="pelanggan">Pelanggan</option>
                                 <option value="supplier">Supplier</option>
                             </select>
@@ -62,7 +62,7 @@
 
                     <!-- Form Cari User di sebelah kanan -->
                     <div class="col-md-4">
-                        <form action="{{ url('admin/user') }}" method="GET" id="get-keyword" autocomplete="off">
+                        <form action="{{ url('admin/userdriver') }}" method="GET" id="get-keyword" autocomplete="off">
                             <label for="keyword">Cari User :</label>
                             <div class="input-group">
                                 <input type="search" class="form-control" name="keyword" id="keyword"

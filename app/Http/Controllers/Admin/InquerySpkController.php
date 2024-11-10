@@ -67,7 +67,8 @@ class InquerySpkController extends Controller
             $query->where('departemen_id', '2');
         })->get();
         $ruteperjalanans = Rute_perjalanan::all();
-        $pelanggans = Pelanggan::all();
+        // $pelanggans = Pelanggan::all();
+        $pelanggans = User::whereNotNull('pelanggan_id')->get();
         $vendors = Vendor::all();
         $alamat_muats = Alamat_muat::all();
         $alamat_bongkars = Alamat_bongkar::all();
@@ -182,6 +183,7 @@ class InquerySpkController extends Controller
 
         $spk->kategori = $request->kategori;
         $spk->pelanggan_id = $request->pelanggan_id;
+        $spk->userpelanggan_id = $request->userpelanggan_id;
         $spk->kode_pelanggan = $request->kode_pelanggan;
         $spk->nama_pelanggan = $request->nama_pelanggan;
         $spk->alamat_pelanggan = $request->alamat_pelanggan;
@@ -232,6 +234,8 @@ class InquerySpkController extends Controller
                     'spk_id' => $id,
                     'kendaraan_id' => $request->kendaraan_id,
                     'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'pelanggan_id' => $request->pelanggan_id,
+                    'userpelanggan_id' => $request->userpelanggan_id,
                     'user_id' => $request->user_id,
                     'alamat_muat_id' => $request->alamat_muat_id,
                     'alamat_muat2_id' => $request->alamat_muat2_id,
@@ -246,6 +250,8 @@ class InquerySpkController extends Controller
                     'spk_id' => $id,
                     'kendaraan_id' => $request->kendaraan_id,
                     'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'pelanggan_id' => $request->pelanggan_id,
+                    'userpelanggan_id' => $request->userpelanggan_id,
                     'user_id' => $request->user_id,
                     'alamat_muat_id' => $request->alamat_muat_id,
                     'alamat_muat2_id' => $request->alamat_muat2_id,
@@ -267,6 +273,8 @@ class InquerySpkController extends Controller
                     'spk_id' => $id,
                     'kendaraan_id' => $request->kendaraan_id,
                     'rute_perjalanan_id' => $request->rute_perjalanan_id,
+                    'pelanggan_id' => $request->pelanggan_id,
+                    'userpelanggan_id' => $request->userpelanggan_id,
                     'user_id' => $request->user_id,
                     'km_awal' => $request->km_awal,
                     'tanggal_awal' => $tanggal,

@@ -926,16 +926,15 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('search-alamatbongkar3', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatBongkar3'])->name('search.alamatbongkar3');
     Route::get('ambil_lokasi', [\App\Http\Controllers\Admin\AlamatmuatController::class, 'ambil_lokasi'])->name('ambil_lokasi');
 
-
     Route::resource('post-pengurus', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('pengurus', \App\Http\Controllers\Admin\PengurusController::class);
     Route::post('no_resi/{id}', [\App\Http\Controllers\Admin\InqueryTagihanekspedisiController::class, 'no_resi'])->name('no_resi');
 
-    // Route::delete('pelanggan/delete_detailpelanggan/{id}', [\App\Http\Controllers\Admin\PelangganController::class, 'delete_detailpelanggan']);
-    // Route::resource('userpelanggan', \App\Http\Controllers\Admin\UserpelangganController::class);
-    // Route::get('userpelanggan/pelanggan/{id}', [\App\Http\Controllers\Admin\UserpelangganController::class, 'pelanggan']);
+    Route::delete('pelanggan/delete_detailpelanggan/{id}', [\App\Http\Controllers\Admin\PelangganController::class, 'delete_detailpelanggan']);
+    Route::resource('userpelanggan', \App\Http\Controllers\Admin\UserpelangganController::class);
+    Route::get('userpelanggan/pelanggan/{id}', [\App\Http\Controllers\Admin\UserpelangganController::class, 'pelanggan']);
 
-    // Route::resource('userdriver', \App\Http\Controllers\Admin\UserdriverController::class);
-    // Route::resource('usersupplier', \App\Http\Controllers\Admin\UsersupplierController::class);
+    Route::resource('userdriver', \App\Http\Controllers\Admin\UserdriverController::class);
+    Route::resource('usersupplier', \App\Http\Controllers\Admin\UsersupplierController::class);
 
 });

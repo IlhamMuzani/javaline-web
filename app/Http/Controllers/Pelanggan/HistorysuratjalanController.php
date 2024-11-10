@@ -16,20 +16,16 @@ class HistorysuratjalanController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
 
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
 
-        // Jika tidak ada filter tanggal, kembalikan data kosong
         if (!$tanggal_awal && !$tanggal_akhir) {
-            $spks = collect(); // Data kosong
+            $spks = collect();
         } else {
-            $spks = Pengambilan_do::with('kendaraan', 'spk')
-                ->whereHas('spk', function ($query) use ($pelanggan) {
-                    $query->where('pelanggan_id', $pelanggan->id);
-                })
-                ->where('status', 'selesai'); // Hanya tampilkan yang berstatus selesai
+            $spks = Pengambilan_do::where('userpelanggan_id', $user->id)
+                ->with('kendaraan', 'spk')
+                ->where('status', 'selesai');
 
             if ($tanggal_awal && $tanggal_akhir) {
                 $spks->whereBetween('tanggal_awal', [$tanggal_awal, $tanggal_akhir]);

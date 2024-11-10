@@ -573,18 +573,15 @@ class MonitoringkendaraanController extends Controller
     public function index(Request $request)
     {
         $user = auth()->user();
-        $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
-        $spks = $pelanggan->spk;
-
         // Ambil semua pengambilan_do yang belum selesai dari semua SPK terkait pelanggan
-        $do_kendaraans = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
+        $do_kendaraans = Pengambilan_do::where('userpelanggan_id', $user->id)
             ->whereNotIn('status', ['unpost', 'posting', 'selesai'])
             ->with('kendaraan')
             ->get();
 
         // Tentukan apakah ada pencarian atau tidak
         if ($request->has('kendaraan_id') && $request->kendaraan_id !== '') {
-            
+
             // Update kendaraan hanya jika ada pencarian
             $waktuPerjalananIsi = now();
             foreach ($do_kendaraans as $do_kendaraan) {
@@ -619,7 +616,7 @@ class MonitoringkendaraanController extends Controller
             }
 
             // Query pengambilan_do berdasarkan pencarian kendaraan_id
-            $pengambilanDoQuery = Pengambilan_do::whereIn('spk_id', $spks->pluck('id'))
+            $pengambilanDoQuery = Pengambilan_do::where('userpelanggan_id', $user->id)
                 ->whereNotIn(
                     'status',
                     ['unpost', 'posting', 'selesai']

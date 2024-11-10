@@ -90,6 +90,7 @@
                                 <th>No Kabin</th>
                                 <th>No Pol</th>
                                 <th>Pelanggan</th>
+                                <th>Divisi</th>
                                 <th>Rute</th>
                                 <th>Opsi</th>
                             </tr>
@@ -125,6 +126,9 @@
                                     </td>
                                     <td>
                                         {{ $buktipotongpajak->nama_pelanggan }}
+                                    </td>
+                                    <td>
+                                        {{ $buktipotongpajak->userpelanggan->detail_pelanggan->nama_divisi ?? null }}
                                     </td>
                                     <td>
                                         {{ $buktipotongpajak->nama_rute }}

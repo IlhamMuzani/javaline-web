@@ -48,11 +48,25 @@
                     @endforeach
                 </div>
             @endif
-            {{-- <div class="card"> --}}
-            {{-- <div class="card-header">
-                    <h3 class="card-title">Tambah Pelanggan</h3>
-                </div> --}}
-            <!-- /.card-header -->
+
+            @if (session('error_pelanggans') || session('error_pesanans'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-ban"></i> Error!
+                    </h5>
+                    @if (session('error_pelanggans'))
+                        @foreach (session('error_pelanggans') as $error)
+                            - {{ $error }} <br>
+                        @endforeach
+                    @endif
+                    @if (session('error_pesanans'))
+                        @foreach (session('error_pesanans') as $error)
+                            - {{ $error }} <br>
+                        @endforeach
+                    @endif
+                </div>
+            @endif
             <form action="{{ url('admin/pelanggan') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card">
@@ -71,9 +85,9 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group">
-                                        <label for="nama_alias">Nama Alias</label>
-                                        <input type="text" class="form-control" id="nama_alias" name="nama_alias"
-                                            placeholder="Masukan nama alias" value="{{ old('nama_alias') }}">
+                                        <label for="telp">Telp</label>
+                                        <input type="text" class="form-control" id="telp" name="telp"
+                                            placeholder="Masukan telp" value="{{ old('telp') }}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -116,10 +130,10 @@
                                         name="nama_lengkap" placeholder="" value="{{ old('nama_lengkap') }}">
                                 </div>
                                 <div class="form-group">
-                                    <label style="font-size:14px" for="telp">No. Telp</label>
+                                    <label style="font-size:14px" for="telp_karyawan">No. Telp</label>
                                     <input onclick="showCategoryModalMarketing(this.value)" style="font-size:14px"
-                                        type="text" class="form-control" id="telp" readonly name="telp"
-                                        placeholder="" value="{{ old('telp') }}">
+                                        type="text" class="form-control" id="telp_karyawan" readonly name="telp_karyawan"
+                                        placeholder="" value="{{ old('telp_karyawan') }}">
                                 </div>
                                 <div hidden class="form-group">
                                     <label style="font-size:14px" for="alamat_karyawan">Alamat</label>
@@ -145,7 +159,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                {{-- <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Kotak Person</h3>
                     </div>
@@ -186,6 +200,83 @@
                             <input type="text" class="form-control" id="email" name="email"
                                 placeholder="Masukan email" value="{{ old('email') }}">
                         </div>
+                    </div>
+                </div> --}}
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Divisi</h3>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Nama</th>
+                                    <th>Jabatan</th>
+                                    <th>No. Telp</th>
+                                    <th>Fax</th>
+                                    <th>Hp</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-pembelian">
+                                <tr id="pembelian-0">
+                                    <td class="text-center" id="urutan-0">1</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="nama_divisi-0"
+                                                name="nama_divisi[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="jabatan_divisi-0"
+                                                name="jabatan_divisi[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="telp_divisi-0"
+                                                name="telp_divisi[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="fax_divisi-0"
+                                                name="fax_divisi[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" id="hp_divisi-0"
+                                                name="hp_divisi[]">
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removePesanan(0)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr id="alamat-0">
+                                    <td colspan="7"> <!-- kolom yang mencakup seluruh baris -->
+                                        <div class="form-group">
+                                            <label for="alamat_divisi-0">Alamat</label>
+                                            <input type="text" class="form-control" id="alamat_divisi-0"
+                                                name="alamat_divisi[]">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        </table>
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
@@ -273,10 +364,122 @@
             document.getElementById('karyawan_id').value = Karyawan_id;
             document.getElementById('kode_karyawan').value = KodeKaryawan;
             document.getElementById('nama_lengkap').value = NamaKaryawan;
-            document.getElementById('telp').value = Telp;
+            document.getElementById('telp_karyawan').value = Telp;
             document.getElementById('alamat_karyawan').value = Alamat;
 
             $('#tableKaryawan').modal('hide');
+        }
+    </script>
+
+
+    <script>
+        var data_pembelian = @json(session('data_pembelians'));
+        var jumlah_ban = 1;
+
+        if (data_pembelian != null) {
+            jumlah_ban = data_pembelian.length;
+            $('#tabel-pembelian').empty();
+            var urutan = 0;
+            $.each(data_pembelian, function(key, value) {
+                urutan = urutan + 1;
+                itemPembelian(urutan, key, value);
+            });
+        }
+
+        function addPesanan() {
+            jumlah_ban = jumlah_ban + 1;
+
+            if (jumlah_ban === 1) {
+                $('#tabel-pembelian').empty();
+            }
+
+            itemPembelian(jumlah_ban, jumlah_ban - 1);
+        }
+
+        function removePesanan(params) {
+            jumlah_ban -= 1;
+
+            var tabel_pesanan = document.getElementById('tabel-pembelian');
+            var pembelian = document.getElementById('pembelian-' + params);
+            var alamat = document.getElementById('alamat-' + params);
+
+            if (pembelian) {
+                tabel_pesanan.removeChild(pembelian); // Hapus baris divisi
+            }
+            if (alamat) {
+                tabel_pesanan.removeChild(alamat); // Hapus baris alamat
+            }
+
+            if (jumlah_ban === 0) {
+                var item_pembelian = '<tr><td class="text-center" colspan="7">- Divisi belum ditambahkan -</td></tr>';
+                $('#tabel-pembelian').html(item_pembelian);
+            } else {
+                // Update penomoran urutan
+                document.querySelectorAll('#tabel-pembelian .text-center').forEach((el, index) => {
+                    el.innerText = index + 1;
+                });
+            }
+        }
+
+
+        function itemPembelian(urutan, key, value = null) {
+            var nama_divisi = '';
+            var jabatan_divisi = '';
+            var telp_divisi = '';
+            var fax_divisi = '';
+            var hp_divisi = '';
+            var alamat_divisi = '';
+
+            if (value !== null) {
+                nama_divisi = value.nama_divisi;
+                jabatan_divisi = value.jabatan_divisi;
+                telp_divisi = value.telp_divisi;
+                fax_divisi = value.fax_divisi;
+                hp_divisi = value.hp_divisi;
+                alamat_divisi = value.alamat_divisi;
+            }
+
+            // urutan 
+            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
+            item_pembelian += '<td class="text-center" id="urutan-' + urutan + '">' + urutan + '</td>';
+
+            // nama_divisi 
+            item_pembelian +=
+                '<td><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="nama_divisi-' +
+                urutan + '" name="nama_divisi[]" value="' + nama_divisi + '"></div></td>';
+
+            // jabatan_divisi 
+            item_pembelian +=
+                '<td><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="jabatan_divisi-' +
+                urutan + '" name="jabatan_divisi[]" value="' + jabatan_divisi + '"></div></td>';
+
+            // telp_divisi 
+            item_pembelian +=
+                '<td><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="telp_divisi-' +
+                urutan + '" name="telp_divisi[]" value="' + telp_divisi + '"></div></td>';
+
+            // fax_divisi 
+            item_pembelian +=
+                '<td><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="fax_divisi-' +
+                urutan + '" name="fax_divisi[]" value="' + fax_divisi + '"></div></td>';
+
+            // hp_divisi  
+            item_pembelian +=
+                '<td><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="hp_divisi-' +
+                urutan + '" name="hp_divisi[]" value="' + hp_divisi + '"></div></td>';
+
+            // tombol hapus
+            item_pembelian += '<td><button type="button" class="btn btn-danger btn-sm" onclick="removePesanan(' + urutan +
+                ')"><i class="fas fa-trash"></i></button></td>';
+            item_pembelian += '</tr>';
+
+            // Alamat divisi
+            item_pembelian +=
+                '<tr id="alamat-' + urutan +
+                '"><td colspan="7"><div class="form-group"><label>Alamat</label><input type="text" class="form-control" style="font-size:14px" id="alamat_divisi-' +
+                urutan + '" name="alamat_divisi[]" value="' + alamat_divisi + '"></div></td></tr>';
+
+            $('#tabel-pembelian').append(item_pembelian);
         }
     </script>
 @endsection

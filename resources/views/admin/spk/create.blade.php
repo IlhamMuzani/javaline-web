@@ -50,7 +50,13 @@
                                         <h3 class="card-title">Pelanggan</h3>
                                     </div>
                                     <div class="card-body">
-                                        <div class="form-group" hidden>
+                                        <div hidden class="form-group">
+                                            <label for="userpelanggan_id">Userpelanggan Id</label>
+                                            <input type="text" class="form-control" id="userpelanggan_id" readonly
+                                                name="userpelanggan_id" placeholder=""
+                                                value="{{ old('userpelanggan_id') }}">
+                                        </div>
+                                        <div hidden class="form-group">
                                             <label for="pelanggan_id">pelanggan Id</label>
                                             <input type="text" class="form-control" id="pelanggan_id" readonly
                                                 name="pelanggan_id" placeholder="" value="{{ old('pelanggan_id') }}">
@@ -84,6 +90,12 @@
                                             <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
                                                 type="text" class="form-control" id="telp_pelanggan" readonly
                                                 name="telp_pelanggan" placeholder="" value="{{ old('telp_pelanggan') }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="alamat_divisi">Divisi</label>
+                                            <input onclick="showCategoryModalPelanggan(this.value)" style="font-size:14px"
+                                                type="text" class="form-control" id="alamat_divisi" readonly
+                                                name="alamat_divisi" placeholder="" value="{{ old('alamat_divisi') }}">
                                         </div>
                                         {{-- <div class="form-group" style="color:white">
                                             <label style="font-size:14px; margin-top:40px" for="telp_pelanggan">No. Telp</label>
@@ -129,6 +141,10 @@
                                             <input style="font-size:14px" type="text" class="form-control"
                                                 id="km" name="km_awal" placeholder=""
                                                 value="{{ old('km_awal') }}" onkeypress="return isNumberKey(event)">
+                                        </div>
+                                        <div class="form-group" style="color:white">
+                                            <label style="font-size:14px; margin-top:40px" for="">No.
+                                            </label>
                                         </div>
                                         {{-- <div class="form-group">
                                             <label style="font-size:14px" for="km_akhir">KM Akhir</label>
@@ -810,7 +826,7 @@
             </div>
 
             <div class="modal fade" id="tablePelanggan" data-backdrop="static">
-                <div class="modal-dialog modal-lg">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Data Pelanggan</h4>
@@ -825,23 +841,25 @@
                                         <th class="text-center">No</th>
                                         <th>Kode Pelanggan</th>
                                         <th>Nama Pelanggan</th>
-                                        <th>Alamat</th>
+                                        <th>Kode User</th>
+                                        <th>Nama Divisi</th>
                                         <th>No. Telp</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($pelanggans as $pelanggan)
+                                    @foreach ($pelanggans as $user)
                                         <tr
-                                            onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
+                                            onclick="getSelectedDataPelanggan('{{ $user->id }}','{{ $user->pelanggan->id ?? null }}', '{{ $user->pelanggan->kode_pelanggan ?? null }}', '{{ $user->pelanggan->nama_pell ?? null }}', '{{ $user->pelanggan->alamat ?? null }}', '{{ $user->pelanggan->telp ?? null }}', '{{ $user->detail_pelanggan->nama_divisi ?? null }}')">
                                             <td class="text-center">{{ $loop->iteration }}</td>
-                                            <td>{{ $pelanggan->kode_pelanggan }}</td>
-                                            <td>{{ $pelanggan->nama_pell }}</td>
-                                            <td>{{ $pelanggan->alamat }}</td>
-                                            <td>{{ $pelanggan->telp }}</td>
+                                            <td>{{ $user->pelanggan->kode_pelanggan ?? null }}</td>
+                                            <td>{{ $user->pelanggan->nama_pell ?? null }}</td>
+                                            <td>{{ $user->kode_user }}</td>
+                                            <td>{{ $user->detail_pelanggan->nama_divisi ?? null }}</td>
+                                            <td>{{ $user->pelanggan->telp ?? null }}</td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
-                                                    onclick="getSelectedDataPelanggan('{{ $pelanggan->id }}', '{{ $pelanggan->kode_pelanggan }}', '{{ $pelanggan->nama_pell }}', '{{ $pelanggan->alamat }}', '{{ $pelanggan->telp }}')">
+                                                    onclick="getSelectedDataPelanggan('{{ $user->id }}','{{ $user->pelanggan->id ?? null }}', '{{ $user->pelanggan->kode_pelanggan ?? null }}', '{{ $user->pelanggan->nama_pell ?? null }}', '{{ $user->pelanggan->alamat ?? null }}', '{{ $user->pelanggan->telp ?? null }}', '{{ $user->detail_pelanggan->nama_divisi ?? null }}')">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </td>
@@ -1330,13 +1348,15 @@
             $('#tablePelanggan').modal('show');
         }
 
-        function getSelectedDataPelanggan(Pelanggan_id, KodePelanggan, NamaPell, AlamatPel, Telpel) {
+        function getSelectedDataPelanggan(UserId, Pelanggan_id, KodePelanggan, NamaPell, AlamatPel, Telpel, Divisi) {
             // Set the values in the form fields
+            document.getElementById('userpelanggan_id').value = UserId;
             document.getElementById('pelanggan_id').value = Pelanggan_id;
             document.getElementById('kode_pelanggan').value = KodePelanggan;
             document.getElementById('nama_pell').value = NamaPell;
             document.getElementById('alamat_pelanggan').value = AlamatPel;
             document.getElementById('telp_pelanggan').value = Telpel;
+            document.getElementById('alamat_divisi').value = Divisi;
             // Close the modal (if needed)
             $('#tablePelanggan').modal('hide');
         }

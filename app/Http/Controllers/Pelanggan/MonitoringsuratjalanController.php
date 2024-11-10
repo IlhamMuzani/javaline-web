@@ -15,17 +15,12 @@ class MonitoringsuratjalanController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user(); // Dapatkan pengguna yang sedang login
-        $pelanggan = Pelanggan::where('id', $user->pelanggan_id)->first();
-
-        // Query untuk mendapatkan data Pengambilan_do yang berelasi dengan spk milik pelanggan yang sedang login
-        $spks = Pengambilan_do::with('kendaraan', 'spk') // Pastikan untuk memuat relasi spk juga
-            ->whereHas('spk', function ($query) use ($pelanggan) {
-                $query->where('pelanggan_id', $pelanggan->id); // Filter spk berdasarkan pelanggan yang login
-            })
+        $user = auth()->user();
+        $spks = Pengambilan_do::where('userpelanggan_id', $user->id)
+            ->with('kendaraan', 'spk')
             ->whereNotNull('spk_id')
             ->where('status_suratjalan', 'belum pulang')
-            ->whereNull('waktu_suratakhir') // Filter untuk waktu_suratakhir yang null
+            ->whereNull('waktu_suratakhir')
             ->orderBy('waktu_suratawal', 'ASC')
             ->get();
 
