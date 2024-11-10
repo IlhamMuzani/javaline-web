@@ -20,7 +20,7 @@ class UserpelangganController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['user']) {
 
-            $this->storeAllPelanggan();
+            // $this->storeAllPelanggan();
 
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
