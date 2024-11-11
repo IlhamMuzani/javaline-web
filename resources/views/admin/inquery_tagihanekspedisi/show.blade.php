@@ -381,7 +381,7 @@
 
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 14px;">
-                    Fee {{ $cetakpdf->detail_tagihan->first()->faktur_ekspedisi->fee ?? null}}% :
+                    Fee {{ $cetakpdf->detail_tagihan->first()->faktur_ekspedisi->fee ?? null }}% :
                 </td>
                 <td class="td" style="text-align: right; font-size: 14px;  font-weight:bold">
                     {{ number_format($cetakpdf->hasil_feeall, 0, ',', '.') }},00
@@ -484,7 +484,6 @@
             </td>
             <td class="td" style="text-align: right; font-size: 14px; font-weight:bold">
                 {{ number_format($cetakpdf->grand_total, 0, ',', '.') }},00
-
             </td>
         </tr>
 
@@ -524,7 +523,7 @@
     ?>
     <div style="font-size: 14px">
         Terbilang : <span style="font-weight: bold; font-style: italic; margin-right:250px ">
-            ({{ terbilang($cetakpdf->grand_total) }}
+            ({{ terbilang(round($cetakpdf->grand_total)) }}
             Rupiah)
         </span>
     </div>
