@@ -172,9 +172,7 @@ class SpkController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
-
         $kendaraan_id = $request->input('kendaraan_id');
-
         // Menghitung jumlah DO yang memiliki status selain 'selesai'
         $pendingCount = Pengambilan_do::where('kendaraan_id', $kendaraan_id)
             ->where('status', '!=', 'selesai')
