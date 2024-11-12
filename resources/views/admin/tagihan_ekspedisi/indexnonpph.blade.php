@@ -269,7 +269,7 @@
                                     <td>
                                         <div class="form-group">
                                             <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="hasil_fee-0" name="hasil_fee[]">
+                                                type="text" class="form-control" id="fee-0" name="fee[]">
                                         </div>
                                     </td>
                                     <td>
@@ -339,39 +339,37 @@
                                             style="display: inline-block; margin-left: 0px; margin-right: 0; font-size: 18px; vertical-align: middle;">-</span>
                                     </div>
                                 </div>
-                                 <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label style="font-size:14px; margin-top:5px" for="sub_total">Fee
-                                                    <span style="margin-left:96px">:</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input style="text-align: end; font-size:14px;" type="text"
-                                                    class="form-control hasil_feeall" readonly id="hasil_feeall"
-                                                    name="hasil_feeall" placeholder=""
-                                                    value="0">
-                                            </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label style="font-size:14px; margin-top:5px" for="sub_total">Fee
+                                                <span style="margin-left:96px">:</span></label>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label style="font-size:14px; margin-top:0px" for="sub_total">Hasil
-                                                    Potongan Fee
-                                                    <span style="margin-left:5px">:</span></label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <input style="text-align: end; font-size:14px;" type="text"
-                                                    class="form-control hasil_potonganfee" readonly id="hasil_potonganfee"
-                                                    name="hasil_potonganfee" placeholder=""
-                                                    value="0">
-                                            </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control hasil_feeall" readonly id="hasil_feeall"
+                                                name="hasil_feeall" placeholder="" value="0">
                                         </div>
                                     </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label style="font-size:14px; margin-top:0px" for="sub_total">Hasil
+                                                Potongan Fee
+                                                <span style="margin-left:5px">:</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control hasil_potonganfee" readonly id="hasil_potonganfee"
+                                                name="hasil_potonganfee" placeholder="" value="0">
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label style="font-size:14px; margin-top:5px" for="grand_total">Grand
                                         Total <span style="margin-left:46px">:</span></label>
@@ -611,7 +609,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
-            var hasil_fee = '';
+            var fee = '';
             var total = '';
 
             if (value !== null) {
@@ -627,7 +625,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
-                hasil_fee = value.hasil_fee;
+                fee = value.fee;
                 total = value.total;
             }
 
@@ -754,14 +752,14 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil_fee 
+            // fee 
             item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="hasil_fee-' +
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="fee-' +
                 urutan +
-                '" name="hasil_fee[]" value="' + hasil_fee + '" ';
+                '" name="fee[]" value="' + fee + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -842,7 +840,7 @@
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
             }));
-            $('#hasil_fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
+            $('#fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }));

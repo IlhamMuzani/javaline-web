@@ -112,7 +112,7 @@ class TagihanekspedisiController extends Controller
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
                 $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
                 $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
-                $hasil_fee = is_null($request->hasil_fee[$i]) ? '' : $request->hasil_fee[$i];
+                $fee = is_null($request->fee[$i]) ? '' : $request->fee[$i];
                 $total = is_null($request->total[$i]) ? '' : $request->total[$i];
 
                 $data_pembelians->push([
@@ -128,7 +128,7 @@ class TagihanekspedisiController extends Controller
                     'jumlah' => $jumlah,
                     'satuan' => $satuan,
                     'harga' => $harga,
-                    'hasil_fee' => $hasil_fee,
+                    'fee' => $fee,
                     'total' => $total
                 ]);
             }
@@ -193,7 +193,7 @@ class TagihanekspedisiController extends Controller
                     'satuan' => $data_pesanan['satuan'],
                     // 'jumlah' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['jumlah'])),
                     'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
-                    'hasil_fee' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['hasil_fee'])),
+                    'fee' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['fee'])),
                     'total' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
 
                 ]);

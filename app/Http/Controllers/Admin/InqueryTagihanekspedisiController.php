@@ -173,7 +173,7 @@ class InqueryTagihanekspedisiController extends Controller
                     'jumlah' => $request->jumlah[$i] ?? '',
                     'satuan' => $request->satuan[$i] ?? '',
                     'harga' => $request->harga[$i] ?? '',
-                    'hasil_fee' => $request->hasil_fee[$i] ?? '',
+                    'fee' => $request->fee[$i] ?? '',
                     'total' => $request->total[$i] ?? ''
                 ]);
             }
@@ -226,7 +226,7 @@ class InqueryTagihanekspedisiController extends Controller
                     'jumlah' => $data_pesanan['jumlah'],
                     'satuan' => $data_pesanan['satuan'],
                     'harga' => str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
-                    'hasil_fee' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['hasil_fee'])),
+                    'fee' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['fee'])),
                     'total' => str_replace(',', '.', str_replace('.', '', $data_pesanan['total'])),
                 ]
             );
@@ -310,7 +310,6 @@ class InqueryTagihanekspedisiController extends Controller
         return response()->json(['success' => true, 'message' => 'Nomor resi berhasil disimpan.']);
     }
 
-    
     public function unposttagihan($id)
     {
         $item = Tagihan_ekspedisi::findOrFail($id);

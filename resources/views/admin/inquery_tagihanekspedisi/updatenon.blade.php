@@ -300,8 +300,8 @@
                                             <div class="form-group">
                                                 <input onclick="MemoEkspedisi({{ $loop->index }})"
                                                     style="font-size:14px" readonly type="text" class="form-control"
-                                                    id="hasil_fee-{{ $loop->index }}" name="hasil_fee[]"
-                                                    value="{{ number_format($detail['hasil_fee'], 0, ',', '.') }}">
+                                                    id="fee-{{ $loop->index }}" name="fee[]"
+                                                    value="{{ number_format($detail['fee'], 0, ',', '.') }}">
                                             </div>
                                         </td>
                                         <td>
@@ -696,7 +696,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
-            var hasil_fee = '';
+            var fee = '';
             var total = '';
 
             if (value !== null) {
@@ -712,7 +712,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
-                hasil_fee = value.hasil_fee;
+                fee = value.fee;
                 total = value.total;
             }
 
@@ -851,14 +851,14 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil_fee
+            // fee
             item_pembelian += '<td onclick="MemoEkspedisi(' + identifier +
                 ')">';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="hasil_fee-' +
+            item_pembelian += '<input type="text" class="form-control" readonly style="font-size:14px" id="fee-' +
                 identifier +
-                '" name="hasil_fee[]" value="' +
-                hasil_fee +
+                '" name="fee[]" value="' +
+                fee +
                 '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
@@ -957,7 +957,7 @@
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
             }));
-            $('#hasil_fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
+            $('#fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }));

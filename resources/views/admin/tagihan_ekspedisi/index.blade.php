@@ -284,7 +284,7 @@
                                     <td>
                                         <div class="form-group">
                                             <input onclick="MemoEkspedisi(0)" style="font-size:14px" readonly
-                                                type="text" class="form-control" id="hasil_fee-0" name="hasil_fee[]">
+                                                type="text" class="form-control" id="fee-0" name="fee[]">
                                         </div>
                                     </td>
                                     <td>
@@ -598,7 +598,7 @@
             // Jika jumlah ban menjadi 0, tambahkan baris yang menyatakan memo belum ditambahkan
             if (jumlah_ban === 0) {
                 var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="10">- Faktur belum ditambahkan -</td>';
+                item_pembelian += '<td class="text-center" colspan="11">- Faktur belum ditambahkan -</td>';
                 item_pembelian += '</tr>';
                 $('#tabel-pembelian').html(item_pembelian);
             } else {
@@ -626,7 +626,7 @@
             var jumlah = '';
             var satuan = '';
             var harga = '';
-            var hasil_fee = '';
+            var fee = '';
             var total = '';
 
             if (value !== null) {
@@ -642,7 +642,7 @@
                 jumlah = value.jumlah;
                 satuan = value.satuan;
                 harga = value.harga;
-                hasil_fee = value.hasil_fee;
+                fee = value.fee;
                 total = value.total;
             }
 
@@ -769,14 +769,14 @@
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
-            // hasil_fee 
+            // fee 
             item_pembelian += '<td onclick="MemoEkspedisi(' + urutan +
                 ')">';
             item_pembelian += '<div class="form-group">'
             item_pembelian +=
-                '<input type="text" class="form-control" style="font-size:14px" readonly id="hasil_fee-' +
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="fee-' +
                 urutan +
-                '" name="hasil_fee[]" value="' + hasil_fee + '" ';
+                '" name="fee[]" value="' + fee + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
 
@@ -854,7 +854,7 @@
                 minimumFractionDigits: 10,
                 maximumFractionDigits: 10
             }));
-            $('#hasil_fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
+            $('#fee-' + activeSpecificationIndex).val(parseFloat(hasil_fee || 0).toLocaleString('id-ID', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }));
@@ -893,7 +893,7 @@
     <script>
         function updateGrandTotal() {
             var grandTotal = 0;
-            var hasil_fee = 0;
+            var fee = 0;
             var kategori = document.getElementById("kategori").value;
 
             // Loop through all elements with name "nominal_tambahan[]"
@@ -903,19 +903,19 @@
                 grandTotal += parseFloat(nominalValue) || 0; // Convert to float and sum
             });
 
-            $('input[name^="hasil_fee"]').each(function() {
+            $('input[name^="fee"]').each(function() {
                 var nominalValuehasil_fee = $(this).val().replace(/\./g, '').replace(',',
                     '.'); // Replace dots and convert comma to dot
-                hasil_fee += parseFloat(nominalValuehasil_fee) || 0; // Convert to float and sum
+                fee += parseFloat(nominalValuehasil_fee) || 0; // Convert to float and sum
             });
 
 
             // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
             // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
             $('#sub_total').val(formatRupiah(grandTotal));
-            $('#hasil_feeall').val(formatRupiah(hasil_fee));
+            $('#hasil_feeall').val(formatRupiah(fee));
 
-            var HasilPotonganfee = (kategori === "PPH") ? grandTotal - hasil_fee : grandTotal;
+            var HasilPotonganfee = (kategori === "PPH") ? grandTotal - fee : grandTotal;
 
             var pph2Value = HasilPotonganfee * 0.02;
             $('#pph2').val(pph2Value.toLocaleString('id-ID'));
