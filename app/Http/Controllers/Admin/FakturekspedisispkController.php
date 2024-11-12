@@ -268,7 +268,7 @@ class FakturekspedisispkController extends Controller
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
             'qrcode_faktur' => 'https://batlink.id/faktur_ekspedisispk/' . $kode,
-            'status' => 'posting',
+            'status' => 'unpost', // Set awal sebagai 'unpost'
             'status_notif' => false,
         ]);
 
@@ -309,21 +309,33 @@ class FakturekspedisispkController extends Controller
                         'nama_rutetambahan' => $data_pesanan['nama_rutetambahan'] ? $data_pesanan['nama_rutetambahan'] : null,
 
                     ]);
-                    $memo = Memo_ekspedisi::find($data_pesanan['memo_ekspedisi_id']);
-                    $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan', 'status_spk' => 'selesai']);
-                    if (
-                        $memo && $memo->spk
-                    ) {
-                        $memo->spk->update(['status_spk' => 'faktur']);
-                    }
 
-                    if ($data_pesanan['memo_ekspedisi_id']) {
-                        $memoTambahan = Memotambahan::where('memo_ekspedisi_id', $data_pesanan['memo_ekspedisi_id'])->get();
-                        foreach ($memoTambahan as $memo) {
-                            if ($memo->status == 'posting') {
-                                $memo->update(['status_memo' => 'aktif', 'status' => 'selesai']);
+                    // Periksa apakah Memo_ekspedisi terkait memiliki Memotambahan dengan status 'unpost'
+                    $memoTambahanUnpost = Memotambahan::where('memo_ekspedisi_id', $data_pesanan['memo_ekspedisi_id'])
+                        ->where('status', 'unpost')
+                        ->exists();
+
+                    if (!$memoTambahanUnpost) {
+
+                        $memo = Memo_ekspedisi::find($data_pesanan['memo_ekspedisi_id']);
+                        $memo->update(['status_memo' => 'aktif', 'status' => 'selesai', 'status_terpakai' => 'digunakan', 'status_spk' => 'selesai']);
+
+                        if (
+                            $memo && $memo->spk
+                        ) {
+                            $memo->spk->update(['status_spk' => 'faktur']);
+                        }
+
+                        if ($data_pesanan['memo_ekspedisi_id']) {
+                            $memoTambahan = Memotambahan::where('memo_ekspedisi_id', $data_pesanan['memo_ekspedisi_id'])->get();
+                            foreach ($memoTambahan as $memo) {
+                                if ($memo->status == 'posting') {
+                                    $memo->update(['status_memo' => 'aktif', 'status' => 'selesai']);
+                                }
                             }
                         }
+                        // Jika tidak ada Memotambahan dengan status 'unpost', ubah status Faktur menjadi 'posting'
+                        $cetakpdf->update(['status' => 'posting']);
                     }
                 }
             }
@@ -344,28 +356,36 @@ class FakturekspedisispkController extends Controller
 
         $spk = Spk::where('id', $cetakpdf->spk_id)->first();
 
-        if ($spk) {
-            // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
-            $pengambilan_do = Pengambilan_do::where([
-                'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
-                'status_suratjalan' => 'belum pulang',
-            ])->first();
+        // Periksa apakah Memo_ekspedisi terkait memiliki Memotambahan dengan status 'unpost'
+        $memoTambahanUnpost = Memotambahan::where('memo_ekspedisi_id', $data_pesanan['memo_ekspedisi_id'])
+            ->where('status', 'unpost')
+            ->exists();
 
-            // Periksa apakah pengambilan_do ditemukan
-            if ($pengambilan_do) {
-                // Update waktu_suratakhir menjadi waktu saat ini
-                $pengambilan_do->update([
-                    'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
-                    'status_suratjalan' => 'pulang',
-                ]);
+        if (!$memoTambahanUnpost) {
 
-                // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+            if ($spk) {
+                // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
+                $pengambilan_do = Pengambilan_do::where([
+                    'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
+                    'status_suratjalan' => 'belum pulang',
+                ])->first();
+
+                // Periksa apakah pengambilan_do ditemukan
+                if ($pengambilan_do) {
+                    // Update waktu_suratakhir menjadi waktu saat ini
+                    $pengambilan_do->update([
+                        'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
+                        'status_suratjalan' => 'pulang',
+                    ]);
+
+                    // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+                } else {
+                    // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
+                    // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+                }
             } else {
-                // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
-                // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+                // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
             }
-        } else {
-            // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
         }
 
 

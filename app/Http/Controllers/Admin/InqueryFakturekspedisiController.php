@@ -509,6 +509,26 @@ class InqueryFakturekspedisiController extends Controller
             return back()->with('error', 'Faktur tidak ditemukan');
         }
 
+        $detail_fakturs = Detail_faktur::where('faktur_ekspedisi_id', $id)->get();
+
+        foreach ($detail_fakturs as $detail) {
+            if ($detail->memo_ekspedisi_id) {
+                $memo = Memo_ekspedisi::where('id', $detail->memo_ekspedisi_id)->first();
+                if ($memo) {
+                    // Cek apakah ada Memotambahan dengan status 'unpost' pada memo ini
+                    $memotambahan_unpost = Memotambahan::where([
+                        'memo_ekspedisi_id' => $memo->id,
+                        'status' => 'unpost'
+                    ])->exists();
+
+                    // Jika ditemukan Memotambahan dengan status 'unpost', return false
+                    if ($memotambahan_unpost) {
+                        return false;
+                    }
+                }
+            }
+        }
+
         $detail_faktur = Detail_faktur::where('faktur_ekspedisi_id', $id)->first();
 
         if ($detail_faktur) {
