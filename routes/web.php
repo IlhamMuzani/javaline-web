@@ -618,6 +618,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('faktur_pelunasanperfaktur', \App\Http\Controllers\Admin\FakturpelunasanperfakturController::class);
     Route::resource('buktipotong', \App\Http\Controllers\Admin\BuktipotongController::class);
     Route::resource('karyawan', \App\Http\Controllers\Admin\KaryawanController::class);
+    Route::resource('karyawan-teknisi', \App\Http\Controllers\Admin\KaryawanteknisiController::class);
+    Route::resource('karyawan-driver', \App\Http\Controllers\Admin\KaryawandriverController::class);
     Route::resource('user', \App\Http\Controllers\Admin\UserController::class);
     Route::resource('departemen', \App\Http\Controllers\Admin\DepartemenController::class);
     Route::resource('supplier', \App\Http\Controllers\Admin\SupplierController::class);

@@ -11,14 +11,14 @@ use Dompdf\Dompdf;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
-class KaryawanController extends Controller
+class KaryawandriverController extends Controller
 {
     public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             $query = Karyawan::with('departemen')
-                ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan')
-                ->where('departemen_id', 1); // Filter untuk departemen_id 1
+            ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan')
+            ->where('departemen_id', 2); // Filter untuk departemen_id 1
 
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
@@ -34,10 +34,11 @@ class KaryawanController extends Controller
 
             $karyawans = $query->orderBy('created_at')->paginate(10);
 
-            return view('admin.karyawan.index', compact('karyawans'));
+            return view('admin.karyawandriver.index', compact('karyawans'));
         }
         return back()->with('error', array('Anda tidak memiliki akses'));
     }
+
 
     public function search(Request $request)
     {
@@ -53,7 +54,7 @@ class KaryawanController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             $departemens = Departemen::select('id', 'nama')->get();
-            return view('admin/karyawan.create', compact('departemens'));
+            return view('admin/karyawandriver.create', compact('departemens'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -150,7 +151,7 @@ class KaryawanController extends Controller
             'tanggal' => Carbon::now('Asia/Jakarta'),
         ]);
 
-        return redirect('admin/karyawan')->with('success', 'Berhasil menambahkan karyawan');
+        return redirect('admin/karyawandriver')->with('success', 'Berhasil menambahkan karyawan');
     }
 
 
@@ -191,7 +192,7 @@ class KaryawanController extends Controller
     public function cetakpdf($id)
     {
         $cetakpdf = Karyawan::where('id', $id)->first();
-        $html = view('admin/karyawan.cetak_pdf', compact('cetakpdf'));
+        $html = view('admin/karyawandriver.cetak_pdf', compact('cetakpdf'));
 
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
@@ -236,7 +237,7 @@ class KaryawanController extends Controller
                 return back()->with('error', 'Karyawan tidak ditemukan');
             }
 
-            return view('admin.karyawan.show', compact('karyawan'));
+            return view('admin.karyawandriver.show', compact('karyawan'));
         } else {
             // tidak memiliki akses
             return back()->with('error', 'Anda tidak memiliki akses');
@@ -250,7 +251,7 @@ class KaryawanController extends Controller
 
             $departemens = Departemen::all();
             $karyawan = Karyawan::where('id', $id)->first();
-            return view('admin/karyawan.update', compact('karyawan', 'departemens'));
+            return view('admin/karyawandriver.update', compact('karyawan', 'departemens'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -344,7 +345,7 @@ class KaryawanController extends Controller
         $karyawan->tanggal_awal = Carbon::now('Asia/Jakarta');
         $karyawan->save();
 
-        return redirect('admin/karyawan')->with('success', 'Berhasil mengubah karyawan');
+        return redirect('admin/karyawandriver')->with('success', 'Berhasil mengubah karyawan');
     }
 
     public function destroy($id)
@@ -353,6 +354,6 @@ class KaryawanController extends Controller
         $karyawan->user()->delete();
         $karyawan->delete();
 
-        return redirect('admin/karyawan')->with('success', 'Berhasil menghapus karyawan');
+        return redirect('admin/karyawandriver')->with('success', 'Berhasil menghapus karyawan');
     }
 }

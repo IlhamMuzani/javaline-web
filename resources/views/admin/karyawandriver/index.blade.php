@@ -50,7 +50,7 @@
                     <h3 class="card-title">Data Karyawan</h3>
                     <div class="float-right">
                         @if (auth()->check() && auth()->user()->fitur['karyawan create'])
-                            <a href="{{ url('admin/karyawan/create') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ url('admin/karyawan-driver/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
                         @endif
@@ -63,16 +63,17 @@
                             <label for="status">Kategori</label>
                             <select class="custom-select form-control" id="status" name="status">
                                 <option value="">- Pilih -</option>
-                                <option value="staff" selected>Staff</option>
+                                <option value="staff">Staff</option>
                                 <option value="teknisi">Teknisi</option>
-                                <option value="driver">Driver</option>
+                                <option value="driver"selected>Driver</option>
                             </select>
                         </form>
                     </div>
 
                     <!-- Form Cari User di sebelah kanan -->
                     <div class="col-md-4">
-                        <form action="{{ url('admin/karyawan') }}" method="GET" id="get-keyword" autocomplete="off">
+                        <form action="{{ url('admin/karyawan-driver') }}" method="GET" id="get-keyword"
+                            autocomplete="off">
                             <label for="keyword">Cari Karyawan :</label>
                             <div class="input-group">
                                 <input type="search" class="form-control" name="keyword" id="keyword"
@@ -115,13 +116,13 @@
                                     </td>
                                     <td class="text-center">
                                         @if (auth()->check() && auth()->user()->fitur['karyawan show'])
-                                            <a href="{{ url('admin/karyawan/' . $karyawan->id) }}"
+                                            <a href="{{ url('admin/karyawan-driver/' . $karyawan->id) }}"
                                                 class="btn btn-info btn-sm">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                         @endif
                                         @if (auth()->check() && auth()->user()->fitur['karyawan update'])
-                                            <a href="{{ url('admin/karyawan/' . $karyawan->id . '/edit') }}"
+                                            <a href="{{ url('admin/karyawan-driver/' . $karyawan->id . '/edit') }}"
                                                 class="btn btn-warning btn-sm">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -150,7 +151,7 @@
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/karyawan/' . $karyawan->id) }}"
+                                                <form action="{{ url('admin/karyawan-driver/' . $karyawan->id) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('delete')

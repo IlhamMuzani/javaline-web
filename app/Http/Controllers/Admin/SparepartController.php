@@ -89,7 +89,7 @@ class SparepartController extends Controller
                 'kode_partdetail' => $kode,
                 'jumlah' => '0',
                 // 'qrcode_barang' => 'http://192.168.1.46/javaline/barang/' . $kode
-                'qrcode_barang' => 'https:///javaline.id/barang/' . $kode,
+                'qrcode_barang' => 'https://javaline.id/barang/' . $kode,
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
 
             ],
