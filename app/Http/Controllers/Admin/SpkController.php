@@ -182,6 +182,9 @@ class SpkController extends Controller
         // if ($pendingCount >= 2) {
         //     return back()->with('erorrss', 'Terdapat 2 atau lebih DO yang belum di selesaikan. Harap selesaikan sebelum membuat SPK baru.');
         // }
+        
+
+        
         $kendaraan_id = $request->kendaraan_id;
         $kendaraan = Kendaraan::find($kendaraan_id);
 
