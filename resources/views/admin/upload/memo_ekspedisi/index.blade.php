@@ -27,7 +27,7 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
-                        <i class="icon fas fa-ban"></i> Error!
+                        <i class="icon fas fa-ban"></i> Gagal!
                     </h5>
                     @foreach (session('error') as $error)
                         - {{ $error }} <br>
@@ -38,7 +38,7 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
-                        <i class="icon fas fa-ban"></i> Error!
+                        <i class="icon fas fa-ban"></i> Gagal!
                     </h5>
                     {{ session('erorrss') }}
                 </div>
@@ -48,7 +48,7 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
-                        <i class="icon fas fa-ban"></i> Error!
+                        <i class="icon fas fa-ban"></i> Gagal!
                     </h5>
                     @if (session('error_pelanggans'))
                         @foreach (session('error_pelanggans') as $error)
