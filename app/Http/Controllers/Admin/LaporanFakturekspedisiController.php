@@ -221,10 +221,14 @@ class LaporanFakturekspedisiController extends Controller
         }
 
         // Filter berdasarkan karyawan_id melalui relasi pelanggan
+        // if ($karyawan_id_input) {
+        //     $query->whereHas('pelanggan', function ($query) use ($karyawan_id_input) {
+        //         $query->where('karyawan_id', $karyawan_id_input);
+        //     });
+        // }
+
         if ($karyawan_id_input) {
-            $query->whereHas('pelanggan', function ($query) use ($karyawan_id_input) {
-                $query->where('karyawan_id', $karyawan_id_input);
-            });
+            $query->where('karyawan_id', $karyawan_id_input);
         }
 
         // Filter berdasarkan tanggal
