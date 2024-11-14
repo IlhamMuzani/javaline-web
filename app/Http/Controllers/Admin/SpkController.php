@@ -50,7 +50,9 @@ class SpkController extends Controller
         })->get();
         $ruteperjalanans = Rute_perjalanan::all();
         // $pelanggans = Pelanggan::all();
-        $pelanggans = User::whereNotNull('pelanggan_id')->get();
+        $pelanggans = User::whereNotNull('pelanggan_id')
+            ->whereNull('deleted_at')
+            ->get();
         $vendors = Vendor::all();
         $alamat_muats = Alamat_muat::all();
         $alamat_bongkars = Alamat_bongkar::all();
@@ -182,9 +184,9 @@ class SpkController extends Controller
         // if ($pendingCount >= 2) {
         //     return back()->with('erorrss', 'Terdapat 2 atau lebih DO yang belum di selesaikan. Harap selesaikan sebelum membuat SPK baru.');
         // }
-        
 
-        
+
+
         $kendaraan_id = $request->kendaraan_id;
         $kendaraan = Kendaraan::find($kendaraan_id);
 
@@ -356,7 +358,7 @@ class SpkController extends Controller
             $curl,
             CURLOPT_HTTPHEADER,
             array(
-                "Authorization: iCXuvUtQ4wQ_E3P#JSGK",
+                "Authorization: AMbtAHnH3g6o1CCrke4T",
             )
         );
 
