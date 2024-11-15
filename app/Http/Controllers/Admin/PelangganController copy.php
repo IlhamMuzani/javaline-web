@@ -340,7 +340,12 @@ class PelangganController extends Controller
                 $existingDetail = Detail_pelanggan::where([
                     'pelanggan_id' => $pelanggan->id,
                     'nama_divisi' =>  $data_pesanan['nama_divisi'],
+                    'jabatan_divisi' => $data_pesanan['jabatan_divisi'],
+                    'telp_divisi' => $data_pesanan['telp_divisi'],
+                    'fax_divisi' => $data_pesanan['fax_divisi'],
+                    'hp_divisi' => $data_pesanan['hp_divisi'],
                     'alamat_divisi' => $data_pesanan['alamat_divisi'],
+
                 ])->first();
 
                 // If the detail does not exist, create a new one
