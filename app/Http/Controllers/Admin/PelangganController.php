@@ -235,12 +235,12 @@ class PelangganController extends Controller
             [
                 'nama_pell' => 'required',
                 'alamat' => 'required',
-                // 'karyawan_id' => 'required',
+                'karyawan_id' => 'required',
             ],
             [
                 'nama_pell.required' => 'Masukkan nama pelanggan',
                 'alamat.required' => 'Masukkan alamat',
-                // 'karyawan_id.required' => 'Pilih marketing',
+                'karyawan_id.required' => 'Pilih marketing',
             ]
         );
 
@@ -271,6 +271,7 @@ class PelangganController extends Controller
                 }
 
                 $nama_divisi = is_null($request->nama_divisi[$i]) ? '' : $request->nama_divisi[$i];
+                $detail_ids = is_null($request->detail_ids[$i]) ? '' : $request->detail_ids[$i];
                 $jabatan_divisi = is_null($request->jabatan_divisi[$i]) ? '' : $request->jabatan_divisi[$i];
                 $telp_divisi = is_null($request->telp_divisi[$i]) ? '' : $request->telp_divisi[$i];
                 $fax_divisi = is_null($request->fax_divisi[$i]) ? '' : $request->fax_divisi[$i];
@@ -280,6 +281,7 @@ class PelangganController extends Controller
                 $data_pembelians->push([
                     'detail_id' => $request->detail_ids[$i] ?? null,
                     'nama_divisi' => $nama_divisi,
+                    'detail_ids' => $detail_ids,
                     'jabatan_divisi' => $jabatan_divisi,
                     'telp_divisi' => $telp_divisi,
                     'fax_divisi' => $fax_divisi,

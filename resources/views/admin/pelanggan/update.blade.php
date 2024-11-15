@@ -220,8 +220,9 @@
                                     <tr id="pembelian-{{ $loop->index }}">
                                         <td class="text-center" id="urutan"> {{ $loop->index + 1 }}</td>
                                         <td hidden>
-                                            <div class="form-group" hidden>
-                                                <input type="text" class="form-control" name="detail_ids[]"
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    id="detail_ids-{{ $loop->index }}" name="detail_ids[]"
                                                     value="{{ $detail['id'] }}">
                                             </div>
                                         </td>
@@ -232,6 +233,7 @@
                                                     value="{{ $detail['nama_divisi'] }}">
                                             </div>
                                         </td>
+
                                         <td>
                                             <div class="form-group">
                                                 <input type="text" class="form-control"
@@ -428,6 +430,7 @@
 
         function itemPembelian(identifier, key, value = null) {
             var nama_divisi = '';
+            var detail_ids = '';
             var jabatan_divisi = '';
             var telp_divisi = '';
             var fax_divisi = '';
@@ -436,6 +439,7 @@
 
             if (value !== null) {
                 nama_divisi = value.nama_divisi;
+                detail_ids = value.detail_ids;
                 jabatan_divisi = value.jabatan_divisi;
                 telp_divisi = value.telp_divisi;
                 fax_divisi = value.fax_divisi;
@@ -448,10 +452,17 @@
             var item_pembelian = '<tr id="pembelian-' + key + '">';
             item_pembelian += '<td class="text-center" id="urutan">' + key + '</td>';
 
+            // detail_ids 
+            item_pembelian +=
+                '<td hidden><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="detail_ids-' +
+                key + '" name="detail_ids[]" value="' + detail_ids + '"></div></td>';
+
+
             // nama_divisi 
             item_pembelian +=
                 '<td><div class="form-group"><input type="text" class="form-control" style="font-size:14px" id="nama_divisi-' +
                 key + '" name="nama_divisi[]" value="' + nama_divisi + '"></div></td>';
+
 
             // jabatan_divisi 
             item_pembelian +=
