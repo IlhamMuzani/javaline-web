@@ -235,12 +235,12 @@ class PelangganController extends Controller
             [
                 'nama_pell' => 'required',
                 'alamat' => 'required',
-                'karyawan_id' => 'required',
+                // 'karyawan_id' => 'required',
             ],
             [
                 'nama_pell.required' => 'Masukkan nama pelanggan',
                 'alamat.required' => 'Masukkan alamat',
-                'karyawan_id.required' => 'Pilih marketing',
+                // 'karyawan_id.required' => 'Pilih marketing',
             ]
         );
 
