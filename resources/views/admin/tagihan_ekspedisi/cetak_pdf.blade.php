@@ -118,8 +118,13 @@
                     </td>
                     <td style="width: 95%; text-align: left;">
                         <div style="text-align: center;">
-                            <span style="font-weight: bold; font-size: 16px;">PT JAVA LINE LOGISTICS</span>
-                            <br>
+                            @if ($cetakpdf->pelanggan_id == 26)
+                                <span style="font-weight: bold; font-size: 16px;">JAVA LINE LOGISTICS</span>
+                                <br>
+                            @else
+                                <span style="font-weight: bold; font-size: 16px;">PT JAVA LINE LOGISTICS</span>
+                                <br>
+                            @endif
                             <span style=" font-size: 12px;">JL. HOS COKRO AMINOTO NO 5 SLAWI TEGAL
                                 {{-- <br>Tegal 52411 --}}
                             </span>
@@ -401,7 +406,7 @@
 
                 </td>
                 <td class="td" style="text-align: right; padding: 2px; font-size: 10px;">
-                    Fee {{ $cetakpdf->detail_tagihan->first()->faktur_ekspedisi->fee ?? null}}% :
+                    Fee {{ $cetakpdf->detail_tagihan->first()->faktur_ekspedisi->fee ?? null }}% :
                 </td>
                 <td class="td" style="text-align: right; font-size: 10px;  font-weight:bold">
                     {{ number_format($cetakpdf->hasil_feeall, 0, ',', '.') }},00
@@ -628,10 +633,17 @@
                                 </tr>
                                 <tr style="text-align: center;">
                                     <td class="label">
-                                        <span class="info-item"
-                                            style="font-size: 12px; padding-right:0px;  font-weight:bold">
-                                            PT. JAVA LINE LOGISTICS
-                                        </span>
+                                        @if ($cetakpdf->pelanggan_id == 26)
+                                            <span class="info-item"
+                                                style="font-size: 12px; padding-right:0px;  font-weight:bold">
+                                                JAVA LINE LOGISTICS
+                                            </span>
+                                        @else
+                                            <span class="info-item"
+                                                style="font-size: 12px; padding-right:0px;  font-weight:bold">
+                                                PT. JAVA LINE LOGISTICS
+                                            </span>
+                                        @endif
                                     </td>
                                 </tr>
                             </table>
