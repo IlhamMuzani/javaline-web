@@ -96,6 +96,7 @@ class PenerimaansuratjalanController extends Controller
 
         $pengambilan_do->update([
             'status_penerimaansj' => 'posting',
+            'userpenerima_id' => auth()->user()->id,
             'penerima_sj' => auth()->user()->karyawan->nama_lengkap,
         ]);
 
@@ -136,6 +137,7 @@ class PenerimaansuratjalanController extends Controller
 
         $pengambilan_do->update([
             'status_penerimaansj' => 'unpost',
+            'userpenerima_id' => null,
             'penerima_sj' => auth()->user()->karyawan->nama_lengkap,
         ]);
 

@@ -228,6 +228,7 @@ class PengambilandoController extends Controller
 
         $pengambilan->update([
             'status_penerimaansj' => 'posting',
+            'userpenerima_id' => $penerimasj,
             'penerima_sj' => $karyawan->nama_lengkap,
             // 'start_waktuditerima' => now()->format('Y-m-d H:i:s')
         ]);
@@ -284,6 +285,7 @@ class PengambilandoController extends Controller
 
         $pengambilan->update([
             'status_penerimaansj' => 'unpost',
+            'userpenerima_id' => null,
             'penerima_sj' => $karyawan->nama_lengkap,
         ]);
 

@@ -22,6 +22,7 @@ class Pengambilan_do extends Model
         'kendaraan_id',
         'pelanggan_id',
         'userpelanggan_id',
+        'userpenerima_id',
         'km_awal',
         'km_akhir',
         'waktu_awal',
@@ -135,6 +136,11 @@ class Pengambilan_do extends Model
     public function userpelanggan()
     {
         return $this->belongsTo(User::class, 'userpelanggan_id'); // foreign key untuk alamat kedua
+    }
+
+    public function userpenerima()
+    {
+        return $this->belongsTo(User::class, 'userpenerima_id'); // foreign key untuk alamat kedua
     }
 
     public static function getId()

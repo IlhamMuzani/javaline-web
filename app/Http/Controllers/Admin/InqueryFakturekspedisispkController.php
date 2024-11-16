@@ -466,35 +466,37 @@ class InqueryFakturekspedisispkController extends Controller
 
         $spk = Spk::where('id', $cetakpdf->spk_id)->first();
 
-        // Periksa apakah Memo_ekspedisi terkait memiliki Memotambahan dengan status 'unpost'
-        $memoTambahanUnpost = Memotambahan::where('memo_ekspedisi_id', $data_pembelian['memo_ekspedisi_id'])
-            ->where('status', 'unpost')
-            ->exists();
+        if (isset($data_pembelian) && isset($data_pembelian['memo_ekspedisi_id'])) {
+            // Periksa apakah Memo_ekspedisi terkait memiliki Memotambahan dengan status 'unpost'
+            $memoTambahanUnpost = Memotambahan::where('memo_ekspedisi_id', $data_pembelian['memo_ekspedisi_id'])
+                ->where('status', 'unpost')
+                ->exists();
 
-        if (!$memoTambahanUnpost) {
+            if (!$memoTambahanUnpost) {
 
-            if ($spk) {
-                // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
-                $pengambilan_do = Pengambilan_do::where([
-                    'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
-                    'status_suratjalan' => 'belum pulang',
-                ])->first();
+                if ($spk) {
+                    // Mencari pengambilan_do berdasarkan spk_id dan status_suratjalan yang belum pulang
+                    $pengambilan_do = Pengambilan_do::where([
+                        'spk_id' => $spk->id, // Gunakan spk_id, bukan id dari Pengambilan_do
+                        'status_suratjalan' => 'belum pulang',
+                    ])->first();
 
-                // Periksa apakah pengambilan_do ditemukan
-                if ($pengambilan_do) {
-                    // Update waktu_suratakhir menjadi waktu saat ini
-                    $pengambilan_do->update([
-                        'status_suratjalan' => 'pulang',
-                        'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
-                    ]);
+                    // Periksa apakah pengambilan_do ditemukan
+                    if ($pengambilan_do) {
+                        // Update waktu_suratakhir menjadi waktu saat ini
+                        $pengambilan_do->update([
+                            'status_suratjalan' => 'pulang',
+                            'waktu_suratakhir' => now()->format('Y-m-d H:i:s'),
+                        ]);
 
-                    // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+                        // Jika ada logika tambahan setelah update, bisa diletakkan di sini
+                    } else {
+                        // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
+                        // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+                    }
                 } else {
-                    // Pengambilan DO tidak ditemukan atau status_suratjalan bukan 'belum pulang'
-                    // Anda bisa menambahkan pesan error atau logika lain di sini jika diperlukan
+                    // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
                 }
-            } else {
-                // SPK tidak ditemukan, tambahkan logika error handling di sini jika diperlukan
             }
         }
 

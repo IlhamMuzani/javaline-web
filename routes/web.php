@@ -939,4 +939,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('userdriver', \App\Http\Controllers\Admin\UserdriverController::class);
     Route::resource('usersupplier', \App\Http\Controllers\Admin\UsersupplierController::class);
 
+    Route::get('laporan-monitoringsj', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'index']);
+    Route::get('print-monitoringsj', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'print_monitoringsj']);
+
 });
