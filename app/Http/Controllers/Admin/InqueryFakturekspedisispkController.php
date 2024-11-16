@@ -281,6 +281,10 @@ class InqueryFakturekspedisispkController extends Controller
 
         $Pph = Pph::where('faktur_ekspedisi_id', $id)->first();
 
+        if ($request->kategoris == "non memo") {
+            $cetakpdf->update(['status' => 'posting']);
+        }
+        
         if ($request->kategori == "PPH") {
             $attributes = [
                 'kode_faktur' => $cetakpdf->kode_faktur,

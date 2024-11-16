@@ -141,21 +141,21 @@
                                             $timerAwal = $pengambilan_do->waktu_suratawal ?? null;
                                             $timerAkhir = $pengambilan_do->waktu_suratakhir ?? null;
 
-                                            // Memeriksa apakah timer_awal ada
-                                            if ($timerAwal) {
+                                            // Memeriksa apakah timer_awal ada dan waktu_suratakhir tidak null
+                                            if ($timerAwal && $timerAkhir) {
                                                 $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                $waktuAkhir = $timerAkhir
-                                                    ? \Carbon\Carbon::parse($timerAkhir)
-                                                    : \Carbon\Carbon::now(); // Jika waktu_suratakhir tidak ada, gunakan waktu sekarang
+                                                $waktuAkhir = \Carbon\Carbon::parse($timerAkhir);
                                                 $durasi = $waktuAwal->diff($waktuAkhir);
 
                                                 // Menampilkan hasil perhitungan durasi
-                                                echo "{$durasi->days} hari, {$durasi->h} jam, {$durasi->i} menit";
+                                                echo "{$durasi->days} hari, {$durasi->h} jam";
                                             } else {
+                                                // Jika waktu_suratakhir null, tampilkan '-'
                                                 echo '-';
                                             }
                                         @endphp
                                     </td>
+
 
                                     <td>{{ $pengambilan_do->penerima_sj ?? '-' }}</td>
                                 </tr>
