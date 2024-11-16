@@ -195,8 +195,14 @@
                 <td style="text-align: left; width: 30%;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: left;">
-                            <td style="font-size: 13px; font-weight:bold" class="label2">PT. JAVA LINE LOGISTICS
-                            </td>
+                            @if ($cetakpdf->pelanggan_id == 26)
+                                <td style="font-size: 13px; font-weight:bold" class="label2">JAVA LINE LOGISTICS
+                                </td>
+                            @else
+                                <td style="font-size: 13px; font-weight:bold" class="label2">PT. JAVA LINE LOGISTICS
+                                </td>
+                            @endif
+
                         </tr>
                         <tr>
                             <td class="label2">JL. HOS COKRO AMINOTO NO. 5</td>
