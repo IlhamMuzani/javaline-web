@@ -11,6 +11,8 @@
         body {
             font-family: 'DOSVGA', Arial, Helvetica, sans-serif;
             color: black;
+            margin-left: 5px;
+            margin-right: 5px;
         }
 
         table {
@@ -117,12 +119,18 @@
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:10%">
                 TUJUAN
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:5%">
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:7%">
                 TANGGAL</td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:5%">NO
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:7%">NO
                 KABIN</td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:10%">NAMA
                 DRIVER
+            </td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:8%">
+                TIMER
+            </td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:8%">
+                TIMER TOTAL
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:10%">
                 PENERIMA</td>
@@ -154,6 +162,44 @@
                     {{ $pengambilan_do->spk->nama_driver ?? '-' }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">
+                    @if ($pengambilan_do->status_penerimaansj == 'posting')
+                        @php
+                            $timerAwal = $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
+
+                            // Memeriksa apakah timer_awal ada
+                            if ($timerAwal) {
+                                $waktuAwal = \Carbon\Carbon::parse($timerAwal);
+                                $waktuSekarang = \Carbon\Carbon::now();
+                                $durasi = $waktuAwal->diff($waktuSekarang);
+
+                                // Menampilkan hasil perhitungan durasi
+                                echo "{$durasi->days} hari, {$durasi->h} jam";
+                            } else {
+                                echo '-';
+                            }
+                        @endphp
+                    @endif
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">
+                    @php
+                        $timerAwal = $pengambilan_do->waktu_suratawal ?? null;
+                        $timerAkhir = $pengambilan_do->waktu_suratakhir ?? null;
+
+                        // Memeriksa apakah timer_awal ada dan waktu_suratakhir tidak null
+                        if ($timerAwal && $timerAkhir) {
+                            $waktuAwal = \Carbon\Carbon::parse($timerAwal);
+                            $waktuAkhir = \Carbon\Carbon::parse($timerAkhir);
+                            $durasi = $waktuAwal->diff($waktuAkhir);
+
+                            // Menampilkan hasil perhitungan durasi
+                            echo "{$durasi->days} hari, {$durasi->h} jam";
+                        } else {
+                            // Jika waktu_suratakhir null, tampilkan '-'
+                            echo '-';
+                        }
+                    @endphp
+                </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">
                     {{ $pengambilan_do->penerima_sj ?? '-' }}
                 </td>
             </tr>
@@ -180,6 +226,8 @@
         <tr>
             <td>
             </td>
+            <td></td>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

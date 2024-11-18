@@ -15,12 +15,11 @@ class LaporanmonitoringsjController extends Controller
     public function index(Request $request)
     {
         $status = $request->status;
+        $kategori = $request->kategori;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
-        $karyawan_id = $request->karyawan_id; // Ambil karyawan_id dari input
+        $karyawan_id = $request->karyawan_id;
 
-
-        // Jika karyawan_id ada, ambil nama lengkapnya
         if ($karyawan_id) {
             $karyawan = Karyawan::find($karyawan_id);
             $nama_lengkap = $karyawan ? $karyawan->nama_lengkap : null;
@@ -28,44 +27,44 @@ class LaporanmonitoringsjController extends Controller
             $nama_lengkap = null;
         }
 
-        // Data untuk dropdown pengurus
         $pengurus = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap')
             ->where('departemen_id', '5')
             ->orderBy('nama_lengkap')
             ->get();
 
-        // Inisialisasi query
         $inquery = Pengambilan_do::query();
 
-        // Filter status
         if ($status) {
             $inquery->where('status', $status);
         } else {
-            $inquery->where('status', '!=', 'unpost'); // Mengambil data dengan status selain 'unpost'
+            $inquery->where('status', '!=', 'unpost');
         }
 
-        // Filter tanggal jika ada
+        if ($kategori) {
+            if ($kategori === 'belum_selesai') {
+                $inquery->whereNull('waktu_suratakhir'); // waktu_suratakhir null
+            } elseif ($kategori === 'selesai') {
+                $inquery->whereNotNull('waktu_suratakhir'); // waktu_suratakhir tidak null
+            }
+        }
+
         if ($tanggal_awal && $tanggal_akhir) {
             $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
                 ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
         }
 
-        // Filter kolom penerima_sj tidak null
         $inquery->whereNotNull('penerima_sj');
         $inquery->where('status_penerimaansj', '!=', 'unpost');
-
 
         if ($karyawan_id) {
             $inquery->where('penerima_sj', $karyawan->nama_lengkap);
         }
 
-        $inquery->orderBy('tanggal_awal', 'DESC'); // Ganti 'tanggal_awal' dengan kolom yang sesuai
+        $inquery->orderBy('tanggal_awal', 'DESC');
 
-        // Periksa apakah pencarian dilakukan
         $hasSearch = $status || $nama_lengkap || ($tanggal_awal && $tanggal_akhir);
         $inquery = $hasSearch ? $inquery->get() : collect();
 
-        // Return ke view
         return view('admin.laporan_monitoringsj.index', compact('inquery', 'pengurus'));
     }
 
@@ -73,6 +72,7 @@ class LaporanmonitoringsjController extends Controller
     public function print_monitoringsj(Request $request)
     {
         $status = $request->status;
+        $kategori = $request->kategori;
         $tanggal_awal = $request->tanggal_awal;
         $tanggal_akhir = $request->tanggal_akhir;
         $karyawan_id = $request->karyawan_id; // Ambil karyawan_id dari input
@@ -90,6 +90,14 @@ class LaporanmonitoringsjController extends Controller
             $query->where('status', $status);
         } else {
             $query->where('status', '!=', 'unpost'); // Mengambil data dengan status selain 'unpost'
+        }
+
+        if ($kategori) {
+            if ($kategori === 'belum_selesai') {
+                $query->whereNull('waktu_suratakhir'); // waktu_suratakhir null
+            } elseif ($kategori === 'selesai') {
+                $query->whereNotNull('waktu_suratakhir'); // waktu_suratakhir tidak null
+            }
         }
 
         // Filter tanggal jika ada
