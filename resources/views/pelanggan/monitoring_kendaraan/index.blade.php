@@ -354,6 +354,53 @@
                         // Redirect ke Google Maps setelah pembaruan
                         window.open(mapLink.href, '_blank');
                     } else {
+                        // Tampilkan SweetAlert jika gagal memperbarui lokasi
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Gagal memperbarui lokasi!',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Tampilkan SweetAlert jika terjadi kesalahan saat memperbarui lokasi
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Kesalahan!',
+                        text: 'Terjadi kesalahan saat memperbarui lokasi.',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    {{-- <script>
+        function updateLatLong(kendaraanId) {
+            // Memanggil API menggunakan AJAX untuk memperbarui koordinat
+            fetch(`{{ url('pelanggan/monitoring/update_latlong') }}/${kendaraanId}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}', // Laravel CSRF Token
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Perbarui tampilan lokasi saat ini
+                        document.getElementById('lokasi-saat-ini').innerText = `${data.latitude}, ${data.longitude}`;
+
+                        // Perbarui tautan Google Maps dengan koordinat yang baru
+                        const mapLink = document.getElementById('btn-update-latlong');
+                        mapLink.href = `https://maps.google.com/maps?q=${data.latitude},${data.longitude}`;
+
+                        // Redirect ke Google Maps setelah pembaruan
+                        window.open(mapLink.href, '_blank');
+                    } else {
                         alert('Gagal memperbarui lokasi!');
                     }
                 })
@@ -363,7 +410,7 @@
                 });
         }
     </script>
-
+ --}}
 
     <script>
         const tableContainer = document.querySelector('.table-responsive');
