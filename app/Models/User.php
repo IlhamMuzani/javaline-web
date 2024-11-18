@@ -31,6 +31,7 @@ class User extends Authenticatable
         'kode_user',
         'qrcode_user',
         'password',
+        'password_hint',
         'cek_hapus',
         'menu',
         'fitur',
