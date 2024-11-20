@@ -46,6 +46,22 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
+                                    <label for="gpsid">ID GPS Mulia Track</label>
+                                    <input type="text" class="form-control" id="gpsid" name="gpsid"
+                                        placeholder="Masukan gpsid" value="{{ old('gpsid', $kendaraan->gpsid) }}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label for="list_vehicle_id">ID GPS Easygo</label>
+                                    <input type="text" class="form-control" id="list_vehicle_id" name="list_vehicle_id"
+                                        placeholder="Masukan list vehicle id" value="{{ old('list_vehicle_id', $kendaraan->list_vehicle_id) }}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
                                     <label for="no_kabin">No Kabin</label>
                                     <input type="text" class="form-control" id="no_kabin" name="no_kabin"
                                         placeholder="Masukan no kabin" value="{{ old('no_kabin', $kendaraan->no_kabin) }}">

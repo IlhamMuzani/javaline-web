@@ -107,7 +107,7 @@
                                 <th>Total</th>
                                 <th>PPH</th>
                                 <th>Sub total</th>
-                                <th>Opsi</th>
+                                <th style="width:40px">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -311,6 +311,8 @@ class KendaraanController extends Controller
             $namaGambarstnk = $kendaraan->gambar_stnk;
         }
 
+        $kendaraan->gpsid = $request->gpsid;
+        $kendaraan->list_vehicle_id = $request->list_vehicle_id;
         $kendaraan->no_kabin = $request->no_kabin;
         $kendaraan->no_pol = $request->no_pol;
         $kendaraan->no_rangka = $request->no_rangka;

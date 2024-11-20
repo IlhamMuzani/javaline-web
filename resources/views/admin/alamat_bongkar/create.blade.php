@@ -97,15 +97,24 @@
                                 <input style="font-size: 14px" type="text" class="form-control" id="alamat"
                                     name="alamat" placeholder="masukkan tujuan bongkar" value="{{ old('alamat') }}">
                             </div>
+
+                            <div class="row" style="margin-top:30px; margin-bottom:20px">
+                                <button class="btn btn-primary" type="button" onclick="showCategoryLokasi(this.value)">
+                                    <i class="fas fa-search"> Lokasi Easygo</i>
+                                </button>
+
+                                <button class="btn btn-primary" style="margin-left:10px" type="button"
+                                    onclick="showCategoryLokasimulia(this.value)">
+                                    <i class="fas fa-search"> Lokasi Mulia Track</i>
+                                </button>
+                            </div>
+
                             <div>
-                                <label style="font-size: 14px" for="alamat">Ambil Lokasi</label>
+                                <label style="font-size: 14px" for="alamat">Nama Lokasi</label>
                                 <div class="form-group d-flex">
-                                    <input onclick="showCategoryLokasi(this.value)" class="form-control" id="nama_lokasi"
-                                        name="nama_lokasi" type="text" placeholder="" value="{{ old('nama_lokasi') }}"
-                                        readonly style="margin-right: 10px; font-size:14px" />
-                                    <button class="btn btn-primary" type="button" onclick="showCategoryLokasi(this.value)">
-                                        <i class="fas fa-search"></i>
-                                    </button>
+                                    <input class="form-control" id="nama_lokasi" name="nama_lokasi" type="text"
+                                        placeholder="" value="{{ old('nama_lokasi') }}" readonly
+                                        style="margin-right: 10px; font-size:14px" />
                                 </div>
                             </div>
                         </div>
@@ -145,6 +154,34 @@
                     </div>
                     <div class="modal-body">
                         <table id="tableid" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Nama Lokasi</th>
+                                    <th>Latitude</th>
+                                    <th>Longitude</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="tableLokasimulia" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Lokasi Mulia Track</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tableidmulia" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -240,6 +277,74 @@
             document.getElementById('latitude').value = latitude;
             document.getElementById('longitude').value = longitude;
             $('#tableLokasi').modal('hide');
+        }
+    </script>
+
+
+    <script>
+        function showCategoryLokasimulia(selectedCategory) {
+            // Tampilkan modal
+            $('#tableLokasimulia').modal('show');
+
+            // Hapus data sebelumnya di tabel
+            $('#tableidmulia tbody').empty();
+
+            // Hapus inisialisasi DataTables jika sudah ada
+            if ($.fn.DataTable.isDataTable('#tableidmulia')) {
+                $('#tableidmulia').DataTable().clear().destroy();
+            }
+
+            // Panggil data lokasi melalui AJAX
+            $.ajax({
+                url: '{{ route('ambil_lokasimulia') }}',
+                method: 'GET',
+                success: function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                        return;
+                    }
+
+                    // Masukkan data ke dalam tabel
+                    $.each(data, function(index, lokasi) {
+                        // Ambil PointName, Lon, dan Lat dari data
+                        const pointName = lokasi.PointName;
+                        const lon = lokasi.Lon;
+                        const lat = lokasi.Lat;
+
+                        // Masukkan data ke dalam tabel
+                        $('#tableidmulia tbody').append(
+                            `<tr onclick="getSelectedDataLokasimulia('${pointName}', '${lat}', '${lon}')">
+                            <td class="text-center">${index + 1}</td>
+                            <td>${pointName}</td>
+                            <td>${lat}</td>
+                            <td>${lon}</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-primary btn-sm"
+                                    onclick="getSelectedDataLokasimulia('${pointName}', '${lat}', '${lon}')">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </td>
+                        </tr>`
+                        );
+                    });
+
+                    // Inisialisasi DataTables
+                    $('#tableidmulia').DataTable({
+                        searching: true,
+                        paging: true
+                    });
+                },
+                error: function() {
+                    alert('Gagal mengambil data lokasi kendaraan.');
+                }
+            });
+        }
+
+        function getSelectedDataLokasimulia(nama_lokasi, latitude, longitude) {
+            document.getElementById('nama_lokasi').value = nama_lokasi;
+            document.getElementById('latitude').value = latitude;
+            document.getElementById('longitude').value = longitude;
+            $('#tableLokasimulia').modal('hide');
         }
     </script>
 

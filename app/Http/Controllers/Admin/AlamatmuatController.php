@@ -99,6 +99,45 @@ class AlamatmuatController extends Controller
     }
 
 
+    public function ambil_lokasimulia()
+    {
+        // URL API yang benar
+        $url = 'https://app1.muliatrack.com/wspubjavasnackfactory/service.asmx/GetJsonPositionPoi?sTokenKey=gps-J@va';
+
+        // Inisialisasi client Guzzle untuk melakukan request
+        $client = new Client();
+
+        try {
+            // Mengirim permintaan GET ke API
+            $response = $client->get($url);
+
+            // Cek status kode HTTP
+            if ($response->getStatusCode() === 200) {
+                // Mendapatkan isi body respons dan decode JSON
+                $data = json_decode($response->getBody()->getContents(), true);
+
+                // Mengekstrak PointName, Lon, dan Lat dari respons
+                $lokasi = [];
+                foreach ($data as $item) {
+                    $lokasi[] = [
+                        'PointName' => $item['PointName'],
+                        'Lon' => $item['Lon'],
+                        'Lat' => $item['Lat']
+                    ];
+                }
+
+                // Mengembalikan data sebagai response JSON
+                return response()->json($lokasi);
+            } else {
+                return response()->json(['error' => 'Gagal mengambil data lokasi kendaraan.'], 500);
+            }
+        } catch (\Exception $e) {
+            // Menangani kesalahan jika ada exception
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+
+
     public function kode()
     {
         $lastBarang = Alamat_muat::latest()->first();

@@ -927,6 +927,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('search-alamatbongkar', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatBongkar'])->name('search.alamatbongkar');
     Route::get('search-alamatbongkar3', [\App\Http\Controllers\Admin\SpkController::class, 'searchAlamatBongkar3'])->name('search.alamatbongkar3');
     Route::get('ambil_lokasi', [\App\Http\Controllers\Admin\AlamatmuatController::class, 'ambil_lokasi'])->name('ambil_lokasi');
+    Route::get('ambil_lokasimulia', [\App\Http\Controllers\Admin\AlamatmuatController::class, 'ambil_lokasimulia'])->name('ambil_lokasimulia');
 
     Route::resource('post-pengurus', \App\Http\Controllers\Admin\PostController::class);
     Route::resource('pengurus', \App\Http\Controllers\Admin\PengurusController::class);

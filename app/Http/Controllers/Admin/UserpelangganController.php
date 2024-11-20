@@ -20,12 +20,16 @@ class UserpelangganController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['user']) {
 
-
+            // Menyaring berdasarkan 'keyword' jika ada
             if ($request->has('keyword')) {
                 $keyword = $request->keyword;
 
-                // Mengambil data pelanggan yang memiliki relasi dengan user dan nama_pell yang sesuai dengan keyword
-                $pelanggans = Pelanggan::where('nama_pell', 'like', "%$keyword%")
+                // Mengambil data pelanggan yang memiliki relasi dengan user
+                // dan nama_pell atau kode_pelanggan yang sesuai dengan keyword
+                $pelanggans = Pelanggan::where(function ($query) use ($keyword) {
+                    $query->where('nama_pell', 'like', "%$keyword%")
+                    ->orWhere('kode_pelanggan', 'like', "%$keyword%"); // Pencarian di kode_pelanggan
+                })
                     ->whereHas('user') // Pastikan relasi dengan user ada
                     ->paginate(10);
             } else {
@@ -38,6 +42,7 @@ class UserpelangganController extends Controller
             return back()->with('error', 'Anda tidak memiliki akses');
         }
     }
+
 
 
     public function create()

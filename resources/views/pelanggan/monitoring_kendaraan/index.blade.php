@@ -410,7 +410,7 @@
                 });
         }
     </script>
- --}}
+        --}}
 
     <script>
         const tableContainer = document.querySelector('.table-responsive');

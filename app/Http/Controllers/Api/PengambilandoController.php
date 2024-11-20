@@ -257,6 +257,14 @@ class PengambilandoController extends Controller
 
         $timer = Timer_suratjalan::where('pengambilan_do_id', $id)->latest()->first();
 
+
+        if ($request->penerima_sj != $timer->user_id) {
+            return response()->json([
+                'status' => false,
+                'msg' => 'Penerima yang terdaftar adalah' . ' ' . $pengambilan->penerima_sj . ',' . 'Hubungi' . ' ' . $pengambilan->penerima_sj . ' ' . 'untuk mengunpost nya',
+            ], 403);
+        }
+
         // Memperbarui timer terakhir jika ada
         if ($timer) {
             $timer->update([
