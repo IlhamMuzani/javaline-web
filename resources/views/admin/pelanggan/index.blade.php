@@ -93,8 +93,9 @@
                         </thead>
                         <tbody>
                             @foreach ($pelanggans as $pelanggan)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                    <td class="text-center">
+                                        {{ ($pelanggans->currentPage() - 1) * $pelanggans->perPage() + $loop->iteration }}</td>
                                     <td>{{ $pelanggan->kode_pelanggan }}</td>
                                     <td>{{ $pelanggan->nama_pell }}</td>
                                     {{-- <td>{{ $pelanggan->nama_alias }}</td> --}}
@@ -194,14 +195,11 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @if ($pelanggans->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $pelanggans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{ $pelanggans->links('pagination::bootstrap-4') }}
                     </div>
-                @endif
+                </div>
+
                 <!-- /.card-body -->
             </div>
         </div>

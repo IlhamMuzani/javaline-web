@@ -89,8 +89,11 @@
                         <tbody>
                             @foreach ($pelanggans as $index => $barang)
                                 <tr data-toggle="collapse" data-target="#barang-{{ $index }}"
-                                    class="accordion-toggle" style="background: rgb(240, 242, 246)">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    class="accordion-toggle{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}"
+                                    style="background: rgb(240, 242, 246)">
+                                    <td class="text-center">
+                                        {{ ($pelanggans->currentPage() - 1) * $pelanggans->perPage() + $loop->iteration }}
+                                    </td>
                                     <td>{{ $barang->kode_pelanggan }}</td>
                                     <td>{{ $barang->nama_pell }}</td>
                                     <td>{{ $barang->telp }}</td>
@@ -160,14 +163,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @if ($pelanggans->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $pelanggans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{ $pelanggans->links('pagination::bootstrap-4') }}
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </section>

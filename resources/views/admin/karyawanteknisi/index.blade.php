@@ -72,7 +72,8 @@
 
                     <!-- Form Cari User di sebelah kanan -->
                     <div class="col-md-4">
-                        <form action="{{ url('admin/karyawan-teknisi') }}" method="GET" id="get-keyword" autocomplete="off">
+                        <form action="{{ url('admin/karyawan-teknisi') }}" method="GET" id="get-keyword"
+                            autocomplete="off">
                             <label for="keyword">Cari Karyawan :</label>
                             <div class="input-group">
                                 <input type="search" class="form-control" name="keyword" id="keyword"
@@ -101,8 +102,10 @@
                         </thead>
                         <tbody>
                             @foreach ($karyawans as $karyawan)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                    <td class="text-center">
+                                        {{ ($karyawans->currentPage() - 1) * $karyawans->perPage() + $loop->iteration }}
+                                    </td>
                                     <td>{{ $karyawan->kode_karyawan }}</td>
                                     <td>{{ $karyawan->nama_lengkap }}</td>
                                     <td>{{ $karyawan->telp }}</td>
@@ -197,14 +200,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @if ($karyawans->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $karyawans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{ $karyawans->links('pagination::bootstrap-4') }}
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </section>

@@ -98,8 +98,9 @@
                         </thead>
                         <tbody>
                             @foreach ($kendaraans as $kendaraan)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                    <td class="text-center">
+                                        {{ ($kendaraans->currentPage() - 1) * $kendaraans->perPage() + $loop->iteration }}</td>
                                     <td>{{ $kendaraan->kode_kendaraan }}</td>
                                     <td>{{ $kendaraan->no_kabin }}</td>
                                     <td>{{ $kendaraan->no_pol }}</td>
@@ -326,14 +327,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @if ($kendaraans->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $kendaraans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{ $kendaraans->links('pagination::bootstrap-4') }}
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </section>

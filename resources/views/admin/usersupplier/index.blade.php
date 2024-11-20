@@ -88,18 +88,12 @@
                         </thead>
                         <tbody>
                         <tbody>
-
-                        </tbody>
-                        </tbody>
                     </table>
-                </div>
-                @if ($pelanggans->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $pelanggans->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{-- {{ $pelanggans->links('pagination::bootstrap-4') }} --}}
                     </div>
-                @endif
+                </div>
+
             </div>
         </div>
     </section>

@@ -93,8 +93,10 @@
                         </thead>
                         <tbody>
                             @foreach ($users as $user)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                    <td class="text-center">
+                                        {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}
+                                    </td>
                                     <td>{{ $user->kode_user }}</td>
                                     <td>{{ $user->karyawan->nama_lengkap }}</td>
                                     <td>{{ $user->karyawan->telp }}</td>
@@ -171,14 +173,10 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @if ($users->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $users->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{ $users->links('pagination::bootstrap-4') }}
                     </div>
-                @endif
+                </div>
             </div>
         </div>
     </section>

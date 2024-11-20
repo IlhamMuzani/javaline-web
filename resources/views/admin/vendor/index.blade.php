@@ -51,9 +51,9 @@
                     <h3 class="card-title">Data Rekanan</h3>
                     <div class="float-right">
                         {{-- @if (auth()->check() && auth()->user()->fitur['vendor create']) --}}
-                            <a href="{{ url('admin/vendor/create') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Tambah
-                            </a>
+                        <a href="{{ url('admin/vendor/create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i> Tambah
+                        </a>
                         {{-- @endif --}}
                     </div>
                 </div>
@@ -93,8 +93,9 @@
                         </thead>
                         <tbody>
                             @foreach ($vendors as $vendor)
-                                <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                    <td class="text-center">
+                                        {{ ($vendors->currentPage() - 1) * $vendors->perPage() + $loop->iteration }}</td>
                                     <td>{{ $vendor->kode_vendor }}</td>
                                     <td>{{ $vendor->nama_vendor }}</td>
                                     {{-- <td>{{ $vendor->nama_alias }}</td> --}}
@@ -110,22 +111,21 @@
                                     </td>
                                     <td class="text-center">
                                         {{-- @if (auth()->check() && auth()->user()->fitur['vendor show']) --}}
-                                            <a href="{{ url('admin/vendor/' . $vendor->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
+                                        <a href="{{ url('admin/vendor/' . $vendor->id) }}" class="btn btn-info btn-sm">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
                                         {{-- @endif
                                         @if (auth()->check() && auth()->user()->fitur['vendor update']) --}}
-                                            <a href="{{ url('admin/vendor/' . $vendor->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
+                                        <a href="{{ url('admin/vendor/' . $vendor->id . '/edit') }}"
+                                            class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
                                         {{-- @endif
                                         @if (auth()->check() && auth()->user()->fitur['vendor delete']) --}}
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $vendor->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                            data-target="#modal-hapus-{{ $vendor->id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                         {{-- @endif --}}
                                     </td>
                                 </tr>
@@ -145,8 +145,7 @@
                                             <div class="modal-footer justify-content-between">
                                                 <button type="button" class="btn btn-default"
                                                     data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/vendor/' . $vendor->id) }}"
-                                                    method="POST">
+                                                <form action="{{ url('admin/vendor/' . $vendor->id) }}" method="POST">
                                                     @csrf
                                                     @method('delete')
                                                     <button type="submit" class="btn btn-danger">Hapus</button>
@@ -194,14 +193,11 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-                @if ($vendors->total() > 10)
-                    <div class="card-footer">
-                        <div class="pagination float-right">
-                            {{ $vendors->appends(Request::all())->links('pagination::simple-bootstrap-4') }}
-                        </div>
+                    <div class="d-flex justify-content-end">
+                        {{ $vendors->links('pagination::bootstrap-4') }}
                     </div>
-                @endif
+                </div>
+
                 <!-- /.card-body -->
             </div>
         </div>

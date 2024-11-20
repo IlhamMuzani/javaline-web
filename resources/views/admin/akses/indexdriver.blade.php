@@ -59,7 +59,7 @@
                                 <th class="text-center">No</th>
                                 <th>Kode User</th>
                                 <th>Nama</th>
-                                <th class="text-center" width="60">Opsi</th>
+                                <th class="text-center" width="120">Opsi</th>
                             </tr>
                         </thead>
                         <tbody>
