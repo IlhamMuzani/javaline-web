@@ -60,109 +60,111 @@
                 <!-- /.card-header -->
 
                 <div class="card-body">
-
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Kategori</th>
-                                <th>Admin</th>
-                                <th>Rekanan</th>
-                                <th>Total</th>
-                                <th>PPH</th>
-                                <th>Sub total</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $invoice_sewakendaraan)
-                                <tr class="dropdown"{{ $invoice_sewakendaraan->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $invoice_sewakendaraan->kode_tagihan }}</td>
-                                    <td>{{ $invoice_sewakendaraan->tanggal_awal }}</td>
-                                    <td>{{ $invoice_sewakendaraan->kategori }}</td>
-                                    <td>
-                                        {{ $invoice_sewakendaraan->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        {{ $invoice_sewakendaraan->nama_vendor }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($invoice_sewakendaraan->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        @if ($invoice_sewakendaraan->kategori == 'PPH')
-                                            {{ number_format($invoice_sewakendaraan->pph, 0, ',', '.') }}
-                                        @else
-                                            0
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($invoice_sewakendaraan->grand_total, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($invoice_sewakendaraan->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($invoice_sewakendaraan->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Roda Mobil">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($invoice_sewakendaraan->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $invoice_sewakendaraan->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi update'])
-                                                    @if ($invoice_sewakendaraan->kategori == 'PPH')
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id . '/edit') }}">Update</a>
-                                                    @else
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_invoicesewakendaraan/editnonpph/' . $invoice_sewakendaraan->id) }}">Update</a>
-                                                    @endif
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusinvoice', ['id' => $invoice_sewakendaraan->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Kategori</th>
+                                    <th>Admin</th>
+                                    <th>Rekanan</th>
+                                    <th>Total</th>
+                                    <th>PPH</th>
+                                    <th>Sub total</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $invoice_sewakendaraan)
+                                    <tr class="dropdown"{{ $invoice_sewakendaraan->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $invoice_sewakendaraan->kode_tagihan }}</td>
+                                        <td>{{ $invoice_sewakendaraan->tanggal_awal }}</td>
+                                        <td>{{ $invoice_sewakendaraan->kategori }}</td>
+                                        <td>
+                                            {{ $invoice_sewakendaraan->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            {{ $invoice_sewakendaraan->nama_vendor }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($invoice_sewakendaraan->sub_total, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            @if ($invoice_sewakendaraan->kategori == 'PPH')
+                                                {{ number_format($invoice_sewakendaraan->pph, 0, ',', '.') }}
+                                            @else
+                                                0
                                             @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($invoice_sewakendaraan->grand_total, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($invoice_sewakendaraan->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $invoice_sewakendaraan->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id) }}">Show</a>
-                                                @endif
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
                                             @if ($invoice_sewakendaraan->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id) }}">Show</a>
-                                                @endif
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="Roda Mobil">
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($invoice_sewakendaraan->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $invoice_sewakendaraan->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi update'])
+                                                        @if ($invoice_sewakendaraan->kategori == 'PPH')
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_invoicesewakendaraan/editnonpph/' . $invoice_sewakendaraan->id) }}">Update</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusinvoice', ['id' => $invoice_sewakendaraan->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($invoice_sewakendaraan->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $invoice_sewakendaraan->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($invoice_sewakendaraan->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery invoice ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_invoicesewakendaraan/' . $invoice_sewakendaraan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

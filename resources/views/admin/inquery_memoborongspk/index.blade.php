@@ -122,153 +122,155 @@
                         </div>
                     </form>
                     {{-- @endif --}}
-                    <table id="datatables66" class="table table-bordered table-striped table-hover"
-                        style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>No Memo</th>
-                                <th>Tanggal</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>Rute</th>
-                                <th style="text-align: center">Harga</th>
-                                <th style="text-align: center">qty</th>
-                                <th style="text-align: center">Total</th>
-                                <th style="text-align: center">PPH</th>
-                                {{-- <th style="text-align: center">Adm</th> --}}
-                                <th style="text-align: center">Deposit Sopir</th>
-                                <th style="text-align: center">Grand Total</th>
-                                <th style="text-align: center" hidden>Hasil Jumlah</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $memoborong)
-                                <tr class="dropdown"{{ $memoborong->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $memoborong->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $memoborong->kode_memo }}</td>
-                                    <td>
-                                        {{ $memoborong->tanggal_awal }}</td>
-                                    <td>
-                                        {{ substr($memoborong->nama_driver, 0, 10) }} ..
-                                    </td>
-                                    <td>
-                                        {{ $memoborong->no_kabin }}
-                                    </td>
-                                    <td>
-                                        @if ($memoborong->nama_rute == null)
-                                            {{ $memoborong->detail_memo->first()->nama_rutes }}
-                                        @else
-                                            {{ $memoborong->nama_rute }}
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->harga_rute, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ $memoborong->jumlah }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        @if ($memoborong->totalrute == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoborong->totalrute, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->pphs, 0, ',', '.') }}
-                                    </td>
-                                    {{-- <td style="text-align: end">
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>No Memo</th>
+                                    <th>Tanggal</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>Rute</th>
+                                    <th style="text-align: center">Harga</th>
+                                    <th style="text-align: center">qty</th>
+                                    <th style="text-align: center">Total</th>
+                                    <th style="text-align: center">PPH</th>
+                                    {{-- <th style="text-align: center">Adm</th> --}}
+                                    <th style="text-align: center">Deposit Sopir</th>
+                                    <th style="text-align: center">Grand Total</th>
+                                    <th style="text-align: center" hidden>Hasil Jumlah</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $memoborong)
+                                    <tr class="dropdown"{{ $memoborong->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $memoborong->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $memoborong->kode_memo }}</td>
+                                        <td>
+                                            {{ $memoborong->tanggal_awal }}</td>
+                                        <td>
+                                            {{ substr($memoborong->nama_driver, 0, 10) }} ..
+                                        </td>
+                                        <td>
+                                            {{ $memoborong->no_kabin }}
+                                        </td>
+                                        <td>
+                                            @if ($memoborong->nama_rute == null)
+                                                {{ $memoborong->detail_memo->first()->nama_rutes }}
+                                            @else
+                                                {{ $memoborong->nama_rute }}
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->harga_rute, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ $memoborong->jumlah }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            @if ($memoborong->totalrute == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoborong->totalrute, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->pphs, 0, ',', '.') }}
+                                        </td>
+                                        {{-- <td style="text-align: end">
                                         {{ number_format($memoborong->uang_jaminans, 0, ',', '.') }}
                                     </td> --}}
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    <td hidden style="text-align: end">
-                                        {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($memoborong->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($memoborong->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Faktur">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($memoborong->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $memoborong->hasil_jumlah)
-                                                    <a class="dropdown-item">Saldo tidak cukup</a>
-                                                @else
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $memoborong->id }}">Posting</a>
-                                                    @endif
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong update'])
-                                                    @if ($memoborong->spk_id == null)
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}">Update</a>
-                                                    @else
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoborongspk/' . $memoborong->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusmemo', ['id' => $memoborong->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->sub_total, 0, ',', '.') }}
+                                        </td>
+                                        <td hidden style="text-align: end">
+                                            {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($memoborong->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $memoborong->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
-                                                @endif
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
                                             @if ($memoborong->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="Faktur">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($memoborong->status == 'unpost')
+                                                    @if ($saldoTerakhir->sisa_saldo < $memoborong->hasil_jumlah)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery memo borong posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $memoborong->id }}">Posting</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong update'])
+                                                        @if ($memoborong->spk_id == null)
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoborong/' . $memoborong->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoborongspk/' . $memoborong->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusmemo', ['id' => $memoborong->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            @if ($memoborong->detail_faktur->first())
-                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
-                                                    Ekspedisi
-                                                    <strong>{{ $memoborong->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
-                                                </p>
-                                            @else
-                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                @if ($memoborong->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $memoborong->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($memoborong->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo borong show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoborong/' . $memoborong->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($memoborong->detail_faktur->first())
+                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
+                                                        Ekspedisi
+                                                        <strong>{{ $memoborong->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
+                                                    </p>
+                                                @else
+                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

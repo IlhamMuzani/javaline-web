@@ -58,68 +58,71 @@
                     @csrf
                 </form>
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Marketing</th>
-                                <th>Nama</th>
-                                <th>Telepon</th>
-                                <th>Departemen</th>
-                                <th class="text-center" width="150">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($marketings as $karyawan)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $karyawan->kode_karyawan }}</td>
-                                    <td>{{ $karyawan->nama_lengkap }}</td>
-                                    <td>{{ $karyawan->telp }}</td>
-                                    <td>{{ $karyawan->departemen->nama ?? null }}</td>
-                                    <td class="text-center">
-                                        {{-- <a href="{{ url('admin/marketing/' . $karyawan->id) }}" class="btn btn-info btn-sm">
+                                    <th class="text-center">No</th>
+                                    <th>Kode Marketing</th>
+                                    <th>Nama</th>
+                                    <th>Telepon</th>
+                                    <th>Departemen</th>
+                                    <th class="text-center" width="150">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($marketings as $karyawan)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $karyawan->kode_karyawan }}</td>
+                                        <td>{{ $karyawan->nama_lengkap }}</td>
+                                        <td>{{ $karyawan->telp }}</td>
+                                        <td>{{ $karyawan->departemen->nama ?? null }}</td>
+                                        <td class="text-center">
+                                            {{-- <a href="{{ url('admin/marketing/' . $karyawan->id) }}" class="btn btn-info btn-sm">
                                             <i class="fas fa-eye"></i>
                                         </a> --}}
-                                        <a href="{{ url('admin/marketing/' . $karyawan->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $karyawan->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $karyawan->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Marketing</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus Marketing <strong>{{ $karyawan->nama_lengkap }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/marketing/' . $karyawan->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                                            <a href="{{ url('admin/marketing/' . $karyawan->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $karyawan->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $karyawan->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Marketing</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus Marketing
+                                                        <strong>{{ $karyawan->nama_lengkap }}</strong>?</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form action="{{ url('admin/marketing/' . $karyawan->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

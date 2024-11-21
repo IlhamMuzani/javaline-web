@@ -129,142 +129,144 @@
                         </div>
                     </form>
                     {{-- @endif --}}
-                    <table id="datatables66" class="table table-bordered table-striped table-hover"
-                        style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>No Memo</th>
-                                <th>Tanggal</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>Rute</th>
-                                <th>U. Jalan</th>
-                                <th>U. Tambah</th>
-                                <th>Deposit</th>
-                                {{-- <th>Adm</th> --}}
-                                <th>Total</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $memoekspedisi)
-                                <tr class="dropdown"{{ $memoekspedisi->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $memoekspedisi->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $memoekspedisi->kode_memo }}</td>
-                                    <td>
-                                        {{ $memoekspedisi->tanggal_awal }}</td>
-                                    <td>
-                                        {{ substr($memoekspedisi->nama_driver, 0, 10) }} ..
-                                    </td>
-                                    <td>
-                                        {{ $memoekspedisi->no_kabin }}
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->nama_rute == null)
-                                            rute tidak ada
-                                        @else
-                                            {{ $memoekspedisi->nama_rute }}
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        @if ($memoekspedisi->biaya_tambahan == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        @if ($memoekspedisi->deposit_driver == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($memoekspedisi->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($memoekspedisi->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="faktur">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($memoekspedisi->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $memoekspedisi->uang_jalan)
-                                                    <a class="dropdown-item">Saldo tidak cukup</a>
-                                                @else
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $memoekspedisi->id }}">Posting</a>
-                                                    @endif
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan update'])
-                                                    @if ($memoekspedisi->spk_id == null)
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id . '/edit') }}">Update</a>
-                                                    @else
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisispk/' . $memoekspedisi->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusmemo', ['id' => $memoekspedisi->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>No Memo</th>
+                                    <th>Tanggal</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>Rute</th>
+                                    <th>U. Jalan</th>
+                                    <th>U. Tambah</th>
+                                    <th>Deposit</th>
+                                    {{-- <th>Adm</th> --}}
+                                    <th>Total</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $memoekspedisi)
+                                    <tr class="dropdown"{{ $memoekspedisi->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $memoekspedisi->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $memoekspedisi->kode_memo }}</td>
+                                        <td>
+                                            {{ $memoekspedisi->tanggal_awal }}</td>
+                                        <td>
+                                            {{ substr($memoekspedisi->nama_driver, 0, 10) }} ..
+                                        </td>
+                                        <td>
+                                            {{ $memoekspedisi->no_kabin }}
+                                        </td>
+                                        <td>
+                                            @if ($memoekspedisi->nama_rute == null)
+                                                rute tidak ada
+                                            @else
+                                                {{ $memoekspedisi->nama_rute }}
                                             @endif
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            @if ($memoekspedisi->biaya_tambahan == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if ($memoekspedisi->deposit_driver == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($memoekspedisi->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $memoekspedisi->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
-                                                @endif
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
                                             @if ($memoekspedisi->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="faktur">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($memoekspedisi->status == 'unpost')
+                                                    @if ($saldoTerakhir->sisa_saldo < $memoekspedisi->uang_jalan)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $memoekspedisi->id }}">Posting</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan update'])
+                                                        @if ($memoekspedisi->spk_id == null)
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoekspedisispk/' . $memoekspedisi->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusmemo', ['id' => $memoekspedisi->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            @if ($memoekspedisi->detail_faktur->first())
-                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
-                                                    Ekspedisi
-                                                    <strong>{{ $memoekspedisi->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
-                                                </p>
-                                            @else
-                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                @if ($memoekspedisi->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $memoekspedisi->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($memoekspedisi->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memoekspedisi->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($memoekspedisi->detail_faktur->first())
+                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
+                                                        Ekspedisi
+                                                        <strong>{{ $memoekspedisi->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
+                                                    </p>
+                                                @else
+                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

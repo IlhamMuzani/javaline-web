@@ -92,58 +92,61 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th class="text-center">Id</th>
-                                <th>Kode SPK</th>
-                                <th>No Kabin</th>
-                                <th>Nama Driver</th>
-                                <th>Jenis Kendaraan</th>
-                                <th class="text-center" width="40">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pengambilan_do)
-                                <tr class="dropdown"{{ $pengambilan_do->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $pengambilan_do->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td class="text-center">{{ $pengambilan_do->id }}</td>
-                                    <td>{{ $pengambilan_do->spk->kode_spk ?? 'tidak ada' }}</td>
-                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? 'tidak ada' }}</td>
-                                    <td>
-                                        {{ $pengambilan_do->spk->user->karyawan->nama_lengkap ?? 'tidak ada' }}
-                                    </td>
-                                    <td>
-                                        @if ($pengambilan_do->kendaraan)
-                                            {{ $pengambilan_do->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                        @else
-                                            nama tidak ada
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($pengambilan_do->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($pengambilan_do->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="document">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item"
-                                                href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id . '/edit') }}">Update</a>
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">Id</th>
+                                    <th>Kode SPK</th>
+                                    <th>No Kabin</th>
+                                    <th>Nama Driver</th>
+                                    <th>Jenis Kendaraan</th>
+                                    <th class="text-center" width="40">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pengambilan_do)
+                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $pengambilan_do->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">{{ $pengambilan_do->id }}</td>
+                                        <td>{{ $pengambilan_do->spk->kode_spk ?? 'tidak ada' }}</td>
+                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? 'tidak ada' }}</td>
+                                        <td>
+                                            {{ $pengambilan_do->spk->user->karyawan->nama_lengkap ?? 'tidak ada' }}
+                                        </td>
+                                        <td>
+                                            @if ($pengambilan_do->kendaraan)
+                                                {{ $pengambilan_do->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                            @else
+                                                nama tidak ada
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($pengambilan_do->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            @if ($pengambilan_do->status == 'selesai')
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="document">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_pengambilando/' . $pengambilan_do->id . '/edit') }}">Update</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

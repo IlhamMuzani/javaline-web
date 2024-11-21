@@ -77,113 +77,116 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur Penjualan Return</th>
-                                <th>Tanggal</th>
-                                <th>Admin</th>
-                                <th>Pelanggan</th>
-                                <th>Total</th>
-                                <th style="width:20px">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $penjualan)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $penjualan->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $penjualan->kode_penjualan }}</td>
-                                    <td>{{ $penjualan->tanggal_awal }}</td>
-                                    <td>
-                                        {{ $penjualan->admin }}
-                                    </td>
-                                    <td>
-                                        {{ $penjualan->nama_pelanggan }}
-                                    </td>
-                                    <td>
-                                        {{ number_format($penjualan->grand_total, 0, ',', '.') }}
-
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($penjualan->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur Penjualan Return</th>
+                                    <th>Tanggal</th>
+                                    <th>Admin</th>
+                                    <th>Pelanggan</th>
+                                    <th>Total</th>
+                                    <th style="width:20px">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-posting-{{ $penjualan->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Opsi menu</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $penjualan)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $penjualan->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $penjualan->kode_penjualan }}</td>
+                                        <td>{{ $penjualan->tanggal_awal }}</td>
+                                        <td>
+                                            {{ $penjualan->admin }}
+                                        </td>
+                                        <td>
+                                            {{ $penjualan->nama_pelanggan }}
+                                        </td>
+                                        <td>
+                                            {{ number_format($penjualan->grand_total, 0, ',', '.') }}
+
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($penjualan->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Memo ekspedisi
-                                                    <strong>{{ $penjualan->kode_return }}</strong>
-                                                </p>
-                                                @if ($penjualan->status == 'unpost')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang delete'])
-                                                        <form method="GET"
-                                                            action="{{ route('hapuspenjualan', ['id' => $penjualan->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-danger btn-block mt-2">
-                                                                <i class="fas fa-trash-alt"></i> Delete
-                                                            </button>
-                                                        </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-posting-{{ $penjualan->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Opsi menu</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Memo ekspedisi
+                                                        <strong>{{ $penjualan->kode_return }}</strong>
+                                                    </p>
+                                                    @if ($penjualan->status == 'unpost')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang delete'])
+                                                            <form method="GET"
+                                                                action="{{ route('hapuspenjualan', ['id' => $penjualan->id]) }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-danger btn-block mt-2">
+                                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang show'])
+                                                            <a href="{{ url('admin/inquery_fakturpenjualanreturn/' . $penjualan->id) }}"
+                                                                type="button" class="btn btn-outline-info btn-block">
+                                                                <i class="fas fa-eye"></i> Show
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang update'])
+                                                            <a href="{{ url('admin/inquery_fakturpenjualanreturn/' . $penjualan->id . '/edit') }}"
+                                                                type="button" class="btn btn-outline-warning btn-block">
+                                                                <i class="fas fa-edit"></i> Update
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang posting'])
+                                                            <form method="GET"
+                                                                action="{{ route('postingpenjualan', ['id' => $penjualan->id]) }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-success btn-block mt-2">
+                                                                    <i class="fas fa-check"></i> Posting
+                                                                </button>
+                                                            </form>
+                                                        @endif
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang show'])
-                                                        <a href="{{ url('admin/inquery_fakturpenjualanreturn/' . $penjualan->id) }}"
-                                                            type="button" class="btn btn-outline-info btn-block">
-                                                            <i class="fas fa-eye"></i> Show
-                                                        </a>
+                                                    @if ($penjualan->status == 'posting')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang show'])
+                                                            <a href="{{ url('admin/inquery_fakturpenjualanreturn/' . $penjualan->id) }}"
+                                                                type="button" class="btn btn-outline-info btn-block">
+                                                                <i class="fas fa-eye"></i> Show
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang unpost'])
+                                                            <form method="GET"
+                                                                action="{{ route('unpostpenjualan', ['id' => $penjualan->id]) }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-primary btn-block mt-2">
+                                                                    <i class="fas fa-check"></i> Unpost
+                                                                </button>
+                                                            </form>
+                                                        @endif
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang update'])
-                                                        <a href="{{ url('admin/inquery_fakturpenjualanreturn/' . $penjualan->id . '/edit') }}"
-                                                            type="button" class="btn btn-outline-warning btn-block">
-                                                            <i class="fas fa-edit"></i> Update
-                                                        </a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang posting'])
-                                                        <form method="GET"
-                                                            action="{{ route('postingpenjualan', ['id' => $penjualan->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-success btn-block mt-2">
-                                                                <i class="fas fa-check"></i> Posting
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                                @if ($penjualan->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang show'])
-                                                        <a href="{{ url('admin/inquery_fakturpenjualanreturn/' . $penjualan->id) }}"
-                                                            type="button" class="btn btn-outline-info btn-block">
-                                                            <i class="fas fa-eye"></i> Show
-                                                        </a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery return penjualan barang unpost'])
-                                                        <form method="GET"
-                                                            action="{{ route('unpostpenjualan', ['id' => $penjualan->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-primary btn-block mt-2">
-                                                                <i class="fas fa-check"></i> Unpost
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -943,4 +943,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('laporan-monitoringsj', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'index']);
     Route::get('print-monitoringsj', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'print_monitoringsj']);
 
+    Route::get('inquery_perhitungangaji/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'export_gm']);
+
 });

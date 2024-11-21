@@ -23,6 +23,8 @@ use App\Models\Saldo;
 use App\Models\Total_kasbon;
 use Illuminate\Support\Facades\Validator;
 use Egulias\EmailValidator\Result\Reason\DetailedReason;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\RekapGajimExport;
 
 class InqueryPerhitungangajiController extends Controller
 {
@@ -571,4 +573,18 @@ class InqueryPerhitungangajiController extends Controller
 
         return response()->json(['message' => 'Data deleted successfully']);
     }
+
+    public function export_gm($id)
+    {
+        $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
+
+        if (!$perhitungan_gaji) {
+            return redirect()->back()->withErrors(['error' => 'Data Perhitungan Gaji tidak ditemukan']);
+        }
+
+        $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
+
+        return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.xlsx');
+    }
+
 }

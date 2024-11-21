@@ -52,79 +52,81 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    {{-- <button id="hapus-null-button">Hapus Null</button> --}}
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Admin</th>
-                                <th>Pelanggan</th>
-                                {{-- <th>PPH</th> --}}
-                                <th style="text-align: end">Total</th>
-                                <th style="width: 20px">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $fakturpelunasan)
-                                <tr class="dropdown"{{ $fakturpelunasan->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
-                                    <td>{{ $fakturpelunasan->tanggal_awal }}</td>
-                                    <td>
-                                        {{ $fakturpelunasan->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        {{ $fakturpelunasan->nama_pelanggan }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($fakturpelunasan->totalpembayaran, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($fakturpelunasan->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($fakturpelunasan->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $fakturpelunasan->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuspelunasan', ['id' => $fakturpelunasan->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($fakturpelunasan->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $fakturpelunasan->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        {{-- <button id="hapus-null-button">Hapus Null</button> --}}
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Admin</th>
+                                    <th>Pelanggan</th>
+                                    {{-- <th>PPH</th> --}}
+                                    <th style="text-align: end">Total</th>
+                                    <th style="width: 20px">Opsi</th>
                                 </tr>
-                                {{-- <div class="modal fade" id="modal-posting-{{ $fakturpelunasan->id }}">
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $fakturpelunasan)
+                                    <tr class="dropdown"{{ $fakturpelunasan->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
+                                        <td>{{ $fakturpelunasan->tanggal_awal }}</td>
+                                        <td>
+                                            {{ $fakturpelunasan->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            {{ $fakturpelunasan->nama_pelanggan }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($fakturpelunasan->totalpembayaran, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($fakturpelunasan->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($fakturpelunasan->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $fakturpelunasan->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapuspelunasan', ['id' => $fakturpelunasan->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($fakturpelunasan->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $fakturpelunasan->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturpelunasan/' . $fakturpelunasan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{-- <div class="modal fade" id="modal-posting-{{ $fakturpelunasan->id }}">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -191,9 +193,10 @@
                                         </div>
                                     </div>
                                 </div> --}}
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

@@ -85,126 +85,133 @@
                         </div>
                     </form>
 
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th><input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Bukti</th>
-                                <th>Tanggal</th>
-                                <th>Bag.inp</th>
-                                <th>Nama Pelanggan</th>
-                                <th>Status</th>
-                                <th>Kategori</th>
-                                <th>Pph</th>
-                                <th>Grand Total</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td>
-                                        <input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}"
-                                            data-pdf-url="{{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur ? asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) : asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $buktipotongpajak->kode_bukti }}</td>
-                                    <td>{{ $buktipotongpajak->tanggal_awal }}</td>
-                                    <td>
-                                        @if ($buktipotongpajak->user)
-                                            {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->detail_bukti->first())
-                                            {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->nama_pelanggan }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $buktipotongpajak->kategori }}</td>
-                                    <td>{{ $buktipotongpajak->kategoris }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($buktipotongpajak->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($buktipotongpajak->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Roda Mobil">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($buktipotongpajak->status == 'unpost')
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
-                                                <a class="dropdown-item" style="margin-left:0px; margin-right:15px;">
-                                                    @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti == null)
-                                                        @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur == null)
-                                                            <span class="text-muted">Tidak ada PDF yang diunggah.</span>
-                                                        @else
-                                                            <a style="margin-left:15px; margin-right:15px;"
-                                                                href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) }}"
-                                                                target="_blank" class="text-bold">Lihat Bukti Potong
-                                                                Pajak</a>
-                                                        @endif
-                                                    @else
-                                                        <a style="margin-left:15px; margin-right:15px;"
-                                                            href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
-                                                            target="_blank" class="text-bold">Lihat Bukti Potong Pajak</a>
-                                                    @endif
-                                                </a>
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusbukti', ['id' => $buktipotongpajak->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">Delete</button>
-                                                </form>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th><input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Bukti</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.inp</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Status</th>
+                                    <th>Kategori</th>
+                                    <th>Pph</th>
+                                    <th>Grand Total</th>
+                                    <th class="text-center" width="20">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $buktipotongpajak)
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        <td>
+                                            <input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $buktipotongpajak->id }}"
+                                                data-pdf-url="{{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur ? asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) : asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $buktipotongpajak->kode_bukti }}</td>
+                                        <td>{{ $buktipotongpajak->tanggal_awal }}</td>
+                                        <td>
+                                            @if ($buktipotongpajak->user)
+                                                {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
                                             @endif
+                                        </td>
+                                        <td>
+                                            @if ($buktipotongpajak->detail_bukti->first())
+                                                {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->nama_pelanggan }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $buktipotongpajak->kategori }}</td>
+                                        <td>{{ $buktipotongpajak->kategoris }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($buktipotongpajak->status == 'posting')
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
-                                                <a class="dropdown-item" style="margin-left:0px; margin-right:15px;">
-                                                    @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti == null)
-                                                        @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur == null)
-                                                            <span class="text-muted">Tidak ada PDF yang diunggah.</span>
-                                                        @else
-                                                            <a style="margin-left:15px; margin-right:15px;"
-                                                                href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) }}"
-                                                                target="_blank" class="text-bold">Lihat Bukti Potong
-                                                                Pajak</a>
-                                                        @endif
-                                                    @else
-                                                        <a style="margin-left:15px; margin-right:15px;"
-                                                            href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
-                                                            target="_blank" class="text-bold">Lihat Bukti Potong Pajak</a>
-                                                    @endif
-                                                </a>
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
                                             @if ($buktipotongpajak->status == 'selesai')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="Roda Mobil">
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($buktipotongpajak->status == 'unpost')
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
+                                                    <a class="dropdown-item" style="margin-left:0px; margin-right:15px;">
+                                                        @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti == null)
+                                                            @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur == null)
+                                                                <span class="text-muted">Tidak ada PDF yang
+                                                                    diunggah.</span>
+                                                            @else
+                                                                <a style="margin-left:15px; margin-right:15px;"
+                                                                    href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) }}"
+                                                                    target="_blank" class="text-bold">Lihat Bukti Potong
+                                                                    Pajak</a>
+                                                            @endif
+                                                        @else
+                                                            <a style="margin-left:15px; margin-right:15px;"
+                                                                href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
+                                                                target="_blank" class="text-bold">Lihat Bukti Potong
+                                                                Pajak</a>
+                                                        @endif
+                                                    </a>
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusbukti', ['id' => $buktipotongpajak->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">Delete</button>
+                                                    </form>
+                                                @endif
+                                                @if ($buktipotongpajak->status == 'posting')
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
+                                                    <a class="dropdown-item" style="margin-left:0px; margin-right:15px;">
+                                                        @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti == null)
+                                                            @if ($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur == null)
+                                                                <span class="text-muted">Tidak ada PDF yang
+                                                                    diunggah.</span>
+                                                            @else
+                                                                <a style="margin-left:15px; margin-right:15px;"
+                                                                    href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->detail_tagihan->first()->gambar_buktifaktur) }}"
+                                                                    target="_blank" class="text-bold">Lihat Bukti Potong
+                                                                    Pajak</a>
+                                                            @endif
+                                                        @else
+                                                            <a style="margin-left:15px; margin-right:15px;"
+                                                                href="{{ asset('storage/uploads/' . $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->gambar_bukti) }}"
+                                                                target="_blank" class="text-bold">Lihat Bukti Potong
+                                                                Pajak</a>
+                                                        @endif
+                                                    </a>
+                                                @endif
+                                                @if ($buktipotongpajak->status == 'selesai')
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_buktipotongpajak/' . $buktipotongpajak->id) }}">Show</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!-- Modal to view PDFs -->
                     <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog"

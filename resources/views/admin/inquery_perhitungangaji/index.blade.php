@@ -107,106 +107,111 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center" width="10"> <input type="checkbox" name=""
-                                        id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Gaji</th>
-                                <th>Tanggal</th>
-                                <th>Bag.Input</th>
-                                <th>Periode Awal</th>
-                                <th>Periode Akhir</th>
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $perhitungan)
-                                <tr class="dropdown"{{ $perhitungan->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $perhitungan->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $perhitungan->kode_gaji }}
-                                    </td>
-                                    <td>
-                                        {{ $perhitungan->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($perhitungan->user)
-                                            {{ $perhitungan->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        {{ $perhitungan->periode_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $perhitungan->periode_akhir }}
-                                    </td>
-                                    <td class="text-right">{{ number_format($perhitungan->grand_total, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($perhitungan->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($perhitungan->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/perhitungan.png') }}"
-                                                height="40" width="40" alt="Roda Mobil">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($perhitungan->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $perhitungan->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusperhitungan', ['id' => $perhitungan->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center" width="10"> <input type="checkbox" name=""
+                                            id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Gaji</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.Input</th>
+                                    <th>Periode Awal</th>
+                                    <th>Periode Akhir</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="20">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $perhitungan)
+                                    <tr class="dropdown"{{ $perhitungan->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $perhitungan->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $perhitungan->kode_gaji }}
+                                        </td>
+                                        <td>
+                                            {{ $perhitungan->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            @if ($perhitungan->user)
+                                                {{ $perhitungan->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
                                             @endif
+
+                                        </td>
+                                        <td>
+                                            {{ $perhitungan->periode_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $perhitungan->periode_akhir }}
+                                        </td>
+                                        <td class="text-right">{{ number_format($perhitungan->grand_total, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($perhitungan->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $perhitungan->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
-                                                @endif
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
                                             @if ($perhitungan->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
-                                                @endif
+                                                <img src="{{ asset('storage/uploads/indikator/perhitungan.png') }}"
+                                                    height="40" width="40" alt="Roda Mobil">
                                             @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($perhitungan->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $perhitungan->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusperhitungan', ['id' => $perhitungan->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($perhitungan->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $perhitungan->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($perhitungan->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perhitungan gaji mingguan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perhitungangaji/' . $perhitungan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_perhitungangaji/export-gm/' . $perhitungan->id) }}">Export</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

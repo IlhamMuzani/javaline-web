@@ -68,81 +68,84 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Deposit Sopir</th>
-                                <th>Tanggal</th>
-                                <th>Nama Sopir</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $deposit)
-                                <tr class="dropdown"{{ $deposit->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $deposit->kode_deposit }}
-                                    </td>
-                                    <td>
-                                        {{ $deposit->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $deposit->nama_sopir }}
-                                    </td>
-
-                                    <td>
-                                        Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if ($deposit->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($deposit->status == 'posting memo')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($deposit->status == 'unpost')
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $deposit->id }}">Posting</a>
-
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id . '/edit') }}">Update</a>
-
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id) }}">Show</a>
-
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusdepositpemasukan', ['id' => $deposit->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
-                                            @endif
-                                            @if ($deposit->status == 'posting')
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $deposit->id }}">Unpost</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id) }}">Show</a>
-                                            @endif
-                                            @if ($deposit->status == 'selesai')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id) }}">Show</a>
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Deposit Sopir</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Sopir</th>
+                                    <th>Nominal</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="20">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $deposit)
+                                    <tr class="dropdown"{{ $deposit->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $deposit->kode_deposit }}
+                                        </td>
+                                        <td>
+                                            {{ $deposit->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $deposit->nama_sopir }}
+                                        </td>
+
+                                        <td>
+                                            Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            @if ($deposit->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            @if ($deposit->status == 'posting memo')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($deposit->status == 'unpost')
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $deposit->id }}">Posting</a>
+
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id . '/edit') }}">Update</a>
+
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id) }}">Show</a>
+
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusdepositpemasukan', ['id' => $deposit->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                @if ($deposit->status == 'posting')
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $deposit->id }}">Unpost</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id) }}">Show</a>
+                                                @endif
+                                                @if ($deposit->status == 'selesai')
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_pemasukandeposit/' . $deposit->id) }}">Show</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

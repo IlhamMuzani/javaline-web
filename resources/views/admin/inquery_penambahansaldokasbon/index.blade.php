@@ -68,83 +68,86 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Penerimaan Deposit Karyawan</th>
-                                <th>Tanggal</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                <th class="text-center" width="30">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $penerimaan)
-                                <tr class="dropdown"{{ $penerimaan->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $penerimaan->kode_penerimaan }}
-                                    </td>
-                                    <td>
-                                        {{ $penerimaan->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        Rp. {{ number_format($penerimaan->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($penerimaan->sub_total, 0, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if ($penerimaan->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($penerimaan->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $penerimaan->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuspenerimaan', ['id' => $penerimaan->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($penerimaan->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $penerimaan->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($penerimaan->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Penerimaan Deposit Karyawan</th>
+                                    <th>Tanggal</th>
+                                    <th>Nominal</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="30">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $penerimaan)
+                                    <tr class="dropdown"{{ $penerimaan->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $penerimaan->kode_penerimaan }}
+                                        </td>
+                                        <td>
+                                            {{ $penerimaan->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            Rp. {{ number_format($penerimaan->nominal, 0, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($penerimaan->sub_total, 0, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            @if ($penerimaan->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($penerimaan->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $penerimaan->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapuspenerimaan', ['id' => $penerimaan->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($penerimaan->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $penerimaan->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($penerimaan->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery penerimaan kas kecil show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_penambahansaldokasbon/' . $penerimaan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

@@ -60,122 +60,126 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode</th>
-                                <th>Nama Supplier</th>
-                                <th>Nama</th>
-                                <th>Telepon</th>
-                                <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="90">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($suppliers as $supplier)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $supplier->kode_supplier }}</td>
-                                    <td>{{ $supplier->nama_supp }}</td>
-                                    <td>{{ $supplier->nama_person }}</td>
-                                    <td>{{ $supplier->telp }}</td>
-                                    <td data-toggle="modal" data-target="#modal-qrcode-{{ $supplier->id }}"
-                                        style="text-align: center;">
-                                        <div style="display: inline-block;">
-                                            {!! DNS2D::getBarcodeHTML("$supplier->qrcode_supplier", 'QRCODE', 2, 2) !!}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['supplier show'])
-                                            <a href="{{ url('admin/supplier/' . $supplier->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['supplier update'])
-                                            <a href="{{ url('admin/supplier/' . $supplier->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['supplier delete'])
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $supplier->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Nama</th>
+                                    <th>Telepon</th>
+                                    <th class="text-center">Qr Code</th>
+                                    <th class="text-center" width="90">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $supplier->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Supplier</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($suppliers as $supplier)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $supplier->kode_supplier }}</td>
+                                        <td>{{ $supplier->nama_supp }}</td>
+                                        <td>{{ $supplier->nama_person }}</td>
+                                        <td>{{ $supplier->telp }}</td>
+                                        <td data-toggle="modal" data-target="#modal-qrcode-{{ $supplier->id }}"
+                                            style="text-align: center;">
+                                            <div style="display: inline-block;">
+                                                {!! DNS2D::getBarcodeHTML("$supplier->qrcode_supplier", 'QRCODE', 2, 2) !!}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['supplier show'])
+                                                <a href="{{ url('admin/supplier/' . $supplier->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['supplier update'])
+                                                <a href="{{ url('admin/supplier/' . $supplier->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['supplier delete'])
+                                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $supplier->id }}">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus supplier <strong>{{ $supplier->nama_supp }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/supplier/' . $supplier->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modal-qrcode-{{ $supplier->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="text-align: center;">
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $supplier->kode_supplier }}</p>
-                                                    <div style="display: inline-block;">
-                                                        {!! DNS2D::getBarcodeHTML("$supplier->qrcode_supplier", 'QRCODE', 15, 15) !!}
-                                                    </div>
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $supplier->nama_supp }}</p>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $supplier->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Supplier</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus supplier <strong>{{ $supplier->nama_supp }}</strong>?
+                                                    </p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    {{-- <form action="{{ url('admin/ban/' . $golongan->id) }}" method="POST">
+                                                    <form action="{{ url('admin/supplier/' . $supplier->id) }}"
+                                                        method="POST">
                                                         @csrf
-                                                        <button type="submit" class="btn btn-primary">Cetak</button>
-                                                    </form> --}}
-                                                    <a href="{{ url('admin/supplier/cetak-pdf/' . $supplier->id) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class=""></i> Cetak
-                                                    </a>
-                                                    {{-- <a href="{{ url('admin/cetak-pdf/' . $golongan->id) }}" target="_blank"
-                                                        class="btn btn-outline-primary btn-sm float-end">
-                                                        <i class="fa-solid fa-print"></i> Cetak PDV
-                                                    </a> --}}
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                                    <div class="modal fade" id="modal-qrcode-{{ $supplier->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div style="text-align: center;">
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $supplier->kode_supplier }}</p>
+                                                        <div style="display: inline-block;">
+                                                            {!! DNS2D::getBarcodeHTML("$supplier->qrcode_supplier", 'QRCODE', 15, 15) !!}
+                                                        </div>
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $supplier->nama_supp }}</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Batal</button>
+                                                        {{-- <form action="{{ url('admin/ban/' . $golongan->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-primary">Cetak</button>
+                                                    </form> --}}
+                                                        <a href="{{ url('admin/supplier/cetak-pdf/' . $supplier->id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class=""></i> Cetak
+                                                        </a>
+                                                        {{-- <a href="{{ url('admin/cetak-pdf/' . $golongan->id) }}" target="_blank"
+                                                        class="btn btn-outline-primary btn-sm float-end">
+                                                        <i class="fa-solid fa-print"></i> Cetak PDV
+                                                    </a> --}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

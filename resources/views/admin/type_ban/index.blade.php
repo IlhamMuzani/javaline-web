@@ -59,104 +59,107 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Type ban</th>
-                                <th>Nama Type</th>
-                                <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="90">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($type_bans as $type_ban)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $type_ban->kode_type }}</td>
-                                    <td>{{ $type_ban->nama_type }}</td>
-                                    <td data-toggle="modal" data-target="#modal-qrcode-{{ $type_ban->id }}"
-                                        style="text-align: center;">
-                                        <div style="display: inline-block;">
-                                            {!! DNS2D::getBarcodeHTML("$type_ban->qrcode_type", 'QRCODE', 2, 2) !!}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['type update'])
-                                            <a href="{{ url('admin/type_ban/' . $type_ban->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['type delete'])
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $type_ban->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Type ban</th>
+                                    <th>Nama Type</th>
+                                    <th class="text-center">Qr Code</th>
+                                    <th class="text-center" width="90">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $type_ban->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Type Ban</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($type_bans as $type_ban)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $type_ban->kode_type }}</td>
+                                        <td>{{ $type_ban->nama_type }}</td>
+                                        <td data-toggle="modal" data-target="#modal-qrcode-{{ $type_ban->id }}"
+                                            style="text-align: center;">
+                                            <div style="display: inline-block;">
+                                                {!! DNS2D::getBarcodeHTML("$type_ban->qrcode_type", 'QRCODE', 2, 2) !!}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['type update'])
+                                                <a href="{{ url('admin/type_ban/' . $type_ban->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['type delete'])
+                                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $type_ban->id }}">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus type ban <strong>{{ $type_ban->nama_type }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/type_ban/' . $type_ban->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modal-qrcode-{{ $type_ban->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="text-align: center;">
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $type_ban->kode_type }}</p>
-                                                    <div style="display: inline-block;">
-                                                        {!! DNS2D::getBarcodeHTML("$type_ban->qrcode_type", 'QRCODE', 15, 15) !!}
-                                                    </div>
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $type_ban->nama_type }}</p>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $type_ban->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Type Ban</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus type ban <strong>{{ $type_ban->nama_type }}</strong>?</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    <a href="{{ url('admin/type-ban/cetak-pdf/' . $type_ban->id) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class=""></i> Cetak
-                                                    </a>
+                                                    <form action="{{ url('admin/type_ban/' . $type_ban->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                                    <div class="modal fade" id="modal-qrcode-{{ $type_ban->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div style="text-align: center;">
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $type_ban->kode_type }}</p>
+                                                        <div style="display: inline-block;">
+                                                            {!! DNS2D::getBarcodeHTML("$type_ban->qrcode_type", 'QRCODE', 15, 15) !!}
+                                                        </div>
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $type_ban->nama_type }}</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Batal</button>
+                                                        <a href="{{ url('admin/type-ban/cetak-pdf/' . $type_ban->id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class=""></i> Cetak
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

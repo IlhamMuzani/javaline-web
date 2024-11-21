@@ -96,146 +96,149 @@
                 </form>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode</th>
-                                <th>No Kabin</th>
-                                <th>No Pol</th>
-                                <th>Nama Pemilik</th>
-                                <th>Tanggal Expired</th>
-                                <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="170">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($nokirs as $nokir)
-                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
-                                    <td class="text-center">
-                                        {{ ($nokirs->currentPage() - 1) * $nokirs->perPage() + $loop->iteration }}</td>
-                                    <td>{{ $nokir->kode_kir }}</td>
-                                    <td>
-                                        @if ($nokir->kendaraan)
-                                            {{ $nokir->kendaraan->no_kabin }}
-                                        @else
-                                            kabin tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($nokir->kendaraan)
-                                            {{ $nokir->kendaraan->no_pol }}
-                                        @else
-                                            kabin tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $nokir->nama_pemilik }}</td>
-                                    <td>{{ $nokir->masa_berlaku }}</td>
-
-                                    {{-- <td>{{ \Carbon\Carbon::parse($nokir->masa_berlaku)->format('d M Y') }}</td> --}}
-
-                                    <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}"
-                                        style="text-align: center;">
-                                        <div class="qrcode-container" style="position: relative; display: inline-block;">
-                                            {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2, 2) !!}
-                                            <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
-                                                class="qrcode-logo" alt="Logo">
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['nokir print'])
-                                            <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}"
-                                                class="btn btn-primary btn-sm">
-                                                <i class="fas fa-print"></i>
-                                        @endif
-                                        </a>
-                                        @if (auth()->check() && auth()->user()->fitur['nokir show'])
-                                            <a href="{{ url('admin/nokir/' . $nokir->id) }}" class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['nokir update'])
-                                            <a href="{{ url('admin/nokir/' . $nokir->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['nokir delete'])
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $nokir->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode</th>
+                                    <th>No Kabin</th>
+                                    <th>No Pol</th>
+                                    <th>Nama Pemilik</th>
+                                    <th>Tanggal Expired</th>
+                                    <th class="text-center">Qr Code</th>
+                                    <th class="text-center" width="170">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $nokir->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus No. Kir</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($nokirs as $nokir)
+                                    <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                        <td class="text-center">
+                                            {{ ($nokirs->currentPage() - 1) * $nokirs->perPage() + $loop->iteration }}</td>
+                                        <td>{{ $nokir->kode_kir }}</td>
+                                        <td>
+                                            @if ($nokir->kendaraan)
+                                                {{ $nokir->kendaraan->no_kabin }}
+                                            @else
+                                                kabin tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($nokir->kendaraan)
+                                                {{ $nokir->kendaraan->no_pol }}
+                                            @else
+                                                kabin tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $nokir->nama_pemilik }}</td>
+                                        <td>{{ $nokir->masa_berlaku }}</td>
+
+                                        {{-- <td>{{ \Carbon\Carbon::parse($nokir->masa_berlaku)->format('d M Y') }}</td> --}}
+
+                                        <td data-toggle="modal" data-target="#modal-qrcode-{{ $nokir->id }}"
+                                            style="text-align: center;">
+                                            <div class="qrcode-container"
+                                                style="position: relative; display: inline-block;">
+                                                {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 2, 2) !!}
+                                                <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
+                                                    class="qrcode-logo" alt="Logo">
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['nokir print'])
+                                                <a href="{{ url('admin/nokir/cetak-pdfnokir/' . $nokir->id) }}"
+                                                    class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-print"></i>
+                                            @endif
+                                            </a>
+                                            @if (auth()->check() && auth()->user()->fitur['nokir show'])
+                                                <a href="{{ url('admin/nokir/' . $nokir->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['nokir update'])
+                                                <a href="{{ url('admin/nokir/' . $nokir->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['nokir delete'])
+                                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $nokir->id }}">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus No. Kir <strong>{{ $nokir->nama_pemilik }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/nokir/' . $nokir->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="modal-qrcode-{{ $nokir->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="text-align: center;">
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $nokir->kode_kir }}</p>
-                                                    <div class="qrcode-container"
-                                                        style="position: relative; display: inline-block;">
-                                                        {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 15, 15) !!}
-                                                        <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
-                                                            class="qrcode-logo" alt="Logo">
-                                                    </div>
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $nokir->masa_berlaku }}</p>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $nokir->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus No. Kir</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus No. Kir <strong>{{ $nokir->nama_pemilik }}</strong>?</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    <a href="{{ url('admin/nokir/cetak-pdf/' . $nokir->id) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class=""></i> Cetak
-                                                    </a>
+                                                    <form action="{{ url('admin/nokir/' . $nokir->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end">
-                        {{ $nokirs->links('pagination::bootstrap-4') }}
+                                    <div class="modal fade" id="modal-qrcode-{{ $nokir->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div style="text-align: center;">
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $nokir->kode_kir }}</p>
+                                                        <div class="qrcode-container"
+                                                            style="position: relative; display: inline-block;">
+                                                            {!! DNS2D::getBarcodeHTML("$nokir->qrcode_kir", 'QRCODE', 15, 15) !!}
+                                                            <img src="{{ asset('storage/uploads/gambar_logo/dinas_perhubungan.jpg') }}"
+                                                                class="qrcode-logo" alt="Logo">
+                                                        </div>
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $nokir->masa_berlaku }}</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Batal</button>
+                                                        <a href="{{ url('admin/nokir/cetak-pdf/' . $nokir->id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class=""></i> Cetak
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
+                <div class="d-flex justify-content-end">
+                    {{ $nokirs->links('pagination::bootstrap-4') }}
+                </div>
             </div>
         </div>
     </section>

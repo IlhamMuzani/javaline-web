@@ -82,92 +82,95 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Nama User</th>
-                                <th>No Kabin</th>
-                                <th>Km Update</th>
-                                <th>Tanggal</th>
-                                <th class="text-center" width="30">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $inquerys)
-                                <tr class="dropdown"{{ $inquerys->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $inquerys->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $inquerys->id }}">
-                                            @if ($inquerys->kendaraan)
-                                                {{ $inquerys->kendaraan->no_kabin }}
-                                            @else
-                                                kabin tidak ada
-                                            @endif
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $inquerys->id }}">
-                                            {{ $inquerys->km_update }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $inquerys->id }}">
-                                            {{ $inquerys->created_at }}
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($inquerys->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($inquerys->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery update km posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $inquerys->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery update km update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/edit_kendaraan/' . $inquerys->id) }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/lihat_kendaraan/' . $inquerys->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery update km delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuskm', ['id' => $inquerys->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($inquerys->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery update km unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $inquerys->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/lihat_kendaraan/' . $inquerys->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Nama User</th>
+                                    <th>No Kabin</th>
+                                    <th>Km Update</th>
+                                    <th>Tanggal</th>
+                                    <th class="text-center" width="30">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $inquerys)
+                                    <tr class="dropdown"{{ $inquerys->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $inquerys->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $inquerys->id }}">
+                                                @if ($inquerys->kendaraan)
+                                                    {{ $inquerys->kendaraan->no_kabin }}
+                                                @else
+                                                    kabin tidak ada
+                                                @endif
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $inquerys->id }}">
+                                                {{ $inquerys->km_update }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $inquerys->id }}">
+                                                {{ $inquerys->created_at }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($inquerys->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($inquerys->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $inquerys->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/edit_kendaraan/' . $inquerys->id) }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/lihat_kendaraan/' . $inquerys->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapuskm', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($inquerys->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $inquerys->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery update km show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/lihat_kendaraan/' . $inquerys->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

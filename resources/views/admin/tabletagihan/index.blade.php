@@ -70,111 +70,114 @@
 
 
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Kategori</th>
-                                <th>Admin</th>
-                                <th>Pelanggan</th>
-                                <th>Total</th>
-                                <th>PPH</th>
-                                <th>Sub total</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $tagihanekspedisi)
-                                <tr class="dropdown"{{ $tagihanekspedisi->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
-                                    <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
-                                    <td>{{ $tagihanekspedisi->kategori }}</td>
-                                    <td>
-                                        {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        {{ $tagihanekspedisi->nama_pelanggan }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        @if ($tagihanekspedisi->kategori == 'PPH')
-                                            {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
-                                        @else
-                                            0
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($tagihanekspedisi->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($tagihanekspedisi->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['posting invoice ekspedisi'])
-                                                    <a href="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}"
-                                                        class="dropdown-item">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['update invoice ekspedisi'])
-                                                    @if ($tagihanekspedisi->kategori == 'PPH')
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Kategori</th>
+                                    <th>Admin</th>
+                                    <th>Pelanggan</th>
+                                    <th>Total</th>
+                                    <th>PPH</th>
+                                    <th>Sub total</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $tagihanekspedisi)
+                                    <tr class="dropdown"{{ $tagihanekspedisi->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
+                                        <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                        <td>{{ $tagihanekspedisi->kategori }}</td>
+                                        <td>
+                                            {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            {{ $tagihanekspedisi->nama_pelanggan }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($tagihanekspedisi->sub_total, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            @if ($tagihanekspedisi->kategori == 'PPH')
+                                                {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
+                                            @else
+                                                0
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($tagihanekspedisi->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($tagihanekspedisi->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['posting invoice ekspedisi'])
+                                                        <a href="{{ route('postingtagihan', ['id' => $tagihanekspedisi->id]) }}"
+                                                            class="dropdown-item">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['update invoice ekspedisi'])
+                                                        @if ($tagihanekspedisi->kategori == 'PPH')
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_tagihanekspedisi/editnonpph/' . $tagihanekspedisi->id) }}">Update</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
                                                         <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id . '/edit') }}">Update</a>
-                                                    @else
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_tagihanekspedisi/editnonpph/' . $tagihanekspedisi->id) }}">Update</a>
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['delete invoice ekspedisi'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                @if ($tagihanekspedisi->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['unpost invoice ekspedisi'])
+                                                        <a href="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}"
+                                                            class="dropdown-item">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['delete invoice ekspedisi'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapustagihan', ['id' => $tagihanekspedisi->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
+                                                @if ($tagihanekspedisi->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            @if ($tagihanekspedisi->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['unpost invoice ekspedisi'])
-                                                    <a href="{{ route('unposttagihan', ['id' => $tagihanekspedisi->id]) }}"
-                                                        class="dropdown-item">Unpost</a>
+                                                @if ($tagihanekspedisi->faktur_pelunasan->first())
+                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Pelunasan
+                                                        <strong>{{ $tagihanekspedisi->faktur_pelunasan->first()->kode_pelunasan }}</strong>
+                                                    </p>
+                                                @else
+                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($tagihanekspedisi->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['show invoice ekspedisi'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_tagihanekspedisi/' . $tagihanekspedisi->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($tagihanekspedisi->faktur_pelunasan->first())
-                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Pelunasan
-                                                    <strong>{{ $tagihanekspedisi->faktur_pelunasan->first()->kode_pelunasan }}</strong>
-                                                </p>
-                                            @else
-                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

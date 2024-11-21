@@ -83,92 +83,94 @@
                         </div>
                     </form>
                     <div class="card-body">
-                        <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th>Kode Penggantian</th>
-                                    <th>Tanggal</th>
-                                    <th>No Kabin</th>
-                                    <th>No Registrasi</th>
-                                    <th>Jenis Kendaraan</th>
-                                    <th class="text-center" width="30">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($inquery as $penggantianoli)
-                                    <tr class="dropdown"{{ $penggantianoli->id }}>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $penggantianoli->kode_penggantianoli }}</td>
-                                        <td>{{ $penggantianoli->tanggal_awal }}</td>
-                                        <td>
-                                            @if ($penggantianoli->kendaraan)
-                                                {{ $penggantianoli->kendaraan->no_kabin }}
-                                            @else
-                                                Kabin tidak ada
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($penggantianoli->kendaraan)
-                                                {{ $penggantianoli->kendaraan->no_pol }}
-                                            @else
-                                                No pol tidak ada
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($penggantianoli->kendaraan)
-                                                {{ $penggantianoli->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                            @else
-                                                nama tidak ada
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @if ($penggantianoli->status == 'posting')
-                                                <button type="button" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @if ($penggantianoli->status == 'unpost')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $penggantianoli->id }}">Posting</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban update'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_penggantianoli/' . $penggantianoli->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapuspenggantianoli', ['id' => $penggantianoli->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                                @if ($penggantianoli->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban unpost'])
-                                                        <a class="dropdown-item unpost-btn"
-                                                            data-memo-id="{{ $penggantianoli->id }}">Unpost</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}">Show</a>
-                                                    @endif
-                                                @endif
-                                            </div>
-                                        </td>
+                        <div class="table-responsive" style="overflow-x: auto;">
+                            <table id="datatables66" class="table table-bordered table-striped table-hover"
+                                style="font-size: 13px">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Penggantian</th>
+                                        <th>Tanggal</th>
+                                        <th>No Kabin</th>
+                                        <th>No Registrasi</th>
+                                        <th>Jenis Kendaraan</th>
+                                        <th class="text-center" width="30">Opsi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($inquery as $penggantianoli)
+                                        <tr class="dropdown"{{ $penggantianoli->id }}>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $penggantianoli->kode_penggantianoli }}</td>
+                                            <td>{{ $penggantianoli->tanggal_awal }}</td>
+                                            <td>
+                                                @if ($penggantianoli->kendaraan)
+                                                    {{ $penggantianoli->kendaraan->no_kabin }}
+                                                @else
+                                                    Kabin tidak ada
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($penggantianoli->kendaraan)
+                                                    {{ $penggantianoli->kendaraan->no_pol }}
+                                                @else
+                                                    No pol tidak ada
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($penggantianoli->kendaraan)
+                                                    {{ $penggantianoli->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                                @else
+                                                    nama tidak ada
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                @if ($penggantianoli->status == 'posting')
+                                                    <button type="button" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    @if ($penggantianoli->status == 'unpost')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $penggantianoli->id }}">Posting</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban update'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_penggantianoli/' . $penggantianoli->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapuspenggantianoli', ['id' => $penggantianoli->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                    @if ($penggantianoli->status == 'posting')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban unpost'])
+                                                            <a class="dropdown-item unpost-btn"
+                                                                data-memo-id="{{ $penggantianoli->id }}">Unpost</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/lihat_penggantianoli/' . $penggantianoli->id) }}">Show</a>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                             aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                             <div class="modal-dialog modal-dialog-centered" role="document">

@@ -82,48 +82,51 @@
                             </div>
                         </div>
                     </form>
-                    <table style="font-size: 15px" id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                <th class="text-center">No</th>
-                                <th>Kode Peralatan</th>
-                                <th>Nama Peralatan</th>
-                                <th>Jumlah</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($detail_inventorys as $inventory_peralatan)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table style="font-size: 15px" id="datatables66"
+                            class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                    {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th class="text-center">No</th>
+                                    <th>Kode Peralatan</th>
+                                    <th>Nama Peralatan</th>
+                                    <th>Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($detail_inventorys as $inventory_peralatan)
+                                    <tr>
+                                        {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
                                             value="{{ $inventory_peralatan->id }}">
                                     </td> --}}
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if ($inventory_peralatan->sparepart)
-                                            {{ $inventory_peralatan->sparepart->kode_partdetail }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($inventory_peralatan->sparepart)
-                                            {{ $inventory_peralatan->sparepart->nama_barang }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($inventory_peralatan->sparepart->detail_inventory->first())
-                                            {{ $inventory_peralatan->sparepart->detail_inventory->first()->jumlah }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($inventory_peralatan->sparepart)
+                                                {{ $inventory_peralatan->sparepart->kode_partdetail }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($inventory_peralatan->sparepart)
+                                                {{ $inventory_peralatan->sparepart->nama_barang }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($inventory_peralatan->sparepart->detail_inventory->first())
+                                                {{ $inventory_peralatan->sparepart->detail_inventory->first()->jumlah }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

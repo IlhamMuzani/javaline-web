@@ -60,77 +60,79 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                <th>Stok</th>
-                                <th>Harga Beli</th>
-                                <th>Harga Jual</th>
-                                <th class="text-center" width="90">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($barangs as $barang)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $barang->kode_barang }}
-                                    </td>
-                                    <td>{{ $barang->nama_barang }}
-                                    </td>
-                                    <td>{{ $barang->jumlah }}
-                                    </td>
-                                    <td> {{ number_format($barang->harga_beli, 0, ',', '.') }}
-                                    </td>
-                                    <td> {{ number_format($barang->harga_jual, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['barang return update'])
-                                            <a href="{{ url('admin/barang/' . $barang->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['barang return delete'])
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $barang->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
+                                    <th>Stok</th>
+                                    <th>Harga Beli</th>
+                                    <th>Harga Jual</th>
+                                    <th class="text-center" width="90">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $barang->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus barang</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($barangs as $barang)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $barang->kode_barang }}
+                                        </td>
+                                        <td>{{ $barang->nama_barang }}
+                                        </td>
+                                        <td>{{ $barang->jumlah }}
+                                        </td>
+                                        <td> {{ number_format($barang->harga_beli, 0, ',', '.') }}
+                                        </td>
+                                        <td> {{ number_format($barang->harga_jual, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['barang return update'])
+                                                <a href="{{ url('admin/barang/' . $barang->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['barang return delete'])
+                                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $barang->id }}">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus barang
-                                                    <strong>{{ $barang->nama_type }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/barang/' . $barang->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $barang->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus barang</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus barang
+                                                        <strong>{{ $barang->nama_type }}</strong>?
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form action="{{ url('admin/barang/' . $barang->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

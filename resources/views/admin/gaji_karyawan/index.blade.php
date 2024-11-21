@@ -55,7 +55,8 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    {{-- <form method="GET" id="form-action">
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        {{-- <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-2 mb-3">
                                 <label for="created_at">Kategori</label>
@@ -67,47 +68,49 @@
                             </div>
                         </div>
                     </form> --}}
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Karyawan</th>
-                                <th>Nama</th>
-                                <th>Departemen</th>
-                                <th>Kasbon</th>
-                                <th>Deposit Karyawan</th>
-                                <th>Gaji</th>
-                                <th class="text-center" width="60">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($gajis as $gaji)
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $gaji->kode_karyawan }}</td>
-                                    <td>{{ $gaji->nama_lengkap }}</td>
-                                    <td>
-                                        @if ($gaji->departemen)
-                                            {{ $gaji->departemen->nama }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td style="text-align: right">{{ number_format($gaji->kasbon, 0, ',', '.') }}</td>
-                                    <td style="text-align: right">{{ number_format($gaji->bayar_kasbon, 0, ',', '.') }}</td>
-                                    <td style="text-align: right">{{ number_format($gaji->gaji, 0, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['gaji karyawan update'])
-                                            <a href="{{ url('admin/gaji_karyawan/' . $gaji->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Karyawan</th>
+                                    <th>Nama</th>
+                                    <th>Departemen</th>
+                                    <th>Kasbon</th>
+                                    <th>Deposit Karyawan</th>
+                                    <th>Gaji</th>
+                                    <th class="text-center" width="60">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($gajis as $gaji)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $gaji->kode_karyawan }}</td>
+                                        <td>{{ $gaji->nama_lengkap }}</td>
+                                        <td>
+                                            @if ($gaji->departemen)
+                                                {{ $gaji->departemen->nama }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right">{{ number_format($gaji->kasbon, 0, ',', '.') }}</td>
+                                        <td style="text-align: right">{{ number_format($gaji->bayar_kasbon, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: right">{{ number_format($gaji->gaji, 0, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['gaji karyawan update'])
+                                                <a href="{{ url('admin/gaji_karyawan/' . $gaji->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

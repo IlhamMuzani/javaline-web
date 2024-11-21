@@ -81,89 +81,92 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Pembelian Part</th>
-                                <th>Tanggal</th>
-                                <th>Nama Supplier</th>
-                                <th>Total</th>
-                                <th class="text-center" width="30">Opsi</th>
-                            </tr>
-                        </thead>
-                        @foreach ($inquery as $pembelians)
-                            <tr class="dropdown"{{ $pembelians->id }}>
-                                <td class="text-center">{{ $loop->iteration }}</td>
-                                <td>
-                                    <a href="#" style="color: #000000;" data-toggle="modal"
-                                        data-target="#modal-pilih-{{ $pembelians->id }}">
-                                        {{ $pembelians->kode_pembelianpart }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="#" style="color: #000000;" data-toggle="modal"
-                                        data-target="#modal-pilih-{{ $pembelians->id }}">
-                                        {{ $pembelians->tanggal_awal }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="#" style="color: #000000;" data-toggle="modal"
-                                        data-target="#modal-pilih-{{ $pembelians->id }}">
-                                        {{ $pembelians->supplier->nama_supp }}
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="#" style="color: #000000;" data-toggle="modal"
-                                        data-target="#modal-pilih-{{ $pembelians->id }}">
-                                        Rp. {{ number_format($pembelians->detail_part->sum('harga'), 0, ',', '.') }}
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    @if ($pembelians->status == 'posting')
-                                        <button type="button" class="btn btn-success btn-sm">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                    @endif
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @if ($pembelians->status == 'unpost')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian part posting'])
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $pembelians->id }}">Posting</a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian part update'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_pembelianpart/' . $pembelians->id . '/edit') }}">Update</a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}">Show</a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian part delete'])
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapuspart', ['id' => $pembelians->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Pembelian Part</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="30">Opsi</th>
+                                </tr>
+                            </thead>
+                            @foreach ($inquery as $pembelians)
+                                <tr class="dropdown"{{ $pembelians->id }}>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>
+                                        <a href="#" style="color: #000000;" data-toggle="modal"
+                                            data-target="#modal-pilih-{{ $pembelians->id }}">
+                                            {{ $pembelians->kode_pembelianpart }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="color: #000000;" data-toggle="modal"
+                                            data-target="#modal-pilih-{{ $pembelians->id }}">
+                                            {{ $pembelians->tanggal_awal }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="color: #000000;" data-toggle="modal"
+                                            data-target="#modal-pilih-{{ $pembelians->id }}">
+                                            {{ $pembelians->supplier->nama_supp }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="#" style="color: #000000;" data-toggle="modal"
+                                            data-target="#modal-pilih-{{ $pembelians->id }}">
+                                            Rp. {{ number_format($pembelians->detail_part->sum('harga'), 0, ',', '.') }}
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
                                         @if ($pembelians->status == 'posting')
-                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian part unpost'])
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $pembelians->id }}">Unpost</a>
-                                            @endif
-                                            @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}">Show</a>
-                                            @endif
+                                            <button type="button" class="btn btn-success btn-sm">
+                                                <i class="fas fa-check"></i>
+                                            </button>
                                         @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </table>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @if ($pembelians->status == 'unpost')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part posting'])
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $pembelians->id }}">Posting</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part update'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_pembelianpart/' . $pembelians->id . '/edit') }}">Update</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}">Show</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part delete'])
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapuspart', ['id' => $pembelians->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                            @if ($pembelians->status == 'posting')
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part unpost'])
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $pembelians->id }}">Unpost</a>
+                                                @endif
+                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian part show'])
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/lihat_fakturpart/' . $pembelians->id) }}">Show</a>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

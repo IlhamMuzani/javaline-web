@@ -112,80 +112,83 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th>No</th>
-                                <th>Kode Spk</th>
-                                <th>Tanggal</th>
-                                <th>Bag.input</th>
-                                <th>Kode Driver</th>
-                                <th>Driver</th>
-                                <th>No Kabin</th>
-                                <th>No Pol</th>
-                                <th>Pelanggan</th>
-                                <th>Rute</th>
-                                <th>Akses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($spks as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->kode_spk }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->admin }}
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->spk->user)
-                                            {{ $buktipotongpajak->spk->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->no_kabin }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->no_pol }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->nama_pelanggan }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->nama_rute }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($buktipotongpajak->akses_spk == 1)
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($buktipotongpajak->akses_spk == 0)
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
-                                            @endif
-                                            @if ($buktipotongpajak->akses_spk == 1)
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th>No</th>
+                                    <th>Kode Spk</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.input</th>
+                                    <th>Kode Driver</th>
+                                    <th>Driver</th>
+                                    <th>No Kabin</th>
+                                    <th>No Pol</th>
+                                    <th>Pelanggan</th>
+                                    <th>Rute</th>
+                                    <th>Akses</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($spks as $buktipotongpajak)
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $buktipotongpajak->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->kode_spk }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->admin }}
+                                        </td>
+                                        <td>
+                                            @if ($buktipotongpajak->spk->user)
+                                                {{ $buktipotongpajak->spk->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->no_kabin }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->no_pol }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->nama_pelanggan }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->nama_rute }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($buktipotongpajak->akses_spk == 1)
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($buktipotongpajak->akses_spk == 0)
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                                @endif
+                                                @if ($buktipotongpajak->akses_spk == 1)
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

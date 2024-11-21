@@ -53,34 +53,36 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode User</th>
-                                <th>Nama</th>
-                                <th class="text-center" width="120">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($aksess as $akses)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped">
+                            <thead>
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $akses->kode_user }}</td>
-                                    <td>{{ $akses->karyawan->nama_lengkap }}</td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['hak akses create'])
-                                            <a href="{{ url('admin/akses/access/' . $akses->id) }}"
-                                                class="btn btn-info btn-sm">
-                                                <i class="fas fa-low-vision"></i> Akses Driver
-                                            </a>
-                                        @endif
-
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode User</th>
+                                    <th>Nama</th>
+                                    <th class="text-center" width="120">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($aksess as $akses)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $akses->kode_user }}</td>
+                                        <td>{{ $akses->karyawan->nama_lengkap }}</td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['hak akses create'])
+                                                <a href="{{ url('admin/akses/access/' . $akses->id) }}"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="fas fa-low-vision"></i> Akses Driver
+                                                </a>
+                                            @endif
+
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

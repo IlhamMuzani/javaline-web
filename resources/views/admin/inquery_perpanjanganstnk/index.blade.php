@@ -81,85 +81,88 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Perpanjangan</th>
-                                <th>No Registrasi</th>
-                                <th>Berlaku Sampai</th>
-                                <th>Nominal</th>
-                                <th class="text-center" width="30">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $inquerys)
-                                <tr class="dropdown"{{ $inquerys->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $inquerys->kode_perpanjangan }}</td>
-                                    <td>
-                                        @if ($inquerys->stnk)
-                                            {{ $inquerys->stnk->kendaraan->no_pol }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $inquerys->expired_stnk }}</td>
-                                    <td>
-                                        {{ number_format($inquerys->jumlah, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($inquerys->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($inquerys->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $inquerys->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusstnk', ['id' => $inquerys->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($inquerys->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $inquerys->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($inquerys->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Perpanjangan</th>
+                                    <th>No Registrasi</th>
+                                    <th>Berlaku Sampai</th>
+                                    <th>Nominal</th>
+                                    <th class="text-center" width="30">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $inquerys)
+                                    <tr class="dropdown"{{ $inquerys->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $inquerys->kode_perpanjangan }}</td>
+                                        <td>
+                                            @if ($inquerys->stnk)
+                                                {{ $inquerys->stnk->kendaraan->no_pol }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $inquerys->expired_stnk }}</td>
+                                        <td>
+                                            {{ number_format($inquerys->jumlah, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($inquerys->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($inquerys->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $inquerys->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusstnk', ['id' => $inquerys->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($inquerys->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $inquerys->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($inquerys->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery perpanjangan stnk show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_perpanjanganstnk/' . $inquerys->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

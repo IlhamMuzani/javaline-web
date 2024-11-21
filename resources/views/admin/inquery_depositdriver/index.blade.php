@@ -77,83 +77,86 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Faktur Deposit Sopir</th>
-                                <th>Tanggal</th>
-                                <th>Nama Sopir</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $deposit)
-                                <tr class="dropdown"{{ $deposit->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $deposit->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $deposit->kode_deposit }}
-                                    </td>
-                                    <td>
-                                        {{ $deposit->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $deposit->nama_sopir }}
-                                    </td>
-                                    <td>
-                                        Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if ($deposit->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($deposit->status == 'unpost')
-                                                @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $deposit->id }}">Posting</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_depositdriver/' . $deposit->id . '/edit') }}">Update</a>
-                                                @endif
-
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
-                                                @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusdeposit', ['id' => $deposit->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Deposit Sopir</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Sopir</th>
+                                    <th>Nominal</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="20">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $deposit)
+                                    <tr class="dropdown"{{ $deposit->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $deposit->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $deposit->kode_deposit }}
+                                        </td>
+                                        <td>
+                                            {{ $deposit->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $deposit->nama_sopir }}
+                                        </td>
+                                        <td>
+                                            Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
+                                        <td class="text-center">
                                             @if ($deposit->status == 'posting')
-                                                @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $deposit->id }}">Unpost</a>
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($deposit->status == 'unpost')
+                                                    @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $deposit->id }}">Posting</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_depositdriver/' . $deposit->id . '/edit') }}">Update</a>
+                                                    @endif
+
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
+                                                    @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusdeposit', ['id' => $deposit->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                @endif
+                                                @if ($deposit->status == 'posting')
+                                                    @if ($deposit->ban_id === null && $deposit->klaim_peralatan()->doesntExist())
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $deposit->id }}">Unpost</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($deposit->status == 'selesai')
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
                                                 @endif
-                                            @endif
-                                            @if ($deposit->status == 'selesai')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_depositdriver/' . $deposit->id) }}">Show</a>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

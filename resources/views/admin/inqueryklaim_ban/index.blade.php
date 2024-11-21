@@ -95,83 +95,85 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                <th class="text-center">No</th>
-                                <th>Kode Klaim</th>
-                                <th>Tanggal</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>No Seri Ban</th>
-                                <th>Nominal</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $klaimban)
-                                <tr class="dropdown"{{ $klaimban->id }}>
-                                    {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th class="text-center">No</th>
+                                    <th>Kode Klaim</th>
+                                    <th>Tanggal</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>No Seri Ban</th>
+                                    <th>Nominal</th>
+                                    <th class="text-center" width="20">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $klaimban)
+                                    <tr class="dropdown"{{ $klaimban->id }}>
+                                        {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
                                             value="{{ $klaimban->id }}">
                                     </td> --}}
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $klaimban->kode_klaimban }}
-                                    </td>
-                                    <td>
-                                        {{ $klaimban->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($klaimban->karyawan)
-                                            {{ $klaimban->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($klaimban->kendaraan)
-                                            {{ $klaimban->kendaraan->no_kabin }}
-                                        @else
-                                            tidak ada
-                                        @endif
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $klaimban->kode_klaimban }}
+                                        </td>
+                                        <td>
+                                            {{ $klaimban->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            @if ($klaimban->karyawan)
+                                                {{ $klaimban->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($klaimban->kendaraan)
+                                                {{ $klaimban->kendaraan->no_kabin }}
+                                            @else
+                                                tidak ada
+                                            @endif
 
-                                    </td>
-                                    <td>
-                                        @if ($klaimban->ban)
-                                            {{ $klaimban->ban->no_seri }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format(($klaimban->ban->target_km_ban - $klaimban->ban->km_pelepasan) * ($klaimban->ban->harga / ($klaimban->ban->target_km_ban - $klaimban->ban->km_pemasangan)), 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($klaimban->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($klaimban->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Roda Mobil">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($klaimban->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $klaimban->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
-                                                @endif
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi delete'])
+                                        </td>
+                                        <td>
+                                            @if ($klaimban->ban)
+                                                {{ $klaimban->ban->no_seri }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format(($klaimban->ban->target_km_ban - $klaimban->ban->km_pelepasan) * ($klaimban->ban->harga / ($klaimban->ban->target_km_ban - $klaimban->ban->km_pemasangan)), 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($klaimban->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            @if ($klaimban->status == 'selesai')
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="Roda Mobil">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($klaimban->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $klaimban->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
+                                                    @endif
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi delete'])
                                                     <form style="margin-top:5px" method="GET"
                                                         action="{{ route('hapusfaktur', ['id' => $klaimban->id]) }}">
                                                         <button type="submit"
@@ -180,29 +182,30 @@
                                                         </button>
                                                     </form>
                                                 @endif --}}
-                                            @endif
-                                            @if ($klaimban->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $klaimban->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
+                                                @if ($klaimban->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $klaimban->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            @if ($klaimban->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
+                                                @if ($klaimban->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inqueryklaim_ban/' . $klaimban->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

@@ -56,51 +56,54 @@
                             <input type="hidden" name="ids" id="selectedIds" value="">
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Kendaraan</th>
-                                <th>Driver</th>
-                                <th>No Kabin</th>
-                                <th>No Pol</th>
-                                <th>Akses Lokasi</th>
-                                <th class="text-center" width="90">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($kendaraans as $kendaraan)
-                                <tr class="dropdown"{{ $kendaraan->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $kendaraan->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $kendaraan->kode_kendaraan }}
-                                    </td>
-                                    <td>{{ $kendaraan->latestpengambilan_do->spk->nama_driver ?? null }}
-                                    </td>
-                                    <td>{{ $kendaraan->no_kabin }}
-                                    </td>
-                                    <td>{{ $kendaraan->no_pol }}
-                                    </td>
-                                    <td>
-                                        @if ($kendaraan->akses_lokasi == 1)
-                                            <span style="font-size: 10px" class="badge badge-success">True</span>
-                                        @else
-                                            <span style="font-size: 10px" class="badge badge-warning">False</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ url('admin/akses_lokasi/' . $kendaraan->id . '/edit') }}"
-                                            class="btn btn-info btn-sm">
-                                            <i class="fas fa-edit">Akses</i>
-                                        </a>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Kendaraan</th>
+                                    <th>Driver</th>
+                                    <th>No Kabin</th>
+                                    <th>No Pol</th>
+                                    <th>Akses Lokasi</th>
+                                    <th class="text-center" width="90">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($kendaraans as $kendaraan)
+                                    <tr class="dropdown"{{ $kendaraan->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $kendaraan->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $kendaraan->kode_kendaraan }}
+                                        </td>
+                                        <td>{{ $kendaraan->latestpengambilan_do->spk->nama_driver ?? null }}
+                                        </td>
+                                        <td>{{ $kendaraan->no_kabin }}
+                                        </td>
+                                        <td>{{ $kendaraan->no_pol }}
+                                        </td>
+                                        <td>
+                                            @if ($kendaraan->akses_lokasi == 1)
+                                                <span style="font-size: 10px" class="badge badge-success">True</span>
+                                            @else
+                                                <span style="font-size: 10px" class="badge badge-warning">False</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ url('admin/akses_lokasi/' . $kendaraan->id . '/edit') }}"
+                                                class="btn btn-info btn-sm">
+                                                <i class="fas fa-edit">Akses</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

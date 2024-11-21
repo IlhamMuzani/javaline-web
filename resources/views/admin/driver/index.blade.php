@@ -76,69 +76,70 @@
 
                 </div>
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Sopir</th>
-                                <th>Nama Sopir</th>
-                                <th>Telp</th>
-                                <th class="text-right">Deposit</th>
-                                <th class="text-right">Kasbon</th>
-                                <th class="text-right">Bayar Kasbon</th>
-                                <th class="text-right">Saldo Deposit</th>
-                                <th class="text-center" width="50">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($drivers as $driver)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $driver->kode_karyawan }}</td>
-                                    <td>{{ $driver->nama_lengkap }}</td>
-                                    <td>{{ $driver->telp }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($driver->deposit, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($driver->kasbon, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($driver->bayar_kasbon, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($driver->tabungan, 0, ',', '.') }}
-                                    </td>
-                                    {{-- <td>{{  number_format($driver->tabungan, 0, ',', '.')}}</td> --}}
-                                    <td class="text-center">
-                                        {{-- @if (auth()->check() && auth()->user()->fitur['driver show']) --}}
-                                        <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="{{ url('admin/driver/' . $driver->id) }}" class="btn btn-info btn-sm">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                        {{-- @endif --}}
-                                        {{-- @if (auth()->check() && auth()->user()->fitur['driver update']) --}}
-                                        {{-- <td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Sopir</th>
+                                    <th>Nama Sopir</th>
+                                    <th>Telp</th>
+                                    <th class="text-right">Deposit</th>
+                                    <th class="text-right">Kasbon</th>
+                                    <th class="text-right">Bayar Kasbon</th>
+                                    <th class="text-right">Saldo Deposit</th>
+                                    <th class="text-center" width="50">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($drivers as $driver)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $driver->kode_karyawan }}</td>
+                                        <td>{{ $driver->nama_lengkap }}</td>
+                                        <td>{{ $driver->telp }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($driver->deposit, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($driver->kasbon, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($driver->bayar_kasbon, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($driver->tabungan, 0, ',', '.') }}
+                                        </td>
+                                        {{-- <td>{{  number_format($driver->tabungan, 0, ',', '.')}}</td> --}}
+                                        <td class="text-center">
+                                            {{-- @if (auth()->check() && auth()->user()->fitur['driver show']) --}}
+                                            <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ url('admin/driver/' . $driver->id) }}" class="btn btn-info btn-sm">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            {{-- @endif --}}
+                                            {{-- @if (auth()->check() && auth()->user()->fitur['driver update']) --}}
+                                            {{-- <td>
                                         <a href="{{ url('admin/driver/' . $driver->id . '/edit') }}"
                                             class="btn btn-warning btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </td> --}}
-                                        {{-- @endif --}}
-                                        {{-- @if (auth()->check() && auth()->user()->fitur['driver delete'])
+                                            {{-- @endif --}}
+                                            {{-- @if (auth()->check() && auth()->user()->fitur['driver delete'])
                                         <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                                 data-target="#modal-hapus-{{ $driver->id }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         @endif --}}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                        {{-- <tbody>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                            {{-- <tbody>
                             <?php $totalTabungan = 0; ?>
                             @foreach ($drivers as $driver)
                                 <tr>
@@ -155,43 +156,44 @@
                                 </td>
                             </tr>
                         </tbody> --}}
-                        <tbody>
-                            <?php $totalTabungan = 0; ?>
-                            <?php $totalDeposit = 0; ?>
-                            <?php $totalKasbon = 0; ?>
-                            <?php $totalBayar = 0; ?>
-                            @foreach ($drivers as $driver)
+                            <tbody>
+                                <?php $totalTabungan = 0; ?>
+                                <?php $totalDeposit = 0; ?>
+                                <?php $totalKasbon = 0; ?>
+                                <?php $totalBayar = 0; ?>
+                                @foreach ($drivers as $driver)
+                                    <tr>
+                                    </tr>
+                                    <?php $totalTabungan += $driver->tabungan; ?>
+                                    <?php $totalDeposit += $driver->deposit; ?>
+                                    <?php $totalKasbon += $driver->kasbon; ?>
+                                    <?php $totalBayar += $driver->bayar_kasbon; ?>
+                                @endforeach
                                 <tr>
-                                </tr>
-                                <?php $totalTabungan += $driver->tabungan; ?>
-                                <?php $totalDeposit += $driver->deposit; ?>
-                                <?php $totalKasbon += $driver->kasbon; ?>
-                                <?php $totalBayar += $driver->bayar_kasbon; ?>
-                            @endforeach
-                            <tr>
-                                <td colspan="1"></td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td><strong>Total:</strong></td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalDeposit, 0, ',', '.') }}
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalKasbon, 0, ',', '.') }}
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalBayar, 0, ',', '.') }}
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalTabungan, 0, ',', '.') }}
-                                </td>
-                                {{-- <td>
+                                    <td colspan="1"></td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td><strong>Total:</strong></td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        Rp.{{ number_format($totalDeposit, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        Rp.{{ number_format($totalKasbon, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        Rp.{{ number_format($totalBayar, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        Rp.{{ number_format($totalTabungan, 0, ',', '.') }}
+                                    </td>
+                                    {{-- <td>
                                 </td> --}}
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

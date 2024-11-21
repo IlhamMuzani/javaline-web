@@ -57,82 +57,84 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Tujuan</th>
-                                <th>Nama Pelanggan</th>
-                                <th>Tujuan Bongkar</th>
-                                <th>Maps</th>
-                                <th class="text-center" width="90">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($alamatbongkars as $alamatbongkar)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $alamatbongkar->kode_alamat }}
-                                    </td>
-                                    <td>{{ $alamatbongkar->pelanggan->nama_pell ?? 'tidak ada' }}
-                                    </td>
-
-                                    <td>{{ $alamatbongkar->alamat }}
-                                    </td>
-                                    <td>
-                                        <a href="https://www.google.com/maps/search/?api=1&query={{ $alamatbongkar->latitude }},{{ $alamatbongkar->longitude }}"
-                                            class="btn btn-secondary btn-sm" target="_blank"
-                                            style="padding: 0; border: none; text-align: center; text-decoration: none;">
-                                            <img src="{{ asset('storage/uploads/user/map.png') }}" alt="Peta"
-                                                style="width: 30px; height: 30px; object-fit: contain; display: block; margin: 0 auto;">
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        {{-- @if (auth()->check() && auth()->user()->fitur['biaya update']) --}}
-                                        <a href="{{ url('admin/alamat_bongkar/' . $alamatbongkar->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        {{-- @endif --}}
-                                        {{-- @if (auth()->check() && auth()->user()->fitur['biaya delete']) --}}
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $alamatbongkar->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        {{-- @endif --}}
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Tujuan</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Tujuan Bongkar</th>
+                                    <th>Maps</th>
+                                    <th class="text-center" width="90">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $alamatbongkar->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus alamat</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus alamat
-                                                    <strong>{{ $alamatbongkar->nama_type }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/alamat_bongkar/' . $alamatbongkar->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                            </thead>
+                            <tbody>
+                                @foreach ($alamatbongkars as $alamatbongkar)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $alamatbongkar->kode_alamat }}
+                                        </td>
+                                        <td>{{ $alamatbongkar->pelanggan->nama_pell ?? 'tidak ada' }}
+                                        </td>
+
+                                        <td>{{ $alamatbongkar->alamat }}
+                                        </td>
+                                        <td>
+                                            <a href="https://www.google.com/maps/search/?api=1&query={{ $alamatbongkar->latitude }},{{ $alamatbongkar->longitude }}"
+                                                class="btn btn-secondary btn-sm" target="_blank"
+                                                style="padding: 0; border: none; text-align: center; text-decoration: none;">
+                                                <img src="{{ asset('storage/uploads/user/map.png') }}" alt="Peta"
+                                                    style="width: 30px; height: 30px; object-fit: contain; display: block; margin: 0 auto;">
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
+                                            {{-- @if (auth()->check() && auth()->user()->fitur['biaya update']) --}}
+                                            <a href="{{ url('admin/alamat_bongkar/' . $alamatbongkar->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            {{-- @endif --}}
+                                            {{-- @if (auth()->check() && auth()->user()->fitur['biaya delete']) --}}
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $alamatbongkar->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            {{-- @endif --}}
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $alamatbongkar->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus alamat</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus alamat
+                                                        <strong>{{ $alamatbongkar->nama_type }}</strong>?
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form action="{{ url('admin/alamat_bongkar/' . $alamatbongkar->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

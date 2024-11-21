@@ -81,195 +81,199 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Pembelian Ban</th>
-                                <th>Tanggal</th>
-                                <th>Nama Supplier</th>
-                                <th>Total</th>
-                                <th class="text-center" width="40">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pembelians)
-                                <tr class="dropdown"{{ $pembelians->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $pembelians->id }}">
-                                            {{ $pembelians->kode_pembelian_ban }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $pembelians->id }}">
-                                            {{ $pembelians->tanggal_awal }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $pembelians->id }}">
-                                            @if ($pembelians->supplier)
-                                                {{ $pembelians->supplier->nama_supp }}
-                                            @else
-                                                User tidak ada
-                                            @endif
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a href="#" style="color: #000000;" data-toggle="modal"
-                                            data-target="#modal-pilih-{{ $pembelians->id }}">
-                                            Rp. {{ number_format($pembelians->detail_ban->sum('harga'), 0, ',', '.') }}
-                                        </a>
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($pembelians->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($pembelians->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $pembelians->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_pembelianban/' . $pembelians->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusban', ['id' => $pembelians->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($pembelians->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $pembelians->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Pembelian Ban</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="40">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $pembelians->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Pembelian</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pembelians)
+                                    <tr class="dropdown"{{ $pembelians->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $pembelians->id }}">
+                                                {{ $pembelians->kode_pembelian_ban }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $pembelians->id }}">
+                                                {{ $pembelians->tanggal_awal }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $pembelians->id }}">
+                                                @if ($pembelians->supplier)
+                                                    {{ $pembelians->supplier->nama_supp }}
+                                                @else
+                                                    User tidak ada
+                                                @endif
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" style="color: #000000;" data-toggle="modal"
+                                                data-target="#modal-pilih-{{ $pembelians->id }}">
+                                                Rp. {{ number_format($pembelians->detail_ban->sum('harga'), 0, ',', '.') }}
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($pembelians->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus pembelian no faktur
-                                                    <strong>{{ $pembelians->kode_pembelian_ban }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/inquery_pembelianban/' . $pembelians->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modal-posting-{{ $pembelians->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Opsi menu</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Pembelian Ban
-                                                    <strong>{{ $pembelians->kode_pembelian_ban }}</strong>
-                                                </p>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 @if ($pembelians->status == 'unpost')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
-                                                        <form method="GET"
-                                                            action="{{ route('hapusban', ['id' => $pembelians->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-danger btn-block mt-2">
-                                                                <i class="fas fa-trash-alt"></i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
-                                                        <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
-                                                            type="button" class="btn btn-outline-info btn-block">
-                                                            <i class="fas fa-eye"></i> Show
-                                                        </a>
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $pembelians->id }}">Posting</a>
                                                     @endif
                                                     @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban update'])
-                                                        <a href="{{ url('admin/inquery_pembelianban/' . $pembelians->id . '/edit') }}"
-                                                            type="button" class="btn btn-outline-warning btn-block">
-                                                            <i class="fas fa-edit"></i> Update
-                                                        </a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_pembelianban/' . $pembelians->id . '/edit') }}">Update</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
-                                                        <form method="GET"
-                                                            action="{{ route('postingban', ['id' => $pembelians->id]) }}">
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusban', ['id' => $pembelians->id]) }}">
                                                             <button type="submit"
-                                                                class="btn btn-outline-success btn-block mt-2">
-                                                                <i class="fas fa-check"></i> Posting
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
                                                             </button>
                                                         </form>
                                                     @endif
                                                 @endif
                                                 @if ($pembelians->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
-                                                        <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
-                                                            type="button" class="btn btn-outline-info btn-block">
-                                                            <i class="fas fa-eye"></i> Show
-                                                        </a>
-                                                    @endif
                                                     @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban unpost'])
-                                                        <form method="GET"
-                                                            action="{{ route('unpostban', ['id' => $pembelians->id]) }}">
-                                                            <button type="submit"
-                                                                class="btn btn-outline-primary btn-block mt-2">
-                                                                <i class="fas fa-check"></i> Unpost
-                                                            </button>
-                                                        </form>
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $pembelians->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}">Show</a>
                                                     @endif
                                                 @endif
-                                                @if ($pembelians->status == 'selesai')
-                                                    <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                        height="40" width="40" alt="faktur">
-                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $pembelians->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Pembelian</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus pembelian no faktur
+                                                        <strong>{{ $pembelians->kode_pembelian_ban }}</strong>?
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form
+                                                        action="{{ url('admin/inquery_pembelianban/' . $pembelians->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                                    <div class="modal fade" id="modal-posting-{{ $pembelians->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Opsi menu</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Pembelian Ban
+                                                        <strong>{{ $pembelians->kode_pembelian_ban }}</strong>
+                                                    </p>
+                                                    @if ($pembelians->status == 'unpost')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban delete'])
+                                                            <form method="GET"
+                                                                action="{{ route('hapusban', ['id' => $pembelians->id]) }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-danger btn-block mt-2">
+                                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                            <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
+                                                                type="button" class="btn btn-outline-info btn-block">
+                                                                <i class="fas fa-eye"></i> Show
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban update'])
+                                                            <a href="{{ url('admin/inquery_pembelianban/' . $pembelians->id . '/edit') }}"
+                                                                type="button" class="btn btn-outline-warning btn-block">
+                                                                <i class="fas fa-edit"></i> Update
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban posting'])
+                                                            <form method="GET"
+                                                                action="{{ route('postingban', ['id' => $pembelians->id]) }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-success btn-block mt-2">
+                                                                    <i class="fas fa-check"></i> Posting
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                    @if ($pembelians->status == 'posting')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban show'])
+                                                            <a href="{{ url('admin/lihat_faktur/' . $pembelians->id) }}"
+                                                                type="button" class="btn btn-outline-info btn-block">
+                                                                <i class="fas fa-eye"></i> Show
+                                                            </a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pembelian ban unpost'])
+                                                            <form method="GET"
+                                                                action="{{ route('unpostban', ['id' => $pembelians->id]) }}">
+                                                                <button type="submit"
+                                                                    class="btn btn-outline-primary btn-block mt-2">
+                                                                    <i class="fas fa-check"></i> Unpost
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                    @if ($pembelians->status == 'selesai')
+                                                        <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                            height="40" width="40" alt="faktur">
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

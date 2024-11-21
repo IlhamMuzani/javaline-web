@@ -76,96 +76,98 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Pelanggan</th>
-                                <th>Nama</th>
-                                <th>Telepon</th>
-                                <th class="text-center" width="150">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pelanggans as $index => $barang)
-                                <tr data-toggle="collapse" data-target="#barang-{{ $index }}"
-                                    class="accordion-toggle{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}"
-                                    style="background: rgb(240, 242, 246)">
-                                    <td class="text-center">
-                                        {{ ($pelanggans->currentPage() - 1) * $pelanggans->perPage() + $loop->iteration }}
-                                    </td>
-                                    <td>{{ $barang->kode_pelanggan }}</td>
-                                    <td>{{ $barang->nama_pell }}</td>
-                                    <td>{{ $barang->telp }}</td>
-                                    <td class="text-center">
-                                        <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target="#modal-hapus-{{ $barang->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                        <a href="{{ url('admin/userpelanggan/' . $barang->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td colspan="7"> <!-- Gabungkan kolom untuk detail -->
-                                        <div id="barang-{{ $index }}" class="collapse">
-                                            <table class="table table-sm" style="margin: 0;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Kode User</th>
-                                                        <th>Divisi</th>
-                                                        <th>Telp</th>
-                                                        <th>Alamat</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($barang->detail_pelanggan as $item)
-                                                        <tr>
-                                                            <td>{{ $item->user->first()->kode_user ?? null }}</td>
-                                                            <td>{{ $item->nama_divisi }}</td>
-                                                            <td>{{ $item->telp_divisi }}</td>
-                                                            <td>{{ $item->alamat_divisi }}</td>
-                                                        </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Pelanggan</th>
+                                    <th>Nama</th>
+                                    <th>Telepon</th>
+                                    <th class="text-center" width="150">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $barang->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus user</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                            </thead>
+                            <tbody>
+                                @foreach ($pelanggans as $index => $barang)
+                                    <tr data-toggle="collapse" data-target="#barang-{{ $index }}"
+                                        class="accordion-toggle{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}"
+                                        style="background: rgb(240, 242, 246)">
+                                        <td class="text-center">
+                                            {{ ($pelanggans->currentPage() - 1) * $pelanggans->perPage() + $loop->iteration }}
+                                        </td>
+                                        <td>{{ $barang->kode_pelanggan }}</td>
+                                        <td>{{ $barang->nama_pell }}</td>
+                                        <td>{{ $barang->telp }}</td>
+                                        <td class="text-center">
+                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                data-target="#modal-hapus-{{ $barang->id }}">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <a href="{{ url('admin/userpelanggan/' . $barang->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7"> <!-- Gabungkan kolom untuk detail -->
+                                            <div id="barang-{{ $index }}" class="collapse">
+                                                <table class="table table-sm" style="margin: 0;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Kode User</th>
+                                                            <th>Divisi</th>
+                                                            <th>Telp</th>
+                                                            <th>Alamat</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($barang->detail_pelanggan as $item)
+                                                            <tr>
+                                                                <td>{{ $item->user->first()->kode_user ?? null }}</td>
+                                                                <td>{{ $item->nama_divisi }}</td>
+                                                                <td>{{ $item->telp_divisi }}</td>
+                                                                <td>{{ $item->alamat_divisi }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus user <strong>{{ $barang->nama_pell }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/userpelanggan/' . $barang->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $barang->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus user</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus user <strong>{{ $barang->nama_pell }}</strong>?</p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form action="{{ url('admin/userpelanggan/' . $barang->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end">
-                        {{ $pelanggans->links('pagination::bootstrap-4') }}
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    {{ $pelanggans->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>

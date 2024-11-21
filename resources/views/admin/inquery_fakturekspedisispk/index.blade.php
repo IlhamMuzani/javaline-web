@@ -96,146 +96,149 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Faktur Ekspedisi</th>
-                                <th>Tanggal</th>
-                                <th>Bag.input</th>
-                                <th>Kategori</th>
-                                <th>No Kabin</th>
-                                <th>Sopir</th>
-                                <th>Tujuan</th>
-                                <th>Pelanggan</th>
-                                <th>Tarif</th>
-                                <th>PPH</th>
-                                {{-- <th>U. Tambahan</th> --}}
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $faktur)
-                                <tr class="dropdown"{{ $faktur->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $faktur->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $faktur->kode_faktur }}
-                                    </td>
-                                    <td>
-                                        {{ $faktur->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($faktur->user)
-                                            {{ $faktur->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $faktur->kategori }}
-                                    </td>
-                                    <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->no_kabin }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->nama_driver }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->nama_rute }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $faktur->nama_pelanggan }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($faktur->pph, 2, ',', '.') }}
-                                    </td>
-
-                                    {{-- <td class="text-right">
-                                        {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}</td> --}}
-                                    <td class="text-right">{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if ($faktur->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($faktur->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Roda Mobil">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($faktur->status == 'unpost')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi posting'])
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $faktur->id }}">Posting</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusfaktur', ['id' => $faktur->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Ekspedisi</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.input</th>
+                                    <th>Kategori</th>
+                                    <th>No Kabin</th>
+                                    <th>Sopir</th>
+                                    <th>Tujuan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Tarif</th>
+                                    <th>PPH</th>
+                                    {{-- <th>U. Tambahan</th> --}}
+                                    <th>Total</th>
+                                    <th class="text-center" width="20">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $faktur)
+                                    <tr class="dropdown"{{ $faktur->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $faktur->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $faktur->kode_faktur }}
+                                        </td>
+                                        <td>
+                                            {{ $faktur->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            @if ($faktur->user)
+                                                {{ $faktur->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{ $faktur->kategori }}
+                                        </td>
+                                        <td>
+                                            @if ($faktur->detail_faktur->first())
+                                                {{ $faktur->detail_faktur->first()->no_kabin }}
+                                            @else
+                                                tidak ada
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            @if ($faktur->detail_faktur->first())
+                                                {{ $faktur->detail_faktur->first()->nama_driver }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($faktur->detail_faktur->first())
+                                                {{ $faktur->detail_faktur->first()->nama_rute }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $faktur->nama_pelanggan }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($faktur->pph, 2, ',', '.') }}
+                                        </td>
+
+                                        {{-- <td class="text-right">
+                                        {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}</td> --}}
+                                        <td class="text-right">{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
+                                        <td class="text-center">
                                             @if ($faktur->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi unpost'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $faktur->id }}">Unpost</a>
-                                                @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
-                                                @endif
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
                                             @if ($faktur->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="Roda Mobil">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($faktur->status == 'unpost')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi posting'])
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $faktur->id }}">Posting</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusfaktur', ['id' => $faktur->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 @endif
-                                            @endif
-                                            @if ($faktur->detail_tagihan->first())
-                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Invoice
-                                                    <strong>{{ $faktur->detail_tagihan->first()->tagihan_ekspedisi->kode_tagihan }}</strong>
-                                                </p>
-                                            @else
-                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                @if ($faktur->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $faktur->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($faktur->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery faktur ekspedisi show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_fakturekspedisi/' . $faktur->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($faktur->detail_tagihan->first())
+                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Invoice
+                                                        <strong>{{ $faktur->detail_tagihan->first()->tagihan_ekspedisi->kode_tagihan }}</strong>
+                                                    </p>
+                                                @else
+                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">

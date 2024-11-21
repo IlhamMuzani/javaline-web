@@ -99,268 +99,273 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Memo</th>
-                                <th>Tanggal</th>
-                                <th>Bag.input</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>Rute</th>
-                                <th>U. Jalan</th>
-                                <th>U. Tambah</th>
-                                <th>Deposit</th>
-                                <th>Total</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $rowNumber = 1; // Initialize row number
-                            @endphp
-                            @foreach ($memos as $memo)
-                                <tr class="dropdown"{{ $memo->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $memo->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $rowNumber++ }}</td>
-                                    <td>
-                                        {{ $memo->kode_memo }}{{ $memo->kode_tambahan }}</td>
-                                    <td>
-                                        {{ $memo->tanggal_awal }}</td>
-                                    <td>
-                                        {{ substr($memo->admin, 0, 7) }} ..
-                                    </td>
-                                    <td>
-                                        {{ substr($memo->nama_driver, 0, 7) }} ..
-                                    </td>
-                                    <td>
-                                        {{ $memo->no_kabin }}
-                                    </td>
-                                    <td>
-                                        @if ($memo->nama_rute == null)
-                                            rute tidak ada
-                                        @else
-                                            {{ $memo->nama_rute }}
-                                        @endif
-                                    </td>
-                                    <td class="text-right">
-                                        @if (substr($memo->kode_memo, 0, 2) === 'MP')
-                                            {{ number_format($memo->uang_jalan, 0, ',', '.') }}
-                                        @elseif (substr($memo->kode_memo, 0, 2) === 'MB')
-                                            {{ number_format($memo->totalrute, 0, ',', '.') }}
-                                        @else
-                                            {{ number_format($memo->grand_total, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-
-                                    <td class="text-right">
-                                        {{ number_format($memo->biaya_tambahan ?? 0, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($memo->deposit_driver ?? 0, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($memo->sub_total ?? $memo->grand_total, 0, ',', '.') }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($memo->status == 'rilis')
-                                            <button type="button" class="btn btn-primary btn-sm">
-                                                <i class="fas fa-check" style="opacity: 0; background: transparent;"></i>
-                                            </button>
-                                        @endif
-                                        @if ($memo->status == 'unpost')
-                                            <button type="button" class="btn btn-warning btn-sm">
-                                                <i class="fas fa-check" style="opacity: 0; background: transparent;"></i>
-                                            </button>
-                                        @endif
-                                        @if ($memo->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($memo->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/') }}{{ $memo->nama_rute == null ? 'faktur.png' : 'truck.png' }}"
-                                                height="40" width="40"
-                                                alt="{{ $memo->nama_rute == null ? 'Roda Mobil' : 'Truck' }}">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($memo->status == 'rilis')
-                                                @if ($memo->kategori == 'Memo Perjalanan')
-                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memo->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        @if ($memo->spk_id == null)
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoekspedisi/' . $memo->id . '/edit') }}">Update</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoekspedisispk/' . $memo->id . '/edit') }}">Update</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @elseif($memo->kategori == 'Memo Borong')
-                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoborong/' . $memo->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        @if ($memo->spk_id == null)
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoborong/' . $memo->id . '/edit') }}">Update</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoborongspk/' . $memo->id . '/edit') }}">Update</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @else
-                                                    @if ($saldoTerakhir->sisa_saldo < $memo->grand_total)
-                                                        <a class="dropdown-item">Saldo tidak cukup</a>
-                                                    @else
-                                                        @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
-                                                            <a class="dropdown-item posting-btntambahan"
-                                                                data-memo-id="{{ $memo->id }}">Posting</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memotambahan/' . $memo->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memotambahan/' . $memo->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapusmemotambahan', ['id' => $memo->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                            @endif
-
-                                            @if ($memo->status == 'unpost')
-                                                @if ($memo->kategori == 'Memo Perjalanan')
-                                                    @if ($saldoTerakhir->sisa_saldo < $memo->uang_jalan)
-                                                        <a class="dropdown-item">Saldo tidak cukup</a>
-                                                    @else
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $memo->id }}">Posting</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisi/' . $memo->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        @if ($memo->spk_id == null)
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoekspedisi/' . $memo->id . '/edit') }}">Update</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoekspedisispk/' . $memo->id . '/edit') }}">Update</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @elseif($memo->kategori == 'Memo Borong')
-                                                    @if ($saldoTerakhir->sisa_saldo < $memo->hasil_jumlah)
-                                                        <a class="dropdown-item">Saldo tidak cukup</a>
-                                                    @else
-                                                        @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
-                                                            <a class="dropdown-item posting-btnborong"
-                                                                data-memo-id="{{ $memo->id }}">Posting</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoborong/' . $memo->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        @if ($memo->spk_id == null)
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoborong/' . $memo->id . '/edit') }}">Update</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('admin/inquery_memoborongspk/' . $memo->id . '/edit') }}">Update</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @else
-                                                    @if ($saldoTerakhir->sisa_saldo < $memo->grand_total)
-                                                        <a class="dropdown-item">Saldo tidak cukup</a>
-                                                    @else
-                                                        @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
-                                                            <a class="dropdown-item posting-btntambahan"
-                                                                data-memo-id="{{ $memo->id }}">Posting</a>
-                                                        @endif
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memotambahan/' . $memo->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memotambahan/' . $memo->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapusmemotambahan', ['id' => $memo->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Memo</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.input</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>Rute</th>
+                                    <th>U. Jalan</th>
+                                    <th>U. Tambah</th>
+                                    <th>Deposit</th>
+                                    <th>Total</th>
+                                    <th>Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $rowNumber = 1; // Initialize row number
+                                @endphp
+                                @foreach ($memos as $memo)
+                                    <tr class="dropdown"{{ $memo->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $memo->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $rowNumber++ }}</td>
+                                        <td>
+                                            {{ $memo->kode_memo }}{{ $memo->kode_tambahan }}</td>
+                                        <td>
+                                            {{ $memo->tanggal_awal }}</td>
+                                        <td>
+                                            {{ substr($memo->admin, 0, 7) }} ..
+                                        </td>
+                                        <td>
+                                            {{ substr($memo->nama_driver, 0, 7) }} ..
+                                        </td>
+                                        <td>
+                                            {{ $memo->no_kabin }}
+                                        </td>
+                                        <td>
+                                            @if ($memo->nama_rute == null)
+                                                rute tidak ada
+                                            @else
+                                                {{ $memo->nama_rute }}
+                                            @endif
+                                        </td>
+                                        <td class="text-right">
+                                            @if (substr($memo->kode_memo, 0, 2) === 'MP')
+                                                {{ number_format($memo->uang_jalan, 0, ',', '.') }}
+                                            @elseif (substr($memo->kode_memo, 0, 2) === 'MB')
+                                                {{ number_format($memo->totalrute, 0, ',', '.') }}
+                                            @else
+                                                {{ number_format($memo->grand_total, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+
+                                        <td class="text-right">
+                                            {{ number_format($memo->biaya_tambahan ?? 0, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($memo->deposit_driver ?? 0, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($memo->sub_total ?? $memo->grand_total, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($memo->status == 'rilis')
+                                                <button type="button" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-check"
+                                                        style="opacity: 0; background: transparent;"></i>
+                                                </button>
+                                            @endif
+                                            @if ($memo->status == 'unpost')
+                                                <button type="button" class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-check"
+                                                        style="opacity: 0; background: transparent;"></i>
+                                                </button>
+                                            @endif
+                                            @if ($memo->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            @if ($memo->status == 'selesai')
+                                                <img src="{{ asset('storage/uploads/indikator/') }}{{ $memo->nama_rute == null ? 'faktur.png' : 'truck.png' }}"
+                                                    height="40" width="40"
+                                                    alt="{{ $memo->nama_rute == null ? 'Roda Mobil' : 'Truck' }}">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($memo->status == 'rilis')
+                                                    @if ($memo->kategori == 'Memo Perjalanan')
+                                                        @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoekspedisi/' . $memo->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
+                                                            @if ($memo->spk_id == null)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoekspedisi/' . $memo->id . '/edit') }}">Update</a>
+                                                            @else
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoekspedisispk/' . $memo->id . '/edit') }}">Update</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @elseif($memo->kategori == 'Memo Borong')
+                                                        @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoborong/' . $memo->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
+                                                            @if ($memo->spk_id == null)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoborong/' . $memo->id . '/edit') }}">Update</a>
+                                                            @else
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoborongspk/' . $memo->id . '/edit') }}">Update</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @else
+                                                        @if ($saldoTerakhir->sisa_saldo < $memo->grand_total)
+                                                            <a class="dropdown-item">Saldo tidak cukup</a>
+                                                        @else
+                                                            @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
+                                                                <a class="dropdown-item posting-btntambahan"
+                                                                    data-memo-id="{{ $memo->id }}">Posting</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memotambahan/' . $memo->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memotambahan/' . $memo->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapusmemotambahan', ['id' => $memo->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                @endif
+
+                                                @if ($memo->status == 'unpost')
+                                                    @if ($memo->kategori == 'Memo Perjalanan')
+                                                        @if ($saldoTerakhir->sisa_saldo < $memo->uang_jalan)
+                                                            <a class="dropdown-item">Saldo tidak cukup</a>
+                                                        @else
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $memo->id }}">Posting</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoekspedisi/' . $memo->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
+                                                            @if ($memo->spk_id == null)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoekspedisi/' . $memo->id . '/edit') }}">Update</a>
+                                                            @else
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoekspedisispk/' . $memo->id . '/edit') }}">Update</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @elseif($memo->kategori == 'Memo Borong')
+                                                        @if ($saldoTerakhir->sisa_saldo < $memo->hasil_jumlah)
+                                                            <a class="dropdown-item">Saldo tidak cukup</a>
+                                                        @else
+                                                            @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
+                                                                <a class="dropdown-item posting-btnborong"
+                                                                    data-memo-id="{{ $memo->id }}">Posting</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memoborong/' . $memo->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
+                                                            @if ($memo->spk_id == null)
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoborong/' . $memo->id . '/edit') }}">Update</a>
+                                                            @else
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin/inquery_memoborongspk/' . $memo->id . '/edit') }}">Update</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapusmemo', ['id' => $memo->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @else
+                                                        @if ($saldoTerakhir->sisa_saldo < $memo->grand_total)
+                                                            <a class="dropdown-item">Saldo tidak cukup</a>
+                                                        @else
+                                                            @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
+                                                                <a class="dropdown-item posting-btntambahan"
+                                                                    data-memo-id="{{ $memo->id }}">Posting</a>
+                                                            @endif
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memotambahan/' . $memo->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_memotambahan/' . $memo->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapusmemotambahan', ['id' => $memo->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
                     <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"

@@ -87,68 +87,74 @@
                             </div> --}}
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center" width="10"> <input type="checkbox" name=""
-                                        id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Gaji Bulanan</th>
-                                <th>Tanggal</th>
-                                <th>Bag.Input</th>
-                                <th>Nama</th>
-                                <th>Gaji Bulanan</th>
-                                <th>Opsi</th>
-                                <th class="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $slips)
-                                <tr class="dropdown" data-id="{{ $slips->id }}" data-telp="{{ $slips->karyawan->telp }}">
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $slips->id }}"></td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $slips->kode_gajikaryawan }}</td>
-                                    <td>{{ $slips->tanggal_awal }}</td>
-                                    <td>
-                                        @if ($slips->perhitungan_gajikaryawan)
-                                            {{ $slips->perhitungan_gajikaryawan->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($slips->karyawan)
-                                            {{ $slips->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td class="text-right">{{ number_format($slips->gajinol_pelunasan, 2, ',', '.') }}</td>
-                                    <td>
-                                        {{-- <button class="waButton"  style="background-color: #25D366;">WhatsApp</button> --}}
-                                        <span></span><button class="waButton" type="submit" style="background-color: #25D366;" class="btn btn-success btn-sm">
-                                                    <img src="{{ asset('storage/uploads/gambar_logo/whatsapp.png') }}"
-                                                        height="19" width="19" alt="whatsapp">
-                                                </button>
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($slips->status == 'posting')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/laporan_slipgajibulanan/' . $slips->id) }}">Show</a>
-                                            @endif
-                                            @if ($slips->status == 'selesai')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/laporan_slipgajibulanan/' . $slips->id) }}">Show</a>
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center" width="10"> <input type="checkbox" name=""
+                                            id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Gaji Bulanan</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.Input</th>
+                                    <th>Nama</th>
+                                    <th>Gaji Bulanan</th>
+                                    <th>Opsi</th>
+                                    <th class="text-center"></th>
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $slips)
+                                    <tr class="dropdown" data-id="{{ $slips->id }}"
+                                        data-telp="{{ $slips->karyawan->telp }}">
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $slips->id }}"></td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $slips->kode_gajikaryawan }}</td>
+                                        <td>{{ $slips->tanggal_awal }}</td>
+                                        <td>
+                                            @if ($slips->perhitungan_gajikaryawan)
+                                                {{ $slips->perhitungan_gajikaryawan->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($slips->karyawan)
+                                                {{ $slips->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td class="text-right">{{ number_format($slips->gajinol_pelunasan, 2, ',', '.') }}
+                                        </td>
+                                        <td>
+                                            {{-- <button class="waButton"  style="background-color: #25D366;">WhatsApp</button> --}}
+                                            <span></span><button class="waButton" type="submit"
+                                                style="background-color: #25D366;" class="btn btn-success btn-sm">
+                                                <img src="{{ asset('storage/uploads/gambar_logo/whatsapp.png') }}"
+                                                    height="19" width="19" alt="whatsapp">
+                                            </button>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($slips->status == 'posting')
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/laporan_slipgajibulanan/' . $slips->id) }}">Show</a>
+                                                @endif
+                                                @if ($slips->status == 'selesai')
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/laporan_slipgajibulanan/' . $slips->id) }}">Show</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>
@@ -172,7 +178,8 @@
                 var slipId = $(this).closest('tr').data('id');
 
                 // Pesan yang ingin Anda kirim
-                var pesan = 'Ini adalah gaji yang Anda terima. Silakan lihat detailnya disini dengan cara login terlebih dahulu menggunakan akun anda di web, kemudian klik link ini: ' +
+                var pesan =
+                    'Ini adalah gaji yang Anda terima. Silakan lihat detailnya disini dengan cara login terlebih dahulu menggunakan akun anda di web, kemudian klik link ini: ' +
                     'https://javaline.id/admin/report_slipgajibulanan/' + slipId;
 
                 // Membuat URL dengan format URL Scheme WhatsApp

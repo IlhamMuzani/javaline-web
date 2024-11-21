@@ -83,92 +83,94 @@
                         </div>
                     </form>
                     <div class="card-body">
-                        <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th>Kode Pemasangan</th>
-                                    <th>Tanggal</th>
-                                    <th>No Kabin</th>
-                                    <th>No Registrasi</th>
-                                    <th>Jenis Kendaraan</th>
-                                    <th class="text-center" width="40">Opsi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($inquery as $pemasangan_part)
-                                    <tr class="dropdown"{{ $pemasangan_part->id }}>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $pemasangan_part->kode_pemasanganpart }}</td>
-                                        <td>{{ $pemasangan_part->tanggal_awal }}</td>
-                                        <td>
-                                            @if ($pemasangan_part->kendaraan)
-                                                {{ $pemasangan_part->kendaraan->no_kabin }}
-                                            @else
-                                                Kabin tidak ada
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($pemasangan_part->kendaraan)
-                                                {{ $pemasangan_part->kendaraan->no_pol }}
-                                            @else
-                                                No pol tidak ada
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($pemasangan_part->kendaraan)
-                                                {{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                            @else
-                                                nama tidak ada
-                                            @endif
-                                        </td>
-                                        <td class="text-center">
-                                            @if ($pemasangan_part->status == 'posting')
-                                                <button type="button" class="btn btn-success btn-sm">
-                                                    <i class="fas fa-check"></i>
-                                                </button>
-                                            @endif
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @if ($pemasangan_part->status == 'unpost')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $pemasangan_part->id }}">Posting</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part update'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_pemasanganpart/' . $pemasangan_part->id . '/edit') }}">Update</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part show'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/lihat_pemasanganpart/' . $pemasangan_part->id) }}">Show</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part delete'])
-                                                        <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapuspemasangan_part', ['id' => $pemasangan_part->id]) }}">
-                                                            <button type="submit"
-                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                                </i> Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
-                                                @endif
-                                                @if ($pemasangan_part->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part unpost'])
-                                                        <a class="dropdown-item unpost-btn"
-                                                            data-memo-id="{{ $pemasangan_part->id }}">Unpost</a>
-                                                    @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part show'])
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin/lihat_pemasanganpart/' . $pemasangan_part->id) }}">Show</a>
-                                                    @endif
-                                                @endif
-                                            </div>
-                                        </td>
+                        <div class="table-responsive" style="overflow-x: auto;">
+                            <table id="datatables66" class="table table-bordered table-striped table-hover"
+                                style="font-size: 13px">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th>Kode Pemasangan</th>
+                                        <th>Tanggal</th>
+                                        <th>No Kabin</th>
+                                        <th>No Registrasi</th>
+                                        <th>Jenis Kendaraan</th>
+                                        <th class="text-center" width="40">Opsi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($inquery as $pemasangan_part)
+                                        <tr class="dropdown"{{ $pemasangan_part->id }}>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $pemasangan_part->kode_pemasanganpart }}</td>
+                                            <td>{{ $pemasangan_part->tanggal_awal }}</td>
+                                            <td>
+                                                @if ($pemasangan_part->kendaraan)
+                                                    {{ $pemasangan_part->kendaraan->no_kabin }}
+                                                @else
+                                                    Kabin tidak ada
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($pemasangan_part->kendaraan)
+                                                    {{ $pemasangan_part->kendaraan->no_pol }}
+                                                @else
+                                                    No pol tidak ada
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($pemasangan_part->kendaraan)
+                                                    {{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                                @else
+                                                    nama tidak ada
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                @if ($pemasangan_part->status == 'posting')
+                                                    <button type="button" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-check"></i>
+                                                    </button>
+                                                @endif
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    @if ($pemasangan_part->status == 'unpost')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $pemasangan_part->id }}">Posting</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part update'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_pemasanganpart/' . $pemasangan_part->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part show'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/lihat_pemasanganpart/' . $pemasangan_part->id) }}">Show</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part delete'])
+                                                            <form style="margin-top:5px" method="GET"
+                                                                action="{{ route('hapuspemasangan_part', ['id' => $pemasangan_part->id]) }}">
+                                                                <button type="submit"
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    @endif
+                                                    @if ($pemasangan_part->status == 'posting')
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part unpost'])
+                                                            <a class="dropdown-item unpost-btn"
+                                                                data-memo-id="{{ $pemasangan_part->id }}">Unpost</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pemasangan part show'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/lihat_pemasanganpart/' . $pemasangan_part->id) }}">Show</a>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                         <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                             aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                             <div class="modal-dialog modal-dialog-centered" role="document">

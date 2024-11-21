@@ -82,96 +82,99 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Kasbon</th>
-                                <th>Tanggal</th>
-                                <th>Nama Karyawan</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $kasbon)
-                                <tr class="dropdown"{{ $kasbon->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if ($kasbon->karyawan)
-                                            {{ $kasbon->kode_kasbon }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $kasbon->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($kasbon->karyawan)
-                                            {{ $kasbon->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        Rp. {{ number_format($kasbon->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($kasbon->sub_total, 0, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if ($kasbon->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($kasbon->status == 'unpost')
-                                                @if ($saldoTerakhir->sisa_saldo < $kasbon->nominal)
-                                                    <a class="dropdown-item">Saldo tidak cukup</a>
-                                                @else
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan posting'])
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $kasbon->id }}">Posting</a>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Kasbon</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Karyawan</th>
+                                    <th>Nominal</th>
+                                    <th>Total</th>
+                                    <th class="text-center" width="20">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $kasbon)
+                                    <tr class="dropdown"{{ $kasbon->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($kasbon->karyawan)
+                                                {{ $kasbon->kode_kasbon }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $kasbon->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            @if ($kasbon->karyawan)
+                                                {{ $kasbon->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            Rp. {{ number_format($kasbon->nominal, 0, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($kasbon->sub_total, 0, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            @if ($kasbon->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($kasbon->status == 'unpost')
+                                                    @if ($saldoTerakhir->sisa_saldo < $kasbon->nominal)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $kasbon->id }}">Posting</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapuskasbon', ['id' => $kasbon->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan update'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id . '/edit') }}">Update</a>
+                                                @if ($kasbon->status == 'posting')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $kasbon->id }}">Unpost</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                @if ($kasbon->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
+                                                    @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan delete'])
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapuskasbon', ['id' => $kasbon->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            @endif
-                                            @if ($kasbon->status == 'posting')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $kasbon->id }}">Unpost</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                            @if ($kasbon->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery kasbon karyawan show'])
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery_kasbonkaryawan/' . $kasbon->id) }}">Show</a>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

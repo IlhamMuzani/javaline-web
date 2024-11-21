@@ -79,126 +79,128 @@
                 </form>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode</th>
-                                <th>No Registrasi</th>
-                                <th>Nama Pemilik</th>
-                                <th>Tanggal Expired</th>
-                                <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="135">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($stnks as $stnk)
-                                <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
-                                    <td class="text-center">
-                                        {{ ($stnks->currentPage() - 1) * $stnks->perPage() + $loop->iteration }}</td>
-                                    <td>{{ $stnk->kode_stnk }}</td>
-                                    <td>
-                                        @if ($stnk->kendaraan)
-                                            {{ $stnk->kendaraan->no_pol }}
-                                        @else
-                                            No pol tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $stnk->nama_pemilik }}</td>
-                                    <td>{{ $stnk->expired_stnk }}</td>
-                                    <td data-toggle="modal" data-target="#modal-qrcode-{{ $stnk->id }}"
-                                        style="text-align: center;">
-                                        <div style="display: inline-block;">
-                                            {!! DNS2D::getBarcodeHTML("$stnk->qrcode_stnk", 'QRCODE', 2, 2) !!}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['stnk show'])
-                                            <a href="{{ url('admin/stnk/' . $stnk->id) }}" class="btn btn-info btn-sm">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['stnk update'])
-                                            <a href="{{ url('admin/stnk/' . $stnk->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['stnk delete'])
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $stnk->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode</th>
+                                    <th>No Registrasi</th>
+                                    <th>Nama Pemilik</th>
+                                    <th>Tanggal Expired</th>
+                                    <th class="text-center">Qr Code</th>
+                                    <th class="text-center" width="135">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $stnk->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus No. Stnk</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($stnks as $stnk)
+                                    <tr class="{{ $loop->iteration % 2 == 0 ? 'bg-light' : '' }}">
+                                        <td class="text-center">
+                                            {{ ($stnks->currentPage() - 1) * $stnks->perPage() + $loop->iteration }}</td>
+                                        <td>{{ $stnk->kode_stnk }}</td>
+                                        <td>
+                                            @if ($stnk->kendaraan)
+                                                {{ $stnk->kendaraan->no_pol }}
+                                            @else
+                                                No pol tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $stnk->nama_pemilik }}</td>
+                                        <td>{{ $stnk->expired_stnk }}</td>
+                                        <td data-toggle="modal" data-target="#modal-qrcode-{{ $stnk->id }}"
+                                            style="text-align: center;">
+                                            <div style="display: inline-block;">
+                                                {!! DNS2D::getBarcodeHTML("$stnk->qrcode_stnk", 'QRCODE', 2, 2) !!}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['stnk show'])
+                                                <a href="{{ url('admin/stnk/' . $stnk->id) }}" class="btn btn-info btn-sm">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['stnk update'])
+                                                <a href="{{ url('admin/stnk/' . $stnk->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['stnk delete'])
+                                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $stnk->id }}">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus No. Stnk <strong>{{ $stnk->nama_pemilik }}</strong>?</p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/stnk/' . $stnk->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modal-qrcode-{{ $stnk->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {{-- <p>Yakin hapus kendaraan
-                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
-                                                </p> --}}
-                                                <div style="text-align: center;">
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $stnk->kode_stnk }}</p>
-                                                    <div style="display: inline-block;">
-                                                        {!! DNS2D::getBarcodeHTML("$stnk->qrcode_stnk", 'QRCODE', 15, 15) !!}
-                                                    </div>
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $stnk->expired_stnk }}</p>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $stnk->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus No. Stnk</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus No. Stnk <strong>{{ $stnk->nama_pemilik }}</strong>?</p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    <a href="{{ url('admin/stnk/cetak-pdf/' . $stnk->id) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class=""></i> Cetak
-                                                    </a>
+                                                    <form action="{{ url('admin/stnk/' . $stnk->id) }}" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end">
-                        {{ $stnks->links('pagination::bootstrap-4') }}
+
+                                    <div class="modal fade" id="modal-qrcode-{{ $stnk->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{-- <p>Yakin hapus kendaraan
+                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
+                                                </p> --}}
+                                                    <div style="text-align: center;">
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $stnk->kode_stnk }}</p>
+                                                        <div style="display: inline-block;">
+                                                            {!! DNS2D::getBarcodeHTML("$stnk->qrcode_stnk", 'QRCODE', 15, 15) !!}
+                                                        </div>
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $stnk->expired_stnk }}</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Batal</button>
+                                                        <a href="{{ url('admin/stnk/cetak-pdf/' . $stnk->id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class=""></i> Cetak
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    {{ $stnks->links('pagination::bootstrap-4') }}
                 </div>
 
             </div>
