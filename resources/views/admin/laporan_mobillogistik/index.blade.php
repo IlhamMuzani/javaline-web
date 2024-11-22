@@ -122,92 +122,95 @@
                         </div>
                     </form>
                     <!-- Tabel Faktur Utama -->
-                    <table class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead>
-                            <tr>
-                                <th>Kode Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Pelanggan</th>
-                                <th>No Polisi</th>
-                                <th>Grand Total</th>
-                                <th>Actions</th> <!-- Tambahkan kolom aksi untuk collapse/expand -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $created_at = isset($created_at) ? $created_at : null;
-                                $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
-                            @endphp
-                            @foreach ($inquery as $index => $faktur)
-                                <!-- Gunakan index untuk ID unik -->
-                                <!-- Baris Faktur Utama -->
-                                <tr data-toggle="collapse" data-target="#faktur-{{ $index }}"
-                                    class="accordion-toggle" style="background: rgb(156, 156, 156)">
-                                    <td>{{ $faktur->kode_faktur }}</td>
-                                    <td>{{ $faktur->created_at }}</td>
-                                    <td>{{ $faktur->nama_pelanggan }}</td>
-                                    <td>{{ $faktur->kendaraan ? $faktur->kendaraan->no_kabin : 'Tidak ada' }}</td>
-                                    <td class="text-right">{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
-                                    <td>
-                                        <!-- Tombol untuk Menampilkan/Menyembunyikan Detail -->
-                                        <button class="btn btn-info" data-toggle="collapse"
-                                            data-target="#faktur-{{ $index }}">Toggle Detail</button>
-                                    </td>
-                                </tr>
-
-                                <!-- Baris Detail Faktur -->
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                            <thead>
                                 <tr>
-                                    <td colspan="6"> <!-- Gabungkan kolom untuk detail -->
-                                        <div id="faktur-{{ $index }}" class="collapse">
-                                            <table class="table table-sm" style="margin: 0;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Kode Memo</th>
-                                                        <th>Tanggal</th>
-                                                        <th>Nama Rute</th>
-                                                        <th>Biaya Ekspedisi</th>
-                                                        <th>Jumlah</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($faktur->detail_faktur as $memo)
-                                                        <tr>
-                                                            <td>{{ $memo->kode_memo }}</td>
-                                                            <td>{{ $memo->created_at }}</td>
-                                                            <td>{{ $memo->nama_rute }}</td>
-                                                            <td class="text-right">
-                                                                {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->uang_jalan, 2, ',', '.') : 'Tidak ada' }}
-                                                            </td>
-                                                            <td class="text-right">
-                                                                {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->hasil_jumlah, 2, ',', '.') : 'Tidak ada' }}
-                                                            </td>
-                                                        </tr>
-
-                                                        <!-- Menampilkan Memo Tambahan, jika ada -->
-                                                        @if ($memo->memo_ekspedisi && $memo->memo_ekspedisi->memotambahan->isNotEmpty())
-                                                            @foreach ($memo->memo_ekspedisi->memotambahan as $memoTambahan)
-                                                                <tr>
-                                                                    <td>{{ $memoTambahan->kode_tambahan }}</td>
-                                                                    <td>{{ $memoTambahan->created_at }}</td>
-                                                                    <td>{{ $memoTambahan->memo_ekspedisi->nama_rute }}</td>
-                                                                    <td class="text-right">
-                                                                        {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
-                                                                    </td>
-                                                                    <td class="text-right">
-                                                                        {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                        @endif
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </td>
+                                    <th>Kode Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Pelanggan</th>
+                                    <th>No Polisi</th>
+                                    <th>Grand Total</th>
+                                    <th>Actions</th> <!-- Tambahkan kolom aksi untuk collapse/expand -->
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $created_at = isset($created_at) ? $created_at : null;
+                                    $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
+                                @endphp
+                                @foreach ($inquery as $index => $faktur)
+                                    <!-- Gunakan index untuk ID unik -->
+                                    <!-- Baris Faktur Utama -->
+                                    <tr data-toggle="collapse" data-target="#faktur-{{ $index }}"
+                                        class="accordion-toggle" style="background: rgb(156, 156, 156)">
+                                        <td>{{ $faktur->kode_faktur }}</td>
+                                        <td>{{ $faktur->created_at }}</td>
+                                        <td>{{ $faktur->nama_pelanggan }}</td>
+                                        <td>{{ $faktur->kendaraan ? $faktur->kendaraan->no_kabin : 'Tidak ada' }}</td>
+                                        <td class="text-right">{{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
+                                        <td>
+                                            <!-- Tombol untuk Menampilkan/Menyembunyikan Detail -->
+                                            <button class="btn btn-info" data-toggle="collapse"
+                                                data-target="#faktur-{{ $index }}">Toggle Detail</button>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Baris Detail Faktur -->
+                                    <tr>
+                                        <td colspan="6"> <!-- Gabungkan kolom untuk detail -->
+                                            <div id="faktur-{{ $index }}" class="collapse">
+                                                <table class="table table-sm" style="margin: 0;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Kode Memo</th>
+                                                            <th>Tanggal</th>
+                                                            <th>Nama Rute</th>
+                                                            <th>Biaya Ekspedisi</th>
+                                                            <th>Jumlah</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($faktur->detail_faktur as $memo)
+                                                            <tr>
+                                                                <td>{{ $memo->kode_memo }}</td>
+                                                                <td>{{ $memo->created_at }}</td>
+                                                                <td>{{ $memo->nama_rute }}</td>
+                                                                <td class="text-right">
+                                                                    {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->uang_jalan, 2, ',', '.') : 'Tidak ada' }}
+                                                                </td>
+                                                                <td class="text-right">
+                                                                    {{ $memo->memo_ekspedisi ? number_format($memo->memo_ekspedisi->hasil_jumlah, 2, ',', '.') : 'Tidak ada' }}
+                                                                </td>
+                                                            </tr>
+
+                                                            <!-- Menampilkan Memo Tambahan, jika ada -->
+                                                            @if ($memo->memo_ekspedisi && $memo->memo_ekspedisi->memotambahan->isNotEmpty())
+                                                                @foreach ($memo->memo_ekspedisi->memotambahan as $memoTambahan)
+                                                                    <tr>
+                                                                        <td>{{ $memoTambahan->kode_tambahan }}</td>
+                                                                        <td>{{ $memoTambahan->created_at }}</td>
+                                                                        <td>{{ $memoTambahan->memo_ekspedisi->nama_rute }}
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            {{ number_format($memoTambahan->grand_total, 2, ',', '.') }}
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            @endif
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
 
                     <!-- Perhitungan Nilai Total -->
@@ -323,13 +326,7 @@
                                         <div class="col-md-6">
                                             <input style="text-align: end; font-size:14px;" type="text"
                                                 class="form-control"
-                                                value="{{ number_format(
-                                                    $selisih -
-                                                        $totalNominalPerbaikan - $totalNominalOperasional,
-                                                    2,
-                                                    ',',
-                                                    '.',
-                                                ) }}"
+                                                value="{{ number_format($selisih - $totalNominalPerbaikan - $totalNominalOperasional, 2, ',', '.') }}"
                                                 readonly>
                                         </div>
                                     </div>

@@ -93,32 +93,35 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Pemakaian</th>
-                                <th>Tanggal</th>
-                                <th>No Kabin</th>
-                                <th>No Registrasi</th>
-                                <th>Jenis Kendaraan</th>
-                                {{-- <th class="text-center" width="120">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pemasangan_part)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pemasangan_part->kode_pemakaian }}</td>
-                                    <td>{{ $pemasangan_part->tanggal_awal }}</td>
-                                    <td>{{ $pemasangan_part->kendaraan->no_kabin }}</td>
-                                    <td>{{ $pemasangan_part->kendaraan->no_pol }}</td>
-                                    <td>{{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Pemakaian</th>
+                                    <th>Tanggal</th>
+                                    <th>No Kabin</th>
+                                    <th>No Registrasi</th>
+                                    <th>Jenis Kendaraan</th>
+                                    {{-- <th class="text-center" width="120">Opsi</th> --}}
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pemasangan_part)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pemasangan_part->kode_pemakaian }}</td>
+                                        <td>{{ $pemasangan_part->tanggal_awal }}</td>
+                                        <td>{{ $pemasangan_part->kendaraan->no_kabin }}</td>
+                                        <td>{{ $pemasangan_part->kendaraan->no_pol }}</td>
+                                        <td>{{ $pemasangan_part->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

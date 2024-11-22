@@ -78,124 +78,126 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th>No</th>
-                                <th>Kode Spk</th>
-                                <th>Tanggal</th>
-                                <th>Bag.input</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>No Pol</th>
-                                <th>Pelanggan</th>
-                                <th>Divisi</th>
-                                <th>Rute</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($spks as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->kode_spk }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->admin }}
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->user)
-                                            {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->no_kabin }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->no_pol }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->nama_pelanggan }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->userpelanggan->detail_pelanggan->nama_divisi ?? null }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->nama_rute }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($buktipotongpajak->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($buktipotongpajak->status == 'selesai')
-                                            {{-- <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Selesai"> --}}
-                                            <button type="button" class="btn btn-danger btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($buktipotongpajak->status == 'unpost')
-                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
-                                                {{-- @endif --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                {{-- <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th>No</th>
+                                    <th>Kode Spk</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.input</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>No Pol</th>
+                                    <th>Pelanggan</th>
+                                    <th>Divisi</th>
+                                    <th>Rute</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($spks as $buktipotongpajak)
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $buktipotongpajak->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $buktipotongpajak->kode_spk }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->admin }}
+                                        </td>
+                                        <td>
+                                            @if ($buktipotongpajak->user)
+                                                {{ $buktipotongpajak->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
                                             @endif
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->no_kabin }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->no_pol }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->nama_pelanggan }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->userpelanggan->detail_pelanggan->nama_divisi ?? null }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->nama_rute }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($buktipotongpajak->status == 'posting')
-                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                {{-- @endif --}}
-                                                {{-- <form style="margin-top:5px" method="GET"
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            @if ($buktipotongpajak->status == 'selesai')
+                                                {{-- <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
+                                                width="40" alt="Selesai"> --}}
+                                                <button type="button" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($buktipotongpajak->status == 'unpost')
+                                                    {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                                    {{-- @endif --}}
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                    {{-- <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                                @if ($buktipotongpajak->status == 'posting')
+                                                    {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                    {{-- @endif --}}
+                                                    {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                    {{-- @endif --}}
+                                                    {{-- <form style="margin-top:5px" method="GET"
                                                     action="{{ route('hapusspk', ['id' => $buktipotongpajak->id]) }}">
                                                     <button type="submit"
                                                         class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                         </i> Delete
                                                     </button>
                                                 </form> --}}
-                                                {{-- @endif
+                                                    {{-- @endif
                                                 @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
-                                                {{-- <a class="dropdown-item"
+                                                    {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
-                                                {{-- @endif --}}
-                                            @endif
-                                            @if ($buktipotongpajak->status == 'selesai')
-                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
-                                                {{-- <a class="dropdown-item unpost-btn"
+                                                    {{-- @endif --}}
+                                                @endif
+                                                @if ($buktipotongpajak->status == 'selesai')
+                                                    {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 6 || auth()->user()->id == 31) --}}
+                                                    {{-- <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a> --}}
-                                                {{-- @endif --}}
-                                                {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
-                                                {{-- @endif --}}
-                                                {{-- <a class="dropdown-item"
+                                                    {{-- @endif --}}
+                                                    {{-- @if (auth()->user()->id == 1 || auth()->user()->id == 7 || auth()->user()->id == 28) --}}
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
+                                                    {{-- @endif --}}
+                                                    {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id . '/edit') }}">Update</a>
 
                                                 <form style="margin-top:5px" method="GET"
@@ -205,25 +207,36 @@
                                                         </i> Delete
                                                     </button>
                                                 </form> --}}
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
-                                                {{-- <a class="dropdown-item"
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['shows buktipotongpajak ekspedisi']) --}}
+                                                    {{-- <a class="dropdown-item"
                                                     href="{{ url('admin/inquery_spk/' . $buktipotongpajak->id) }}">Show</a> --}}
-                                                {{-- @endif --}}
-                                            @endif
-                                            @if ($buktipotongpajak->memo_ekspedisi->first())
-                                                <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
-                                                    Ekspedisi
-                                                    <strong>{{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}</strong>
-                                                </p>
-                                            @else
-                                                <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                                    {{-- @endif --}}
+                                                @endif
+                                                @if ($buktipotongpajak->memo_ekspedisi->first())
+                                                    {{-- <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
+                                                        Ekspedisi
+                                                        <strong>{{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}</strong>
+                                                    </p> --}}
+                                                    <p style="margin-left:15px; margin-right:15px">
+                                                        Digunakan Oleh Memo
+                                                        Ekspedisi
+                                                        <strong>
+                                                            <a href="{{ route('memo_ekspedisi.show', $buktipotongpajak->memo_ekspedisi->first()->id) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}
+                                                            </a>
+                                                        </strong>
+                                                    </p>
+                                                @else
+                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

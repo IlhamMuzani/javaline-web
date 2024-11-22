@@ -79,92 +79,95 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Pelepasan</th>
-                                <th>Tanggal</th>
-                                <th>No Kabin</th>
-                                <th>No Registrasi</th>
-                                <th>Jumlah Ban</th>
-                                <th>Jenis Kendaraan</th>
-                                {{-- <th class="text-center" width="100">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pelepasan_ban)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pelepasan_ban->kode_pelepasan }}</td>
-                                    <td>{{ $pelepasan_ban->tanggal_awal }}</td>
-                                    <td>{{ $pelepasan_ban->kendaraan->no_kabin }}</td>
-                                    <td>{{ $pelepasan_ban->kendaraan->no_pol }}</td>
-                                    <td>{{ $pelepasan_ban->kendaraan->jenis_kendaraan->total_ban }}</td>
-                                    <td>{{ $pelepasan_ban->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                    </td>
-                                    {{-- <td class="text-center">
+                                    <th class="text-center">No</th>
+                                    <th>Kode Pelepasan</th>
+                                    <th>Tanggal</th>
+                                    <th>No Kabin</th>
+                                    <th>No Registrasi</th>
+                                    <th>Jumlah Ban</th>
+                                    <th>Jenis Kendaraan</th>
+                                    {{-- <th class="text-center" width="100">Opsi</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pelepasan_ban)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pelepasan_ban->kode_pelepasan }}</td>
+                                        <td>{{ $pelepasan_ban->tanggal_awal }}</td>
+                                        <td>{{ $pelepasan_ban->kendaraan->no_kabin }}</td>
+                                        <td>{{ $pelepasan_ban->kendaraan->no_pol }}</td>
+                                        <td>{{ $pelepasan_ban->kendaraan->jenis_kendaraan->total_ban }}</td>
+                                        <td>{{ $pelepasan_ban->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                        </td>
+                                        {{-- <td class="text-center">
                                         <a href="{{ url('admin/pelepasan_ban/cetak-pdf/' . $pelepasan_ban->id) }}"
                                             class="btn btn-info btn-sm">
                                             <i class="fas fa-print">
                                             </i> Cetak
                                         </a>
                                     </td> --}}
-                                </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $pelepasan_ban->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Ban</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus pelepasan_ban
-                                                    <strong>{{ $pelepasan_ban->no_seri }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="#" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $pelepasan_ban->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Ban</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus pelepasan_ban
+                                                        <strong>{{ $pelepasan_ban->no_seri }}</strong>?
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form action="#" method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal fade" id="modal-qrcode-{{ $pelepasan_ban->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
+                                    <div class="modal fade" id="modal-qrcode-{{ $pelepasan_ban->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
 
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <a href="{{ url('admin/pelepasan_ban/cetak-pdf/' . $pelepasan_ban->id) }}"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class=""></i> Cetak
-                                                </a>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <a href="{{ url('admin/pelepasan_ban/cetak-pdf/' . $pelepasan_ban->id) }}"
+                                                        class="btn btn-primary btn-sm">
+                                                        <i class=""></i> Cetak
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

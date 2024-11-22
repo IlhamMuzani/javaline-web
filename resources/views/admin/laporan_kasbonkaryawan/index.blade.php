@@ -93,39 +93,42 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Kasbon</th>
-                                <th>Tanggal</th>
-                                <th>Kategori</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                {{-- <th class="text-center" width="70">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $deposit)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $deposit->kode_kasbon }}
-                                    </td>
-                                    <td>
-                                        {{ $deposit->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $deposit->kategori }}
-                                    </td>
-                                    <td>
-                                        Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
-
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Kasbon</th>
+                                    <th>Tanggal</th>
+                                    <th>Kategori</th>
+                                    <th>Nominal</th>
+                                    <th>Total</th>
+                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $deposit)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $deposit->kode_kasbon }}
+                                        </td>
+                                        <td>
+                                            {{ $deposit->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $deposit->kategori }}
+                                        </td>
+                                        <td>
+                                            Rp. {{ number_format($deposit->nominal, 0, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($deposit->sub_total, 0, ',', '.') }}</td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

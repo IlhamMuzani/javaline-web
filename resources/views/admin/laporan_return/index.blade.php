@@ -79,34 +79,37 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur Return</th>
-                                <th>Tanggal</th>
-                                <th>Admin</th>
-                                <th>Pelanggan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $returnekspedisi)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $returnekspedisi->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $returnekspedisi->kode_return }}</td>
-                                    <td>{{ $returnekspedisi->tanggal_awal }}</td>
-                                    <td>
-                                        {{ $returnekspedisi->admin }}
-                                    </td>
-                                    <td>
-                                        {{ $returnekspedisi->nama_pelanggan }}
-                                    </td>
-
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur Return</th>
+                                    <th>Tanggal</th>
+                                    <th>Admin</th>
+                                    <th>Pelanggan</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $returnekspedisi)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $returnekspedisi->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $returnekspedisi->kode_return }}</td>
+                                        <td>{{ $returnekspedisi->tanggal_awal }}</td>
+                                        <td>
+                                            {{ $returnekspedisi->admin }}
+                                        </td>
+                                        <td>
+                                            {{ $returnekspedisi->nama_pelanggan }}
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

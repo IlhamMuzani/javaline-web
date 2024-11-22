@@ -159,66 +159,75 @@
                         </tbody>
                     </table> --}}
 
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th><input type="checkbox" name="" id="select_all_ids"></th>
-                                <th>NO</th>
-                                <th>KODE SPK</th>
-                                <th>KODE MEMO</th>
-                                <th>TANGGAL</th>
-                                <th>PELANGGAN</th>
-                                <th style="width: 10%">MEMO</th>
-                                <th style="width: 10%">SJ</th>
-                                <th style="width: 10%">FAKTUR</th>
-                                <th style="width: 10%">INVOICE</th>
-                                <th style="width: 10%">PELUNASAN</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($spks as $buktipotongpajak)
-                                @php
-                                    $status = $buktipotongpajak->spk ? $buktipotongpajak->spk->status_spk : null;
-                                    $isGreen = [
-                                        'memo' => in_array($status, ['memo', 'sj', 'faktur', 'invoice', 'pelunasan']),
-                                        'sj' => in_array($status, ['sj', 'faktur', 'invoice', 'pelunasan']),
-                                        'faktur' => in_array($status, ['faktur', 'invoice', 'pelunasan']),
-                                        'invoice' => in_array($status, ['invoice', 'pelunasan']),
-                                        'pelunasan' => $status == 'pelunasan',
-                                    ];
-                                @endphp
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}"></td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->kode_memo ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->tanggal_awal }}</td>
-                                    <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['memo'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['sj'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['faktur'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['invoice'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['pelunasan'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th><input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th>NO</th>
+                                    <th>KODE SPK</th>
+                                    <th>KODE MEMO</th>
+                                    <th>TANGGAL</th>
+                                    <th>PELANGGAN</th>
+                                    <th style="width: 10%">MEMO</th>
+                                    <th style="width: 10%">SJ</th>
+                                    <th style="width: 10%">FAKTUR</th>
+                                    <th style="width: 10%">INVOICE</th>
+                                    <th style="width: 10%">PELUNASAN</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($spks as $buktipotongpajak)
+                                    @php
+                                        $status = $buktipotongpajak->spk ? $buktipotongpajak->spk->status_spk : null;
+                                        $isGreen = [
+                                            'memo' => in_array($status, [
+                                                'memo',
+                                                'sj',
+                                                'faktur',
+                                                'invoice',
+                                                'pelunasan',
+                                            ]),
+                                            'sj' => in_array($status, ['sj', 'faktur', 'invoice', 'pelunasan']),
+                                            'faktur' => in_array($status, ['faktur', 'invoice', 'pelunasan']),
+                                            'invoice' => in_array($status, ['invoice', 'pelunasan']),
+                                            'pelunasan' => $status == 'pelunasan',
+                                        ];
+                                    @endphp
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $buktipotongpajak->id }}"></td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->kode_memo ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->tanggal_awal }}</td>
+                                        <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['memo'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['sj'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['faktur'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['invoice'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['pelunasan'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
 
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"

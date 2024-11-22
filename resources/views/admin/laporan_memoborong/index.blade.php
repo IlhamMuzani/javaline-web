@@ -80,74 +80,77 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Memo</th>
-                                <th>Tanggal</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>Rute</th>
-                                <th style="text-align: center">Harga</th>
-                                <th style="text-align: center">qty</th>
-                                <th style="text-align: center">Total</th>
-                                <th style="text-align: center">PPH</th>
-                                <th style="text-align: center">Adm</th>
-                                <th style="text-align: center">Deposit Sopir</th>
-                                <th style="text-align: center">Grand Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $memoborong)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $memoborong->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $memoborong->kode_memo }}</td>
-                                    <td>{{ $memoborong->tanggal_awal }}</td>
-                                    <td>
-
-                                        {{ explode(' ', $memoborong->nama_driver)[0] }}
-                                    </td>
-                                    <td>
-                                        {{ $memoborong->no_kabin }}
-                                    </td>
-                                    <td>
-                                        @if ($memoborong->nama_rute == null)
-                                            {{ $memoborong->detail_memo->first()->nama_rutes }}
-                                        @else
-                                            {{ $memoborong->nama_rute }}
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->harga_rute, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ $memoborong->jumlah }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        @if ($memoborong->totalrute == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoborong->totalrute, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->pphs, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->uang_jaminans, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memoborong->sub_total, 0, ',', '.') }}
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Memo</th>
+                                    <th>Tanggal</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>Rute</th>
+                                    <th style="text-align: center">Harga</th>
+                                    <th style="text-align: center">qty</th>
+                                    <th style="text-align: center">Total</th>
+                                    <th style="text-align: center">PPH</th>
+                                    <th style="text-align: center">Adm</th>
+                                    <th style="text-align: center">Deposit Sopir</th>
+                                    <th style="text-align: center">Grand Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $memoborong)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $memoborong->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $memoborong->kode_memo }}</td>
+                                        <td>{{ $memoborong->tanggal_awal }}</td>
+                                        <td>
+
+                                            {{ explode(' ', $memoborong->nama_driver)[0] }}
+                                        </td>
+                                        <td>
+                                            {{ $memoborong->no_kabin }}
+                                        </td>
+                                        <td>
+                                            @if ($memoborong->nama_rute == null)
+                                                {{ $memoborong->detail_memo->first()->nama_rutes }}
+                                            @else
+                                                {{ $memoborong->nama_rute }}
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->harga_rute, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ $memoborong->jumlah }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            @if ($memoborong->totalrute == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoborong->totalrute, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->pphs, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->uang_jaminans, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->sub_total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

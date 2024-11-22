@@ -116,89 +116,92 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Ekspedisi</th>
-                                <th></th>
-                                <th>Pelanggan</th>
-                                <th>No Kabin</th>
-                                <th>Total</th>
-                                <th>PPH</th>
-                                <th>U. Tambahan</th>
-                                <th>Sub Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $totalGrandTotal = 0;
-                                $pph23 = 0;
-                            @endphp
-                            @foreach ($inquery as $faktur)
-                                <tr style="background: rgb(193, 193, 193)">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $faktur->kode_faktur }}
-                                    </td>
-                                    <td>
-                                        {{ $faktur->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $faktur->nama_pelanggan }}
-                                    </td>
-                                    <td>
-                                        @if ($faktur->detail_faktur->first())
-                                            {{ $faktur->detail_faktur->first()->nama_driver }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                        @if ($faktur->detail_faktur->first())
-                                            ({{ $faktur->detail_faktur->first()->no_kabin }})
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
-                                    <td style="text-align: right">
-                                        {{ number_format($faktur->pph, 2, ',', '.') }}</td>
-                                    <td style="text-align: right">
-                                        @if (is_numeric($faktur->biaya_tambahan))
-                                            {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}
-                                        @else
-                                            Format salah
-                                        @endif
-                                    </td>
-                                    <td style="text-align: right">
-                                        {{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Ekspedisi</th>
+                                    <th></th>
+                                    <th>Pelanggan</th>
+                                    <th>No Kabin</th>
+                                    <th>Total</th>
+                                    <th>PPH</th>
+                                    <th>U. Tambahan</th>
+                                    <th>Sub Total</th>
                                 </tr>
-                                @foreach ($faktur->detail_faktur as $memo)
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>{{ $memo->kode_memo }}</td>
-                                        <td>{{ $memo->tanggal_awal }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $totalGrandTotal = 0;
+                                    $pph23 = 0;
+                                @endphp
+                                @foreach ($inquery as $faktur)
+                                    <tr style="background: rgb(193, 193, 193)">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $faktur->kode_faktur }}
+                                        </td>
+                                        <td>
+                                            {{ $faktur->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $faktur->nama_pelanggan }}
+                                        </td>
+                                        <td>
+                                            @if ($faktur->detail_faktur->first())
+                                                {{ $faktur->detail_faktur->first()->nama_driver }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                            @if ($faktur->detail_faktur->first())
+                                                ({{ $faktur->detail_faktur->first()->no_kabin }})
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right">
+                                            {{ number_format($faktur->total_tarif, 2, ',', '.') }}</td>
+                                        <td style="text-align: right">
+                                            {{ number_format($faktur->pph, 2, ',', '.') }}</td>
+                                        <td style="text-align: right">
+                                            @if (is_numeric($faktur->biaya_tambahan))
+                                                {{ number_format($faktur->biaya_tambahan, 2, ',', '.') }}
+                                            @else
+                                                Format salah
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right">
+                                            {{ number_format($faktur->grand_total, 2, ',', '.') }}</td>
                                     </tr>
+                                    @foreach ($faktur->detail_faktur as $memo)
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{ $memo->kode_memo }}</td>
+                                            <td>{{ $memo->tanggal_awal }}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    @endforeach
+
+                                    @php
+                                        $totalGrandTotal += $faktur->total_tarif + $faktur->biaya_tambahan;
+                                        $pph23 += $faktur->pph;
+                                        // $Selisih = $totalGrandTotal - $pph23;
+                                        // $Totals = $totalGrandTotal - $pph23;
+                                    @endphp
+
+                                    @php
+                                        $Totals = $totalGrandTotal - $pph23;
+                                    @endphp
                                 @endforeach
-
-                                @php
-                                    $totalGrandTotal += $faktur->total_tarif + $faktur->biaya_tambahan;
-                                    $pph23 += $faktur->pph;
-                                    // $Selisih = $totalGrandTotal - $pph23;
-                                    // $Totals = $totalGrandTotal - $pph23;
-                                @endphp
-
-                                @php
-                                    $Totals = $totalGrandTotal - $pph23;
-                                @endphp
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">

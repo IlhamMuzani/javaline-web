@@ -89,31 +89,34 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th style=" width: 5%" class="text-center">No</th>
-                                <th style=" width: 18%">Kode Pengeluaran</th>
-                                <th style=" width: 5%">Tangggal</th>
-                                <th style=" width: 62%">Keterangan</th>
-                                <th style=" width: 10%">Total</th>
-                                {{-- <th class="text-center" width="70">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pengeluaran)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pengeluaran->kode_pengeluaran }}</td>
-                                    <td>{{ $pengeluaran->tanggal_awal }}</td>
-                                    <td>{{ $pengeluaran->keterangan }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($pengeluaran->grand_total, 0, ',', '.') }}
-                                    </td>
+                                    <th style=" width: 5%" class="text-center">No</th>
+                                    <th style=" width: 18%">Kode Pengeluaran</th>
+                                    <th style=" width: 5%">Tangggal</th>
+                                    <th style=" width: 62%">Keterangan</th>
+                                    <th style=" width: 10%">Total</th>
+                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pengeluaran)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pengeluaran->kode_pengeluaran }}</td>
+                                        <td>{{ $pengeluaran->tanggal_awal }}</td>
+                                        <td>{{ $pengeluaran->keterangan }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($pengeluaran->grand_total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

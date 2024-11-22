@@ -90,46 +90,48 @@
                             </div>
                         </div>
                     </form>
-                    <table id="example1" class="table table-bordered table-striped" style="font-size:13px">
-                        <thead>
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Admin</th>
-                                <th>Pelanggan</th>
-                                <th>Potongan</th>
-                                <th>Tambahan</th>
-                                {{-- <th>PPH</th> --}}
-                                <th style="text-align: end">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $fakturpelunasan)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $fakturpelunasan->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
-                                    <td>{{ $fakturpelunasan->tanggal_awal }}</td>
-                                    <td>
-                                        {{ $fakturpelunasan->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        {{ $fakturpelunasan->nama_pelanggan }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($fakturpelunasan->potongan, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($fakturpelunasan->ongkos_bongkar, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($fakturpelunasan->totalpembayaran, 0, ',', '.') }}
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="example1" class="table table-bordered table-striped" style="font-size:13px">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Admin</th>
+                                    <th>Pelanggan</th>
+                                    <th>Potongan</th>
+                                    <th>Tambahan</th>
+                                    {{-- <th>PPH</th> --}}
+                                    <th style="text-align: end">Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $fakturpelunasan)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $fakturpelunasan->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $fakturpelunasan->kode_pelunasan }}</td>
+                                        <td>{{ $fakturpelunasan->tanggal_awal }}</td>
+                                        <td>
+                                            {{ $fakturpelunasan->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            {{ $fakturpelunasan->nama_pelanggan }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($fakturpelunasan->potongan, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($fakturpelunasan->ongkos_bongkar, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($fakturpelunasan->totalpembayaran, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -76,100 +76,103 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th>No</th>
-                                <th>Kode Sewa Kendaraan</th>
-                                <th>Nama Rekanan</th>
-                                <th>Tanggal</th>
-                                <th>Bag.input</th>
-                                <th>Sopir</th>
-                                <th>No Pol</th>
-                                <th>Pelanggan</th>
-                                <th>Rute</th>
-                                <th>Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sewa_kendaraans as $sewa_kendaraan)
-                                <tr class="dropdown"{{ $sewa_kendaraan->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $sewa_kendaraan->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $sewa_kendaraan->kode_sewa }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->vendor->nama_vendor ?? null }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->admin }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->nama_driver }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->no_pol }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->pelanggan->nama_pell ?? null }}
-                                    </td>
-                                    <td>
-                                        {{ $sewa_kendaraan->rute_perjalanan->nama_rute ?? null }}
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($sewa_kendaraan->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        @if ($sewa_kendaraan->status == 'selesai')
-                                            <img src="{{ asset('storage/uploads/indikator/faktur.png') }}" height="40"
-                                                width="40" alt="Document">
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($sewa_kendaraan->status == 'unpost')
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $sewa_kendaraan->id }}">Posting</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/inquery_sewakendaraan/' . $sewa_kendaraan->id . '/edit') }}">Update</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/sewa_kendaraan/' . $sewa_kendaraan->id) }}">Show</a>
-                                                <form style="margin-top:5px" method="GET"
-                                                    action="{{ route('hapussewa', ['id' => $sewa_kendaraan->id]) }}">
-                                                    <button type="submit"
-                                                        class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                        </i> Delete
-                                                    </button>
-                                                </form>
-                                                {{-- @endif --}}
-                                            @endif
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th>No</th>
+                                    <th>Kode Sewa Kendaraan</th>
+                                    <th>Nama Rekanan</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.input</th>
+                                    <th>Sopir</th>
+                                    <th>No Pol</th>
+                                    <th>Pelanggan</th>
+                                    <th>Rute</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sewa_kendaraans as $sewa_kendaraan)
+                                    <tr class="dropdown"{{ $sewa_kendaraan->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $sewa_kendaraan->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $sewa_kendaraan->kode_sewa }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->vendor->nama_vendor ?? null }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->admin }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->nama_driver }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->no_pol }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->pelanggan->nama_pell ?? null }}
+                                        </td>
+                                        <td>
+                                            {{ $sewa_kendaraan->rute_perjalanan->nama_rute ?? null }}
+                                        </td>
+                                        <td class="text-center">
                                             @if ($sewa_kendaraan->status == 'posting')
-                                                {{-- @if (auth()->check() && auth()->user()->fitur['unposts sewa_kendaraan ekspedisi']) --}}
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $sewa_kendaraan->id }}">Unpost</a>
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/sewa_kendaraan/' . $sewa_kendaraan->id) }}">Show</a>
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
                                             @endif
-                                            {{-- @if ($sewa_kendaraan->faktur_ekspedisi->first())
+                                            @if ($sewa_kendaraan->status == 'selesai')
+                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
+                                                    height="40" width="40" alt="Document">
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($sewa_kendaraan->status == 'unpost')
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $sewa_kendaraan->id }}">Posting</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/inquery_sewakendaraan/' . $sewa_kendaraan->id . '/edit') }}">Update</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/sewa_kendaraan/' . $sewa_kendaraan->id) }}">Show</a>
+                                                    <form style="margin-top:5px" method="GET"
+                                                        action="{{ route('hapussewa', ['id' => $sewa_kendaraan->id]) }}">
+                                                        <button type="submit"
+                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                            </i> Delete
+                                                        </button>
+                                                    </form>
+                                                    {{-- @endif --}}
+                                                @endif
+                                                @if ($sewa_kendaraan->status == 'posting')
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['unposts sewa_kendaraan ekspedisi']) --}}
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $sewa_kendaraan->id }}">Unpost</a>
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/sewa_kendaraan/' . $sewa_kendaraan->id) }}">Show</a>
+                                                @endif
+                                                {{-- @if ($sewa_kendaraan->faktur_ekspedisi->first())
                                                 <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Memo
                                                     Ekspedisi
                                                     <strong>{{ $sewa_kendaraan->faktur_ekspedisi->first()->kode_faktur }}</strong>
                                                 </p>
                                             @else
                                             @endif --}}
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">

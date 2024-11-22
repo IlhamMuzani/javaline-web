@@ -79,74 +79,77 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Memo</th>
-                                <th>Tanggal</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>Rute</th>
-                                <th>U. Jalan</th>
-                                <th>U. Tambah</th>
-                                <th>Deposit</th>
-                                <th>Adm</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $memoekspedisi)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $memoekspedisi->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $memoekspedisi->kode_memo }}</td>
-                                    <td>{{ $memoekspedisi->tanggal_awal }}</td>
-                                    <td>
-                                        {{ explode(' ', $memoekspedisi->nama_driver)[0] }}
-                                    </td>
-                                    <td>
-                                        {{ $memoekspedisi->no_kabin }}
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->nama_rute == null)
-                                            {{ $memoekspedisi->detail_memo->first()->nama_rutes }}
-                                        @else
-                                            {{ $memoekspedisi->nama_rute }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->biaya_tambahan == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->deposit_driver == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($memoekspedisi->uang_jaminan == null)
-                                            0
-                                        @else
-                                            {{ number_format($memoekspedisi->uang_jaminan, 0, ',', '.') }}
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
-                                    </td>
-
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Memo</th>
+                                    <th>Tanggal</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>Rute</th>
+                                    <th>U. Jalan</th>
+                                    <th>U. Tambah</th>
+                                    <th>Deposit</th>
+                                    <th>Adm</th>
+                                    <th>Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $memoekspedisi)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $memoekspedisi->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $memoekspedisi->kode_memo }}</td>
+                                        <td>{{ $memoekspedisi->tanggal_awal }}</td>
+                                        <td>
+                                            {{ explode(' ', $memoekspedisi->nama_driver)[0] }}
+                                        </td>
+                                        <td>
+                                            {{ $memoekspedisi->no_kabin }}
+                                        </td>
+                                        <td>
+                                            @if ($memoekspedisi->nama_rute == null)
+                                                {{ $memoekspedisi->detail_memo->first()->nama_rutes }}
+                                            @else
+                                                {{ $memoekspedisi->nama_rute }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ number_format($memoekspedisi->uang_jalan, 0, ',', '.') }}
+                                        </td>
+                                        <td>
+                                            @if ($memoekspedisi->biaya_tambahan == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($memoekspedisi->deposit_driver == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($memoekspedisi->uang_jaminan == null)
+                                                0
+                                            @else
+                                                {{ number_format($memoekspedisi->uang_jaminan, 0, ',', '.') }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}
+                                        </td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

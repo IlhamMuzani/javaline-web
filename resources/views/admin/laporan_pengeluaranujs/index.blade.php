@@ -79,30 +79,33 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Pengeluaran</th>
-                                <th>Tanggal</th>
-                                <th>Jam</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pengeluaran)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pengeluaran->kode_pengambilanujs }}</td>
-                                    <td>{{ $pengeluaran->tanggal_awal }}</td>
-                                    <td>{{ $pengeluaran->jam }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($pengeluaran->grand_total, 0, ',', '.') }}
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Pengeluaran</th>
+                                    <th>Tanggal</th>
+                                    <th>Jam</th>
+                                    <th>Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pengeluaran)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pengeluaran->kode_pengambilanujs }}</td>
+                                        <td>{{ $pengeluaran->tanggal_awal }}</td>
+                                        <td>{{ $pengeluaran->jam }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($pengeluaran->grand_total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

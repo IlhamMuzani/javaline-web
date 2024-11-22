@@ -215,8 +215,17 @@
                                                 @endif
 
                                                 @if ($tagihanekspedisi->faktur_pelunasan->first())
-                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Pelunasan
+                                                    {{-- <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Pelunasan
                                                         <strong>{{ $tagihanekspedisi->faktur_pelunasan->first()->kode_pelunasan }}</strong>
+                                                    </p> --}}
+                                                    <p style="margin-left:15px; margin-right:15px">
+                                                        Digunakan Oleh Pelunasan
+                                                        <strong>
+                                                            <a href="{{ route('inquery_fakturpelunasan.show', $tagihanekspedisi->faktur_pelunasan->first()->id) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ $tagihanekspedisi->faktur_pelunasan->first()->kode_pelunasan }}
+                                                            </a>
+                                                        </strong>
                                                     </p>
                                                 @else
                                                     <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->

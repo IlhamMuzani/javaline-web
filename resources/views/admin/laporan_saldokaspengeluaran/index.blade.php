@@ -101,24 +101,27 @@
                             </tr>
                         </tbody>
                     </table> --}}
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th>Saldo Kemarin</th>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    {{-- <th>Saldo Kemarin</th>
                                 <th>Saldo Masuk</th>
                                 <th>Saldo Keluar</th> --}}
-                                <th>Sisa Saldo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                {{-- <td> Rp. {{ $sisa_saldo_awal ? number_format($sisa_saldo_awal, 0, ',', '.') : '0' }}</td>
+                                    <th>Sisa Saldo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    {{-- <td> Rp. {{ $sisa_saldo_awal ? number_format($sisa_saldo_awal, 0, ',', '.') : '0' }}</td>
                                 <td> Rp. {{ $Penerimaan ? number_format($Penerimaan, 0, ',', '.') : '0' }}</td>
                                 <td> Rp. {{ $Pengeluaran ? number_format($Pengeluaran, 0, ',', '.') : '0' }}</td> --}}
-                                <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <td> Rp. {{ $hasil ? number_format($hasil, 0, ',', '.') : '0' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

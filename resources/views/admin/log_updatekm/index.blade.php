@@ -43,90 +43,94 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Nama User</th>
-                                <th>No Kabin</th>
-                                <th>Km Update</th>
-                                <th>Tanggal</th>
-                                {{-- <th class="text-center" width="120">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($log_updatekm as $log)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $log->user->karyawan->nama_lengkap }}</td>
-                                    <td>{{ $log->kendaraan->no_kabin }}</td>
-                                    <td>{{ $log->km_update }}</td>
-                                    <td>{{ $log->tanggal }}</td>
+                                    <th class="text-center">No</th>
+                                    <th>Nama User</th>
+                                    <th>No Kabin</th>
+                                    <th>Km Update</th>
+                                    <th>Tanggal</th>
+                                    {{-- <th class="text-center" width="120">Opsi</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($log_updatekm as $log)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $log->user->karyawan->nama_lengkap }}</td>
+                                        <td>{{ $log->kendaraan->no_kabin }}</td>
+                                        <td>{{ $log->km_update }}</td>
+                                        <td>{{ $log->tanggal }}</td>
 
-                                    {{-- <td class="text-center"> --}}
+                                        {{-- <td class="text-center"> --}}
 
-                                    {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#modal-hapus-{{ $log->id }}">
                                             <i class="fas fa-trash"></i> Hapus
                                         </button> --}}
-                                    {{-- </td> --}}
-                                </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $log->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Log Update KM</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus log update km
-                                                    <strong>{{ $log->user->karyawan->nama_lengkap }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/log_updatekm/' . $log->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="modal fade" id="modal-qrcode-{{ $log->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                {{-- <p>Yakin hapus kendaraan
-                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
-                                                </p> --}}
-                                                <div style="text-align: center;">
-
+                                        {{-- </td> --}}
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $log->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Log Update KM</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus log update km
+                                                        <strong>{{ $log->user->karyawan->nama_lengkap }}</strong>?
+                                                    </p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
+                                                    <form action="{{ url('admin/log_updatekm/' . $log->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+
+                                    <div class="modal fade" id="modal-qrcode-{{ $log->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    {{-- <p>Yakin hapus kendaraan
+                                                    <strong>{{ $kendaraan->kode_kendaraan }}</strong>?
+                                                </p> --}}
+                                                    <div style="text-align: center;">
+
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Batal</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

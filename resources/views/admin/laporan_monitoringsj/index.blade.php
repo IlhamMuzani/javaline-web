@@ -63,11 +63,11 @@
                                 <label for="created_at">Status</label>
                                 <select class="custom-select form-control" id="kategori" name="kategori">
                                     <option value="">- Semua Status -</option>
-                                    <option value="belum_selesai" {{ Request::get('kategori') == 'belum_selesai' ? 'selected' : '' }}>
+                                    <option value="belum_selesai"
+                                        {{ Request::get('kategori') == 'belum_selesai' ? 'selected' : '' }}>
                                         Belum Selesai
                                     </option>
-                                    <option value="selesai"
-                                        {{ Request::get('kategori') == 'selesai' ? 'selected' : '' }}>
+                                    <option value="selesai" {{ Request::get('kategori') == 'selesai' ? 'selected' : '' }}>
                                         Selesai</option>
                                 </select>
                             </div>
@@ -96,114 +96,117 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 10px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                <th>NO</th>
-                                <th>KODE SPK</th>
-                                <th>PELANGGAN</th>
-                                <th>TUJUAN</th>
-                                <th>TANGGAL</th>
-                                <th>NO KABIN</th>
-                                <th>NAMA DRIVER</th>
-                                <th>TIMER</th>
-                                <th>TIMER TOTAL</th>
-                                <th>PENERIMA</th>
-                            </tr>
-                        </thead>
-                        @php
-                            $total = 0;
-                        @endphp
-                        <tbody>
-                            @foreach ($inquery as $pengambilan_do)
-                                {{-- @if ($pengambilan_do->waktu_suratakhir == null) --}}
-                                <tr class="dropdown"{{ $pengambilan_do->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->tanggal_awal }}</td>
-                                    <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                    <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                    <td>
-                                        @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                            @php
-                                                $timerAwal =
-                                                    $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 10px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th>NO</th>
+                                    <th>KODE SPK</th>
+                                    <th>PELANGGAN</th>
+                                    <th>TUJUAN</th>
+                                    <th>TANGGAL</th>
+                                    <th>NO KABIN</th>
+                                    <th>NAMA DRIVER</th>
+                                    <th>TIMER</th>
+                                    <th>TIMER TOTAL</th>
+                                    <th>PENERIMA</th>
+                                </tr>
+                            </thead>
+                            @php
+                                $total = 0;
+                            @endphp
+                            <tbody>
+                                @foreach ($inquery as $pengambilan_do)
+                                    {{-- @if ($pengambilan_do->waktu_suratakhir == null) --}}
+                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->tanggal_awal }}</td>
+                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
+                                        <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                        <td>
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                @php
+                                                    $timerAwal =
+                                                        $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
 
-                                                // Memeriksa apakah timer_awal ada
-                                                if ($timerAwal) {
+                                                    // Memeriksa apakah timer_awal ada
+                                                    if ($timerAwal) {
+                                                        $waktuAwal = \Carbon\Carbon::parse($timerAwal);
+                                                        $waktuSekarang = \Carbon\Carbon::now();
+                                                        $durasi = $waktuAwal->diff($waktuSekarang);
+
+                                                        // Menampilkan hasil perhitungan durasi
+                                                        echo "{$durasi->days} hari, {$durasi->h} jam";
+                                                    } else {
+                                                        echo '-';
+                                                    }
+                                                @endphp
+                                            @endif
+                                        </td>
+
+
+                                        <td>
+                                            @php
+                                                $timerAwal = $pengambilan_do->waktu_suratawal ?? null;
+                                                $timerAkhir = $pengambilan_do->waktu_suratakhir ?? null;
+
+                                                // Memeriksa apakah timer_awal ada dan waktu_suratakhir tidak null
+                                                if ($timerAwal && $timerAkhir) {
                                                     $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                    $waktuSekarang = \Carbon\Carbon::now();
-                                                    $durasi = $waktuAwal->diff($waktuSekarang);
+                                                    $waktuAkhir = \Carbon\Carbon::parse($timerAkhir);
+                                                    $durasi = $waktuAwal->diff($waktuAkhir);
 
                                                     // Menampilkan hasil perhitungan durasi
                                                     echo "{$durasi->days} hari, {$durasi->h} jam";
                                                 } else {
+                                                    // Jika waktu_suratakhir null, tampilkan '-'
                                                     echo '-';
                                                 }
                                             @endphp
-                                        @endif
-                                    </td>
+                                        </td>
 
 
-                                    <td>
-                                        @php
-                                            $timerAwal = $pengambilan_do->waktu_suratawal ?? null;
-                                            $timerAkhir = $pengambilan_do->waktu_suratakhir ?? null;
+                                        <td>{{ $pengambilan_do->penerima_sj ?? '-' }}</td>
+                                    </tr>
+                                    {{-- @endif --}}
 
-                                            // Memeriksa apakah timer_awal ada dan waktu_suratakhir tidak null
-                                            if ($timerAwal && $timerAkhir) {
-                                                $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                $waktuAkhir = \Carbon\Carbon::parse($timerAkhir);
-                                                $durasi = $waktuAwal->diff($waktuAkhir);
+                                    @php
+                                        $total++;
+                                    @endphp
+                                @endforeach
+                            </tbody>
 
-                                                // Menampilkan hasil perhitungan durasi
-                                                echo "{$durasi->days} hari, {$durasi->h} jam";
-                                            } else {
-                                                // Jika waktu_suratakhir null, tampilkan '-'
-                                                echo '-';
-                                            }
-                                        @endphp
-                                    </td>
+                            <tbody>
 
-
-                                    <td>{{ $pengambilan_do->penerima_sj ?? '-' }}</td>
-                                </tr>
-                                {{-- @endif --}}
-
-                                @php
-                                    $total++;
-                                @endphp
-                            @endforeach
-                        </tbody>
-
-                        <tbody>
-
-                            @foreach ($inquery as $driver)
+                                @foreach ($inquery as $driver)
+                                    <tr>
+                                    </tr>
+                                @endforeach
                                 <tr>
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="1"></td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td><strong>Total:</strong></td>
-                                <td class="text-left" style="font-weight: bold;">{{ $total }}</td>
-                                {{-- <td>
+                                    <td colspan="1"></td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><strong>Total:</strong></td>
+                                    <td class="text-left" style="font-weight: bold;">{{ $total }}</td>
+                                    {{-- <td>
                                 </td> --}}
-                            </tr>
-                        </tbody>
+                                </tr>
+                            </tbody>
 
-                    </table>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

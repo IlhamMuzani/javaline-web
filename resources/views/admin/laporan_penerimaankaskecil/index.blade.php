@@ -89,33 +89,36 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Penerimaan Kas Kecil</th>
-                                <th>Waktu</th>
-                                <th>Tanggal</th>
-                                <th>Nominal</th>
-                                <th>Total</th>
-                                {{-- <th class="text-center" width="70">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $penerimaan)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $penerimaan->kode_penerimaan }}</td>
-                                    <td>{{ $penerimaan->jam }}</td>
-                                    <td>{{ $penerimaan->tanggal_awal }}</td>
-                                    <td>
-                                        Rp. {{ number_format($penerimaan->nominal, 0, ',', '.') }}</td>
-                                    <td> Rp. {{ number_format($penerimaan->sub_total, 0, ',', '.') }}</td>
-
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Penerimaan Kas Kecil</th>
+                                    <th>Waktu</th>
+                                    <th>Tanggal</th>
+                                    <th>Nominal</th>
+                                    <th>Total</th>
+                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $penerimaan)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $penerimaan->kode_penerimaan }}</td>
+                                        <td>{{ $penerimaan->jam }}</td>
+                                        <td>{{ $penerimaan->tanggal_awal }}</td>
+                                        <td>
+                                            Rp. {{ number_format($penerimaan->nominal, 0, ',', '.') }}</td>
+                                        <td> Rp. {{ number_format($penerimaan->sub_total, 0, ',', '.') }}</td>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

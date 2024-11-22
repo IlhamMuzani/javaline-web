@@ -55,75 +55,77 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Pengurus</th>
-                                <th>Nama</th>
-                                <th>Telepon</th>
-                                <th>Post</th>
-                                <th class="text-center" width="150">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($karyawans as $karyawan)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="example1" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $karyawan->user->first()->kode_user ?? null }}</td>
-                                    <td>{{ $karyawan->nama_lengkap }}</td>
-                                    <td>{{ $karyawan->telp }}</td>
-                                    <td>{{ $karyawan->post->nama_post ?? null }}</td>
-                                    <td class="text-center">
-                                        <button type="submit" class="btn btn-warning btn-sm" data-toggle="modal"
-                                            data-target="#modal-update-{{ $karyawan->id }}">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Pengurus</th>
+                                    <th>Nama</th>
+                                    <th>Telepon</th>
+                                    <th>Post</th>
+                                    <th class="text-center" width="150">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-update-{{ $karyawan->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Ubah Post Pengurus</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                            </thead>
+                            <tbody>
+                                @foreach ($karyawans as $karyawan)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $karyawan->user->first()->kode_user ?? null }}</td>
+                                        <td>{{ $karyawan->nama_lengkap }}</td>
+                                        <td>{{ $karyawan->telp }}</td>
+                                        <td>{{ $karyawan->post->nama_post ?? null }}</td>
+                                        <td class="text-center">
+                                            <button type="submit" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                data-target="#modal-update-{{ $karyawan->id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-update-{{ $karyawan->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Ubah Post Pengurus</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <form action="{{ url('admin/pengurus/' . $karyawan->id) }}" method="POST">
+                                                    @csrf
+                                                    @method('put')
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="post_id">Post</label>
+                                                            <select class="custom-select form-control" id="post_id"
+                                                                name="post_id">
+                                                                <option value="">- Pilih Post -</option>
+                                                                @foreach ($posts as $post)
+                                                                    <option value="{{ $post->id }}"
+                                                                        {{ old('post_id', $karyawan->post_id) == $post->id ? 'selected' : '' }}>
+                                                                        {{ $post->nama_post }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer text-right">
+                                                        <button style="margin-right:10px" type="button"
+                                                            class="btn btn-default" data-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            id="btnSimpan">Simpan</button>
+                                                        <div id="loading" style="display: none;">
+                                                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
-                                            <form action="{{ url('admin/pengurus/' . $karyawan->id) }}" method="POST">
-                                                @csrf
-                                                @method('put')
-                                                <div class="modal-body">
-                                                    <div class="form-group">
-                                                        <label for="post_id">Post</label>
-                                                        <select class="custom-select form-control" id="post_id"
-                                                            name="post_id">
-                                                            <option value="">- Pilih Post -</option>
-                                                            @foreach ($posts as $post)
-                                                                <option value="{{ $post->id }}"
-                                                                    {{ old('post_id', $karyawan->post_id) == $post->id ? 'selected' : '' }}>
-                                                                    {{ $post->nama_post }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="card-footer text-right">
-                                                    <button style="margin-right:10px" type="button" class="btn btn-default"
-                                                        data-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-primary"
-                                                        id="btnSimpan">Simpan</button>
-                                                    <div id="loading" style="display: none;">
-                                                        <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
-                                                    </div>
-                                                </div>
-                                            </form>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

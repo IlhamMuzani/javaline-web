@@ -82,76 +82,79 @@
                             </div>
                         </div>
                     </form>
-                    <table id="aksesTable" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                <th>NO</th>
-                                <th>KODE SPK</th>
-                                <th>Nama Driver</th>
-                                <th>Kode Driver</th>
-                                <th>No Kabin</th>
-                                <th>TANGGAL</th>
-                                <th>PELANGGAN</th>
-                                <th>TUJUAN</th>
-                                <th style="width: 10%">MENUNGGU</th>
-                                <th style="width: 10%">UPLOAD SJ MUAT</th>
-                                <th style="width: 10%">UPLOAD SJ TERBONGKAR</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($spks as $buktipotongpajak)
-                                @php
-                                    $status = $buktipotongpajak->status;
-
-                                    // Define the order of statuses
-                                    $statusOrder = [
-                                        'loading muat' => 1,
-                                        'tunggu bongkar' => 2,
-                                        'selesai' => 3,
-                                    ];
-
-                                    // Determine the current status order value
-                                    $currentStatusOrder = $statusOrder[$status] ?? 0;
-
-                                    // Check the status for each button
-                                    $isGreen = [
-                                        'loading muat' => $currentStatusOrder >= $statusOrder['loading muat'],
-                                        'tunggu bongkar' => $currentStatusOrder >= $statusOrder['tunggu bongkar'],
-                                        'selesai' => $currentStatusOrder >= $statusOrder['selesai'],
-                                    ];
-                                @endphp
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}"></td> --}}
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->spk->nama_driver ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->spk->kendaraan->no_kabin ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->tanggal_awal }}</td>
-                                    <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
-                                    <td>{{ $buktipotongpajak->spk->nama_rute ?? null }}</td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['loading muat'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['tunggu bongkar'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                    </td>
-                                    <td>
-                                        <button type="button"
-                                            class="btn {{ $isGreen['selesai'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item"
-                                                href="{{ url('admin/status_pemberiando/' . $buktipotongpajak->id) }}">Show</a>
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="aksesTable" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th>NO</th>
+                                    <th>KODE SPK</th>
+                                    <th>Nama Driver</th>
+                                    <th>Kode Driver</th>
+                                    <th>No Kabin</th>
+                                    <th>TANGGAL</th>
+                                    <th>PELANGGAN</th>
+                                    <th>TUJUAN</th>
+                                    <th style="width: 10%">MENUNGGU</th>
+                                    <th style="width: 10%">UPLOAD SJ MUAT</th>
+                                    <th style="width: 10%">UPLOAD SJ TERBONGKAR</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($spks as $buktipotongpajak)
+                                    @php
+                                        $status = $buktipotongpajak->status;
+
+                                        // Define the order of statuses
+                                        $statusOrder = [
+                                            'loading muat' => 1,
+                                            'tunggu bongkar' => 2,
+                                            'selesai' => 3,
+                                        ];
+
+                                        // Determine the current status order value
+                                        $currentStatusOrder = $statusOrder[$status] ?? 0;
+
+                                        // Check the status for each button
+                                        $isGreen = [
+                                            'loading muat' => $currentStatusOrder >= $statusOrder['loading muat'],
+                                            'tunggu bongkar' => $currentStatusOrder >= $statusOrder['tunggu bongkar'],
+                                            'selesai' => $currentStatusOrder >= $statusOrder['selesai'],
+                                        ];
+                                    @endphp
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        {{-- <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                            value="{{ $buktipotongpajak->id }}"></td> --}}
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $buktipotongpajak->spk->kode_spk ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->spk->nama_driver ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->spk->kendaraan->no_kabin ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->tanggal_awal }}</td>
+                                        <td>{{ $buktipotongpajak->spk->nama_pelanggan ?? null }}</td>
+                                        <td>{{ $buktipotongpajak->spk->nama_rute ?? null }}</td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['loading muat'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['tunggu bongkar'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                class="btn {{ $isGreen['selesai'] ? 'btn-success' : 'btn-danger' }} btn-block"></button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/status_pemberiando/' . $buktipotongpajak->id) }}">Show</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
 
 
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"

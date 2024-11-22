@@ -90,39 +90,42 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Pembelian Part</th>
-                                <th>Tanggal</th>
-                                <th>Nama Supplier</th>
-                                <th>Jumlah</th>
-                                <th>Total</th>
-                                {{-- <th class="text-center" width="70">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $part)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $part->kode_pembelianpart }}</td>
-                                    <td>{{ $part->tanggal_awal }}</td>
-                                    <td>{{ $part->supplier->nama_supp }}</td>
-                                    <td>{{ $part->detail_part->count() }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($part->detail_part->sum('harga'), 0, ',', '.') }}</td>
-                                    {{-- <td class="text-center">
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Pembelian Part</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Jumlah</th>
+                                    <th>Total</th>
+                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $part)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $part->kode_pembelianpart }}</td>
+                                        <td>{{ $part->tanggal_awal }}</td>
+                                        <td>{{ $part->supplier->nama_supp }}</td>
+                                        <td>{{ $part->detail_part->count() }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($part->detail_part->sum('harga'), 0, ',', '.') }}</td>
+                                        {{-- <td class="text-center">
                                         <a href="{{ url('admin/pembelian_part/cetak-pdf/' . $part->id) }}"
                                             class="btn btn-info btn-sm">
                                             <i class="fas fa-print">
                                             </i> Cetak
                                         </a>
                                     </td> --}}
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

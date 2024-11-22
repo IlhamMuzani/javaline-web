@@ -121,44 +121,47 @@
 
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Invoice</th>
-                                <th>Tanggal</th>
-                                <th>Tanggal Pelunasan</th>
-                                <th>Pelanggan</th>
-                                <th>DPP</th>
-                                <th>PPH</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $tagihanekspedisi)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
-                                    <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
-                                    <td>
-                                        @if ($tagihanekspedisi->faktur_pelunasan->first())
-                                            {{ $tagihanekspedisi->faktur_pelunasan->first()->tanggal_transfer }}
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $tagihanekspedisi->nama_pelanggan }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>No Invoice</th>
+                                    <th>Tanggal</th>
+                                    <th>Tanggal Pelunasan</th>
+                                    <th>Pelanggan</th>
+                                    <th>DPP</th>
+                                    <th>PPH</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $tagihanekspedisi)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
+                                        <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                        <td>
+                                            @if ($tagihanekspedisi->faktur_pelunasan->first())
+                                                {{ $tagihanekspedisi->faktur_pelunasan->first()->tanggal_transfer }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $tagihanekspedisi->nama_pelanggan }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($tagihanekspedisi->sub_total, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -88,100 +88,102 @@
                         </div>
                     </form>
                     <!-- Tabel Faktur Utama -->
-                    <table class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead>
-                            <tr>
-                                <th>Kode Invoice</th>
-                                <th>Tanggal</th>
-                                <th>Pelanggan</th>
-                                <th>No Polisi</th>
-                                <th>DPP</th>
-                                <th>PPH</th>
-                                <th>Sub Total</th>
-                                {{-- <th>Actions</th> <!-- Tambahkan kolom aksi untuk collapse/expand --> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $totalDPP = 0;
-                                $totalPPH = 0;
-                                $totalSUB = 0;
-                            @endphp
-                            @foreach ($inquery as $index => $invoice)
-                                <tr data-toggle="collapse" data-target="#invoice-{{ $index }}"
-                                    class="accordion-toggle" style="background: rgb(156, 156, 156)">
-                                    <td>{{ $invoice->kode_tagihan }}</td>
-                                    <td>{{ $invoice->created_at }}</td>
-                                    <td>{{ $invoice->nama_pelanggan }}</td>
-                                    <td>{{ $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan ? $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan->no_pol : 'Tidak ada' }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($invoice->sub_total, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        @if ($invoice->kategori == 'PPH')
-                                            {{ number_format($invoice->pph, 0, ',', '.') }}
-                                        @else
-                                            0
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($invoice->grand_total, 0, ',', '.') }}
-                                    </td>
-                                </tr>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table table-bordered table-striped table-hover" style="font-size: 13px">
+                            <thead>
                                 <tr>
-                                    <td colspan="7">
-                                        <div id="invoice-{{ $index }}" class="collapse">
-                                            <table class="table table-sm" style="margin: 0;">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Kode Faktur</th>
-                                                        <th>Tanggal</th>
-                                                        <th>Nama Rute</th>
-                                                        <th>Grand Total</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($invoice->detail_tagihan as $memo)
+                                    <th>Kode Invoice</th>
+                                    <th>Tanggal</th>
+                                    <th>Pelanggan</th>
+                                    <th>No Polisi</th>
+                                    <th>DPP</th>
+                                    <th>PPH</th>
+                                    <th>Sub Total</th>
+                                    {{-- <th>Actions</th> <!-- Tambahkan kolom aksi untuk collapse/expand --> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $totalDPP = 0;
+                                    $totalPPH = 0;
+                                    $totalSUB = 0;
+                                @endphp
+                                @foreach ($inquery as $index => $invoice)
+                                    <tr data-toggle="collapse" data-target="#invoice-{{ $index }}"
+                                        class="accordion-toggle" style="background: rgb(156, 156, 156)">
+                                        <td>{{ $invoice->kode_tagihan }}</td>
+                                        <td>{{ $invoice->created_at }}</td>
+                                        <td>{{ $invoice->nama_pelanggan }}</td>
+                                        <td>{{ $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan ? $invoice->detail_tagihan->first()->faktur_ekspedisi->kendaraan->no_pol : 'Tidak ada' }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($invoice->sub_total, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            @if ($invoice->kategori == 'PPH')
+                                                {{ number_format($invoice->pph, 0, ',', '.') }}
+                                            @else
+                                                0
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($invoice->grand_total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                            <div id="invoice-{{ $index }}" class="collapse">
+                                                <table class="table table-sm" style="margin: 0;">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $memo->kode_faktur }}</td>
-                                                            <td>{{ $memo->tanggal_awal }}</td>
-                                                            <td>{{ $memo->nama_rute }}</td>
-                                                            <td class="text-right">
-                                                                {{ number_format($memo->faktur_ekspedisi->grand_total) }}
-                                                            </td>
+                                                            <th>Kode Faktur</th>
+                                                            <th>Tanggal</th>
+                                                            <th>Nama Rute</th>
+                                                            <th>Grand Total</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($invoice->detail_tagihan as $memo)
+                                                            <tr>
+                                                                <td>{{ $memo->kode_faktur }}</td>
+                                                                <td>{{ $memo->tanggal_awal }}</td>
+                                                                <td>{{ $memo->nama_rute }}</td>
+                                                                <td class="text-right">
+                                                                    {{ number_format($memo->faktur_ekspedisi->grand_total) }}
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @php
+                                        $totalDPP += $invoice->sub_total;
+                                        $totalPPH += $invoice->pph;
+                                        $totalSUB += $invoice->grand_total;
+                                    @endphp
+                                @endforeach
+                                <tr>
+                                    <td colspan="1"></td>
+                                    <td>
+                                    </td>
+                                    <td><strong>Total:</strong></td>
+                                    <td>
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        {{ number_format($totalDPP, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        {{ number_format($totalPPH, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        {{ number_format($totalSUB, 0, ',', '.') }}
                                     </td>
                                 </tr>
-                                @php
-                                    $totalDPP += $invoice->sub_total;
-                                    $totalPPH += $invoice->pph;
-                                    $totalSUB += $invoice->grand_total;
-                                @endphp
-                            @endforeach
-                            <tr>
-                                <td colspan="1"></td>
-                                <td>
-                                </td>
-                                <td><strong>Total:</strong></td>
-                                <td>
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    {{ number_format($totalDPP, 0, ',', '.') }}
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    {{ number_format($totalPPH, 0, ',', '.') }}
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    {{ number_format($totalSUB, 0, ',', '.') }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

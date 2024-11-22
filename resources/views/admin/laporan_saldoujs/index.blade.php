@@ -70,18 +70,20 @@
                             </form>
                         </div>
                     </div>
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th>Sisa Saldo Adm UJS</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td> Rp. {{ number_format($inquery->sisa_ujs, 0, ',', '.') }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Sisa Saldo Adm UJS</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td> Rp. {{ number_format($inquery->sisa_ujs, 0, ',', '.') }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

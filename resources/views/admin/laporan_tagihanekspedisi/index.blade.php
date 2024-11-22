@@ -78,42 +78,45 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Kategori</th>
-                                <th>Admin</th>
-                                <th>Pelanggan</th>
-                                <th>PPH</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $tagihanekspedisi)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
-                                    <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
-                                    <td>{{ $tagihanekspedisi->kategori }}</td>
-                                    <td>
-                                        {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        {{ $tagihanekspedisi->nama_pelanggan }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Kategori</th>
+                                    <th>Admin</th>
+                                    <th>Pelanggan</th>
+                                    <th>PPH</th>
+                                    <th>Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $tagihanekspedisi)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $tagihanekspedisi->kode_tagihan }}</td>
+                                        <td>{{ $tagihanekspedisi->tanggal_awal }}</td>
+                                        <td>{{ $tagihanekspedisi->kategori }}</td>
+                                        <td>
+                                            {{ $tagihanekspedisi->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            {{ $tagihanekspedisi->nama_pelanggan }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($tagihanekspedisi->pph, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($tagihanekspedisi->grand_total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

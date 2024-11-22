@@ -79,61 +79,64 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Memo Tambahan</th>
-                                <th>No Memo</th>
-                                <th>Tanggal</th>
-                                <th>Sopir</th>
-                                <th>No Kabin</th>
-                                <th>Rute</th>
-                                <th style="text-align: center">Uang Tambah</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $memotambahan)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $memotambahan->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $memotambahan->kode_tambahan }}</td>
-                                    <td>
-                                        @if ($memotambahan->memo_ekspedisi)
-                                            {{ $memotambahan->memo_ekspedisi->kode_memo }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $memotambahan->tanggal_awal }}</td>
-                                    <td>
-                                        @if ($memotambahan->memo_ekspedisi)
-                                            {{ explode(' ', $memotambahan->memo_ekspedisi->nama_driver)[0] }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($memotambahan->memo_ekspedisi)
-                                            {{ $memotambahan->memo_ekspedisi->no_kabin }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        @if ($memotambahan->memo_ekspedisi)
-                                            {{ $memotambahan->memo_ekspedisi->nama_rute }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($memotambahan->grand_total, 0, ',', '.') }}</td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Memo Tambahan</th>
+                                    <th>No Memo</th>
+                                    <th>Tanggal</th>
+                                    <th>Sopir</th>
+                                    <th>No Kabin</th>
+                                    <th>Rute</th>
+                                    <th style="text-align: center">Uang Tambah</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $memotambahan)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $memotambahan->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $memotambahan->kode_tambahan }}</td>
+                                        <td>
+                                            @if ($memotambahan->memo_ekspedisi)
+                                                {{ $memotambahan->memo_ekspedisi->kode_memo }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $memotambahan->tanggal_awal }}</td>
+                                        <td>
+                                            @if ($memotambahan->memo_ekspedisi)
+                                                {{ explode(' ', $memotambahan->memo_ekspedisi->nama_driver)[0] }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($memotambahan->memo_ekspedisi)
+                                                {{ $memotambahan->memo_ekspedisi->no_kabin }}
+                                            @else
+                                                tidak ada
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            @if ($memotambahan->memo_ekspedisi)
+                                                {{ $memotambahan->memo_ekspedisi->nama_rute }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memotambahan->grand_total, 0, ',', '.') }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

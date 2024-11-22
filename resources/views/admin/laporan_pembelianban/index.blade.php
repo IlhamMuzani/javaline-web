@@ -90,57 +90,60 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Faktur Pembelian Ban</th>
-                                <th>Tanggal</th>
-                                <th>Nama Supplier</th>
-                                <th>Jumlah</th>
-                                <th>Total</th>
-                                {{-- <th class="text-center" width="70">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                // $tanggal_awal = isset($tanggal_awal) ? $tanggal_awal : null;
-                                // $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
-                                $totalSubtotal = 0; // Initialize the total variable
-                            @endphp
-                            @foreach ($inquery as $ban)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $ban->kode_pembelian_ban }}</td>
-                                    <td>{{ $ban->tanggal_awal }}</td>
-                                    <td>{{ $ban->supplier->nama_supp }}</td>
-                                    <td>{{ $ban->detail_ban->count() }}</td>
-                                    <td class="text-right">
-                                        {{ number_format($ban->detail_ban->sum('harga'), 0, ',', '.') }}</td>
+                                    <th class="text-center">No</th>
+                                    <th>Faktur Pembelian Ban</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Supplier</th>
+                                    <th>Jumlah</th>
+                                    <th>Total</th>
+                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
                                 </tr>
+                            </thead>
+                            <tbody>
                                 @php
-                                    // Accumulate the subtotal for each $ban
-                                    $totalSubtotal += $ban->detail_ban->sum('harga');
+                                    // $tanggal_awal = isset($tanggal_awal) ? $tanggal_awal : null;
+                                    // $tanggal_akhir = isset($tanggal_akhir) ? $tanggal_akhir : null;
+                                    $totalSubtotal = 0; // Initialize the total variable
                                 @endphp
-                            @endforeach
-                        </tbody>
-                        <tbody>
-                            <tr>
-                                <td colspan="2"></td>
-                                {{-- <td><strong>Total Deposit:</strong></td> --}}
-                                <td class="text-right" style="font-weight: bold;">
-                                </td>
-                                {{-- <td><strong>Total Saldo:</strong></td> --}}
-                                <td class="text-right" style="font-weight: bold;">
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                </td>
-                                <td class="text-right" style="font-weight: bold;">
-                                    Rp.{{ number_format($totalSubtotal, 0, ',', '.') }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                @foreach ($inquery as $ban)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $ban->kode_pembelian_ban }}</td>
+                                        <td>{{ $ban->tanggal_awal }}</td>
+                                        <td>{{ $ban->supplier->nama_supp }}</td>
+                                        <td>{{ $ban->detail_ban->count() }}</td>
+                                        <td class="text-right">
+                                            {{ number_format($ban->detail_ban->sum('harga'), 0, ',', '.') }}</td>
+                                    </tr>
+                                    @php
+                                        // Accumulate the subtotal for each $ban
+                                        $totalSubtotal += $ban->detail_ban->sum('harga');
+                                    @endphp
+                                @endforeach
+                            </tbody>
+                            <tbody>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    {{-- <td><strong>Total Deposit:</strong></td> --}}
+                                    <td class="text-right" style="font-weight: bold;">
+                                    </td>
+                                    {{-- <td><strong>Total Saldo:</strong></td> --}}
+                                    <td class="text-right" style="font-weight: bold;">
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                    </td>
+                                    <td class="text-right" style="font-weight: bold;">
+                                        Rp.{{ number_format($totalSubtotal, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -314,11 +314,25 @@
                                                     @endif
                                                 @endif
                                                 @if ($memoborong->detail_faktur->first())
-                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
+                                                    {{-- <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
                                                         Ekspedisi
                                                         <strong>
                                                             @if ($memoborong->detail_faktur->first()->faktur_ekspedisi)
                                                                 {{ $memoborong->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </strong>
+                                                    </p> --}}
+
+                                                    <p style="margin-left:15px; margin-right:15px">
+                                                        Digunakan Oleh Faktur Ekspedisi
+                                                        <strong>
+                                                            @if ($memoborong->detail_faktur->first()->faktur_ekspedisi)
+                                                                <a href="{{ route('inquery_fakturekspedisi.show', $memoborong->detail_faktur->first()->faktur_ekspedisi->id) }}"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    {{ $memoborong->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}
+                                                                </a>
                                                             @else
                                                                 tidak ada
                                                             @endif

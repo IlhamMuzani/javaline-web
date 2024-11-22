@@ -127,59 +127,62 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No. Kabin</th>
-                                <th>No. Registrasi</th>
-                                <th>Nama Driver</th>
-                                <th>Tujuan</th>
-                                <th>Pelanggan</th>
-                                <th>Waktu Berangkat</th>
-                                <th>Waktu Sampai</th>
-                                <th>Waktu</th>
-                                {{-- <th>Status Kendaraan</th> --}}
-                                {{-- <th>Timer</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $kendaraan)
-                                <?php
-                                $tanggalAwal = new DateTime($kendaraan->tanggal_awalwaktuperjalanan);
-                                $tanggalAkhir = new DateTime($kendaraan->tanggal_akhirwaktuperjalanan);
-                                
-                                // Menghitung selisih waktu antara tanggal awal dan tanggal akhir
-                                $interval = $tanggalAwal->diff($tanggalAkhir);
-                                
-                                // Mengambil selisih hari dan jam
-                                $selisihHari = $interval->days;
-                                $selisihJam = $interval->h;
-                                ?>
-
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $kendaraan->no_kabin }}</td>
-                                    <td>{{ $kendaraan->no_pol }}</td>
-                                    <td>
-                                        {{ $kendaraan->user->karyawan->nama_lengkap }}
-                                    </td>
-                                    <td>
-                                        @if ($kendaraan->kota)
-                                            {{ $kendaraan->kota->nama }}
-                                        @else
-                                            tujuan tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $kendaraan->pelanggan->nama_pell }}</td>
-                                    <td>{{ $kendaraan->tanggal_awalwaktuperjalanan }}</td>
-                                    <td>{{ $kendaraan->tanggal_akhirwaktuperjalanan }}</td>
-                                    <td>{{ $selisihHari }} hari {{ $selisihJam }} jam</td>
+                                    <th class="text-center">No</th>
+                                    <th>No. Kabin</th>
+                                    <th>No. Registrasi</th>
+                                    <th>Nama Driver</th>
+                                    <th>Tujuan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Waktu Berangkat</th>
+                                    <th>Waktu Sampai</th>
+                                    <th>Waktu</th>
+                                    {{-- <th>Status Kendaraan</th> --}}
+                                    {{-- <th>Timer</th> --}}
                                 </tr>
-                            @endforeach
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $kendaraan)
+                                    <?php
+                                    $tanggalAwal = new DateTime($kendaraan->tanggal_awalwaktuperjalanan);
+                                    $tanggalAkhir = new DateTime($kendaraan->tanggal_akhirwaktuperjalanan);
+                                    
+                                    // Menghitung selisih waktu antara tanggal awal dan tanggal akhir
+                                    $interval = $tanggalAwal->diff($tanggalAkhir);
+                                    
+                                    // Mengambil selisih hari dan jam
+                                    $selisihHari = $interval->days;
+                                    $selisihJam = $interval->h;
+                                    ?>
 
-                        </tbody>
-                    </table>
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $kendaraan->no_kabin }}</td>
+                                        <td>{{ $kendaraan->no_pol }}</td>
+                                        <td>
+                                            {{ $kendaraan->user->karyawan->nama_lengkap }}
+                                        </td>
+                                        <td>
+                                            @if ($kendaraan->kota)
+                                                {{ $kendaraan->kota->nama }}
+                                            @else
+                                                tujuan tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $kendaraan->pelanggan->nama_pell }}</td>
+                                        <td>{{ $kendaraan->tanggal_awalwaktuperjalanan }}</td>
+                                        <td>{{ $kendaraan->tanggal_akhirwaktuperjalanan }}</td>
+                                        <td>{{ $selisihHari }} hari {{ $selisihJam }} jam</td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

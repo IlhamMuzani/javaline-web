@@ -132,6 +132,9 @@ class KaryawanController extends Controller
             'tanggal_gabung' => $request->tanggal_gabung,
             'telp' => $request->telp,
             'alamat' => $request->alamat,
+            'alamat2' => $request->alamat2,
+            'alamat3' => $request->alamat3,
+            'gmail' => $request->gmail,
             'nama_bank' => $request->nama_bank,
             'atas_nama' => $request->atas_nama,
             'norek' => $request->norek,
@@ -335,6 +338,9 @@ class KaryawanController extends Controller
         $karyawan->tanggal_gabung = $request->tanggal_gabung;
         $karyawan->telp = $request->telp;
         $karyawan->alamat = $request->alamat;
+        $karyawan->alamat2 = $request->alamat2;
+        $karyawan->alamat3 = $request->alamat3;
+        $karyawan->gmail = $request->gmail;
         $karyawan->nama_bank = $request->nama_bank;
         $karyawan->atas_nama = $request->atas_nama;
         $karyawan->norek = $request->norek;

@@ -247,10 +247,47 @@
                                                             href="{{ url('admin/inquery_memotambahan/' . $memotambahan->id) }}">Show</a>
                                                     @endif
                                                 @endif
-                                                @if ($memotambahan->detail_faktur->first())
-                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
+
+                                                @if ($memotambahan->memo_ekspedisi->first())
+                                                    {{-- <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
                                                         Ekspedisi
                                                         <strong>{{ $memotambahan->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
+                                                    </p> --}}
+                                                    <p style="margin-left:15px; margin-right:15px">
+                                                        Digunakan Memo
+                                                        <strong>
+                                                            @if ($memotambahan->memo_ekspedisi)
+                                                                <a href="{{ route('memo_ekspedisi.show', $memotambahan->memo_ekspedisi->id) }}"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    {{ $memotambahan->memo_ekspedisi->kode_memo }}
+                                                                </a>
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </strong>
+                                                    </p>
+                                                @else
+                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
+                                                @endif
+
+
+                                                @if ($memotambahan->detail_faktur->first())
+                                                    {{-- <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Faktur
+                                                        Ekspedisi
+                                                        <strong>{{ $memotambahan->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}</strong>
+                                                    </p> --}}
+                                                    <p style="margin-left:15px; margin-right:15px">
+                                                        Digunakan Oleh Faktur Ekspedisi
+                                                        <strong>
+                                                            @if ($memotambahan->detail_faktur->first()->faktur_ekspedisi)
+                                                                <a href="{{ route('inquery_fakturekspedisi.show', $memotambahan->detail_faktur->first()->faktur_ekspedisi->id) }}"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    {{ $memotambahan->detail_faktur->first()->faktur_ekspedisi->kode_faktur }}
+                                                                </a>
+                                                            @else
+                                                                tidak ada
+                                                            @endif
+                                                        </strong>
                                                     </p>
                                                 @else
                                                     <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->

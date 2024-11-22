@@ -76,61 +76,64 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>UJS</th>
-                                <th>Tanggal</th>
-                                <th>Nama Sopir</th>
-                                <th>Jam</th>
-                                <th>Type</th>
-                                <th>Nominal</th>
-                                <th class="text-center" width="20">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $adms)
-                                <tr class="dropdown"{{ $adms->id }}>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $adms->kode_jaminan }}
-                                    </td>
-                                    <td>
-                                        {{ $adms->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $adms->nama_sopir }}
-                                    </td>
-                                    <td>
-                                        {{ $adms->jam }}
-                                    </td>
-                                    <td>
-                                        {{ $adms->type }}
-                                    </td>
-                                    <td>
-                                        Rp. {{ number_format($adms->nominal, 2, ',', '.') }}</td>
-                                    <td class="text-center">
-                                        @if ($adms->status == 'posting')
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($adms->status == 'pending')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/listadministrasi/' . $adms->id) }}">Show</a>
-                                            @endif
-                                            @if ($adms->status == 'posting')
-                                                <a class="dropdown-item"
-                                                    href="{{ url('admin/listadministrasi/' . $adms->id) }}">Show</a>
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>UJS</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama Sopir</th>
+                                    <th>Jam</th>
+                                    <th>Type</th>
+                                    <th>Nominal</th>
+                                    <th class="text-center" width="20">Opsi</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $adms)
+                                    <tr class="dropdown"{{ $adms->id }}>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $adms->kode_jaminan }}
+                                        </td>
+                                        <td>
+                                            {{ $adms->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $adms->nama_sopir }}
+                                        </td>
+                                        <td>
+                                            {{ $adms->jam }}
+                                        </td>
+                                        <td>
+                                            {{ $adms->type }}
+                                        </td>
+                                        <td>
+                                            Rp. {{ number_format($adms->nominal, 2, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            @if ($adms->status == 'posting')
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($adms->status == 'pending')
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/listadministrasi/' . $adms->id) }}">Show</a>
+                                                @endif
+                                                @if ($adms->status == 'posting')
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/listadministrasi/' . $adms->id) }}">Show</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -133,7 +133,22 @@
                                 placeholder="Masukan no telp" value="{{ old('telp') }}">
                         </div>
                         <div class="form-group">
-                            <label for="alamat">Alamat</label>
+                            <label for="gmail">Email</label>
+                            <input type="text" class="form-control" id="gmail" name="gmail"
+                                placeholder="Masukan email" value="{{ old('gmail') }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="alamat3">Provinsi</label>
+                            <textarea type="text" class="form-control" id="alamat3" name="alamat3" placeholder="Masukan provinsi">{{ old('alamat3') }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alamat2">Kota / Kabupaten</label>
+                            <textarea type="text" class="form-control" id="alamat2" name="alamat2" placeholder="Masukan kota / kabupaten">{{ old('alamat2') }}</textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="alamat">Kecamatan dan desa</label>
                             <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
                         </div>
 

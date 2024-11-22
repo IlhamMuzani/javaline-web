@@ -89,61 +89,65 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Admin</th>
-                                <th>Supplier</th>
-                                {{-- <th>PPH</th> --}}
-                                <th style="text-align: end">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $fakturpelunasanpart)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $fakturpelunasanpart->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if ($fakturpelunasanpart->pembelian_part)
-                                            {{ $fakturpelunasanpart->pembelian_part->kode_pembelianpart }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($fakturpelunasanpart->pembelian_part)
-                                            {{ $fakturpelunasanpart->pembelian_part->tanggal_awal }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($fakturpelunasanpart->pembelian_part)
-                                            {{ $fakturpelunasanpart->pembelian_part->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($fakturpelunasanpart->faktur_pelunasanpart)
-                                            {{ $fakturpelunasanpart->faktur_pelunasanpart->nama_supplier }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    {{-- <td style="text-align: end">
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Admin</th>
+                                    <th>Supplier</th>
+                                    {{-- <th>PPH</th> --}}
+                                    <th style="text-align: end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $fakturpelunasanpart)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $fakturpelunasanpart->id }}"
+                                        style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($fakturpelunasanpart->pembelian_part)
+                                                {{ $fakturpelunasanpart->pembelian_part->kode_pembelianpart }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($fakturpelunasanpart->pembelian_part)
+                                                {{ $fakturpelunasanpart->pembelian_part->tanggal_awal }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($fakturpelunasanpart->pembelian_part)
+                                                {{ $fakturpelunasanpart->pembelian_part->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($fakturpelunasanpart->faktur_pelunasanpart)
+                                                {{ $fakturpelunasanpart->faktur_pelunasanpart->nama_supplier }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        {{-- <td style="text-align: end">
                                         {{ number_format($fakturpelunasanpart->pph, 0, ',', '.') }}
                                     </td> --}}
-                                    <td style="text-align: end">
-                                        {{ number_format($fakturpelunasanpart->total, 0, ',', '.') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        <td style="text-align: end">
+                                            {{ number_format($fakturpelunasanpart->total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

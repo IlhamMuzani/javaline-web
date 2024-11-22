@@ -79,42 +79,45 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Tanggal</th>
-                                <th>Nama User</th>
-                                <th>No Kabin</th>
-                                <th>Km Update</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $updatekm)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $updatekm->tanggal }}</td>
-                                    <td>
-                                        @if ($updatekm->user)
-                                            {{ $updatekm->user->karyawan->nama_lengkap }}
-                                        @else
-                                            User tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($updatekm->kendaraan)
-                                            {{ $updatekm->kendaraan->no_kabin }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td style="text-align: right">{{ $updatekm->km_update }}</td>
-                                    {{-- <td class="text-center">
-                                    </td> --}}
+                                    <th class="text-center">No</th>
+                                    <th>Tanggal</th>
+                                    <th>Nama User</th>
+                                    <th>No Kabin</th>
+                                    <th>Km Update</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $updatekm)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $updatekm->tanggal }}</td>
+                                        <td>
+                                            @if ($updatekm->user)
+                                                {{ $updatekm->user->karyawan->nama_lengkap }}
+                                            @else
+                                                User tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($updatekm->kendaraan)
+                                                {{ $updatekm->kendaraan->no_kabin }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td style="text-align: right">{{ $updatekm->km_update }}</td>
+                                        {{-- <td class="text-center">
+                                    </td> --}}
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

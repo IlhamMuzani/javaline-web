@@ -79,33 +79,36 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Pelanggan</th>
-                                <th style="text-align: right">Pph</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $pph)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $pph->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $pph->kode_faktur }}</td>
-                                    <td>{{ $pph->tanggal_awal }}</td>
-                                    <td>
-                                        {{ $pph->nama_pelanggan }}
-                                    </td>
-                                    <td style="text-align: end">
-                                        {{ number_format($pph->pph, 0, ',', '.') }}
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Pelanggan</th>
+                                    <th style="text-align: right">Pph</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $pph)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $pph->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $pph->kode_faktur }}</td>
+                                        <td>{{ $pph->tanggal_awal }}</td>
+                                        <td>
+                                            {{ $pph->nama_pelanggan }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($pph->pph, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

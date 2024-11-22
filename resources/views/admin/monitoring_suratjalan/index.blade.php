@@ -114,113 +114,120 @@
                             </div>
                         </div>
                     </form>
-                    <table id="aksesTable" class="table table-bordered table-striped table-hover" style="font-size: 10px">
-                        <thead class="thead-dark">
-                            <tr>
-                                {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
-                                <th>NO</th>
-                                <th>KODE SPK</th>
-                                <th>PELANGGAN</th>
-                                <th>TUJUAN</th>
-                                <th>TANGGAL</th>
-                                <th>NO KABIN</th>
-                                <th>NAMA DRIVER</th>
-                                <th>PENERIMA</th>
-                                <th>POST</th>
-                                <th>TIMER</th>
-                                <th>TIMER TOTAL</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="aksesTable" class="table table-bordered table-striped table-hover"
+                            style="font-size: 10px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    {{-- <th><input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th>NO</th>
+                                    <th>KODE SPK</th>
+                                    <th>PELANGGAN</th>
+                                    <th>TUJUAN</th>
+                                    <th>TANGGAL</th>
+                                    <th>NO KABIN</th>
+                                    <th>NO POL</th>
+                                    <th>NAMA DRIVER</th>
+                                    <th>PENERIMA</th>
+                                    <th>POST</th>
+                                    <th>TIMER</th>
+                                    <th>TIMER TOTAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            @foreach ($spks as $pengambilan_do)
-                                @php
-                                    $noKabin = $pengambilan_do->spk->kendaraan->no_kabin ?? '-';
-                                    $isUserRestricted =
-                                        in_array(auth()->user()->id, [372, 576]) && strpos($noKabin, 'K3') !== 0;
-                                @endphp
-                                @if (!$isUserRestricted)
+                                @foreach ($spks as $pengambilan_do)
+                                    @php
+                                        $noKabin = $pengambilan_do->spk->kendaraan->no_kabin ?? '-';
+                                        $isUserRestricted =
+                                            in_array(auth()->user()->id, [372, 576]) && strpos($noKabin, 'K3') !== 0;
+                                    @endphp
+                                    @if (!$isUserRestricted)
 
-                                    {{-- @if ($pengambilan_do->waktu_suratakhir == null) --}}
-                                    <tr class="dropdown"{{ $pengambilan_do->id }}>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->tanggal_awal }}</td>
-                                        <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
-                                        <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
-                                        <td>
-                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                                @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                    {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
-                                                @else
-                                                    {{ $pengambilan_do->penerima_sj ?? '-' }}
-                                                @endif
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                                @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
-                                                    @if ($pengambilan_do->timer_suratjalan->last()->user->karyawan->post_id == null)
-                                                        PUSAT
+                                        {{-- @if ($pengambilan_do->waktu_suratakhir == null) --}}
+                                        <tr class="dropdown"{{ $pengambilan_do->id }}>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td>{{ $pengambilan_do->spk->kode_spk ?? '-' }}</td>
+                                            <td>{{ $pengambilan_do->spk->nama_pelanggan ?? '-' }}</td>
+                                            <td>{{ $pengambilan_do->spk->nama_rute ?? '-' }}</td>
+                                            <td>{{ $pengambilan_do->tanggal_awal }}</td>
+                                            <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? '-' }}</td>
+                                            <td>{{ $pengambilan_do->spk->kendaraan->no_pol ?? '-' }}</td>
+                                            <td>{{ $pengambilan_do->spk->nama_driver ?? '-' }}</td>
+                                            <td>
+                                                @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                    @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
+                                                        {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->nama_lengkap ?? null }}
                                                     @else
-                                                        {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->post->nama_post ?? null }}
+                                                        {{ $pengambilan_do->penerima_sj ?? '-' }}
                                                     @endif
                                                 @else
                                                     -
                                                 @endif
-                                            @else
-                                                {{-- PAKET
+                                            </td>
+                                            <td>
+                                                @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                    @if ($pengambilan_do->timer_suratjalan->isNotEmpty())
+                                                        @if ($pengambilan_do->timer_suratjalan->last()->user->karyawan->post_id == null)
+                                                            PUSAT
+                                                        @else
+                                                            {{ $pengambilan_do->timer_suratjalan->last()->user->karyawan->post->nama_post ?? null }}
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                @else
+                                                    {{-- PAKET
                                                 <br>
                                                 NO RESI : 123456789098 --}}
-                                            @endif
-                                        </td>
+                                                @endif
+                                            </td>
 
 
-                                        <td>
-                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
-                                                @php
-                                                    $timerAwal =
-                                                        $pengambilan_do->timer_suratjalan->last()->timer_awal ?? null;
+                                            <td>
+                                                @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                    @php
+                                                        $timerAwal =
+                                                            $pengambilan_do->timer_suratjalan->last()->timer_awal ??
+                                                            null;
 
-                                                    // Memeriksa apakah timer_awal ada
-                                                    if ($timerAwal) {
-                                                        $waktuAwal = \Carbon\Carbon::parse($timerAwal);
-                                                        $waktuSekarang = \Carbon\Carbon::now();
-                                                        $durasi = $waktuAwal->diff($waktuSekarang);
+                                                        // Memeriksa apakah timer_awal ada
+                                                        if ($timerAwal) {
+                                                            $waktuAwal = \Carbon\Carbon::parse($timerAwal);
+                                                            $waktuSekarang = \Carbon\Carbon::now();
+                                                            $durasi = $waktuAwal->diff($waktuSekarang);
 
-                                                        // Menampilkan hasil perhitungan durasi
-                                                        echo "{$durasi->days} hari, {$durasi->h} jam";
-                                                    } else {
-                                                        echo '-';
-                                                    }
-                                                @endphp
-                                            @endif
-                                        </td>
+                                                            // Menampilkan hasil perhitungan durasi
+                                                            echo "{$durasi->days} hari, {$durasi->h} jam";
+                                                        } else {
+                                                            echo '-';
+                                                        }
+                                                    @endphp
+                                                @endif
+                                            </td>
 
 
-                                        <td>
-                                            @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
-                                                {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
-                                                {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
-                                                {{ $pengambilan_do->durasi_penerimaan_menit }} menit,
-                                                {{ $pengambilan_do->durasi_penerimaan_detik }} detik
-                                            @elseif ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
-                                                {{ $pengambilan_do->durasi_hari }} hari, {{ $pengambilan_do->durasi_jam }}
-                                                jam
-                                            @else
-                                                Durasi tidak tersedia
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    {{-- @endif --}}
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            <td>
+                                                @if ($pengambilan_do->status_penerimaansj == 'posting' && $pengambilan_do->durasi_penerimaan_hari !== null)
+                                                    {{ $pengambilan_do->durasi_penerimaan_hari }} hari,
+                                                    {{ $pengambilan_do->durasi_penerimaan_jam }} jam,
+                                                    {{ $pengambilan_do->durasi_penerimaan_menit }} menit,
+                                                    {{ $pengambilan_do->durasi_penerimaan_detik }} detik
+                                                @elseif ($pengambilan_do->durasi_hari !== '-' && $pengambilan_do->durasi_jam !== '-')
+                                                    {{ $pengambilan_do->durasi_hari }} hari,
+                                                    {{ $pengambilan_do->durasi_jam }}
+                                                    jam
+                                                @else
+                                                    Durasi tidak tersedia
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        {{-- @endif --}}
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -270,11 +277,11 @@
                     }, // Nonaktifkan pengurutan untuk kolom No
                     {
                         "type": "duration",
-                        "targets": 9
+                        "targets": 10
                     }, // Custom sorting untuk kolom "Posisi" (indeks kolom 8)
                     {
                         "type": "duration",
-                        "targets": 10
+                        "targets": 11
                     } // Custom sorting untuk kolom "TIMER TOTAL" (indeks kolom 9)
                 ],
                 "language": {

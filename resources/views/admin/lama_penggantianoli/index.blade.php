@@ -68,70 +68,72 @@
                             <option value="lama_bearing">Target Pengecekan Tromol</option>
                         </select>
                     </div>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode</th>
-                                <th>Nama Oli </th>
-                                <th>Target Penggantian Oli </th>
-                                <th class="text-center" width="90">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($lama_penggantianolis as $lama_penggantianoli)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $lama_penggantianoli->kode_oli }}
-                                    </td>
-                                    <td>{{ $lama_penggantianoli->nama }}
-                                    </td>
-                                    <td> {{ number_format($lama_penggantianoli->km_oli, 0, ',', '.') }}
+                                    <th class="text-center">No</th>
+                                    <th>Kode</th>
+                                    <th>Nama Oli </th>
+                                    <th>Target Penggantian Oli </th>
+                                    <th class="text-center" width="90">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($lama_penggantianolis as $lama_penggantianoli)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $lama_penggantianoli->kode_oli }}
+                                        </td>
+                                        <td>{{ $lama_penggantianoli->nama }}
+                                        </td>
+                                        <td> {{ number_format($lama_penggantianoli->km_oli, 0, ',', '.') }}
 
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="{{ url('admin/lama_penggantianoli/' . $lama_penggantianoli->id . '/edit') }}"
-                                            class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        </td>
+                                        <td class="text-center">
+                                            <a href="{{ url('admin/lama_penggantianoli/' . $lama_penggantianoli->id . '/edit') }}"
+                                                class="btn btn-warning btn-sm">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            {{-- <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target="#modal-hapus-{{ $lama_penggantianoli->id }}">
                                             <i class="fas fa-trash"></i>
                                         </button> --}}
-                                    </td>
-                                </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $lama_penggantianoli->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Target Penggantian Oli</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus Target Penggantian Oli
-                                                    <strong>{{ $lama_penggantianoli->nama }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form
-                                                    action="{{ url('admin/lama_penggantianoli/' . $lama_penggantianoli->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $lama_penggantianoli->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Target Penggantian Oli</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus Target Penggantian Oli
+                                                        <strong>{{ $lama_penggantianoli->nama }}</strong>?
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer justify-content-between">
+                                                    <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">Batal</button>
+                                                    <form
+                                                        action="{{ url('admin/lama_penggantianoli/' . $lama_penggantianoli->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

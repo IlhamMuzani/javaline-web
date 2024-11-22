@@ -97,48 +97,52 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Gaji</th>
-                                <th>Tanggal</th>
-                                <th>Bag.Input</th>
-                                <th>Periode Awal</th>
-                                <th>Periode Akhir</th>
-                                <th>Total</th>
-                                {{-- <th class="text-center" width="70">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $perhitungan)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $perhitungan->kode_gaji }}
-                                    </td>
-                                    <td>
-                                        {{ $perhitungan->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        @if ($perhitungan->user)
-                                            {{ $perhitungan->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        {{ $perhitungan->periode_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $perhitungan->periode_akhir }}
-                                    </td>
-                                    <td class="text-right">{{ number_format($perhitungan->total_gaji, 2, ',', '.') }}</td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Gaji</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.Input</th>
+                                    <th>Periode Awal</th>
+                                    <th>Periode Akhir</th>
+                                    <th>Total</th>
+                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $perhitungan)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $perhitungan->kode_gaji }}
+                                        </td>
+                                        <td>
+                                            {{ $perhitungan->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            @if ($perhitungan->user)
+                                                {{ $perhitungan->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            {{ $perhitungan->periode_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $perhitungan->periode_akhir }}
+                                        </td>
+                                        <td class="text-right">{{ number_format($perhitungan->total_gaji, 2, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

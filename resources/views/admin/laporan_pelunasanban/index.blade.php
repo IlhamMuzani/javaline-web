@@ -89,61 +89,64 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>No Faktur</th>
-                                <th>Tanggal</th>
-                                <th>Admin</th>
-                                <th>Supplier</th>
-                                {{-- <th>PPH</th> --}}
-                                <th style="text-align: end">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $fakturpelunasanban)
-                                <tr id="editMemoekspedisi" data-toggle="modal"
-                                    data-target="#modal-posting-{{ $fakturpelunasanban->id }}" style="cursor: pointer;">
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if ($fakturpelunasanban->pembelian_ban)
-                                            {{ $fakturpelunasanban->pembelian_ban->kode_pembelian_ban }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($fakturpelunasanban->pembelian_ban)
-                                            {{ $fakturpelunasanban->pembelian_ban->tanggal_awal }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($fakturpelunasanban->pembelian_ban)
-                                            {{ $fakturpelunasanban->pembelian_ban->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if ($fakturpelunasanban->faktur_pelunasanban)
-                                            {{ $fakturpelunasanban->faktur_pelunasanban->nama_supplier }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    {{-- <td style="text-align: end">
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>No Faktur</th>
+                                    <th>Tanggal</th>
+                                    <th>Admin</th>
+                                    <th>Supplier</th>
+                                    {{-- <th>PPH</th> --}}
+                                    <th style="text-align: end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $fakturpelunasanban)
+                                    <tr id="editMemoekspedisi" data-toggle="modal"
+                                        data-target="#modal-posting-{{ $fakturpelunasanban->id }}" style="cursor: pointer;">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($fakturpelunasanban->pembelian_ban)
+                                                {{ $fakturpelunasanban->pembelian_ban->kode_pembelian_ban }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($fakturpelunasanban->pembelian_ban)
+                                                {{ $fakturpelunasanban->pembelian_ban->tanggal_awal }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($fakturpelunasanban->pembelian_ban)
+                                                {{ $fakturpelunasanban->pembelian_ban->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($fakturpelunasanban->faktur_pelunasanban)
+                                                {{ $fakturpelunasanban->faktur_pelunasanban->nama_supplier }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        {{-- <td style="text-align: end">
                                         {{ number_format($fakturpelunasanban->pph, 0, ',', '.') }}
                                     </td> --}}
-                                    <td style="text-align: end">
-                                        {{ number_format($fakturpelunasanban->total, 0, ',', '.') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                        <td style="text-align: end">
+                                            {{ number_format($fakturpelunasanban->total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

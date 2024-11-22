@@ -75,7 +75,8 @@
                                             body</option>
                                         <option value="sasis" {{ Request::get('kategori') == 'sasis' ? 'selected' : '' }}>
                                             sasis</option>
-                                        <option value="peralatan" {{ Request::get('kategori') == 'peralatan' ? 'selected' : '' }}>
+                                        <option value="peralatan"
+                                            {{ Request::get('kategori') == 'peralatan' ? 'selected' : '' }}>
                                             peralatan</option>
                                     </select>
                                     <div class="input-group-append">
@@ -87,110 +88,113 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Barang</th>
-                                <th>Nama Barang</th>
-                                {{-- <th>Harga</th> --}}
-                                <th>Stok</th>
-                                <th>Satuan</th>
-                                <th class="text-center">Qr Code</th>
-                                <th class="text-center" width="70">Opsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sparepart as $part)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $part->kode_partdetail }}</td>
-                                    <td>{{ $part->nama_barang }}</td>
-                                    {{-- <td>{{ $part->harga }}</td> --}}
-                                    <td>{{ $part->jumlah }}</td>
-                                    <td>{{ $part->satuan }}</td>
-                                    <td data-toggle="modal" data-target="#modal-qrcode-{{ $part->id }}"
-                                        style="text-align: center;">
-                                        <div style="display: inline-block;">
-                                            {!! DNS2D::getBarcodeHTML("$part->qrcode_barang", 'QRCODE', 2, 2) !!}
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        @if (auth()->check() && auth()->user()->fitur['stnk update'])
-                                            <a href="{{ url('admin/sparepart/' . $part->id . '/edit') }}"
-                                                class="btn btn-warning btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endif
-                                        @if (auth()->check() && auth()->user()->fitur['stnk delete'])
-                                            <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target="#modal-hapus-{{ $part->id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        @endif
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
+                                    {{-- <th>Harga</th> --}}
+                                    <th>Stok</th>
+                                    <th>Satuan</th>
+                                    <th class="text-center">Qr Code</th>
+                                    <th class="text-center" width="70">Opsi</th>
                                 </tr>
-                                <div class="modal fade" id="modal-hapus-{{ $part->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Hapus Barang</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
+                            </thead>
+                            <tbody>
+                                @foreach ($sparepart as $part)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $part->kode_partdetail }}</td>
+                                        <td>{{ $part->nama_barang }}</td>
+                                        {{-- <td>{{ $part->harga }}</td> --}}
+                                        <td>{{ $part->jumlah }}</td>
+                                        <td>{{ $part->satuan }}</td>
+                                        <td data-toggle="modal" data-target="#modal-qrcode-{{ $part->id }}"
+                                            style="text-align: center;">
+                                            <div style="display: inline-block;">
+                                                {!! DNS2D::getBarcodeHTML("$part->qrcode_barang", 'QRCODE', 2, 2) !!}
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (auth()->check() && auth()->user()->fitur['stnk update'])
+                                                <a href="{{ url('admin/sparepart/' . $part->id . '/edit') }}"
+                                                    class="btn btn-warning btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @endif
+                                            @if (auth()->check() && auth()->user()->fitur['stnk delete'])
+                                                <button type="submit" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target="#modal-hapus-{{ $part->id }}">
+                                                    <i class="fas fa-trash"></i>
                                                 </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p>Yakin hapus barang <strong>{{ $part->no_seri }}</strong>?
-                                                </p>
-                                            </div>
-                                            <div class="modal-footer justify-content-between">
-                                                <button type="button" class="btn btn-default"
-                                                    data-dismiss="modal">Batal</button>
-                                                <form action="{{ url('admin/sparepart/' . $part->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal fade" id="modal-qrcode-{{ $part->id }}">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title">Gambar QR Code</h4>
-                                                <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div style="text-align: center;">
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $part->kode_partdetail }}</p>
-                                                    <div style="display: inline-block;">
-                                                        {!! DNS2D::getBarcodeHTML("$part->qrcode_barang", 'QRCODE', 15, 15) !!}
-                                                    </div>
-                                                    <p style="font-size:20px; font-weight: bold;">
-                                                        {{ $part->nama_barang }}</p>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                    <div class="modal fade" id="modal-hapus-{{ $part->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Barang</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Yakin hapus barang <strong>{{ $part->no_seri }}</strong>?
+                                                    </p>
                                                 </div>
                                                 <div class="modal-footer justify-content-between">
                                                     <button type="button" class="btn btn-default"
                                                         data-dismiss="modal">Batal</button>
-                                                    <a href="{{ url('admin/sparepart/cetak-pdf/' . $part->id) }}"
-                                                        class="btn btn-primary btn-sm">
-                                                        <i class=""></i> Cetak
-                                                    </a>
+                                                    <form action="{{ url('admin/sparepart/' . $part->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('delete')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                    <div class="modal fade" id="modal-qrcode-{{ $part->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Gambar QR Code</h4>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div style="text-align: center;">
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $part->kode_partdetail }}</p>
+                                                        <div style="display: inline-block;">
+                                                            {!! DNS2D::getBarcodeHTML("$part->qrcode_barang", 'QRCODE', 15, 15) !!}
+                                                        </div>
+                                                        <p style="font-size:20px; font-weight: bold;">
+                                                            {{ $part->nama_barang }}</p>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Batal</button>
+                                                        <a href="{{ url('admin/sparepart/cetak-pdf/' . $part->id) }}"
+                                                            class="btn btn-primary btn-sm">
+                                                            <i class=""></i> Cetak
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

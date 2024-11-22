@@ -87,66 +87,69 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th class="text-center">No</th>
-                                <th>Kode Invoice</th>
-                                <th>Kode Bukti</th>
-                                <th>Nomor Bukti</th>
-                                <th>Nama Pelanggan</th>
-                                <th>Tanggal</th>
-                                <th>DPP</th>
-                                <th>Pph</th>
-                                <th>Grand Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        @if ($buktipotongpajak->detail_bukti->first())
-                                            {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->kode_tagihan }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->kode_bukti }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->nomor_faktur }}
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->detail_bukti->first())
-                                            {{ $buktipotongpajak->detail_bukti->first()->nama_pelanggan }}
-                                        @else
-                                            tidak ada
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->tanggal_awal }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->sub_total, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
-                                    <td class="text-right">
-                                        {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Invoice</th>
+                                    <th>Kode Bukti</th>
+                                    <th>Nomor Bukti</th>
+                                    <th>Nama Pelanggan</th>
+                                    <th>Tanggal</th>
+                                    <th>DPP</th>
+                                    <th>Pph</th>
+                                    <th>Grand Total</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $buktipotongpajak)
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $buktipotongpajak->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            @if ($buktipotongpajak->detail_bukti->first())
+                                                {{ $buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->kode_tagihan }}
+                                            @else
+                                                tidak ada
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->kode_bukti }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->nomor_faktur }}
+                                        </td>
+                                        <td>
+                                            @if ($buktipotongpajak->detail_bukti->first())
+                                                {{ $buktipotongpajak->detail_bukti->first()->nama_pelanggan }}
+                                            @else
+                                                tidak ada
+                                            @endif
+
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->tanggal_awal }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($buktipotongpajak->detail_bukti->first()->tagihan_ekspedisi->sub_total, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($buktipotongpajak->grand_total - $buktipotongpajak->grand_total * 0.02, 2, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -238,11 +238,16 @@
                                                     @endif
                                                 @endif
                                                 @if ($faktur->detail_tagihan->first())
-                                                    <p style="margin-left:15px; margin-right:15px">Digunakan Oleh Invoice
-                                                        <strong>{{ $faktur->detail_tagihan->first()->tagihan_ekspedisi->kode_tagihan }}</strong>
+                                                    <p style="margin-left:15px; margin-right:15px">
+                                                        Digunakan Oleh Invoice
+                                                        <strong>
+                                                            <a href="{{ route('inquery_tagihanekspedisi.show', $faktur->detail_tagihan->first()->tagihan_ekspedisi->id) }}"
+                                                                target="_blank" rel="noopener noreferrer">
+                                                                {{ $faktur->detail_tagihan->first()->tagihan_ekspedisi->kode_tagihan }}
+                                                            </a>
+                                                        </strong>
                                                     </p>
                                                 @else
-                                                    <!-- Kode yang ingin Anda jalankan jika kondisi tidak terpenuhi -->
                                                 @endif
 
                                                 @if ($faktur->spk)

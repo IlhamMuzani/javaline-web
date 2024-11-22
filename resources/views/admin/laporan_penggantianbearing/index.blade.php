@@ -79,32 +79,35 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th class="text-center">No</th>
-                                <th>Kode Pengecekan</th>
-                                <th>Tanggal</th>
-                                <th>No Kabin</th>
-                                <th>No Registrasi</th>
-                                <th>Jenis Kendaraan</th>
-                                {{-- <th class="text-center" width="120">Opsi</th> --}}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($inquery as $penggantian_oli)
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
                                 <tr>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>{{ $penggantian_oli->kode_penggantian }}</td>
-                                    <td>{{ $penggantian_oli->tanggal_awal }}</td>
-                                    <td>{{ $penggantian_oli->kendaraan->no_kabin }}</td>
-                                    <td>{{ $penggantian_oli->kendaraan->no_pol }}</td>
-                                    <td>{{ $penggantian_oli->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
-                                    </td>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Pengecekan</th>
+                                    <th>Tanggal</th>
+                                    <th>No Kabin</th>
+                                    <th>No Registrasi</th>
+                                    <th>Jenis Kendaraan</th>
+                                    {{-- <th class="text-center" width="120">Opsi</th> --}}
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($inquery as $penggantian_oli)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $penggantian_oli->kode_penggantian }}</td>
+                                        <td>{{ $penggantian_oli->tanggal_awal }}</td>
+                                        <td>{{ $penggantian_oli->kendaraan->no_kabin }}</td>
+                                        <td>{{ $penggantian_oli->kendaraan->no_pol }}</td>
+                                        <td>{{ $penggantian_oli->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <!-- /.card-body -->
             </div>

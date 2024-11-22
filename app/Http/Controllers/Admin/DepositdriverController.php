@@ -65,11 +65,17 @@ class DepositdriverController extends Controller
             $cetakpdf = Deposit_driver::find($penerimaan->id);
             return view('admin.deposit_driver.show', compact('cetakpdf'));
         } else {
+
+            if ($request->nominals == null) {
+                return back()->with('erorrss', 'masukan nominal.');
+            }
+
             $kode = $this->kode();
-            
+
             $subTotalInput = $request->input('sisa_saldos');
             $cleanedSubTotal = str_replace(['Rp', '.'], '', $subTotalInput);
-            $cleanedSubTotal = str_replace(',',
+            $cleanedSubTotal = str_replace(
+                ',',
                 '.',
                 $cleanedSubTotal
             );

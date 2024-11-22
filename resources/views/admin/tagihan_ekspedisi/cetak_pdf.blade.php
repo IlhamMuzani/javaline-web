@@ -111,10 +111,17 @@
             <table width="100%">
                 <tr>
                     <td style="width:20%;">
-                        <div style="text-align: left;">
-                            <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE" width="160"
-                                height="60">
-                        </div>
+                        @if ($cetakpdf->pelanggan_id == 26)
+                            <div style="text-align: left;">
+                                <img src="{{ public_path('storage/uploads/user/logolama.png') }}" alt="JAVA LINE"
+                                    width="160" height="60">
+                            </div>
+                        @else
+                            <div style="text-align: left;">
+                                <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE"
+                                    width="160" height="60">
+                            </div>
+                        @endif
                     </td>
                     <td style="width: 95%; text-align: left;">
                         <div style="text-align: center;">
