@@ -1,34 +1,26 @@
 <table>
     <thead>
         <tr>
-            {{-- <th style="font-weight: bold; background-color: yellow; text-align: center; border: 1px solid black;">
-                HEADER
-            </th> --}}
-            <th style="font-weight: bold;"></th>
-            <th style="font-weight: bold;"></th>
-            <th style="font-weight: bold;"></th>
-            <th style="font-weight: bold;"></th>
-            <th style="font-weight: bold;"></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <thead>
         <tr>
-            <th style="font-weight: bold; background-color: yellow;">P
+            <th>P
             </th>
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 yyyyMMdd</th>
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Debit Account No.</th>
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Total Records</th>
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
-                Total Amount</th>
+            <th> Total Amount</th>
             <th></th>
-            <th colspan="3">
+            <th>
                 {{-- *) <span style="font-weight: bold; display: inline;">BOLD</span>  is mandatory --}}
             </th>
 
@@ -38,8 +30,8 @@
     <tbody>
         <tr>
             <td>P</td>
-            <td style="text-align: left">'{{ str_replace('-', '', $perhitungan_gaji->tanggal_awal) }}</td>
-            <td style="text-align: left; width: 120px;">'1390088880046</td>
+            <td>'{{ str_replace('-', '', $perhitungan_gaji->tanggal_awal) }}</td>
+            <td>'1390088880046</td>
             <td>{{ $perhitungan_gaji->detail_gajikaryawan->count() }}</td>
             <td>{{ $perhitungan_gaji->grand_total }}</td>
             <td></td>
@@ -48,176 +40,163 @@
 
     <thead>
         <tr>
-            {{-- <th style="font-weight: bold; background-color: yellow; text-align:center; border: 1px solid black;">
-                CONTENT
-            </th> --}}
+
         </tr>
     </thead>
 
     <thead>
         <tr>
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; width: 150px; white-space: normal; word-wrap: break-word;">
-                To Acc No.</th>
+            <th> To Acc No.</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">To
+            <th>To
                 Acc Name</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">To
+            <th>To
                 Acc Address 1</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">To
+            <th>To
                 Acc Address 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">To
+            <th>To
                 Acc Address 3</th>
 
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; width: 63px; white-space: normal; word-wrap: break-word;">
+            <th>
                 Transfer Currency
             </th>
 
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; width: 55px; white-space: normal; word-wrap: break-word;">
+            <th>
                 Transfer Amount
             </th>
-            <th
-                style="background-color: yellow; vertical-align: middle; width: 85px; white-space: normal; word-wrap: break-word;">
+            <th>
                 Transaction Remark
             </th>
 
-            <th
-                style="background-color: yellow; vertical-align: middle; width: 55px; white-space: normal; word-wrap: break-word;">
+            <th>
                 Customer Ref No.
             </th>
 
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 FT Service</th>
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; width: 120px; white-space: normal; word-wrap: break-word;">
-                To Acc Bank Code</th>
+            <th> To Acc Bank Code</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 To Acc Bank Name</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 To Acc Bank Address 1</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 To Acc Bank Address 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 To Acc Bank Address 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Bank City Name / Country Name</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Beneficiary Notification Flag</th>
 
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Benef Notification E-mail</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Organization Directory Name</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Identical Status</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Beneficiary Status</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Beneficiary Citizenship</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Purpose of Transaction</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Code 1</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Information 1</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Code 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Information 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Code 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Information 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Code 4</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Remittance Information 4</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Instruction Code 1</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Instruction Remark 1</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Instruction Code 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Instruction Remark 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Instruction Code 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Instruction Remark 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Charge Instruction</th>
 
-            <th
-                style="font-weight: bold; background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 SWIFT Method / Beneficiary Type</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Extended Payment Detail</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Special Rate Ref No</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Underlying Document Code</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Code 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Line 2</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Code 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Line 3</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Code 4</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Code 5</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Line 5</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Code 6</th>
 
-            <th style="background-color: yellow; vertical-align: middle; white-space: normal; word-wrap: break-word;">
+            <th>
                 Sender to Receiver Information Line 6</th>
         </tr>
     </thead>
@@ -242,7 +221,7 @@
                 <td></td>
                 <td></td>
                 <td>N</td>
-                <td style="color: rgb(67, 198, 250); text-decoration: underline;">{{ $detail->karyawan->gmail ?? null }}
+                <td>{{ $detail->karyawan->gmail ?? null }}
                 </td>
                 <td></td>
                 <td></td>
