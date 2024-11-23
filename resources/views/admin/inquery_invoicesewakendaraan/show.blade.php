@@ -138,7 +138,8 @@
                                 <span class="info-titik" style="font-size: 16px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">{{ $cetakpdf->vendor->kode_vendor ?? null }}</span>
+                                <span class="info-item"
+                                    style="font-size: 16px;">{{ $cetakpdf->vendor->kode_vendor ?? null }}</span>
                             </td>
                         </tr>
                         <tr>
@@ -149,7 +150,8 @@
                                 <span class="info-titik" style="font-size: 16px;">:</span>
                             </td>
                             <td class="info-column">
-                                <span class="info-item" style="font-size: 16px;">{{ $cetakpdf->vendor->nama_vendor ?? null }}</span>
+                                <span class="info-item"
+                                    style="font-size: 16px;">{{ $cetakpdf->vendor->nama_vendor ?? null }}</span>
                             </td>
                         </tr>
                         {{-- <tr>
@@ -533,7 +535,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_invoicesewakendaraan') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_invoicesewakendaraan') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_invoicesewakendaraan') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/invoice_sewakendaraan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 

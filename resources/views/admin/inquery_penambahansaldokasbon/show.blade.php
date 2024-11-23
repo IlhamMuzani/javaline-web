@@ -336,7 +336,11 @@
 
 
 <div class="container">
-    <a href="{{ url('admin/inquery_penerimaankaskecil') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_penerimaankaskecil') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_penerimaankaskecil') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/penerimaan_kaskecil/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 
