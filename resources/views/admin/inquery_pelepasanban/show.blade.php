@@ -454,7 +454,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_pelepasanban') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_pelepasanban') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_pelepasanban') . '?status=&tanggal_awal=' . $pelepasan_ban->tanggal_awal . '&tanggal_akhir=' . $pelepasan_ban->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/pelepasan_ban/cetak-pdf/' . $pelepasan_ban->id) }}" class="blue-button">Cetak</a>
 </div>
 

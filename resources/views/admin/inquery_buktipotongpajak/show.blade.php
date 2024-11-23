@@ -351,7 +351,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_buktipotongpajak') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_buktipotongpajak') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_buktipotongpajak') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/bukti_potongpajak/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 

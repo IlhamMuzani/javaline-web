@@ -366,7 +366,11 @@
 
 
 <div class="container">
-    <a href="{{ url('admin/inquery_kasbonkaryawan') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_kasbonkaryawan') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_kasbonkaryawan') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/kasbon_karyawan/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 

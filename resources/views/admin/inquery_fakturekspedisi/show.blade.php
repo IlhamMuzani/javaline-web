@@ -732,8 +732,11 @@
 
 
 <div class="container">
-    <a href="{{ url('admin/inquery_fakturekspedisi') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/faktur_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
+    <a href="{{ url('admin/inquery_fakturekspedisi') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
+    </a> <a href="{{ url('admin/faktur_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 
 </html>

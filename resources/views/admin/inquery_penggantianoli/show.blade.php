@@ -240,7 +240,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_penggantianoli') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_penggantianoli') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_penggantianoli') . '?status=&tanggal_awal=' . $pemasangan_part->tanggal_awal . '&tanggal_akhir=' . $pemasangan_part->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/penggantian_oli/cetak-pdf/' . $pemasangan_part->id) }}" class="blue-button">Cetak</a>
 </div>
 

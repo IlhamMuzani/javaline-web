@@ -213,7 +213,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_pemakaianperalatan') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_pemakaianperalatan') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_pemakaianperalatan') . '?status=&tanggal_awal=' . $pemakaians->tanggal_awal . '&tanggal_akhir=' . $pemakaians->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/pemakaian_peralatan/cetak-pdf/' . $pemakaians->id) }}" class="blue-button">Cetak</a>
 </div>
 

@@ -269,7 +269,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/inquery_pembelianpart') }}" class="blue-button">Kembali</a>
+    {{-- <a href="{{ url('admin/inquery_pembelianpart') }}" class="blue-button">Kembali</a> --}}
+    <a href="{{ url('admin/inquery_pembelianpart') . '?status=&tanggal_awal=' . $pembelians->tanggal_awal . '&tanggal_akhir=' . $pembelians->tanggal_awal . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
     <a href="{{ url('admin/pembelian_part/cetak-pdf/' . $pembelians->id) }}" class="blue-button">Cetak</a>
 </div>
 

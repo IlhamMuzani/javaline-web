@@ -44,7 +44,7 @@
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih Return -</option>
                                     <option value="penerimaan">Penerimaan Return Barang</option>
-                                    <option value="nota">Nota Return Barang</option>
+                                    <option selected value="nota">Nota Return Barang</option>
                                     <option value="penjualan">Penjualan Return Barang</option>
                                 </select>
                                 <label for="statusx">(Kategori Return)</label>

@@ -221,10 +221,14 @@
                                                         Digunakan Oleh Memo
                                                         Ekspedisi
                                                         <strong>
-                                                            <a href="{{ route('memo_ekspedisi.show', $buktipotongpajak->memo_ekspedisi->first()->id) }}"
-                                                                target="_blank" rel="noopener noreferrer">
-                                                                {{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}
-                                                            </a>
+                                                            @if ($buktipotongpajak->memo_ekspedisi && $buktipotongpajak->memo_ekspedisi->isNotEmpty())
+                                                                <a href="{{ route('memo_ekspedisi.show', $buktipotongpajak->memo_ekspedisi->first()->id) }}"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    {{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}
+                                                                </a>
+                                                            @else
+                                                                <span>Memo tidak tersedia</span>
+                                                            @endif
                                                         </strong>
                                                     </p>
                                                 @else
