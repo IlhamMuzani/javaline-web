@@ -945,4 +945,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('inquery_perhitungangaji/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'export_gm']);
 
+
+    Route::get('inquery_perhitungangaji/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'export_gm']);
 });

@@ -311,7 +311,7 @@ class InqueryPerhitungangajiController extends Controller
                         ->where('status_cicilan', 'belum lunas')
                         ->whereNull('detail_gajikaryawan_id')
                         ->first();
-                        
+
                     if ($detail_cicilan) {
                         $detail_cicilan->update([
                             'detail_gajikaryawan_id' =>  $detailfaktur->id,
@@ -574,6 +574,34 @@ class InqueryPerhitungangajiController extends Controller
         return response()->json(['message' => 'Data deleted successfully']);
     }
 
+    // public function export_gm($id)
+    // {
+    //     $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
+
+    //     if (!$perhitungan_gaji) {
+    //         return redirect()->back()->withErrors(['error' => 'Data Perhitungan Gaji tidak ditemukan']);
+    //     }
+
+    //     $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
+
+    //     return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.xlsx');
+    // }
+
+
+    // public function export_gm($id)
+    // {
+    //     $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
+
+    //     if (!$perhitungan_gaji) {
+    //         return redirect()->back()->withErrors(['error' => 'Data Perhitungan Gaji tidak ditemukan']);
+    //     }
+
+    //     $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
+
+    //     return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.xlsx');
+    // }
+
+
     public function export_gm($id)
     {
         $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
@@ -584,7 +612,7 @@ class InqueryPerhitungangajiController extends Controller
 
         $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
 
-        return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.xlsx');
+        // Ekspor sebagai CSV
+        return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.csv', \Maatwebsite\Excel\Excel::CSV);
     }
-
 }
