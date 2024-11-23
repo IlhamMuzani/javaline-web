@@ -602,6 +602,20 @@ class InqueryPerhitungangajiController extends Controller
     // }
 
 
+    // public function export_gm($id)
+    // {
+    //     $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
+
+    //     if (!$perhitungan_gaji) {
+    //         return redirect()->back()->withErrors(['error' => 'Data Perhitungan Gaji tidak ditemukan']);
+    //     }
+
+    //     $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
+
+    //     // Ekspor sebagai CSV
+    //     return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.csv', \Maatwebsite\Excel\Excel::CSV);
+    // }
+
     public function export_gm($id)
     {
         $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
