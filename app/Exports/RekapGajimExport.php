@@ -2,13 +2,11 @@
 
 namespace App\Exports;
 
-use App\Models\Detail_gajikaryawan;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
-use Maatwebsite\Excel\Concerns\WithTitle;
+use Illuminate\Contracts\View\View;
+use Maatwebsite\Excel\Concerns\FromView;
 
-class RekapGajimExport implements FromCollection, WithHeadings, WithMapping, WithTitle
+
+class RekapGajimExport implements FromView
 {
     protected $perhitungan_gaji;
     protected $detail_gaji;
@@ -19,31 +17,11 @@ class RekapGajimExport implements FromCollection, WithHeadings, WithMapping, Wit
         $this->detail_gaji = $detail_gaji;
     }
 
-    public function collection()
+    public function view(): View
     {
-        return $this->detail_gaji;
-    }
-
-    public function headings(): array
-    {
-        return [
-            "",
-            "",
-            "",
-            "",
-            "",
-            "P",
-            "yyyyMMdd"
-        ];
-    }
-
-    public function map($detail): array
-    {
-        return [];
-    }
-
-    public function title(): string
-    {
-        return 'Rekap Gaji'; // Nama sheet
+        return view('admin.inquery_perhitungangaji.export_rekap', [
+            'perhitungan_gaji' => $this->perhitungan_gaji,
+            'detail_gaji' => $this->detail_gaji,
+        ]);
     }
 }
