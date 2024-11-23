@@ -123,11 +123,6 @@
                                             <input type="text" class="form-control" id="kendaraan_id" readonly
                                                 name="kendaraan_id" placeholder="" value="{{ old('kendaraan_id') }}">
                                         </div>
-                                        <div class="form-group" hidden>
-                                            <label for="no_pol">No Pol</label>
-                                            <input type="text" class="form-control" id="no_pol" readonly
-                                                name="no_pol" placeholder="" value="{{ old('no_pol') }}">
-                                        </div>
                                         <label style="font-size:14px" class="form-label" for="no_kabin">No. Kabin</label>
                                         <div class="form-group d-flex">
                                             <input onclick="showCategoryModalkendaraan(this.value)" class="form-control"
@@ -138,6 +133,12 @@
                                                 onclick="showCategoryModalkendaraan(this.value)">
                                                 <i class="fas fa-search"></i>
                                             </button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="no_pol">No Pol</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="no_pol" readonly name="no_pol" placeholder=""
+                                                value="{{ old('no_pol') }}">
                                         </div>
                                         <div class="form-group">
                                             <label style="font-size:14px" for="golongan">Gol. Kendaraan</label>
@@ -152,8 +153,8 @@
                                                 value="{{ old('km_awal') }}" onkeypress="return isNumberKey(event)">
                                         </div>
                                         <div class="form-group" style="color:white">
-                                            <label style="font-size:14px; margin-top:40px" for="">No.
-                                            </label>
+                                            {{-- <label style="font-size:14px; margin-top:40px" for="">No.
+                                            </label> --}}
                                         </div>
                                         {{-- <div class="form-group">
                                             <label style="font-size:14px" for="km_akhir">KM Akhir</label>
