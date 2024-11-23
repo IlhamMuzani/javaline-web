@@ -204,6 +204,7 @@ class InquerySpkController extends Controller
         $spk->alamat_vendor = $request->alamat_vendor;
         $spk->kendaraan_id = $request->kendaraan_id;
         $spk->no_kabin = $request->no_kabin;
+        $spk->no_pol = $request->no_pol;
         $spk->golongan = $request->golongan;
         $spk->km_awal = $request->km_awal;
         $spk->user_id = $request->user_id;
