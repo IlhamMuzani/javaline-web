@@ -88,6 +88,7 @@ class AksesspkController extends Controller
         return response()->json(['info' => 'SPK sudah dalam kondisi unpost'], 200);
     }
 
+    
 
     public function unpostaksesspk(Request $request, $id)
     {
@@ -117,6 +118,7 @@ class AksesspkController extends Controller
         return response()->json(['success' => 'SPK berhasil di-unpost', 'keterangan' => $keterangan], 200);
     }
 
+    // yang lama 
     // public function unpostaksesspk($id)
     // {
     //     // Mencari SPK berdasarkan id
