@@ -89,7 +89,7 @@ class AksesspkController extends Controller
     }
 
 
-    public function unpostaksesspk($id)
+    public function unpostaksesspk(Request $request, $id)
     {
         // Mencari SPK berdasarkan id
         $item = Pengambilan_do::find($id);
@@ -99,13 +99,41 @@ class AksesspkController extends Controller
             return response()->json(['error' => 'SPK tidak ditemukan'], 404);
         }
 
+        // Ambil keterangan dari permintaan
+        $keterangan = $request->input('keterangan');
+
+        // Validasi jika keterangan kosong
+        if (empty($keterangan)) {
+            return response()->json(['error' => 'Keterangan tidak boleh kosong'], 400);
+        }
+
+        // Perbarui akses_spk dan keterangan
         $item->update([
-            'akses_spk' => 0
+            'akses_spk' => 0,
+            'keterangan_akses' => $keterangan,
         ]);
 
-        // Jika akses_spk sudah 0, kembalikan pesan
-        return response()->json(['info' => 'SPK sudah dalam kondisi unpost'], 200);
+        // Kembalikan pesan sukses
+        return response()->json(['success' => 'SPK berhasil di-unpost', 'keterangan' => $keterangan], 200);
     }
+
+    // public function unpostaksesspk($id)
+    // {
+    //     // Mencari SPK berdasarkan id
+    //     $item = Pengambilan_do::find($id);
+
+    //     // Jika SPK tidak ditemukan, kembalikan error
+    //     if (!$item) {
+    //         return response()->json(['error' => 'SPK tidak ditemukan'], 404);
+    //     }
+
+    //     $item->update([
+    //         'akses_spk' => 0
+    //     ]);
+
+    //     // Jika akses_spk sudah 0, kembalikan pesan
+    //     return response()->json(['info' => 'SPK sudah dalam kondisi unpost'], 200);
+    // }
 
 
     public function postingfilterspkakses(Request $request)

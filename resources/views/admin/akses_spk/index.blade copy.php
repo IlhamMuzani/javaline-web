@@ -51,7 +51,7 @@
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                     <h5>
-                        <i class="icon fas fa-ban"></i> Error!
+                        <i class="icon fas fa-ban"></i> Gagal!
                     </h5>
                     {{ session('error') }}
                 </div>
@@ -112,86 +112,83 @@
                             </div>
                         </div>
                     </form>
-                    <table id="datatables66" class="table table-bordered table-striped table-hover" style="font-size: 13px">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th> <input type="checkbox" name="" id="select_all_ids"></th>
-                                <th>No</th>
-                                <th>Kode Spk</th>
-                                <th>Tanggal</th>
-                                <th>Bag.input</th>
-                                <th>Kode Driver</th>
-                                <th>Driver</th>
-                                <th>No Kabin</th>
-                                <th>No Pol</th>
-                                <th>Pelanggan</th>
-                                <th>Rute</th>
-                                <th>Keterangan</th>
-                                <th>Akses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($spks as $buktipotongpajak)
-                                <tr class="dropdown"{{ $buktipotongpajak->id }}>
-                                    <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
-                                            value="{{ $buktipotongpajak->id }}">
-                                    </td>
-                                    <td class="text-center">{{ $loop->iteration }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->kode_spk }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->tanggal_awal }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->admin }}
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->spk->user)
-                                            {{ $buktipotongpajak->spk->user->karyawan->nama_lengkap }}
-                                        @else
-                                            tidak ada
-                                        @endif
-                                    </td>
-                                    <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->no_kabin }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->no_pol }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->nama_pelanggan }}
-                                    </td>
-                                    <td>
-                                        {{ $buktipotongpajak->spk->nama_rute }}
-                                    </td>
-                                    <td>
-                                        @if ($buktipotongpajak->akses_spk == 0)
-                                            {{ $buktipotongpajak->keterangan_akses }}
-                                        @endif
-                                    </td>
-                                    <td class="text-center">
-                                        @if ($buktipotongpajak->akses_spk == 1)
-                                            <button type="button" class="btn btn-success btn-sm">
-                                                <i class="fas fa-check"></i>
-                                            </button>
-                                        @endif
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($buktipotongpajak->akses_spk == 0)
-                                                <a class="dropdown-item posting-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
-                                            @endif
-                                            @if ($buktipotongpajak->akses_spk == 1)
-                                                <a class="dropdown-item unpost-btn"
-                                                    data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
-                                            @endif
-                                        </div>
-                                    </td>
+                    <div class="table-responsive" style="overflow-x: auto;">
+                        <table id="datatables66" class="table table-bordered table-striped table-hover"
+                            style="font-size: 13px">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th>No</th>
+                                    <th>Kode Spk</th>
+                                    <th>Tanggal</th>
+                                    <th>Bag.input</th>
+                                    <th>Kode Driver</th>
+                                    <th>Driver</th>
+                                    <th>No Kabin</th>
+                                    <th>No Pol</th>
+                                    <th>Pelanggan</th>
+                                    <th>Rute</th>
+                                    <th>Akses</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($spks as $buktipotongpajak)
+                                    <tr class="dropdown"{{ $buktipotongpajak->id }}>
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $buktipotongpajak->id }}">
+                                        </td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->kode_spk }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->tanggal_awal }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->admin }}
+                                        </td>
+                                        <td>
+                                            @if ($buktipotongpajak->spk->user)
+                                                {{ $buktipotongpajak->spk->user->karyawan->nama_lengkap }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
+                                        <td>{{ $buktipotongpajak->spk->user->kode_user ?? null }}</td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->no_kabin }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->no_pol }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->nama_pelanggan }}
+                                        </td>
+                                        <td>
+                                            {{ $buktipotongpajak->spk->nama_rute }}
+                                        </td>
+                                        <td class="text-center">
+                                            @if ($buktipotongpajak->akses_spk == 1)
+                                                <button type="button" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-check"></i>
+                                                </button>
+                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($buktipotongpajak->akses_spk == 0)
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Posting</a>
+                                                @endif
+                                                @if ($buktipotongpajak->akses_spk == 1)
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $buktipotongpajak->id }}">Unpost</a>
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -228,114 +225,8 @@
                 <!-- /.card-body -->
             </div>
         </div>
-
-        <div class="modal fade" id="modal-unpost" tabindex="-1" aria-labelledby="modalUnpostLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalUnpostLabel">Konfirmasi Unpost</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Pilih kategori untuk Unpost:</p>
-                        <select id="kategori-dropdown" class="form-select">
-                            <option value="">Pilih Kategori</option>
-                            <option value="muat">Muat</option>
-                            <option value="bongkar">Bongkar</option>
-                            <option value="driver">Driver</option>
-                        </select>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" class="btn btn-danger" id="confirm-unpost-btn">Unpost</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
     </section>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            // Pastikan modal dapat ditutup
-            $('#modal-unpost').on('hidden.bs.modal', function() {
-                console.log("Modal ditutup");
-            });
-
-            // Tampilkan modal secara manual untuk debugging
-            $('#confirm-unpost-btn').click(function() {
-                $('#modal-unpost').modal('hide'); // Tutup modal
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            // Klik tombol unpost untuk menampilkan modal
-            $('.unpost-btn').click(function() {
-                var memoId = $(this).data('memo-id');
-
-                // Simpan memoId di atribut data di modal
-                $('#modal-unpost').data('memo-id', memoId).modal('show');
-            });
-
-            // Klik tombol Unpost di dalam modal
-            $('#confirm-unpost-btn').click(function() {
-                var memoId = $('#modal-unpost').data('memo-id'); // Ambil memoId dari data modal
-                var keterangan = $('#kategori-dropdown').val(); // Ambil nilai kategori dari dropdown
-
-                // Pastikan keterangan tidak kosong
-                if (!keterangan) {
-                    alert("Pilih kategori sebelum melakukan unpost!");
-                    return;
-                }
-
-                // Tampilkan modal loading saat permintaan AJAX diproses
-                $('#modal-loading').modal('show');
-
-                // Kirim permintaan AJAX
-                $.ajax({
-                    url: "{{ url('admin/akses_spk/unpostaksesspk/') }}/" + memoId,
-                    type: 'POST',
-                    data: {
-                        id: memoId,
-                        keterangan: keterangan,
-                        _token: "{{ csrf_token() }}" // Kirim CSRF token
-                    },
-                    success: function(response) {
-                        // Sembunyikan modal loading
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan sukses
-                        // alert(response.success);
-
-                        // Tutup modal
-                        $('#modal-unpost').modal('hide');
-
-                        // Refresh halaman atau perbarui tabel
-                        location.reload();
-                    },
-                    error: function(xhr) {
-                        // Sembunyikan modal loading
-                        $('#modal-loading').modal('hide');
-
-                        // Tampilkan pesan error
-                        alert(xhr.responseJSON.error || "Terjadi kesalahan.");
-                    }
-                });
-            });
-        });
-    </script>
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
@@ -366,7 +257,46 @@
         }
     </script>
 
+    {{-- unpost memo  --}}
+    <script>
+        $(document).ready(function() {
+            $('.unpost-btn').click(function() {
+                var memoId = $(this).data('memo-id');
 
+                // Tampilkan modal loading saat permintaan AJAX diproses
+                $('#modal-loading').modal('show');
+
+                // Kirim permintaan AJAX untuk melakukan unpost
+                $.ajax({
+                    url: "{{ url('admin/akses_spk/unpostaksesspk/') }}/" + memoId,
+                    type: 'GET',
+                    data: {
+                        id: memoId
+                    },
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Tutup modal setelah berhasil unpost
+                        $('#modal-posting-' + memoId).modal('hide');
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
     {{-- posting memo --}}
     <script>
         $(document).ready(function() {
