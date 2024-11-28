@@ -134,7 +134,7 @@ class KendaraanController extends Controller
                 'status_olimesin' => 'belum penggantian',
                 'status_oligardan' => 'belum penggantian',
                 'status_olitransmisi' => 'belum penggantian',
-                'qrcode_kendaraan' => 'https:///javaline.id/kendaraan/' . $kode,
+                'qrcode_kendaraan' => 'https://javaline.id/kendaraan/' . $kode,
                 'tanggal' => Carbon::now('Asia/Jakarta'),
                 'tanggal_awal' => $tanggal,
             ]

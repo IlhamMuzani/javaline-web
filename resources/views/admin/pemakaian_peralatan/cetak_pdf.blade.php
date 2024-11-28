@@ -9,8 +9,11 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
+            margin-top: 10px;
+            margin-left: 25px;
+            margin-right: 25px;
         }
 
         table {
@@ -21,7 +24,7 @@
         .td {
             text-align: center;
             padding: 5px;
-            font-size: 15px;
+            font-size: 13px;
             /* border: 1px solid black; */
         }
 
@@ -33,7 +36,7 @@
         .info-container {
             display: flex;
             justify-content: space-between;
-            font-size: 16px;
+            font-size: 14px;
             margin: 5px 0;
         }
 
@@ -50,7 +53,7 @@
         }
 
         .separator {
-            padding-top: 15px;
+            padding-top: 13px;
             text-align: center;
         }
 
@@ -74,9 +77,8 @@
         <img src="{{ public_path('storage/uploads/user/logo.png') }}" alt="JAVA LINE LOGISTICS" width="150"
             height="50">
     </div>
-    <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">SURAT PEMAKAIAN PERALATAN KENDARAAN</span>
+        <span style="font-weight: bold; font-size: 18px;">SURAT PEMAKAIAN PERALATAN KENDARAAN</span>
         <br>
         <br>
     </div>
@@ -84,22 +86,22 @@
 
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">No.
                 Kabin: @if ($pemakaians->kendaraan)
                     {{ $pemakaians->kendaraan->no_kabin }}
                 @else
                     NON KENDARAAN
                 @endif
             </td>
-            {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
+            {{-- <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">No.
                 Registrasi:{{ $pemakaians->kendaraan->no_pol }}</td> --}}
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">Jenis
                 Kendaraan: @if ($pemakaians->kendaraan)
                     {{ $pemakaians->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
                 @else
                 @endif
             </td>
-            <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
+            <td class="td" style="text-align: center; padding: 3px; font-size: 14px;">
                 Tanggal:{{ \Carbon\Carbon::parse($pemakaians->tanggal_pemakaian)->locale('id')->isoFormat('D MMMM YYYY') }}
             </td>
         </tr>
@@ -108,11 +110,11 @@
     {{-- <hr style="border-top: 0.1px solid black; margin: 1px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Kode Peralatan</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Nama Barang</td>
-            <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">Keterangan</td>
-            <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">Jumlah</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Kode Peralatan</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Nama Barang</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Keterangan</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Jumlah</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
@@ -120,17 +122,17 @@
         </tr>
         @foreach ($parts as $item)
             <tr>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
+                <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->sparepart->kode_partdetail }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $item->sparepart->nama_barang }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 15px;">{{ $item->keterangan }}
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->keterangan }}
                 </td>
-                <td class="td" style="text-align: right; padding: 5px; font-size: 15px;">
+                <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">
                     {{ $item->jumlah }}</td>
             </tr>
         @endforeach
@@ -145,7 +147,7 @@
     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
         <tr>
             <td style="text-align: center;">
-                <table style="margin: 0 auto;">
+                <table style="margin: 0 auto; font-size: 13px;">
                     <tr style="text-align: center;">
                         <td class="label">
                             @if ($pemakaians->user)
@@ -164,7 +166,7 @@
                 </table>
             </td>
             <td style="text-align: center;">
-                <table style="margin: 0 auto;">
+                <table style="margin: 0 auto; font-size: 13px;">
                     <tr style="text-align: center;">
                         <td class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
@@ -177,7 +179,7 @@
                 </table>
             </td>
             <td style="text-align: center;">
-                <table style="margin: 0 auto;">
+                <table style="margin: 0 auto; font-size: 13px;">
                     <tr style="text-align: center;">
                         <td class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
@@ -191,7 +193,7 @@
             </td>
         </tr>
     </table>
-    <div style="text-align: right; font-size:12px; margin-top:25px">
+    <div style="text-align: right; font-size:13px; margin-top:25px">
         <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
     </div>
 </body>

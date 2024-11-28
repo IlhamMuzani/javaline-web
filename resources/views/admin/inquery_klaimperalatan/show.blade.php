@@ -358,7 +358,7 @@
 
 <div class="container">
     {{-- <a href="{{ url('admin/inquery_klaimperalatan') }}" class="blue-button">Kembali</a> --}}
-    <a href="{{ url('admin/inquery_klaimperalatan') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal . '&ids=' }}"
+    <a href="{{ url('admin/inquery_klaimperalatan') . '?status=&tanggal_awal=' . $klaim_peralatan->tanggal_awal . '&tanggal_akhir=' . $klaim_peralatan->tanggal_awal . '&ids=' }}"
         class="blue-button">
         Kembali
     </a>

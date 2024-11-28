@@ -487,15 +487,16 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('hapuspelunasan/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanController::class, 'hapuspelunasan'])->name('hapuspelunasan');
     Route::get('faktur_pelunasan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\FakturpelunasanController::class, 'cetakpdf']);
 
-    Route::get('unpostpelunasanban/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanbanController::class, 'unpostpelunasanban'])->name('unpostpelunasanban');
-    Route::get('postingpelunasanban/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanbanController::class, 'postingpelunasanban'])->name('postingpelunasanban');
+    Route::get('inquery_banpembelianlunas/unpostpelunasanban/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanbanController::class, 'unpostpelunasanban']);
+    Route::get('inquery_banpembelianlunas/postingpelunasanban/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanbanController::class, 'postingpelunasanban']);
+
     Route::get('hapuspelunasanban/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanbanController::class, 'hapuspelunasanban'])->name('hapuspelunasanban');
     Route::get('faktur_pelunasanban/cetak-pdf/{id}', [\App\Http\Controllers\Admin\FakturpelunasanbanController::class, 'cetakpdf']);
 
     // Route::post('whatsapp/{id)', [\App\Http\Controllers\Admin\InqueryslipgajibulananController::class, 'whatsapp'])->name('whatsapp');
 
-    Route::get('unpostpelunasanpart/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpartController::class, 'unpostpelunasanpart'])->name('unpostpelunasanpart');
-    Route::get('postingpelunasanpart/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpartController::class, 'postingpelunasanpart'])->name('postingpelunasanpart');
+    Route::get('inquery_partpembelianlunas/unpostpelunasanpart/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpartController::class, 'unpostpelunasanpart']);
+    Route::get('inquery_partpembelianlunas/postingpelunasanpart/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpartController::class, 'postingpelunasanpart']);
     Route::get('hapuspelunasanpart/{id}', [\App\Http\Controllers\Admin\InqueryFakturpelunasanpartController::class, 'hapuspelunasanpart'])->name('hapuspelunasanpart');
     Route::get('faktur_pelunasanpart/cetak-pdf/{id}', [\App\Http\Controllers\Admin\FakturpelunasanpartController::class, 'cetakpdf']);
     Route::get('potongan_penjualan/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PotonganpenjualanController::class, 'cetakpdf']);
