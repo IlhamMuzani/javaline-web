@@ -44,7 +44,6 @@ class Deposit_driver extends Model
             ->logFillable('*');
     }
 
-
     public function karyawan()
     {
         return $this->belongsTo(Karyawan::class);
