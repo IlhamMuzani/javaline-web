@@ -946,7 +946,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print-monitoringsj', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'print_monitoringsj']);
 
     Route::get('inquery_perhitungangaji/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'export_gm']);
-
-
-    Route::get('inquery_perhitungangaji/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'export_gm']);
+    Route::get('inquery_perhitungangajibulanan/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'export_gm']);
 });

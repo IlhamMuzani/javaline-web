@@ -201,6 +201,8 @@
                                                             href="{{ url('admin/inquery_perhitungangajibulanan/' . $perhitungan->id) }}">Show</a>
                                                     @endif
                                                 @endif
+                                                <a class="dropdown-item"
+                                                    href="{{ url('admin/inquery_perhitungangaji/export-gm/' . $perhitungan->id) }}">Export</a>
                                             </div>
                                         </td>
                                     </tr>
