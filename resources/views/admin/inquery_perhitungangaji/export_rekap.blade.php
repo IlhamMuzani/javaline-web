@@ -280,7 +280,7 @@
     <tbody>
         @foreach ($detail_gaji as $index => $detail)
             <tr>
-                
+
                 <td>{{ $detail->karyawan->norek ?? null }}</td>
                 <td>{{ $detail->karyawan->nama_lengkap ?? null }}</td>
                 <td></td>
@@ -306,7 +306,6 @@
                 <td></td>
                 <td></td>
                 <td></td>
-
             </tr>
         @endforeach
     </tbody>

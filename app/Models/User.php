@@ -36,6 +36,8 @@ class User extends Authenticatable
         'menu',
         'fitur',
         'level',
+        'latitude',
+        'longitude',
         'tanggal_awal',
         'tanggal_akhir',
     ];
