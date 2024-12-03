@@ -292,7 +292,7 @@
                 <td>IBU</td>
                 <td></td>
                 <td>{{ $detail->karyawan->nama_bank ?? null }}</td>
-                <td>{{ preg_replace('/[^\w\s]/', '', $detail->karyawan->alamat ?? '') }}</td>
+                <td>BANJARAN ADIWERNA</td>
                 <td></td>
                 <td></td>
                 <td></td>
