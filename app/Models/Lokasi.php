@@ -9,17 +9,16 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Absen extends Model
+class Lokasi extends Model
 {
     use HasFactory;
     use LogsActivity;
 
     protected $fillable = [
-        'kode_absen',
-        'user_id',
-        'karyawan_id',
-        'waktu',
-        'gambar',
+        'kode_lokasi',
+        'nama_lokasi',
+        'qrcode_lokasi',
+        'radius',
         'latitude',
         'longitude',
         'tanggal_awal',
@@ -36,18 +35,9 @@ class Absen extends Model
     }
 
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function karyawan()
-    {
-        return $this->belongsTo(Karyawan::class);
-    }
-
     public static function getId()
     {
-        return $getId = DB::table('divisis')->orderBy('id', 'DESC')->take(1)->get();
+        return $getId = DB::table('lokasis')->orderBy('id', 'DESC')->take(1)->get();
     }
+
 }

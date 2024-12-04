@@ -151,7 +151,7 @@ class KaryawanteknisiController extends Controller
             'tanggal' => Carbon::now('Asia/Jakarta'),
         ]);
 
-        return redirect('admin/karyawanteknisi')->with('success', 'Berhasil menambahkan karyawan');
+        return redirect('admin/karyawan-teknisi')->with('success', 'Berhasil menambahkan karyawan');
     }
 
 

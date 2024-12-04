@@ -947,4 +947,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('inquery_perhitungangaji/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajiController::class, 'export_gm']);
     Route::get('inquery_perhitungangajibulanan/export-gm/{id}', [\App\Http\Controllers\Admin\InqueryPerhitungangajibulananController::class, 'export_gm']);
+
+    Route::get('laporan-absen', [\App\Http\Controllers\Admin\LaporanabsenController::class, 'index']);
+    Route::get('print-absen', [\App\Http\Controllers\Admin\LaporanabsenController::class, 'print_absen']);
+
+    Route::resource('jarak-absen', \App\Http\Controllers\Admin\JarakabsenController::class);
 });

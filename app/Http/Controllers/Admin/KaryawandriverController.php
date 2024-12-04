@@ -151,7 +151,7 @@ class KaryawandriverController extends Controller
             'tanggal' => Carbon::now('Asia/Jakarta'),
         ]);
 
-        return redirect('admin/karyawandriver')->with('success', 'Berhasil menambahkan karyawan');
+        return redirect('admin/karyawan-driver')->with('success', 'Berhasil menambahkan karyawan');
     }
 
 
@@ -345,7 +345,7 @@ class KaryawandriverController extends Controller
         $karyawan->tanggal_awal = Carbon::now('Asia/Jakarta');
         $karyawan->save();
 
-        return redirect('admin/karyawandriver')->with('success', 'Berhasil mengubah karyawan');
+        return redirect('admin/karyawan-driver')->with('success', 'Berhasil mengubah karyawan');
     }
 
     public function destroy($id)
@@ -354,6 +354,6 @@ class KaryawandriverController extends Controller
         $karyawan->user()->delete();
         $karyawan->delete();
 
-        return redirect('admin/karyawandriver')->with('success', 'Berhasil menghapus karyawan');
+        return redirect('admin/karyawan-driver')->with('success', 'Berhasil menghapus karyawan');
     }
 }

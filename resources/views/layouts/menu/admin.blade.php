@@ -58,6 +58,7 @@
         request()->is('admin/harga_sewa*') ||
         request()->is('admin/lama_penggantianoli*') ||
         request()->is('admin/jarak_km*') ||
+        request()->is('admin/jarak_absen*') ||
         request()->is('admin/kelompok_pelanggan*') ||
         request()->is('admin/lama_bearing*') ||
         request()->is('admin/post-pengurus*') ||
@@ -101,6 +102,7 @@
             request()->is('admin/lama_penggantianoli*') ||
             request()->is('admin/kelompok_pelanggan*') ||
             request()->is('admin/jarak_km*') ||
+            request()->is('admin/jarak_absen*') ||
             request()->is('admin/lama_bearing*') ||
             request()->is('admin/post-pengurus*') ||
             request()->is('admin/pengurus*') ||
@@ -440,6 +442,17 @@
                 <p style="font-size: 14px;">Target KM</p>
             </a>
         </li>
+    @endif
+    @if (auth()->user()->id == 1)
+        @if (auth()->check() && auth()->user()->menu['rute perjalanan'])
+            <li class="nav-item">
+                <a href="{{ url('admin/jarak-absen') }}"
+                    class="nav-link {{ request()->is('admin/jarak-absen*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Jarak Absen</p>
+                </a>
+            </li>
+        @endif
     @endif
     @if (auth()->user()->id == 1)
         @if (auth()->check() && auth()->user()->menu['rute perjalanan'])
@@ -1991,6 +2004,16 @@
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Monitoring -<br>
                     <span style="margin-left: 32px">Surat Jalan</span>
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan pemasangan part'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan-absen') }}"
+                class="nav-link {{ request()->is('admin/laporan-absen*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Absen
                 </p>
             </a>
         </li>
