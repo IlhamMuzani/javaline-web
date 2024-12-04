@@ -110,7 +110,8 @@
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">
                 Waktu
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Nama Karyawan</td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Nama Karyawan
+            </td>
             {{-- <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Absensi
                 Karyawan</td> --}}
         </tr>
@@ -135,6 +136,11 @@
 
             </tr>
         @endforeach
+
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="4" style="padding: 0px;"></td>
+        </tr>
+
     </table>
 
 

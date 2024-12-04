@@ -67,7 +67,7 @@
                             <div class="col-md-3 mb-3">
                                 <label for="status">Cari Karyawan</label>
                                 <select class="select2bs4 select2-hidden-accessible" name="karyawan_id"
-                                    data-placeholder="Cari Pelanggan.." style="width: 100%;" id="karyawan_id">
+                                    data-placeholder="Cari Karyawan.." style="width: 100%;" id="karyawan_id">
                                     <option value="">- Pilih -</option>
                                     @foreach ($karyawans as $karyawan)
                                         <option value="{{ $karyawan->id }}"

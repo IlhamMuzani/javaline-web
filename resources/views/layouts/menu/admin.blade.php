@@ -2013,7 +2013,7 @@
             <a href="{{ url('admin/laporan-absen') }}"
                 class="nav-link {{ request()->is('admin/laporan-absen*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                <p style="font-size: 14px;">Laporan Absen
+                <p style="font-size: 14px;">Laporan Absensi
                 </p>
             </a>
         </li>
