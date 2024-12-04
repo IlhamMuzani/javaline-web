@@ -71,3 +71,5 @@ Route::post('list-kendaraanid/{id}', [\App\Http\Controllers\Api\Monitoringkendar
 Route::post('kendaraan-search/{id}', [\App\Http\Controllers\Api\MonitoringkendaraanController::class, 'kendaraan_search']);
 Route::post('list-historydo/{id}', [\App\Http\Controllers\Api\HistorysuratjalanController::class, 'list_historydo']);
 Route::get('pelanggan-detailpelanggan/{id}', [\App\Http\Controllers\Api\DriverController::class, 'pelanggan_detail']);
+
+Route::post('add-absen', [\App\Http\Controllers\Api\AbsenController::class, 'add_absen']);

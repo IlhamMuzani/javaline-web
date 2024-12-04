@@ -26,6 +26,7 @@ use Egulias\EmailValidator\Result\Reason\DetailedReason;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\RekapGajimExport;
+
 class InqueryPerhitungangajibulananController extends Controller
 {
     public function index(Request $request)
@@ -681,6 +682,21 @@ class InqueryPerhitungangajibulananController extends Controller
     }
 
 
+    // public function export_gm($id)
+    // {
+    //     $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
+
+    //     if (!$perhitungan_gaji) {
+    //         return redirect()->back()->withErrors(['error' => 'Data Perhitungan Gaji tidak ditemukan']);
+    //     }
+
+    //     $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
+
+    //     return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.xlsx');
+    // }
+
+
+
     public function export_gm($id)
     {
         $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
@@ -694,19 +710,4 @@ class InqueryPerhitungangajibulananController extends Controller
         // Ekspor sebagai CSV
         return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.csv', \Maatwebsite\Excel\Excel::CSV);
     }
-
-    
-    // public function export_gm($id)
-    // {
-    //     $perhitungan_gaji = Perhitungan_gajikaryawan::find($id);
-
-    //     if (!$perhitungan_gaji) {
-    //         return redirect()->back()->withErrors(['error' => 'Data Perhitungan Gaji tidak ditemukan']);
-    //     }
-
-    //     $detail_gaji = Detail_gajikaryawan::where('perhitungan_gajikaryawan_id', $perhitungan_gaji->id)->get();
-
-    //     return Excel::download(new RekapGajimExport($perhitungan_gaji, $detail_gaji), 'rekap_gaji.xlsx');
-    // }
-    
 }

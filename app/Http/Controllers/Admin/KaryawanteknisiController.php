@@ -345,7 +345,7 @@ class KaryawanteknisiController extends Controller
         $karyawan->tanggal_awal = Carbon::now('Asia/Jakarta');
         $karyawan->save();
 
-        return redirect('admin/karyawanteknisi')->with('success', 'Berhasil mengubah karyawan');
+        return redirect('admin/karyawan-teknisi')->with('success', 'Berhasil mengubah karyawan');
     }
 
     public function destroy($id)
@@ -354,6 +354,6 @@ class KaryawanteknisiController extends Controller
         $karyawan->user()->delete();
         $karyawan->delete();
 
-        return redirect('admin/karyawanteknisi')->with('success', 'Berhasil menghapus karyawan');
+        return redirect('admin/karyawan-teknisi')->with('success', 'Berhasil menghapus karyawan');
     }
 }

@@ -9,7 +9,7 @@ use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Divisi extends Model
+class Absen extends Model
 {
     use HasFactory;
     use LogsActivity;

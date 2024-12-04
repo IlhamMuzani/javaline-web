@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            <th>MANDIRI - JAVA LINELOGISTICS</th>
+            <th>BANK MANDIRI - JAVA LINE LOGISTICS</th>
 
             <th></th>
 
@@ -293,15 +293,15 @@
                 <td>IBU</td>
                 <td></td>
                 <td>{{ $detail->karyawan->nama_bank ?? null }}</td>
-                <td>BANJARAN ADIWERNA</td>
+                <td>SEMARANG</td>
                 <td></td>
                 <td></td>
                 <td></td>
                 <td>N</td>
                 <td>
                 </td>
-                <td>BEN</td>
-                <td>1</td>
+                {{-- <td>BEN</td>
+                <td>1</td> --}}
                 <td></td>
                 <td></td>
                 <td></td>
