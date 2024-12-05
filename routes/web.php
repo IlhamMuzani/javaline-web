@@ -952,4 +952,13 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print-absen', [\App\Http\Controllers\Admin\LaporanabsenController::class, 'print_absen']);
 
     Route::resource('jarak-absen', \App\Http\Controllers\Admin\JarakabsenController::class);
+
+    Route::resource('pelunasan-hutangkw', \App\Http\Controllers\Admin\PelunasanhutangkwController::class);
+    Route::get('pelunasan-hutangkw/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PelunasanhutangkwController::class, 'cetakpdf']);
+
+    Route::get('inquery_pelunasanhutangkw/unpostdeposit/{id}', [\App\Http\Controllers\Admin\InqueryPelunasanhutangController::class, 'unpostdeposit']);
+    Route::get('inquery_pelunasanhutangkw/postingdeposit/{id}', [\App\Http\Controllers\Admin\InqueryPelunasanhutangController::class, 'postingdeposit']);
+    Route::resource('inquery_pelunasanhutangkw', \App\Http\Controllers\Admin\InqueryPelunasanhutangController::class);
+    Route::resource('laporan_pelunasanhutang', \App\Http\Controllers\Admin\LaporanPelunasanhutangController::class);
+    Route::get('print_pelunasanhutang', [\App\Http\Controllers\Admin\LaporanPelunasanhutangController::class, 'print_pelunasanhutang']);
 });

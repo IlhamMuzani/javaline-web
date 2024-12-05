@@ -1108,6 +1108,16 @@
             </a>
         </li>
     @endif
+    @if (auth()->check() && auth()->user()->menu['faktur ekspedisi'])
+        <li class="nav-item">
+            <a href="{{ url('admin/pelunasan-hutangkw') }}"
+                class="nav-link {{ request()->is('admin/pelunasan-hutangkw*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Pelunasan Hutang Karyawan
+                </p>
+            </a>
+        </li>
+    @endif
     @if (auth()->check() && auth()->user()->menu['laporan invoice ekspedisi'])
         <li class="nav-item">
             <a href="{{ url('admin/buktipotong') }}"
@@ -1168,6 +1178,7 @@
         request()->is('admin/inquery_penerimaankaskecil*') ||
         request()->is('admin/inquery_potonganpenjualan*') ||
         request()->is('admin/inquery_penambahansaldokasbon*') ||
+        request()->is('admin/inquery_pelunasanhutangkw*') ||
         request()->is('admin/inqueryklaim_ban*') ||
         request()->is('admin/inquery_klaimperalatan*') ||
         request()->is('admin/bukti_potongpajak*') ||
@@ -1203,6 +1214,7 @@
             request()->is('admin/inquery_perpanjanganstnk*') ||
             request()->is('admin/inquery_perpanjangankir*') ||
             request()->is('admin/inquery_fakturekspedisi*') ||
+            request()->is('admin/inquery_pelunasanhutangkw*') ||
             request()->is('admin/inquery_depositdriver*') ||
             request()->is('admin/inquery_pengeluaranujs*') ||
             request()->is('admin/inquery_memoekspedisi*') ||
@@ -1461,6 +1473,17 @@
             </a>
         </li>
     @endif
+    @if (auth()->check() && auth()->user()->menu['inquery kasbon karyawan'])
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery_pelunasanhutangkw') }}"
+                class="nav-link {{ request()->is('admin/inquery_pelunasanhutangkw*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Inquery Pelunasan Hutang-<br>
+                    <span style="margin-left: 32px">Karyawan</span>
+                </p>
+            </a>
+        </li>
+    @endif
     @if (auth()->check() && auth()->user()->menu['inquery perhitungan gaji'])
         <li class="nav-item">
             <a href="{{ url('admin/inquery_perhitungangaji') }}"
@@ -1671,6 +1694,7 @@
         request()->is('admin/laporan_pembelianpart*') ||
         request()->is('admin/laporan_pemasanganban*') ||
         request()->is('admin/laporan_pelepasanban*') ||
+        request()->is('admin/laporan_pelunasanhutang*') ||
         request()->is('admin/laporan_pemasanganpart*') ||
         request()->is('admin/laporan_penggantianoli*') ||
         request()->is('admin/laporan_updatekm*') ||
@@ -1702,6 +1726,7 @@
             request()->is('admin/laporan_pembelianpart*') ||
             request()->is('admin/laporan_pemasanganban*') ||
             request()->is('admin/laporan_pelepasanban*') ||
+            request()->is('admin/laporan_pelunasanhutang*') ||
             request()->is('admin/laporan_pemasanganpart*') ||
             request()->is('admin/laporan_penggantianoli*') ||
             request()->is('admin/laporan_updatekm*') ||
@@ -1757,6 +1782,17 @@
                 class="nav-link {{ request()->is('admin/laporan_pelepasanban*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Pelepasan Ban</p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan kasbon karyawan'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan_pelunasanhutang') }}"
+                class="nav-link {{ request()->is('admin/laporan_pelunasanhutang*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Pelunasan Hutang-<br>
+                    <span style="margin-left: 32px">Karyawan</span>
+                </p>
             </a>
         </li>
     @endif
