@@ -22,6 +22,7 @@ class Absen extends Model
         'gambar',
         'latitude',
         'longitude',
+        'jarak_absen',
         'tanggal_awal',
         'tanggal_akhir',
     ];

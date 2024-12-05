@@ -73,6 +73,7 @@ class AbsenController extends Controller
                 'gambar' => $namagambar,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
+                'jarak_absen' => $distance,
                 'tanggal_awal' => Carbon::now()->format('Y-m-d')
             ]
         ));

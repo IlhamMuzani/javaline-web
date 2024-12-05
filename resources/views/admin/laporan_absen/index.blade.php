@@ -99,6 +99,7 @@
                                     <th>Waktu</th>
                                     <th>Nama Karyawan</th>
                                     <th>Foto</th>
+                                    <th>Radius Absensi</th>
                                     <th>Lokasi Absensi</th>
                                 </tr>
                             </thead>
@@ -119,6 +120,12 @@
                                             @else
                                                 <img src="{{ asset('adminlte/dist/img/img-placeholder.jpg') }}"
                                                     width="50" height="50">
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($absen->jarak_absen == null)
+                                            @else
+                                                {{ $absen->jarak_absen }} m
                                             @endif
                                         </td>
                                         <td>

@@ -112,6 +112,8 @@
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Nama Karyawan
             </td>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Radius Absensi
+            </td>
             {{-- <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Absensi
                 Karyawan</td> --}}
         </tr>
@@ -130,6 +132,12 @@
                 <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     {{ $absen->user->karyawan->nama_lengkap ?? null }}
                 </td>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
+                    @if ($absen->jarak_absen == null)
+                    @else
+                        {{ $absen->jarak_absen }} m
+                    @endif
+                </td>
                 {{-- <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">
                     <img src="{{ public_path('storage/uploads/' . $absen->gambar) }}" height="50" width="50">
                 </td> --}}
@@ -138,7 +146,7 @@
         @endforeach
 
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="4" style="padding: 0px;"></td>
+            <td colspan="5" style="padding: 0px;"></td>
         </tr>
 
     </table>
