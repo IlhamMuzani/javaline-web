@@ -55,16 +55,6 @@
                     <form method="GET" id="form-action">
                         <div class="row">
                             <div class="col-md-3 mb-3">
-                                <label for="tanggal_awal">Tanggal Awal</label>
-                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
-                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
-                            </div>
-                            <div class="col-md-3 mb-3">
-                                <label for="tanggal_akhir">Tanggal Akhir</label>
-                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
-                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
-                            </div>
-                            <div class="col-md-3 mb-3">
                                 <label for="status">Cari Karyawan</label>
                                 <select class="select2bs4 select2-hidden-accessible" name="karyawan_id"
                                     data-placeholder="Cari Karyawan.." style="width: 100%;" id="karyawan_id">
@@ -77,6 +67,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="tanggal_awal">Tanggal Awal</label>
+                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
+                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label for="tanggal_akhir">Tanggal Akhir</label>
+                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
+                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
+                            </div>
+
                             <div class="col-md-3 mb-3">
                                 <button type="button" class="btn btn-outline-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
