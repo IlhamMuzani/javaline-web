@@ -64,6 +64,7 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>Kode</th>
+                                    <th>No Kabin</th>
                                     <th>No Registrasi</th>
                                     <th>Berlaku Sampai</th>
                                     <th class="text-center" width="90">Opsi</th>
@@ -78,6 +79,13 @@
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $stnk->kode_stnk }}</td>
+                                        <td>
+                                            @if ($stnk->kendaraan)
+                                                {{ $stnk->kendaraan->no_kabin }}
+                                            @else
+                                                No pol tidak ada
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($stnk->kendaraan)
                                                 {{ $stnk->kendaraan->no_pol }}

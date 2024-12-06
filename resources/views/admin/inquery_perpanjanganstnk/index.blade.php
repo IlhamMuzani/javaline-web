@@ -88,6 +88,7 @@
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th>Kode Perpanjangan</th>
+                                    <th>No Kabin</th>
                                     <th>No Registrasi</th>
                                     <th>Berlaku Sampai</th>
                                     <th>Nominal</th>
@@ -99,6 +100,13 @@
                                     <tr class="dropdown"{{ $inquerys->id }}>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $inquerys->kode_perpanjangan }}</td>
+                                        <td>
+                                            @if ($inquerys->stnk)
+                                                {{ $inquerys->stnk->kendaraan->no_kabin }}
+                                            @else
+                                                tidak ada
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($inquerys->stnk)
                                                 {{ $inquerys->stnk->kendaraan->no_pol }}
