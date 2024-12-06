@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Exports\MemoperjalananExport;
+use App\Exports\RekapujExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -964,6 +965,20 @@ class InqueryMemoekspedisiController extends Controller
         $kategori = $request->input('kategori');
         $status = $request->input('status');
         return Excel::download(new MemoperjalananExport($tanggal_awal, $tanggal_akhir, $kategori, $status), 'memo_ekspedisi.xlsx');
+    }
+
+    public function excel_memoekspedisifilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        $memo_ekspedisi = Memo_ekspedisi::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        if (!$memo_ekspedisi) {
+            return redirect()->back()->withErrors(['error' => 'Data Memo tidak ditemukan']);
+        }
+
+        // Ekspor sebagai CSV
+        return Excel::download(new RekapujExport($memo_ekspedisi), 'rekap_uj.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
 }
