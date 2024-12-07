@@ -85,8 +85,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($inquery as $fakturpelunasan)
-                                    <tr id="editMemoekspedisi" data-toggle="modal"
-                                        data-target="#modal-posting-{{ $fakturpelunasan->id }}" style="cursor: pointer;">
+                                    <tr class="dropdown"{{ $fakturpelunasan->id }}>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $fakturpelunasan->kode_pelunasanban }}</td>
                                         <td>{{ $fakturpelunasan->tanggal_awal }}</td>
@@ -111,75 +110,55 @@
                                                 <i class="fas fa-truck-moving"></i>
                                             </button> --}}
                                             @endif
-                                        </td>
-                                    </tr>
-                                    <div class="modal fade" id="modal-posting-{{ $fakturpelunasan->id }}">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Opsi menu</h4>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p>Pelunasan Ban
-                                                        <strong>{{ $fakturpelunasan->kode_pelunasan }}</strong>
-                                                    </p>
-                                                    @if ($fakturpelunasan->status == 'unpost')
-                                                        @if (auth()->check() && auth()->user()->fitur['delete pelunasan faktur pembelian ban'])
-                                                            <form method="GET"
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if ($fakturpelunasan->status == 'unpost')
+                                                    @if ($fakturpelunasan->deposit_driver_id === null)
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $fakturpelunasan->id }}">Posting</a>
+                                                        @endif
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban update'])
+                                                            <a class="dropdown-item"
+                                                                href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id . '/edit') }}">Update</a>
+                                                        @endif
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}">Show</a>
+                                                    @endif
+                                                    @if ($fakturpelunasan->deposit_driver_id === null)
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban delete'])
+                                                            <form style="margin-top:5px" method="GET"
                                                                 action="{{ route('hapuspelunasanban', ['id' => $fakturpelunasan->id]) }}">
                                                                 <button type="submit"
-                                                                    class="btn btn-outline-danger btn-block mt-2">
-                                                                    <i class="fas fa-trash-alt"></i> Delete
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['show pelunasan faktur pembelian ban'])
-                                                            <a href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}"
-                                                                type="button" class="btn btn-outline-info btn-block">
-                                                                <i class="fas fa-eye"></i> Show
-                                                            </a>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['update pelunasan faktur pembelian ban'])
-                                                            <a href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id . '/edit') }}"
-                                                                type="button" class="btn btn-outline-warning btn-block">
-                                                                <i class="fas fa-edit"></i> Update
-                                                            </a>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['posting pelunasan faktur pembelian ban'])
-                                                            <form method="GET"
-                                                                action="{{ route('postingpelunasanban', ['id' => $fakturpelunasan->id]) }}">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-success btn-block mt-2">
-                                                                    <i class="fas fa-check"></i> Posting
+                                                                    class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                    </i> Delete
                                                                 </button>
                                                             </form>
                                                         @endif
                                                     @endif
-                                                    @if ($fakturpelunasan->status == 'posting')
-                                                        @if (auth()->check() && auth()->user()->fitur['show pelunasan faktur pembelian ban'])
-                                                            <a href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}"
-                                                                type="button" class="btn btn-outline-info btn-block">
-                                                                <i class="fas fa-eye"></i> Show
-                                                            </a>
-                                                        @endif
-                                                        @if (auth()->check() && auth()->user()->fitur['unpost pelunasan faktur pembelian ban'])
-                                                            <form method="GET"
-                                                                action="{{ route('unpostpelunasanban', ['id' => $fakturpelunasan->id]) }}">
-                                                                <button type="submit"
-                                                                    class="btn btn-outline-primary btn-block mt-2">
-                                                                    <i class="fas fa-check"></i> Unpost
-                                                                </button>
-                                                            </form>
+                                                @endif
+                                                @if ($fakturpelunasan->status == 'posting')
+                                                    @if ($fakturpelunasan->deposit_driver_id === null)
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban unpost'])
+                                                            <a class="dropdown-item unpost-btn"
+                                                                data-memo-id="{{ $fakturpelunasan->id }}">Unpost</a>
                                                         @endif
                                                     @endif
-                                                </div>
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($fakturpelunasan->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery pelunasan faktur pembelian ban show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery_banpembelianlunas/' . $fakturpelunasan->id) }}">Show</a>
+                                                    @endif
+                                                @endif
                                             </div>
-                                        </div>
-                                    </div>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
