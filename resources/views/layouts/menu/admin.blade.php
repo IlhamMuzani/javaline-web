@@ -58,7 +58,7 @@
         request()->is('admin/harga_sewa*') ||
         request()->is('admin/lama_penggantianoli*') ||
         request()->is('admin/jarak_km*') ||
-        request()->is('admin/jarak_absen*') ||
+        request()->is('admin/jarak-absen*') ||
         request()->is('admin/kelompok_pelanggan*') ||
         request()->is('admin/lama_bearing*') ||
         request()->is('admin/post-pengurus*') ||
@@ -102,7 +102,7 @@
             request()->is('admin/lama_penggantianoli*') ||
             request()->is('admin/kelompok_pelanggan*') ||
             request()->is('admin/jarak_km*') ||
-            request()->is('admin/jarak_absen*') ||
+            request()->is('admin/jarak-absen*') ||
             request()->is('admin/lama_bearing*') ||
             request()->is('admin/post-pengurus*') ||
             request()->is('admin/pengurus*') ||

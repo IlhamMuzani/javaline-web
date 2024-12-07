@@ -260,14 +260,26 @@
                                                     <p style="margin-left:15px; margin-right:15px">
                                                         Digunakan Memo
                                                         <strong>
-                                                            @if ($memotambahan->memo_ekspedisi)
-                                                                <a href="{{ route('memo_ekspedisi.show', $memotambahan->memo_ekspedisi->id) }}"
-                                                                    target="_blank" rel="noopener noreferrer">
-                                                                    {{ $memotambahan->memo_ekspedisi->kode_memo }}
-                                                                </a>
+                                                            @if ($memotambahan->memo_ekspedisi->kategori == 'Memo Perjalanan')
+                                                                @if ($memotambahan->memo_ekspedisi)
+                                                                    <a href="{{ route('inquery_memoekspedisi.show', $memotambahan->memo_ekspedisi->id) }}"
+                                                                        target="_blank" rel="noopener noreferrer">
+                                                                        {{ $memotambahan->memo_ekspedisi->kode_memo }}
+                                                                    </a>
+                                                                @else
+                                                                    tidak ada
+                                                                @endif
                                                             @else
-                                                                tidak ada
+                                                                @if ($memotambahan->memo_ekspedisi)
+                                                                    <a href="{{ route('inquery_memoborong.show', $memotambahan->memo_ekspedisi->id) }}"
+                                                                        target="_blank" rel="noopener noreferrer">
+                                                                        {{ $memotambahan->memo_ekspedisi->kode_memo }}
+                                                                    </a>
+                                                                @else
+                                                                    tidak ada
+                                                                @endif
                                                             @endif
+
                                                         </strong>
                                                     </p>
                                                 @else

@@ -255,10 +255,17 @@
                                                         Digunakan Oleh Memo
                                                         Ekspedisi
                                                         <strong>
-                                                            <a href="{{ route('memo_ekspedisi.show', $buktipotongpajak->memo_ekspedisi->first()->id) }}"
-                                                                target="_blank" rel="noopener noreferrer">
-                                                                {{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}
-                                                            </a>
+                                                            @if ($buktipotongpajak->memo_ekspedisi->first()->kategori == 'Memo Perjalanan')
+                                                                <a href="{{ route('inquery_memoekspedisi.show', $buktipotongpajak->memo_ekspedisi->first()->id) }}"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    {{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ route('inquery_memoborong.show', $buktipotongpajak->memo_ekspedisi->first()->id) }}"
+                                                                    target="_blank" rel="noopener noreferrer">
+                                                                    {{ $buktipotongpajak->memo_ekspedisi->first()->kode_memo }}
+                                                                </a>
+                                                            @endif
                                                         </strong>
                                                     </p>
                                                 @else

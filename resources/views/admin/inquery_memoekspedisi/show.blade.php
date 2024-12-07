@@ -487,8 +487,11 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/tablememo') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/memo_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
+    <a href="{{ url('admin/inquery_memoekspedisi') . '?status=&tanggal_awal=' . $cetakpdf->tanggal_awal . '&tanggal_akhir=' . $cetakpdf->tanggal_awal. '&kategori=' . $cetakpdf->kategori . '&ids=' }}"
+        class="blue-button">
+        Kembali
+    </a>
+    </a> <a href="{{ url('admin/memo_ekspedisi/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
 </div>
 
 
