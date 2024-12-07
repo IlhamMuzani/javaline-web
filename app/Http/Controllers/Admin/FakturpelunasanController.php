@@ -221,7 +221,7 @@ class FakturpelunasanController extends Controller
             $faktur = Faktur_ekspedisi::find($detailPelunasan->faktur_ekspedisi_id);
 
             if ($faktur) {
-                $faktur->update(['status_pelunasan' => 'aktif']);
+                $faktur->update(['status_pelunasan' =>'aktif', 'status' => 'selesai']);
                 $spk = Spk::find($faktur->spk_id);
                 if ($spk) {
                     $spk->update(['status_spk' => 'pelunasan']);
