@@ -1008,6 +1008,17 @@
         </li>
     @endif
     @if (auth()->user()->id == 1)
+        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+            <li class="nav-item">
+                <a href="{{ url('admin/nota-bon') }}"
+                    class="nav-link {{ request()->is('admin/nota-bon*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Nota Bon Uang Jalan</p>
+                </a>
+            </li>
+        @endif
+    @endif
+    @if (auth()->user()->id == 1)
         @if (auth()->check() && auth()->user()->menu['faktur ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/penerimaan_sj') }}"

@@ -965,4 +965,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('excel_memoekspedisifilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'excel_memoekspedisifilter']);
     Route::get('excel_memotambahanfilter', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'excel_memotambahanfilter']);
 
+    Route::get('penggantian_oli', [\App\Http\Controllers\Admin\PenggantianOliController::class, 'index']);
+
+    Route::resource('nota-bon', \App\Http\Controllers\Admin\NotabonController::class);
 });

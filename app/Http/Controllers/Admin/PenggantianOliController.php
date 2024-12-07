@@ -20,21 +20,61 @@ class PenggantianOliController extends Controller
 {
     // public function index()
     // {
-    //     $kendaraans = Kendaraan::where(function ($query) {
-    //         $query->where('status_olimesin', 'belum penggantian')
+    //     if (auth()->check() && auth()->user()->menu['penggantian oli']) {
+
+    //         $kendaraanx = Kendaraan::all();
+    //         foreach ($kendaraanx as $kendaraan) {
+    //             $updates = [];
+
+    //             if ($kendaraan->km >= $kendaraan->km_olimesin - 1000) {
+    //                 $updates['status_olimesin'] = 'belum penggantian';
+    //             } else {
+    //                 $updates['status_olimesin'] = 'sudah penggantian';
+    //             }
+
+    //             if ($kendaraan->km >= $kendaraan->km_oligardan - 1000) {
+    //                 $updates['status_oligardan'] = 'belum penggantian';
+    //             } else {
+    //                 $updates['status_oligardan'] = 'sudah penggantian';
+    //             }
+
+    //             if ($kendaraan->km >= $kendaraan->km_olitransmisi - 1000) {
+    //                 $updates['status_olitransmisi'] = 'belum penggantian';
+    //             } else {
+    //                 $updates['status_olitransmisi'] = 'sudah penggantian';
+    //             }
+
+    //             $kendaraan->update($updates);
+    //         }
+
+    //         Kendaraan::where([
+    //             ['status_olimesin', 'belum penggantian'],
+    //             ['status_oligardan', 'belum penggantian'],
+    //             ['status_olitransmisi', 'belum penggantian'],
+    //         ])->update([
+    //             'status_notifkm' => true
+    //         ]);
+
+    //         $kendaraans = Kendaraan::where(function ($query) {
+    //             $query->where('status_olimesin', 'belum penggantian')
     //             ->orWhere('status_oligardan', 'belum penggantian')
     //             ->orWhere('status_olitransmisi', 'belum penggantian');
-    //     })->get();
+    //         })->get();
 
-    //     return view('admin.penggantian_oli.index', compact('kendaraans'));
+
+    //         return view('admin.penggantian_oli.index', compact('kendaraans'));
+    //     } else {
+    //         // tidak memiliki akses
+    //         return back()->with('error', array('Anda tidak memiliki akses'));
+    //     }
     // }
 
 
-
-    public function index()
+    public function index(Request $request)
     {
         if (auth()->check() && auth()->user()->menu['penggantian oli']) {
 
+            // Update status oli kendaraan
             $kendaraanx = Kendaraan::all();
             foreach ($kendaraanx as $kendaraan) {
                 $updates = [];
@@ -60,22 +100,33 @@ class PenggantianOliController extends Controller
                 $kendaraan->update($updates);
             }
 
-            Kendaraan::where([
-                ['status_olimesin', 'belum penggantian'],
-                ['status_oligardan', 'belum penggantian'],
-                ['status_olitransmisi', 'belum penggantian'],
-            ])->update([
-                'status_notifkm' => true
-            ]);
+            // Filter kendaraan berdasarkan kategori yang dipilih
+            $kategori = $request->input('kategori');
+            $kendaraans = Kendaraan::query();
 
-            $kendaraans = Kendaraan::where(function ($query) {
-                $query->where('status_olimesin', 'belum penggantian')
-                    ->orWhere('status_oligardan', 'belum penggantian')
-                    ->orWhere('status_olitransmisi', 'belum penggantian');
-            })->get();
+            if ($kategori === 'Oli Mesin') {
+                $kendaraans = $kendaraans->where('status_olimesin', 'belum penggantian')
+                    ->where('status_oligardan', 'sudah penggantian')
+                    ->where('status_olitransmisi', 'sudah penggantian');
+            } elseif ($kategori === 'Oli Transmisi') {
+                $kendaraans = $kendaraans->where('status_olitransmisi', 'belum penggantian')
+                    ->where('status_olimesin', 'sudah penggantian')
+                    ->where('status_oligardan', 'sudah penggantian');
+            } elseif ($kategori === 'Oli Gardan') {
+                $kendaraans = $kendaraans->where('status_oligardan', 'belum penggantian')
+                    ->where('status_olimesin', 'sudah penggantian')
+                    ->where('status_olitransmisi', 'sudah penggantian');
+            } else {
+                $kendaraans = $kendaraans->where(function ($query) {
+                    $query->where('status_olimesin', 'belum penggantian')
+                        ->orWhere('status_oligardan', 'belum penggantian')
+                        ->orWhere('status_olitransmisi', 'belum penggantian');
+                });
+            }
 
+            $kendaraans = $kendaraans->get();
 
-            return view('admin.penggantian_oli.index', compact('kendaraans'));
+            return view('admin.penggantian_oli.index', compact('kendaraans', 'kategori'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
