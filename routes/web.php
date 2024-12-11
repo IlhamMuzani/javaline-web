@@ -968,4 +968,18 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('penggantian_oli', [\App\Http\Controllers\Admin\PenggantianOliController::class, 'index']);
 
     Route::resource('nota-bon', \App\Http\Controllers\Admin\NotabonController::class);
+    Route::resource('inquery-notabon', \App\Http\Controllers\Admin\InqueryNotabonController::class);
+
+    Route::get('inquery-notabon/unpostnotabon/{id}', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'unpostnotabon']);
+    Route::get('inquery-notabon/postingnotabon/{id}', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'postingnotabon']);
+
+    Route::get('laporan-notabon', [\App\Http\Controllers\Admin\LaporannotabonController::class, 'index']);
+    Route::get('print-notabon', [\App\Http\Controllers\Admin\LaporannotabonController::class, 'print_notabon']);
+
+    Route::get('postingfilternota', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'postingfilternota']);
+    Route::get('unpostfilternota', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'unpostfilternota']);
+
+    Route::get('cetak_notafilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'cetak_notafilter']);
+    Route::get('hapusnotabon/{id}', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'hapusnotabon'])->name('hapusnotabon');
+
 });

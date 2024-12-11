@@ -858,6 +858,7 @@
         request()->is('admin/pelunasan_sewakeninvoice*') ||
         request()->is('admin/invoice_sewakendaraan*') ||
         request()->is('admin/kontrak_rute*') ||
+        request()->is('admin/nota-bon*') ||
         request()->is('admin/pembelian_part*')
             ? 'menu-open'
             : '' }}">
@@ -893,6 +894,7 @@
             request()->is('admin/pelunasan_sewakeninvoice*') ||
             request()->is('admin/kontrak_rute*') ||
             request()->is('admin/invoice_sewakendaraan*') ||
+            request()->is('admin/nota-bon*') ||
             request()->is('admin/pembelian_part*')
                 ? 'active'
                 : '' }}">
@@ -1202,6 +1204,7 @@
         request()->is('admin/inquery_pelunasansewakendaraan*') ||
         request()->is('admin/inquery_kontrakrute*') ||
         request()->is('admin/inquery_penggantianbearing*') ||
+        request()->is('admin/inquery-notabon*') ||
         request()->is('admin/inquery_pengeluarankaskecil*')
             ? 'menu-open'
             : '' }}">
@@ -1247,6 +1250,7 @@
             request()->is('admin/inquery_pelunasansewakendaraan*') ||
             request()->is('admin/inquery_kontrakrute*') ||
             request()->is('admin/inquery_penggantianbearing*') ||
+            request()->is('admin/inquery-notabon*') ||
             request()->is('admin/inquery_pengeluarankaskecil*')
                 ? 'active'
                 : '' }}">
@@ -1538,6 +1542,16 @@
             </a>
         </li>
     @endif
+    @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery-notabon') }}"
+                class="nav-link {{ request()->is('admin/inquery-notabon*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 13px;">Inquery Nota Bon Uang Jalan
+                </p>
+            </a>
+        </li>
+    @endif
     {{-- @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/memo_posting') }}"
@@ -1717,6 +1731,7 @@
         request()->is('admin/laporan_piutang*') ||
         request()->is('admin/laporan_penggantianbearing*') ||
         request()->is('admin/laporan-monitoringsj*') ||
+        request()->is('admin/laporan-notabon*') ||
         request()->is('admin/laporan_pengeluaranujs*')
             ? 'menu-open'
             : '' }}">
@@ -1749,6 +1764,7 @@
             request()->is('admin/laporan_piutang*') ||
             request()->is('admin/laporan_penggantianbearing*') ||
             request()->is('admin/laporan-monitoringsj*') ||
+            request()->is('admin/laporan-notabon*') ||
             request()->is('admin/laporan_pengeluaranujs*')
                 ? 'active'
                 : '' }}">
@@ -1850,6 +1866,17 @@
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Memo Hutang-<br>
                     <span style="margin-left: 32px">Karyawan</span>
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan kasbon karyawan'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan-notabon') }}"
+                class="nav-link {{ request()->is('admin/laporan-notabon*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Nota Bon-<br>
+                    <span style="margin-left: 32px">Uang Jalan</span>
                 </p>
             </a>
         </li>

@@ -162,7 +162,7 @@
                 <td>{{ $detail->gaji_bersih }}</td>
                 <td></td>
                 <td></td>
-                <td>IBU</td>
+                <td>{{ $detail->karyawan->nama_bank === 'MANDIRI' ? 'IBU' : 'RBU' }}</td>
                 <td></td>
                 <td>{{ $detail->karyawan->nama_bank ?? null }}</td>
                 <td>SEMARANG</td>

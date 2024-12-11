@@ -8,14 +8,32 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
 use App\Models\Karyawan;
+use App\Models\Notabon_ujs;
 use Illuminate\Support\Facades\Validator;
 
 class NotabonController extends Controller
 {
+
     public function index()
     {
+        $today = Carbon::today();
+
+        $inquery = Notabon_ujs::whereDate('created_at', $today)
+            ->orWhere(function ($query) use ($today) {
+                $query->where('status', 'unpost')
+                    ->whereDate('created_at', '<', $today);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('admin.nota_bon.index', compact('inquery'));
+    }
+
+
+    public function create()
+    {
         $SopirAll = Karyawan::where('departemen_id', '2')->get();
-        return view('admin.nota_bon.index', compact('SopirAll'));
+        return view('admin.nota_bon.create', compact('SopirAll'));
     }
 
     public function store(Request $request)
@@ -43,37 +61,61 @@ class NotabonController extends Controller
         $format_tanggal = $tanggal1->format('d F Y');
 
         $tanggal = Carbon::now()->format('Y-m-d');
-        $penerimaan = Deposit_driver::create(array_merge(
+        $penerimaan = Notabon_ujs::create(array_merge(
             $request->all(),
             [
                 'kode_nota' => $this->kode(),
+                'karyawan_id' => $request->karyawan_id,
+                'kode_driver' => $request->kode_driver,
+                'nama_driver' => $request->nama_driver,
                 'user_id' => auth()->user()->id,
                 'nominal' => str_replace(',', '.', str_replace('.', '', $request->nominal)),
                 'keterangan' => $request->keterangan,
                 'tanggal' =>  $format_tanggal,
                 'tanggal_awal' =>  $tanggal,
+                'qrcode_nota' => 'https://javaline.id/nota-bon/' . $kode,
                 'status' => 'unpost',
             ]
         ));
-        $cetakpdf = Deposit_driver::find($penerimaan->id);
-        return view('admin.nota_bon.show', compact('cetakpdf'));
+        return redirect('admin/nota-bon')->with('success', 'Berhasil menambahkan nota bon uang jalan');
     }
 
     public function kode()
     {
-        $lastBarang = Deposit_driver::latest()->first();
-        if (!$lastBarang) {
-            $num = 1;
+        // Mengambil kode terbaru dari database dengan awalan 'MP'
+        $lastBarang = Notabon_ujs::where('kode_nota', 'like', 'KN%')->latest()->first();
+
+        // Mendapatkan bulan dari tanggal kode terakhir
+        $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
+        $currentMonth = date('m');
+
+        // Jika tidak ada kode sebelumnya atau bulan saat ini berbeda dari bulan kode terakhir
+        if (!$lastBarang || $currentMonth != $lastMonth) {
+            $num = 1; // Mulai dari 1 jika bulan berbeda
         } else {
-            $lastCode = $lastBarang->kode_deposit;
-            $num = (int) substr($lastCode, strlen('FD')) + 1;
+            // Jika ada kode sebelumnya, ambil nomor terakhir
+            $lastCode = $lastBarang->kode_nota;
+
+            // Pisahkan kode menjadi bagian-bagian terpisah
+            $parts = explode('/', $lastCode);
+            $lastNum = end($parts); // Ambil bagian terakhir sebagai nomor terakhir
+            $num = (int) $lastNum + 1; // Tambahkan 1 ke nomor terakhir
         }
+
+        // Format nomor dengan leading zeros sebanyak 6 digit
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'FD';
-        $newCode = $prefix . $formattedNum;
+
+        // Awalan untuk kode baru
+        $prefix = 'KN';
+        $tahun = date('y');
+        $tanggal = date('dm');
+
+        // Buat kode baru dengan menggabungkan awalan, tanggal, tahun, dan nomor yang diformat
+        $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+
+        // Kembalikan kode
         return $newCode;
     }
-
     public function show($id)
     {
         $cetakpdf = Deposit_driver::where('id', $id)->first();

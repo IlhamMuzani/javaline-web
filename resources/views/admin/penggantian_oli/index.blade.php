@@ -66,11 +66,11 @@
                                         {{ Request::get('kategori') == 'Oli Mesin' ? 'selected' : '' }}>
                                         Oli Mesin
                                     </option>
+                                    <option value="Oli Gardan" {{ Request::get('') == 'Oli Gardan' ? 'selected' : '' }}>
+                                        Oli Gardan</option>
                                     <option value="Oli Transmisi"
                                         {{ Request::get('kategori') == 'Oli Transmisi' ? 'selected' : '' }}>
                                         Oli Transmisi</option>
-                                    <option value="Oli Gardan" {{ Request::get('') == 'Oli Gardan' ? 'selected' : '' }}>
-                                        Oli Gardan</option>
                                 </select>
                             </div>
                             <div class="col-md-2 mb-3">
@@ -175,27 +175,6 @@
             </div>
         </div>
 
-        <div class="modal fade" id="validationModal" tabindex="-1" role="dialog" aria-labelledby="validationModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="validationModalLabel">Validasi Gagal</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body text-center">
-                        <i class="fas fa-times-circle fa-3x text-danger"></i>
-                        <h4 class="mt-2">Validasi Gagal!</h4>
-                        <p id="validationMessage"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
     <!-- /.card -->
 

@@ -161,13 +161,7 @@
                 <td>{{ $detail->memo_ekspedisi->grand_total }}</td>
                 <td></td>
                 <td></td>
-                <td>
-                    @if ($detail->memo_ekspedisi->user->karyawan->nama_bank = 'MANDIRI')
-                        IBU
-                    @else
-                        RBU
-                    @endif
-                </td>
+                <td>{{ $detail->memo_ekspedisi->user->karyawan->nama_bank === 'MANDIRI' ? 'IBU' : 'RBU' }}</td>
                 <td></td>
                 <td>{{ $detail->memo_ekspedisi->user->karyawan->nama_bank ?? null }}</td>
                 <td>SEMARANG</td>

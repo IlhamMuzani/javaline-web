@@ -161,13 +161,7 @@
                 <td>{{ $detail->sub_total }}</td>
                 <td></td>
                 <td></td>
-                <td>
-                    @if ($detail->user->karyawan->nama_bank = 'MANDIRI')
-                        IBU
-                    @else
-                        RBU
-                    @endif
-                </td>
+                <td>{{ $detail->user->karyawan->nama_bank === 'MANDIRI' ? 'IBU' : 'RBU' }}</td>
                 <td></td>
                 <td>{{ $detail->user->karyawan->nama_bank ?? null }}</td>
                 <td>SEMARANG</td>

@@ -119,7 +119,7 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
-                                @if (auth()->user()->id != 1)
+                                @if (auth()->user()->id != 399)
                                     <button type="button" class="btn btn-success btn-block mt-1" id="checkfilter"
                                         onclick="excelSelectedData()" target="_blank">
                                         <i class="fas fa-file-excel"></i> Export Excel
