@@ -158,7 +158,7 @@
                 <td></td>
                 <td></td>
                 <td>IDR</td>
-                <td>{{ $detail->memo_ekspedisi->grand_total }}</td>
+                <td>{{ $detail->grand_total }}</td>
                 <td></td>
                 <td></td>
                 <td>{{ $detail->memo_ekspedisi->user->karyawan->nama_bank === 'MANDIRI' ? 'IBU' : 'RBU' }}</td>
