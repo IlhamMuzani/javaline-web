@@ -981,5 +981,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('cetak_notafilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'cetak_notafilter']);
     Route::get('hapusnotabon/{id}', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'hapusnotabon'])->name('hapusnotabon');
+    Route::delete('inquery_memoekspedisispk/deletedetailnota/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisispkController::class, 'deletedetailnota']);
+    Route::get('excel_notabonfilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'excel_notabonfilter']);
 
 });

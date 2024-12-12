@@ -12,6 +12,8 @@ use App\Models\Karyawan;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\RekapNotabonExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InqueryNotabonController extends Controller
 {
@@ -84,9 +86,10 @@ class InqueryNotabonController extends Controller
         $penerimaan = Notabon_ujs::findOrFail($id);
         $penerimaan->update([
             'karyawan_id' => $request->karyawan_id,
+            'user_id' => $request->user_id,
             'kode_driver' => $request->kode_driver,
             'nama_driver' => $request->nama_driver,
-            'user_id' => auth()->user()->id,
+            'admin' => auth()->user()->karyawan->nama_lengkap,
             'nominal' => str_replace(',', '.', str_replace('.', '', $request->nominal)),
             'keterangan' => $request->keterangan,
             'status' => 'unpost',
@@ -299,5 +302,19 @@ class InqueryNotabonController extends Controller
         $item = Notabon_ujs::where('id', $id)->first();
         $item->delete();
         return back()->with('success', 'Berhasil');
+    }
+
+    public function excel_notabonfilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        $nota_bon = Notabon_ujs::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        if (!$nota_bon) {
+            return redirect()->back()->withErrors(['error' => 'Data Memo tidak ditemukan']);
+        }
+
+        // Ekspor sebagai CSV
+        return Excel::download(new RekapNotabonExport($nota_bon), 'rekap_nota_bon.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

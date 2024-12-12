@@ -83,6 +83,11 @@
                                 value="{{ old('karyawan_id', $inquery->karyawan_id) }}" readonly placeholder=""
                                 value="">
                         </div>
+                        <div class="form-group" hidden>
+                            <label for="nopol">Id User</label>
+                            <input type="text" class="form-control" id="user_id" name="user_id"
+                                value="{{ old('user_id', $inquery->user_id) }}" readonly placeholder="" value="">
+                        </div>
                         <div class="form-group">
                             <label for="nopol">Kode Driver</label>
                             <input type="text" class="form-control" id="kode_karyawan" name="kode_driver" readonly
@@ -150,6 +155,7 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedData('{{ $sopir->id }}',
+                                                    '{{ $sopir->user->first()->id ?? null }}',
                                                     '{{ $sopir->kode_karyawan }}',
                                                     '{{ $sopir->nama_lengkap }}',
                                                     )">
@@ -172,9 +178,10 @@
             $('#tableSopir').modal('show');
         }
 
-        function getSelectedData(Sopir_id, KodeSopir, NamaSopir, Tabungan) {
+        function getSelectedData(Sopir_id, User_id, KodeSopir, NamaSopir, Tabungan) {
             // Set the values in the form fields
             document.getElementById('karyawan_id').value = Sopir_id;
+            document.getElementById('user_id').value = User_id;
             document.getElementById('kode_karyawan').value = KodeSopir;
             document.getElementById('nama_lengkap').value = NamaSopir;
             // Close the modal (if needed)
@@ -220,6 +227,33 @@
                     e.target.value = formatRupiah(e.target.value);
                 });
             });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userIdInput = document.getElementById('user_id');
+            const tableNota = document.getElementById('datatables1');
+
+            // Fungsi untuk memfilter nota
+            function filterNotaByUserId() {
+                const userId = userIdInput.value;
+                const rows = tableNota.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const rowUserId = row.getAttribute('data-user_id');
+                    if (rowUserId === userId || userId === '') {
+                        row.style.display = ''; // Tampilkan baris
+                    } else {
+                        row.style.display = 'none'; // Sembunyikan baris
+                    }
+                });
+            }
+
+            // Filter ulang saat modal ditampilkan
+            $('#tableNota').on('show.bs.modal', filterNotaByUserId);
+
+            // Jika `user_id` berubah, filter ulang
+            userIdInput.addEventListener('change', filterNotaByUserId);
         });
     </script>
 @endsection

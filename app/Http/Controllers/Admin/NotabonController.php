@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Deposit_driver;
 use App\Models\Karyawan;
 use App\Models\Notabon_ujs;
+use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
 
 class NotabonController extends Controller
@@ -26,7 +27,9 @@ class NotabonController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('admin.nota_bon.index', compact('inquery'));
+        $saldoTerakhir = Saldo::latest()->first();
+
+        return view('admin.nota_bon.index', compact('inquery', 'saldoTerakhir'));
     }
 
 
@@ -66,9 +69,10 @@ class NotabonController extends Controller
             [
                 'kode_nota' => $this->kode(),
                 'karyawan_id' => $request->karyawan_id,
+                'user_id' => $request->user_id,
                 'kode_driver' => $request->kode_driver,
                 'nama_driver' => $request->nama_driver,
-                'user_id' => auth()->user()->id,
+                'admin' => auth()->user()->karyawan->nama_lengkap,
                 'nominal' => str_replace(',', '.', str_replace('.', '', $request->nominal)),
                 'keterangan' => $request->keterangan,
                 'tanggal' =>  $format_tanggal,

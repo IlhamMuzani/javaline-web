@@ -104,7 +104,7 @@
                                                 No pol tidak ada
                                             @endif
                                         </td>
-                                        <td>{{ number_format($nota->nominal, 2, ',', '.') }}</td>
+                                        <td>{{ number_format($nota->nominal, 0, ',', '.') }}</td>
 
                                         <td class="text-center">
                                             @if ($nota->status == 'posting')
@@ -114,12 +114,16 @@
                                             @endif
                                             @if ($nota->status == 'selesai')
                                                 <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                    height="40" width="40" alt="Roda Mobil">
+                                                    height="40" width="40" alt="Document">
                                             @endif
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 @if ($nota->status == 'unpost')
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $nota->id }}">Posting</a>
+                                                    @if ($saldoTerakhir->sisa_saldo < $nota->nominal)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $nota->id }}">Posting</a>
+                                                    @endif
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
                                                     <a class="dropdown-item"

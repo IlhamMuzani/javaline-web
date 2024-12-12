@@ -84,6 +84,10 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="checkfilter"
+                                    onclick="excelSelectedData()" target="_blank">
+                                    <i class="fas fa-file-excel"></i> Export Excel
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -147,7 +151,7 @@
                                                 tidak ada
                                             @endif
                                         </td>
-                                        <td>{{ number_format($nota->nominal, 2, ',', '.') }}</td>
+                                        <td>{{ number_format($nota->nominal, 0, ',', '.') }}</td>
 
                                         <td class="text-center">
                                             @if ($nota->status == 'posting')
@@ -157,12 +161,16 @@
                                             @endif
                                             @if ($nota->status == 'selesai')
                                                 <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                    height="40" width="40" alt="Roda Mobil">
+                                                    height="40" width="40" alt="Document">
                                             @endif
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 @if ($nota->status == 'unpost')
-                                                    <a class="dropdown-item posting-btn"
-                                                        data-memo-id="{{ $nota->id }}">Posting</a>
+                                                    @if ($saldoTerakhir->sisa_saldo < $nota->nominal)
+                                                        <a class="dropdown-item">Saldo tidak cukup</a>
+                                                    @else
+                                                        <a class="dropdown-item posting-btn"
+                                                            data-memo-id="{{ $nota->id }}">Posting</a>
+                                                    @endif
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
                                                     <form style="margin-top:5px" method="GET"
@@ -400,51 +408,45 @@
             })
         });
 
+        function getTotalGrandTotal() {
+            var totalGrandTotal = 0;
+            var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+
+            selectedCheckboxes.forEach(function(checkbox) {
+                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(7)').textContent
+                    .replace(/\D/g, ''));
+                totalGrandTotal += grandTotal;
+            });
+
+            return totalGrandTotal;
+        }
+
         function postingSelectedData() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                // Tampilkan modal peringatan jika tidak ada item yang dipilih
-                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+            var totalGrandTotal = getTotalGrandTotal();
+            var saldoTerakhir = parseFloat("{{ $saldoTerakhir->sisa_saldo }}");
+
+            console.log(totalGrandTotal);
+
+            if (totalGrandTotal > saldoTerakhir) {
+                // Update pesan validasi di dalam modal
+                document.getElementById('validationMessage').textContent = "Saldo tidak mencukupi untuk melakukan posting.";
+
+                // Tampilkan modal validasi
                 $('#validationModal').modal('show');
             } else {
-                var totalUangJalan = 0; // Tambahkan variabel untuk menyimpan total uang jalan
                 var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                var selectedIds = [];
-                var driverCounts = {}; // Object untuk menyimpan jumlah kemunculan setiap nama sopir
-                selectedCheckboxes.forEach(function(checkbox) {
-                    selectedIds.push(checkbox.value);
-                    var driverName = checkbox.parentNode.parentNode.querySelector("td:nth-child(5)").innerText
-                        .trim();
-                    driverCounts[driverName] = (driverCounts[driverName] || 0) +
-                        1; // Menambah jumlah kemunculan nama sopir
+                if (selectedCheckboxes.length === 0) {
+                    // Update pesan validasi untuk kasus checkbox tidak dipilih
+                    document.getElementById('validationMessage').textContent =
+                        "Harap centang setidaknya satu item sebelum posting.";
 
-                    // Tambahkan uang jalan dari setiap item yang dicentang ke total
-                    totalUangJalan += parseInt(checkbox.parentNode.parentNode.querySelector("td:nth-child(8)")
-                        .innerText.replace(/\./g, ''));
-                });
-
-                // Lakukan pengecekan total uang jalan dengan saldo terakhir
-                if (totalUangJalan > parseInt("{{ $saldoTerakhir->sisa_saldo }}")) {
-                    // Tampilkan pesan kesalahan jika total uang jalan melebihi saldo terakhir
-                    $('#validationMessage').text('Saldo tidak mencukupi untuk melakukan posting.');
+                    // Tampilkan modal validasi
                     $('#validationModal').modal('show');
-                    return; // Hentikan proses posting jika saldo tidak mencukupi
-                }
-
-                // Lakukan pengecekan untuk setiap nama sopir
-                var hasError = false;
-                Object.keys(driverCounts).forEach(function(driverName) {
-                    if (driverCounts[driverName] >= 4) {
-                        // Tampilkan modal peringatan jika terdapat 4 atau lebih item dengan nama sopir yang sama
-                        $('#validationMessage').text(
-                            'Anda tidak dapat melakukan posting karena terdapat 4 atau lebih item dengan nama sopir yang sama: ' +
-                            driverName);
-                        $('#validationModal').modal('show');
-                        hasError = true;
-                    }
-                });
-
-                if (!hasError) {
+                } else {
+                    var selectedIds = [];
+                    selectedCheckboxes.forEach(function(checkbox) {
+                        selectedIds.push(checkbox.value);
+                    });
                     document.getElementById('postingfilter').value = selectedIds.join(',');
                     var selectedIdsString = selectedIds.join(',');
 
@@ -551,5 +553,30 @@
         }
     </script>
 
+
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        function excelSelectedData() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum export.");
+            } else {
+                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                document.getElementById('selectedIds').value = selectedIds.join(',');
+                var selectedIdsString = selectedIds.join(',');
+                window.location.href = "{{ url('admin/excel_notabonfilter') }}?ids=" + selectedIdsString;
+                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
+            }
+        }
+    </script>
 
 @endsection

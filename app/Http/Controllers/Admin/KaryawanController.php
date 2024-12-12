@@ -17,7 +17,7 @@ class KaryawanController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             $query = Karyawan::with('departemen')
-                ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan')
+                ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan', 'nama_bank')
                 ->whereIn('departemen_id', [1, 5]); // Filter untuk departemen_id 1 dan 5
 
             if ($request->has('keyword')) {

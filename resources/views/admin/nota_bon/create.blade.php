@@ -48,8 +48,7 @@
                     @endforeach
                 </div>
             @endif
-            <form action="{{ url('admin/nota-bon') }}" method="POST" enctype="multipart/form-data"
-                autocomplete="off">
+            <form action="{{ url('admin/nota-bon') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card">
                     <div class="card-header">
@@ -80,6 +79,11 @@
                             <label for="nopol">Id Driver</label>
                             <input type="text" class="form-control" id="karyawan_id" name="karyawan_id"
                                 value="{{ old('karyawan_id') }}" readonly placeholder="" value="">
+                        </div>
+                        <div class="form-group" hidden>
+                            <label for="nopol">Id User</label>
+                            <input type="text" class="form-control" id="user_id" name="user_id"
+                                value="{{ old('user_id') }}" readonly placeholder="" value="">
                         </div>
                         <div class="form-group">
                             <label for="nopol">Kode Driver</label>
@@ -148,6 +152,7 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedData('{{ $sopir->id }}',
+                                                    '{{ $sopir->user->first()->id ?? null }}',
                                                     '{{ $sopir->kode_karyawan }}',
                                                     '{{ $sopir->nama_lengkap }}',
                                                     )">
@@ -170,9 +175,10 @@
             $('#tableSopir').modal('show');
         }
 
-        function getSelectedData(Sopir_id, KodeSopir, NamaSopir, Tabungan) {
+        function getSelectedData(Sopir_id, User_id, KodeSopir, NamaSopir, Tabungan) {
             // Set the values in the form fields
             document.getElementById('karyawan_id').value = Sopir_id;
+            document.getElementById('user_id').value = User_id;
             document.getElementById('kode_karyawan').value = KodeSopir;
             document.getElementById('nama_lengkap').value = NamaSopir;
             // Close the modal (if needed)

@@ -17,7 +17,7 @@ class KaryawandriverController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['karyawan']) {
             $query = Karyawan::with('departemen')
-            ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan')
+            ->select('id', 'kode_karyawan', 'nama_lengkap', 'telp', 'departemen_id', 'qrcode_karyawan', 'nama_bank')
             ->where('departemen_id', 2); // Filter untuk departemen_id 1
 
             if ($request->has('keyword')) {
