@@ -26,7 +26,7 @@ class NotabonController extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->get();
-
+            
         $saldoTerakhir = Saldo::latest()->first();
 
         return view('admin.nota_bon.index', compact('inquery', 'saldoTerakhir'));

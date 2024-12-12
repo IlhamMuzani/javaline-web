@@ -64,6 +64,20 @@
                                     <option value="saldo_kas">Saldo Kas</option>
                                 </select>
                             </div>
+                            @if (auth()->user()->id == 1)
+                                <div class="col-md-3 mb-3">
+                                    <label for="created_at">Jam Awal</label>
+                                    <input class="form-control" id="created_at" name="created_at" type="datetime-local"
+                                        value="{{ Request::get('created_at') ? date('Y-m-d\TH:i:s', strtotime(Request::get('created_at'))) : '' }}"
+                                        max="{{ date('Y-m-d\TH:i:s') }}" />
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label for="end_at">Jam Akhir</label>
+                                    <input class="form-control" id="end_at" name="end_at" type="datetime-local"
+                                        value="{{ Request::get('end_at') ? date('Y-m-d\TH:i:s', strtotime(Request::get('end_at'))) : '' }}"
+                                        max="{{ date('Y-m-d\TH:i:s') }}" />
+                                </div>
+                            @endif
                             <div class="col-md-3 mb-3">
                                 <label for="tanggal_awal">Tanggal Awal</label>
                                 <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
@@ -128,6 +142,7 @@
                             </tfoot>
                         </table>
                     </div>
+
                 </div>
                 <!-- /.card-body -->
             </div>

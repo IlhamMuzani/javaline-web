@@ -63,6 +63,7 @@
         request()->is('admin/lama_bearing*') ||
         request()->is('admin/post-pengurus*') ||
         request()->is('admin/pengurus*') ||
+        request()->is('admin/tarif-asuransi*') ||
         request()->is('admin/sparepart')
             ? 'menu-open'
             : '' }}">
@@ -106,6 +107,7 @@
             request()->is('admin/lama_bearing*') ||
             request()->is('admin/post-pengurus*') ||
             request()->is('admin/pengurus*') ||
+            request()->is('admin/tarif-asuransi*') ||
             request()->is('admin/sparepart')
                 ? 'active'
                 : '' }}">
@@ -487,6 +489,15 @@
             </li>
         @endif
     @endif
+    @if (auth()->check() && auth()->user()->menu['tarif'])
+        <li class="nav-item">
+            <a href="{{ url('admin/tarif-asuransi') }}"
+                class="nav-link {{ request()->is('admin/tarif-asuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Data Tarif Asuransi Barang</p>
+            </a>
+        </li>
+    @endif
     {{-- @if (auth()->check() && auth()->user()->menu['kendaraan'])
             <li class="nav-item">
                 <a href="{{ url('admin/jarak_km') }}"
@@ -598,6 +609,7 @@
                         @if (count($stnk) > 0)
                             <span class="right badge badge-info">{{ count($stnk) }}</span>
                         @endif
+
                         @if (count($peringatan) > 0)
                             <span class="">
                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
@@ -1008,16 +1020,25 @@
             </a>
         </li>
     @endif
+    @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+        <li class="nav-item">
+            <a href="{{ url('admin/memo-asuransi') }}"
+                class="nav-link {{ request()->is('admin/memo-asuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Memo Asuransi Barang</p>
+            </a>
+        </li>
+    @endif
     {{-- @if (auth()->user()->id == 1) --}}
-        @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
-            <li class="nav-item">
-                <a href="{{ url('admin/nota-bon') }}"
-                    class="nav-link {{ request()->is('admin/nota-bon*') ? 'active' : '' }}">
-                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
-                    <p style="font-size: 14px;">Nota Bon Uang Jalan</p>
-                </a>
-            </li>
-        @endif
+    @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
+        <li class="nav-item">
+            <a href="{{ url('admin/nota-bon') }}"
+                class="nav-link {{ request()->is('admin/nota-bon*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Nota Bon Uang Jalan</p>
+            </a>
+        </li>
+    @endif
     {{-- @endif --}}
     @if (auth()->user()->id == 1)
         @if (auth()->check() && auth()->user()->menu['faktur ekspedisi'])
@@ -1167,6 +1188,7 @@
         request()->is('admin/inquery_kasbonkaryawan*') ||
         request()->is('admin/listadministrasi*') ||
         request()->is('admin/saldo_ujs*') ||
+        request()->is('admin/saldo-asuransi*') ||
         request()->is('admin/inquery_banpembelianlunas*') ||
         request()->is('admin/inquery_partpembelianlunas*') ||
         request()->is('admin/inquery_returnekspedisi*') ||
@@ -1183,7 +1205,9 @@
         request()->is('admin/inquery_fakturekspedisi*') ||
         request()->is('admin/inquery_depositdriver*') ||
         request()->is('admin/inquery_pengeluaranujs*') ||
+        request()->is('admin/inquery_pengeluaranasuransi*') ||
         request()->is('admin/inquery_memoekspedisi*') ||
+        request()->is('admin/inquery_memoasuransi*') ||
         request()->is('admin/inquery_memoborong*') ||
         request()->is('admin/inquery_memotambahan*') ||
         request()->is('admin/penerimaan_kaskecil*') ||
@@ -1213,6 +1237,7 @@
             request()->is('admin/inquery_kasbonkaryawan*') ||
             request()->is('admin/listadministrasi*') ||
             request()->is('admin/saldo_ujs*') ||
+            request()->is('admin/saldo-asuransi*') ||
             request()->is('admin/inquery_banpembelianlunas*') ||
             request()->is('admin/inquery_partpembelianlunas*') ||
             request()->is('admin/inquery_returnekspedisi*') ||
@@ -1230,7 +1255,9 @@
             request()->is('admin/inquery_pelunasanhutangkw*') ||
             request()->is('admin/inquery_depositdriver*') ||
             request()->is('admin/inquery_pengeluaranujs*') ||
+            request()->is('admin/inquery_pengeluaranasuransi*') ||
             request()->is('admin/inquery_memoekspedisi*') ||
+            request()->is('admin/inquery_memoasuransi*') ||
             request()->is('admin/inquery_memoborong*') ||
             request()->is('admin/inquery_memotambahan*') ||
             request()->is('admin/penerimaan_kaskecil*') ||
@@ -1314,10 +1341,31 @@
     @endif
     @if (auth()->check() && auth()->user()->menu['inquery deposit sopir'])
         <li class="nav-item">
+            <a href="{{ url('admin/saldo-asuransi') }}"
+                class="nav-link {{ request()->is('admin/saldo-asuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Saldo Asuransi Barang
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['inquery deposit sopir'])
+        <li class="nav-item">
             <a href="{{ url('admin/inquery_pengeluaranujs') }}"
                 class="nav-link {{ request()->is('admin/inquery_pengeluaranujs*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Inquery Pengambilan UJS
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['inquery deposit sopir'])
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery_pengeluaranasuransi') }}"
+                class="nav-link {{ request()->is('admin/inquery_pengeluaranasuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Inquery Pengambilan Uang-<br>
+                    <span style="margin-left: 32px">Asuransi Barang</span>
                 </p>
             </a>
         </li>
@@ -1543,6 +1591,16 @@
     @endif
     @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
         <li class="nav-item">
+            <a href="{{ url('admin/inquery_memoasuransi') }}"
+                class="nav-link {{ request()->is('admin/inquery_memoasuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 13px;">Inquery Memo Asuransi Barang
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['inquery memo ekspedisi'])
+        <li class="nav-item">
             <a href="{{ url('admin/inquery-notabon') }}"
                 class="nav-link {{ request()->is('admin/inquery-notabon*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
@@ -1731,6 +1789,7 @@
         request()->is('admin/laporan_penggantianbearing*') ||
         request()->is('admin/laporan-monitoringsj*') ||
         request()->is('admin/laporan-notabon*') ||
+        request()->is('admin/laporan_pengeluaranasuransi*') ||
         request()->is('admin/laporan_pengeluaranujs*')
             ? 'menu-open'
             : '' }}">
@@ -1764,6 +1823,7 @@
             request()->is('admin/laporan_penggantianbearing*') ||
             request()->is('admin/laporan-monitoringsj*') ||
             request()->is('admin/laporan-notabon*') ||
+            request()->is('admin/laporan_pengeluaranasuransi*') ||
             request()->is('admin/laporan_pengeluaranujs*')
                 ? 'active'
                 : '' }}">
@@ -1898,6 +1958,28 @@
             </a>
         </li>
     @endif
+    @if (auth()->user()->id == 1)
+        @if (auth()->check() && auth()->user()->menu['laporan kas kecil'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporandetailmemotambahan') }}"
+                    class="nav-link {{ request()->is('admin/laporandetailmemotambahan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan detail memotambahan</p>
+                </a>
+            </li>
+        @endif
+    @endif
+    @if (auth()->user()->id == 1)
+        @if (auth()->check() && auth()->user()->menu['laporan kas kecil'])
+            <li class="nav-item">
+                <a href="{{ url('admin/laporandetailkaskecil') }}"
+                    class="nav-link {{ request()->is('admin/laporandetailmemotambahan*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Laporan detail kas kecil</p>
+                </a>
+            </li>
+        @endif
+    @endif
     @if (auth()->check() && auth()->user()->menu['laporan mobil logistik'])
         <li class="nav-item">
             <a href="{{ url('admin/laporan_mobillogistik') }}"
@@ -2016,6 +2098,17 @@
                 class="nav-link {{ request()->is('admin/laporan_pengeluaranujs*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Pengambilan UJS
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan deposit sopir'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan_pengeluaranasuransi') }}"
+                class="nav-link {{ request()->is('admin/laporan_pengeluaranasuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Pengambilan Uang -<br>
+                    <span style="margin-left: 32px">Asuransi Barang</span>
                 </p>
             </a>
         </li>

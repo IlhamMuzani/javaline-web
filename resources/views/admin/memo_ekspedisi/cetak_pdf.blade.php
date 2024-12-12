@@ -169,7 +169,7 @@
                 </td>
             </tr>
         </table>
-        <hr style="border: 1px solid;">
+        <hr style="border: 0.5px solid;">
 
         <table width="100%" style="border-collapse: collapse;">
             <tr>
@@ -265,7 +265,7 @@
                         </tr>
                         <tr>
                             <td colspan="6" style="padding: 0px;">
-                                <hr style="border-top: 0.5px solid black; margin: 5px 0;">
+                                <hr style="border-top: 0.1px solid black; margin: 5px 0;">
                             </td>
                         </tr>
                         <tr>
@@ -292,6 +292,18 @@
                                 {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }} -
                             </td>
                         </tr>
+                        @if ($cetakpdf->nota_bon == 0)
+                        @else
+                            <tr>
+                                <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 13px;">
+                                    Nota Bon Sopir
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 3.5px; font-size: 13px;">
+                                    {{ number_format($cetakpdf->nota_bon, 2, ',', '.') }} -
+                                </td>
+                            </tr>
+                        @endif
+
                     </table>
                 </td>
 
@@ -327,7 +339,7 @@
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">
+                            <td style="font-size: 12px;" class="label">
                                 {{ $cetakpdf->nama_driver }}
                             </td>
                         </tr>
@@ -335,14 +347,14 @@
                             <td class="separator" colspan="2"><span></span></td>
                         </tr>
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">Sopir</td>
+                            <td style="font-size: 12px;" class="label">Sopir</td>
                         </tr>
                     </table>
                 </td>
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">
+                            <td style="font-size: 12px;" class="label">
                                 DJOHAN WAHYUDI
                             </td>
                         </tr>
@@ -350,14 +362,14 @@
                             <td class="separator" colspan="2"><span></span></td>
                         </tr>
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">Finance</td>
+                            <td style="font-size: 12px;" class="label">Finance</td>
                         </tr>
                     </table>
                 </td>
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">
+                            <td style="font-size: 12px;" class="label">
                                 {{-- @if ($cetakpdf->user)
                                 {{ $cetakpdf->user->karyawan->nama_lengkap }}
                             @else
@@ -370,7 +382,7 @@
                             <td class="separator" colspan="2"><span></span></td>
                         </tr>
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">Admin</td>
+                            <td style="font-size: 12px;" class="label">Admin</td>
                         </tr>
                     </table>
                 </td>
@@ -633,6 +645,17 @@
 
                 </td>
             </tr>
+            @if ($cetakpdf->nota_bons == 0)
+            @else
+                <tr>
+                    <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">Nota Bon Supir
+                    </td>
+                    <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                        {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }} -
+
+                    </td>
+                </tr>
+            @endif
             <!-- Add horizontal line below the subtotal row -->
         </table>
         <hr style="border-top: 0.1px solid black; margin: 0.1px 0;">
@@ -651,13 +674,13 @@
                 </td>
             </tr>
         </table>
-        <br>
-        <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
+        {{-- <br> --}}
+        <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto; margin-top:5px">
             <tr>
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">
+                            <td style="font-size: 12px;" class="label">
                                 {{ $cetakpdf->nama_driver }}
                             </td>
                         </tr>
@@ -665,14 +688,14 @@
                             <td class="separator" colspan="2"><span></span></td>
                         </tr>
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">Sopir</td>
+                            <td style="font-size: 12px;" class="label">Sopir</td>
                         </tr>
                     </table>
                 </td>
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">
+                            <td style="font-size: 12px;" class="label">
                                 DJOHAN WAHYUDI
                             </td>
                         </tr>
@@ -680,14 +703,14 @@
                             <td class="separator" colspan="2"><span></span></td>
                         </tr>
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">Finance</td>
+                            <td style="font-size: 12px;" class="label">Finance</td>
                         </tr>
                     </table>
                 </td>
                 <td style="text-align: center;">
                     <table style="margin: 0 auto;">
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">
+                            <td style="font-size: 12px;" class="label">
                                 {{-- @if ($cetakpdf->user)
                                 {{ $cetakpdf->user->karyawan->nama_lengkap }}
                             @else
@@ -700,7 +723,7 @@
                             <td class="separator" colspan="2"><span></span></td>
                         </tr>
                         <tr style="text-align: center;">
-                            <td style="font-size: 13px;" class="label">Admin</td>
+                            <td style="font-size: 12px;" class="label">Admin</td>
                         </tr>
                     </table>
                 </td>

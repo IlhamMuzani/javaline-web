@@ -32,7 +32,7 @@ class Detail_memotambahan extends Model
         return LogOptions::defaults()
             ->logFillable('*');
     }
-    public function memo_ekpedisi()
+    public function memotambahan()
     {
         return $this->belongsTo(Memotambahan::class);
     }

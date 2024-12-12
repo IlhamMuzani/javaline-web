@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
+use App\Models\Detail_notabon;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
@@ -17,6 +18,7 @@ use App\Models\Jarak_km;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
+use App\Models\Notabon_ujs;
 use App\Models\Pelanggan;
 use App\Models\Pengambilan_do;
 use App\Models\Pengeluaran_kaskecil;
@@ -132,7 +134,9 @@ class InqueryMemoekspedisispkController extends Controller
         $potonganmemos = Potongan_memo::all();
         $detailstambahan = Detail_tambahan::where('memo_ekspedisi_id', $id)->get();
         $details = Detail_potongan::where('memo_ekspedisi_id', $id)->get();
+        $detailnotas = Detail_notabon::where('memo_ekspedisi_id', $id)->get();
         $memos = Memo_ekspedisi::where('status_memo', null)->get();
+        $notas = Notabon_ujs::where(['status' => 'posting'])->get();
         return view('admin.inquery_memoekspedisispk.update', compact(
             'inquery',
             'pelanggans',
@@ -145,6 +149,8 @@ class InqueryMemoekspedisispkController extends Controller
             'detailstambahan',
             'details',
             'spks',
+            'detailnotas',
+            'notas',
             'saldoTerakhir'
         ));
     }
@@ -234,6 +240,7 @@ class InqueryMemoekspedisispkController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
         $data_pembelians4 = collect();
+        $data_pembeliansnota = collect();
 
         if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
             for ($i = 0; $i < count($request->biaya_tambahan_id); $i++) {
@@ -301,13 +308,47 @@ class InqueryMemoekspedisispkController extends Controller
             }
         }
 
+        if ($request->has('notabon_ujs_id') || $request->has('kode_nota') || $request->has('nama_drivernota') || $request->has('nominal_nota')) {
+            for ($i = 0; $i < count($request->notabon_ujs_id); $i++) {
+                if (empty($request->notabon_ujs_id[$i]) && empty($request->kode_nota[$i]) && empty($request->nama_drivernota[$i]) && empty($request->nominal_nota[$i])) {
+                    continue;
+                }
+
+                $validasi_produk = Validator::make($request->all(), [
+                    'notabon_ujs_id.' . $i => 'required',
+                    'kode_nota.' . $i => 'required',
+                    'nama_drivernota.' . $i => 'required',
+                    'nominal_nota.' . $i => 'required',
+                ]);
+
+                if ($validasi_produk->fails()) {
+                    array_push($error_pesanans, "Biaya tambahan nomor " . ($i + 1) . " belum dilengkapi!");
+                }
+
+                $notabon_ujs_id = $request->notabon_ujs_id[$i] ?? '';
+                $kode_nota = $request->kode_nota[$i] ?? '';
+                $nama_drivernota = $request->nama_drivernota[$i] ?? '';
+                $nominal_nota = $request->nominal_nota[$i] ?? '';
+
+                $data_pembeliansnota->push([
+                    'detail_iddd' => $request->detail_idnotas[$i] ?? null,
+                    'notabon_ujs_id' => $notabon_ujs_id,
+                    'kode_nota' => $kode_nota,
+                    'nama_drivernota' => $nama_drivernota,
+                    'nominal_nota' => $nominal_nota,
+
+                ]);
+            }
+        }
+
         if ($error_pelanggans || $error_pesanans) {
             return back()
                 ->withInput()
                 ->with('error_pelanggans', $error_pelanggans)
                 ->with('error_pesanans', $error_pesanans)
                 ->with('data_pembelians', $data_pembelians)
-                ->with('data_pembelians4', $data_pembelians4);
+                ->with('data_pembelians4', $data_pembelians4)
+                ->with('data_pembeliansnota', $data_pembeliansnota);
         }
 
         $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
@@ -397,6 +438,7 @@ class InqueryMemoekspedisispkController extends Controller
                 'deposit_drivers' => $request->deposit_driver ? str_replace('.', '', $request->deposit_driver) : 0,
                 'uang_jaminan' => str_replace(',', '.', str_replace('.', '', $request->uang_jaminan)),
                 'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+                'nota_bon' => str_replace(',', '.', str_replace('.', '', $request->nota_bon)),
                 'keterangan' => $request->keterangan,
                 'hasil_jumlah' => $hasil_jumlah,
                 'status' => $status_memo,
@@ -404,6 +446,7 @@ class InqueryMemoekspedisispkController extends Controller
         );
 
         $transaksi_id = $cetakpdf->id;
+        $detailIds = $request->input('detail_idnotas');
         $detailIds = $request->input('detail_idss');
         $detailIds = $request->input('detail_ids');
 
@@ -470,6 +513,48 @@ class InqueryMemoekspedisispkController extends Controller
                         'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
                         'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                     ]);
+                }
+            }
+        }
+
+        foreach ($data_pembeliansnota as $data_pesanan) {
+            $detailId = $data_pesanan['detail_iddd'];
+
+            if ($detailId) {
+                $detail = Detail_notabon::where('id', $detailId)->update([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                    'kode_nota' => $data_pesanan['kode_nota'],
+                    'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                    'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                ]);
+                // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                // if ($nota) {
+                //     $nota->update(['status_memo' => 'aktif']);
+                // }
+            } else {
+                $existingDetail = Detail_notabon::where([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                    'kode_nota' => $data_pesanan['kode_nota'],
+                    'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                    'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                ])->first();
+
+
+                if (!$existingDetail) {
+                    $detail = Detail_notabon::create([
+                        'memo_ekspedisi_id' => $cetakpdf->id,
+                        'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                        'kode_nota' => $data_pesanan['kode_nota'],
+                        'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                        'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                    ]);
+
+                    // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                    // if ($nota) {
+                    //     $nota->update(['status_memo' => 'aktif']);
+                    // }
                 }
             }
         }
@@ -1036,6 +1121,18 @@ class InqueryMemoekspedisispkController extends Controller
     public function deletedetailbiayapotongan($id)
     {
         $item = Detail_potongan::find($id);
+
+        if ($item) {
+            $item->delete();
+            return response()->json(['message' => 'Data deleted successfully']);
+        } else {
+            return response()->json(['message' => 'Detail Faktur not found'], 404);
+        }
+    }
+
+    public function deletedetailnota($id)
+    {
+        $item = Detail_notabon::find($id);
 
         if ($item) {
             $item->delete();

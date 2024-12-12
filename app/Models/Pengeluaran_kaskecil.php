@@ -18,6 +18,7 @@ class Pengeluaran_kaskecil extends Model
         'user_id',
         'perhitungan_gajikaryawan_id',
         'memo_ekspedisi_id',
+        'memo_asuransi_id',
         'memotambahan_id',
         'laporankir_id',
         'laporanstnk_id',

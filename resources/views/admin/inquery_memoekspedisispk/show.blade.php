@@ -9,7 +9,7 @@
     <style>
         html,
         body {
-            font-family: 'DOSVGA', monospace;
+            font-family: Arial, sans-serif;
             color: black;
             /* Gunakan Arial atau font sans-serif lainnya yang mudah dibaca */
             margin: 40px;
@@ -294,6 +294,13 @@
                             </td>
                             <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                                 {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
+                                Nota Bon Sopir
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                                {{ number_format($cetakpdf->nota_bon, 2, ',', '.') }}</td>
                         </tr>
                     </table>
                 </td>

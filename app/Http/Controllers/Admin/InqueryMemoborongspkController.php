@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
+use App\Models\Detail_notabon;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
@@ -16,6 +17,7 @@ use App\Models\Jarak_km;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
+use App\Models\Notabon_ujs;
 use App\Models\Pengambilan_do;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Potongan_memo;
@@ -109,8 +111,10 @@ class InqueryMemoborongspkController extends Controller
         $potonganmemos = Potongan_memo::all();
         $saldoTerakhir = Saldo::latest()->first();
         $detailstambahan = Detail_tambahan::where('memo_ekspedisi_id', $id)->get();
+        $detailnotas = Detail_notabon::where('memo_ekspedisi_id', $id)->get();
         $details = Detail_potongan::where('memo_ekspedisi_id', $id)->get();
         $memos = Memo_ekspedisi::all();
+        $notas = Notabon_ujs::where(['status' => 'posting'])->get();
         return view('admin.inquery_memoborongspk.update', compact(
             'inquery',
             'potonganmemos',
@@ -120,6 +124,8 @@ class InqueryMemoborongspkController extends Controller
             'memos',
             'detailstambahan',
             'spks',
+            'detailnotas',
+            'notas',
             'saldoTerakhir'
         ));
     }
@@ -180,6 +186,7 @@ class InqueryMemoborongspkController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
         $data_pembelians4 = collect();
+        $data_pembeliansnota = collect();
 
 
         if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
@@ -243,6 +250,39 @@ class InqueryMemoborongspkController extends Controller
                     'kode_potongan' => $kode_potongan,
                     'keterangan_potongan' => $keterangan_potongan,
                     'nominal_potongan' => $nominal_potongan,
+
+                ]);
+            }
+        }
+
+        if ($request->has('notabon_ujs_id') || $request->has('kode_nota') || $request->has('nama_drivernota') || $request->has('nominal_nota')) {
+            for ($i = 0; $i < count($request->notabon_ujs_id); $i++) {
+                if (empty($request->notabon_ujs_id[$i]) && empty($request->kode_nota[$i]) && empty($request->nama_drivernota[$i]) && empty($request->nominal_nota[$i])) {
+                    continue;
+                }
+
+                $validasi_produk = Validator::make($request->all(), [
+                    'notabon_ujs_id.' . $i => 'required',
+                    'kode_nota.' . $i => 'required',
+                    'nama_drivernota.' . $i => 'required',
+                    'nominal_nota.' . $i => 'required',
+                ]);
+
+                if ($validasi_produk->fails()) {
+                    array_push($error_pesanans, "Biaya tambahan nomor " . ($i + 1) . " belum dilengkapi!");
+                }
+
+                $notabon_ujs_id = $request->notabon_ujs_id[$i] ?? '';
+                $kode_nota = $request->kode_nota[$i] ?? '';
+                $nama_drivernota = $request->nama_drivernota[$i] ?? '';
+                $nominal_nota = $request->nominal_nota[$i] ?? '';
+
+                $data_pembeliansnota->push([
+                    'detail_iddd' => $request->detail_idnotas[$i] ?? null,
+                    'notabon_ujs_id' => $notabon_ujs_id,
+                    'kode_nota' => $kode_nota,
+                    'nama_drivernota' => $nama_drivernota,
+                    'nominal_nota' => $nominal_nota,
 
                 ]);
             }
@@ -385,6 +425,7 @@ class InqueryMemoborongspkController extends Controller
                 'jumlah' => $request->jumlah,
                 'satuan' => $request->satuan,
                 'totalrute' => str_replace(',', '.', str_replace('.', '', $request->totalrute)),
+                'nota_bons' => str_replace(',', '.', str_replace('.', '', $request->nota_bons)),
                 'status' => $status_memo,
 
             ]
@@ -392,6 +433,7 @@ class InqueryMemoborongspkController extends Controller
 
 
         $transaksi_id = $cetakpdf->id;
+        $detailIds = $request->input('detail_idnotas');
         $detailIds = $request->input('detail_idss');
         $detailIds = $request->input('detail_ids');
 
@@ -458,6 +500,47 @@ class InqueryMemoborongspkController extends Controller
                         'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
                         'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                     ]);
+                }
+            }
+        }
+
+        foreach ($data_pembeliansnota as $data_pesanan) {
+            $detailId = $data_pesanan['detail_iddd'];
+
+            if ($detailId) {
+                $detail = Detail_notabon::where('id', $detailId)->update([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                    'kode_nota' => $data_pesanan['kode_nota'],
+                    'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                    'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                ]);
+                // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                // if ($nota) {
+                //     $nota->update(['status_memo' => 'aktif']);
+                // }
+            } else {
+                $existingDetail = Detail_notabon::where([
+                    'memo_ekspedisi_id' => $cetakpdf->id,
+                    'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                    'kode_nota' => $data_pesanan['kode_nota'],
+                    'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                    'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                ])->first();
+
+
+                if (!$existingDetail) {
+                    $detail =  Detail_notabon::create([
+                        'memo_ekspedisi_id' => $cetakpdf->id,
+                        'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                        'kode_nota' => $data_pesanan['kode_nota'],
+                        'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                        'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                    ]);
+                    // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                    // if ($nota) {
+                    //     $nota->update(['status_memo' => 'aktif']);
+                    // }
                 }
             }
         }
@@ -607,6 +690,21 @@ class InqueryMemoborongspkController extends Controller
 
             Spk::where('id', $item->spk_id)->update(['status_spk' => 'memo', 'status' => 'selesai']);
 
+            $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+            foreach ($detailnotes as $detail) {
+                $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                    ->where('status', 'posting')
+                    ->first();
+
+                if ($nota_bon) {
+                    $nota_bon->update([
+                        'status_memo' => 'aktif',
+                        'status' => 'selesai'
+                    ]);
+                }
+            }
+
             $item->update([
                 'status' => 'posting'
             ]);
@@ -681,6 +779,22 @@ class InqueryMemoborongspkController extends Controller
             ]);
 
             Spk::where('id', $item->spk_id)->update(['status_spk' => null, 'status' => 'posting']);
+
+            $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+            foreach ($detailnotes as $detail) {
+                $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                    ->where('status', 'selesai')
+                    ->first();
+
+                if ($nota_bon) {
+                    $nota_bon->update([
+                        'status_memo' => null,
+                        'status' => 'posting',
+                    ]);
+                }
+            }
+
             $item->update([
                 'status' => 'unpost',
             ]);
@@ -806,9 +920,22 @@ class InqueryMemoborongspkController extends Controller
                     if ($spk) {
                         $spk->update(['status_spk' => 'memo', 'status' => 'selesai']);
                     }
-                    $item->update([
-                        'status' => 'posting'
-                    ]);
+
+                    $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+                    foreach ($detailnotes as $detail) {
+                        $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                            ->where('status', 'posting')
+                            ->first();
+
+                        if ($nota_bon) {
+                            $nota_bon->update([
+                                'status_memo' => 'aktif',
+                                'status' => 'selesai',
+                            ]);
+                        }
+                    }
+
                     $item->update([
                         'status' => 'posting'
                     ]);
@@ -905,9 +1032,21 @@ class InqueryMemoborongspkController extends Controller
                     if ($spk) {
                         $spk->update(['status_spk' => null, 'status' => 'posting']);
                     }
-                    $item->update([
-                        'status' => 'unpost'
-                    ]);
+
+                    $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+                    foreach ($detailnotes as $detail) {
+                        $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                            ->where('status', 'selesai')
+                            ->first();
+
+                        if ($nota_bon) {
+                            $nota_bon->update([
+                                'status_memo' => null,
+                                'status' => 'posting',
+                            ]);
+                        }
+                    }
 
                     $item->update([
                         'status' => 'unpost'

@@ -74,6 +74,8 @@ class Memo_ekspedisi extends Model
         'jumlah',
         'satuan',
         'totalrute',
+        'nota_bon',
+        'nota_bons',
         'status_memo',
         'status_memotambahan',
     ];
@@ -158,5 +160,10 @@ class Memo_ekspedisi extends Model
     public function detail_potongan()
     {
         return $this->hasMany(Detail_potongan::class);
+    }
+
+    public function detail_notabon()
+    {
+        return $this->hasMany(Detail_notabon::class);
     }
 }

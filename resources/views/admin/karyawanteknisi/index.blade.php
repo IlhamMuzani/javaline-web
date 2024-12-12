@@ -97,7 +97,7 @@
                                     <th>Nama</th>
                                     <th>Telepon</th>
                                     <th>Departemen</th>
-                                    <th>Nama Bank</th>
+                                    <th>Nama bank</th>
                                     <th class="text-center">Qr Code</th>
                                     <th class="text-center" width="150">Opsi</th>
                                 </tr>

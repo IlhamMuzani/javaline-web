@@ -18,6 +18,7 @@ class Detail_pengeluaran extends Model
         'pengeluaran_kaskecil_id',
         'perhitungan_gajikaryawan_id',
         'memo_ekspedisi_id',
+        'memo_asuransi_id',
         'memotambahan_id',
         'detail_memotambahan_id',
         'laporankir_id',

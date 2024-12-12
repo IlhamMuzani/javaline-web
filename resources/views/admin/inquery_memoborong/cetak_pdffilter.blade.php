@@ -355,6 +355,18 @@
 
                     </td>
                 </tr>
+                @if ($cetakpdf->nota_bons == 0)
+                @else
+                    <tr>
+                        <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">Nota Bon
+                            Supir
+                        </td>
+                        <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                            {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }} -
+
+                        </td>
+                    </tr>
+                @endif
                 <!-- Add horizontal line below the subtotal row -->
             </table>
             <hr style="border-top: 0.1px solid black; margin: 0.1px 0;">

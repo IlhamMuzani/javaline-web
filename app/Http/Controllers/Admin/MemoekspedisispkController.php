@@ -16,6 +16,7 @@ use App\Models\Ban;
 use App\Models\Biaya_tambahan;
 use App\Models\Detail_memo;
 use App\Models\Detail_memotambahan;
+use App\Models\Detail_notabon;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
@@ -24,6 +25,7 @@ use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memo_tambahan;
 use App\Models\Memotambahan;
+use App\Models\Notabon_ujs;
 use App\Models\Pelanggan;
 use App\Models\Penerimaan_kaskecil;
 use App\Models\Pengambilan_do;
@@ -32,6 +34,7 @@ use App\Models\Potongan_memo;
 use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
 use App\Models\Spk;
+use App\Models\Tarif_asuransi;
 use App\Models\Typeban;
 use App\Models\Uangjaminan;
 use App\Models\User;
@@ -60,14 +63,16 @@ class MemoekspedisispkController extends Controller
         $ruteperjalanans = Rute_perjalanan::all();
         $biayatambahan = Biaya_tambahan::all();
         $potonganmemos = Potongan_memo::all();
+        $tarifs = Tarif_asuransi::all();
         $pelanggans = Pelanggan::all();
         // $memos = Memo_ekspedisi::where(function ($query) {
         //     $query->where(['status_memo' => null, 'status' => 'posting'])
         //         ->orWhere(['status_memo' => null, 'status' => 'unpost']);
         // })->get();
         $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_memotambahan' => null])->get();
+        $notas = Notabon_ujs::where(['status_memo' => null, 'status' => 'posting'])->get();
         $saldoTerakhir = Saldo::latest()->first();
-        return view('admin.memo_ekspedisispk.index', compact('spks', 'memos', 'pelanggans', 'ruteperjalanans', 'biayatambahan', 'saldoTerakhir', 'potonganmemos'));
+        return view('admin.memo_ekspedisispk.index', compact('tarifs', 'notas', 'spks', 'memos', 'pelanggans', 'ruteperjalanans', 'biayatambahan', 'saldoTerakhir', 'potonganmemos'));
     }
 
 
@@ -175,6 +180,7 @@ class MemoekspedisispkController extends Controller
                 $error_pesanans = array();
                 $data_pembelians = collect();
                 $data_pembelians4 = collect();
+                $data_pembeliansnota = collect();
 
 
                 if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
@@ -243,13 +249,49 @@ class MemoekspedisispkController extends Controller
                     }
                 }
 
+                if ($request->has('notabon_ujs_id') || $request->has('kode_nota') || $request->has('nama_drivernota') || $request->has('nominal_nota')) {
+                    for ($i = 0; $i < count($request->notabon_ujs_id); $i++) {
+                        // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
+                        if (
+                            empty($request->notabon_ujs_id[$i]) && empty($request->kode_nota[$i]) && empty($request->nama_drivernota[$i]) && empty($request->nominal_nota[$i])
+                        ) {
+                            continue; // Skip validation if both are empty
+                        }
+
+                        $validasi_produk = Validator::make($request->all(), [
+                            'notabon_ujs_id.' . $i => 'required',
+                            'kode_nota.' . $i => 'required',
+                            'nama_drivernota.' . $i => 'required',
+                            'nominal_nota.' . $i => 'required',
+                        ]);
+
+                        if ($validasi_produk->fails()) {
+                            array_push($error_pesanans, "Nota bon nomor " . ($i + 1) . " belum dilengkapi!");
+                        }
+
+                        $notabon_ujs_id = $request->notabon_ujs_id[$i] ?? '';
+                        $kode_nota = $request->kode_nota[$i] ?? '';
+                        $nama_drivernota = $request->nama_drivernota[$i] ?? '';
+                        $nominal_nota = $request->nominal_nota[$i] ?? '';
+
+                        $data_pembeliansnota->push([
+                            'notabon_ujs_id' => $notabon_ujs_id,
+                            'kode_nota' => $kode_nota,
+                            'nama_drivernota' => $nama_drivernota,
+                            'nominal_nota' => $nominal_nota,
+
+                        ]);
+                    }
+                }
+
                 if ($error_pelanggans || $error_pesanans) {
                     return back()
                         ->withInput()
                         ->with('error_pelanggans', $error_pelanggans)
                         ->with('error_pesanans', $error_pesanans)
                         ->with('data_pembelians', $data_pembelians)
-                        ->with('data_pembelians4', $data_pembelians4);
+                        ->with('data_pembelians4', $data_pembelians4)
+                        ->with('data_pembeliansnota', $data_pembeliansnota);
                 }
 
                 if ($validasi_pelanggan->fails()) {
@@ -392,6 +434,7 @@ class MemoekspedisispkController extends Controller
                         'deposit_driver' => $request->deposit_driver ? str_replace('.', '', $request->deposit_driver) : 0,
                         'deposit_drivers' => $request->deposit_driver ? str_replace('.', '', $request->deposit_driver) : 0,
                         'sub_total' => str_replace(',', '.', str_replace('.', '', $request->sub_total)),
+                        'nota_bon' => str_replace(',', '.', str_replace('.', '', $request->nota_bon)),
                         'hasil_jumlah' => $hasil_jumlah,
                         // 'sisa_saldo' => $request->sisa_saldo,
                         'keterangan' => $request->keterangan,
@@ -429,6 +472,23 @@ class MemoekspedisispkController extends Controller
                             'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
                             'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                         ]);
+                    }
+                }
+
+                if ($cetakpdf) {
+
+                    foreach ($data_pembeliansnota as $data_pesanan) {
+                        $detail = Detail_notabon::create([
+                            'memo_ekspedisi_id' => $cetakpdf->id,
+                            'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                            'kode_nota' => $data_pesanan['kode_nota'],
+                            'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                            'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                        ]);
+                        // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                        // if ($nota) {
+                        //     $nota->update(['status_memo' => 'aktif']);
+                        // }
                     }
                 }
 
@@ -546,6 +606,7 @@ class MemoekspedisispkController extends Controller
                 $error_pesanans = array();
                 $data_pembelians = collect();
                 $data_pembelians4 = collect();
+                $data_pembeliansnota = collect();
 
 
                 if ($request->has('biaya_tambahan_id') || $request->has('kode_biaya') || $request->has('nama_biaya') || $request->has('nominal')) {
@@ -620,13 +681,49 @@ class MemoekspedisispkController extends Controller
                     }
                 }
 
+                if ($request->has('notabon_ujs_id') || $request->has('kode_nota') || $request->has('nama_drivernota') || $request->has('nominal_nota')) {
+                    for ($i = 0; $i < count($request->notabon_ujs_id); $i++) {
+                        // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
+                        if (
+                            empty($request->notabon_ujs_id[$i]) && empty($request->kode_nota[$i]) && empty($request->nama_drivernota[$i]) && empty($request->nominal_nota[$i])
+                        ) {
+                            continue; // Skip validation if both are empty
+                        }
+
+                        $validasi_produk = Validator::make($request->all(), [
+                            'notabon_ujs_id.' . $i => 'required',
+                            'kode_nota.' . $i => 'required',
+                            'nama_drivernota.' . $i => 'required',
+                            'nominal_nota.' . $i => 'required',
+                        ]);
+
+                        if ($validasi_produk->fails()) {
+                            array_push($error_pesanans, "Nota bon nomor " . ($i + 1) . " belum dilengkapi!");
+                        }
+
+                        $notabon_ujs_id = $request->notabon_ujs_id[$i] ?? '';
+                        $kode_nota = $request->kode_nota[$i] ?? '';
+                        $nama_drivernota = $request->nama_drivernota[$i] ?? '';
+                        $nominal_nota = $request->nominal_nota[$i] ?? '';
+
+                        $data_pembeliansnota->push([
+                            'notabon_ujs_id' => $notabon_ujs_id,
+                            'kode_nota' => $kode_nota,
+                            'nama_drivernota' => $nama_drivernota,
+                            'nominal_nota' => $nominal_nota,
+
+                        ]);
+                    }
+                }
+
                 if ($error_pelanggans || $error_pesanans) {
                     return back()
                         ->withInput()
                         ->with('error_pelanggans', $error_pelanggans)
                         ->with('error_pesanans', $error_pesanans)
                         ->with('data_pembelians', $data_pembelians)
-                        ->with('data_pembelians4', $data_pembelians4);
+                        ->with('data_pembelians4', $data_pembelians4)
+                        ->with('data_pembeliansnota', $data_pembeliansnota);
                 }
 
                 // if ($error_pelanggans || $error_pesanans) {
@@ -798,6 +895,7 @@ class MemoekspedisispkController extends Controller
                         'jumlah' => $request->jumlah,
                         'satuan' => $request->satuan,
                         'totalrute' => str_replace(',', '.', str_replace('.', '', $request->totalrute)),
+                        'nota_bons' => str_replace(',', '.', str_replace('.', '', $request->nota_bons)),
                         'status' => $status_memo,
                     ]
                 ));
@@ -827,6 +925,27 @@ class MemoekspedisispkController extends Controller
                             'keterangan_potongan' => $data_pesanan['keterangan_potongan'],
                             'nominal_potongan' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_potongan'])),
                         ]);
+                    }
+                }
+
+                if ($cetakpdf) {
+
+                    foreach ($data_pembeliansnota as $data_pesanan) {
+                        $detail = Detail_notabon::create([
+                            'memo_ekspedisi_id' => $cetakpdf->id,
+                            'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                            'kode_nota' => $data_pesanan['kode_nota'],
+                            'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                            'nominal_nota' =>  str_replace(',', '.', str_replace(
+                                '.',
+                                '',
+                                $data_pesanan['nominal_nota']
+                            )),
+                        ]);
+                        // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                        // if ($nota) {
+                        //     $nota->update(['status_memo' => 'aktif']);
+                        // }
                     }
                 }
 

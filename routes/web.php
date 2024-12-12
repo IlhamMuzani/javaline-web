@@ -376,6 +376,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'postingmemo'])->name('postingmemo');
     Route::get('hapusmemo/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'hapusmemo'])->name('hapusmemo');
 
+
     Route::get('unpostmemoborongselesai/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'unpostmemoborongselesai'])->name('unpostmemoborongselesai');
     Route::get('unpostmemoborong/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'unpostmemoborong'])->name('unpostmemoborong');
     Route::get('postingmemoborong/{id}', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'postingmemoborong'])->name('postingmemoborong');
@@ -982,6 +983,30 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('cetak_notafilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'cetak_notafilter']);
     Route::get('hapusnotabon/{id}', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'hapusnotabon'])->name('hapusnotabon');
     Route::delete('inquery_memoekspedisispk/deletedetailnota/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisispkController::class, 'deletedetailnota']);
-    Route::get('excel_notabonfilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'excel_notabonfilter']);
+    Route::resource('tarif-asuransi', \App\Http\Controllers\Admin\TarifasuransiController::class);
 
+    Route::resource('memo-asuransi', \App\Http\Controllers\Admin\MemoasuransiController::class);
+    Route::resource('inquery_memoasuransi', \App\Http\Controllers\Admin\InquerymemoasuransiController::class);
+
+    Route::get('inquery_memoasuransi/unpostmemoasuransi/{id}', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'unpostmemoasuransi']);
+    Route::get('inquery_memoasuransi/postingmemoasuransi/{id}', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'postingmemoasuransi']);
+    Route::get('hapusmemoasuransi/{id}', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'hapusmemoasuransi'])->name('hapusmemoasuransi');
+    Route::resource('saldo-asuransi', \App\Http\Controllers\Admin\LaporanSaldoasuransiController::class);
+    Route::get('print_saldoasuransi', [\App\Http\Controllers\Admin\LaporanSaldoasuransiController::class, 'print_saldoasuransi']);
+    Route::resource('pengambilanasuransi', \App\Http\Controllers\Admin\PengambilanasuransiController::class);
+    Route::get('pengambilan_asuransi/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PengambilanasuransiController::class, 'cetakpdf']);
+    Route::get('laporan_pengeluaranasuransi', [\App\Http\Controllers\Admin\LaporanPengambilanasuransiController::class, 'index']);
+    Route::get('print_pengeluaranasuransi', [\App\Http\Controllers\Admin\LaporanPengambilanasuransiController::class, 'print_pengeluaranasuransi']);
+
+    Route::get('postingasuransifilter', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'postingasuransifilter']);
+    Route::get('unpostasuransifilter', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'unpostasuransifilter']);
+    Route::get('cetak_asuransifilter', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'cetak_asuransifilter']);
+    Route::resource('inquery_pengeluaranasuransi', \App\Http\Controllers\Admin\InqueryPengeluaranasuransiController::class);
+
+    Route::get('inquery_pengeluaranasuransi/unpostpengeluaranasuransi/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranasuransiController::class, 'unpostpengeluaranasuransi']);
+    Route::get('inquery_pengeluaranasuransi/postingpengeluaranasuransi/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranasuransiController::class, 'postingpengeluaranasuransi']);
+    Route::get('hapuspengeluaranasuransi/{id}', [\App\Http\Controllers\Admin\InqueryPengeluaranasuransiController::class, 'hapuspengeluaranasuransi'])->name('hapuspengeluaranasuransi');
+    Route::get('excel_notabonfilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'excel_notabonfilter']);
+    Route::resource('laporandetailmemotambahan', \App\Http\Controllers\Admin\LaporanDetailmemoController::class);
+    Route::resource('laporandetailkaskecil', \App\Http\Controllers\Admin\LaporanDetailkaskecilController::class);
 });

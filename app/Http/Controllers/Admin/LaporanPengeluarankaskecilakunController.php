@@ -22,6 +22,9 @@ class LaporanPengeluarankaskecilakunController extends Controller
         $tanggal_akhir = $request->tanggal_akhir;
         $barangakun_id = $request->barangakun_id; // Tambahkan ini
 
+        $add_at = $request->add_at;
+        $end_at = $request->end_at;
+
         $inquery = Detail_pengeluaran::orderBy('id', 'DESC');
 
         if ($status == "posting") {
@@ -35,13 +38,20 @@ class LaporanPengeluarankaskecilakunController extends Controller
                 ->whereDate('created_at', '<=', $tanggal_akhir);
         }
 
+        // Filter berdasarkan waktu pembuatan (created_at dan end_at)
+        if ($add_at && $end_at) {
+            $inquery->where('created_at', '>=', $add_at)
+                ->where('created_at', '<=', $end_at);
+        }
+
         // Tambahkan kondisi untuk memfilter berdasarkan barangakun_id jika ada
         if ($barangakun_id) {
             $inquery->where('barangakun_id', $barangakun_id);
         }
 
         // Kondisi sebelum melakukan pencarian data masih kosong
-        $hasSearch = $status || ($created_at && $tanggal_akhir) || $barangakun_id;
+        $hasSearch = $status || ($created_at && $tanggal_akhir) || $barangakun_id
+            || ($add_at && $end_at);
         $inquery = $hasSearch ? $inquery->get() : collect();
 
         return view('admin.laporan_pengeluarankaskecilakun.index', compact('inquery', 'barangakuns'));

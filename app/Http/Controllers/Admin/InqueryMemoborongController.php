@@ -8,12 +8,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Deposit_driver;
 use App\Models\Detail_faktur;
+use App\Models\Detail_notabon;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_tambahan;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
+use App\Models\Notabon_ujs;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Rute_perjalanan;
 use App\Models\Saldo;
@@ -451,6 +453,21 @@ class InqueryMemoborongController extends Controller
 
             Spk::where('id', $item->spk_id)->update(['status_spk' => 'memo', 'status' => 'selesai']);
 
+            $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+            foreach ($detailnotes as $detail) {
+                $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                    ->where('status', 'posting')
+                    ->first();
+
+                if ($nota_bon) {
+                    $nota_bon->update([
+                        'status_memo' => 'aktif',
+                        'status' => 'selesai'
+                    ]);
+                }
+            }
+
             // Update the Memo_ekspedisi status
             $item->update([
                 'status' => 'posting'
@@ -530,6 +547,20 @@ class InqueryMemoborongController extends Controller
 
             Spk::where('id', $item->spk_id)->update(['status_spk' => null, 'status' => 'posting']);
 
+            $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+            foreach ($detailnotes as $detail) {
+                $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                    ->where('status', 'selesai')
+                    ->first();
+
+                if ($nota_bon) {
+                    $nota_bon->update([
+                        'status_memo' => null,
+                        'status' => 'posting',
+                    ]);
+                }
+            }
             // Update the Memo_ekspedisi status
             $item->update([
                 'status' => 'unpost',
@@ -679,6 +710,21 @@ class InqueryMemoborongController extends Controller
                         $spk->update(['status_spk' => 'memo', 'status' => 'selesai']);
                     }
 
+                    $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+                    foreach ($detailnotes as $detail) {
+                        $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                            ->where('status', 'posting')
+                            ->first();
+
+                        if ($nota_bon) {
+                            $nota_bon->update([
+                                'status_memo' => 'aktif',
+                                'status' => 'selesai',
+                            ]);
+                        }
+                    }
+
                     // Update the Memo_ekspedisi status
                     $item->update([
                         'status' => 'posting'
@@ -790,6 +836,21 @@ class InqueryMemoborongController extends Controller
                     )->first();
                     if ($spk) {
                         $spk->update(['status_spk' => null, 'status' => 'posting']);
+                    }
+
+                    $detailnotes = Detail_notabon::where('memo_ekspedisi_id', $item->id)->get();
+
+                    foreach ($detailnotes as $detail) {
+                        $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                            ->where('status', 'selesai')
+                            ->first();
+
+                        if ($nota_bon) {
+                            $nota_bon->update([
+                                'status_memo' => null,
+                                'status' => 'posting',
+                            ]);
+                        }
                     }
 
                     // Update the Memo_ekspedisi status

@@ -320,6 +320,19 @@
                                         {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }} -
                                     </td>
                                 </tr>
+                                @if ($cetakpdf->nota_bon == 0)
+                                @else
+                                    <tr>
+                                        <td colspan="5"
+                                            style="text-align: left; padding-left: 0px; font-size: 13px;">
+                                            Nota Bon Sopir
+                                        </td>
+                                        <td class="td"
+                                            style="text-align: right; padding-right: 3.5px; font-size: 13px;">
+                                            {{ number_format($cetakpdf->nota_bon, 2, ',', '.') }} -
+                                        </td>
+                                    </tr>
+                                @endif
                             </table>
                         </td>
 
@@ -355,7 +368,7 @@
                 </div>
             @endif
             {{-- <br> --}}
-            <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 150 : 12 }}px">
+            <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 145 : 12 }}px">
                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                     <tr>
                         <td style="text-align: center;">
