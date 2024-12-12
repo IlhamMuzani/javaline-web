@@ -161,7 +161,7 @@
                 <td>{{ $detail->grand_total }}</td>
                 <td></td>
                 <td></td>
-                <td>{{ $detail->memo_ekspedisi->user->karyawan->nama_bank === 'MANDIRI' ? 'LBU' : 'RBU' }}</td>
+                <td>{{ $detail->memo_ekspedisi->user->karyawan->nama_bank === 'MANDIRI' ? 'IBU' : 'LBU' }}</td>
                 <td></td>
                 <td>{{ $detail->memo_ekspedisi->user->karyawan->nama_bank ?? null }}</td>
                 <td>SEMARANG</td>
