@@ -23,7 +23,6 @@ class AkseslokasiController extends Controller
             });
         return view('admin/akses_lokasi.index', compact('kendaraans'));
     }
-
     public function edit($id)
     {
         $akses_lokasi = Kendaraan::where('id', $id)->first();
