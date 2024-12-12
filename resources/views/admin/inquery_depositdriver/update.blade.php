@@ -105,7 +105,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label for="nominal">Nominal</label>
-                                    <input type="text" class="form-control" id="nominal" name="nominal"
+                                    <input type="number" class="form-control" id="nominal" name="nominal"
                                         placeholder="Masukan nominal" value="{{ old('nominal', $inquery->nominal) }}">
                                 </div>
                             </div>
