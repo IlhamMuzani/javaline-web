@@ -108,15 +108,17 @@
                             style="font-size: 13px">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th style=" width: 5%" class="text-center">No</th>
-                                    <th style=" width: 18%">Kode Pengeluaran</th>
-                                    <th style=" width: 5%">Tangggal</th>
-                                    <th style=" width: 62%">Keterangan</th>
-                                    <th style=" width: 10%">Total</th>
-                                    {{-- <th class="text-center" width="70">Opsi</th> --}}
+                                    <th style="width: 5%" class="text-center">No</th>
+                                    <th style="width: 18%">Kode Pengeluaran</th>
+                                    <th style="width: 5%">Tangggal</th>
+                                    <th style="width: 62%">Keterangan</th>
+                                    <th style="width: 10%">Total</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $totalNominal = 0;
+                                @endphp
                                 @foreach ($inquery as $pengeluaran)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
@@ -125,10 +127,19 @@
                                         <td>{{ $pengeluaran->keterangan }}</td>
                                         <td class="text-right">
                                             {{ number_format($pengeluaran->nominal, 0, ',', '.') }}
+                                            @php
+                                                $totalNominal += $pengeluaran->nominal;
+                                            @endphp
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="4" class="text-right">Total Nominal:</th>
+                                    <th class="text-right">{{ number_format($totalNominal, 0, ',', '.') }}</th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

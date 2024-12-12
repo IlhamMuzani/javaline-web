@@ -598,7 +598,6 @@
                         @if (count($stnk) > 0)
                             <span class="right badge badge-info">{{ count($stnk) }}</span>
                         @endif
-
                         @if (count($peringatan) > 0)
                             <span class="">
                                 <i class="fas fa-exclamation-circle" style="color: red;"></i>
