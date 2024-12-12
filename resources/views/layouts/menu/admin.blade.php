@@ -1009,7 +1009,7 @@
             </a>
         </li>
     @endif
-    @if (auth()->user()->id == 1)
+    {{-- @if (auth()->user()->id == 1) --}}
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/nota-bon') }}"
@@ -1019,7 +1019,7 @@
                 </a>
             </li>
         @endif
-    @endif
+    {{-- @endif --}}
     @if (auth()->user()->id == 1)
         @if (auth()->check() && auth()->user()->menu['faktur ekspedisi'])
             <li class="nav-item">
