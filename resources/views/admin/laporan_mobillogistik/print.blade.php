@@ -282,6 +282,7 @@
         $totalGrandTotal = 0;
         $totalMemo = 0;
         $totalMemoTambahan = 0;
+        $totalMemoasuransi = 0;
 
         foreach ($inquery as $faktur) {
             $totalGrandTotal += $faktur->grand_total; // Total Faktur
@@ -295,10 +296,32 @@
                     }
                 }
             }
+
+            if ($faktur->spk && isset($faktur->spk->id)) {
+                // echo 'ID SPK: ' . $faktur->spk->id . '<br>';
+
+                // Ambil memo_asuransi yang berelasi
+                $memoAsuransiList = $faktur->spk->memo_asuransi;
+
+                // Inisialisasi variabel totalMemoasuransi
+                $totalMemoasuransi = 0;
+
+                if ($memoAsuransiList->isNotEmpty()) {
+                    foreach ($memoAsuransiList as $memo) {
+                        // echo 'Memo Asuransi ID: ' . $memo->id . ', Nominal: ' . $memo->hasil_tarif . '<br>';
+                        // Tambahkan nilai hasil_tarif ke totalMemoasuransi
+                        $totalMemoasuransi += $memo->hasil_tarif ?? 0;
+                    }
+
+                    // echo 'Total Memo Asuransi: ' . $totalMemoasuransi . '<br>';
+                } else {
+                    // echo 'Tidak ada memo asuransi terkait.<br>';
+                }
+            }
         }
 
         // Hitung selisih antara total faktur dengan total memo + memo tambahan
-        $selisih = $totalGrandTotal - ($totalMemo + $totalMemoTambahan);
+        $selisih = $totalGrandTotal - ($totalMemo + $totalMemoTambahan) - $totalMemoasuransi;
     @endphp
 
     <table width="100%" style="border-collapse: collapse;">
@@ -319,6 +342,13 @@
                         </td>
                         <td class="td" style="text-align: right; font-size: 11px;">
                             {{ number_format($totalMemo + $totalMemoTambahan, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" style="text-align: left; padding-left: 0px; font-size: 11px;">Total Memo
+                            Asuransi
+                        </td>
+                        <td class="td" style="text-align: right; font-size: 11px;">
+                            {{ number_format($totalMemoasuransi, 2, ',', '.') }}</td>
                     </tr>
                     <tr>
                         <td colspan="6" style="padding: 0px;">

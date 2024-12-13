@@ -1900,6 +1900,7 @@
             </a>
         </li>
     @endif
+    
     @if (auth()->check() && auth()->user()->menu['laporan update km'])
         <li class="nav-item">
             <a href="{{ url('admin/laporan_updatekm') }}"

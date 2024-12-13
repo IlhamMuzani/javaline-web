@@ -98,6 +98,11 @@ class Spk extends Model
         return $this->hasMany(Faktur_ekspedisi::class);
     }
 
+    public function memo_asuransi()
+    {
+        return $this->hasMany(Memo_asuransi::class);
+    }
+
     public function pengambilan_do()
     {
         return $this->hasMany(Pengambilan_do::class);

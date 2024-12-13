@@ -93,7 +93,7 @@
                                     <th>Tanggal</th>
                                     <th>Nama Karyawan</th>
                                     <th>Nominal</th>
-                                    <th>Total</th>
+                                    <th>Sisa Hutang</th>
                                     <th class="text-center" width="20">Opsi</th>
                                 </tr>
                             </thead>

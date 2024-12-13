@@ -218,6 +218,7 @@
                         $totalGrandTotal = 0;
                         $totalMemo = 0;
                         $totalMemoTambahan = 0;
+                        $totalMemoasuransi = 0;
                         // $totalMemoasuransi = 0;
 
                         foreach ($inquery as $faktur) {
@@ -233,19 +234,35 @@
                                 }
                             }
 
-                            // if ($faktur->spk) {
-                            //     foreach ($faktur->spk as $spk) {
-                            //         if ($spk->notabon_ujs) {
-                            //             foreach ($spk->notabon_ujs as $notabon) {
-                            //                 $totalMemoasuransi += $notabon->nominal ?? 0; // Total Memo Asuransi
-                            //             }
-                            //         }
-                            //     }
-                            // }
+                            if ($faktur->spk && isset($faktur->spk->id)) {
+                                // echo 'ID SPK: ' . $faktur->spk->id . '<br>';
+
+                                // Ambil memo_asuransi yang berelasi
+                                $memoAsuransiList = $faktur->spk->memo_asuransi;
+
+                                // Inisialisasi variabel totalMemoasuransi
+                                $totalMemoasuransi = 0;
+
+                                if ($memoAsuransiList->isNotEmpty()) {
+                                    foreach ($memoAsuransiList as $memo) {
+                                        // echo 'Memo Asuransi ID: ' .
+                                            $memo->id .
+                                            ', Nominal: ' .
+                                            $memo->hasil_tarif .
+                                            '<br>';
+                                        // Tambahkan nilai hasil_tarif ke totalMemoasuransi
+                                        $totalMemoasuransi += $memo->hasil_tarif ?? 0;
+                                    }
+
+                                    // echo 'Total Memo Asuransi: ' . $totalMemoasuransi . '<br>';
+                                } else {
+                                    // echo 'Tidak ada memo asuransi terkait.<br>';
+                                }
+                            }
                         }
 
                         // Hitung selisih antara total faktur dengan total memo + memo tambahan
-                        $selisih = $totalGrandTotal - ($totalMemo + $totalMemoTambahan);
+                        $selisih = $totalGrandTotal - ($totalMemo + $totalMemoTambahan) - $totalMemoasuransi;
                     @endphp
 
                     <!-- Tampilkan Nilai Total -->
@@ -281,6 +298,16 @@
                                         </div>
                                     </div>
 
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <label style="font-size:14px;">Total Memo Asuransi:</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input style="text-align: end; font-size:14px;" type="text"
+                                                class="form-control"
+                                                value="{{ number_format($totalMemoasuransi, 2, ',', '.') }}" readonly>
+                                        </div>
+                                    </div>
                                     {{-- <div class="row mb-3">
                                         <div class="col-md-6">
                                             <label style="font-size:14px;">Total Memo Asuransi:</label>

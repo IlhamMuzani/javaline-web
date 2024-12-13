@@ -8,6 +8,7 @@ use App\Models\Pembelian_ban;
 use App\Http\Controllers\Controller;
 use App\Models\Pelunasan_hutangkw;
 use App\Models\Karyawan;
+use App\Models\Saldo;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryPelunasanhutangController extends Controller
@@ -127,6 +128,21 @@ class InqueryPelunasanhutangController extends Controller
         if (!$sopir) {
             return back()->with('error', 'Karyawan tidak ditemukan');
         }
+
+
+        // Ambil saldo terakhir
+        $lastSaldo = Saldo::latest()->first();
+
+        // Periksa apakah saldo terakhir ditemukan
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $sisaSaldo = $lastSaldo->sisa_saldo - $item->nominal;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
+        ]);
+
         $tabungan = $sopir->tabungan;
         $total = $item->nominal;
         $sub_totals = $tabungan - $total;
@@ -157,6 +173,18 @@ class InqueryPelunasanhutangController extends Controller
             return back()->with('error', 'Karyawan tidak ditemukan');
         }
 
+        $lastSaldo = Saldo::latest()->first();
+
+        // Periksa apakah saldo terakhir ditemukan
+        if (!$lastSaldo) {
+            return back()->with('error', 'Saldo tidak ditemukan');
+        }
+
+        $sisaSaldo = $lastSaldo->sisa_saldo + $item->nominal;
+        Saldo::create([
+            'sisa_saldo' => $sisaSaldo,
+        ]);
+
         $kasbon = $sopir->kasbon;
         $totalKasbon = $item->nominal;
         $kasbons = $kasbon - $totalKasbon;
@@ -167,6 +195,8 @@ class InqueryPelunasanhutangController extends Controller
         $sopir->update([
             'kasbon' => $kasbons,
         ]);
+
+
         $item->update([
             'status' => 'posting'
         ]);

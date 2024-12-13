@@ -138,7 +138,7 @@
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memos->id . '/edit') }}">Update</a>
                                                     @else
                                                         <a class="dropdown-item"
-                                                            href="{{ url('admin/inquery_memoekspedisispk/' . $memos->id . '/edit') }}">Update</a>
+                                                            href="{{ url('admin/inquery_memoasuransi/' . $memos->id . '/edit') }}">Update</a>
                                                     @endif
                                                 @endif
                                                 {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])

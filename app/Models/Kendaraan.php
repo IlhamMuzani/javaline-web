@@ -190,4 +190,6 @@ class Kendaraan extends Model
             // Lakukan sesuatu dengan $jarakWaktu
         });
     }
+
+    
 }
