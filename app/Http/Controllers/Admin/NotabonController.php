@@ -131,6 +131,6 @@ class NotabonController extends Controller
         $cetakpdf = Notabon_ujs::where('id', $id)->first();
         $pdf = PDF::loadView('admin.nota_bon.cetak_pdf', compact('cetakpdf'));
         $pdf->setPaper('letter', 'portrait');
-        return $pdf->stream('Faktur_Deposit_Driver.pdf');
+        return $pdf->stream('Nota_bon.pdf');
     }
 }

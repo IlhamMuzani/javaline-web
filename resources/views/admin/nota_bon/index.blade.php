@@ -126,8 +126,8 @@
                                                     @endif
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
-                                                    {{-- <a class="dropdown-item"
-                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a> --}}
+                                                    <a class="dropdown-item"
+                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
                                                     <form style="margin-top:5px" method="GET"
                                                         action="{{ route('hapusnotabon', ['id' => $nota->id]) }}">
                                                         <button type="submit"

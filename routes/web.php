@@ -1009,4 +1009,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('excel_notabonfilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'excel_notabonfilter']);
     Route::resource('laporandetailmemotambahan', \App\Http\Controllers\Admin\LaporanDetailmemoController::class);
     Route::resource('laporandetailkaskecil', \App\Http\Controllers\Admin\LaporanDetailkaskecilController::class);
+
+    Route::get('nota-bon/cetak-pdf/{id}', [\App\Http\Controllers\Admin\NotabonController::class, 'cetakpdf']);
 });

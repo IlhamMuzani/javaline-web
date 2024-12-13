@@ -192,25 +192,30 @@
             font-size: 10px;
         }
 
-        .counts {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
+
+
+        .label {
+            font-size: 13px;
+            text-align: center;
+            /* Teks menjadi berada di tengah */
+
         }
 
+        .separator {
+            padding-top: 10px;
+            /* Atur sesuai kebutuhan Anda */
+            text-align: center;
+            /* Teks menjadi berada di tengah */
 
-        .blue-button {
-            padding: 3px 5px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-            text-decoration: none;
-            top: 50%;
-            font-size: 10px;
-            border-radius: 3px;
-            transform: translateY(-50%);
+        }
 
+        .separator span {
+            display: inline-block;
+            border-top: 0.5px solid black;
+            width: 100%;
+            position: relative;
+            top: -8px;
+            /* Sesuaikan posisi vertikal garis tengah */
         }
 
         @media print {
@@ -347,12 +352,12 @@
             <p style="text-align: right; font-size: 11px; margin-bottom: 10px;">
             </p><br>
             <div class="detail-info">
-                <div class="penjualan">
+                <div class="kasir">
                     <p>
                         <span
-                            style="min-width: 10px; display: inline-flex; align-items: center; padding-left: 10px;">Kode
+                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Kode
                             Nota</span>
-                        <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">:
+                        <span style="min-width: 50px; display: inline-flex; align-items: center;">:
                             {{ $cetakpdf->kode_nota }}
                         </span>
                     </p>
@@ -437,17 +442,12 @@
                         </td>
                     </tr>
                 </table>
-                <div style="text-align: right; font-size:8px">
+                <div style="text-align: right; font-size:8px; margin-right:20px">
                     <span style="font-style: italic;">Printed Date
                         {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
                 </div>
             </div>
         </div>
-        <div class="counts">
-            <a href="{{ url('admin/nota-bon') }}" class="blue-button">Kembali</a>
-            <a href="{{ url('admin/nota-bon/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
-        </div>
-
 </body>
 
 </html>

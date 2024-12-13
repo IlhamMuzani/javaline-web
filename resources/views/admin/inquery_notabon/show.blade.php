@@ -444,7 +444,7 @@
             </div>
         </div>
         <div class="counts">
-            <a href="{{ url('admin/nota-bon') }}" class="blue-button">Kembali</a>
+            <a href="{{ url('admin/inquery-notabon') }}" class="blue-button">Kembali</a>
             <a href="{{ url('admin/nota-bon/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
         </div>
 

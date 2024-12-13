@@ -101,9 +101,9 @@ class InqueryNotabonController extends Controller
     public function show($id)
     {
         $cetakpdf = Notabon_ujs::where('id', $id)->first();
-
         return view('admin.inquery_notabon.show', compact('cetakpdf'));
     }
+
 
     public function unpostnotabon($id)
     {
