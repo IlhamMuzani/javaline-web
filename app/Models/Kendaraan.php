@@ -114,7 +114,7 @@ class Kendaraan extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
-    
+
     public function golongan()
     {
         return $this->belongsTo(Golongan::class);
@@ -137,6 +137,11 @@ class Kendaraan extends Model
         return $this->hasMany(Memo_ekspedisi::class, 'kendaraan_id');
     }
 
+    public function memo_asuransi()
+    {
+        return $this->hasMany(Memo_asuransi::class, 'kendaraan_id');
+    }
+
     public function detail_pengeluaran()
     {
         return $this->hasMany(Detail_pengeluaran::class, 'kendaraan_id');
@@ -157,7 +162,7 @@ class Kendaraan extends Model
     {
         return $this->hasMany(Spk::class);
     }
-    
+
     public function pengambilan_do()
     {
         return $this->hasMany(Pengambilan_do::class);
@@ -190,6 +195,4 @@ class Kendaraan extends Model
             // Lakukan sesuatu dengan $jarakWaktu
         });
     }
-
-    
 }

@@ -135,6 +135,9 @@
             <td class="td"
                 style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;">
                 Total Memo</td>
+            <td class="td"
+                style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;">
+                Total MA</td>
             {{-- <td class="td"
                 style="text-align: right; padding: 5px; font-weight:bold; font-size: 10px; border-bottom: 1px solid black;">
                 Total Tambahan</td> --}}
@@ -169,6 +172,8 @@
             $totalPerbaikan = 0; // Initialize the total variable
             $totalSubtotal = 0; // Initialize the total variable
             $nomorUrut = 1; // Initialize the counter for row number
+            $totalMemoasuransi = 0;
+            $totalJumlahasuran = 0;
         @endphp
 
         @foreach ($kendaraans as $kendaraan)
@@ -203,6 +208,7 @@
                         {{ $kendaraan->memo_ekspedisi->where('status', 'selesai')->whereBetween('created_at', [$created_at, $tanggal_akhir])->first()->nama_driver }}
                     @endif
                 </td>
+
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
                     @php
@@ -300,6 +306,22 @@
                 </td>
                 <td class="td"
                     style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
+                    @php
+                        $memoAsuransiCollection = optional($kendaraan->memo_asuransi)
+                            ->whereIn('status', ['posting', 'selesai'])
+                            ->whereBetween('created_at', [
+                                Carbon\Carbon::parse($created_at)->startOfDay(),
+                                Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                            ]);
+
+                        // Tampilkan ID memo_asuransi dan jumlah hasil_tarif
+                        $idsMemoAsuransi = $memoAsuransiCollection->pluck('id')->implode(', '); // Ambil ID memo_asuransi dalam format string terpisah dengan koma
+                        $totalMemoasuransi = $memoAsuransiCollection->sum('hasil_tarif'); // Jumlahkan semua hasil_tarif
+                    @endphp
+                    {{ number_format($totalMemoasuransi, 2, ',', '.') }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 10px; border-bottom: 1px solid black;">
                     {{ number_format($operasional, 2, ',', '.') }}
                 </td>
                 <td class="td"
@@ -381,6 +403,15 @@
                             ->sum('grand_total');
                     });
 
+                $totalMemoasuransi =
+                    optional($kendaraan->memo_asuransi)
+                        ->whereIn('status', ['posting', 'selesai'])
+                        ->whereBetween('created_at', [
+                            Carbon\Carbon::parse($created_at)->startOfDay(),
+                            Carbon\Carbon::parse($tanggal_akhir)->endOfDay(),
+                        ])
+                        ->sum('hasil_tarif') ?? 0;
+
                 $totalOperasional +=
                     optional($kendaraan->detail_pengeluaran)
                         ->where('kode_akun', 'KA000029')
@@ -420,6 +451,7 @@
                         ->sum('hasil_jumlah') ?? 0;
 
                 $totalSubtotal += $subtotalDifference - $totalMemotambahan; // Accumulate the difference
+                $totalJumlahasuran += $totalMemoasuransi; // Accumulate the difference
 
             @endphp
         @endforeach
@@ -502,6 +534,9 @@
                 {{ number_format($totalMemotambahan, 0, ',', '.') }}</td> --}}
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
+                {{ number_format($totalJumlahasuran, 2, ',', '.') }}</td>
+            <td
+                style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                 {{ number_format($totalOperasional, 2, ',', '.') }}</td>
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
@@ -509,7 +544,7 @@
             <td
                 style="text-align: right; font-weight: bold; padding: 5px; font-size: 10px;background:rgb(190, 190, 190)">
                 {{-- {{ number_format($totalFaktur - $totalMemo - $totalMemotambahan, 0, ',', '.') }} --}}
-                Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalHasilJumlahall - $totalHasilJumlahtambahanall - $totalOperasional - $totalPerbaikan, 2, ',', '.') }}
+                Rp.{{ number_format($totalFakturawal + $totalFakturtambahan - $totalFakturpph - $totalHasilJumlahall - $totalHasilJumlahtambahanall - $totalOperasional - $totalPerbaikan - $totalJumlahasuran, 2, ',', '.') }}
             </td>
         </tr>
     </table>

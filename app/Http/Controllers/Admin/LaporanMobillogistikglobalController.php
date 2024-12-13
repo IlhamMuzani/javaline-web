@@ -17,7 +17,7 @@ class LaporanMobillogistikglobalController extends Controller
 
     public function index(Request $request)
     {
-        $kendaraans = Kendaraan::with(['faktur_ekspedisi', 'memo_ekspedisi', 'detail_pengeluaran'])->get();
+        $kendaraans = Kendaraan::with(['faktur_ekspedisi', 'memo_ekspedisi', 'detail_pengeluaran', 'memo_asuransi'])->get();
         $kendaraans = $kendaraans->sort(function ($a, $b) {
             $numberA = (int) filter_var($a->no_kabin, FILTER_SANITIZE_NUMBER_INT);
             $numberB = (int) filter_var($b->no_kabin, FILTER_SANITIZE_NUMBER_INT);
