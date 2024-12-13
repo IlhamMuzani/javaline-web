@@ -182,10 +182,10 @@
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id . '/edit') }}">Update</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id) }}">Show</a>
-                                                    @endif
+                                                    @endif --}}
                                                     @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
                                                         <form style="margin-top:5px" method="GET"
                                                             action="{{ route('hapusmemoasuransi', ['id' => $memoekspedisi->id]) }}">
@@ -209,10 +209,10 @@
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id . '/edit') }}">Update</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id) }}">Show</a>
-                                                    @endif
+                                                    @endif --}}
                                                     @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
                                                         <form style="margin-top:5px" method="GET"
                                                             action="{{ route('hapusmemo', ['id' => $memoekspedisi->id]) }}">
@@ -228,16 +228,16 @@
                                                         <a class="dropdown-item unpost-btn"
                                                             data-memo-id="{{ $memoekspedisi->id }}">Unpost</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id) }}">Show</a>
-                                                    @endif
+                                                    @endif --}}
                                                 @endif
                                                 @if ($memoekspedisi->status == 'selesai')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id) }}">Show</a>
-                                                    @endif
+                                                    @endif --}}
                                                 @endif
                                             </div>
                                         </td>
@@ -442,7 +442,7 @@
         }
     </script>
 
-     <script>
+    <script>
         $(function(e) {
             $("#select_all_ids").click(function() {
                 $('.checkbox_ids').prop('checked', $(this).prop('checked'))

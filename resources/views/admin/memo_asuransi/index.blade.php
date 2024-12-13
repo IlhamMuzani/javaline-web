@@ -141,10 +141,10 @@
                                                             href="{{ url('admin/inquery_memoekspedisispk/' . $memos->id . '/edit') }}">Update</a>
                                                     @endif
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_memoasuransi/' . $memos->id) }}">Show</a>
-                                                @endif
+                                                @endif --}}
                                                 @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
                                                     <form style="margin-top:5px" method="GET"
                                                         action="{{ route('hapusmemoasuransi', ['id' => $memos->id]) }}">
@@ -160,16 +160,16 @@
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $memos->id }}">Unpost</a>
                                                 @endif
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_memoasuransi/' . $memos->id) }}">Show</a>
-                                                @endif
+                                                @endif --}}
                                             @endif
                                             @if ($memos->status == 'selesai')
-                                                @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                {{-- @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery_memoasuransi/' . $memos->id) }}">Show</a>
-                                                @endif
+                                                @endif --}}
                                             @endif
                                         </div>
                                     </td>

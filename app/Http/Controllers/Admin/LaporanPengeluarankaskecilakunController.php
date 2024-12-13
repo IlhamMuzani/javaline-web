@@ -55,7 +55,6 @@ class LaporanPengeluarankaskecilakunController extends Controller
         return view('admin.laporan_pengeluarankaskecilakun.index', compact('inquery', 'barangakuns'));
     }
 
-
     public function print_pengeluarankaskecilakun(Request $request)
     {
         $barangakuns = Barang_akun::all();

@@ -126,8 +126,8 @@
                                                     @endif
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
+                                                    {{-- <a class="dropdown-item"
+                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a> --}}
                                                     <form style="margin-top:5px" method="GET"
                                                         action="{{ route('hapusnotabon', ['id' => $nota->id]) }}">
                                                         <button type="submit"
@@ -139,12 +139,12 @@
                                                 @if ($nota->status == 'posting')
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $nota->id }}">Unpost</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
+                                                    {{-- <a class="dropdown-item"
+                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a> --}}
                                                 @endif
                                                 @if ($nota->status == 'selesai')
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
+                                                    {{-- <a class="dropdown-item"
+                                                        href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a> --}}
                                                 @endif
                                             </div>
                                         </td>
