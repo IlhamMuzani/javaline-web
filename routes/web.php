@@ -28,7 +28,6 @@ Route::post('register', [AuthController::class, 'registeruser']);
 Route::get('logout', [AuthController::class, 'logout']);
 Route::get('check-user', [HomeController::class, 'check_user']);
 
-
 Route::get('golongan/{kode}', [\App\Http\Controllers\GolonganController::class, 'detail']);
 Route::get('nokir/{kode}', [\App\Http\Controllers\NokirController::class, 'detail']);
 Route::get('karyawan/{kode}', [\App\Http\Controllers\KaryawanController::class, 'detail']);
