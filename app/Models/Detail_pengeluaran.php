@@ -75,6 +75,11 @@ class Detail_pengeluaran extends Model
     {
         return $this->belongsTo(Detail_memotambahan::class);
     }
+
+    public function memotambahan()
+    {
+        return $this->belongsTo(Memotambahan::class);
+    }
     
     public static function getId()
     {
