@@ -392,8 +392,19 @@
                         </span>
                     </p>
                 </div>
-                <table style="width: 100%; font-size: 12px; text-align: right;">
-                </table>
+                <div class="pelanggan">
+                    <p>
+                        <span
+                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Keterangan</span>
+                        <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">
+                            : 
+
+                        </span>
+                    </p>
+                </div>
+                <div style="margin-left:10px; font-size:10px">
+                    - {{ $cetakpdf->keterangan }}
+                </div>
             </div>
             <div style=" margin-bottom:10px; margin-top:30px">
                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
