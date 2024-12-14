@@ -107,6 +107,9 @@
             </td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 12px; font-weight:bold; width:15%">
                 KETERLAMBATAN <span> <br>(&lt; 30 MNT) (> 30 MNT)</span></td>
+            <td class="td" style="text-align: center; padding-left: 2px; font-size: 12px;  font-weight:bold;">
+                POTONGAN <span> <br>LAINYA</span></td>
+            </td>
             <td class="td" style="text-align: right; padding: 0px; font-size: 12px;  font-weight:bold; ">
                 BPJS</td>
             <td class="td" style="text-align: center; padding-left: 2px; font-size: 12px;  font-weight:bold;">
@@ -121,7 +124,7 @@
         </tr>
         <!-- Add horizontal line below this row -->
         <tr>
-            <td colspan="14" style="padding: 0px;">
+            <td colspan="15" style="padding: 0px;">
                 <hr style="border: 0.5px solid; margin-top:3px; margin-bottom: 1px; padding: 0;">
                 <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
             </td>
@@ -184,6 +187,8 @@
                     </table>
                 </td>
                 <td class="td" style="text-align: right; padding-right: 7px; font-size: 12px;">
+                    {{ number_format($item->lainya, 0, ',', '.') }}
+                <td class="td" style="text-align: right; padding-right: 7px; font-size: 12px;">
                     {{ number_format($item->potongan_bpjs, 0, ',', '.') }}
                 <td class="td" style="text-align: right; padding-right: 7px; font-size: 12px;">
                     {{ number_format($item->hasil_absen, 0, ',', '.') }}
@@ -200,10 +205,10 @@
             @endphp
         @endforeach
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="14" style="padding: 0px;"></td>
+            <td colspan="15" style="padding: 0px;"></td>
         </tr>
         <tr>
-            <td colspan="13"
+            <td colspan="14"
                 style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 12px;">
                 {{-- GRAND
                 TOTAL --}}
