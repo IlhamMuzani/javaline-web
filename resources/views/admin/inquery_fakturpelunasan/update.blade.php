@@ -836,9 +836,9 @@
             item_pembelian += '</td>';
 
             // kode_fakturekspedisi 
-            item_pembelian += '<td hidden>';
+            item_pembelian += '<td>';
             item_pembelian += '<div class="form-group">'
-            item_pembelian += '<input type="text" class="form-control" id="kode_fakturekspedisi-' + key +
+            item_pembelian += '<input type="text" readonly class="form-control" id="kode_fakturekspedisi-' + key +
                 '" name="kode_fakturekspedisi[]" value="' + kode_fakturekspedisi + '" ';
             item_pembelian += '</div>';
             item_pembelian += '</td>';
