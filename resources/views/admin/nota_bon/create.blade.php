@@ -87,13 +87,13 @@
                         </div>
                         <div class="form-group">
                             <label for="nopol">Kode Driver</label>
-                            <input type="text" class="form-control" id="kode_karyawan" name="kode_driver" readonly
-                                placeholder="" value="{{ old('kode_driver') }}">
+                            <input type="text" class="form-control" id="kode_karyawan" name="kode_driver"
+                                onclick="showKaryawan(this.value)" readonly placeholder="" value="{{ old('kode_driver') }}">
                         </div>
                         <div class="form-group">
                             <label for="nopol">Nama Driver</label>
-                            <input type="text" class="form-control" name="nama_driver" id="nama_lengkap" readonly
-                                placeholder="" value="{{ old('nama_driver') }}">
+                            <input type="text" class="form-control" name="nama_driver" id="nama_lengkap"
+                                onclick="showKaryawan(this.value)" readonly placeholder="" value="{{ old('nama_driver') }}">
                         </div>
                         <div class="form-group">
                             <label for="nominal">Nominal</label>
@@ -143,7 +143,12 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($SopirAll as $sopir)
-                                        <tr>
+                                        <tr
+                                            onclick="getSelectedData('{{ $sopir->id }}',
+                                                    '{{ $sopir->user->first()->id ?? null }}',
+                                                    '{{ $sopir->kode_karyawan }}',
+                                                    '{{ $sopir->nama_lengkap }}',
+                                                    )">
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $sopir->kode_karyawan }}</td>
                                             <td>{{ $sopir->nama_lengkap }}</td>

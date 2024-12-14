@@ -177,7 +177,7 @@
                                                     height="40" width="40" alt="Document">
                                             @endif
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @if ($memoekspedisi->status == 'rilis')
+                                                @if ($memoekspedisi->status == 'unpost')
                                                     @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan update'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery_memoasuransi/' . $memoekspedisi->id . '/edit') }}">Update</a>

@@ -168,26 +168,44 @@
                                                     @if ($saldoTerakhir->sisa_saldo < $nota->nominal)
                                                         <a class="dropdown-item">Saldo tidak cukup</a>
                                                     @else
-                                                        <a class="dropdown-item posting-btn"
-                                                            data-memo-id="{{ $nota->id }}">Posting</a>
+                                                        @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan posting'])
+                                                            <a class="dropdown-item posting-btn"
+                                                                data-memo-id="{{ $nota->id }}">Posting</a>
+                                                        @endif
                                                     @endif
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-notabon/' . $nota->id) }}">Show</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
-                                                    <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusnotabon', ['id' => $nota->id]) }}">
-                                                        <button type="submit"
-                                                            class="dropdown-item btn btn-outline-danger btn-block mt-2">
-                                                            </i> Delete
-                                                        </button>
-                                                    </form>
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan update'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
+                                                        <form style="margin-top:5px" method="GET"
+                                                            action="{{ route('hapusnotabon', ['id' => $nota->id]) }}">
+                                                            <button type="submit"
+                                                                class="dropdown-item btn btn-outline-danger btn-block mt-2">
+                                                                </i> Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 @endif
                                                 @if ($nota->status == 'posting')
-                                                    <a class="dropdown-item unpost-btn"
-                                                        data-memo-id="{{ $nota->id }}">Unpost</a>
-                                                    <a class="dropdown-item"
-                                                        href="{{ url('admin/inquery-notabon/' . $nota->id) }}">Show</a>
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan unpost'])
+                                                        <a class="dropdown-item unpost-btn"
+                                                            data-memo-id="{{ $nota->id }}">Unpost</a>
+                                                    @endif
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
+                                                    @endif
+                                                @endif
+                                                @if ($nota->status == 'selesai')
+                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </td>
