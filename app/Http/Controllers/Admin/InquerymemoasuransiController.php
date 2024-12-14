@@ -15,7 +15,8 @@ use App\Models\Tarif_asuransi;
 use App\Models\Total_asuransi;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-
+use App\Exports\RekapMaExport;
+use Maatwebsite\Excel\Facades\Excel;
 class InquerymemoasuransiController extends Controller
 {
     public function index(Request $request)
@@ -373,5 +374,19 @@ class InquerymemoasuransiController extends Controller
         $memo->detail_pengeluaran()->delete();
         $memo->delete();
         return back()->with('success', 'Berhasil');
+    }
+
+    public function excel_memoasuransifilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        $memo_ekspedisi = Memo_asuransi::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        if (!$memo_ekspedisi) {
+            return redirect()->back()->withErrors(['error' => 'Data Memo tidak ditemukan']);
+        }
+
+        // Ekspor sebagai CSV
+        return Excel::download(new RekapMaExport($memo_ekspedisi), 'rekap_ma.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 }

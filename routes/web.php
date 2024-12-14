@@ -1012,4 +1012,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('nota-bon/cetak-pdf/{id}', [\App\Http\Controllers\Admin\NotabonController::class, 'cetakpdf']);
     Route::get('laporan-memoasuransi', [\App\Http\Controllers\Admin\LaporanMemoasuransiController::class, 'index']);
     Route::get('print-memoasuransi', [\App\Http\Controllers\Admin\LaporanMemoasuransiController::class, 'print_notabon']);
+
+    Route::get('excel_memoasuransifilter', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'excel_memoasuransifilter']);
 });

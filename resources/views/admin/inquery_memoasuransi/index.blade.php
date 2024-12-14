@@ -93,6 +93,10 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="checkfilter"
+                                    onclick="excelSelectedData()" target="_blank">
+                                    <i class="fas fa-file-excel"></i> Export Excel
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -642,7 +646,7 @@
                 });
                 document.getElementById('selectedIds').value = selectedIds.join(',');
                 var selectedIdsString = selectedIds.join(',');
-                window.location.href = "{{ url('admin/excel_memoekspedisifilter') }}?ids=" + selectedIdsString;
+                window.location.href = "{{ url('admin/excel_memoasuransifilter') }}?ids=" + selectedIdsString;
                 // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
             }
         }
