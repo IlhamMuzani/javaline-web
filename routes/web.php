@@ -1010,4 +1010,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('laporandetailkaskecil', \App\Http\Controllers\Admin\LaporanDetailkaskecilController::class);
 
     Route::get('nota-bon/cetak-pdf/{id}', [\App\Http\Controllers\Admin\NotabonController::class, 'cetakpdf']);
+    Route::get('laporan-memoasuransi', [\App\Http\Controllers\Admin\LaporanMemoasuransiController::class, 'index']);
+    Route::get('print-memoasuransi', [\App\Http\Controllers\Admin\LaporanMemoasuransiController::class, 'print_notabon']);
 });

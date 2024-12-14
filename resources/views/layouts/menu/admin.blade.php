@@ -870,6 +870,7 @@
         request()->is('admin/invoice_sewakendaraan*') ||
         request()->is('admin/kontrak_rute*') ||
         request()->is('admin/nota-bon*') ||
+        request()->is('admin/memo-asuransi*') ||
         request()->is('admin/pembelian_part*')
             ? 'menu-open'
             : '' }}">
@@ -906,6 +907,7 @@
             request()->is('admin/kontrak_rute*') ||
             request()->is('admin/invoice_sewakendaraan*') ||
             request()->is('admin/nota-bon*') ||
+            request()->is('admin/memo-asuransi*') ||
             request()->is('admin/pembelian_part*')
                 ? 'active'
                 : '' }}">
@@ -1790,6 +1792,7 @@
         request()->is('admin/laporan-monitoringsj*') ||
         request()->is('admin/laporan-notabon*') ||
         request()->is('admin/laporan_pengeluaranasuransi*') ||
+        request()->is('admin/laporan-memoasuransi*') ||
         request()->is('admin/laporan_pengeluaranujs*')
             ? 'menu-open'
             : '' }}">
@@ -1824,6 +1827,7 @@
             request()->is('admin/laporan-monitoringsj*') ||
             request()->is('admin/laporan-notabon*') ||
             request()->is('admin/laporan_pengeluaranasuransi*') ||
+            request()->is('admin/laporan-memoasuransi*') ||
             request()->is('admin/laporan_pengeluaranujs*')
                 ? 'active'
                 : '' }}">
@@ -1900,7 +1904,7 @@
             </a>
         </li>
     @endif
-    
+
     @if (auth()->check() && auth()->user()->menu['laporan update km'])
         <li class="nav-item">
             <a href="{{ url('admin/laporan_updatekm') }}"
@@ -2006,6 +2010,16 @@
                 class="nav-link {{ request()->is('admin/pilihlaporanmemo*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Memo Ekspedisi
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan memo ekspedisi'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan-memoasuransi') }}"
+                class="nav-link {{ request()->is('admin/laporan-memoasuransi*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Memo Asuransi
                 </p>
             </a>
         </li>
@@ -2185,6 +2199,7 @@
             </a>
         </li>
     @endif
+
 </ul>
 </li>
 <li class="nav-header">Profile</li>
