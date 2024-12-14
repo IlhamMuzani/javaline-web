@@ -20,6 +20,7 @@ class Pengeluaran_kaskecil extends Model
         'memo_ekspedisi_id',
         'memo_asuransi_id',
         'memotambahan_id',
+        'notabon_ujs_id',
         'laporankir_id',
         'laporanstnk_id',
         'kasbon_karyawan_id',

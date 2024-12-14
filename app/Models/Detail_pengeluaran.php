@@ -21,6 +21,7 @@ class Detail_pengeluaran extends Model
         'memo_asuransi_id',
         'memotambahan_id',
         'detail_memotambahan_id',
+        'notabon_ujs_id',
         'laporankir_id',
         'laporanstnk_id',
         'kasbon_karyawan_id',

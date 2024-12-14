@@ -95,6 +95,25 @@ class InqueryNotabonController extends Controller
             'status' => 'unpost',
         ]);
 
+
+        $pengeluaran = Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->first();
+        $pengeluaran->update(
+            [
+                'kendaraan_id' => $request->kendaraan_id,
+                'keterangan' => $request->keterangan,
+                'grand_total' => str_replace(',', '.', str_replace('.', '', $request->nominal)),
+            ]
+        );
+
+        $detailpengeluaran = Detail_pengeluaran::where('notabon_ujs_id', $id)->first();
+        $detailpengeluaran->update(
+            [
+                'keterangan' => $request->keterangan,
+                'nominal' => str_replace(',', '.', str_replace('.', '', $request->nominal)),
+            ]
+        );
+
+
         return redirect('admin/inquery-notabon')->with('success', 'Berhasil memperbarui nota bon uang jalan');
     }
 
@@ -132,6 +151,14 @@ class InqueryNotabonController extends Controller
             'sisa_saldo' => $lastSaldo->sisa_saldo + $sisaSaldo,
         ]);
 
+        Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+            'status' => 'pending'
+        ]);
+
+        Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+            'status' => 'pending'
+        ]);
+
         $item->update([
             'status' => 'unpost'
         ]);
@@ -165,6 +192,14 @@ class InqueryNotabonController extends Controller
         $sisaSaldo = $item->nominal;
         $lastSaldo->update([
             'sisa_saldo' => $lastSaldo->sisa_saldo - $sisaSaldo,
+        ]);
+
+        Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+            'status' => 'posting'
+        ]);
+
+        Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+            'status' => 'posting'
         ]);
 
         $item->update([
@@ -217,6 +252,15 @@ class InqueryNotabonController extends Controller
                 $item = Notabon_ujs::findOrFail($id);
 
                 if ($item->status === 'unpost') {
+
+                    Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+                        'status' => 'posting'
+                    ]);
+
+                    Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+                        'status' => 'posting'
+                    ]);
+
                     // Update the main record
                     $item->update([
                         'status' => 'posting'
@@ -243,6 +287,15 @@ class InqueryNotabonController extends Controller
 
                 // Pastikan hanya memproses pengeluaran dengan status 'unpost'
                 if ($item->status === 'posting') {
+
+                    Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+                        'status' => 'pending'
+                    ]);
+
+                    Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+                        'status' => 'pending'
+                    ]);
+
                     // Accumulate total deduction amount
                     $totalDeduction += $item->nominal;
                 }
