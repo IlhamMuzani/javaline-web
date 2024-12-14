@@ -169,6 +169,9 @@
                         style="text-align: center; padding-left: 2px; font-size: 9px; font-weight:bold; width:13%">TIDAK
                         ABSEN <span> <br>ISTRAHAT</span></td>
                     <td class="td"
+                        style="text-align: center; padding-left: 2px; font-size: 9px; font-weight:bold; width:13%">
+                        POTONGAN <span> <br>LAINYA</span></td>
+                    <td class="td"
                         style="text-align: right; padding: 2px; font-size: 9px; font-weight:bold; width:12%">BPJS</td>
                     <td class="td"
                         style="text-align: center; padding-left: 1px; font-size: 9px; font-weight:bold; width:12%">
@@ -180,7 +183,7 @@
             <tbody>
                 <!-- Add horizontal line below the header row -->
                 <tr>
-                    <td colspan="15" style="padding: 0px;">
+                    <td colspan="16" style="padding: 0px;">
                         {{-- <hr style="border: 0.5px solid; margin-top:0px; margin-bottom: 1px; padding: 0;"> --}}
                         <hr style="border: 0.5px solid; margin-top:1px; margin-bottom: 1px; padding: 0;">
                     </td>
@@ -271,6 +274,9 @@
                             Rp. {{ number_format($item->hasil_absen, 0, ',', '.') }}</td>
                         <td class="td"
                             style="text-align: right; padding-right: 7px; font-size: 9px; border-bottom: 1px solid black;">
+                            Rp. {{ number_format($item->lainya, 0, ',', '.') }}</td>
+                        <td class="td"
+                            style="text-align: right; padding-right: 7px; font-size: 9px; border-bottom: 1px solid black;">
                             Rp. {{ number_format($item->potongan_bpjs, 0, ',', '.') }}</td>
                         <td class="td"
                             style="text-align: center; padding: 1px; font-size: 9px; border-bottom: 1px solid black;">
@@ -290,10 +296,10 @@
                     @endphp
                 @endforeach
                 <tr style="border-bottom: 1px solid black;">
-                    <td colspan="15" style="padding: 2px;"></td>
+                    <td colspan="16" style="padding: 2px;"></td>
                 </tr>
                 <tr>
-                    <td colspan="14"
+                    <td colspan="15"
                         style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 9px;">
                         {{-- GRAND TOTAL --}}
                     </td>
