@@ -61,6 +61,27 @@ class NotabonController extends Controller
             return back()->withInput()->with('error', $errors);
         }
 
+        $nominal_nota = str_replace(',', '.', str_replace('.', '', $request->nominal));
+        if ($nominal_nota > 3000000) {
+            return back()
+                ->withInput()
+                ->with('error', 'Nominal nota tidak boleh lebih dari 3 juta');
+        }
+
+        $nama_driver = $request->input('nama_driver');
+        $postedCount = Notabon_ujs::where('nama_driver', $nama_driver)
+            ->where('status', 'posting')
+            ->count();
+
+        // Jika jumlahnya sudah mencapai atau melebihi 3, lewati memo ekspedisi ini
+        if (
+            $postedCount >= 2
+        ) {
+            return back()
+                ->withInput()
+                ->with('error', 'Nota telah mencapai batas maksimal untuk driver: ' . $nama_driver . ' ' . 'sudah ada 2 nota bon ' . $nama_driver . ' yang belum di tarik memo');
+        }
+
         $kode = $this->kode();
 
         $tanggal1 = Carbon::now('Asia/Jakarta');

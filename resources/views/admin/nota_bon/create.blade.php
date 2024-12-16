@@ -43,11 +43,16 @@
                     <h5>
                         <i class="icon fas fa-ban"></i> Gagal!
                     </h5>
-                    @foreach (session('error') as $error)
-                        - {{ $error }} <br>
-                    @endforeach
+                    @if (is_array(session('error')))
+                        @foreach (session('error') as $error)
+                            - {{ $error }} <br>
+                        @endforeach
+                    @else
+                        - {{ session('error') }} <br>
+                    @endif
                 </div>
             @endif
+
             <form action="{{ url('admin/nota-bon') }}" method="POST" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 <div class="card">

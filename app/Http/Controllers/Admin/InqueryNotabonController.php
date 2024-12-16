@@ -168,45 +168,56 @@ class InqueryNotabonController extends Controller
 
     public function postingnotabon($id)
     {
-        $item = Notabon_ujs::find($id);
-        if (!$item) {
-            return back()->with('error', 'Nota bon driver tidak ditemukan');
+        try {
+            $item = Notabon_ujs::find($id);
+            if (!$item) {
+                return response()->json(['error' => 'Nota bon driver tidak ditemukan']);
+            }
+            $sopir = Karyawan::find($item->karyawan_id);
+
+            if (!$sopir) {
+                return response()->json(['error' => 'Driver tidak ditemukan']);
+            }
+
+            $postedCount = Notabon_ujs::where('nama_driver', $item->nama_driver)
+                ->where('status', 'posting')
+                ->count();
+            if ($postedCount >= 2) {
+                return response()->json(['error' => 'Nota Bon telah mencapai batas maksimal']);
+            }
+
+            $lastSaldo = Saldo::latest()->first();
+            if (!$lastSaldo) {
+                return response()->json(['error' => 'Saldo tidak ditemukan']);
+            }
+
+            $uangjalan = $item->nominal;
+
+            if ($lastSaldo->sisa_saldo < $uangjalan) {
+                return response()->json(['error' => 'Saldo tidak mencukupi']);
+            }
+
+            $sisaSaldo = $item->nominal;
+            $lastSaldo->update([
+                'sisa_saldo' => $lastSaldo->sisa_saldo - $sisaSaldo,
+            ]);
+
+            Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+                'status' => 'posting'
+            ]);
+
+            Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+                'status' => 'posting'
+            ]);
+
+            $item->update([
+                'status' => 'posting'
+            ]);
+
+            return response()->json(['success' => 'Berhasil memposting memo']);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'Gagal memposting memo: Memo tidak ditemukan']);
         }
-        $sopir = Karyawan::find($item->karyawan_id);
-
-        if (!$sopir) {
-            return back()->with('error', 'Karyawan tidak ditemukan');
-        }
-
-        $lastSaldo = Saldo::latest()->first();
-        if (!$lastSaldo) {
-            return back()->with('error', 'Saldo tidak ditemukan');
-        }
-
-        $uangjalan = $item->nominal;
-
-        if ($lastSaldo->sisa_saldo < $uangjalan) {
-            return back()->with('error', 'Saldo tidak mencukupi');
-        }
-
-        $sisaSaldo = $item->nominal;
-        $lastSaldo->update([
-            'sisa_saldo' => $lastSaldo->sisa_saldo - $sisaSaldo,
-        ]);
-
-        Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
-            'status' => 'posting'
-        ]);
-
-        Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
-            'status' => 'posting'
-        ]);
-
-        $item->update([
-            'status' => 'posting'
-        ]);
-
-        return back()->with('success', 'Berhasil');
     }
 
 
@@ -219,6 +230,17 @@ class InqueryNotabonController extends Controller
             $totalDeduction = 0;
 
             foreach ($selectedIds as $id) {
+
+                $driverName = Notabon_ujs::findOrFail($id)->nama_driver;
+                $postedCount = Notabon_ujs::where('nama_driver', $driverName)
+                    ->where('status', 'posting')
+                    ->count();
+
+                if ($postedCount >= 2) {
+                    continue;
+                }
+
+
                 $item = Notabon_ujs::findOrFail($id);
 
                 // Pastikan hanya memproses pengeluaran dengan status 'unpost'
@@ -250,6 +272,13 @@ class InqueryNotabonController extends Controller
 
             foreach ($selectedIds as $id) {
                 $item = Notabon_ujs::findOrFail($id);
+
+                $postedCount = Notabon_ujs::where('nama_driver', $item->nama_driver)
+                    ->where('status', 'posting')
+                    ->count();
+                if ($postedCount >= 2 && $item->status !== 'posting') {
+                    continue;
+                }
 
                 if ($item->status === 'unpost') {
 
