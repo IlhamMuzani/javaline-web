@@ -2000,6 +2000,7 @@
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Laporan Detail -<br>
                         <span style="margin-left: 32px">Kas Kecil</span>
+                    </p>
                 </a>
             </li>
         @endif
