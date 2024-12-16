@@ -130,6 +130,142 @@ class LaporanmonitoringsjController extends Controller
     }
 
 
+    public function indexglobal(Request $request)
+    {
+        $status = $request->status;
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+        $karyawan_id = $request->karyawan_id;
+
+        if ($karyawan_id) {
+            $karyawan = Karyawan::find($karyawan_id);
+            $nama_lengkap = $karyawan ? $karyawan->nama_lengkap : null;
+        } else {
+            $nama_lengkap = null;
+        }
+
+        $pengurus = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap')
+            ->where('departemen_id', '5')
+            ->orderBy('nama_lengkap')
+            ->get();
+
+        // Pastikan filter tanggal tersedia
+        $filterTanggal = $tanggal_awal && $tanggal_akhir;
+
+        $inquery = Pengambilan_do::query();
+
+        if ($status) {
+            $inquery->where('status', $status);
+        } else {
+            $inquery->where('status', '!=', 'unpost');
+        }
+
+        if ($filterTanggal) {
+            $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
+                ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
+        }
+
+        $inquery->whereNotNull('penerima_sj');
+        $inquery->where('status_penerimaansj', '!=', 'unpost');
+
+        if ($karyawan_id) {
+            $inquery->where('penerima_sj', $karyawan->nama_lengkap);
+        }
+
+        $inquery->orderBy('tanggal_awal', 'DESC');
+        $hasSearch = $status || $nama_lengkap || $filterTanggal;
+        $inquery = $hasSearch ? $inquery->get() : collect();
+
+        // Hitung jumlah surat jalan diterima
+        $pengurus = $pengurus->map(function ($pengurus) use ($filterTanggal, $tanggal_awal, $tanggal_akhir) {
+            if ($filterTanggal) {
+                // Hitung jumlah surat jalan diterima berdasarkan filter tanggal
+                $pengurus->jumlah_surat_jalan_diterima = Pengambilan_do::where('penerima_sj', $pengurus->nama_lengkap)
+                    ->whereDate('tanggal_awal', '>=', $tanggal_awal)
+                    ->whereDate('tanggal_awal', '<=', $tanggal_akhir)
+                    ->count();
+            } else {
+                // Default ke 0 jika tidak ada filter tanggal
+                $pengurus->jumlah_surat_jalan_diterima = 0;
+            }
+            return $pengurus;
+        });
+
+        return view('admin.laporan_monitoringsjglobal.index', compact('inquery', 'pengurus'));
+    }
+
+
+    public function print_monitoringsjglobal(Request $request)
+    {
+        $status = $request->status;
+        $tanggal_awal = $request->tanggal_awal;
+        $tanggal_akhir = $request->tanggal_akhir;
+        $karyawan_id = $request->karyawan_id; // Ambil karyawan_id dari input
+
+        $query = Pengambilan_do::query(); // Inisialisasi query
+
+        if ($karyawan_id) {
+            $karyawan = Karyawan::find($karyawan_id);
+            $nama_lengkap = $karyawan ? $karyawan->nama_lengkap : null;
+        } else {
+            $nama_lengkap = null;
+        }
+
+        // Data untuk dropdown pengurus
+        $pengurus = Karyawan::select('id', 'kode_karyawan', 'nama_lengkap')
+            ->where('departemen_id', '5')
+            ->orderBy('nama_lengkap')
+            ->get();
+
+        $filterTanggal = $tanggal_awal && $tanggal_akhir;
+
+        $inquery = Pengambilan_do::query();
+
+        if ($status) {
+            $inquery->where('status', $status);
+        } else {
+            $inquery->where('status', '!=', 'unpost');
+        }
+
+        if ($filterTanggal) {
+            $inquery->whereDate('tanggal_awal', '>=', $tanggal_awal)
+                ->whereDate('tanggal_awal', '<=', $tanggal_akhir);
+        }
+
+        $inquery->whereNotNull('penerima_sj');
+        $inquery->where('status_penerimaansj', '!=', 'unpost');
+
+        if ($karyawan_id) {
+            $inquery->where('penerima_sj', $karyawan->nama_lengkap);
+        }
+
+        $inquery->orderBy('tanggal_awal', 'DESC');
+        $hasSearch = $status || $nama_lengkap || $filterTanggal;
+        $inquery = $hasSearch ? $inquery->get() : collect();
+
+        // Hitung jumlah surat jalan diterima
+        $pengurus = $pengurus->map(function ($pengurus) use ($filterTanggal, $tanggal_awal, $tanggal_akhir) {
+            if ($filterTanggal) {
+                // Hitung jumlah surat jalan diterima berdasarkan filter tanggal
+                $pengurus->jumlah_surat_jalan_diterima = Pengambilan_do::where('penerima_sj', $pengurus->nama_lengkap)
+                    ->whereDate('tanggal_awal', '>=', $tanggal_awal)
+                    ->whereDate('tanggal_awal', '<=', $tanggal_akhir)
+                    ->count();
+            } else {
+                // Default ke 0 jika tidak ada filter tanggal
+                $pengurus->jumlah_surat_jalan_diterima = 0;
+            }
+            return $pengurus;
+        });
+
+        // Membuat PDF dengan data yang sudah difilter
+        $pdf = PDF::loadView('admin.laporan_monitoringsjglobal.print', compact('inquery', 'pengurus'));
+
+        // Tampilkan PDF
+        return $pdf->stream('Laporan_Monitoring_SJ.pdf');
+    }
+
+
 
 
     // public function index(Request $request)
