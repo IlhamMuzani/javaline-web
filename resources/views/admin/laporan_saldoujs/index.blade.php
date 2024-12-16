@@ -56,9 +56,9 @@
                         <div class="col-md-2 mb-3">
                             <select class="custom-select form-control" id="statusx" name="statusx">
                                 <option value="">- Pilih -</option>
-                                <option value="memo_perjalanan">Pemasukan UJS</option>
-                                <option value="memo_borong">Pengambilan UJS</option>
-                                <option value="akun" selected>Saldo UJS</option>
+                                <option value="saldo_ujs" selected>Saldo UJS</option>
+                                <option value="pemasukan_ujs">Laporan Pemasukan UJS</option>
+                                <option value="pengambilan_ujs">Laporan Pengambilan UJS</option>
                             </select>
                         </div>
                         <div class="col-md-3 mb-3">
@@ -107,13 +107,13 @@
 
                 // Check the selected value and redirect accordingly
                 switch (selectedValue) {
-                    case 'memo_perjalanan':
-                        window.location.href = "{{ url('admin/listadministrasi') }}";
+                    case 'pemasukan_ujs':
+                        window.location.href = "{{ url('admin/laporan_pemasukanujs') }}";
                         break;
-                    case 'memo_borong':
-                        window.location.href = "{{ url('admin/pengambilanujs') }}";
+                    case 'pengambilan_ujs':
+                        window.location.href = "{{ url('admin/laporan_pengeluaranujs') }}";
                         break;
-                    case 'akun':
+                    case 'saldo_ujs':
                         window.location.href = "{{ url('admin/saldo_ujs') }}";
                         break;
                     default:

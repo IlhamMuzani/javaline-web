@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporan Pengeluaran UJS')
+@section('title', 'Laporan Pemasukan UJS')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -22,11 +22,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Laporan Pengeluaran UJS</h1>
+                    <h1 class="m-0">Laporan Pemasukan UJS</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Laporan Pengeluaran UJS</li>
+                        <li class="breadcrumb-item active">Laporan Pemasukan UJS</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -48,7 +48,7 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data Laporan Pengeluaran UJS</h3>
+                    <h3 class="card-title">Data Laporan Pemasukan UJS</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -59,8 +59,8 @@
                                 <select class="custom-select form-control" id="statusx" name="statusx">
                                     <option value="">- Pilih -</option>
                                     <option value="saldo_ujs">Saldo UJS</option>
-                                    <option value="pemasukan_ujs">Laporan Pemasukan UJS</option>
-                                    <option value="pengambilan_ujs" selected>Laporan Pengambilan UJS</option>
+                                    <option value="pemasukan_ujs" selected>Laporan Pemasukan UJS</option>
+                                    <option value="pengambilan_ujs">Laporan Pengambilan UJS</option>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
@@ -94,7 +94,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th>Kode Pengeluaran</th>
+                                    <th>Kode Pemasukan</th>
                                     <th>Tanggal</th>
                                     <th>Jam</th>
                                     <th>Total</th>
@@ -104,11 +104,11 @@
                                 @foreach ($inquery as $pengeluaran)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td>{{ $pengeluaran->kode_pengambilanujs }}</td>
+                                        <td>{{ $pengeluaran->kode_jaminan }}</td>
                                         <td>{{ $pengeluaran->tanggal_awal }}</td>
                                         <td>{{ $pengeluaran->jam }}</td>
                                         <td class="text-right">
-                                            {{ number_format($pengeluaran->grand_total, 0, ',', '.') }}
+                                            {{ number_format($pengeluaran->nominal, 0, ',', '.') }}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -141,7 +141,7 @@
         var form = document.getElementById('form-action')
 
         function cari() {
-            form.action = "{{ url('admin/laporan_pengeluaranujs') }}";
+            form.action = "{{ url('admin/laporan_pemasukanujs') }}";
             form.submit();
         }
 
@@ -150,7 +150,7 @@
             var endDate = tanggalAkhir.value;
 
             if (startDate && endDate) {
-                form.action = "{{ url('admin/print_pengeluaranujs') }}" + "?start_date=" + startDate + "&end_date=" +
+                form.action = "{{ url('admin/print_pemasukanujs') }}" + "?start_date=" + startDate + "&end_date=" +
                     endDate;
                 form.submit();
             } else {
@@ -184,5 +184,4 @@
             });
         });
     </script>
-
 @endsection

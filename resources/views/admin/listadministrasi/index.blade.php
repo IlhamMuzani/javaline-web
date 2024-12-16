@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'UJS')
+@section('title', 'Inquery Pemasukan UJS')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,11 +8,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">UJS</h1>
+                    <h1 class="m-0">Inquery Pemasukan UJS</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">UJS</li>
+                        <li class="breadcrumb-item active">Inquery Pemasukan UJS</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -34,20 +34,12 @@
             @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Data UJS</h3>
+                    <h3 class="card-title">Data Inquery Pemasukan UJS</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form method="GET" id="form-action">
                         <div class="row">
-                            <div class="col-md-2 mb-3">
-                                <select class="custom-select form-control" id="statusx" name="statusx">
-                                    <option value="">- Pilih -</option>
-                                    <option value="listujs" selected>Pemasukan UJS</option>
-                                    <option value="pengambilan_ujs">Pengambilan UJS</option>
-                                    <option value="akun">Saldo UJS</option>
-                                </select>
-                            </div>
                             <div class="col-md-2 mb-3">
                                 <select class="custom-select form-control" id="status" name="status">
                                     <option value="">- Semua Status -</option>
@@ -82,7 +74,7 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th>UJS</th>
+                                    <th>Kode Pemasukan</th>
                                     <th>Tanggal</th>
                                     <th>Nama Sopir</th>
                                     <th>Jam</th>
@@ -168,33 +160,6 @@
             form.submit();
         }
     </script>
-
-    <script>
-        $(document).ready(function() {
-            // Detect the change event on the 'status' dropdown
-            $('#statusx').on('change', function() {
-                // Get the selected value
-                var selectedValue = $(this).val();
-
-                // Check the selected value and redirect accordingly
-                switch (selectedValue) {
-                    case 'listujs':
-                        window.location.href = "{{ url('admin/listadministrasi') }}";
-                        break;
-                    case 'pengambilan_ujs':
-                        window.location.href = "{{ url('admin/pengambilanujs') }}";
-                        break;
-                    case 'akun':
-                        window.location.href = "{{ url('admin/saldo_ujs') }}";
-                        break;
-                    default:
-                        // Handle other cases or do nothing
-                        break;
-                }
-            });
-        });
-    </script>
-
     <script>
         $(document).ready(function() {
             $('tbody tr.dropdown').click(function(e) {

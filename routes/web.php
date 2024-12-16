@@ -406,9 +406,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('laporan_pengeluarankaskecil', [\App\Http\Controllers\Admin\LaporanPengeluarankaskecilController::class, 'index']);
     Route::get('print_pengeluarankaskecil', [\App\Http\Controllers\Admin\LaporanPengeluarankaskecilController::class, 'print_pengeluarankaskecil']);
 
-    Route::get('laporan_pengeluaranujs', [\App\Http\Controllers\Admin\LaporanPengambilanujsController::class, 'index']);
-    Route::get('print_pengeluaranujs', [\App\Http\Controllers\Admin\LaporanPengambilanujsController::class, 'print_pengeluaranujs']);
-
     Route::get('laporan_pengeluarankaskecilakun', [\App\Http\Controllers\Admin\LaporanPengeluarankaskecilakunController::class, 'index']);
     Route::get('print_pengeluarankaskecilakun', [\App\Http\Controllers\Admin\LaporanPengeluarankaskecilakunController::class, 'print_pengeluarankaskecilakun']);
 
@@ -1014,4 +1011,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print-memoasuransi', [\App\Http\Controllers\Admin\LaporanMemoasuransiController::class, 'print_notabon']);
 
     Route::get('excel_memoasuransifilter', [\App\Http\Controllers\Admin\InquerymemoasuransiController::class, 'excel_memoasuransifilter']);
+
+    Route::resource('inquery_pemasukanujs', \App\Http\Controllers\Admin\InqueryPemasukanujsController::class);
+    Route::get('laporan_pengeluaranujs', [\App\Http\Controllers\Admin\LaporanPengambilanujsController::class, 'index']);
+    Route::get('print_pengeluaranujs', [\App\Http\Controllers\Admin\LaporanPengambilanujsController::class, 'print_pengeluaranujs']);
+    Route::get('laporan_pemasukanujs', [\App\Http\Controllers\Admin\LaporanPemasukanujsController::class, 'index']);
+    Route::get('print_pemasukanujs', [\App\Http\Controllers\Admin\LaporanPemasukanujsController::class, 'print_pemasukanujs']);
 });
