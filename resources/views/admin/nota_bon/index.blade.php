@@ -121,20 +121,20 @@
                                                     @if ($saldoTerakhir->sisa_saldo < $nota->nominal)
                                                         <a class="dropdown-item">Saldo tidak cukup</a>
                                                     @else
-                                                        @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan posting'])
+                                                        @if (auth()->check() && auth()->user()->fitur['posting memo ekspedisi'])
                                                             <a class="dropdown-item posting-btn"
                                                                 data-memo-id="{{ $nota->id }}">Posting</a>
                                                         @endif
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan update'])
+                                                    @if (auth()->check() && auth()->user()->fitur['update memo ekspedisi'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery-notabon/' . $nota->id . '/edit') }}">Update</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan delete'])
+                                                    @if (auth()->check() && auth()->user()->fitur['delete memo ekspedisi'])
                                                         <form style="margin-top:5px" method="GET"
                                                             action="{{ route('hapusnotabon', ['id' => $nota->id]) }}">
                                                             <button type="submit"
@@ -145,17 +145,17 @@
                                                     @endif
                                                 @endif
                                                 @if ($nota->status == 'posting')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan unpost'])
+                                                    @if (auth()->check() && auth()->user()->fitur['unpost memo ekspedisi'])
                                                         <a class="dropdown-item unpost-btn"
                                                             data-memo-id="{{ $nota->id }}">Unpost</a>
                                                     @endif
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
                                                     @endif
                                                 @endif
                                                 @if ($nota->status == 'selesai')
-                                                    @if (auth()->check() && auth()->user()->fitur['inquery memo perjalanan show'])
+                                                    @if (auth()->check() && auth()->user()->fitur['show memo ekspedisi'])
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/nota-bon/' . $nota->id) }}">Show</a>
                                                     @endif

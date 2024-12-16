@@ -135,9 +135,9 @@
                                     <th>Kode Memo Asuransi</th>
                                     <th>Kode Spk</th>
                                     <th>Tanggal</th>
-                                    <th>Nama Tarif</th>
+                                    <th>Nama Asuransi</th>
                                     <th>Nominal</th>
-                                    <th>%</th>
+                                    <th>Rate</th>
                                     <th>Total</th>
                                     <th>Opsi</th>
                                 </tr>

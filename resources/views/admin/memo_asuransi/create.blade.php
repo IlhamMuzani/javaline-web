@@ -224,7 +224,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tarif <span>
+                        <h3 class="card-title">Tarif Asuransi<span>
                             </span></h3>
                         <div class="float-right">
                             {{-- <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
@@ -237,10 +237,10 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th style="font-size:14px">Kode Tarif</th>
-                                    <th style="font-size:14px">Nama Tarif</th>
-                                    <th style="font-size:14px">Nominal Tarif</th>
-                                    <th style="font-size:14px">%</th>
+                                    <th style="font-size:14px">Kode Asuransi</th>
+                                    <th style="font-size:14px">Nama Asuransi</th>
+                                    <th style="font-size:14px">Nominal Barang</th>
+                                    <th style="font-size:14px">Rate</th>
                                     <th style="font-size:14px">Total</th>
                                     <th style="font-size:14px; text-align:center">Opsi</th>
                                 </tr>
@@ -373,7 +373,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Data Tarif</h4>
+                            <h4 class="modal-title">Data Asuransi</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -387,9 +387,9 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">No</th>
-                                        <th>Kode Tarif</th>
-                                        <th>Nama Tarif</th>
-                                        <th>Nominal</th>
+                                        <th>Kode Asuransi</th>
+                                        <th>Nama Asuransi</th>
+                                        <th>Rate</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>

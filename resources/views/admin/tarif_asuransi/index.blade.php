@@ -64,9 +64,9 @@
                             <thead class="thead-dark">
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th>Kode Tarif Asuransi</th>
-                                    <th>Nama Tarif Asuransi</th>
-                                    <th>Tarif %</th>
+                                    <th>Kode Asuransi</th>
+                                    <th>Nama Asuransi</th>
+                                    <th>Rate</th>
                                     <th class="text-center" width="90">Opsi</th>
                                 </tr>
                             </thead>
