@@ -85,7 +85,7 @@
             height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 17px;">LAPORAN MONITORING SURAT JALAN - RANGKUMAN</span>
+        <span style="font-weight: bold; font-size: 17px;">LAPORAN PENERIMAAN SURAT JALAN - RANGKUMAN</span>
         <br>
         <div class="text">
             @php

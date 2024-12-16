@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Laporan Monitoring Surat Jalan</title>
+    <title>Laporan Penerimaan Surat Jalan</title>
     <style>
         html,
         body {
@@ -85,7 +85,7 @@
             height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 17px;">LAPORAN MONITORING SURAT JALAN GLOBAL- RANGKUMAN</span>
+        <span style="font-weight: bold; font-size: 17px;">LAPORAN PENERIMAAN SURAT JALAN GLOBAL- RANGKUMAN</span>
         <br>
         <div class="text">
             @php
