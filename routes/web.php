@@ -977,6 +977,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('unpostfilternota', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'unpostfilternota']);
 
     Route::get('cetak_notafilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'cetak_notafilter']);
+    Route::get('cetak3_notafilter', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'cetak_nota3filter']);
     Route::get('hapusnotabon/{id}', [\App\Http\Controllers\Admin\InqueryNotabonController::class, 'hapusnotabon'])->name('hapusnotabon');
     Route::delete('inquery_memoekspedisispk/deletedetailnota/{id}', [\App\Http\Controllers\Admin\InqueryMemoekspedisispkController::class, 'deletedetailnota']);
     Route::resource('tarif-asuransi', \App\Http\Controllers\Admin\TarifasuransiController::class);

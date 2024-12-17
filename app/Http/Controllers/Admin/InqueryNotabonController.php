@@ -379,6 +379,17 @@ class InqueryNotabonController extends Controller
         return $pdf->stream('SelectedNota.pdf');
     }
 
+    public function cetak_nota3filter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+        $notas = Notabon_ujs::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.inquery_notabon.cetak3_pdffilter', compact('notas'));
+        $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
+        return $pdf->stream('SelectedNota.pdf');
+    }
+
     public function hapusnotabon($id)
     {
         $item = Notabon_ujs::where('id', $id)->first();

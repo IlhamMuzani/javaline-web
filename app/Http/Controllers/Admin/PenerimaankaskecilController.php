@@ -88,7 +88,6 @@ class PenerimaankaskecilController extends Controller
 
 
         $saldoSebelumnya = Saldo::latest()->first(); // Mendapatkan saldo terakhir
-        $saldoSisa = $saldoSebelumnya->sisa_saldo - $cleanedSubTotal;
 
         // Menambahkan data ke tabel Saldo
         Saldo::create([

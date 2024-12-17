@@ -156,8 +156,6 @@ class KaryawanController extends Controller
         return redirect('admin/karyawan')->with('success', 'Berhasil menambahkan karyawan');
     }
 
-
-
     public function kode()
     {
         // Cari karyawan terakhir dengan kode_karyawan yang diawali dengan 'AA'
