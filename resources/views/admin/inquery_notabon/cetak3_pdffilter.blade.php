@@ -17,12 +17,13 @@
         }
 
         .container {
-            width: 64mm;
+            width: 100mm;
             margin: 0 auto;
             border: 1px solid white;
             background-color: #fff;
             box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-            page-break-after: always; /* Setiap 3 perulangan, pindah ke halaman baru */
+            page-break-after: always;
+            /* Setiap 3 perulangan, pindah ke halaman baru */
         }
 
         .section {
@@ -34,7 +35,7 @@
             padding-bottom: 5px;
             text-align: center;
             margin-bottom: 5px;
-            font-size: 12px;
+            font-size: 13px;
             text-transform: uppercase;
         }
 
@@ -132,102 +133,125 @@
     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
         <tr>
             @foreach ($notas as $index => $cetakpdf)
-                @if ($index % 3 === 0 && $index > 0)
-                    </tr>
-                    <tr>
-                @endif
-                <td style="text-align: center;">
-                    <table style="margin: 0 auto;">
-                        <div class="container">
-                            <div class="section">
-                                <h2>Nota Bon Uang Jalan</h2>
-                                <p style="text-align: right; font-size: 11px; margin-bottom: 5px;"></p>
-                                <br>
-                                <div class="detail-info">
-                                    <div class="kasir">
-                                        <p>
-                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Kode Nota</span>
-                                            <span style="min-width: 50px; display: inline-flex; align-items: center;">: {{ $cetakpdf->kode_nota }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="kasir">
-                                        <p>
-                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Kode Driver</span>
-                                            <span style="min-width: 50px; display: inline-flex; align-items: center;">: {{ $cetakpdf->kode_driver }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="">
-                                        <p>
-                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Nama Driver</span>
-                                            <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">: {{ $cetakpdf->nama_driver }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="">
-                                        <p>
-                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 11px;">Nominal</span>
-                                            <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 11px;">: {{ number_format($cetakpdf->nominal, 0, ',', '.') }}</span>
-                                        </p>
-                                    </div>
-                                    <div class="">
-                                        <p>
-                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Keterangan</span>
-                                            <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">:</span>
-                                        </p>
-                                    </div>
-                                    <div style="margin-left:10px; font-size:10px">- {{ $cetakpdf->keterangan }}</div>
+                @if ($index % 2 === 0 && $index > 0)
+        </tr>
+        <tr>
+            @endif
+            <td style="text-align: center;">
+                <table style="margin: 0 auto;">
+                    <div class="container">
+                        <div class="section">
+                            <h2>Nota Bon Uang Jalan</h2>
+                            <p style="text-align: right; font-size: 11px; margin-bottom: 5px;"></p>
+                            <br>
+                            <div class="detail-info">
+                                <div class="kasir">
+                                    <p>
+                                        <span
+                                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px; font-size: 12px;">Kode
+                                            Nota</span>
+                                        <span
+                                            style="min-width: 50px; display: inline-flex; align-items: center; font-size: 12px; margin-left:20px">
+                                            :
+                                            {{ $cetakpdf->kode_nota }}</span>
+                                    </p>
                                 </div>
-                                <div style=" margin-bottom:10px; margin-top:30px">
-                                    <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
-                                        <tr>
-                                            <td style="text-align: center;">
-                                                <table style="margin: 0 auto;">
-                                                    <tr style="text-align: center;">
-                                                        <td class="label">{{ $cetakpdf->admin }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="separator" colspan="2"><span></span></td>
-                                                    </tr>
-                                                    <tr style="text-align: center;">
-                                                        <td class="label">Admin</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <table style="margin: 0 auto;">
-                                                    <tr style="text-align: center;">
-                                                        <td class="label">DJOHAN WAHYUDI</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="separator" colspan="2"><span></span></td>
-                                                    </tr>
-                                                    <tr style="text-align: center;">
-                                                        <td class="label">Finance</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td style="text-align: center;">
-                                                <table>
-                                                    <tr>
-                                                        <td class="label">.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="separator" colspan="2"><span></span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="label">Acounting</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <div style="text-align: right; font-size:8px; margin-right:20px">
-                                        <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
-                                    </div>
+                                <div class="kasir">
+                                    <p>
+                                        <span
+                                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px; font-size: 12px;">Kode
+                                            Driver</span>
+                                        <span
+                                            style="min-width: 50px; display: inline-flex; align-items: center; font-size: 12px; margin-left:17px">
+                                            :
+                                            {{ $cetakpdf->kode_driver }}</span>
+                                    </p>
+                                </div>
+                                <div class="">
+                                    <p>
+                                        <span
+                                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px; font-size: 12px;">Nama
+                                            Driver</span>
+                                        <span
+                                            style="min-width: 50px; display: inline-flex; align-items: center; font-size: 12px; margin-left:13px">
+                                            :
+                                            {{ $cetakpdf->nama_driver }}</span>
+                                    </p>
+                                </div>
+                                <div class="">
+                                    <p>
+                                        <span
+                                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 11px; font-size: 12px;">Nominal</span>
+                                        <span
+                                            style="min-width: 50px; display: inline-flex; align-items: center; font-size: 12px; margin-left:20px">
+                                            :
+                                            {{ number_format($cetakpdf->nominal, 0, ',', '.') }}</span>
+                                    </p>
+                                </div>
+                                <div class="">
+                                    <p>
+                                        <span
+                                            style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px; font-size: 12px;">Keterangan</span>
+                                        <span
+                                            style="min-width: 50px; display: inline-flex; align-items: center; font-size: 12px;"></span>
+                                    </p>
+                                </div>
+                                <div style="margin-left:10px; font-size:12px">- {{ $cetakpdf->keterangan }}</div>
+                            </div>
+                            <div style=" margin-bottom:10px; margin-top:30px">
+                                <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
+                                    <tr>
+                                        <td style="text-align: center;">
+                                            <table style="margin: 0 auto; sty">
+                                                <tr style="text-align: center;">
+                                                    <td style="font-size: 12px" class="label">{{ $cetakpdf->admin }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="separator" colspan="2"><span></span></td>
+                                                </tr>
+                                                <tr style="text-align: center;">
+                                                    <td style="font-size: 12px" class="label">Admin</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <table style="margin: 0 auto;">
+                                                <tr style="text-align: center;">
+                                                    <td style="font-size: 12px" class="label">DJOHAN WAHYUDI</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="separator" colspan="2"><span></span></td>
+                                                </tr>
+                                                <tr style="text-align: center;">
+                                                    <td style="font-size: 12px" class="label">Finance</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <table>
+                                                <tr>
+                                                    <td class="label">.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="separator" colspan="2"><span></span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="font-size: 12px" class="label">Acounting</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div style="text-align: right; font-size:10px; margin-right:20px">
+                                    <span style="font-style: italic;">Printed Date
+                                        {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
                                 </div>
                             </div>
                         </div>
-                    </table>
-                </td>
+                    </div>
+                </table>
+            </td>
             @endforeach
         </tr>
     </table>

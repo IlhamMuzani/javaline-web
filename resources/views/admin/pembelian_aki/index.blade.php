@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pembelian Part')
+@section('title', 'Pembelian Aki')
 
 @section('content')
 
@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Pembelian Part</h1>
+                    <h1 class="m-0">Pembelian Aki</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -80,12 +80,6 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Detail Supplier</h3>
-                        <div class="float-right">
-                            <button type="button" data-toggle="modal" data-target="#modal-supplier"
-                                class="btn btn-primary btn-sm">
-                                Tambah
-                            </button>
-                        </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -111,7 +105,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Part</h3>
+                        <h3 class="card-title">Tambah Aki</h3>
                         <div class="float-right">
                             <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
                                 <i class="fas fa-plus"></i>
@@ -383,7 +377,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah Part</h4>
+                        <h4 class="modal-title">Tambah Aki</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -459,7 +453,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Data Part</h4>
+                        <h4 class="modal-title">Data Aki</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -634,7 +628,7 @@
 
             if (jumlah_part === 0) {
                 var item_pembelian = '<tr>';
-                item_pembelian += '<td class="text-center" colspan="8">- Part belum ditambahkan -</td>';
+                item_pembelian += '<td class="text-center" colspan="8">- Aki belum ditambahkan -</td>';
                 item_pembelian += '</tr>';
                 $('#tabel-pembelian').html(item_pembelian);
             } else {

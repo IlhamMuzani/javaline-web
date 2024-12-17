@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pembelian Part')
+@section('title', 'Pembelian Aki')
 
 @section('content')
     <!-- Content Header (Page header) -->
@@ -8,12 +8,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Pembelian Part</h1>
+                    <h1 class="m-0">Pembelian Aki</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{ url('admin/pembelian_part') }}">Transaksi</a></li>
-                        <li class="breadcrumb-item active">Pembelian Part</li>
+                        <li class="breadcrumb-item active">Pembelian Aki</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -84,7 +84,7 @@
                 </div>
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tambah Part</h3>
+                        <h3 class="card-title">Tambah Aki</h3>
                         <div class="float-right">
                             <button type="button" class="btn btn-primary btn-sm" onclick="addPesanan()">
                                 <i class="fas fa-plus"></i>
@@ -334,7 +334,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Tambah Part</h4>
+                        <h4 class="modal-title">Tambah Aki</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -346,7 +346,7 @@
                                 @csrf
                                 <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Tambah Part</h3>
+                                        <h3 class="card-title">Tambah Aki</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="form-group">
@@ -463,7 +463,7 @@
 
             if (jumlah_pesanan === 0) {
                 var item_pesanan = '<tr>';
-                item_pesanan += '<td class="text-center" colspan="5">- Part belum ditambahkan -</td>';
+                item_pesanan += '<td class="text-center" colspan="5">- Aki belum ditambahkan -</td>';
                 item_pesanan += '</tr>';
                 $('#tabel-pesanan').html(item_pesanan);
             } else {
