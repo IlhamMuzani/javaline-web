@@ -141,7 +141,7 @@
                         <div class="container">
                             <div class="section">
                                 <h2>Nota Bon Uang Jalan</h2>
-                                <p style="text-align: right; font-size: 11px; margin-bottom: 10px;"></p>
+                                <p style="text-align: right; font-size: 11px; margin-bottom: 5px;"></p>
                                 <br>
                                 <div class="detail-info">
                                     <div class="kasir">
@@ -156,19 +156,19 @@
                                             <span style="min-width: 50px; display: inline-flex; align-items: center;">: {{ $cetakpdf->kode_driver }}</span>
                                         </p>
                                     </div>
-                                    <div class="pelanggan">
+                                    <div class="">
                                         <p>
                                             <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Nama Driver</span>
                                             <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">: {{ $cetakpdf->nama_driver }}</span>
                                         </p>
                                     </div>
-                                    <div class="pelanggan">
+                                    <div class="">
                                         <p>
-                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Nominal</span>
-                                            <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">: {{ number_format($cetakpdf->nominal, 0, ',', '.') }}</span>
+                                            <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 11px;">Nominal</span>
+                                            <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 11px;">: {{ number_format($cetakpdf->nominal, 0, ',', '.') }}</span>
                                         </p>
                                     </div>
-                                    <div class="pelanggan">
+                                    <div class="">
                                         <p>
                                             <span style="min-width: 60px; display: inline-flex; align-items: center; padding-left: 10px;">Keterangan</span>
                                             <span style="min-width: 50px; display: inline-flex; align-items: center; font-size: 10px;">:</span>
