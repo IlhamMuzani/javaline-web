@@ -1024,4 +1024,11 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('print-monitoringsjglobal', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'print_monitoringsjglobal']);
 
     Route::resource('pembelian-aki', \App\Http\Controllers\Admin\PembelianAkiController::class);
+
+
+    Route::get('postingfilterpenerimaanpusat', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanpusat']);
+    Route::get('unpostfilterpenerimaanpusat', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'unpostfilterpenerimaanpusat']);
+    Route::resource('penerimaansuratjalanpusat', \App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class);
+    Route::get('penerimaansuratjalanpusat/unpostpenerimaansuratpusat/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'unpostpenerimaansuratpusat']);
+    Route::get('penerimaansuratjalanpusat/postingpenerimaansuratpusat/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingpenerimaansuratpusat']);
 });

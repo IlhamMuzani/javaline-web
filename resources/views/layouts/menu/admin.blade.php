@@ -713,6 +713,17 @@
                 </a>
             </li>
         @endif
+        @if (auth()->user()->id == 1)
+            @if (auth()->check() && auth()->user()->menu['update km'])
+                <li class="nav-item">
+                    <a href="{{ url('admin/penerimaansuratjalanpusat') }}"
+                        class="nav-link {{ request()->is('admin/penerimaansuratjalanpusat*') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                        <p style="font-size: 13px;">Penerimaan Surat Jalan Pusat</p>
+                    </a>
+                </li>
+            @endif
+        @endif
         @if (auth()->check() && auth()->user()->menu['memo ekspedisi'])
             <li class="nav-item">
                 <a href="{{ url('admin/status_pemberiando') }}"
