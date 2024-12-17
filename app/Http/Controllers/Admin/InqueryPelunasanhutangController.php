@@ -288,7 +288,7 @@ class InqueryPelunasanhutangController extends Controller
         }
     }
 
-    public function hapusdeposit($id)
+    public function hapushutang($id)
     {
         $item = Pelunasan_hutangkw::where('id', $id)->first();
         $item->delete();

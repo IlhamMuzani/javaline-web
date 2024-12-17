@@ -132,7 +132,7 @@
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/pelunasan-hutangkw/' . $deposit->id) }}">Show</a>
                                                     <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusdeposit', ['id' => $deposit->id]) }}">
+                                                        action="{{ route('hapushutang', ['id' => $deposit->id]) }}">
                                                         <button type="submit"
                                                             class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                             </i> Delete

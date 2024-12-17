@@ -958,6 +958,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('inquery_pelunasanhutangkw', \App\Http\Controllers\Admin\InqueryPelunasanhutangController::class);
     Route::resource('laporan_pelunasanhutang', \App\Http\Controllers\Admin\LaporanPelunasanhutangController::class);
     Route::get('print_pelunasanhutang', [\App\Http\Controllers\Admin\LaporanPelunasanhutangController::class, 'print_pelunasanhutang']);
+    Route::get('hapushutang/{id}', [\App\Http\Controllers\Admin\InqueryPelunasanhutangController::class, 'hapushutang'])->name('hapushutang');
 
     Route::get('excel_memoekspedisifilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'excel_memoekspedisifilter']);
     Route::get('excel_memotambahanfilter', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'excel_memotambahanfilter']);

@@ -143,6 +143,7 @@
                                         <th>Kode Karyawan</th>
                                         <th>Nama Nama Karyawan</th>
                                         <th>Tanggal</th>
+                                        <th style="text-align: right">Deposit</th>
                                         <th>Opsi</th>
                                     </tr>
                                 </thead>
@@ -158,6 +159,7 @@
                                             <td>{{ $sopir->kode_karyawan }}</td>
                                             <td>{{ $sopir->nama_lengkap }}</td>
                                             <td>{{ $sopir->telp }}</td>
+                                            <td style="text-align: right"> {{ number_format($sopir->tabungan, 0, ',', '.') }}
                                             </td>
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
