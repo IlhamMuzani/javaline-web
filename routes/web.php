@@ -1021,4 +1021,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('laporan-monitoringsjglobal', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'indexglobal']);
     Route::get('print-monitoringsjglobal', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'print_monitoringsjglobal']);
+
+    Route::resource('pembelian-aki', \App\Http\Controllers\Admin\PembelianAkiController::class);
 });

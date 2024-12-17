@@ -91,131 +91,51 @@
                 </div>
                 <div>
                     <div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Pelanggan</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group" hidden>
-                                            <label for="pelanggan_id">return Id</label>
-                                            <input type="text" class="form-control" id="pelanggan_id" readonly
-                                                name="pelanggan_id" placeholder=""
-                                                value="{{ old('pelanggan_id', $inquery->pelanggan_id) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="kode_pelanggan" readonly name="kode_pelanggan" placeholder=""
-                                                value="{{ old('kode_pelanggan', $inquery->kode_pelanggan) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="nama_pelanggan">Nama Pelanggan</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="nama_pelanggan" readonly name="nama_pelanggan" placeholder=""
-                                                value="{{ old('nama_pelanggan', $inquery->nama_pelanggan) }}">
-                                        </div>
-                                        <div class="form-group" hidden>
-                                            <div class="form-group">
-                                                <label style="font-size:14px" for="alamat_pelanggan">Alamat
-                                                    return</label>
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
-                                                    value="{{ old('alamat_pelanggan', $inquery->alamat_pelanggan) }}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="form-group">
-                                                <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
-                                                <input style="font-size:14px" type="text" class="form-control"
-                                                    id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
-                                                    value="{{ old('telp_pelanggan', $inquery->telp_pelanggan) }}">
-                                            </div>
-                                        </div>
-                                        <div class="form-check" style="color:white">
-                                            <label class="form-check-label">
-                                                .
-                                            </label>
-                                        </div>
-                                    </div>
+                        <div class="form-group">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Pelanggan</h3>
                                 </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Kendaraan</h3>
+                                <div class="card-body">
+                                    <div class="form-group" hidden>
+                                        <label for="pelanggan_id">return Id</label>
+                                        <input type="text" class="form-control" id="pelanggan_id" readonly
+                                            name="pelanggan_id" placeholder=""
+                                            value="{{ old('pelanggan_id', $inquery->pelanggan_id) }}">
                                     </div>
-                                    <div class="card-body">
-                                        <div class="form-group" hidden>
-                                            <label for="kendaraan_id">Kendaraan Id</label>
-                                            <input type="text" class="form-control" id="kendaraan_id" readonly
-                                                name="kendaraan_id" placeholder=""
-                                                value="{{ old('kendaraan_id', $inquery->kendaraan_id) }}">
-                                        </div>
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="kode_pelanggan">Kode Pelanggan</label>
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="kode_pelanggan" readonly name="kode_pelanggan" placeholder=""
+                                            value="{{ old('kode_pelanggan', $inquery->kode_pelanggan) }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label style="font-size:14px" for="nama_pelanggan">Nama Pelanggan</label>
+                                        <input style="font-size:14px" type="text" class="form-control"
+                                            id="nama_pelanggan" readonly name="nama_pelanggan" placeholder=""
+                                            value="{{ old('nama_pelanggan', $inquery->nama_pelanggan) }}">
+                                    </div>
+                                    <div class="form-group" hidden>
                                         <div class="form-group">
-                                            <label style="font-size:14px" for="no_kabin">No. Kabin</label>
+                                            <label style="font-size:14px" for="alamat_pelanggan">Alamat
+                                                return</label>
                                             <input style="font-size:14px" type="text" class="form-control"
-                                                id="no_kabin" readonly name="no_kabin" placeholder=""
-                                                value="{{ old('no_kabin', $inquery->no_kabin) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="no_pol">No. Mobil</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="no_pol" readonly name="no_pol" placeholder=""
-                                                value="{{ old('no_pol', $inquery->no_pol) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="jenis_kendaraan">Jenis Kendaraan</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="jenis_kendaraan" readonly name="jenis_kendaraan" placeholder=""
-                                                value="{{ old('jenis_kendaraan', $inquery->jenis_kendaraan) }}">
-                                        </div>
-                                        <div class="form-check" style="color:white">
-                                            <label class="form-check-label">
-                                                .
-                                            </label>
+                                                id="alamat_pelanggan" readonly name="alamat_pelanggan" placeholder=""
+                                                value="{{ old('alamat_pelanggan', $inquery->alamat_pelanggan) }}">
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Sopir</h3>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label style="font-size:14px" for="telp_pelanggan">No. Telp</label>
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="telp_pelanggan" readonly name="telp_pelanggan" placeholder=""
+                                                value="{{ old('telp_pelanggan', $inquery->telp_pelanggan) }}">
+                                        </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="form-group" hidden>
-                                            <label for="user_id">User Id</label>
-                                            <input type="text" class="form-control" id="user_id" readonly
-                                                name="user_id" placeholder=""
-                                                value="{{ old('user_id', $inquery->user_id) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="kode_driver">Kode Sopir</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="kode_driver" readonly name="kode_driver" placeholder=""
-                                                value="{{ old('kode_driver', $inquery->kode_driver) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="nama_driver">Nama Sopir</label>
-                                            <input style="font-size:14px" type="text" class="form-control"
-                                                id="nama_driver" readonly name="nama_driver" placeholder=""
-                                                value="{{ old('nama_driver', $inquery->nama_driver) }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label style="font-size:14px" for="telp">No. Telp</label>
-                                            <input style="font-size:14px" type="tex" class="form-control"
-                                                id="telp" readonly name="telp" placeholder=""
-                                                value="{{ old('telp', $inquery->telp) }}">
-                                        </div>
-                                        <div class="form-check" style="color:white">
-                                            <label class="form-check-label">
-                                                .
-                                            </label>
-                                        </div>
+                                    <div class="form-check" style="color:white">
+                                        <label class="form-check-label">
+                                            .
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -407,14 +327,11 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="float-right ml-3 mt-3">
-                        <button type="button" data-toggle="modal" data-target="#modal-barang"
-                            class="btn btn-primary btn-sm">
-                            Tambah
-                        </button>
+                    <div class="m-2">
+                        <input type="text" id="searchInput" class="form-control" placeholder="Search...">
                     </div>
                     <div class="modal-body">
-                        <table id="datatables66" class="table table-bordered table-striped">
+                        <table id="tables" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -430,7 +347,8 @@
                                     <tr data-id="{{ $barang->id }}" data-kode_barang="{{ $barang->kode_barang }}"
                                         data-nama_barang="{{ $barang->nama_barang }}"
                                         data-harga_beli="{{ $barang->harga_beli }}"
-                                        data-harga_jual="{{ $barang->harga_beli }}" data-param="{{ $loop->index }}">
+                                        data-harga_jual="{{ $barang->harga_beli }}" data-param="{{ $loop->index }}"
+                                        onclick="getBarang({{ $loop->index }})">
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $barang->kode_barang }}</td>
                                         <td>{{ $barang->nama_barang }}</td>
@@ -446,60 +364,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="modal-barang">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Barang Return</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div style="text-align: center;">
-                            <form action="{{ url('admin/tambah_barang') }}" method="POST" enctype="multipart/form-data"
-                                autocomplete="off">
-                                @csrf
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Tambah Barang Return</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="nama_barang">Nama Barang Return</label>
-                                            <input type="text" class="form-control" id="nama_barang"
-                                                name="nama_barang" placeholder="masukkan nama barang"
-                                                value="{{ old('nama_barang') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="jumlah">Stok</label>
-                                            <input type="number" class="form-control" id="jumlah" name="jumlah"
-                                                placeholder="masukkan stok" value="{{ old('jumlah') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="harga_beli">Harga Beli</label>
-                                            <input type="number" class="form-control" id="harga_beli" name="harga_beli"
-                                                placeholder="masukkan harga beli" value="{{ old('harga_beli') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="harga_jual">Harga Jual</label>
-                                            <input type="number" class="form-control" id="harga_jual" name="harga_jual"
-                                                placeholder="masukkan harga jual" value="{{ old('harga_jual') }}">
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <button type="reset" class="btn btn-secondary">Reset</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -579,9 +443,7 @@
             $('#tableReturn').modal('show');
         }
 
-        function GetNota(Return_id, KodeReturn, Pelanggan_id, KodePelanggan, NamaPell, Telpel, AlamatPelanggan,
-            Kendaraan_id, Nokabin,
-            Nopol, JenisKen, User_id, KodeDriv, NamaDriv, Telpdriv, Barang_id, KodeBarang, NamaBarang, Satuan, Jumlah) {
+        function GetNota(Return_id, KodeReturn, Pelanggan_id, KodePelanggan, NamaPell, Telpel, AlamatPelanggan) {
 
             document.getElementById('return_id').value = Return_id;
             document.getElementById('kode_nota').value = KodeReturn;
@@ -590,48 +452,11 @@
             document.getElementById('nama_pelanggan').value = NamaPell;
             document.getElementById('telp_pelanggan').value = Telpel;
             document.getElementById('alamat_pelanggan').value = AlamatPelanggan;
-            document.getElementById('kendaraan_id').value = Kendaraan_id;
-            document.getElementById('no_kabin').value = Nokabin;
-            document.getElementById('no_pol').value = Nopol;
-            document.getElementById('jenis_kendaraan').value = JenisKen;
-            document.getElementById('user_id').value = User_id;
-            document.getElementById('kode_driver').value = KodeDriv;
-            document.getElementById('nama_driver').value = NamaDriv;
-            document.getElementById('telp').value = Telpdriv;
 
             $('#tableReturn').modal('hide');
 
         }
         var activeSpecificationIndexs = 0;
-
-
-        // function Satuan(param) {
-        //     activeSpecificationIndexs = param;
-        //     // Show the modal and filter rows if necessary
-        //     $('#tableSatuan').modal('show');
-        // }
-
-        // function getSatuan(rowIndex) {
-        //     var selectedRow = $('#datatables6 tbody tr:eq(' + rowIndex + ')');
-        //     var satuan_id = selectedRow.data('id');
-        //     var kode_satuan = selectedRow.data('kode_satuan');
-        //     var nama_satuan = selectedRow.data('nama_satuan');
-        //     var nominal = selectedRow.data('nominal');
-
-        //     // Update the form fields for the active specification
-        //     $('#satuan_id-' + activeSpecificationIndexs).val(satuan_id);
-        //     $('#kode_satuan-' + activeSpecificationIndexs).val(kode_satuan);
-        //     $('#nama_satuan-' + activeSpecificationIndexs).val(nama_satuan);
-        //     $('#harga_jual-' + activeSpecificationIndexs).val(nominal);
-        //     // Check if the diskon field is empty
-        //     var diskonValue = $('#diskon-' + activeSpecificationIndexs).val();
-        //     if (!diskonValue) {
-        //         // If empty, set the diskon field to 0
-        //         $('#diskon-' + activeSpecificationIndexs).val(0);
-        //     }
-
-        //     $('#tableSatuan').modal('hide');
-        // }
     </script>
 
     <script>
@@ -840,6 +665,37 @@
     </script>
 
     <script>
+        // Function to filter the table rows based on the search input
+        function filterTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tables");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                var displayRow = false;
+
+                // Loop through columns (td 1, 2, and 3)
+                for (j = 1; j <= 3; j++) {
+                    td = tr[i].getElementsByTagName("td")[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            displayRow = true;
+                            break; // Break the loop if a match is found in any column
+                        }
+                    }
+                }
+
+                // Set the display style based on whether a match is found in any column
+                tr[i].style.display = displayRow ? "" : "none";
+            }
+        }
+        document.getElementById("searchInput").addEventListener("input", filterTable);
+    </script>
+
+    <script>
         var activeSpecificationIndex = 0;
 
         function Barangs(param) {
@@ -849,7 +705,7 @@
         }
 
         function getBarang(rowIndex) {
-            var selectedRow = $('#datatables66 tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
             var barang_id = selectedRow.data('id');
             var kode_barang = selectedRow.data('kode_barang');
             var nama_barang = selectedRow.data('nama_barang');

@@ -259,13 +259,9 @@
     <table style="width: 100%;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">No.
-                Faktur:{{ $cetakpdf->kode_return }}</td>
+                Faktur:{{ $cetakpdf->kode_penjualan }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">No Mobil:
-                {{ $cetakpdf->no_kabin }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 12px;">
-                Nama Sopir:{{ $cetakpdf->nama_driver }}</td>
         </tr>
     </table>
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}

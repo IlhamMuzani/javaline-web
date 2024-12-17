@@ -195,7 +195,7 @@
 <body style="margin: 0; padding: 0;">
     <table cellpadding="2" cellspacing="0">
         <tr>
-            <td class="info-catatan2" style="font-size: 17px;">PT. BINA ANUGERAH TRANSINDO</td>
+            <td class="info-catatan2" style="font-size: 17px;">PT. JAVA LINE LOGISTICS</td>
             <td class="text-align: left" style="font-size: 17px; margin-left: 40px; display: block;">Nama Pelanggan</td>
             <td style="text-align: left; font-size: 17px;">
                 <span class="content2">
@@ -252,10 +252,6 @@
                 Faktur:{{ $cetakpdf->kode_penjualan }}</td>
             <td class="td" style="text-align: center; padding: 0px; font-size: 17px;">
                 Tanggal:{{ $cetakpdf->tanggal }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 17px;">No Mobil:
-                {{ $cetakpdf->no_kabin }}</td>
-            <td class="td" style="text-align: center; padding: 0px; font-size: 17px;">
-                Nama Sopir:{{ $cetakpdf->nama_driver }}</td>
         </tr>
     </table>
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
