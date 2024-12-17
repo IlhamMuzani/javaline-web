@@ -198,7 +198,7 @@
                                 </div>
                                 <div style="margin-left:10px; font-size:12px">- {{ $cetakpdf->keterangan }}</div>
                             </div>
-                            <div style=" margin-bottom:10px; margin-top:30px">
+                            <div style=" margin-bottom:10px; margin-top:0px">
                                 <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                                     <tr>
                                         <td style="text-align: center;">
