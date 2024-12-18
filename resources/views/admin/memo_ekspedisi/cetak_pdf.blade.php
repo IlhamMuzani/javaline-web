@@ -332,7 +332,7 @@
                     Ket Memo
                 </td>
                 <td class="td" style="text-align: center; padding-right: 10px; font-size: 13px; width: 25%;">
-                    Grand Total
+                    Sisa Transfer
                 </td>
                 <td class="td"
                     style="text-align: right; padding-right: 13px; font-size: 13px; width: 20%; max-width: 100px; overflow: hidden; text-overflow: ellipsis;">

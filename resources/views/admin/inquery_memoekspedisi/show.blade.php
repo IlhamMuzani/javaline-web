@@ -372,13 +372,13 @@
                                 {{ number_format($cetakpdf->uang_jalan + $cetakpdf->biaya_tambahan - $cetakpdf->potongan_memo, 2, ',', '.') }}
                             </td>
                         </tr>
-                        {{-- <tr>
+                        <tr>
                             <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
                                 Adm
                             </td>
                             <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                                 {{ number_format($cetakpdf->uang_jaminan, 2, ',', '.') }}</td>
-                        </tr> --}}
+                        </tr>
                         <tr>
                             <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
                                 Deposit Sopir
@@ -432,7 +432,7 @@
                 <table style="width: 100%;" cellpadding="2" cellspacing="0">
                     <tr>
                         <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;width: 25%;">
-                            Grand Total</td>
+                            Sisa Trasnfer</td>
                         <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                             {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}
                         </td>

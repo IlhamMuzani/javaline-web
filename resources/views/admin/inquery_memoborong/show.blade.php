@@ -382,12 +382,37 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px; color:white">
-                                Sub Total
+                            <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">
+                                Total Borong
                             </td>
                             <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                                 {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 + $cetakpdf->biaya_tambahan, 2, ',', '.') }}
 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Nota Bon
+                                Supir</td>
+                            <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                                {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="padding: 0px;"></td>
+                            <td style="padding: 0px;">
+                                <hr
+                                    style="border-top: 1px solid black; margin: 3px 0; display: inline-block; width: calc(100% - 25px); vertical-align: middle;">
+                                <span>
+                                    -
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: right; padding-left: 78px; font-size: 15px;">
+                                Grand Total
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                                {{ number_format($cetakpdf->hasil_jumlah, 2, ',', '.') }}
                             </td>
                         </tr>
                         <tr>
@@ -405,13 +430,7 @@
                                 {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }}
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="5" style="text-align: right; padding: 0px; font-size: 15px;">Nota Bon
-                                Supir</td>
-                            <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
-                                {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }}
-                            </td>
-                        </tr>
+
                     </table>
                 </td>
             </tr>
@@ -434,7 +453,7 @@
                     {{ number_format($cetakpdf->saldo_deposit, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: center; padding-right: 250px; font-size: 15px; width: 35%;">
-                    Grand Total
+                    Sisa Transfer
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                     {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}

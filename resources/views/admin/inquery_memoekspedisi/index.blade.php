@@ -172,9 +172,10 @@
                                     <th>Rute</th>
                                     <th>U. Jalan</th>
                                     <th>U. Tambah</th>
-                                    <th>Deposit</th>
                                     {{-- <th>Adm</th> --}}
                                     <th>Total</th>
+                                    <th>Grand Total</th>
+                                    <th>Sisa Transfer</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -212,12 +213,18 @@
                                                 {{ number_format($memoekspedisi->biaya_tambahan, 0, ',', '.') }}
                                             @endif
                                         </td>
-                                        <td class="text-right">
+                                        {{-- <td class="text-right">
                                             @if ($memoekspedisi->deposit_driver == null)
                                                 0
                                             @else
                                                 {{ number_format($memoekspedisi->deposit_driver, 0, ',', '.') }}
                                             @endif
+                                        </td> --}}
+                                        <td class="text-right">
+                                            {{ number_format($memoekspedisi->uang_jalan + $memoekspedisi->biaya_tambahan - $memoekspedisi->potongan_memo, 0, ',', '.') }}
+                                        </td>
+                                        <td class="text-right">
+                                            {{ number_format($memoekspedisi->hasil_jumlah, 0, ',', '.') }}
                                         </td>
                                         <td class="text-right">
                                             {{ number_format($memoekspedisi->sub_total, 0, ',', '.') }}

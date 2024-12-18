@@ -423,7 +423,7 @@
                     {{ number_format($cetakpdf->saldo_deposit, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: center; padding-right: 250px; font-size: 15px; width: 35%;">
-                    Grand Total
+                    Sisa Transfer
                 </td>
                 <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                     {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}
