@@ -16,6 +16,7 @@ use App\Models\Ban;
 use App\Models\Biaya_tambahan;
 use App\Models\Detail_memo;
 use App\Models\Detail_memotambahan;
+use App\Models\Detail_notabon;
 use App\Models\Detail_pengeluaran;
 use App\Models\Detail_potongan;
 use App\Models\Detail_tambahan;
@@ -1116,7 +1117,8 @@ class MemoekspedisiController extends Controller
         }
 
         // Generate PDF for Memo_ekspedisi
-        $pdf = PDF::loadView('admin.memo_ekspedisi.cetak_pdf', compact('cetakpdf'));
+        $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+        $pdf = PDF::loadView('admin.memo_ekspedisi.cetak_pdf', compact('cetakpdf', 'detail_nota'));
         $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
         return $pdf->stream('Memo_ekspedisi.pdf');
     }

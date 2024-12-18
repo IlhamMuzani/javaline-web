@@ -448,7 +448,8 @@ class InqueryMemoekspedisiController extends Controller
     public function show($id)
     {
         $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
-        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf'));
+        $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_nota'));
     }
 
     public function unpostmemo($id)

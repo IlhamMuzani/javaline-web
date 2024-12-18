@@ -223,15 +223,30 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px; color:white">.</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px; color:white">.</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px; color:white">.</span>
-                            </td>
+                            <table style="margin-top: 15px">
+                                <tr>
+                                    <td style="text-align: left;font-size: 13px;">No
+                                    </td>
+                                    <td style="text-align: left;font-size: 13px;">Kode Nota Bon
+                                    </td>
+                                    <td style="text-align:
+                                right;font-size: 13px;">
+                                        Nominal</td>
+                                </tr>
+                                <tbody>
+                                    @foreach ($detail_nota as $item)
+                                        <td style="text-align: left;font-size: 13px;">
+                                            {{ $loop->iteration }}
+                                        </td>
+                                        <td style="text-align: left;font-size: 13px;">
+                                            {{ $item->kode_nota }}</td>
+                                        <td style="text-align:
+                                right;font-size: 13px;">
+                                            {{ number_format($item->nominal_nota, 2, ',', '.') }}
+                                        </td>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </tr>
                     </table>
                 </td>
@@ -579,84 +594,129 @@
 
         <table style="width: 100%; padding-top:0px" cellpadding="1" cellspacing="0">
             <tr>
-                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">PPH 2 %</td>
-                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                    {{ number_format($cetakpdf->pphs, 2, ',', '.') }} -
+                <td>
+                    <table>
+                        <tr>
+                            <td style="text-align: left; padding-left: 17px;font-size: 13px;">No
+                            </td>
+                            <td style="text-align: left; padding-left: 17px;font-size: 13px;">Kode Nota Bon</td>
+                            <td
+                                style="text-align:
+                                right; padding-right: 17px;font-size: 13px;">
+                                Nominal</td>
+                        </tr>
+                        <tbody>
+                            @foreach ($detail_nota as $item)
+                                <td style="text-align: left; padding-left: 17px;font-size: 13px;">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td style="text-align: left; padding-left: 17px;font-size: 13px;">
+                                    {{ $item->kode_nota }}</td>
+                                <td
+                                    style="text-align:
+                                right; padding-right: 17px;font-size: 13px;">
+                                    {{ number_format($item->nominal_nota, 2, ',', '.') }}
+                                </td>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="padding: 0px;"></td>
-                <td style="padding: 0px;">
-                    <hr style="border-top: 0.1px solid black; margin: 1px 0;">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;"></td>
-                <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
-                    {{ number_format($cetakpdf->totalrute - $cetakpdf->pphs, 2, ',', '.') }}
+                <td>
+                    <table>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">PPH 2 %</td>
+                            <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                {{ number_format($cetakpdf->pphs, 2, ',', '.') }} -
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="padding: 0px;"></td>
+                            <td style="padding: 0px;">
+                                <hr style="border-top: 0.1px solid black; margin: 1px 0;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;"></td>
+                            <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
+                                {{ number_format($cetakpdf->totalrute - $cetakpdf->pphs, 2, ',', '.') }}
 
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Borong 50 %</td>
-                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 2, ',', '.') }} -
-                </td>
-            </tr>
-            @if ($cetakpdf->potongan_memo == 0)
-                <tr>
-                    <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Biaya Tambahan</td>
-                    <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
-                        {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }} +
-                    </td>
-                </tr>
-            @else
-                <tr>
-                    <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Potongan Memo</td>
-                    <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
-                        {{ number_format($cetakpdf->potongan_memo, 2, ',', '.') }} +
-                    </td>
-                </tr>
-            @endif
-            <tr>
-                <td colspan="4" style="padding: 0px;"></td>
-                <td style="padding: 0px;">
-                    <hr style="border-top: 0.1px solid black; margin: 1px 0;">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;"></td>
-                <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
-                    {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 + $cetakpdf->biaya_tambahan, 2, ',', '.') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Borong 50 %
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2, 2, ',', '.') }} -
+                            </td>
+                        </tr>
+                        @if ($cetakpdf->potongan_memo == 0)
+                            <tr>
+                                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Biaya
+                                    Tambahan
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
+                                    {{ number_format($cetakpdf->biaya_tambahan, 2, ',', '.') }} +
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Potongan
+                                    Memo
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 6px; font-size: 13px;">
+                                    {{ number_format($cetakpdf->potongan_memo, 2, ',', '.') }} +
+                                </td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td colspan="4" style="padding: 0px;"></td>
+                            <td style="padding: 0px;">
+                                <hr style="border-top: 0.1px solid black; margin: 1px 0;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;"></td>
+                            <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
+                                {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 + $cetakpdf->biaya_tambahan, 2, ',', '.') }}
 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Administrasi
+                                (1%)
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
+                                {{ number_format($cetakpdf->uang_jaminans, 2, ',', '.') }}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">
+                                Deposit
+                                Supir
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }} -
+
+                            </td>
+                        </tr>
+                        @if ($cetakpdf->nota_bons == 0)
+                        @else
+                            <tr>
+                                <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">
+                                    Nota
+                                    Bon
+                                    Supir
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                    {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }} -
+
+                                </td>
+                            </tr>
+                        @endif
+                    </table>
                 </td>
             </tr>
-            <tr>
-                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Administrasi (1%)</td>
-                <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
-                    {{ number_format($cetakpdf->uang_jaminans, 2, ',', '.') }}
-
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">Deposit Supir</td>
-                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                    {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }} -
-
-                </td>
-            </tr>
-            @if ($cetakpdf->nota_bons == 0)
-            @else
-                <tr>
-                    <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">Nota Bon Supir
-                    </td>
-                    <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                        {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }} -
-
-                    </td>
-                </tr>
-            @endif
-            <!-- Add horizontal line below the subtotal row -->
         </table>
         <hr style="border-top: 0.1px solid black; margin: 0.1px 0;">
         <table style="width: 100%;" cellpadding="2" cellspacing="0">
