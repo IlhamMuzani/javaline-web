@@ -675,9 +675,49 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;"></td>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Total Borong
+                            </td>
                             <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
                                 {{ number_format(($cetakpdf->totalrute - $cetakpdf->pphs) / 2 + $cetakpdf->biaya_tambahan, 2, ',', '.') }}
+
+                            </td>
+                        </tr>
+                        @if ($cetakpdf->nota_bons == 0)
+                            <tr>
+                                <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">
+                                    Nota
+                                    Bon
+                                    Supir
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                    0.00 -
+
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">
+                                    Nota
+                                    Bon
+                                    Supir
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                    {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }} -
+
+                                </td>
+                            </tr>
+                        @endif
+                        <tr>
+                            <td colspan="4" style="padding: 0px;"></td>
+                            <td style="padding: 0px;">
+                                <hr style="border-top: 0.1px solid black; margin: 1px 0;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Grand Total
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
+                                {{ number_format($cetakpdf->hasil_jumlah, 2, ',', '.') }}
 
                             </td>
                         </tr>
@@ -700,20 +740,6 @@
 
                             </td>
                         </tr>
-                        @if ($cetakpdf->nota_bons == 0)
-                        @else
-                            <tr>
-                                <td colspan="4" style="text-align: right; padding-left: 115px; font-size: 13px;">
-                                    Nota
-                                    Bon
-                                    Supir
-                                </td>
-                                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                                    {{ number_format($cetakpdf->nota_bons, 2, ',', '.') }} -
-
-                                </td>
-                            </tr>
-                        @endif
                     </table>
                 </td>
             </tr>
@@ -727,7 +753,7 @@
                     {{ number_format($cetakpdf->saldo_deposit, 2, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: left; padding-right: 0px; font-size: 13px; width: 0%;">
-                    Grand Total
+                    Sisa Transfer
                 </td>
                 <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
                     {{ number_format($cetakpdf->sub_total, 2, ',', '.') }}

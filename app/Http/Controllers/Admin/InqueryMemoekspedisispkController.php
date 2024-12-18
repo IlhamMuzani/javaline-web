@@ -590,8 +590,9 @@ class InqueryMemoekspedisispkController extends Controller
                 'nominal' => str_replace(',', '.', str_replace('.', '', $request->uang_jaminan)),
             ]
         );
+        $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
 
-        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf'));
+        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_nota'));
     }
 
 
@@ -616,7 +617,8 @@ class InqueryMemoekspedisispkController extends Controller
     public function show($id)
     {
         $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
-        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf'));
+        $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+        return view('admin.inquery_memoekspedisi.show', compact('cetakpdf', 'detail_nota'));
     }
 
     public function postingmemo($id)

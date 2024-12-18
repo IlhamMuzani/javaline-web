@@ -339,8 +339,9 @@ class InqueryMemoborongController extends Controller
     public function show($id)
     {
         $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
+        $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
 
-        return view('admin.inquery_memoborong.show', compact('cetakpdf'));
+        return view('admin.inquery_memoborong.show', compact('cetakpdf', 'detail_nota'));
     }
 
     public function postingmemoborong($id)

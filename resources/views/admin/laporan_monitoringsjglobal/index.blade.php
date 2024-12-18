@@ -88,6 +88,7 @@
                                     <th>KODE PENGURUS</th>
                                     <th>NAMA PENGURUS</th>
                                     <th>JUMLAH SURAT JALAN DITERIMA</th>
+                                    <th>JUMLAH K1</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,6 +101,7 @@
                                         <td>{{ $pengurus->kode_karyawan ?? '-' }}</td>
                                         <td>{{ $pengurus->nama_lengkap ?? '-' }}</td>
                                         <td>{{ $pengurus->jumlah_surat_jalan_diterima ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k1  ?? 0 }}</td>
                                     </tr>
                                     @php
                                         $totalSuratJalan += $pengurus->jumlah_surat_jalan_diterima ?? 0;

@@ -228,14 +228,29 @@
                     </tr>
                     <tr>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px; color:white">.</span>
+                            <span class="info-item" style="font-size: 15px;">No</span>
                         </td>
                         <td class="info-column">
-                            <span class="info-titik" style="font-size: 15px; color:white">.</span>
+                            <span class="info-titik" style="font-size: 15px;">Kode Nota Bon</span>
                         </td>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px; color:white">.</span>
+                            <span class="info-item" style="font-size: 15px;">Nominal</span>
                         </td>
+                        <tbody>
+                            @foreach ($detail_nota as $item)
+                                <td class="info-column">
+                                    <span class="info-item" style="font-size: 15px;"> {{ $loop->iteration }}
+                                    </span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-titik" style="font-size: 15px;">{{ $item->kode_nota }}</span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-item"
+                                        style="font-size: 15px;">{{ number_format($item->nominal_nota, 2, ',', '.') }}</span>
+                                </td>
+                            @endforeach
+                        </tbody>
                     </tr>
                 </table>
             </td>
@@ -370,6 +385,13 @@
                             </td>
                             <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
                                 {{ number_format($cetakpdf->deposit_driver, 2, ',', '.') }}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: left; padding: 0px; font-size: 15px;">
+                                Nota Bon Sopir
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 20px; font-size: 15px;">
+                                {{ number_format($cetakpdf->nota_bon, 2, ',', '.') }}</td>
                         </tr>
                     </table>
                 </td>

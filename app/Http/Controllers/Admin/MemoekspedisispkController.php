@@ -536,7 +536,9 @@ class MemoekspedisispkController extends Controller
 
                 $spk = Spk::where('id', $request->spk_id)->increment('voucher');
 
-                return view('admin.memo_ekspedisispk.show', compact('cetakpdf'));
+                $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
+
+                return view('admin.memo_ekspedisispk.show', compact('cetakpdf', 'detail_nota'));
                 break;
 
             case 'Memo Borong':
@@ -991,8 +993,9 @@ class MemoekspedisispkController extends Controller
                 ]);
 
                 $spk = Spk::where('id', $request->spk_id)->increment('voucher');
+                $detail_nota = Detail_notabon::where('memo_ekspedisi_id', $cetakpdf->id)->get();
 
-                return view('admin.memo_ekspedisispk.show', compact('cetakpdf'));
+                return view('admin.memo_ekspedisispk.show', compact('cetakpdf', 'detail_nota'));
 
                 break;
 

@@ -184,12 +184,24 @@ class LaporanmonitoringsjController extends Controller
                     ->whereDate('tanggal_awal', '>=', $tanggal_awal)
                     ->whereDate('tanggal_awal', '<=', $tanggal_akhir)
                     ->count();
+
+                // Hitung jumlah surat jalan diterima yang terkait dengan kendaraan no_kabin diawali K1
+                $pengurus->jumlah_surat_jalan_k1 = Pengambilan_do::where('penerima_sj', $pengurus->nama_lengkap)
+                    ->whereDate('tanggal_awal', '>=', $tanggal_awal)
+                    ->whereDate('tanggal_awal', '<=', $tanggal_akhir)
+                    ->whereHas('kendaraan', function ($query) {
+                        $query->where('no_kabin', 'like', 'K1%');
+                    })
+                    ->count();
             } else {
                 // Default ke 0 jika tidak ada filter tanggal
                 $pengurus->jumlah_surat_jalan_diterima = 0;
+                $pengurus->jumlah_surat_jalan_k1 = 0;
             }
+
             return $pengurus;
         });
+
 
         return view('admin.laporan_monitoringsjglobal.index', compact('inquery', 'pengurus'));
     }

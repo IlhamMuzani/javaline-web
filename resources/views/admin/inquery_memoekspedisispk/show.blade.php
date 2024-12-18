@@ -228,14 +228,29 @@
                     </tr>
                     <tr>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px; color:white">.</span>
+                            <span class="info-item" style="font-size: 15px;">No</span>
                         </td>
                         <td class="info-column">
-                            <span class="info-titik" style="font-size: 15px; color:white">.</span>
+                            <span class="info-titik" style="font-size: 15px;">Kode Nota Bon</span>
                         </td>
                         <td class="info-column">
-                            <span class="info-item" style="font-size: 15px; color:white">.</span>
+                            <span class="info-item" style="font-size: 15px;">Nominal</span>
                         </td>
+                        <tbody>
+                            @foreach ($detail_nota as $item)
+                                <td class="info-column">
+                                    <span class="info-item" style="font-size: 15px;"> {{ $loop->iteration }}
+                                    </span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-titik" style="font-size: 15px;">{{ $item->kode_nota }}</span>
+                                </td>
+                                <td class="info-column">
+                                    <span class="info-item"
+                                        style="font-size: 15px;">{{ number_format($item->nominal_nota, 2, ',', '.') }}</span>
+                                </td>
+                            @endforeach
+                        </tbody>
                     </tr>
                 </table>
             </td>
