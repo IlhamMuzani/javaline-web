@@ -461,13 +461,14 @@ class InqueryMemoekspedisiController extends Controller
             $uangJalan = $item->uang_jalan;
             $BiayaTambahan = $item->biaya_tambahan;
             $PotonganMemo = $item->potongan_memo;
+            $Notabon = $item->nota_bon;
 
             $lastSaldo = Saldo::latest()->first();
             if (!$lastSaldo) {
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
 
-            $sisaSaldo = $lastSaldo->sisa_saldo + $uangJalan + $BiayaTambahan - $PotonganMemo;
+            $sisaSaldo = $lastSaldo->sisa_saldo + $uangJalan + $BiayaTambahan - $PotonganMemo - $Notabon;
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
@@ -552,6 +553,7 @@ class InqueryMemoekspedisiController extends Controller
             $uangJalan = $item->uang_jalan;
             $BiayaTambahan = $item->biaya_tambahan;
             $PotonganMemo = $item->potongan_memo;
+            $Notabon = $item->nota_bon;
 
             $lastSaldo = Saldo::latest()->first();
             if (!$lastSaldo) {
@@ -572,7 +574,7 @@ class InqueryMemoekspedisiController extends Controller
             $sisaUjs = $lastUjs->sisa_ujs + $UangUJS;
             $lastUjs->update(['sisa_ujs' => $sisaUjs]);
 
-            $sisaSaldo = $lastSaldo->sisa_saldo - $uangJalan - $BiayaTambahan + $PotonganMemo;
+            $sisaSaldo = $lastSaldo->sisa_saldo - $uangJalan - $BiayaTambahan + $PotonganMemo + $Notabon;
             $lastSaldo->update(['sisa_saldo' => $sisaSaldo]);
             $karyawan = $user->karyawan;
             $tabungans = $karyawan->tabungan;
@@ -664,7 +666,7 @@ class InqueryMemoekspedisiController extends Controller
                 $item = Memo_ekspedisi::findOrFail($id);
 
                 if ($item->status === 'unpost' && $item->kategori === 'Memo Perjalanan') {
-                    $totalDeduction += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo;
+                    $totalDeduction += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo - $item->nota_bon;
                     $UangUJS = $item->uang_jaminan;
                     $UangUJS = round($UangUJS);
                     $totalDeductionujs += $UangUJS;
@@ -781,7 +783,7 @@ class InqueryMemoekspedisiController extends Controller
                         'status' => 'posting'
                     ]);
                     $lastSaldo->update([
-                        'sisa_saldo' => $lastSaldo->sisa_saldo - ($item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo)
+                        'sisa_saldo' => $lastSaldo->sisa_saldo - ($item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo - $item->nota_bon)
                     ]);
 
                     $lastUjs->update([
@@ -809,7 +811,7 @@ class InqueryMemoekspedisiController extends Controller
             foreach ($selectedIds as $id) {
                 $item = Memo_ekspedisi::findOrFail($id);
                 if ($item->status === 'posting') {
-                    $totalRestoration += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo;
+                    $totalRestoration += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo - $item->nota_bon;
                     $UangUJS = $item->uang_jaminan;
                     $UangUJS = round($UangUJS);
                     $totalRestorationUJS += $UangUJS;
