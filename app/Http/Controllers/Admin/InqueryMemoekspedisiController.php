@@ -469,6 +469,7 @@ class InqueryMemoekspedisiController extends Controller
             }
 
             $sisaSaldo = $lastSaldo->sisa_saldo + $uangJalan + $BiayaTambahan - $PotonganMemo - $Notabon;
+            
             Saldo::create([
                 'sisa_saldo' => $sisaSaldo,
             ]);
@@ -572,9 +573,15 @@ class InqueryMemoekspedisiController extends Controller
             }
 
             $sisaUjs = $lastUjs->sisa_ujs + $UangUJS;
+            
+            // return response()->json(['error' => $sisaUjs]);
+
             $lastUjs->update(['sisa_ujs' => $sisaUjs]);
 
             $sisaSaldo = $lastSaldo->sisa_saldo - $uangJalan - $BiayaTambahan + $PotonganMemo + $Notabon;
+
+            // return response()->json(['error' => $sisaSaldo]);
+
             $lastSaldo->update(['sisa_saldo' => $sisaSaldo]);
             $karyawan = $user->karyawan;
             $tabungans = $karyawan->tabungan;
@@ -583,6 +590,7 @@ class InqueryMemoekspedisiController extends Controller
                 'deposit' => $deposits + $item->deposit_driver,
                 'tabungan' => $tabungans + $item->deposit_driver,
             ]);
+            
 
             Pengeluaran_kaskecil::where('memo_ekspedisi_id', $id)->update(['status' => 'posting']);
             Detail_pengeluaran::where('memo_ekspedisi_id', $id)->update(['status' => 'posting']);

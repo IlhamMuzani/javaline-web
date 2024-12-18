@@ -87,30 +87,63 @@
                                     <th>NO</th>
                                     <th>KODE PENGURUS</th>
                                     <th>NAMA PENGURUS</th>
-                                    <th>JUMLAH SURAT JALAN DITERIMA</th>
-                                    <th>JUMLAH K1</th>
+                                    <th>M1</th>
+                                    <th>M2</th>
+                                    <th>M3</th>
+                                    <th>M4</th>
+                                    <th>M5</th>
+                                    <th>M6</th>
+                                    <th>M7</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $totalSuratJalan = 0;
+                                    $totalSuratJalan1 = 0;
+                                    $totalSuratJalan2 = 0;
+                                    $totalSuratJalan3 = 0;
+                                    $totalSuratJalan4 = 0;
+                                    $totalSuratJalan5 = 0;
+                                    $totalSuratJalan6 = 0;
+                                    $totalSuratJalan7 = 0;
                                 @endphp
                                 @foreach ($pengurus as $pengurus)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td>{{ $pengurus->kode_karyawan ?? '-' }}</td>
                                         <td>{{ $pengurus->nama_lengkap ?? '-' }}</td>
-                                        <td>{{ $pengurus->jumlah_surat_jalan_diterima ?? 0 }}</td>
                                         <td>{{ $pengurus->jumlah_surat_jalan_k1  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k2  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k3  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k4  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k5  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k6  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_k7  ?? 0 }}</td>
+                                        <td>{{ $pengurus->jumlah_surat_jalan_diterima ?? 0 }}</td>
                                     </tr>
                                     @php
                                         $totalSuratJalan += $pengurus->jumlah_surat_jalan_diterima ?? 0;
+                                        $totalSuratJalan1 += $pengurus->jumlah_surat_jalan_k1 ?? 0;
+                                        $totalSuratJalan2 += $pengurus->jumlah_surat_jalan_k2 ?? 0;
+                                        $totalSuratJalan3 += $pengurus->jumlah_surat_jalan_k3 ?? 0;
+                                        $totalSuratJalan4 += $pengurus->jumlah_surat_jalan_k4 ?? 0;
+                                        $totalSuratJalan5 += $pengurus->jumlah_surat_jalan_k5 ?? 0;
+                                        $totalSuratJalan6 += $pengurus->jumlah_surat_jalan_k6 ?? 0;
+                                        $totalSuratJalan7 += $pengurus->jumlah_surat_jalan_k7 ?? 0;
                                     @endphp
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr class="font-weight-bold">
                                     <td colspan="3" class="text-center">TOTAL</td>
+                                    <td>{{ $totalSuratJalan1 }}</td>
+                                    <td>{{ $totalSuratJalan2 }}</td>
+                                    <td>{{ $totalSuratJalan3 }}</td>
+                                    <td>{{ $totalSuratJalan4 }}</td>
+                                    <td>{{ $totalSuratJalan5 }}</td>
+                                    <td>{{ $totalSuratJalan6 }}</td>
+                                    <td>{{ $totalSuratJalan7 }}</td>
                                     <td>{{ $totalSuratJalan }}</td>
                                 </tr>
                             </tfoot>

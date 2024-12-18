@@ -23,7 +23,7 @@
         .td {
             text-align: center;
             padding: 5px;
-            font-size: 8px;
+            font-size: 9px;
             /* border: 1px solid black; */
         }
 
@@ -60,7 +60,7 @@
         }
 
         .separator {
-            padding-top: 8px;
+            padding-top: 9px;
             text-align: center;
         }
 
@@ -69,7 +69,7 @@
             border-top: 1px solid black;
             width: 100%;
             position: relative;
-            top: -8px;
+            top: -9px;
         }
 
         @page {
@@ -108,16 +108,37 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:1%">NO
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9px; width:1%">NO
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:7%">KODE
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9px; width:7%">KODE
                 PENGURUS
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:10%">
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
                 NAMA PENGURUS
             </td>
-            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 8px; width:10%">
-                TOTAL SURAT JALAN
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M1
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M2
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M3
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M4
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M5
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M6
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                M7
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px; width:10%">
+                TOTAL
             </td>
         </tr>
         <!-- Separator row -->
@@ -127,23 +148,70 @@
         <!-- Data rows -->
         @php
             $totalSuratJalan = 0;
+            $totalSuratJalan1 = 0;
+            $totalSuratJalan2 = 0;
+            $totalSuratJalan3 = 0;
+            $totalSuratJalan4 = 0;
+            $totalSuratJalan5 = 0;
+            $totalSuratJalan6 = 0;
+            $totalSuratJalan7 = 0;
         @endphp
         @foreach ($pengurus as $pengurus)
             <tr>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">{{ $loop->iteration }}</td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">
+                <td class="td"
+                    style="text-align: left; padding: 5px; font-size: 9px; width:2%; border-top: 1px solid black">
+                    {{ $loop->iteration }}</td>
+                <td class="td"
+                    style="text-align: left; padding: 5px; font-size: 9px;width:17%; border-top: 1px solid black">
                     {{ $pengurus->kode_karyawan }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">
+                <td class="td"
+                    style="text-align: left; padding: 5px; font-size: 9px;width:20%; border-top: 1px solid black">
                     {{ $pengurus->nama_lengkap }}
                 </td>
-                <td class="td" style="text-align: left; padding: 5px; font-size: 8px;">
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px;width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k1 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k2 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k3 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k4 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k5 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k6 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
+                    {{ $pengurus->jumlah_surat_jalan_k7 ?? 0 }}
+                </td>
+                <td class="td"
+                    style="text-align: right; padding: 5px; font-size: 9px; width:5%; border-top: 1px solid black">
                     {{ $pengurus->jumlah_surat_jalan_diterima ?? 0 }}
                 </td>
             </tr>
 
             @php
                 $totalSuratJalan += $pengurus->jumlah_surat_jalan_diterima ?? 0;
+                $totalSuratJalan1 += $pengurus->jumlah_surat_jalan_k1 ?? 0;
+                $totalSuratJalan2 += $pengurus->jumlah_surat_jalan_k2 ?? 0;
+                $totalSuratJalan3 += $pengurus->jumlah_surat_jalan_k3 ?? 0;
+                $totalSuratJalan4 += $pengurus->jumlah_surat_jalan_k4 ?? 0;
+                $totalSuratJalan5 += $pengurus->jumlah_surat_jalan_k5 ?? 0;
+                $totalSuratJalan6 += $pengurus->jumlah_surat_jalan_k6 ?? 0;
+                $totalSuratJalan7 += $pengurus->jumlah_surat_jalan_k7 ?? 0;
             @endphp
         @endforeach
         <!-- Separator row -->
@@ -154,9 +222,23 @@
             <td>
             </td>
             <td></td>
-            <td colspan="1" style="text-align: right; font-weight: bold; padding: 5px; font-size: 8px;">Total
+            <td colspan="1" style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">Total
             </td>
-            <td style="text-align: left; font-weight: bold; padding: 5px; font-size: 8px;">{{ $totalSuratJalan }}
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan1 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan2 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan3 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan4 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan5 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan6 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan7 }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">{{ $totalSuratJalan }}
             </td>
         </tr>
     </table>
