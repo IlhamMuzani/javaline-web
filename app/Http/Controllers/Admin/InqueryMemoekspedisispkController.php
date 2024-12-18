@@ -399,6 +399,8 @@ class InqueryMemoekspedisispkController extends Controller
         $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
         $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos - $notabon;
 
+        return $hasil_jumlah;
+        // return $hasil_jumlah . '-' . $notabon ($hasil_jumlah - $notabon);
         $spk_id = $request->spk_id;
         $spk = Spk::where('id', $spk_id)->first();
         $pengambilan_do = Pengambilan_do::where('spk_id', $spk->id)->first(); // Mengambil satu pengambilan_do

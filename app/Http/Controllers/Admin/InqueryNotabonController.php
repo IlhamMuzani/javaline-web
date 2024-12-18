@@ -221,6 +221,88 @@ class InqueryNotabonController extends Controller
     }
 
 
+    // public function postingfilternota(Request $request)
+    // {
+    //     $selectedIds = array_reverse(explode(',', $request->input('ids')));
+
+    //     try {
+    //         // Initialize total deduction amount
+    //         $totalDeduction = 0;
+
+    //         foreach ($selectedIds as $id) {
+
+    //             $driverName = Notabon_ujs::findOrFail($id)->nama_driver;
+    //             $postedCount = Notabon_ujs::where('nama_driver', $driverName)
+    //                 ->where('status', 'posting')
+    //                 ->count();
+
+    //             if ($postedCount >= 2) {
+    //                 continue;
+    //             }
+
+
+    //             $item = Notabon_ujs::findOrFail($id);
+
+    //             // Pastikan hanya memproses pengeluaran dengan status 'unpost'
+    //             if ($item->status === 'unpost') {
+    //                 // Accumulate total deduction amount
+    //                 $totalDeduction += $item->nominal;
+    //             }
+    //         }
+
+    //         // Get the last saldo
+    //         $lastSaldo = Saldo::latest()->first();
+
+    //         if (!$lastSaldo) {
+    //             return back()->with('error', 'Saldo tidak ditemukan');
+    //         }
+
+    //         // Check if saldo is sufficient
+    //         if ($lastSaldo->sisa_saldo < $totalDeduction) {
+    //             return back()->with('error', 'Saldo tidak mencukupi');
+    //         }
+
+    //         // Deduct the total amount from saldo
+    //         $sisaSaldo = $lastSaldo->sisa_saldo - $totalDeduction;
+
+    //         // Update saldo
+    //         Saldo::create([
+    //             'sisa_saldo' => $sisaSaldo,
+    //         ]);
+
+    //         foreach ($selectedIds as $id) {
+    //             $item = Notabon_ujs::findOrFail($id);
+
+    //             $postedCount = Notabon_ujs::where('nama_driver', $item->nama_driver)
+    //                 ->where('status', 'posting')
+    //                 ->count();
+    //             if ($postedCount >= 2 && $item->status !== 'posting') {
+    //                 continue;
+    //             }
+
+    //             if ($item->status === 'unpost') {
+
+    //                 Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+    //                     'status' => 'posting'
+    //                 ]);
+
+    //                 Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+    //                     'status' => 'posting'
+    //                 ]);
+
+    //                 // Update the main record
+    //                 $item->update([
+    //                     'status' => 'posting'
+    //                 ]);
+    //             }
+    //         }
+
+    //         return back()->with('success', 'Berhasil memposting pengeluaran yang dipilih');
+    //     } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+    //         return back()->with('error', 'Terdapat pengeluaran yang tidak ditemukan');
+    //     }
+    // }
+
     public function postingfilternota(Request $request)
     {
         $selectedIds = array_reverse(explode(',', $request->input('ids')));
@@ -230,20 +312,20 @@ class InqueryNotabonController extends Controller
             $totalDeduction = 0;
 
             foreach ($selectedIds as $id) {
-
+                // Check if the driver has already three or more posted memos
                 $driverName = Notabon_ujs::findOrFail($id)->nama_driver;
                 $postedCount = Notabon_ujs::where('nama_driver', $driverName)
                     ->where('status', 'posting')
                     ->count();
 
+                // If the driver has three or more posted memos, skip this memo
                 if ($postedCount >= 2) {
                     continue;
                 }
 
-
                 $item = Notabon_ujs::findOrFail($id);
 
-                // Pastikan hanya memproses pengeluaran dengan status 'unpost'
+                // Pastikan hanya memproses memo ekspedisi dengan status 'unpost'
                 if ($item->status === 'unpost') {
                     // Accumulate total deduction amount
                     $totalDeduction += $item->nominal;
@@ -262,20 +344,26 @@ class InqueryNotabonController extends Controller
                 return back()->with('error', 'Saldo tidak mencukupi');
             }
 
-            // Deduct the total amount from saldo
-            $sisaSaldo = $lastSaldo->sisa_saldo - $totalDeduction;
+            // Check if total uang jalan request is greater than saldo
+            $totalUangJalanRequest = array_reduce($selectedIds, function ($carry, $id) {
+                $item = Notabon_ujs::findOrFail($id);
+                return $carry + $item->nominal;
+            }, 0);
 
-            // Update saldo
-            Saldo::create([
-                'sisa_saldo' => $sisaSaldo,
-            ]);
+            if ($lastSaldo->sisa_saldo < $totalUangJalanRequest) {
+                return back()->with('error', 'Total request uang melebihi saldo terakhir');
+            }
 
+            // Update transactions and memo statuses
             foreach ($selectedIds as $id) {
                 $item = Notabon_ujs::findOrFail($id);
 
+                // Hitung jumlah memo ekspedisi yang telah diposting dengan nama driver yang sama
                 $postedCount = Notabon_ujs::where('nama_driver', $item->nama_driver)
                     ->where('status', 'posting')
                     ->count();
+
+                // Jika jumlahnya sudah mencapai atau melebihi 3 dan memo ekspedisi ini belum diposting, lewati memo ekspedisi ini
                 if ($postedCount >= 2 && $item->status !== 'posting') {
                     continue;
                 }
@@ -290,18 +378,27 @@ class InqueryNotabonController extends Controller
                         'status' => 'posting'
                     ]);
 
-                    // Update the main record
+
+                    $tanggal1 = Carbon::now('Asia/Jakarta');
+
+                    // Update the Memo_ekspedisi status
                     $item->update([
                         'status' => 'posting'
+                    ]);
+
+                    // Update saldo deduction based on successfully posted memo
+                    $lastSaldo->update([
+                        'sisa_saldo' => $lastSaldo->sisa_saldo - ($item->nominal)
                     ]);
                 }
             }
 
-            return back()->with('success', 'Berhasil memposting pengeluaran yang dipilih');
+            return back()->with('success', 'Berhasil memposting nota yang dipilih');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return back()->with('error', 'Terdapat pengeluaran yang tidak ditemukan');
+            return back()->with('error', 'Terdapat nota yang tidak ditemukan');
         }
     }
+
 
     public function unpostfilternota(Request $request)
     {
@@ -310,21 +407,15 @@ class InqueryNotabonController extends Controller
         try {
             // Initialize total deduction amount
             $totalDeduction = 0;
+            $totalDeductionujs = 0;
 
             foreach ($selectedIds as $id) {
+                // Check if the driver has already three or more posted memos
+
                 $item = Notabon_ujs::findOrFail($id);
 
-                // Pastikan hanya memproses pengeluaran dengan status 'unpost'
+                // Pastikan hanya memproses memo ekspedisi dengan status 'unpost'
                 if ($item->status === 'posting') {
-
-                    Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
-                        'status' => 'pending'
-                    ]);
-
-                    Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
-                        'status' => 'pending'
-                    ]);
-
                     // Accumulate total deduction amount
                     $totalDeduction += $item->nominal;
                 }
@@ -337,33 +428,45 @@ class InqueryNotabonController extends Controller
                 return back()->with('error', 'Saldo tidak ditemukan');
             }
 
-            // Check if saldo is sufficient
-            if ($lastSaldo->sisa_saldo < $totalDeduction) {
-                return back()->with('error', 'Saldo tidak mencukupi');
-            }
+            // Check if total uang jalan request is greater than saldo
+            $totalUangJalanRequest = array_reduce($selectedIds, function ($carry, $id) {
+                $item = Notabon_ujs::findOrFail($id);
+                return $carry + $item->nominal;
+            }, 0);
 
-            // Deduct the total amount from saldo
-            $sisaSaldo = $lastSaldo->sisa_saldo + $totalDeduction;
 
-            // Update saldo
-            Saldo::create([
-                'sisa_saldo' => $sisaSaldo,
-            ]);
-
+            // Update transactions and memo statuses
             foreach ($selectedIds as $id) {
                 $item = Notabon_ujs::findOrFail($id);
 
                 if ($item->status === 'posting') {
-                    // Update the main record
+                    $user = $item->user;
+
+                    Pengeluaran_kaskecil::where('notabon_ujs_id', $id)->update([
+                        'status' => 'pending'
+                    ]);
+
+                    Detail_pengeluaran::where('notabon_ujs_id', $id)->update([
+                        'status' => 'pending'
+                    ]);
+
+                    // Update the Memo_ekspedisi status
                     $item->update([
                         'status' => 'unpost'
+                    ]);
+
+                    // Update saldo deduction based on successfully posted memo
+                    $lastSaldo->update([
+                        'sisa_saldo' => $lastSaldo->sisa_saldo + ($item->nominal)
                     ]);
                 }
             }
 
-            return back()->with('success', 'Berhasil mengunpost pengeluaran yang dipilih');
+            return;
+
+            return back()->with('success', 'Berhasil memposting memo yang dipilih');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return back()->with('error', 'Terdapat item tidak ditemukan');
+            return back()->with('error', 'Terdapat memo yang tidak ditemukan');
         }
     }
 

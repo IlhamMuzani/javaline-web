@@ -161,11 +161,11 @@
                                     <th style="text-align: center">Harga</th>
                                     <th style="text-align: center">qty</th>
                                     <th style="text-align: center">Total</th>
-                                    <th style="text-align: center">PPH</th>
+                                    <th style="text-align: center">Total Borong</th>
                                     {{-- <th style="text-align: center">Adm</th> --}}
                                     <th style="text-align: center">Deposit Sopir</th>
                                     <th style="text-align: center">Grand Total</th>
-                                    <th style="text-align: center" hidden>Hasil Jumlah</th>
+                                    <th style="text-align: center">Sisa Transfer</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -207,19 +207,16 @@
                                             @endif
                                         </td>
                                         <td style="text-align: end">
-                                            {{ number_format($memoborong->pphs, 0, ',', '.') }}
+                                            {{ number_format(($memoborong->totalrute - $memoborong->pphs) / 2 + $memoborong->biaya_tambahan, 2, ',', '.') }}
                                         </td>
-                                        {{-- <td style="text-align: end">
-                                        {{ number_format($memoborong->uang_jaminans, 0, ',', '.') }}
-                                    </td> --}}
                                         <td style="text-align: end">
                                             {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
                                         </td>
                                         <td style="text-align: end">
-                                            {{ number_format($memoborong->sub_total, 0, ',', '.') }}
-                                        </td>
-                                        <td hidden style="text-align: end">
                                             {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: end">
+                                            {{ number_format($memoborong->sub_total, 0, ',', '.') }}
                                         </td>
                                         <td class="text-center">
                                             @if ($memoborong->status == 'rilis')
