@@ -252,4 +252,159 @@ class PenerimaansuratjalanpusatController extends Controller
             ]);
         }
     }
+
+    public function postingfilterpenerimaanfrangki(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Pengambilan_do::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            $timer = Timer_suratjalan::where('pengambilan_do_id', $faktur->id)->latest()->first();
+            $spk = Spk::where('id', $faktur->spk_id)->first();
+
+            // Memperbarui timer terakhir jika ada
+            if ($timer) {
+                $timer->update([
+                    'timer_akhir' => now()->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            Timer_suratjalan::create([
+                'pengambilan_do_id' => $faktur->id,
+                'user_id' => '26',
+                'kategori' => 'posting',
+                'timer_awal' => now()->format('Y-m-d H:i:s'),
+            ]);
+
+            $faktur->update([
+                'status_penerimaansj' => 'posting',
+                'userpenerima_id' => '26',
+                'penerima_sj' => 'FRANKI NAULI SIREGAR',
+            ]);
+        }
+    }
+
+    public function postingfilterpenerimaankuswanto(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Pengambilan_do::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            $timer = Timer_suratjalan::where('pengambilan_do_id', $faktur->id)->latest()->first();
+            $spk = Spk::where('id', $faktur->spk_id)->first();
+
+            // Memperbarui timer terakhir jika ada
+            if ($timer) {
+                $timer->update([
+                    'timer_akhir' => now()->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            Timer_suratjalan::create([
+                'pengambilan_do_id' => $faktur->id,
+                'user_id' => '30',
+                'kategori' => 'posting',
+                'timer_awal' => now()->format('Y-m-d H:i:s'),
+            ]);
+
+            $faktur->update([
+                'status_penerimaansj' => 'posting',
+                'userpenerima_id' => '30',
+                'penerima_sj' => 'KUSWANTO',
+            ]);
+        }
+    }
+
+    public function postingfilterpenerimaantohirin(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Pengambilan_do::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            $timer = Timer_suratjalan::where('pengambilan_do_id', $faktur->id)->latest()->first();
+            $spk = Spk::where('id', $faktur->spk_id)->first();
+
+            // Memperbarui timer terakhir jika ada
+            if ($timer) {
+                $timer->update([
+                    'timer_akhir' => now()->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            Timer_suratjalan::create([
+                'pengambilan_do_id' => $faktur->id,
+                'user_id' => '18',
+                'kategori' => 'posting',
+                'timer_awal' => now()->format('Y-m-d H:i:s'),
+            ]);
+
+            $faktur->update([
+                'status_penerimaansj' => 'posting',
+                'userpenerima_id' => '18',
+                'penerima_sj' => 'TOHIRIN',
+            ]);
+        }
+    }
+
+    public function postingfilterpenerimaanishak(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Pengambilan_do::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            $timer = Timer_suratjalan::where('pengambilan_do_id', $faktur->id)->latest()->first();
+            $spk = Spk::where('id', $faktur->spk_id)->first();
+
+            // Memperbarui timer terakhir jika ada
+            if ($timer) {
+                $timer->update([
+                    'timer_akhir' => now()->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            Timer_suratjalan::create([
+                'pengambilan_do_id' => $faktur->id,
+                'user_id' => '17',
+                'kategori' => 'posting',
+                'timer_awal' => now()->format('Y-m-d H:i:s'),
+            ]);
+
+            $faktur->update([
+                'status_penerimaansj' => 'posting',
+                'userpenerima_id' => '17',
+                'penerima_sj' => 'ISHAK ARDIANSYAH',
+            ]);
+        }
+    }
+
+    public function postingfilterpenerimaanniam(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Pengambilan_do::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            $timer = Timer_suratjalan::where('pengambilan_do_id', $faktur->id)->latest()->first();
+            $spk = Spk::where('id', $faktur->spk_id)->first();
+
+            // Memperbarui timer terakhir jika ada
+            if ($timer) {
+                $timer->update([
+                    'timer_akhir' => now()->format('Y-m-d H:i:s'),
+                ]);
+            }
+
+            Timer_suratjalan::create([
+                'pengambilan_do_id' => $faktur->id,
+                'user_id' => '19',
+                'kategori' => 'posting',
+                'timer_awal' => now()->format('Y-m-d H:i:s'),
+            ]);
+
+            $faktur->update([
+                'status_penerimaansj' => 'posting',
+                'userpenerima_id' => '19',
+                'penerima_sj' => 'KHOIRUN NIAM',
+            ]);
+        }
+    }
 }

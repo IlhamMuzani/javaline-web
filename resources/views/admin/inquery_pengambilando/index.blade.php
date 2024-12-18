@@ -88,6 +88,34 @@
                                 <button type="button" class="btn btn-primary btn-block" onclick="cari()">
                                     <i class="fas fa-search"></i> Cari
                                 </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedData()">
+                                    <i class="fas fa-check-square"></i> Posting Filter
+                                </button>
+                                <button type="button" class="btn btn-warning btn-block mt-1" id="unpostfilter"
+                                    onclick="unpostSelectedData()">
+                                    <i class="fas fa-times-circle"></i> Unpost Filter
+                                </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedDatafrangki()">
+                                    <i class="fas fa-check-square"></i> Posting frangki
+                                </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedDatakuswanto()">
+                                    <i class="fas fa-check-square"></i> Posting kuswanto
+                                </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedDatatohirin()">
+                                    <i class="fas fa-check-square"></i> Posting tohirin
+                                </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedDataishak()">
+                                    <i class="fas fa-check-square"></i> Posting ishak
+                                </button>
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedDataniam()">
+                                    <i class="fas fa-check-square"></i> Posting niam
+                                </button>
                                 <input type="hidden" name="ids" id="selectedIds" value="">
                             </div>
                         </div>
@@ -97,7 +125,7 @@
                             style="font-size: 13px">
                             <thead class="thead-dark">
                                 <tr>
-                                    {{-- <th> <input type="checkbox" name="" id="select_all_ids"></th> --}}
+                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
                                     <th class="text-center">No</th>
                                     <th class="text-center">Id</th>
                                     <th>Kode SPK</th>
@@ -114,6 +142,8 @@
                                     <tr data-toggle="collapse" data-target="#barang-{{ $index }}"
                                         class="accordion-toggle{{ $loop->iteration % 2 == 0 ? ' bg-light' : '' }}"
                                         style="background: rgb(240, 242, 246)">
+                                        <td><input type="checkbox" name="selectedIds[]" class="checkbox_ids"
+                                                value="{{ $pengambilan_do->id }}"></td>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td class="text-center">{{ $pengambilan_do->id }}</td>
                                         <td>{{ $pengambilan_do->spk->kode_spk ?? 'tidak ada' }}</td>
@@ -128,15 +158,21 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            @if ($pengambilan_do->status == 'posting')
+                                            @if ($pengambilan_do->status_penerimaansj == 'posting')
                                                 <button type="button" class="btn btn-success btn-sm">
                                                     <i class="fas fa-check"></i>
                                                 </button>
                                             @endif
-                                            @if ($pengambilan_do->status == 'selesai')
-                                                <img src="{{ asset('storage/uploads/indikator/faktur.png') }}"
-                                                    height="40" width="40" alt="document">
-                                            @endif
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                @if (is_null($pengambilan_do->status_penerimaansj) || $pengambilan_do->status_penerimaansj == 'unpost')
+                                                    <a class="dropdown-item posting-btn"
+                                                        data-memo-id="{{ $pengambilan_do->id }}">Posting</a>
+                                                @endif
+                                                @if ($pengambilan_do->status_penerimaansj == 'posting')
+                                                    <a class="dropdown-item unpost-btn"
+                                                        data-memo-id="{{ $pengambilan_do->id }}">Unpost</a>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -272,5 +308,300 @@
                 }
             });
         });
+    </script>
+
+    <script>
+        $(function(e) {
+            $("#select_all_ids").click(function() {
+                $('.checkbox_ids').prop('checked', $(this).prop('checked'))
+            })
+        });
+
+        function postingSelectedData() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpenerimaanpusat') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function unpostSelectedData() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum mengunpost.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/unpostfilterpenerimaanpusat') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function postingSelectedDatafrangki() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpenerimaanfrangki') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function postingSelectedDatakuswanto() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpenerimaankuswanto') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function postingSelectedDatatohirin() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpenerimaantohirin') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function postingSelectedDataishak() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpenerimaanishak') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function postingSelectedDataniam() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingfilterpenerimaanniam') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
     </script>
 @endsection
