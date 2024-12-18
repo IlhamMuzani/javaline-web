@@ -355,6 +355,7 @@ class InqueryMemoborongspkController extends Controller
 
         $pphs = str_replace(',', '.', str_replace('.', '', $request->pphs));
         $pphs =  round($pphs);
+        $notabons = str_replace('.', '', $request->nota_bons);
 
         $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
         $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
@@ -369,7 +370,7 @@ class InqueryMemoborongspkController extends Controller
             $potongan_memos = str_replace(',', '.', $potongan_memos); // Pastikan format angka yang benar
         }
 
-        $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan - $potongan_memos;
+        $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan - $potongan_memos - $notabons;
 
         $tanggal = Carbon::now()->format('Y-m-d');
 

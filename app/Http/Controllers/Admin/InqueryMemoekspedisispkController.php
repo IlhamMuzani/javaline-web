@@ -394,9 +394,10 @@ class InqueryMemoekspedisispkController extends Controller
         $uang_jalans = str_replace('.', '', $request->uang_jalan);
         $uang_jalans = str_replace(',', '.', $uang_jalans);
         $potongan_memos = str_replace(',', '.', str_replace('.', '', $request->potongan_memo));
+        $notabon = str_replace('.', '', $request->nota_bon);
         $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan);
         $biaya_tambahan = str_replace(',', '.', $biaya_tambahan);
-        $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos;
+        $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos - $notabon;
 
         $spk_id = $request->spk_id;
         $spk = Spk::where('id', $spk_id)->first();

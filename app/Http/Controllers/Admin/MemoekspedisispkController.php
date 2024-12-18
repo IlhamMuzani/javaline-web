@@ -390,8 +390,8 @@ class MemoekspedisispkController extends Controller
 
                 $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan); // Menghilangkan titik dari biaya tambahan
                 $biaya_tambahan = str_replace(',', '.', $biaya_tambahan); // Mengganti koma dengan titik untuk memastikan format angka yang benar
-
-                $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos;
+                $notabon = str_replace('.', '', $request->nota_bon);
+                $hasil_jumlah = $uang_jalans + $biaya_tambahan - $potongan_memos - $notabon;
 
                 $spk_id = $request->spk_id;
                 $spk = Spk::where('id', $spk_id)->first();
@@ -808,6 +808,7 @@ class MemoekspedisispkController extends Controller
                 $pphs = str_replace(',', '.', str_replace('.', '', $request->pphs)); // Menghilangkan titik dan mengganti koma dengan titik pada pphs
                 $pphs =  round($pphs); // Mem-bulatkan nilai
 
+                $notabons = str_replace('.', '', $request->nota_bons); // Menghilangkan titik dari biaya tambahan
                 $biaya_tambahan = str_replace('.', '', $request->biaya_tambahan); // Menghilangkan titik dari biaya tambahan
                 $biaya_tambahan = str_replace(',', '.', $biaya_tambahan); // Mengganti koma dengan titik untuk memastikan format angka yang benar
 
@@ -821,7 +822,7 @@ class MemoekspedisispkController extends Controller
                     $potongan_memos = str_replace(',', '.', $potongan_memos); // Pastikan format angka yang benar
                 }
 
-                $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan - $potongan_memos;
+                $hasil_jumlah = ($totalrute - $pphs) / 2 + $biaya_tambahan - $potongan_memos - $notabons;
 
                 $spk_id = $request->spk_id;
                 $spk = Spk::where('id', $spk_id)->first();
