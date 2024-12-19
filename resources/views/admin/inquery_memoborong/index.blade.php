@@ -163,7 +163,7 @@
                                     <th style="text-align: center">Total</th>
                                     <th style="text-align: center">Total Borong</th>
                                     {{-- <th style="text-align: center">Adm</th> --}}
-                                    <th style="text-align: center">Deposit Sopir</th>
+                                    {{-- <th style="text-align: center">Deposit Sopir</th> --}}
                                     <th style="text-align: center">Grand Total</th>
                                     <th style="text-align: center">Sisa Transfer</th>
                                     <th>Status</th>
@@ -209,9 +209,9 @@
                                         <td style="text-align: end">
                                             {{ number_format(($memoborong->totalrute - $memoborong->pphs) / 2 + $memoborong->biaya_tambahan, 2, ',', '.') }}
                                         </td>
-                                        <td style="text-align: end">
+                                        {{-- <td style="text-align: end">
                                             {{ number_format($memoborong->deposit_drivers, 0, ',', '.') }}
-                                        </td>
+                                        </td> --}}
                                         <td style="text-align: end">
                                             {{ number_format($memoborong->hasil_jumlah, 0, ',', '.') }}
                                         </td>
@@ -588,7 +588,7 @@
             var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
 
             selectedCheckboxes.forEach(function(checkbox) {
-                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(14)').textContent
+                var grandTotal = parseFloat(checkbox.closest('tr').querySelector('td:nth-child(12)').textContent
                     .replace(/\D/g, ''));
                 totalGrandTotal += grandTotal;
             });
