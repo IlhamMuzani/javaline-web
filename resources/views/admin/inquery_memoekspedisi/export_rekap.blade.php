@@ -9,7 +9,8 @@
 
             <th>{{ $memo_ekspedisi->count() }}</th>
 
-            <th>{{ floor($memo_ekspedisi->sum('sub_total')) }}</th>
+            <th>{{ $memo_ekspedisi->sum(function ($item) {return floor($item->sub_total);}) }}</th>
+
             <th>
             </th>
 
