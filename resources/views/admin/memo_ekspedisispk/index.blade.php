@@ -126,8 +126,7 @@
                                 <input type="text" class="form-control" id="memo_ekspedisi_id" name="memo_ekspedisi_id"
                                     value="{{ old('memo_ekspedisi_id') }}" readonly placeholder="">
                             </div>
-
-                            <div class="form-group">
+                            <div class="form-group" hidden>
                                 <label for="nopol">Id User</label>
                                 <input type="text" class="form-control" id="user_ids" name="user_ids"
                                     value="{{ old('user_ids') }}" readonly placeholder="">

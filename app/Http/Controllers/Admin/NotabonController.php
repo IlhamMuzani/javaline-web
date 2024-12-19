@@ -75,7 +75,7 @@ class NotabonController extends Controller
 
         // Jika jumlahnya sudah mencapai atau melebihi 3, lewati memo ekspedisi ini
         if (
-            $postedCount >= 2
+            $postedCount >= 4
         ) {
             return back()
                 ->withInput()
