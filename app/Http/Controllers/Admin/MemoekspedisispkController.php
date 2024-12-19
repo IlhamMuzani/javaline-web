@@ -1124,7 +1124,7 @@ class MemoekspedisispkController extends Controller
                     'no_pol' => $request->no_polsa,
                     'nama_rute' => $request->nama_rutesa,
                     'kode_tambahan' => $kode,
-                    'nota_bontambahan' => str_replace(',', '.', str_replace('.', '', $request->nota_bontambahan)),
+                    'nota_bontambahan' => str_replace(',', '.', str_replace('.', '', $request->nota_bontambahan ?? '0')),
                     'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
                     'tanggal' => $format_tanggal,
                     'tanggal_awal' => $tanggal,

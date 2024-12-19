@@ -227,7 +227,7 @@ class InqueryMemotambahanController extends Controller
             'no_kabin' => $request->no_kabinsa,
             'no_pol' => $request->no_polsa,
             'nama_rute' => $request->nama_rutesa,
-            'nota_bontambahan' => str_replace(',', '.', str_replace('.', '', $request->nota_bontambahan)),
+            'nota_bontambahan' => str_replace(',', '.', str_replace('.', '', $request->nota_bontambahan ?? '0')),
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
         ]);
 
