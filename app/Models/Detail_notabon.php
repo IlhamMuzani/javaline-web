@@ -17,10 +17,16 @@ class Detail_notabon extends Model
     protected $fillable =
     [
         'memo_ekspedisi_id',
+        'memotambahan_id',
         'notabon_ujs_id',
         'kode_nota',
         'nama_drivernota',
         'nominal_nota',
+
+        'notabon_ujs_ids',
+        'kode_notas',
+        'nama_drivernotas',
+        'nominal_notas',
     ];
 
     use SoftDeletes;
@@ -35,6 +41,11 @@ class Detail_notabon extends Model
     public function memo_ekspedisi()
     {
         return $this->belongsTo(Memo_ekspedisi::class);
+    }
+
+    public function memotambahan()
+    {
+        return $this->belongsTo(Memotambahan::class);
     }
 
     public static function getId()

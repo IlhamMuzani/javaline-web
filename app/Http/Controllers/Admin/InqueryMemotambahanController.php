@@ -10,11 +10,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Biaya_tambahan;
 use App\Models\Detail_faktur;
 use App\Models\Detail_memotambahan;
+use App\Models\Detail_notabon;
 use App\Models\Detail_pengeluaran;
 use App\Models\Faktur_ekspedisi;
 use App\Models\Kendaraan;
 use App\Models\Memo_ekspedisi;
 use App\Models\Memotambahan;
+use App\Models\Notabon_ujs;
 use App\Models\Pelanggan;
 use App\Models\Pengeluaran_kaskecil;
 use App\Models\Potongan_memo;
@@ -91,6 +93,8 @@ class InqueryMemotambahanController extends Controller
         $pelanggans = Pelanggan::all();
         $saldoTerakhir = Saldo::latest()->first();
         $potonganmemos = Potongan_memo::all();
+        $detailnotas = Detail_notabon::where('memotambahan_id', $id)->get();
+        $notas = Notabon_ujs::where(['status' => 'posting'])->get();
         $memos = Memo_ekspedisi::where(['status_memo' => null, 'status' => 'posting', 'status_memotambahan' => null])->get();
         return view('admin.inquery_memotambahan.update', compact(
             'details',
@@ -102,6 +106,8 @@ class InqueryMemotambahanController extends Controller
             'biayatambahan',
             'potonganmemos',
             'memos',
+            'detailnotas',
+            'notas',
             'saldoTerakhir'
         ));
     }
@@ -128,6 +134,7 @@ class InqueryMemotambahanController extends Controller
 
         $error_pesanans = array();
         $data_pembelians4 = collect();
+        $data_pembeliansnota = collect();
 
         if ($request->has('keterangan_tambahan') || $request->has('nominal_tambahan') || $request->has('qty') || $request->has('satuans') || $request->has('hargasatuan')) {
             for ($i = 0; $i < count($request->keterangan_tambahan); $i++) {
@@ -162,13 +169,47 @@ class InqueryMemotambahanController extends Controller
         } else {
         }
 
+        if ($request->has('notabon_ujs_id') || $request->has('kode_nota') || $request->has('nama_drivernota') || $request->has('nominal_nota')) {
+            for ($i = 0; $i < count($request->notabon_ujs_id); $i++) {
+                if (empty($request->notabon_ujs_id[$i]) && empty($request->kode_nota[$i]) && empty($request->nama_drivernota[$i]) && empty($request->nominal_nota[$i])) {
+                    continue;
+                }
+
+                $validasi_produk = Validator::make($request->all(), [
+                    'notabon_ujs_id.' . $i => 'required',
+                    'kode_nota.' . $i => 'required',
+                    'nama_drivernota.' . $i => 'required',
+                    'nominal_nota.' . $i => 'required',
+                ]);
+
+                if ($validasi_produk->fails()) {
+                    array_push($error_pesanans, "Biaya tambahan nomor " . ($i + 1) . " belum dilengkapi!");
+                }
+
+                $notabon_ujs_id = $request->notabon_ujs_id[$i] ?? '';
+                $kode_nota = $request->kode_nota[$i] ?? '';
+                $nama_drivernota = $request->nama_drivernota[$i] ?? '';
+                $nominal_nota = $request->nominal_nota[$i] ?? '';
+
+                $data_pembeliansnota->push([
+                    'detail_iddd' => $request->detail_idnotas[$i] ?? null,
+                    'notabon_ujs_id' => $notabon_ujs_id,
+                    'kode_nota' => $kode_nota,
+                    'nama_drivernota' => $nama_drivernota,
+                    'nominal_nota' => $nominal_nota,
+
+                ]);
+            }
+        }
+
 
         if ($error_pelanggans || $error_pesanans) {
             return back()
                 ->withInput()
                 ->with('error_pelanggans', $error_pelanggans)
                 ->with('error_pesanans', $error_pesanans)
-                ->with('data_pembelians4', $data_pembelians4);
+                ->with('data_pembelians4', $data_pembelians4)
+                ->with('data_pembeliansnota', $data_pembeliansnota);
         }
 
         $tanggal1 = Carbon::now('Asia/Jakarta');
@@ -186,12 +227,13 @@ class InqueryMemotambahanController extends Controller
             'no_kabin' => $request->no_kabinsa,
             'no_pol' => $request->no_polsa,
             'nama_rute' => $request->nama_rutesa,
+            'nota_bontambahan' => str_replace(',', '.', str_replace('.', '', $request->nota_bontambahan)),
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
         ]);
 
         $transaksi_id = $cetakpdf->id;
         $detailIds = $request->input('detail_idstambahan');
-        $allKeterangan = ''; 
+        $allKeterangan = '';
 
         foreach ($data_pembelians4 as $data_pesanan) {
             $detailId = $data_pesanan['detail_id'];
@@ -231,10 +273,10 @@ class InqueryMemotambahanController extends Controller
                 $lastNum = 0;
                 $currentMonth = date('m');
                 if (!$lastDetail || $currentMonth != date('m', strtotime($lastDetail->created_at))) {
-                    $lastNum = 0; 
+                    $lastNum = 0;
                 } else {
                     $lastCode = substr($lastDetail->kode_detailakun, -6);
-                    $lastNum = (int)$lastCode; 
+                    $lastNum = (int)$lastCode;
                 }
 
                 if (!$existingDetail) {
@@ -276,11 +318,53 @@ class InqueryMemotambahanController extends Controller
             }
         }
 
+        foreach ($data_pembeliansnota as $data_pesanan) {
+            $detailId = $data_pesanan['detail_iddd'];
+
+            if ($detailId) {
+                $detail = Detail_notabon::where('id', $detailId)->update([
+                    'memotambahan_id' => $cetakpdf->id,
+                    'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                    'kode_nota' => $data_pesanan['kode_nota'],
+                    'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                    'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                ]);
+                // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                // if ($nota) {
+                //     $nota->update(['status_memo' => 'aktif']);
+                // }
+            } else {
+                $existingDetail = Detail_notabon::where([
+                    'memotambahan_id' => $cetakpdf->id,
+                    'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                    'kode_nota' => $data_pesanan['kode_nota'],
+                    'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                    'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                ])->first();
+
+
+                if (!$existingDetail) {
+                    $detail = Detail_notabon::create([
+                        'memotambahan_id' => $cetakpdf->id,
+                        'notabon_ujs_id' => $data_pesanan['notabon_ujs_id'],
+                        'kode_nota' => $data_pesanan['kode_nota'],
+                        'nama_drivernota' => $data_pesanan['nama_drivernota'],
+                        'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_nota'])),
+                    ]);
+
+                    // $nota = Notabon_ujs::find($detail->notabon_ujs_id);
+                    // if ($nota) {
+                    //     $nota->update(['status_memo' => 'aktif']);
+                    // }
+                }
+            }
+        }
+
         $pengeluaran = Pengeluaran_kaskecil::where('memotambahan_id', $id)->first();
         $pengeluaran->update(
             [
                 'kendaraan_id' => $request->kendaraan_idsa,
-                'keterangan' => $allKeterangan, 
+                'keterangan' => $allKeterangan,
                 'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             ]
         );
@@ -306,7 +390,7 @@ class InqueryMemotambahanController extends Controller
                 $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
                 $currentMonth = date('m');
                 if (!$lastBarang || $currentMonth != $lastMonth) {
-                    $num = 1; 
+                    $num = 1;
                 } else {
                     $lastCode = $lastBarang->kode_detailakun;
                     $parts = explode('/', $lastCode);
@@ -592,7 +676,8 @@ class InqueryMemotambahanController extends Controller
     {
         $cetakpdf = Memotambahan::where('id', $id)->first();
         $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
-        $pdf = PDF::loadView('admin.inquery_memotambahan.cetak_pdf', compact('cetakpdf', 'detail_memo'));
+        $detail_nota = Detail_notabon::where('memotambahan_id', $cetakpdf->id)->get();
+        $pdf = PDF::loadView('admin.inquery_memotambahan.cetak_pdf', compact('cetakpdf', 'detail_memo', 'detail_nota'));
         $pdf->setPaper('landscape'); // Set the paper size to portrait letter
         return $pdf->stream('Memo_ekspedisi.pdf');
     }

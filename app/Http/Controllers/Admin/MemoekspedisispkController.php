@@ -1026,7 +1026,7 @@ class MemoekspedisispkController extends Controller
 
                 $error_pesanans = [];
                 $data_pembelians4 = collect();
-
+                $data_pembeliansnotas = collect();
                 $saldoTerakhir = Saldo::latest()->first();
                 $grand_total = str_replace(',', '.', str_replace('.', '', $request->grand_total));
                 $sub_total = str_replace('.', '', $grand_total);
@@ -1060,12 +1060,48 @@ class MemoekspedisispkController extends Controller
                     }
                 }
 
+                if ($request->has('notabon_ujs_ids') || $request->has('kode_notas') || $request->has('nama_drivernotas') || $request->has('nominal_notas')) {
+                    for ($i = 0; $i < count($request->notabon_ujs_ids); $i++) {
+                        // Check if either 'keterangan_tambahan' or 'nominal_tambahan' has input
+                        if (
+                            empty($request->notabon_ujs_ids[$i]) && empty($request->kode_notas[$i]) && empty($request->nama_drivernotas[$i]) && empty($request->nominal_notas[$i])
+                        ) {
+                            continue; // Skip validation if both are empty
+                        }
+
+                        $validasi_produk = Validator::make($request->all(), [
+                            'notabon_ujs_ids.' . $i => 'required',
+                            'kode_notas.' . $i => 'required',
+                            'nama_drivernotas.' . $i => 'required',
+                            'nominal_notas.' . $i => 'required',
+                        ]);
+
+                        if ($validasi_produk->fails()) {
+                            array_push($error_pesanans, "Nota bon nomor " . ($i + 1) . " belum dilengkapi!");
+                        }
+
+                        $notabon_ujs_ids = $request->notabon_ujs_ids[$i] ?? '';
+                        $kode_notas = $request->kode_notas[$i] ?? '';
+                        $nama_drivernotas = $request->nama_drivernotas[$i] ?? '';
+                        $nominal_notas = $request->nominal_notas[$i] ?? '';
+
+                        $data_pembeliansnotas->push([
+                            'notabon_ujs_ids' => $notabon_ujs_ids,
+                            'kode_notas' => $kode_notas,
+                            'nama_drivernotas' => $nama_drivernotas,
+                            'nominal_notas' => $nominal_notas,
+
+                        ]);
+                    }
+                }
+
                 if ($error_pelanggans || $error_pesanans) {
                     return back()
                         ->withInput()
                         ->with('error_pelanggans', $error_pelanggans)
                         ->with('error_pesanans', $error_pesanans)
-                        ->with('data_pembelians4', $data_pembelians4);
+                        ->with('data_pembelians4', $data_pembelians4)
+                        ->with('data_pembeliansnotas', $data_pembeliansnotas);
                 }
 
                 $kode = $this->kodemt();
@@ -1088,6 +1124,7 @@ class MemoekspedisispkController extends Controller
                     'no_pol' => $request->no_polsa,
                     'nama_rute' => $request->nama_rutesa,
                     'kode_tambahan' => $kode,
+                    'nota_bontambahan' => str_replace(',', '.', str_replace('.', '', $request->nota_bontambahan)),
                     'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
                     'tanggal' => $format_tanggal,
                     'tanggal_awal' => $tanggal,
@@ -1162,6 +1199,19 @@ class MemoekspedisispkController extends Controller
                         ]);
 
                         $allKeterangan .= $data_pesanan['keterangan_tambahan'] . ', ';
+                    }
+                }
+
+                if ($cetakpdf) {
+
+                    foreach ($data_pembeliansnotas as $data_pesanan) {
+                        $detail = Detail_notabon::create([
+                            'memotambahan_id' => $cetakpdf->id,
+                            'notabon_ujs_id' => $data_pesanan['notabon_ujs_ids'],
+                            'kode_nota' => $data_pesanan['kode_notas'],
+                            'nama_drivernota' => $data_pesanan['nama_drivernotas'],
+                            'nominal_nota' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['nominal_notas'])),
+                        ]);
                     }
                 }
 

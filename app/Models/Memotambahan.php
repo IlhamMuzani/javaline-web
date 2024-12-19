@@ -27,6 +27,7 @@ class Memotambahan extends Model
         'no_kabin',
         'no_pol',
         'nama_rute',
+        'nota_bontambahan',
         'grand_total',
         'status',
         'status_memo',

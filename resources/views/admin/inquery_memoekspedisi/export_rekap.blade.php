@@ -9,8 +9,7 @@
 
             <th>{{ $memo_ekspedisi->count() }}</th>
 
-            <th>{{ $memo_ekspedisi->sum('sub_total') }}</th>
-
+            <th>{{ floor($memo_ekspedisi->sum('sub_total')) }}</th>
             <th>
             </th>
 
@@ -158,7 +157,7 @@
                 <td></td>
                 <td></td>
                 <td>IDR</td>
-                <td>{{ $detail->sub_total }}</td>
+                <td>{{ floor($detail->sub_total) }}</td>
                 <td></td>
                 <td></td>
                 <td>{{ $detail->user->karyawan->nama_bank === 'MANDIRI' ? 'IBU' : 'LBU' }}</td>

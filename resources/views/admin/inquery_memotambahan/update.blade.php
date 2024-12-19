@@ -95,6 +95,12 @@
                                     value="{{ old('memo_ekspedisi_id', $inquery->memo_ekspedisi->id) }}" readonly
                                     placeholder="" value="">
                             </div>
+                            <div class="form-group" hidden>
+                                <label for="nopol">Id User</label>
+                                <input type="text" class="form-control" id="user_id" name="user_id"
+                                    value="{{ old('user_id', $inquery->memo_ekspedisi->user->id ?? null) }}" readonly
+                                    placeholder="" value="">
+                            </div>
                             <div class="form-group">
                                 <label style="font-size:14px" for="nopol">No Memo</label>
                                 <input style="font-size:14px" type="text" class="form-control" readonly id="kode_memosa"
@@ -253,19 +259,113 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="form-group">
-                                <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
-                                <input style="font-size:14px" type="text" class="form-control text-right"
-                                    id="grand_total" name="grand_total" readonly placeholder=""
-                                    value="{{ old('grand_total', number_format($inquery->grand_total, 0, ',', '.')) }}">
-                            </div>
+
                         </div>
                     </div>
                 </div>
-                <div class="card-footer text-right">
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                <div class="card" id="form_notabon">
+                    <div class="card-header">
+                        <h3 class="card-title">Nota Bon Uang Jalan <span>
+                            </span></h3>
+                        <div class="float-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addNotabon()">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="font-size:14px" class="text-center">No</th>
+                                    <th style="font-size:14px">Kode Nota</th>
+                                    <th style="font-size:14px">Nama Driver</th>
+                                    <th style="font-size:14px">Nominal</th>
+                                    <th style="font-size:14px">Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabel-nota">
+                                @foreach ($detailnotas as $detail)
+                                    <tr id="nota-{{ $loop->index }}">
+                                        <td style="width: 70px; font-size:14px" class="text-center" id="urutannota">
+                                            {{ $loop->index + 1 }}
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group" hidden>
+                                                <input type="text" class="form-control"
+                                                    id="nomor_seri-{{ $loop->index }}" name="detail_idnotas[]"
+                                                    value="{{ $detail['id'] }}">
+                                            </div>
+                                        </td>
+                                        <td hidden>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control"
+                                                    id="notabon_ujs_id-{{ $loop->index }}" name="notabon_ujs_id[]"
+                                                    value="{{ $detail['notabon_ujs_id'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="notabons({{ $loop->index }})" style="font-size:14px"
+                                                    type="text" class="form-control" readonly
+                                                    id="kode_nota-{{ $loop->index }}" name="kode_nota[]"
+                                                    value="{{ $detail['kode_nota'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="notabons({{ $loop->index }})" style="font-size:14px"
+                                                    type="text" class="form-control" readonly
+                                                    id="nama_drivernota-{{ $loop->index }}" name="nama_drivernota[]"
+                                                    value="{{ $detail['nama_drivernota'] }}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input onclick="notabons({{ $loop->index }})" style="font-size:14px"
+                                                    type="text" class="form-control"
+                                                    id="nominal_nota-{{ $loop->index }}" readonly name="nominal_nota[]"
+                                                    value="{{ number_format($detail['nominal_nota'], 0, ',', '.') }}">
+                                            </div>
+                                        </td>
+                                        <td style="width: 100px">
+                                            <button style="margin-left:5px" type="button" class="btn btn-danger btn-sm"
+                                                onclick="removeNotabon({{ $loop->index }}, {{ $detail['id'] }})">
+
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                onclick="notabons({{ $loop->index }})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <div class="form-group">
+                            <label style="font-size:14px" class="mt-3" for="nopol">Total Nota Bon</label>
+                            <input style="font-size:14px" type="text" class="form-control text-right"
+                                id="nota_bontambahan" name="nota_bontambahan" readonly placeholder=""
+                                value="{{ old('nota_bontambahan', number_format($inquery->nota_bontambahan, 0, ',', '.')) }}">
+                        </div>
+                        <div class="form-group">
+                            <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
+                            <input style="font-size:14px" type="text" class="form-control text-right"
+                                id="grand_total" name="grand_total" readonly placeholder=""
+                                value="{{ old('grand_total', number_format($inquery->grand_total, 0, ',', '.')) }}">
+                        </div>
+
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="reset" class="btn btn-secondary">Reset</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
                 </div>
+
+
             </form>
         </div>
 
@@ -296,6 +396,7 @@
                                     @foreach ($memos as $memo)
                                         <tr
                                             onclick="getSelectedData('{{ $memo->id }}',
+                                                    '{{ $memo->user_id }}',
                                                     '{{ $memo->kode_memo }}',
                                                     '{{ $memo->nama_driver }}',
                                                     '{{ $memo->telp }}',
@@ -313,6 +414,7 @@
                                             <td class="text-center">
                                                 <button type="button" class="btn btn-primary btn-sm"
                                                     onclick="getSelectedData('{{ $memo->id }}',
+                                                    '{{ $memo->user_id }}',
                                                     '{{ $memo->kode_memo }}',
                                                     '{{ $memo->nama_driver }}',
                                                     '{{ $memo->telp }}',
@@ -333,6 +435,52 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="tableNota" data-backdrop="static">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Data Nota</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tables" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">No</th>
+                                    <th>Kode Nota</th>
+                                    <th>Nama Driver</th>
+                                    <th>Nominal</th>
+                                    <th>Opsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($notas as $nota)
+                                    <tr onclick="getNota({{ $loop->index }})" data-id="{{ $nota->id }}"
+                                        data-kode_nota="{{ $nota->kode_nota }}"
+                                        data-nama_drivernota="{{ $nota->nama_driver }}"
+                                        data-nominal_nota="{{ $nota->nominal }}" data-param="{{ $loop->index }}"
+                                        data-user_id="{{ $nota->user_id }}">
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $nota->kode_nota }}</td>
+                                        <td>{{ $nota->karyawan->nama_lengkap ?? null }}</td>
+                                        <td>{{ number_format($nota->nominal, 0, ',', '.') }}</td>
+                                        <td class="text-center">
+                                            <button type="button" id="btnTambah" class="btn btn-primary btn-sm"
+                                                onclick="getNota({{ $loop->index }})">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 
@@ -341,9 +489,10 @@
             $('#tableMemo').modal('show');
         }
 
-        function getSelectedData(Memo_id, KodeMemo, NamaSopir, Telp, Kendaraan_id, NoKabin, NoPol, RutePerjalanan) {
+        function getSelectedData(Memo_id, UserId, KodeMemo, NamaSopir, Telp, Kendaraan_id, NoKabin, NoPol, RutePerjalanan) {
             // Set the values in the form fields
             document.getElementById('memo_ekspedisi_id').value = Memo_id;
+            document.getElementById('user_id').value = UserId;
             document.getElementById('kode_memosa').value = KodeMemo;
             document.getElementById('nama_driversa').value = NamaSopir;
             document.getElementById('telps').value = Telp;
@@ -381,6 +530,47 @@
         // $(document).ready(function() {
         //     updateGrandTotal();
         // });
+
+
+        function notabons(param) {
+            activeSpecificationIndex = param;
+            // Show the modal and filter rows if necessary
+            $('#tableNota').modal('show');
+        }
+
+        function getNota(rowIndex) {
+            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
+            var Nota_id = selectedRow.data('id');
+            var Kode_nota = selectedRow.data('kode_nota');
+            var Nama_driversnot = selectedRow.data('nama_drivernota');
+            var Nominal = selectedRow.data('nominal_nota');
+
+            $('#notabon_ujs_id-' + activeSpecificationIndex).val(Nota_id);
+            $('#kode_nota-' + activeSpecificationIndex).val(Kode_nota);
+            $('#nama_drivernota-' + activeSpecificationIndex).val(Nama_driversnot);
+            $('#nominal_nota-' + activeSpecificationIndex).val(Nominal.toLocaleString('id-ID'));
+
+            $('#tableNota').modal('hide');
+            updateTotalnota()
+            updateGrandTotal()
+        }
+
+        function updateTotalnota() {
+            var grandTotal = 0;
+
+            // Iterate through all input elements with IDs starting with 'total-'
+            $('input[id^="nominal_nota-"]').each(function() {
+                // Remove dots and replace comma with dot, then parse as float
+                var nilaiTotal = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
+                grandTotal += nilaiTotal;
+            });
+
+            // Format grandTotal as currency in Indonesian Rupiah
+            var formattedGrandTotal = grandTotal.toLocaleString('id-ID');
+            console.log(formattedGrandTotal);
+            // Set the formatted grandTotal to the target element
+            $('#nota_bontambahan').val(formattedGrandTotal);
+        }
 
 
 
@@ -438,6 +628,7 @@
                 }
             });
 
+            updateTotalnota()
             updateGrandTotal();
             updateUrutan();
         }
@@ -565,9 +756,10 @@
                 var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
                 grandTotal += nominalValue;
             });
-            // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
-            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
-            $('#grand_total').val(formatRupiahsss(grandTotal));
+            var Nota_bon = parseFloat($('#nota_bontambahan').val().replace(/\./g, '').replace(',', '.')) || 0;
+            var Hasil = grandTotal - Nota_bon;
+
+            $('#grand_total').val(formatRupiahsss(Hasil));
 
         }
 
@@ -591,6 +783,184 @@
             }).format(number);
             return '' + formatted;
         }
+    </script>
+
+
+    <script>
+        var data_pembeliannota = @json(session('data_pembeliannotas'));
+        var jumlah_tambahan = 1;
+
+        if (data_pembeliannota != null) {
+            jumlah_tambahan = data_pembeliannota.length;
+            $('#tabel-pembelian').empty();
+            var urutan = 0;
+            $.each(data_pembeliannota, function(key, value) {
+                urutan = urutan + 1;
+                itemNota(urutan, key, value);
+            });
+        }
+
+        var counters = 0;
+
+        function addNotabon() {
+            counters++;
+            jumlah_tambahan = jumlah_tambahan + 1;
+
+            if (jumlah_tambahan === 1) {
+                $('#tabel-nota').empty();
+            } else {
+                // Find the last row and get its index to continue the numbering
+                var lastRow = $('#tabel-nota tr:last');
+                var lastRowIndex = lastRow.find('#urutannota').text();
+                jumlah_tambahan = parseInt(lastRowIndex) + 1;
+            }
+
+            console.log('Current jumlah_tambahan:', jumlah_tambahan);
+            itemNota(jumlah_tambahan, jumlah_tambahan - 1);
+            updateUrutansss();
+        }
+
+
+        function updateUrutansss() {
+            var urutan = document.querySelectorAll('#urutannota');
+            for (let i = 0; i < urutan.length; i++) {
+                urutan[i].innerText = i + 1;
+            }
+        }
+
+
+        function removeNotabon(identifier, detailId) {
+            var row = document.getElementById('nota-' + identifier);
+            row.remove();
+
+            console.log(detailId);
+            $.ajax({
+                url: "{{ url('admin/inquery_memoekspedisispk/deletedetailnota/') }}/" + detailId,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    console.log('Data deleted successfully');
+                },
+                error: function(error) {
+                    console.error('Failed to delete data:', error);
+                }
+            });
+
+            updateTotalnota()
+            updateGrandTotal()
+            updateUrutansss();
+        }
+
+        function itemNota(identifier, key, value = null) {
+            var notabon_ujs_id = '';
+            var kode_nota = '';
+            var nama_drivernota = '';
+            var nominal_nota = '';
+
+            if (value !== null) {
+                notabon_ujs_id = value.notabon_ujs_id;
+                kode_nota = value.kode_nota;
+                nama_drivernota = value.nama_drivernota;
+                nominal_nota = value.nominal_nota;
+
+            }
+
+            // urutannota 
+            var item_pembelian = '<tr id="nota-' + key + '">';
+            item_pembelian += '<td  style="width: 70px; font-size:14px" class="text-center" id="urutannota">' + key +
+                '</td>';
+
+            // notabon_ujs_id 
+            item_pembelian += '<td hidden>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" id="notabon_ujs_id-' + key +
+                '" name="notabon_ujs_id[]" value="' + notabon_ujs_id + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // kode_nota 
+            item_pembelian += '<td onclick="notabons(' +
+                key +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input type="text" class="form-control" style="font-size:14px" readonly id="kode_nota-' +
+                key +
+                '" name="kode_nota[]" value="' + kode_nota + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // nama_drivernota 
+            item_pembelian += '<td onclick="notabons(' +
+                key +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="nama_drivernota-' +
+                key +
+                '" name="nama_drivernota[]" value="' + nama_drivernota + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            // nominal_nota 
+            item_pembelian += '<td onclick="notabons(' +
+                key +
+                ')">';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input type="text" class="form-control" style="font-size:14px" readonly id="nominal_nota-' +
+                key +
+                '" name="nominal_nota[]" value="' + nominal_nota + '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
+
+            //
+            item_pembelian += '<td style="width: 100px">';
+            item_pembelian +=
+                '<button  style="margin-left:5px" type="button" class="btn btn-danger btn-sm" onclick="removeNotabon(' +
+                key + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian +=
+                '<button  style="margin-left:3px" type="button" class="btn btn-primary btn-sm" onclick="notabons(' +
+                key +
+                ')">';
+            item_pembelian += '<i class="fas fa-plus"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
+
+            $('#tabel-nota').append(item_pembelian);
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userIdInput = document.getElementById('user_id');
+            const tableNota = document.getElementById('tables');
+
+            // Fungsi untuk memfilter nota
+            function filterNotaByUserId() {
+                const userId = userIdInput.value;
+                const rows = tableNota.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const rowUserId = row.getAttribute('data-user_id');
+                    if (rowUserId === userId || userId === '') {
+                        row.style.display = ''; // Tampilkan baris
+                    } else {
+                        row.style.display = 'none'; // Sembunyikan baris
+                    }
+                });
+            }
+
+            // Filter ulang saat modal ditampilkan
+            $('#tableNota').on('show.bs.modal', filterNotaByUserId);
+
+            // Jika `user_id` berubah, filter ulang
+            userIdInput.addEventListener('change', filterNotaByUserId);
+        });
     </script>
 
 @endsection

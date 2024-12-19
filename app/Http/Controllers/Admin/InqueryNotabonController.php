@@ -319,7 +319,7 @@ class InqueryNotabonController extends Controller
                     ->count();
 
                 // If the driver has three or more posted memos, skip this memo
-                if ($postedCount >= 2) {
+                if ($postedCount >= 4) {
                     continue;
                 }
 
@@ -364,7 +364,7 @@ class InqueryNotabonController extends Controller
                     ->count();
 
                 // Jika jumlahnya sudah mencapai atau melebihi 3 dan memo ekspedisi ini belum diposting, lewati memo ekspedisi ini
-                if ($postedCount >= 2 && $item->status !== 'posting') {
+                if ($postedCount >= 4 && $item->status !== 'posting') {
                     continue;
                 }
 
