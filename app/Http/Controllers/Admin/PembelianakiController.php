@@ -129,6 +129,7 @@ class PembelianakiController extends Controller
                     'kondisi_aki' => $data_pesanan['kondisi_aki'],
                     'merek_aki_id' => $data_pesanan['merek_aki_id'],
                     'status' => 'posting',
+                    'status_aki' => 'stok',
                     'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                 ]);
             }
@@ -139,6 +140,13 @@ class PembelianakiController extends Controller
         $akis = Aki::where('pembelian_aki_id', $cetakpdf->id)->get();
 
         return view('admin.pembelian_aki.show', compact('akis', 'cetakpdf'));
+    }
+
+    public function aki($id)
+    {
+        $aki = Aki::with('merek_aki')->where('id', $id)->first();
+
+        return json_decode($aki);
     }
 
     public function kode()

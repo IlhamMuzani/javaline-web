@@ -1046,6 +1046,9 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::resource('merek-aki', \App\Http\Controllers\Admin\MerekakiController::class);
     Route::get('laporan-pembelianaki', [\App\Http\Controllers\Admin\LaporanPembelianAkiController::class, 'index']);
     Route::get('print-aki', [\App\Http\Controllers\Admin\LaporanPembelianAkiController::class, 'print_aki']);
-
     Route::resource('aki', \App\Http\Controllers\Admin\AkiController::class);
+    Route::resource('pemasangan-aki', \App\Http\Controllers\Admin\PemasanganakiController::class);
+    Route::get('pembelian-aki/aki/{id}', [\App\Http\Controllers\Admin\PembelianakiController::class, 'aki']);
+    Route::resource('inquery-pemasanganaki', \App\Http\Controllers\Admin\InqueryPemasanganakiController::class);
+    Route::get('pemasangan-aki/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemasanganakiController::class, 'cetakpdf']);
 });

@@ -29,6 +29,7 @@ class Aki extends Model
         'qrcode_aki',
         'keterangan',
         'status',
+        'status_aki',
         'status_pemasangan',
         'tanggal_awal',
         'tanggal_akhir',

@@ -151,6 +151,7 @@ class InqueryPembelianAkiController extends Controller
                     'kondisi_aki' => $data_pesanan['kondisi_aki'],
                     'merek_aki_id' => $data_pesanan['merek_aki_id'],
                     'status' => 'posting',
+                    'status_aki' => 'stok',
                     'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                 ]);
             } else {
@@ -171,6 +172,7 @@ class InqueryPembelianAkiController extends Controller
                         'kondisi_aki' => $data_pesanan['kondisi_aki'],
                         'merek_aki_id' => $data_pesanan['merek_aki_id'],
                         'status' => 'posting',
+                        'status_aki' => 'stok',
                         'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
                     ]);
                 }
@@ -190,7 +192,9 @@ class InqueryPembelianAkiController extends Controller
         $details = Aki::where('pembelian_aki_id', $id)->get();
 
         foreach ($details as $detail) {
-            $detail->update(['status' => 'unpost']);
+            $detail->update([
+                'status' => 'unpost',
+            ]);
         }
 
         $item->update([

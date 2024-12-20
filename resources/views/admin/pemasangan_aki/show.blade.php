@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Surat Pemasangan Aki</title>
+    <title>Surat Pemasangan Part</title>
     <style>
         html,
         body {
@@ -88,7 +88,7 @@
 <body style="margin: 0; padding: 0;">
     <br>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 22px;">SURAT PEMASANGAN AKI</span>
+        <span style="font-weight: bold; font-size: 22px;">SURAT PEMASANGAN PART</span>
         <br>
         <br>
     </div>
@@ -97,26 +97,26 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Kabin @if ($cetakpdf->kendaraan)
-                    {{ $cetakpdf->kendaraan->no_kabin }}
+                Kabin @if ($pembelians->kendaraan)
+                    {{ $pembelians->kendaraan->no_kabin }}
                 @else
                     NON KENDARAAN
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">No.
-                Registrasi: @if ($cetakpdf->kendaraan)
-                    {{ $cetakpdf->kendaraan->no_pol }}
+                Registrasi: @if ($pembelians->kendaraan)
+                    {{ $pembelians->kendaraan->no_pol }}
                 @else
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">Jenis
-                Kendaraan: @if ($cetakpdf->kendaraan)
-                    {{ $cetakpdf->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
+                Kendaraan: @if ($pembelians->kendaraan)
+                    {{ $pembelians->kendaraan->jenis_kendaraan->nama_jenis_kendaraan }}
                 @else
                 @endif
             </td>
             <td class="td" style="text-align: center; padding: 3px; font-size: 16px;">
-                Tanggal:{{ $cetakpdf->tanggal_pemasangan }}</td>
+                Tanggal:{{ $pembelians->tanggal_pemasangan }}</td>
         </tr>
     </table>
     </div>
@@ -124,30 +124,29 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No.</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode Aki</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">No Seri</td>
-            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Merek</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Kode Part</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Nama Barang</td>
             <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Keterangan</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">Jumlah</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
             <td colspan="7" style="padding: 0px;">
             </td>
         </tr>
-        @foreach ($details as $item)
+        @foreach ($parts as $item)
             <tr>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $loop->iteration }}
                 </td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
-                    {{ $item->aki->kode_aki ?? null }}
+                    {{ $item->sparepart->kode_partdetail }}
                 </td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
-                    {{ $item->aki->no_seri ?? null }}
-                </td>
-                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
-                    {{ $item->merek }}
+                    {{ $item->sparepart->nama_barang }}
                 </td>
                 <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">{{ $item->keterangan }}
                 </td>
+                <td class="td" style="text-align: center; padding: 5px; font-size: 15px;">
+                    {{ $item->jumlah }}</td>
             </tr>
         @endforeach
         <tr style="border-bottom: 1px solid black;">
@@ -164,8 +163,8 @@
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
                         <td class="label">
-                            @if ($cetakpdf->user)
-                                {{ $cetakpdf->user->karyawan->nama_lengkap }}
+                            @if ($pembelians->user)
+                                {{ $pembelians->user->karyawan->nama_lengkap }}
                             @else
                                 user tidak ada
                             @endif
@@ -210,8 +209,8 @@
 </body>
 
 <div class="container">
-    <a href="{{ url('admin/pemasangan-aki') }}" class="blue-button">Kembali</a>
-    <a href="{{ url('admin/pemasangan-aki/cetak-pdf/' . $cetakpdf->id) }}" class="blue-button">Cetak</a>
+    <a href="{{ url('admin/pemasangan_part') }}" class="blue-button">Kembali</a>
+    <a href="{{ url('admin/pemasangan_part/cetak-pdf/' . $pembelians->id) }}" class="blue-button">Cetak</a>
 </div>
 
 </html>

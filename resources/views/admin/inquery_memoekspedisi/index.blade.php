@@ -160,7 +160,7 @@
                     {{-- @endif --}}
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px">
+                            style="font-size: 12px">
                             <thead class="thead-dark">
                                 <tr>
                                     <th> <input type="checkbox" name="" id="select_all_ids"></th>
@@ -174,8 +174,8 @@
                                     <th>U. Tambah</th>
                                     {{-- <th>Adm</th> --}}
                                     <th>Total</th>
-                                    <th>Grand Total</th>
-                                    <th>Sisa Transfer</th>
+                                    <th>G. Total</th>
+                                    <th>S. Transfer</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>

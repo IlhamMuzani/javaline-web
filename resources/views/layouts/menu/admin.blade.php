@@ -582,6 +582,7 @@
     request()->is('admin/perpanjangan_stnk*') ||
     request()->is('admin/perpanjangan_kir*') ||
     request()->is('admin/pemasangan_part*') ||
+    request()->is('admin/pemasangan-aki*') ||
     request()->is('admin/status_perjalanan*') ||
     request()->is('admin/status_spk*') ||
     request()->is('admin/pengambilan_do*') ||
@@ -596,6 +597,7 @@
         request()->is('admin/perpanjangan_stnk*') ||
         request()->is('admin/perpanjangan_kir*') ||
         request()->is('admin/pemasangan_part*') ||
+        request()->is('admin/pemasangan-aki*') ||
         request()->is('admin/status_perjalanan*') ||
         request()->is('admin/status_spk*') ||
         request()->is('admin/pengambilan_do*') ||
@@ -664,6 +666,15 @@
                     class="nav-link {{ request()->is('admin/pemasangan_part*') ? 'active' : '' }}">
                     <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                     <p style="font-size: 14px;">Pemasangan Part</p>
+                </a>
+            </li>
+        @endif
+        @if (auth()->check() && auth()->user()->menu['pemasangan part'])
+            <li class="nav-item">
+                <a href="{{ url('admin/pemasangan-aki') }}"
+                    class="nav-link {{ request()->is('admin/pemasangan-aki*') ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                    <p style="font-size: 14px;">Pemasangan Aki</p>
                 </a>
             </li>
         @endif
@@ -1255,6 +1266,7 @@
         request()->is('admin/inquery_pemasanganban*') ||
         request()->is('admin/inquery_pelepasanban*') ||
         request()->is('admin/inquery_pemasanganpart*') ||
+        request()->is('admin/inquery-pemasanganaki*') ||
         request()->is('admin/inquery_penggantianoli*') ||
         request()->is('admin/inquery_updatekm*') ||
         request()->is('admin/inquery_perpanjanganstnk*') ||
@@ -1304,6 +1316,7 @@
             request()->is('admin/inquery_pemasanganban*') ||
             request()->is('admin/inquery_pelepasanban*') ||
             request()->is('admin/inquery_pemasanganpart*') ||
+            request()->is('admin/inquery-pemasanganaki*') ||
             request()->is('admin/inquery_penggantianoli*') ||
             request()->is('admin/inquery_updatekm*') ||
             request()->is('admin/inquery_perpanjanganstnk*') ||
@@ -1527,6 +1540,16 @@
                 <p style="font-size: 14px;">Inquery Pemasangan Part @if (count($pemasanganpart) > 0)
                         <span class="right badge badge-info">{{ count($pemasanganpart) }}</span>
                     @endif
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['inquery pemasangan part'])
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery-pemasanganaki') }}"
+                class="nav-link {{ request()->is('admin/inquery-pemasanganaki*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Inquery Pemasangan Aki
                 </p>
             </a>
         </li>

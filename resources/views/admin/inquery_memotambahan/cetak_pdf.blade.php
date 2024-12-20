@@ -239,10 +239,10 @@
                         {{ $item->satuans }}
                     </td>
                     <td class="td" style="text-align: right; padding: 0px; font-size: 13px;">
-                        {{ number_format($item->hargasatuan, 2, ',', '.') }}
+                        {{ number_format($item->hargasatuan, 0, ',', '.') }}
                     </td>
                     <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
-                        {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
+                        {{ number_format($item->nominal_tambahan, 0, ',', '.') }}
                     </td>
                 </tr>
                 @php
@@ -257,7 +257,7 @@
         <table style="width: 100%; border-top: 0.5px solid black; margin-bottom:5px;">
             <tr>
                 <td style="text-align: right; padding-right: 17px;font-size: 13px;">
-                    {{ number_format($totalRuteSum, 2, ',', '.') }}
+                    {{ number_format($totalRuteSum, 0, ',', '.') }}
                 </td>
             </tr>
         </table>
@@ -285,7 +285,7 @@
                                 <td
                                     style="text-align:
                                 right; padding-right: 17px;font-size: 13px;">
-                                    {{ number_format($item->nominal_nota, 2, ',', '.') }}
+                                    {{ number_format($item->nominal_nota, 0, ',', '.') }}
                                 </td>
                             @endforeach
                         </tbody>
@@ -296,13 +296,13 @@
                         <tr>
                             <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Total</td>
                             <td class="td" style="text-align: right; padding-right: 16px; font-size: 13px;">
-                                {{ number_format($totalRuteSum, 2, ',', '.') }}
+                                {{ number_format($totalRuteSum, 0, ',', '.') }}
                             </td>
                         </tr>
                         <tr>
                             <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Nota Bon</td>
                             <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                                {{ number_format($cetakpdf->nota_bontambahan, 2, ',', '.') }} -
+                                {{ number_format($cetakpdf->nota_bontambahan, 0, ',', '.') }} -
                             </td>
                         </tr>
                         <tr>
@@ -314,7 +314,7 @@
                         <tr>
                             <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Sisa Transfer</td>
                             <td class="td" style="text-align: right; padding-right: 16px; font-size: 13px;">
-                                {{ number_format($cetakpdf->grand_total, 2, ',', '.') }}
+                                {{ number_format($cetakpdf->grand_total, 0, ',', '.') }}
                             </td>
                         </tr>
                     </table>

@@ -148,10 +148,10 @@
                     {{-- @endif --}}
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
-                            style="font-size: 13px">
+                            style="font-size: 12px">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th style="width: 1%"> <input type="checkbox" name="" id="select_all_ids"></th>
                                     <th class="text-center">No</th>
                                     <th>No Memo</th>
                                     <th>Tanggal</th>
@@ -164,8 +164,8 @@
                                     <th style="text-align: center">Total Borong</th>
                                     {{-- <th style="text-align: center">Adm</th> --}}
                                     {{-- <th style="text-align: center">Deposit Sopir</th> --}}
-                                    <th style="text-align: center">Grand Total</th>
-                                    <th style="text-align: center">Sisa Transfer</th>
+                                    <th style="text-align: center">G. Total</th>
+                                    <th style="text-align: center">S. Transfer</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
