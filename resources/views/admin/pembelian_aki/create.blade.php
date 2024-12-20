@@ -3,8 +3,20 @@
 @section('title', 'Pembelian Aki')
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
+    <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
+        <i class="fas fa-spinner fa-spin" style="font-size: 3rem;"></i>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function() {
+                document.getElementById("loadingSpinner").style.display = "none";
+                document.getElementById("mainContent").style.display = "block";
+                document.getElementById("mainContentSection").style.display = "block";
+            }, 100); // Adjust the delay time as needed
+        });
+    </script>
+    <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -12,7 +24,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('admin/pembelian_part') }}">Transaksi</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('admin/pembelian-aki') }}">Transaksi</a></li>
                         <li class="breadcrumb-item active">Pembelian Aki</li>
                     </ol>
                 </div><!-- /.col -->
@@ -21,17 +33,8 @@
     </div>
     <!-- /.content-header -->
 
-    <section class="content">
+    <section class="content" style="display: none;" id="mainContentSection">
         <div class="container-fluid">
-            @if (session('success'))
-                <div class="alert alert-success alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5>
-                        <i class="icon fas fa-check"></i> Berhasil!
-                    </h5>
-                    {{ session('success') }}
-                </div>
-            @endif
             @if (session('error_pelanggans') || session('error_pesanans'))
                 <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -50,35 +53,54 @@
                     @endif
                 </div>
             @endif
-            <form action="{{ url('admin/pembelian_part') }}" method="post" autocomplete="off">
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-check"></i> Berhasil!
+                    </h5>
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h5>
+                        <i class="icon fas fa-ban"></i> Gagal!
+                    </h5>
+                    @foreach (session('error') as $error)
+                        - {{ $error }} <br>
+                    @endforeach
+                </div>
+            @endif
+            <form action="{{ url('admin/pembelian-aki') }}" method="post" autocomplete="off">
                 @csrf
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Detail Supplier</h3>
                         <div class="float-right">
-                            <button type="button" data-toggle="modal" data-target="#modal-supplier"
-                                class="btn btn-primary btn-sm">
-                                Tambah
-                            </button>
                         </div>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <div class="form-group">
-                            <label for="supplier_id">Nama Supplier</label>
-                            <select class="custom-select form-control" id="supplier_id" name="supplier_id"
-                                onchange="getData(0)">
-                                <option value="">- Pilih Supplier -</option>
+                        <div class="form-group" style="flex: 8;">
+                            <label style="font-size:14px" for="supplier_id">Nama Supplier</label>
+                            <select class="select2bs4 select22-hidden-accessible" name="supplier_id"
+                                data-placeholder="Cari Supplier.." style="width: 100%;" data-select22-id="23" tabindex="-1"
+                                aria-hidden="true" id="supplier_id" onchange="getData(0)">
+                                <option value="">- Pilih -</option>
                                 @foreach ($suppliers as $supplier)
                                     <option value="{{ $supplier->id }}"
                                         {{ old('supplier_id') == $supplier->id ? 'selected' : '' }}>
-                                        {{ $supplier->nama_supp }}</option>
+                                        {{ $supplier->nama_supp }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="alamat">Alamat</label>
-                            <textarea type="text" class="form-control" readonly id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
+                            <label style="font-size:14px" for="alamat">Alamat</label>
+                            <textarea style="font-size:14px" type="text" class="form-control" readonly id="alamat" name="alamat"
+                                placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -96,60 +118,63 @@
                         <table class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th class="text-center">No</th>
-                                    <th>Kode Barang</th>
-                                    <th>Nama Barang</th>
-                                    <th>Jumlah</th>
-                                    <th>Harga</th>
-                                    <th>Opsi</th>
+                                    <th style="font-size:14px" class="text-center">No</th>
+                                    <th style="font-size:14px">No Seri</th>
+                                    {{-- <th>Ukuran</th> --}}
+                                    <th style="font-size:14px">Kondisi Aki</th>
+                                    <th style="font-size:14px">Merek</th>
+                                    {{-- <th>Type</th> --}}
+                                    <th style="font-size:14px">Harga</th>
+                                    <th style="font-size:14px">Opsi</th>
                                 </tr>
                             </thead>
-                            <tbody id="tabel-pesanan">
-                                <tr id="pesanan-0">
-                                    <td class="text-center" id="urutan">1</td>
-                                    <td style="width: 240px; align-items: center;">
-                                        <div class="d-flex"
-                                            style="flex: 1; justify-content: space-between; align-items: center;">
-                                            <div class="form-group mr-2" style="flex: 8;"> <!-- Adjusted flex value -->
-                                                <select class="select2bs4 select2-hidden-accessible" name="sparepart_id[]"
-                                                    data-placeholder="Cari Kode.." style="width: 100%;" data-select2-id="23"
-                                                    tabindex="-1" aria-hidden="true" id="sparepart_id-0"
-                                                    onchange="getData1(0)">
-                                                    <option value="">- Pilih -</option>
-                                                    @foreach ($spareparts as $sparepart_id)
-                                                        <option value="{{ $sparepart_id->id }}">
-                                                            {{ $sparepart_id->kode_barang }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group" style="flex: 1;">
-                                                <button type="button" data-toggle="modal" data-target="#modal-part"
-                                                    class="btn btn-primary btn-sm">
-                                                    <i class="fas fa-plus"></i>
-                                                </button>
-                                            </div>
+                            <tbody id="tabel-pembelian">
+                                <tr id="pembelian-0">
+                                    <td style="font-size:14px" class="text-center" id="urutan">1</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="nomor_seri-0" name="no_seri[]">
+                                        </div>
+                                    </td>
+
+                                    <td style="width: 150px">
+                                        <div class="form-group">
+                                            <select style="font-size:14px" class="form-control" id="kondisi_aki-0"
+                                                name="kondisi_aki[]">
+                                                <option value="">- Pilih Kondisi -</option>
+                                                <option value="BARU"
+                                                    {{ old('kondisi_aki') == 'BARU' ? 'selected' : null }}>
+                                                    BARU</option>
+                                                <option value="BEKAS"
+                                                    {{ old('kondisi_aki') == 'BEKAS' ? 'selected' : null }}>
+                                                    BEKAS</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div style="font-size: 14px" class="form-group">
+                                            <select class="select2bs4 select2-hidden-accessible" name="merek_aki_id[]"
+                                                data-placeholder="- Pilih Merek -" style="width: 100%;"
+                                                data-select2-id="23" tabindex="-1" aria-hidden="true"
+                                                id="merek_aki_id-0">
+                                                <option value="">- Pilih Merek -</option>
+                                                @foreach ($mereks as $merek_aki_id)
+                                                    <option value="{{ $merek_aki_id->id }}">
+                                                        {{ $merek_aki_id->nama_merek }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="nama_barang-0"
-                                                name="nama_barang[]" onkeyup="getTotal(0)">
+                                            <input style="font-size:14px" type="text" class="form-control"
+                                                id="harga-0" name="harga[]"
+                                                onkeypress="return /[0-9,]/.test(event.key)">
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="form-group">
-                                            <input type="number" class="form-control" id="jumlah-0" name="jumlah[]"
-                                                onkeyup="getTotal(0)">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="harga-0" name="harga[]">
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger" onclick="removePesanan(0)">
+                                        <button type="button" class="btn btn-danger btn-sm" onclick="removeBan(0)">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </td>
@@ -157,234 +182,20 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="card-footer text-right">
-                    <button type="reset" class="btn btn-secondary">Reset</button>
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <div style="margin-right: 20px; margin-left:20px" class="form-group">
+                        <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
+                        <input style="font-size:14px" type="text" class="form-control text-right" id="grand_total"
+                            name="grand_total" readonly placeholder="" value="{{ old('grand_total') }}">
+                    </div>
+                    <div class="card-footer text-right">
+                        <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan</button>
+                        <div id="loading" style="display: none;">
+                            <i class="fas fa-spinner fa-spin"></i> Sedang Menyimpan...
+                        </div>
+                    </div>
                 </div>
             </form>
-        </div>
-        <div class="modal fade" id="modal-supplier">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Supplier</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div style="text-align: center;">
-                            <form action="{{ url('admin/tambah_supplier') }}" method="POST"
-                                enctype="multipart/form-data" autocomplete="off">
-                                @csrf
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Tambah Supplier</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="nama">Nama Supplier</label>
-                                            <input type="text" class="form-control" id="nama_supp" name="nama_supp"
-                                                placeholder="Masukan nama supplier" value="{{ old('nama_supp') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="alamat">Alamat</label>
-                                            <textarea type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{-- div diatas ini --}}
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Kotak Person</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="nama">Nama</label>
-                                            <input type="text" class="form-control" id="nama_person"
-                                                name="nama_person" placeholder="Masukan nama"
-                                                value="{{ old('nama_person') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama">Jabatan</label>
-                                            <input type="text" class="form-control" id="jabatan" name="jabatan"
-                                                placeholder="Masukan jabatan" value="{{ old('jabatan') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama">No. Telepon</label>
-                                            <input type="number" class="form-control" id="telp" name="telp"
-                                                placeholder="Masukan no telepon" value="{{ old('telp') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama">Fax</label>
-                                            <input type="number" class="form-control" id="fax" name="fax"
-                                                placeholder="Masukan no fax" value="{{ old('fax') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="telp">Hp</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">+62</span>
-                                                </div>
-                                                <input type="number" id="hp" name="hp" class="form-control"
-                                                    placeholder="Masukan nomor hp" value="{{ old('hp') }}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama">Email</label>
-                                            <input type="text" class="form-control" id="email" name="email"
-                                                placeholder="Masukan email" value="{{ old('email') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama">No. NPWP</label>
-                                            <input type="text" class="form-control" id="npwp" name="npwp"
-                                                placeholder="Masukan no npwp" value="{{ old('npwp') }}">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Informasi Bank</h3>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="nama_bank">Nama Bank</label>
-                                            <select class="form-control" id="nama_bank" name="nama_bank">
-                                                <option value="">- Pilih -</option>
-                                                <option value="bri"
-                                                    {{ old('nama_bank') == 'bri' ? 'selected' : null }}>
-                                                    BRI</option>
-                                                <option value="mandiri"
-                                                    {{ old('nama_bank') == 'mandiri' ? 'selected' : null }}>
-                                                    MANDIRI</option>
-                                                <option value="bni"
-                                                    {{ old('nama_bank') == 'bni' ? 'selected' : null }}>
-                                                    BNI</option>
-                                                <option value="bni"
-                                                    {{ old('nama_bank') == 'bni' ? 'selected' : null }}>
-                                                    BTN</option>
-                                                <option value="btn"
-                                                    {{ old('nama_bank') == 'btn' ? 'selected' : null }}>
-                                                    DANAMON</option>
-                                                <option value="danamon"
-                                                    {{ old('nama_bank') == 'danamon' ? 'selected' : null }}>
-                                                    PERMATA</option>
-                                                <option value="permata"
-                                                    {{ old('nama_bank') == 'permata' ? 'selected' : null }}>
-                                                    BCA</option>
-                                                <option value="maybank"
-                                                    {{ old('nama_bank') == 'maybank' ? 'selected' : null }}>
-                                                    MAYBANK</option>
-                                                <option value="pan"
-                                                    {{ old('nama_bank') == 'pan' ? 'selected' : null }}>
-                                                    PAN</option>
-                                                <option value="cimb_niaga"
-                                                    {{ old('nama_bank') == 'cimb_niaga' ? 'selected' : null }}>
-                                                    CIMB NIAGA</option>
-                                                <option value="uob"
-                                                    {{ old('nama_bank') == 'uob' ? 'selected' : null }}>
-                                                    UOB</option>
-                                                <option value="artha_graha"
-                                                    {{ old('nama_bank') == 'artha_graha' ? 'selected' : null }}>
-                                                    ARTHA GRAHA</option>
-                                                <option value="bumi_artha"
-                                                    {{ old('nama_bank') == 'bumi_artha' ? 'selected' : null }}>
-                                                    BUMI ARTHA</option>
-                                                <option value="mega"
-                                                    {{ old('nama_bank') == 'mega' ? 'selected' : null }}>
-                                                    MEGA</option>
-                                                <option value="syariah"
-                                                    {{ old('nama_bank') == 'syariah' ? 'selected' : null }}>
-                                                    SYARIAH</option>
-                                                <option value="mega_syariah"
-                                                    {{ old('nama_bank') == 'mega_syariah' ? 'selected' : null }}>
-                                                    MEGA SYARIAH</option>
-
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="atas_nama">Atas nama</label>
-                                            <input type="text" class="form-control" id="atas_nama" name="atas_nama"
-                                                placeholder="Masukan atas nama" value="{{ old('atas_nama') }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="norek">No. Rekening</label>
-                                            <input type="number" class="form-control" id="norek" name="norek"
-                                                placeholder="Masukan no rekening" value="{{ old('norek') }}">
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <button type="reset" class="btn btn-secondary">Reset</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="modal-part">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Tambah Aki</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div style="text-align: center;">
-                            <form action="{{ url('admin/tambah_sparepart') }}" method="POST"
-                                enctype="multipart/form-data" autocomplete="off">
-                                @csrf
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Tambah Aki</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="form-group">
-                                            <label for="nama">Nama Barang</label>
-                                            <input type="text" class="form-control" id="nama_barang"
-                                                name="nama_barang" placeholder="Masukan nama pemilik" value="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="keterangan">Keterangan</label>
-                                            <textarea type="text" class="form-control" id="keterangan" name="keterangan" placeholder="Masukan keterangan">{{ old('keterangan') }}</textarea>
-                                        </div>
-                                        {{-- <div class="form-group">
-                                            <label for="nama">Harga Jual</label>
-                                            <input type="text" class="form-control" id="harga_jual" name="harga_jual"
-                                                placeholder="Masukan harga jual" value="">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="nama">Tersedia</label>
-                                            <input type="text" class="form-control" id="tersedia" name="tersedia"
-                                                placeholder="Tersedia" value="">
-                                        </div>
-                                        <div class="form-group"> --}}
-                                            <label for="nama">Satuan</label>
-                                            <input type="text" class="form-control" id="satuan" name="satuan"
-                                                placeholder="Masukan satuan" value="">
-                                        </div>
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <button type="reset" class="btn btn-secondary">Reset</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </div>
-                                {{-- div diatas ini --}}
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
     <script>
@@ -401,173 +212,186 @@
             });
         }
 
-        function getData1(id) {
-            var sparepart_id = document.getElementById('sparepart_id-0');
-            $.ajax({
-                url: "{{ url('admin/pembelian_part/sparepart') }}" + "/" + sparepart_id.value,
-                type: "GET",
-                dataType: "json",
-                success: function(sparepart_id) {
-                    var nama_barang = document.getElementById('nama_barang-0');
-                    nama_barang.value = sparepart_id.nama_barang;
-                },
-            });
-        }
+        var data_pembelian = @json(session('data_pembelians'));
+        var jumlah_ban = 1;
 
-        function getDataarray(key) {
-            var sparepart_id = document.getElementById('sparepart_id-' + key);
-            $.ajax({
-                url: "{{ url('admin/pembelian_part/sparepart') }}" + "/" + sparepart_id.value,
-                type: "GET",
-                dataType: "json",
-                success: function(response) {
-                    var nama_barang = document.getElementById('nama_barang-' + key);
-                    nama_barang.value = response.nama_barang;
-                },
-            });
-        }
-
-
-        var data_pesanan = @json(session('data_pembelians'));
-        var jumlah_pesanan = 1;
-
-        if (data_pesanan != null) {
-            jumlah_pesanan = data_pesanan.length;
+        if (data_pembelian != null) {
+            jumlah_ban = data_pembelian.length;
             $('#tabel-pembelian').empty();
             var urutan = 0;
-            $.each(data_pesanan, function(key, value) {
+            $.each(data_pembelian, function(key, value) {
                 urutan = urutan + 1;
-                itemPesanan(urutan, key, false, value);
+                itemPembelian(urutan, key, false, value);
             });
         }
 
         function addPesanan() {
-            jumlah_pesanan = jumlah_pesanan + 1;
+            jumlah_ban = jumlah_ban + 1;
 
-            if (jumlah_pesanan === 1) {
+            if (jumlah_ban === 1) {
                 $('#tabel-pembelian').empty();
             }
 
-            itemPesanan(jumlah_pesanan, jumlah_pesanan - 1, true);
+            itemPembelian(jumlah_ban, jumlah_ban - 1, true);
         }
 
-        function removePesanan(params) {
-            jumlah_pesanan = jumlah_pesanan - 1;
+        function removeBan(params) {
+            jumlah_ban = jumlah_ban - 1;
 
-            console.log(jumlah_pesanan);
+            console.log(jumlah_ban);
 
-            var tabel_pesanan = document.getElementById('tabel-pesanan');
-            var pesanan = document.getElementById('pesanan-' + params);
+            var tabel_pesanan = document.getElementById('tabel-pembelian');
+            var pembelian = document.getElementById('pembelian-' + params);
 
-            tabel_pesanan.removeChild(pesanan);
+            tabel_pesanan.removeChild(pembelian);
 
-            if (jumlah_pesanan === 0) {
-                var item_pesanan = '<tr>';
-                item_pesanan += '<td class="text-center" colspan="5">- Aki belum ditambahkan -</td>';
-                item_pesanan += '</tr>';
-                $('#tabel-pesanan').html(item_pesanan);
+            if (jumlah_ban === 0) {
+                var item_pembelian = '<tr>';
+                item_pembelian += '<td class="text-center" colspan="8">- Aki belum ditambahkan -</td>';
+                item_pembelian += '</tr>';
+                $('#tabel-pembelian').html(item_pembelian);
             } else {
                 var urutan = document.querySelectorAll('#urutan');
                 for (let i = 0; i < urutan.length; i++) {
                     urutan[i].innerText = i + 1;
                 }
             }
+            updateGrandTotal();
         }
 
-        function itemPesanan(urutan, key, style, value = null) {
-            var sparepart_id = '';
-            var nama_barang = '';
-            var jumlah = '';
+        function itemPembelian(urutan, key, style, value = null) {
+            var no_seri = '';
+            var merek_aki_id = '';
             var harga = '';
+            var kondisi_aki = '';
 
             if (value !== null) {
-                sparepart_id = value.sparepart_id;
-                nama_barang = value.nama_barang;
-                jumlah = value.jumlah;
+                no_seri = value.no_seri;
+                merek_aki_id = value.merek_aki_id;
                 harga = value.harga;
+                kondisi_aki = value.kondisi_aki;
             }
 
-            console.log(sparepart_id);
+            // urutan 
+            var item_pembelian = '<tr id="pembelian-' + urutan + '">';
+            item_pembelian += '<td style="font-size:14px" class="text-center" id="urutan">' + urutan + '</td>';
 
-            var item_pesanan = '<tr id="pesanan-' + urutan + '">';
-            item_pesanan += '<td class="text-center" id="urutan">' + urutan + '</td>';
-
-            // Kode Barang Column
-            item_pesanan += '<td style="width: 240px">';
-            item_pesanan += '<div class="form-group">';
-            item_pesanan += '<div class="d-flex align-items-center">';
-            item_pesanan +=
-                '<select class="form-control select2bs4 mr-2" id="sparepart_id-' + key +
-                '" name="sparepart_id[]" onchange="getDataarray(' + key +
-                ')" style="width: 100%;" data-placeholder="Cari Kode..">';
-
-            var spareparts = <?php echo json_encode($spareparts); ?>;
-            for (var i = 0; i < spareparts.length; i++) {
-                item_pesanan += '<option value="' + spareparts[i].id + '"' +
-                    (spareparts[i].id == sparepart_id ? ' selected' : '') +
-                    '>' + spareparts[i].kode_barang + '</option>';
-            }
-
-            item_pesanan += '</select>';
-            item_pesanan +=
-                '<button type="button" data-toggle="modal" data-target="#modal-part" class="btn btn-primary btn-sm" style="margin-left: 10px;">';
-            item_pesanan += '<i class="fas fa-plus"></i>';
-            item_pesanan += '</button>';
-            item_pesanan += '</div>';
-            item_pesanan += '</div>';
-            item_pesanan += '</td>';
+            // no_seri 
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian += '<input style="font-size:14px" type="text" class="form-control" id="nomor_seri-' + key +
+                '" name="no_seri[]" value="' +
+                no_seri +
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
 
-            // nama barang 
-            item_pesanan += '<td>';
-            item_pesanan += '<div class="form-group">';
-            item_pesanan += '<input type="text" class="form-control" id="nama_barang-' + key +
-                '" name="nama_barang[]" value="' +
-                nama_barang +
-                '" onkeyup="getTotal(' + key + ')">';
-            item_pesanan += '</div>';
-            item_pesanan += '</td>';
+            // kondisi_aki
+            item_pembelian += '<td style="width: 150px">';
+            item_pembelian += '<div class="form-group">';
+            item_pembelian += '<select style="font-size:14px" class="form-control" id="kondisi_aki-' + key +
+                '" name="kondisi_aki[]">';
+            item_pembelian += '<option value="">- Pilih Kondisi -</option>';
+            item_pembelian += '<option value="BARU"' + (kondisi_aki === 'BARU' ? ' selected' : '') + '>BARU</option>';
+            item_pembelian += '<option value="BEKAS"' + (kondisi_aki === 'BEKAS' ? ' selected' : '') +
+                '>BEKAS</option>';
+            // merek
+            item_pembelian += '<td style="width: 220px">';
+            item_pembelian += '<div style="font-size:14px" class="form-group">';
+            item_pembelian += '<select  class="form-control select2bs4" id="merek_aki_id-' + key +
+                '" name="merek_aki_id[]">';
+            item_pembelian += '<option value="">- Pilih Merek -</option>';
+            item_pembelian += '@foreach ($mereks as $merek_aki_id)';
+            item_pembelian +=
+                '<option value="{{ $merek_aki_id->id }}" {{ $merek_aki_id->id == ' + merek_aki_id + ' ? 'selected' : '' }}>{{ $merek_aki_id->nama_merek }}</option>';
+            item_pembelian += '@endforeach';
+            item_pembelian += '</select>';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
-            // jumlah 
-            item_pesanan += '<td>';
-            item_pesanan += '<div class="form-group">';
-            item_pesanan += '<input type="number" class="form-control" id="jumlah-' + key +
-                '" name="jumlah[]" value="' +
-                jumlah + '" onkeyup="getTotal(' + key + ')">';
-            item_pesanan += '</div>';
-            item_pesanan += '</td>'
-            item_pesanan += '<td>';
-            item_pesanan += '<div class="form-group">'
-            item_pesanan += '<input type="number" class="form-control" id="harga-' + key + '" name="harga[]" value="' +
+
+            // harga
+            item_pembelian += '<td>';
+            item_pembelian += '<div class="form-group">'
+            item_pembelian +=
+                '<input style="font-size:14px" type="text" class="form-control" onkeypress="return /[0-9,]/.test(event.key)" id="harga-' +
+                key +
+                '" name="harga[]" value="' +
                 harga +
-                '">';
-            item_pesanan += '</div>';
-            item_pesanan += '</td>';
+                '" ';
+            item_pembelian += '</div>';
+            item_pembelian += '</td>';
 
             // delete
-            item_pesanan += '<td>';
-            item_pesanan += '<button type="button" class="btn btn-danger" onclick="removePesanan(' + urutan + ')">';
-            item_pesanan += '<i class="fas fa-trash"></i>';
-            item_pesanan += '</button>';
-            item_pesanan += '</td>';
-            item_pesanan += '</tr>';
-
+            item_pembelian += '<td>';
+            item_pembelian += '<button type="button" class="btn btn-danger btn-sm" onclick="removeBan(' + urutan + ')">';
+            item_pembelian += '<i class="fas fa-trash"></i>';
+            item_pembelian += '</button>';
+            item_pembelian += '</td>';
+            item_pembelian += '</tr>';
 
             if (style) {
                 select2(key);
             }
 
-            $('#tabel-pesanan').append(item_pesanan);
+            $('#tabel-pembelian').append(item_pembelian);
 
-            $('#sparepart_id-' + key + '').val(sparepart_id).attr('selected', true);
+            $('#merek_aki_id-' + key + '').val(merek_aki_id).attr('selected', true);
+
         }
 
         function select2(id) {
             $(function() {
-                $('#sparepart_id-' + id).select2({
+                $('#merek_aki_id-' + id).select2({
                     theme: 'bootstrap4'
                 });
             });
         }
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Tambahkan event listener pada tombol "Simpan"
+            $('#btnSimpan').click(function() {
+                // Sembunyikan tombol "Simpan" dan "Reset", serta tampilkan elemen loading
+                $(this).hide();
+                $('#btnReset').hide(); // Tambahkan id "btnReset" pada tombol "Reset"
+                $('#loading').show();
+
+                // Lakukan pengiriman formulir
+                $('form').submit();
+            });
+        });
+    </script>
+
+    <script>
+        function updateGrandTotal() {
+            var grandTotal = 0;
+
+            // Loop through all elements with name "nominal_tambahan[]"
+            $('input[name^="harga"]').each(function() {
+                var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
+                grandTotal += nominalValue;
+            });
+            // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
+            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            $('#grand_total').val(formatRupiah(grandTotal));
+            console.log(grandTotal);
+        }
+
+        $('body').on('input', 'input[name^="harga"]', function() {
+            updateGrandTotal();
+        });
+
+        // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
+        $(document).ready(function() {
+            updateGrandTotal();
+        });
+
+        function formatRupiah(value) {
+            return value.toLocaleString('id-ID');
+        }
+
     </script>
 @endsection

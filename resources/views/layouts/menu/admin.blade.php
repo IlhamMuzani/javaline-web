@@ -44,11 +44,13 @@
         request()->is('admin/marketing*') ||
         request()->is('admin/kendaraan') ||
         request()->is('admin/ban') ||
+        request()->is('admin/aki') ||
         request()->is('admin/golongan') ||
         request()->is('admin/divisi') ||
         request()->is('admin/jenis_kendaraan') ||
         request()->is('admin/ukuran_ban') ||
         request()->is('admin/merek_ban') ||
+        request()->is('admin/merek-aki') ||
         request()->is('admin/type_ban') ||
         request()->is('admin/nokir') ||
         request()->is('admin/stnk') ||
@@ -88,11 +90,13 @@
             request()->is('admin/vendor*') ||
             request()->is('admin/kendaraan') ||
             request()->is('admin/ban') ||
+            request()->is('admin/aki') ||
             request()->is('admin/golongan') ||
             request()->is('admin/divisi') ||
             request()->is('admin/jenis_kendaraan') ||
             request()->is('admin/ukuran_ban') ||
             request()->is('admin/merek_ban') ||
+            request()->is('admin/merek-aki') ||
             request()->is('admin/type_ban') ||
             request()->is('admin/nokir') ||
             request()->is('admin/stnk') ||
@@ -275,6 +279,23 @@
             <a href="{{ url('admin/ban') }}" class="nav-link {{ request()->is('admin/ban*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Data Ban</p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['ban'])
+        <li class="nav-item">
+            <a href="{{ url('admin/aki') }}" class="nav-link {{ request()->is('admin/aki*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Data Aki</p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['merek ban'])
+        <li class="nav-item">
+            <a href="{{ url('admin/merek-aki') }}"
+                class="nav-link {{ request()->is('admin/merek-aki*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Data Merek Aki</p>
             </a>
         </li>
     @endif
@@ -1229,6 +1250,7 @@
         request()->is('admin/inquery_returnekspedisi*') ||
         request()->is('admin/inquery_tagihanekspedisi*') ||
         request()->is('admin/inquery_pembelianban*') ||
+        request()->is('admin/inquery-pembelianaki*') ||
         request()->is('admin/inquery_pembelianpart*') ||
         request()->is('admin/inquery_pemasanganban*') ||
         request()->is('admin/inquery_pelepasanban*') ||
@@ -1277,6 +1299,7 @@
             request()->is('admin/inquery_returnekspedisi*') ||
             request()->is('admin/inquery_tagihanekspedisi*') ||
             request()->is('admin/inquery_pembelianban*') ||
+            request()->is('admin/inquery-pembelianaki*') ||
             request()->is('admin/inquery_pembelianpart*') ||
             request()->is('admin/inquery_pemasanganban*') ||
             request()->is('admin/inquery_pelepasanban*') ||
@@ -1458,6 +1481,16 @@
                 <p style="font-size: 13px;">Inquery Faktur Pembelian Part @if (count($pembelian_part) > 0)
                         <span class="right badge badge-info">{{ count($pembelian_part) }}</span>
                     @endif
+                </p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['inquery pembelian part'])
+        <li class="nav-item">
+            <a href="{{ url('admin/inquery-pembelianaki') }}"
+                class="nav-link {{ request()->is('admin/inquery-pembelianaki*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 13px;">Inquery Faktur Pembelian Aki</span>
                 </p>
             </a>
         </li>
@@ -1799,6 +1832,7 @@
         request()->is('admin/pilihlaporanmemo*') ||
         request()->is('admin/laporan_penerimaankaskecil*') ||
         request()->is('admin/laporan_pembelianban*') ||
+        request()->is('admin/laporan-pembelianaki*') ||
         request()->is('admin/laporan_pembelianpart*') ||
         request()->is('admin/laporan_pemasanganban*') ||
         request()->is('admin/laporan_pelepasanban*') ||
@@ -1835,6 +1869,7 @@
             request()->is('admin/pilihlaporanmemo*') ||
             request()->is('admin/laporan_penerimaankaskecil*') ||
             request()->is('admin/laporan_pembelianban*') ||
+            request()->is('admin/laporan-pembelianaki*') ||
             request()->is('admin/laporan_pembelianpart*') ||
             request()->is('admin/laporan_pemasanganban*') ||
             request()->is('admin/laporan_pelepasanban*') ||
@@ -1880,6 +1915,15 @@
                 class="nav-link {{ request()->is('admin/laporan_pembelianpart*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Pembelian Part</p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan pembelian ban'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan-pembelianaki') }}"
+                class="nav-link {{ request()->is('admin/laporan-pembelianaki*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Pembelian Aki</p>
             </a>
         </li>
     @endif

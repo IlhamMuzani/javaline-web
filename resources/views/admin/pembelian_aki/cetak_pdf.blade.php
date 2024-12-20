@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>faktur Pembelian Part</title>
+    <title>Faktur Pembelian Aki</title>
     <style>
         .b {
             border: 1px solid black;
@@ -27,10 +27,11 @@
             /*font-family: 'DOSVGA', Arial, Helvetica, sans-serif;*/
             /*font-weight: bold;*/
             color: black;
-            margin-top: 40px;
+            margin-top: 10px;
             margin-left: 20px;
             margin-right: 20px;
         }
+
         span.h2 {
             font-size: 24px;
             /* font-weight: 500; */
@@ -157,11 +158,11 @@
 
         .info-1 {}
 
-        /* .label {
+        .label {
             font-size: 13px;
             text-align: center;
 
-        } */
+        }
 
         .separator {
             padding-top: 13px;
@@ -180,6 +181,11 @@
             /* Sesuaikan posisi vertikal garis tengah */
         }
 
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+        }
+
         @page {
             /* size: A4; */
             margin: 1cm;
@@ -188,13 +194,17 @@
 </head>
 
 <body style="margin: 0; padding: 0;">
+    {{-- <div id="logo-container">
+        <img src="{{ asset('storage/uploads/user/logo.png') }}" alt="Java Line" width="100" height="50">
+    </div> --}}
+    <br>
     <table cellpadding="2" cellspacing="0">
         <tr>
             <td class="info-catatan2" style="font-size: 13px;">PT. JAVA LINE LOGISTICS</td>
             <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">Nama Supplier</td>
             <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
-                    {{ $pembelians->supplier->nama_supp }}
+                    {{ $cetakpdf->supplier->nama_supp }}
                 </span>
                 <br>
             </td>
@@ -209,7 +219,7 @@
             <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">Alamat</td>
             <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
-                    {{ $pembelians->supplier->alamat }}
+                    {{ $cetakpdf->supplier->alamat }}
                 </span>
                 <br>
             </td>
@@ -220,8 +230,8 @@
             <td class="info-catatan2" style="font-size: 13px; margin-left: 40px; display: block;">Telp / Hp</td>
             <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
-                    {{ $pembelians->supplier->telp }} /
-                    {{ $pembelians->supplier->hp }}
+                    {{ $cetakpdf->supplier->telp }} /
+                    {{ $cetakpdf->supplier->hp }}
                 </span>
                 <br>
             </td>
@@ -233,7 +243,7 @@
 
             <td style="text-align: left; font-size: 13px;">
                 <span class="content2">
-                    {{ $pembelians->supplier->kode_supplier }}
+                    {{ $cetakpdf->supplier->kode_supplier }}
                 </span>
                 <br>
             </td>
@@ -241,19 +251,19 @@
     </table>
 
     <div style="font-weight: bold; text-align: center;">
-        <span style="font-weight: bold; font-size: 19px;">FAKTUR PEMBELIAN PART</span>
+        <span style="font-weight: bold; font-size: 19px;">FAKTUR PEMBELIAN AKI</span>
         <br>
     </div>
-    {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
-    <table style="width: 100%; border-top: 1px solid black; margin-bottom:5px">
+    <table style="width: 100%;
+                    border-top: 1px solid black; margin-bottom:5px">
         <tr>
             <td>
                 <span class="info-item" style="font-size: 13px; padding-left: 5px;">No. Faktur:
-                    {{ $pembelians->kode_pembelianpart }}</span>
+                    {{ $cetakpdf->kode_pembelianaki }}</span>
                 <br>
             </td>
             <td style="text-align: right; padding-right: 45px;">
-                <span class="info-item" style="font-size: 13px;">Tanggal:{{ $pembelians->tanggal }}</span>
+                <span class="info-item" style="font-size: 13px;">Tanggal:{{ $cetakpdf->tanggal }}</span>
                 <br>
             </td>
         </tr>
@@ -261,49 +271,39 @@
     {{-- <hr style="border-top: 0.5px solid black; margin: 3px 0;"> --}}
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <tr>
-            <td class="td" style=" text-align: center; padding: 5px; font-size: 13px;">No.</td>
-            <td class="td" style=" padding: 5px; font-size: 13px;">Kode Barang</td>
-            <td class="td" style=" padding: 5px; font-size: 13px;">Nama Barang</td>
-            <td class="td" style=" text-align: center;padding: 5px; font-size: 13px;">Harga Satuan</td>
-            <td class="td" style=" padding: 0px; font-size: 13px;">Qty</td>
-            <td class="td" style=" padding: 5px; font-size: 13px;">Satuan</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">No.</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Kode Aki</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">No. Seri</td>
+            <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">Merek</td>
+            <td class="td" style="text-align: center; padding: 5px; font-size: 13px;">Kondisi</td>
             <td class="td" style=" padding: 5px; font-size: 13px; color:white">Rp</td>
-            <td class="td" style=" text-align: right; padding: 5px; font-size: 13px;">Total</td>
+            <td class="td" style="text-align: right; padding: 5px; font-size: 13px;">Harga</td>
         </tr>
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="6" style="padding: 0px;"></td>
+            <td colspan="8" style="padding: 0px;"></td>
         </tr>
         @php
             $totalQuantity = 0;
             $totalHarga = 0;
         @endphp
-        @foreach ($parts as $item)
+        @foreach ($akis as $item)
             <tr>
                 <td class="td" style="text-align: center;  font-size: 13px;">{{ $loop->iteration }}
                 </td>
-                <td class="td" style="  font-size: 13px;">{{ $item->kode_partdetail }}</td>
-                <td style="font-size: 13px;">
-                    {{ $item->nama_barang }}
+                <td class="td" style="text-align: center;  font-size: 13px;">{{ $item->kode_aki }}</td>
+                <td class="info-text info-left" style="font-size: 13px; text-align: left;">
+                    {{ $item->no_seri }}
                 </td>
-                <td class="td" style="font-size: 13px; text-align: right;">
-                    <span style="float: center;">Rp.</span>
-                    <span
-                        style="float: right; margin:right:20px">{{ number_format($item->hargasatuan, 0, ',', '.') }}</span>
+                <td class="td" style="text-align: left;  font-size: 13px;">
+                    {{ $item->merek_aki->nama_merek ?? null }}
                 </td>
-                <!--<td class="td" style=" font-size: 13px; text-align: center">-->
-                <!--    {{ number_format($item->hargasatuan, 0, ',', '.') }} </td>-->
-
-                <td class="td" style=" font-size: 13px;">
-                    {{ $item->jumlah }}
-                </td>
-                <td class="td" style=" font-size: 13px;">
-                    {{ $item->satuan }}
+                <td class="td" style="text-align: center;  font-size: 13px;">{{ $item->kondisi_aki }}
                 </td>
                 <td class="td" style="text-align: right; font-size: 13px;">
                     Rp.
                 </td>
-                <td class="td" style="text-align: right; font-size: 13px;">
-                    {{ number_format($item->harga, 0, ',', '.') }}
+                <td class="td" style="text-align: right;  font-size: 13px;">
+                    {{ number_format($item->harga, 2, ',', '.') }}
                 </td>
             </tr>
             @php
@@ -312,17 +312,16 @@
             @endphp
         @endforeach
         <tr style="border-bottom: 1px solid black;">
-            <td colspan="8" style="padding: 0px;"></td>
+            <td colspan="6" style="padding: 0px;"></td>
         </tr>
         <tr>
-            <td colspan="7"
+            <td colspan="6"
                 style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">Sub
                 Total
                 Rp.
             </td>
-            <td class="td"
-                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
-                {{ number_format($totalHarga, 0, ',', '.') }}
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+                {{ number_format($totalHarga, 2, ',', '.') }}
             </td>
         </tr>
     </table>
@@ -335,21 +334,21 @@
                             <td class="info-catatan2" style="font-size: 13px;">Nama Supplier</td>
                             <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">
-                                {{ $pembelians->supplier->nama_bank }}
+                                {{ $cetakpdf->supplier->nama_bank }}
                             </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2" style="font-size: 13px;">No. Rekening</td>
                             <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">
-                                {{ $pembelians->supplier->norek }}
+                                {{ $cetakpdf->supplier->norek }}
                             </td>
                         </tr>
                         <tr>
                             <td class="info-catatan2" style="font-size: 13px;">Atas Nama</td>
                             <td class="info-item" style="font-size: 13px;">:</td>
                             <td class="info-text info-left" style="font-size: 13px;">
-                                {{ $pembelians->supplier->atas_nama }}
+                                {{ $cetakpdf->supplier->atas_nama }}
                             </td>
                         </tr>
                     </table>
@@ -363,51 +362,51 @@
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td class="label" style="font-size:13px; min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="font-size:13px;" class="separator" colspan="2"><span></span></td>
+                        <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td style="font-size:13px;" class="label">Gudang</td>
+                        <td class="label">Gudang</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size:13px;" class="label">
-                            @if ($pembelians->user)
-                                {{ $pembelians->user->karyawan->nama_lengkap }}
+                        <td class="label">
+                            @if ($cetakpdf->user)
+                                {{ $cetakpdf->user->karyawan->nama_lengkap }}
                             @else
                                 user tidak ada
                             @endif
                         </td>
                     </tr>
                     <tr>
-                        <td style="font-size:13px;" class="separator" colspan="2"><span></span></td>
+                        <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td style="font-size:13px;" class="label">Pembelian</td>
+                        <td class="label">Pembelian</td>
                     </tr>
                 </table>
             </td>
             <td style="text-align: center;">
                 <table style="margin: 0 auto;">
                     <tr style="text-align: center;">
-                        <td style="font-size:13px;" class="label" style="min-height: 16px;">&nbsp;</td>
+                        <td class="label" style="min-height: 16px;">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="font-size:13px;" class="separator" colspan="2"><span></span></td>
+                        <td class="separator" colspan="2"><span></span></td>
                     </tr>
                     <tr style="text-align: center;">
-                        <td style="font-size:13px;" class="label">Accounting</td>
+                        <td class="label">Accounting</td>
                     </tr>
                 </table>
             </td>
         </tr>
     </table>
-        <div style="text-align: right; font-size:12px; margin-top:25px">
+    <div style="text-align: right; font-size:12px; margin-top:25px">
         <span style="font-style: italic;">Printed Date {{ \Carbon\Carbon::now()->format('Y-m-d H:i:s') }}</span>
     </div>
 </body>

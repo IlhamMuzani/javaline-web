@@ -1037,5 +1037,15 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('postingfilterpenerimaantohirin', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaantohirin']);
     Route::get('postingfilterpenerimaanishak', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanishak']);
     Route::get('postingfilterpenerimaanniam', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanniam']);
+    Route::get('pembelian-aki/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PembelianAkiController::class, 'cetakpdf']);
+    Route::resource('inquery-pembelianaki', \App\Http\Controllers\Admin\InqueryPembelianAkiController::class);
+    Route::get('inquery-pembelianaki/unpostpembelianaki/{id}', [\App\Http\Controllers\Admin\InqueryPembelianAkiController::class, 'unpostpembelianaki'])->name('unpostpembelianaki');
+    Route::get('inquery-pembelianaki/postingpembelianaki/{id}', [\App\Http\Controllers\Admin\InqueryPembelianAkiController::class, 'postingpembelianaki'])->name('postingpembelianaki');
+    Route::get('hapuspembelianaki/{id}', [\App\Http\Controllers\Admin\InqueryPembelianAkiController::class, 'hapuspembelianaki'])->name('hapuspembelianaki');
+    Route::delete('inquery-pembelianaki/deletedetailaki/{id}', [\App\Http\Controllers\Admin\InqueryPembelianAkiController::class, 'deletedetailaki']);
+    Route::resource('merek-aki', \App\Http\Controllers\Admin\MerekakiController::class);
+    Route::get('laporan-pembelianaki', [\App\Http\Controllers\Admin\LaporanPembelianAkiController::class, 'index']);
+    Route::get('print-aki', [\App\Http\Controllers\Admin\LaporanPembelianAkiController::class, 'print_aki']);
 
+    Route::resource('aki', \App\Http\Controllers\Admin\AkiController::class);
 });

@@ -450,6 +450,7 @@
                     urutan[i].innerText = i + 1;
                 }
             }
+            updateGrandTotal();
         }
 
         function itemPembelian(urutan, key, style, value = null) {

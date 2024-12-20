@@ -54,8 +54,8 @@ class Pembelian_aki extends Model
         return $this->belongsTo(Supplier::class);
     }
 
-    public function detail_aki()
+    public function aki()
     {
-        return $this->hasMany(Detail_pembelianaki::class);
+        return $this->hasMany(Aki::class);
     }
 }

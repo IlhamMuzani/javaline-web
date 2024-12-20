@@ -9,103 +9,43 @@ use App\Models\Sparepart;
 use Illuminate\Http\Request;
 use App\Models\Pembelian_aki;
 use App\Http\Controllers\Controller;
-use App\Models\Detail_pembelianaki;
+use App\Models\Aki;
+use App\Models\Merek_aki;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
 class PembelianakiController extends Controller
 {
+
     public function index()
     {
-        if (auth()->check() && auth()->user()->menu['pembelian part']) {
+        $today = Carbon::today();
 
-            $pembelian_akis = Pembelian_aki::all();
-            $suppliers = Supplier::all();
-            $spareparts = Sparepart::all();
+        $inquery = Pembelian_aki::whereDate('created_at', $today)
+            ->orWhere(function ($query) use ($today) {
+                $query->where('status', 'unpost')
+                    ->whereDate('created_at', '<', $today);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-            return view('admin.pembelian_aki.index', compact('pembelian_akis', 'suppliers', 'spareparts'));
-        } else {
-            // tidak memiliki akses
-            return back()->with('error', array('Anda tidak memiliki akses'));
-        }
+        return view('admin.pembelian_aki.index', compact('inquery'));
     }
-
-    public function tabelpart()
-    {
-        $spareparts = Sparepart::all();
-        return response()->json($spareparts);
-    }
-
-    // public function tabelpartmesin()
-    // {
-    //     $spareparts = Sparepart::where('kategori', 'mesin')->get();
-    //     return response()->json($spareparts);
-    // }
 
 
     public function create()
     {
         if (auth()->check() && auth()->user()->menu['pembelian part']) {
 
+            $pembelian_akis = Pembelian_aki::all();
             $suppliers = Supplier::all();
-            $spareparts = Sparepart::all();
-            return view('admin/pembelian_aki/create', compact('suppliers', 'spareparts'));
+            $mereks = Merek_aki::all();
+
+            return view('admin.pembelian_aki.create', compact('pembelian_akis', 'suppliers', 'mereks'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
-    }
-
-    public function tambah_supplier(Request $request)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'nama_supp' => 'required',
-                'alamat' => 'required',
-            ],
-            [
-                'nama_supp.required' => 'Masukkan nama supplier',
-                'alamat.required' => 'Masukkan Alamat',
-            ]
-        );
-
-        if ($validator->fails()) {
-            $error = $validator->errors()->all();
-            return back()->withInput()->with('error', $error);
-        }
-
-
-        $kode_supp = $this->kode_supp();
-
-        Supplier::create(array_merge(
-            $request->all(),
-            [
-                'kode_supplier' => $this->kode_supp(),
-                'qrcode_supplier' => 'https://javaline.id/supplier/' . $kode_supp,
-                'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-            ]
-        ));
-
-        return Redirect::back()->with('success', 'Berhasil menambahkan supplier');
-    }
-
-    public function kode_supp()
-    {
-        $supplier = Supplier::all();
-        if ($supplier->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Supplier::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
-        }
-
-        $data = 'AC';
-        $kode_supplier = $data . $num;
-        return $kode_supplier;
     }
 
     public function store(Request $request)
@@ -125,16 +65,12 @@ class PembelianakiController extends Controller
         $error_pesanans = array();
         $data_pembelians = collect();
 
-        if ($request->has('kategori')) {
-            for ($i = 0; $i < count($request->kategori); $i++) {
+        if ($request->has('no_seri')) {
+            for ($i = 0; $i < count($request->no_seri); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
-                    'kategori.' . $i => 'required',
-                    'sparepart_id.' . $i => 'required',
-                    'kode_akidetail.' . $i => 'required',
-                    'nama_barang.' . $i => 'required',
-                    'satuan.' . $i => 'required',
-                    'jumlah.' . $i => 'required',
-                    'hargasatuan.' . $i => 'required',
+                    'no_seri.' . $i => 'required',
+                    'kondisi_aki.' . $i => 'required',
+                    'merek_aki_id.' . $i => 'required',
                     'harga.' . $i => 'required',
                 ]);
 
@@ -143,25 +79,12 @@ class PembelianakiController extends Controller
                 }
 
 
-                $kategori = is_null($request->kategori[$i]) ? '' : $request->kategori[$i];
-                $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
-                $kode_akidetail = is_null($request->kode_akidetail[$i]) ? '' : $request->kode_akidetail[$i];
-                $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
-                $satuan = is_null($request->satuan[$i]) ? '' : $request->satuan[$i];
-                $jumlah = is_null($request->kategori[$i]) ? '' : $request->jumlah[$i];
-                $hargasatuan = is_null($request->hargasatuan[$i]) ? '' : $request->hargasatuan[$i];
+                $no_seri = is_null($request->no_seri[$i]) ? '' : $request->no_seri[$i];
+                $kondisi_aki = is_null($request->kondisi_aki[$i]) ? '' : $request->kondisi_aki[$i];
+                $merek_aki_id = is_null($request->merek_aki_id[$i]) ? '' : $request->merek_aki_id[$i];
                 $harga = is_null($request->harga[$i]) ? '' : $request->harga[$i];
 
-                $data_pembelians->push([
-                    'kategori' => $kategori,
-                    'sparepart_id' => $sparepart_id,
-                    'kode_akidetail' => $kode_akidetail,
-                    'nama_barang' => $nama_barang,
-                    'satuan' => $satuan,
-                    'jumlah' => $jumlah,
-                    'hargasatuan' => $hargasatuan,
-                    'harga' => $harga,
-                ]);
+                $data_pembelians->push(['no_seri' => $no_seri, 'kondisi_aki' => $kondisi_aki, 'merek_aki_id' => $merek_aki_id,  'harga' => $harga]);
             }
         } else {
         }
@@ -185,38 +108,37 @@ class PembelianakiController extends Controller
             'supplier_id' => $request->supplier_id,
             'tanggal' => $format_tanggal,
             'tanggal_awal' => $tanggal,
+            'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
             'status' => 'posting',
             'status_notif' => false,
         ]);
 
         $transaksi_id = $transaksi->id;
 
-        if ($transaksi) {
-            foreach ($data_pembelians as $data_pesanan) {
-                // Create a new Detailpembelian
-                Detail_pembelianaki::create([
-                    'pembelian_aki_id' => $transaksi->id,
-                    'sparepart_id' => $data_pesanan['sparepart_id'],
-                    'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                    'kategori' => $data_pesanan['kategori'],
-                    'kode_akidetail' => $data_pesanan['kode_akidetail'],
-                    'nama_barang' => $data_pesanan['nama_barang'],
-                    'jumlah' => $data_pesanan['jumlah'],
-                    'satuan' => $data_pesanan['satuan'],
-                    'hargasatuan' => $data_pesanan['hargasatuan'],
-                    'harga' => $data_pesanan['harga'],
-                ]);
+        $kodeaki = $this->kodeaki();
 
-                // Increment the quantity of the barang
-                Sparepart::where('id', $data_pesanan['sparepart_id'])->increment('jumlah', $data_pesanan['jumlah']);
+        if ($transaksi) {
+
+            foreach ($data_pembelians as $data_pesanan) {
+                Aki::create([
+                    'kode_aki' => $this->kodeaki(),
+                    'pembelian_aki_id' => $transaksi->id,
+                    'qrcode_aki' => 'https://javaline.id/aki/' . $this->kodeaki(),
+                    'tanggal_awal' => Carbon::now()->format('Y-m-d'),
+                    'no_seri' => $data_pesanan['no_seri'],
+                    'kondisi_aki' => $data_pesanan['kondisi_aki'],
+                    'merek_aki_id' => $data_pesanan['merek_aki_id'],
+                    'status' => 'posting',
+                    'harga' =>  str_replace(',', '.', str_replace('.', '', $data_pesanan['harga'])),
+                ]);
             }
         }
 
-        $pembelians = Pembelian_aki::find($transaksi_id);
+        $cetakpdf = Pembelian_aki::find($transaksi_id);
 
-        $parts = Detail_pembelianaki::where('pembelian_aki_id', $pembelians->id)->get();
+        $akis = Aki::where('pembelian_aki_id', $cetakpdf->id)->get();
 
-        return view('admin.pembelian_aki.show', compact('parts', 'pembelians'));
+        return view('admin.pembelian_aki.show', compact('akis', 'cetakpdf'));
     }
 
     public function kode()
@@ -237,11 +159,22 @@ class PembelianakiController extends Controller
         return $kode_pembelian_aki;
     }
 
-    public function sparepart($id)
+    public function kodeaki()
     {
-        $sparepart = Sparepart::where('id', $id)->first();
+        $ban = Aki::all();
+        if ($ban->isEmpty()) {
+            $num = "000001";
+        } else {
+            $id = Aki::getId();
+            foreach ($id as $value);
+            $idlm = $value->id;
+            $idbr = $idlm + 1;
+            $num = sprintf("%06s", $idbr);
+        }
 
-        return json_decode($sparepart);
+        $data = 'SA';
+        $kode_ban = $data . $num;
+        return $kode_ban;
     }
 
     public function show($id)
@@ -249,12 +182,12 @@ class PembelianakiController extends Controller
         if (auth()->check() && auth()->user()->menu['pembelian part']) {
 
             $pembelian_aki = Pembelian_aki::find($id);
-            $parts = Detail_pembelianaki::where('pembelian_aki_id', $pembelian_aki->id)->get();
+            $akis = Aki::where('pembelian_aki_id', $pembelian_aki->id)->get();
 
 
-            $pembelians = Pembelian_aki::where('id', $id)->first();
+            $cetakpdf = Pembelian_aki::where('id', $id)->first();
 
-            return view('admin.pembelian_aki.show', compact('parts', 'pembelians'));
+            return view('admin.pembelian_aki.show', compact('akis', 'cetakpdf'));
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));
@@ -265,15 +198,12 @@ class PembelianakiController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['pembelian part']) {
 
-            $pembelians = Pembelian_aki::find($id);
-            $parts = Detail_pembelianaki::where('pembelian_aki_id', $pembelians->id)->get();
-
-            // Load the view and set the paper size to portrait letter
-            $pembelianbans = Pembelian_aki::where('id', $id)->first();
-            $pdf = PDF::loadView('admin.pembelian_aki.cetak_pdf', compact('parts', 'pembelians', 'pembelianbans'));
+            $cetakpdf = Pembelian_aki::find($id);
+            $akis = Aki::where('pembelian_aki_id', $cetakpdf->id)->get();
+            $pdf = PDF::loadView('admin.pembelian_aki.cetak_pdf', compact('akis', 'cetakpdf'));
             $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
 
-            return $pdf->stream('Faktur_Pembelian_Ban.pdf');
+            return $pdf->stream('Faktur_Pembelian_Aki.pdf');
         } else {
             // tidak memiliki akses
             return back()->with('error', array('Anda tidak memiliki akses'));

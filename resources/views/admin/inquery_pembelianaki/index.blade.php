@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Pembelian Aki')
+@section('title', 'Inquery Pembelian Aki')
 
 @section('content')
     <div id="loadingSpinner" style="display: flex; align-items: center; justify-content: center; height: 100vh;">
@@ -16,17 +16,16 @@
             }, 100); // Adjust the delay time as needed
         });
     </script>
-
     <!-- Content Header (Page header) -->
     <div class="content-header" style="display: none;" id="mainContent">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Pembelian Aki</h1>
+                    <h1 class="m-0">Inquery Pembelian Aki</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Pembelian Aki</li>
+                        <li class="breadcrumb-item active">Inquery Pembelian Aki</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -46,26 +45,42 @@
                     {{ session('success') }}
                 </div>
             @endif
-            @if (session('error'))
-                <div class="alert alert-danger alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <h5>
-                        <i class="icon fas fa-ban"></i> Gagal!
-                    </h5>
-                    {{ session('error') }}
-                </div>
-            @endif
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Pembelian Aki</h3>
-                    <div class="float-right">
-                        <a href="{{ url('admin/pembelian-aki/create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Tambah
-                        </a>
-                    </div>
+                    <h3 class="card-title">Data Inquery Pembelian Aki</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <form method="GET" id="form-action">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <select class="custom-select form-control" id="status" name="status">
+                                    <option value="">- Semua Status -</option>
+                                    <option value="posting" {{ Request::get('status') == 'posting' ? 'selected' : '' }}>
+                                        Posting
+                                    </option>
+                                    <option value="unpost" {{ Request::get('status') == 'unpost' ? 'selected' : '' }}>
+                                        Unpost</option>
+                                </select>
+                                <label for="status">(Pilih Status)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_awal" name="tanggal_awal" type="date"
+                                    value="{{ Request::get('tanggal_awal') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal Awal)</label>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <input class="form-control" id="tanggal_akhir" name="tanggal_akhir" type="date"
+                                    value="{{ Request::get('tanggal_akhir') }}" max="{{ date('Y-m-d') }}" />
+                                <label for="tanggal_awal">(Tanggal Akhir)</label>
+                            </div>
+                            <div class="col-md-2 mb-3">
+                                <button type="button" class="btn btn-outline-primary mr-2" onclick="cari()">
+                                    <i class="fas fa-search"></i> Cari
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="table-responsive" style="overflow-x: auto;">
                         <table id="datatables66" class="table table-bordered table-striped table-hover"
                             style="font-size: 13px">
@@ -115,9 +130,9 @@
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/inquery-pembelianaki/' . $pembelian->id . '/edit') }}">Update</a>
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/pembelian-aki/' . $pembelian->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery-pembelianaki/' . $pembelian->id) }}">Show</a>
                                                     <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusperalatan', ['id' => $pembelian->id]) }}">
+                                                        action="{{ route('hapuspembelianaki', ['id' => $pembelian->id]) }}">
                                                         <button type="submit"
                                                             class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                             </i> Delete
@@ -128,11 +143,11 @@
                                                     <a class="dropdown-item unpost-btn"
                                                         data-memo-id="{{ $pembelian->id }}">Unpost</a>
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/pembelian-aki/' . $pembelian->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery-pembelianaki/' . $pembelian->id) }}">Show</a>
                                                 @endif
                                                 @if ($pembelian->status == 'selesai')
                                                     <a class="dropdown-item"
-                                                        href="{{ url('admin/pembelian-aki/' . $pembelian->id) }}">Show</a>
+                                                        href="{{ url('admin/inquery-pembelianaki/' . $pembelian->id) }}">Show</a>
                                                 @endif
                                             </div>
                                         </td>
@@ -141,7 +156,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- Modal Loading -->
                     <div class="modal fade" id="modal-loading" tabindex="-1" role="dialog"
                         aria-labelledby="modal-loading-label" aria-hidden="true" data-backdrop="static">
                         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -154,35 +168,10 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Modal Konfirmasi Hapus -->
-                <div class="modal fade" id="modal-confirm-delete" tabindex="-1" role="dialog"
-                    aria-labelledby="modal-confirm-delete-label" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modal-confirm-delete-label">Konfirmasi Hapus</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Apakah Anda yakin ingin menghapus pembelian yang dipilih?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="button" class="btn btn-danger" id="btn-confirm-delete">Hapus</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- /.card-body -->
             </div>
         </div>
     </section>
-
-
     <!-- /.card -->
     <script>
         var tanggalAwal = document.getElementById('tanggal_awal');
@@ -208,11 +197,12 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/pembelian-aki') }}";
+            form.action = "{{ url('admin/inquery-pembelianaki') }}";
             form.submit();
         }
     </script>
 
+    {{-- unpost deposit  --}}
     <script>
         $(function(e) {
             $("#select_all_ids").click(function() {
@@ -220,62 +210,6 @@
             })
         });
 
-        function deleteSelectedData() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum menghapus.");
-            } else {
-                // Tampilkan modal konfirmasi
-                $('#modal-confirm-delete').modal('show');
-
-                // Ketika tombol Hapus di modal konfirmasi diklik
-                $('#btn-confirm-delete').click(function() {
-                    var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                    var selectedIds = [];
-                    selectedCheckboxes.forEach(function(checkbox) {
-                        selectedIds.push(checkbox.value);
-                    });
-                    document.getElementById('selectedIds').value = selectedIds.join(',');
-                    var selectedIdsString = selectedIds.join(',');
-                    window.location.href = "{{ url('admin/deletefakturfilter') }}?ids=" + selectedIdsString;
-
-                    // Sembunyikan modal konfirmasi setelah penghapusan dilakukan
-                    $('#modal-confirm-delete').modal('hide');
-                });
-            }
-        }
-    </script>
-
-    <script>
-        function confirmDelete() {
-            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
-            if (selectedIds.length === 0) {
-                alert("Harap centang setidaknya satu item sebelum menghapus.");
-            } else {
-                // Tampilkan modal konfirmasi
-                $('#modal-confirm-delete').modal('show');
-
-                // Ketika tombol Hapus di modal konfirmasi diklik
-                $('#btn-confirm-delete').click(function() {
-                    var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
-                    var selectedIds = [];
-                    selectedCheckboxes.forEach(function(checkbox) {
-                        selectedIds.push(checkbox.value);
-                    });
-                    document.getElementById('selectedIds').value = selectedIds.join(',');
-                    var selectedIdsString = selectedIds.join(',');
-                    window.location.href = "{{ url('admin/deletefakturfilter') }}?ids=" + selectedIdsString;
-
-                    // Sembunyikan modal konfirmasi setelah penghapusan dilakukan
-                    $('#modal-confirm-delete').modal('hide');
-                });
-            }
-        }
-    </script>
-
-
-    {{-- unpost memo  --}}
-    <script>
         $(document).ready(function() {
             $('.unpost-btn').click(function() {
                 var memoId = $(this).data('memo-id');
@@ -315,7 +249,7 @@
             });
         });
     </script>
-    {{-- posting memo --}}
+    {{-- posting deposit --}}
     <script>
         $(document).ready(function() {
             $('.posting-btn').click(function() {
