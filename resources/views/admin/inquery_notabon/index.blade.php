@@ -95,7 +95,7 @@
                                 </button>
                                 <button type="button" class="btn btn-primary btn-block mt-1" id="checkfilter"
                                     onclick="printSelectedData3()" target="_blank">
-                                    <i class="fas fa-print"></i> Cetak 6 Page
+                                    <i class="fas fa-print"></i> Cetak 4 Page
                                 </button>
                                 <button type="button" class="btn btn-success btn-block mt-1" id="checkfilter"
                                     onclick="excelSelectedData()" target="_blank">

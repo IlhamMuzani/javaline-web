@@ -490,6 +490,7 @@ class InqueryNotabonController extends Controller
         $pdf = app('dompdf.wrapper');
         $pdf->loadView('admin.inquery_notabon.cetak3_pdffilter', compact('notas'));
         $pdf->setPaper('letter', 'portrait'); // Set the paper size to portrait letter
+        // $pdf->setPaper('folio');
         return $pdf->stream('SelectedNota.pdf');
     }
 

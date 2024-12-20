@@ -32,7 +32,7 @@
 
         .section h2 {
             border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
+            padding-bottom: 0px;
             text-align: center;
             margin-bottom: 5px;
             font-size: 13px;
@@ -73,7 +73,7 @@
 
         .detail-info {
             display: flex;
-            margin-top: -24px;
+            margin-top: -25px;
             flex-direction: column;
         }
 
@@ -87,7 +87,7 @@
         .detail-info .penjualan {
             display: flex;
             margin-top: 2px;
-            margin-bottom: 2px;
+            margin-bottom: 0px;
             flex-direction: column;
         }
 
@@ -229,15 +229,15 @@
                                             </table>
                                         </td>
                                         <td style="text-align: center;">
-                                            <table>
-                                                <tr>
-                                                    <td class="label">.</td>
+                                            <table style="margin: 0 auto;">
+                                                <tr style="text-align: center;">
+                                                    <td style="font-size: 12px; color:#fff" class="label">.</td>
                                                 </tr>
                                                 <tr>
                                                     <td class="separator" colspan="2"><span></span></td>
                                                 </tr>
-                                                <tr>
-                                                    <td style="font-size: 12px" class="label">Acounting</td>
+                                                <tr style="text-align: center;">
+                                                    <td style="font-size: 12px" class="label">Finance</td>
                                                 </tr>
                                             </table>
                                         </td>
