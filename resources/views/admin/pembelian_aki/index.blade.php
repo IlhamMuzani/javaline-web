@@ -117,7 +117,7 @@
                                                     <a class="dropdown-item"
                                                         href="{{ url('admin/pembelian-aki/' . $pembelian->id) }}">Show</a>
                                                     <form style="margin-top:5px" method="GET"
-                                                        action="{{ route('hapusperalatan', ['id' => $pembelian->id]) }}">
+                                                        action="{{ route('hapuspembelianaki', ['id' => $pembelian->id]) }}">
                                                         <button type="submit"
                                                             class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                             </i> Delete
