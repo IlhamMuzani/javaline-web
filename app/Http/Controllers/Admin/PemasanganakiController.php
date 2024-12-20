@@ -135,6 +135,18 @@ class PemasanganakiController extends Controller
         return view('admin.pemasangan_aki.show', compact('details', 'cetakpdf'));
     }
 
+    public function show($id)
+    {
+
+        $pemasangan_aki = Pemasangan_aki::find($id);
+        $details = Detail_pemasanganaki::where('pemasangan_aki_id', $pemasangan_aki->id)->get();
+
+
+        $cetakpdf = Pemasangan_aki::where('id', $id)->first();
+
+        return view('admin.pemasangan_aki.show', compact('details', 'cetakpdf'));
+    }
+
     public function cetakpdf($id)
     {
         if (auth()->check() && auth()->user()->menu['pemasangan part']) {

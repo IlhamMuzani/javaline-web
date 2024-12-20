@@ -1051,4 +1051,8 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('pembelian-aki/aki/{id}', [\App\Http\Controllers\Admin\PembelianakiController::class, 'aki']);
     Route::resource('inquery-pemasanganaki', \App\Http\Controllers\Admin\InqueryPemasanganakiController::class);
     Route::get('pemasangan-aki/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PemasanganakiController::class, 'cetakpdf']);
+
+    Route::get('inquery-pemasanganaki/unpostpemasangan_aki/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganakiController::class, 'unpostpemasangan_aki']);
+    Route::get('inquery-pemasanganaki/postingpemasangan_aki/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganakiController::class, 'postingpemasangan_aki']);
+    Route::get('hapuspemasangan_aki/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganakiController::class, 'hapuspemasangan_aki'])->name('hapuspemasangan_aki');
 });

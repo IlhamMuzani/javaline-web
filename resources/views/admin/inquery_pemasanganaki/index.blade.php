@@ -139,7 +139,7 @@
                                                         <a class="dropdown-item"
                                                             href="{{ url('admin/inquery-pemasanganaki/' . $pemasangan->id) }}">Show</a>
                                                         <form style="margin-top:5px" method="GET"
-                                                            action="{{ route('hapuspemasanganaki', ['id' => $pemasangan->id]) }}">
+                                                            action="{{ route('hapuspemasangan_aki', ['id' => $pemasangan->id]) }}">
                                                             <button type="submit"
                                                                 class="dropdown-item btn btn-outline-danger btn-block mt-2">
                                                                 </i> Delete
@@ -204,7 +204,7 @@
         var form = document.getElementById('form-action');
 
         function cari() {
-            form.action = "{{ url('admin/inquery_pemasanganpart') }}";
+            form.action = "{{ url('admin/inquery-pemasanganaki') }}";
             form.submit();
         }
     </script>
@@ -226,7 +226,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan unpost
                 $.ajax({
-                    url: "{{ url('admin/inquery_pemasanganpart/unpostpemasangan_part/') }}/" +
+                    url: "{{ url('admin/inquery-pemasanganaki/unpostpemasangan_aki/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {
@@ -267,7 +267,7 @@
 
                 // Kirim permintaan AJAX untuk melakukan posting
                 $.ajax({
-                    url: "{{ url('admin/inquery_pemasanganpart/postingpemasangan_part/') }}/" +
+                    url: "{{ url('admin/inquery-pemasanganaki/postingpemasangan_aki/') }}/" +
                         memoId,
                     type: 'GET',
                     data: {

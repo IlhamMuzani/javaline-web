@@ -118,7 +118,6 @@ class PembelianakiController extends Controller
         $kodeaki = $this->kodeaki();
 
         if ($transaksi) {
-
             foreach ($data_pembelians as $data_pesanan) {
                 Aki::create([
                     'kode_aki' => $this->kodeaki(),
