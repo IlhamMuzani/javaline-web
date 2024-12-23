@@ -913,6 +913,7 @@
         request()->is('admin/sewa_kendaraan*') ||
         request()->is('admin/pelunasan_sewakeninvoice*') ||
         request()->is('admin/invoice_sewakendaraan*') ||
+        request()->is('admin/pelunasan-hutangkw*') ||
         request()->is('admin/kontrak_rute*') ||
         request()->is('admin/nota-bon*') ||
         request()->is('admin/memo-asuransi*') ||
@@ -950,6 +951,7 @@
             request()->is('admin/spk*') ||
             request()->is('admin/penerimaan_sj*') ||
             request()->is('admin/sewa_kendaraan*') ||
+            request()->is('admin/pelunasan-hutangkw*') ||
             request()->is('admin/pelunasan_sewakeninvoice*') ||
             request()->is('admin/kontrak_rute*') ||
             request()->is('admin/invoice_sewakendaraan*') ||

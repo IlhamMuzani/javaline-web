@@ -215,7 +215,6 @@
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">
                 {{ number_format($SisaTransfer, 0, ',', '.') }}
             </td>
-
         </tr>
     </table>
 
