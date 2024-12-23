@@ -303,8 +303,8 @@
                                 right; padding-right: 17px;font-size: 15px;">
                                 Nominal</td>
                         </tr>
-                        <tbody>
-                            @foreach ($detail_nota as $item)
+                        @foreach ($detail_nota as $item)
+                            <tbody>
                                 <td style="text-align: left; padding-left: 17px;font-size: 15px;">
                                     {{ $loop->iteration }}
                                 </td>
@@ -315,8 +315,8 @@
                                 right; padding-right: 17px;font-size: 15px;">
                                     {{ number_format($item->nominal_nota, 0, ',', '.') }}
                                 </td>
-                            @endforeach
-                        </tbody>
+                            </tbody>
+                        @endforeach
                     </table>
                 </td>
                 <td>

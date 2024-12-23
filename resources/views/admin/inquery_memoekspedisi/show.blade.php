@@ -236,8 +236,8 @@
                         <td class="info-column">
                             <span class="info-item" style="font-size: 15px;">Nominal</span>
                         </td>
-                        <tbody>
-                            @foreach ($detail_nota as $item)
+                        @foreach ($detail_nota as $item)
+                            <tbody>
                                 <td class="info-column">
                                     <span class="info-item" style="font-size: 15px;"> {{ $loop->iteration }}
                                     </span>
@@ -249,8 +249,8 @@
                                     <span class="info-item"
                                         style="font-size: 15px;">{{ number_format($item->nominal_nota, 0, ',', '.') }}</span>
                                 </td>
-                            @endforeach
-                        </tbody>
+                            </tbody>
+                        @endforeach
                     </tr>
                 </table>
             </td>
