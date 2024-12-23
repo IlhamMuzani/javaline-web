@@ -299,7 +299,7 @@
                                 {{ number_format($totalRuteSum, 0, ',', '.') }}
                             </td>
                         </tr>
-                        <tr>
+                        {{-- <tr>
                             <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
                                 {{ optional($cetakpdf->detail_notabon->first())->kode_nota ?? '' }}
                                 Nota Bon 1
@@ -308,15 +308,37 @@
                                 {{ number_format(optional($cetakpdf->detail_notabon->first())->nominal_nota ?? 0, 0, ',', '.') }}
                             </td>
                         </tr>
-                        <tr>
-                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
-                                {{ optional($cetakpdf->detail_notabon->last())->kode_nota ?? '' }}
-                                Nota Bon 2
-                            </td>
-                            <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                                {{ number_format(optional($cetakpdf->detail_notabon->last())->nominal_nota ?? 0, 0, ',', '.') }} -
-                            </td>
-                        </tr>
+                        @php
+                            // Ambil dua data terakhir dalam dua bulan terakhir
+                            $detail_notabon_last_two = $cetakpdf->detail_notabon
+                                ->filter(function ($nota) {
+                                    return \Carbon\Carbon::parse($nota->tanggal)->greaterThanOrEqualTo(
+                                        now()->subMonths(2),
+                                    );
+                                })
+                                ->sortByDesc('tanggal') // Pastikan data diurutkan dari yang terbaru
+                                ->take(2);
+                        @endphp --}}
+
+                        @php
+                            $counter = 1; // Inisialisasi penghitung
+                        @endphp
+
+                        @foreach ($detail_nota as $nota)
+                            <tr>
+                                <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
+                                    {{ $nota->kode_nota ?? '' }}
+                                    Nota Bon {{ $counter }} <!-- Tampilkan teks dinamis -->
+                                </td>
+                                <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                    {{ number_format($nota->nominal_nota ?? 0, 0, ',', '.') }} -
+                                </td>
+                            </tr>
+                            @php
+                                $counter++; // Increment penghitung
+                            @endphp
+                        @endforeach
+
                         <tr>
                             <td colspan="4" style="padding: 0px;"></td>
                             <td style="padding: 0px;">

@@ -119,6 +119,10 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
+                                <button type="button" class="btn btn-primary btn-block mt-1" id="checkfilter"
+                                    onclick="printSelectedDatanominal()" target="_blank">
+                                    <i class="fas fa-print"></i> Cetak Nominal Global
+                                </button>
                                 @if (auth()->user()->id != 399)
                                     <button type="button" class="btn btn-success btn-block mt-1" id="checkfilter"
                                         onclick="excelSelectedData()" target="_blank">
@@ -575,6 +579,23 @@
                 document.getElementById('selectedIds').value = selectedIds.join(',');
                 var selectedIdsString = selectedIds.join(',');
                 window.location.href = "{{ url('admin/cetak_memoekspedisifilter') }}?ids=" + selectedIdsString;
+                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
+            }
+        }
+
+        function printSelectedDatanominal() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                alert("Harap centang setidaknya satu item sebelum mencetak.");
+            } else {
+                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                document.getElementById('selectedIds').value = selectedIds.join(',');
+                var selectedIdsString = selectedIds.join(',');
+                window.location.href = "{{ url('admin/cetak_memoekspedisinominalfilter') }}?ids=" + selectedIdsString;
                 // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
             }
         }
