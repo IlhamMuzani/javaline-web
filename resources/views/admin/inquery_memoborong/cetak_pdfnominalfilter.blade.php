@@ -182,7 +182,7 @@
             </tr>
             @php
                 $Harga += $item->harga_rute;
-                $Qty += $item->biaya_tambahan;
+                $Qty += $item->jumlah;
                 $Total += $item->totalrute;
                 $TotalBorong += ($item->totalrute - $item->pphs) / 2 + $item->biaya_tambahan;
                 $Grandtotal += $item->hasil_jumlah;
