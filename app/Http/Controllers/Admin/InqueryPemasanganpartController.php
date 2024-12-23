@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
 use App\Models\Kendaraan;
-use App\Models\Aki;
+use App\Models\Sparepart;
 use Illuminate\Http\Request;
 use App\Models\Pemasangan_part;
 use App\Http\Controllers\Controller;
-use App\Models\Detail_pemasanganaki;
+use App\Models\Detail_pemasanganpart;
 use Illuminate\Support\Facades\Validator;
 
 class InqueryPemasanganpartController extends Controller
@@ -60,10 +60,10 @@ class InqueryPemasanganpartController extends Controller
 
             $inquery = Pemasangan_part::where('id', $id)->first();
             $kendaraans = Kendaraan::all();
-            $spareparts = Aki::where([
+            $spareparts = Sparepart::where([
                 ['kategori', '!=', 'oli']
             ])->get();
-            $details = Detail_pemasanganaki::where('pemasangan_part_id', $id)->get();
+            $details = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
 
             return view('admin.inquery_pemasanganpart.update', compact('inquery', 'kendaraans', 'spareparts', 'details'));
         } else {
@@ -99,27 +99,27 @@ class InqueryPemasanganpartController extends Controller
         }
 
 
-        if ($request->has('aki_id')) {
-            for ($i = 0; $i < count($request->aki_id); $i++) {
+        if ($request->has('sparepart_id')) {
+            for ($i = 0; $i < count($request->sparepart_id); $i++) {
                 $validasi_produk = Validator::make($request->all(), [
-                    'aki_id.' . $i => 'required',
+                    'sparepart_id.' . $i => 'required',
                     'nama_barang.' . $i => 'required',
                     'keterangan.' . $i => 'required',
                     'jumlah.' . $i => 'required',
                 ]);
 
                 if ($validasi_produk->fails()) {
-                    array_push($error_pesanans, "Pemasangan Aki nomor " . $i + 1 . " belum dilengkapi!");
+                    array_push($error_pesanans, "Pemasangan Part nomor " . $i + 1 . " belum dilengkapi!");
                 }
 
-                $aki_id = is_null($request->aki_id[$i]) ? '' : $request->aki_id[$i];
+                $sparepart_id = is_null($request->sparepart_id[$i]) ? '' : $request->sparepart_id[$i];
                 $nama_barang = is_null($request->nama_barang[$i]) ? '' : $request->nama_barang[$i];
                 $keterangan = is_null($request->keterangan[$i]) ? '' : $request->keterangan[$i];
                 $jumlah = is_null($request->jumlah[$i]) ? '' : $request->jumlah[$i];
 
                 $data_pembelians->push([
                     'detail_id' => $request->detail_ids[$i] ?? null,
-                    'aki_id' => $aki_id,
+                    'sparepart_id' => $sparepart_id,
                     'nama_barang' => $nama_barang,
                     'keterangan' => $keterangan,
                     'jumlah' => $jumlah
@@ -152,37 +152,36 @@ class InqueryPemasanganpartController extends Controller
             $detailId = $data_pesanan['detail_id'];
 
             if ($detailId) {
-                $detailToUpdate = Detail_pemasanganaki::find($detailId);
-                $aki = Aki::find($data_pesanan['aki_id']);
+                $detailToUpdate = Detail_pemasanganpart::find($detailId);
+                $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
 
-                if ($aki) {
-                    $jumlah_sparepart = $aki->jumlah - $data_pesanan['jumlah'];
-                    $aki->update(['jumlah' => $jumlah_sparepart]);
+                if ($sparepart) {
+                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
+                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
                 }
 
                 $detail_pemakaians_data = [
                     'pemasangan_part_id' => $transaksi->id,
-                    'aki_id' => $data_pesanan['aki_id'],
+                    'sparepart_id' => $data_pesanan['sparepart_id'],
                     'keterangan' => $data_pesanan['keterangan'],
                     'jumlah' => $data_pesanan['jumlah'],
                 ];
                 $detailToUpdate->update($detail_pemakaians_data);
-                
             } else {
-                $existingDetail = Detail_pemasanganaki::where([
+                $existingDetail = Detail_pemasanganpart::where([
                     'pemasangan_part_id' => $transaksi->id,
-                    'aki_id' => $data_pesanan['aki_id'],
+                    'sparepart_id' => $data_pesanan['sparepart_id'],
                 ])->first();
 
-                $aki = Aki::find($data_pesanan['aki_id']);
+                $sparepart = Sparepart::find($data_pesanan['sparepart_id']);
                 if (!$existingDetail) {
-                    $jumlah_sparepart = $aki->jumlah - $data_pesanan['jumlah'];
-                    $aki->update(['jumlah' => $jumlah_sparepart]);
+                    $jumlah_sparepart = $sparepart->jumlah - $data_pesanan['jumlah'];
+                    $sparepart->update(['jumlah' => $jumlah_sparepart]);
 
-                    Detail_pemasanganaki::create([
+                    Detail_pemasanganpart::create([
                         'pemasangan_part_id' => $transaksi->id,
                         'tanggal_awal' => Carbon::now('Asia/Jakarta'),
-                        'aki_id' => $data_pesanan['aki_id'],
+                        'sparepart_id' => $data_pesanan['sparepart_id'],
                         'keterangan' => $data_pesanan['keterangan'],
                         'jumlah' => $data_pesanan['jumlah'],
                     ]);
@@ -193,7 +192,7 @@ class InqueryPemasanganpartController extends Controller
 
         $pemasangan_part = Pemasangan_part::find($transaksi_id);
 
-        $parts = Detail_pemasanganaki::where('pemasangan_part_id', $pemasangan_part->id)->get();
+        $parts = Detail_pemasanganpart::where('pemasangan_part_id', $pemasangan_part->id)->get();
 
         return view('admin.inquery_pemasanganpart.show', compact('parts', 'pemasangan_part'));
     }
@@ -202,14 +201,14 @@ class InqueryPemasanganpartController extends Controller
     {
         $part = Pemasangan_part::where('id', $id)->first();
 
-        $detailpemasangan = Detail_pemasanganaki::where('pemasangan_part_id', $id)->get();
+        $detailpemasangan = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
 
         foreach ($detailpemasangan as $detail) {
-            $aki = Aki::find($detail['aki_id']);
+            $sparepart = Sparepart::find($detail['sparepart_id']);
 
-            if ($aki) {
-                $aki->jumlah += $detail->jumlah;
-                $aki->save();
+            if ($sparepart) {
+                $sparepart->jumlah += $detail->jumlah;
+                $sparepart->save();
             }
         }
 
@@ -223,14 +222,14 @@ class InqueryPemasanganpartController extends Controller
     public function postingpemasangan_part($id)
     {
         $part = Pemasangan_part::where('id', $id)->first();
-        $detailpemasangan = Detail_pemasanganaki::where('pemasangan_part_id', $id)->get();
+        $detailpemasangan = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
 
         foreach ($detailpemasangan as $detail) {
-            $aki = Aki::find($detail['aki_id']);
+            $sparepart = Sparepart::find($detail['sparepart_id']);
 
-            if ($aki) {
-                $aki->jumlah -= $detail->jumlah;
-                $aki->save();
+            if ($sparepart) {
+                $sparepart->jumlah -= $detail->jumlah;
+                $sparepart->save();
             }
         }
 
@@ -247,7 +246,7 @@ class InqueryPemasanganpartController extends Controller
 
             $pemasangan_part = Pemasangan_part::findOrFail($id);
 
-            $parts = Detail_pemasanganaki::where('pemasangan_part_id', $id)->get();
+            $parts = Detail_pemasanganpart::where('pemasangan_part_id', $id)->get();
 
             return view('admin.inquery_pemasanganpart.show', compact('parts', 'pemasangan_part'));
         } else {
@@ -266,7 +265,7 @@ class InqueryPemasanganpartController extends Controller
 
     public function deletepart($id)
     {
-        $part = Detail_pemasanganaki::find($id);
+        $part = Detail_pemasanganpart::find($id);
         $part->delete();
 
         return back()->with('success', 'Berhasil');
@@ -274,7 +273,7 @@ class InqueryPemasanganpartController extends Controller
 
     public function hapuspemasanganpart($id)
     {
-        $part = Detail_pemasanganaki::find($id);
+        $part = Detail_pemasanganpart::find($id);
         $part->delete();
     }
 }
