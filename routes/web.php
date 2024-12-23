@@ -1055,4 +1055,6 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('inquery-pemasanganaki/unpostpemasangan_aki/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganakiController::class, 'unpostpemasangan_aki']);
     Route::get('inquery-pemasanganaki/postingpemasangan_aki/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganakiController::class, 'postingpemasangan_aki']);
     Route::get('hapuspemasangan_aki/{id}', [\App\Http\Controllers\Admin\InqueryPemasanganakiController::class, 'hapuspemasangan_aki'])->name('hapuspemasangan_aki');
+
+    Route::get('postingstatussj', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'postingstatussj']);
 });

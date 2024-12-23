@@ -73,7 +73,14 @@ class InqueryFakturekspedisispkController extends Controller
             ->get();
         $sewa_kendaraans = Sewa_kendaraan::where('status_faktur', null)->get();
 
-        $spks = Spk::where('status_spk', 'sj')->get();
+        $spks = Spk::whereIn('status_spk', ['sj', 'memo'])
+            ->whereHas('memo_ekspedisi', function ($query) {
+                $query->where('status_spk', 'sj');
+            })
+            ->orderBy('created_at', 'desc')
+            ->with('memo_ekspedisi')
+            ->get();
+            
         return view('admin.inquery_fakturekspedisispk.update', compact('sewa_kendaraans', 'karyawans', 'spks', 'kendaraans', 'memoEkspedisi', 'memoTambahan', 'detailtarifs', 'details', 'inquery', 'pelanggans', 'memos', 'tarifs'));
     }
 
@@ -284,7 +291,7 @@ class InqueryFakturekspedisispkController extends Controller
         if ($request->kategoris == "non memo") {
             $cetakpdf->update(['status' => 'posting']);
         }
-        
+
         if ($request->kategori == "PPH") {
             $attributes = [
                 'kode_faktur' => $cetakpdf->kode_faktur,

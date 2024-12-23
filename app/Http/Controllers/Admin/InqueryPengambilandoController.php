@@ -187,4 +187,19 @@ class InqueryPengambilandoController extends Controller
         $items->delete();
         return back()->with('success', 'Berhasil menghapus Surat penawaran');
     }
+
+    public function postingstatussj(Request $request)
+    {
+        $selectedIds = array_reverse(explode(',', $request->input('ids')));
+        $fakturs = Pengambilan_do::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        foreach ($fakturs as $faktur) {
+            $spk = Spk::where('id', $faktur->spk_id)->first();
+            if ($spk) {
+                $spk->update([
+                    'status_spk' => 'sj',
+                ]);
+            }
+        }
+    }
 }

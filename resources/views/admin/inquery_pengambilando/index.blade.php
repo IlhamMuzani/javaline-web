@@ -116,6 +116,11 @@
                                     onclick="postingSelectedDataniam()">
                                     <i class="fas fa-check-square"></i> Posting niam
                                 </button>
+
+                                <button type="button" class="btn btn-success btn-block mt-1" id="postingfilter"
+                                    onclick="postingSelectedDatasj()">
+                                    <i class="fas fa-check-square"></i> Posting Ubah SJ
+                                </button>
                                 <input type="hidden" name="ids" id="selectedIds" value="">
                             </div>
                         </div>
@@ -129,6 +134,7 @@
                                     <th class="text-center">No</th>
                                     <th class="text-center">Id</th>
                                     <th>Kode SPK</th>
+                                    <th>Status</th>
                                     <th>Penerima</th>
                                     {{-- <th>User Penerima</th> --}}
                                     <th>No Kabin</th>
@@ -147,6 +153,7 @@
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td class="text-center">{{ $pengambilan_do->id }}</td>
                                         <td>{{ $pengambilan_do->spk->kode_spk ?? 'tidak ada' }}</td>
+                                        <td>{{ $pengambilan_do->spk->status_spk ?? 'tidak ada' }}</td>
                                         <td>{{ $pengambilan_do->userpenerima->karyawan->nama_lengkap ?? 'tidak ada' }}</td>
                                         <td>{{ $pengambilan_do->spk->kendaraan->no_kabin ?? 'tidak ada' }}</td>
                                         <td>{{ $pengambilan_do->spk->user->karyawan->nama_lengkap ?? 'tidak ada' }}</td>
@@ -582,6 +589,47 @@
 
                 $.ajax({
                     url: "{{ url('admin/postingfilterpenerimaanniam') }}?ids=" + selectedIdsString,
+                    type: 'GET',
+                    success: function(response) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan sukses atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(response);
+
+                        // Reload the page to refresh the table
+                        location.reload();
+                    },
+                    error: function(error) {
+                        // Sembunyikan modal loading setelah permintaan selesai
+                        $('#modal-loading').modal('hide');
+
+                        // Tampilkan pesan error atau lakukan tindakan lain sesuai kebutuhan
+                        console.log(error);
+                    }
+                });
+            }
+        }
+
+        function postingSelectedDatasj() {
+            var selectedCheckboxes = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedCheckboxes.length === 0) {
+                // Tampilkan modal peringatan jika tidak ada item yang dipilih
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum posting.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                var selectedIdsString = selectedIds.join(',');
+                document.getElementById('postingfilter').value = selectedIdsString;
+
+                // Tampilkan modal loading sebelum mengirim permintaan AJAX
+                $('#modal-loading').modal('show');
+
+                $.ajax({
+                    url: "{{ url('admin/postingstatussj') }}?ids=" + selectedIdsString,
                     type: 'GET',
                     success: function(response) {
                         // Sembunyikan modal loading setelah permintaan selesai
