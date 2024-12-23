@@ -55,6 +55,11 @@ class Memotambahan extends Model
         return $this->hasMany(Detail_memotambahan::class);
     }
 
+    public function detail_notabon()
+    {
+        return $this->hasMany(Detail_notabon::class);
+    }
+
     public function pengeluaran_kaskecil()
     {
         return $this->hasMany(Pengeluaran_kaskecil::class);

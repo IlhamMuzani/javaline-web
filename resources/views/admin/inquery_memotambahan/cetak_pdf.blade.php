@@ -265,7 +265,7 @@
         <table style="width: 100%; padding-top:0px" cellpadding="1" cellspacing="0">
             <tr>
                 <td>
-                    <table>
+                    {{-- <table>
                         <tr>
                             <td style="text-align: left; padding-left: 17px;font-size: 13px;">No
                             </td>
@@ -275,8 +275,8 @@
                                 right; padding-right: 17px;font-size: 13px;">
                                 Nominal</td>
                         </tr>
-                        <tbody>
-                            @foreach ($detail_nota as $item)
+                        @foreach ($detail_nota as $item)
+                            <tbody>
                                 <td style="text-align: left; padding-left: 17px;font-size: 13px;">
                                     {{ $loop->iteration }}
                                 </td>
@@ -287,9 +287,9 @@
                                 right; padding-right: 17px;font-size: 13px;">
                                     {{ number_format($item->nominal_nota, 0, ',', '.') }}
                                 </td>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        @endforeach
+                    </table> --}}
                 </td>
                 <td>
                     <table>
@@ -300,9 +300,21 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Nota Bon</td>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
+                                {{ optional($cetakpdf->detail_notabon->first())->kode_nota ?? '' }}
+                                Nota Bon 1
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 16px; font-size: 13px;">
+                                {{ number_format(optional($cetakpdf->detail_notabon->first())->nominal_nota ?? 0, 0, ',', '.') }}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
+                                {{ optional($cetakpdf->detail_notabon->last())->kode_nota ?? '' }}
+                                Nota Bon 2
+                            </td>
                             <td class="td" style="text-align: right; padding-right: 9px; font-size: 13px;">
-                                {{ number_format($cetakpdf->nota_bontambahan, 0, ',', '.') }} -
+                                {{ number_format(optional($cetakpdf->detail_notabon->last())->nominal_nota ?? 0, 0, ',', '.') }} -
                             </td>
                         </tr>
                         <tr>
@@ -312,7 +324,8 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Sisa Transfer</td>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">Sisa Transfer
+                            </td>
                             <td class="td" style="text-align: right; padding-right: 16px; font-size: 13px;">
                                 {{ number_format($cetakpdf->grand_total, 0, ',', '.') }}
                             </td>
