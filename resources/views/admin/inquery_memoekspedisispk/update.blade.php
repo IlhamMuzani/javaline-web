@@ -1088,7 +1088,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <table id="tables" class="table table-bordered table-striped">
+                        <table id="datatables8" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th class="text-center">No</th>
@@ -1370,7 +1370,7 @@
         }
 
         function getNota(rowIndex) {
-            var selectedRow = $('#tables tbody tr:eq(' + rowIndex + ')');
+            var selectedRow = $('#datatables8 tbody tr:eq(' + rowIndex + ')');
             var Nota_id = selectedRow.data('id');
             var Kode_nota = selectedRow.data('kode_nota');
             var Nama_driversnot = selectedRow.data('nama_drivernota');
@@ -2099,7 +2099,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const userIdInput = document.getElementById('user_id');
-            const tableNota = document.getElementById('tables');
+            const tableNota = document.getElementById('datatables8');
 
             // Fungsi untuk memfilter nota
             function filterNotaByUserId() {

@@ -2739,9 +2739,9 @@
             $('#nama_drivernotas-' + activeSpecificationIndex).val(Nama_driversnot);
             $('#nominal_notas-' + activeSpecificationIndex).val(Nominal.toLocaleString('id-ID'));
 
-            updateTotalnotatambahan()
-            updateGrandTotal()
             $('#tableNotas').modal('hide');
+            updateGrandTotal()
+            updateTotalnotatambahan()
 
         }
 
@@ -3673,7 +3673,7 @@
             var urutan = 0;
             $.each(data_pembeliansnotas, function(key, value) {
                 urutan = urutan + 1;
-                itemNotas(urutan, key, value);
+                itemNota(urutan, key, value);
             });
         }
 
@@ -3684,7 +3684,7 @@
                 $('#tabel-notas').empty();
             }
 
-            itemNotas(jumlah_nota, jumlah_nota - 1);
+            itemNota(jumlah_nota, jumlah_nota - 1);
         }
 
         function removeNotabons(params) {
@@ -3710,7 +3710,7 @@
             updateGrandTotal()
         }
 
-        function itemNotas(urutan, key, value = null) {
+        function itemNota(urutan, key, value = null) {
             var notabon_ujs_ids = '';
             var kode_notas = '';
             var nama_drivernotas = '';

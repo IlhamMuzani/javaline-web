@@ -1204,13 +1204,36 @@
             $('#datatables4').DataTable();
         });
         $(document).ready(function() {
-            $('#datatables5').DataTable();
+            $('#datatables5').DataTable({
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ] // Use -1 to display all rows, and "All" as the label
+            });
         });
         $(document).ready(function() {
-            $('#datatables6').DataTable();
+            $('#datatables6').DataTable({
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ] // Use -1 to display all rows, and "All" as the label
+            });
         });
         $(document).ready(function() {
-            $('#datatables7').DataTable();
+            $('#datatables7').DataTable({
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ] // Use -1 to display all rows, and "All" as the label
+            });
+        });
+        $(document).ready(function() {
+            $('#datatables8').DataTable({
+                "lengthMenu": [
+                    [-1],
+                    ["All"]
+                ] // Use -1 to display all rows, and "All" as the label
+            });
         });
     </script>
 
