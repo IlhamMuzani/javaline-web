@@ -1058,4 +1058,5 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     Route::get('postingstatussj', [\App\Http\Controllers\Admin\InqueryPengambilandoController::class, 'postingstatussj']);
     Route::get('cetak_memoekspedisinominalfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'cetak_memoekspedisinominalfilter']);
+    Route::get('cetak_memoborongnominalfilter', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'cetak_memoborongnominalfilter']);
 });

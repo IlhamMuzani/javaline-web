@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Memo Ekspedisi</title>
+    <title>Memo Borong</title>
     <style>
         html,
         body {
@@ -97,7 +97,7 @@
             height="50">
     </div>
     <div style="font-weight: bold; text-align: center">
-        <span style="font-weight: bold; font-size: 18px;">MEMO EKSPEDISI</span>
+        <span style="font-weight: bold; font-size: 18px;">MEMO BORONG</span>
         <br>
         <br>
         <div class="text">
@@ -119,11 +119,13 @@
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 9px;">Rute
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">U. Jalan
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">Harga
             </td>
-            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">U. Tambahan
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">Qty
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">Total
+            </td>
+            <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">Total Borong
             </td>
             <td class="td" style="text-align: right; padding: 5px; font-weight:bold; font-size: 9px;">G. Total
             </td>
@@ -136,9 +138,10 @@
         </tr>
         <!-- Data rows -->
         @php
-            $Ujalan = 0;
-            $Utambahan = 0;
+            $Harga = 0;
+            $Qty = 0;
             $Total = 0;
+            $TotalBorong = 0;
             $Grandtotal = 0;
             $SisaTransfer = 0;
         @endphp
@@ -160,17 +163,16 @@
                     @endif
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 9px;">
-                    {{ number_format($item->uang_jalan, 0, ',', '.') }}
+                    {{ number_format($item->harga_rute, 0, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 9px;">
-                    @if ($item->biaya_tambahan == null)
-                        0
-                    @else
-                        {{ number_format($item->biaya_tambahan, 0, ',', '.') }}
-                    @endif
+                    {{ number_format($item->jumlah, 0, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 9px;">
-                    {{ number_format($item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo, 0, ',', '.') }}
+                    {{ number_format($item->totalrute, 0, ',', '.') }}
+                </td>
+                <td class="td" style="text-align: right; padding: 5px; font-size: 9px;">
+                    {{ number_format(($item->totalrute - $item->pphs) / 2 + $item->biaya_tambahan, 0, ',', '.') }}
                 </td>
                 <td class="td" style="text-align: right; padding: 5px; font-size: 9px;">
                     {{ number_format($item->hasil_jumlah, 0, ',', '.') }}</td>
@@ -179,9 +181,10 @@
                 </td>
             </tr>
             @php
-                $Ujalan += $item->uang_jalan;
-                $Utambahan += $item->biaya_tambahan;
-                $Total += $item->uang_jalan + $item->biaya_tambahan - $item->potongan_memo;
+                $Harga += $item->harga_rute;
+                $Qty += $item->biaya_tambahan;
+                $Total += $item->totalrute;
+                $TotalBorong += ($item->totalrute - $item->pphs) / 2 + $item->biaya_tambahan;
                 $Grandtotal += $item->hasil_jumlah;
                 $SisaTransfer += $item->sub_total;
             @endphp
@@ -195,13 +198,16 @@
             <td colspan="5" style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">Sub Total
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">
-                {{ number_format($Ujalan, 0, ',', '.') }}
+                {{ number_format($Harga, 0, ',', '.') }}
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">
-                {{ number_format($Utambahan, 0, ',', '.') }}
+                {{ number_format($Qty, 0, ',', '.') }}
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">
                 {{ number_format($Total, 0, ',', '.') }}
+            </td>
+            <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">
+                {{ number_format($TotalBorong, 0, ',', '.') }}
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 9px;">
                 {{ number_format($Grandtotal, 0, ',', '.') }}

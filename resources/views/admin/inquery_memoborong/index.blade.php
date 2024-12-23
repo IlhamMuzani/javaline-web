@@ -115,6 +115,10 @@
                                     onclick="printSelectedData()" target="_blank">
                                     <i class="fas fa-print"></i> Cetak Filter
                                 </button>
+                                <button type="button" class="btn btn-primary btn-block mt-1" id="checkfilter"
+                                    onclick="printSelectedDatanominal()" target="_blank">
+                                    <i class="fas fa-print"></i> Cetak Nominal Global
+                                </button>
                                 <button type="button" class="btn btn-success btn-block mt-1" id="checkfilter"
                                     onclick="excelSelectedData()" target="_blank">
                                     <i class="fas fa-file-excel"></i> Export Excel
@@ -151,7 +155,8 @@
                             style="font-size: 12px">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th style="width: 1%"> <input type="checkbox" name="" id="select_all_ids"></th>
+                                    <th style="width: 1%"> <input type="checkbox" name="" id="select_all_ids">
+                                    </th>
                                     <th class="text-center">No</th>
                                     <th>No Memo</th>
                                     <th>Tanggal</th>
@@ -571,6 +576,24 @@
                 document.getElementById('selectedIds').value = selectedIds.join(',');
                 var selectedIdsString = selectedIds.join(',');
                 window.location.href = "{{ url('admin/cetak_memoborongfilter') }}?ids=" + selectedIdsString;
+                // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
+            }
+        }
+
+        function printSelectedDatanominal() {
+            var selectedIds = document.querySelectorAll(".checkbox_ids:checked");
+            if (selectedIds.length === 0) {
+                $('#validationMessage').text('Harap centang setidaknya satu item sebelum mencetak.');
+                $('#validationModal').modal('show');
+            } else {
+                var selectedCheckboxes = document.querySelectorAll('.checkbox_ids:checked');
+                var selectedIds = [];
+                selectedCheckboxes.forEach(function(checkbox) {
+                    selectedIds.push(checkbox.value);
+                });
+                document.getElementById('selectedIds').value = selectedIds.join(',');
+                var selectedIdsString = selectedIds.join(',');
+                window.location.href = "{{ url('admin/cetak_memoborongnominalfilter') }}?ids=" + selectedIdsString;
                 // var url = "{{ url('admin/ban/cetak_pdffilter') }}?ids=" + selectedIdsString;
             }
         }

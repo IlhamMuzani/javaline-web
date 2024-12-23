@@ -336,6 +336,21 @@ class InqueryMemoborongController extends Controller
 
         return $pdf->stream('SelectedMemoBorong.pdf');
     }
+
+    public function cetak_memoborongnominalfilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
+
+        $memos = Memo_ekspedisi::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.inquery_memoborong.cetak_pdfnominalfilter', compact('memos'));
+        $pdf->setPaper('landscape');
+
+        return $pdf->stream('SelectedMemo.pdf');
+    }
     public function show($id)
     {
         $cetakpdf = Memo_ekspedisi::where('id', $id)->first();
