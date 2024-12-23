@@ -355,12 +355,66 @@
         </table> --}}
 
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <table style="width: 100%; padding-top:0px" cellpadding="1" cellspacing="0">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td style="text-align: left; padding-left: 17px;font-size: 15px;">No
+                        </td>
+                        <td style="text-align: left; padding-left: 17px;font-size: 15px;">Kode Nota Bon</td>
+                        <td
+                            style="text-align:
+                                right; padding-right: 17px;font-size: 15px;">
+                            Nominal</td>
+                    </tr>
+                    <tbody>
+                        @foreach ($detail_nota as $item)
+                            <td style="text-align: left; padding-left: 17px;font-size: 15px;">
+                                {{ $loop->iteration }}
+                            </td>
+                            <td style="text-align: left; padding-left: 17px;font-size: 15px;">
+                                {{ $item->kode_nota }}</td>
+                            <td
+                                style="text-align:
+                                right; padding-right: 17px;font-size: 15px;">
+                                {{ number_format($item->nominal_nota, 0, ',', '.') }}
+                            </td>
+                        @endforeach
+                    </tbody>
+                </table>
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 15px;">Total</td>
+                        <td class="td" style="text-align: right; padding-right: 19px; font-size: 15px;">
+                            {{ number_format($totalRuteSum, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 15px;">Nota Bon</td>
+                        <td class="td" style="text-align: right; padding-right: 3px; font-size: 15px;">
+                            {{ number_format($cetakpdf->nota_bontambahan, 0, ',', '.') }} -
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="padding: 0px;"></td>
+                        <td style="padding: 0px;">
+                            <hr style="border-top: 0.1px solid black; margin: 1px 0;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 15px;">Sisa Transfer
+                        </td>
+                        <td class="td" style="text-align: right; padding-right: 19px; font-size: 15px;">
+                            {{ number_format($cetakpdf->grand_total, 0, ',', '.') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
         <tr>

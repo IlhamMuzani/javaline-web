@@ -1232,8 +1232,9 @@ class MemoekspedisispkController extends Controller
 
                 $memos = Memo_ekspedisi::where('id', $cetakpdf->memo_ekspedisi_id)->update(['status_memotambahan' => 'digunakan']);
                 $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
+                $detail_nota = Detail_notabon::where('memotambahan_id', $cetakpdf->id)->get();
 
-                return view('admin.tablememo.show', compact('cetakpdf', 'detail_memo'));
+                return view('admin.tablememo.show', compact('cetakpdf', 'detail_memo', 'detail_nota'));
 
                 break;
 

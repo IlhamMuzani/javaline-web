@@ -378,8 +378,8 @@ class InqueryMemotambahanController extends Controller
         }
 
         $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
-
-        return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo'));
+        $detail_nota = Detail_notabon::where('memotambahan_id', $cetakpdf->id)->get();
+        return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo', 'detail_nota'));
     }
 
     public function kodeakuns()
@@ -426,7 +426,8 @@ class InqueryMemotambahanController extends Controller
     {
         $cetakpdf = Memotambahan::where('id', $id)->first();
         $detail_memo = Detail_memotambahan::where('memotambahan_id', $cetakpdf->id)->get();
-        return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo'));
+        $detail_nota = Detail_notabon::where('memotambahan_id', $cetakpdf->id)->get();
+        return view('admin.inquery_memotambahan.show', compact('cetakpdf', 'detail_memo', 'detail_nota'));
     }
 
     public function unpostmemotambahan($id)
