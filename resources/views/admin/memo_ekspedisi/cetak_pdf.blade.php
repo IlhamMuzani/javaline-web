@@ -176,77 +176,83 @@
                 <td style="width:100%;">
                     <table>
                         <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">Kode Sopir</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->kode_driver }}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">Nama Sopir</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">{{ $cetakpdf->nama_driver }}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">Rute Perjalanan</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">
-                                    {{ $cetakpdf->nama_rute }}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">Saldo Deposit</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-titik" style="font-size: 13px;">:</span>
-                            </td>
-                            <td class="info-column">
-                                <span class="info-item" style="font-size: 13px;">
-                                    {{ number_format($cetakpdf->saldo_deposit, 0, ',', '.') }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <table style="margin-top: 15px">
-                                <tr>
-                                    <td style="text-align: left;font-size: 13px;">No
-                                    </td>
-                                    <td style="text-align: left;font-size: 13px;">Kode Nota Bon
-                                    </td>
-                                    <td style="text-align:
-                                right;font-size: 13px;">
-                                        Nominal</td>
-                                </tr>
-                                @foreach ($detail_nota as $item)
-                                    <tbody>
-                                        <td style="text-align: left;font-size: 13px;">
-                                            {{ $loop->iteration }}
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td class="info-column">
+                                            <span class="info-item" style="font-size: 13px;">Kode Sopir</span>
                                         </td>
-                                        <td style="text-align: left;font-size: 13px;">
-                                            {{ $item->kode_nota }}</td>
+                                        <td class="info-column">
+                                            <span class="info-titik" style="font-size: 13px;">:</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-item"
+                                                style="font-size: 13px;">{{ $cetakpdf->kode_driver }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-column">
+                                            <span class="info-item" style="font-size: 13px;">Nama Sopir</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-titik" style="font-size: 13px;">:</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-item"
+                                                style="font-size: 13px;">{{ $cetakpdf->nama_driver }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-column">
+                                            <span class="info-item" style="font-size: 13px;">Rute Perjalanan</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-titik" style="font-size: 13px;">:</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-item" style="font-size: 13px;">
+                                                {{ $cetakpdf->nama_rute }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info-column">
+                                            <span class="info-item" style="font-size: 13px;">Saldo Deposit</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-titik" style="font-size: 13px;">:</span>
+                                        </td>
+                                        <td class="info-column">
+                                            <span class="info-item" style="font-size: 13px;">
+                                                {{ number_format($cetakpdf->saldo_deposit, 0, ',', '.') }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table style="margin-top: 15px">
+                                    <tr>
+                                        <td style="text-align: left;font-size: 13px;">Kode Nota Bon
+                                        </td>
                                         <td style="text-align:
-                                right;font-size: 13px;">
-                                            {{ number_format($item->nominal_nota, 0, ',', '.') }}
-                                        </td>
-                                    </tbody>
-                                @endforeach
-                            </table>
+                                left;font-size: 13px;">
+                                            Nominal</td>
+                                    </tr>
+                                    @foreach ($detail_nota as $item)
+                                        <tbody>
+                                            <td style="text-align: left;font-size: 13px;">
+                                                {{ $item->kode_nota }}</td>
+                                            <td
+                                                style="text-align:
+                                left;font-size: 13px;">
+                                                {{ number_format($item->nominal_nota, 0, ',', '.') }}
+                                            </td>
+                                        </tbody>
+                                    @endforeach
+                                </table>
+                            </td>
                         </tr>
                     </table>
                 </td>
