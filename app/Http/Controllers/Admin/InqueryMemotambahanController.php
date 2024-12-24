@@ -683,6 +683,22 @@ class InqueryMemotambahanController extends Controller
         return $pdf->stream('Memo_ekspedisi.pdf');
     }
 
+    public function cetak_memotambahannominalfilter(Request $request)
+    {
+        $selectedIds = explode(',', $request->input('ids'));
+
+        // Now you can use $selectedIds to retrieve the selected IDs and generate the PDF as needed.
+
+        $memos = Memotambahan::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
+        // $detail_memo = Detail_memotambahan::where('memotambahan_id', $memos->id)->get();
+        // $detail_nota = Detail_notabon::where('memotambahan_id', $memos->id)->get();
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.inquery_memotambahan.cetak_pdfnominalfilter', compact('memos'));
+        $pdf->setPaper('landscape');
+
+        return $pdf->stream('SelectedMemo.pdf');
+    }
+
 
     public function cetak_memotambahanfilter(Request $request)
     {
