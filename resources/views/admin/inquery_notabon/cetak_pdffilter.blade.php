@@ -110,6 +110,8 @@
     <table style="width: 100%; border-top: 1px solid black;" cellpadding="2" cellspacing="0">
         <!-- Header row -->
         <tr>
+            <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">No.
+            </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Kode Nota
             </td>
             <td class="td" style="text-align: left; padding: 5px; font-weight:bold; font-size: 13px;">Tanggal</td>
@@ -129,6 +131,8 @@
         @endphp
         @foreach ($notas as $item)
             <tr>
+                <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $loop->iteration }}
+                </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->kode_nota }}
                 </td>
                 <td class="td" style="text-align: left; padding: 5px; font-size: 13px;">{{ $item->tanggal_awal }}
@@ -152,7 +156,7 @@
         </tr>
 
         <tr>
-            <td colspan="4" style="text-align: right; font-weight: bold; padding: 5px; font-size: 13px;">Sub Total
+            <td colspan="5" style="text-align: right; font-weight: bold; padding: 5px; font-size: 13px;">Sub Total
             </td>
             <td style="text-align: right; font-weight: bold; padding: 5px; font-size: 13px;">Rp.
                 {{ number_format($total, 2, ',', '.') }}
