@@ -453,6 +453,21 @@ class InqueryMemotambahanController extends Controller
                 'status' => 'pending'
             ]);
 
+            $detailnotes = Detail_notabon::where('memotambahan_id', $item->id)->get();
+
+            foreach ($detailnotes as $detail) {
+                $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                    ->where('status', 'selesai')
+                    ->first();
+
+                if ($nota_bon) {
+                    $nota_bon->update([
+                        'status_memo' => null,
+                        'status' => 'posting',
+                    ]);
+                }
+            }
+
             $item->update([
                 'status' => 'unpost'
             ]);
@@ -504,6 +519,21 @@ class InqueryMemotambahanController extends Controller
                     $item->update([
                         'status' => 'posting'
                     ]);
+
+                    $detailnotes = Detail_notabon::where('memotambahan_id', $item->id)->get();
+
+                    foreach ($detailnotes as $detail) {
+                        $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                            ->where('status', 'posting')
+                            ->first();
+
+                        if ($nota_bon) {
+                            $nota_bon->update([
+                                'status_memo' => 'aktif',
+                                'status' => 'selesai',
+                            ]);
+                        }
+                    }
                 }
             }
 
@@ -553,6 +583,21 @@ class InqueryMemotambahanController extends Controller
                     $item->update([
                         'status' => 'unpost'
                     ]);
+
+                    $detailnotes = Detail_notabon::where('memotambahan_id', $item->id)->get();
+
+                    foreach ($detailnotes as $detail) {
+                        $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                            ->where('status', 'selesai')
+                            ->first();
+
+                        if ($nota_bon) {
+                            $nota_bon->update([
+                                'status_memo' => null,
+                                'status' => 'posting',
+                            ]);
+                        }
+                    }
                 }
             }
 
@@ -647,6 +692,22 @@ class InqueryMemotambahanController extends Controller
             $detailpengeluaran->update([
                 'status' => 'posting'
             ]);
+
+            $detailnotes = Detail_notabon::where('memotambahan_id', $item->id)->get();
+
+            foreach ($detailnotes as $detail) {
+                $nota_bon = Notabon_ujs::where('id', $detail->notabon_ujs_id)
+                    ->where('status', 'posting')
+                    ->first();
+
+                if ($nota_bon) {
+                    $nota_bon->update([
+                        'status_memo' => 'aktif',
+                        'status' => 'selesai'
+                    ]);
+                }
+            }
+
             $item->update([
                 'status' => 'posting'
             ]);
