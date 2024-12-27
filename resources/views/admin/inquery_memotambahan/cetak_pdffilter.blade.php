@@ -277,6 +277,107 @@
 
                 <div style=" margin-top:13px; margin-bottom:{{ $j % 2 != 0 && $j != 0 ? 50 : 0 }}px">
 
+                    <table style="width: 100%; padding-top:0px" cellpadding="1" cellspacing="0">
+                        <tr>
+                            <td>
+                                {{-- <table>
+                        <tr>
+                            <td style="text-align: left; padding-left: 17px;font-size: 13px;">No
+                            </td>
+                            <td style="text-align: left; padding-left: 17px;font-size: 13px;">Kode Nota Bon</td>
+                            <td
+                                style="text-align:
+                                right; padding-right: 17px;font-size: 13px;">
+                                Nominal</td>
+                        </tr>
+                        @foreach ($detail_nota as $item)
+                            <tbody>
+                                <td style="text-align: left; padding-left: 17px;font-size: 13px;">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td style="text-align: left; padding-left: 17px;font-size: 13px;">
+                                    {{ $item->kode_nota }}</td>
+                                <td
+                                    style="text-align:
+                                right; padding-right: 17px;font-size: 13px;">
+                                    {{ number_format($item->nominal_nota, 0, ',', '.') }}
+                                </td>
+                            </tbody>
+                        @endforeach
+                    </table> --}}
+                            </td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
+                                            Total</td>
+                                        <td class="td"
+                                            style="text-align: right; padding-right: 16px; font-size: 13px;">
+                                            {{ number_format($totalRuteSum, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                    {{-- <tr>
+                            <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
+                                {{ optional($cetakpdf->detail_notabon->first())->kode_nota ?? '' }}
+                                Nota Bon 1
+                            </td>
+                            <td class="td" style="text-align: right; padding-right: 16px; font-size: 13px;">
+                                {{ number_format(optional($cetakpdf->detail_notabon->first())->nominal_nota ?? 0, 0, ',', '.') }}
+                            </td>
+                        </tr>
+                        @php
+                            // Ambil dua data terakhir dalam dua bulan terakhir
+                            $detail_notabon_last_two = $cetakpdf->detail_notabon
+                                ->filter(function ($nota) {
+                                    return \Carbon\Carbon::parse($nota->tanggal)->greaterThanOrEqualTo(
+                                        now()->subMonths(2),
+                                    );
+                                })
+                                ->sortByDesc('tanggal') // Pastikan data diurutkan dari yang terbaru
+                                ->take(2);
+                        @endphp --}}
+
+                                    @php
+                                        $counter = 1; // Inisialisasi penghitung
+                                    @endphp
+
+                                    @foreach ($cetakpdf->detail_notabon as $nota)
+                                        <tr>
+                                            <td colspan="4"
+                                                style="text-align: right; padding: 0px; font-size: 13px;">
+                                                {{ $nota->kode_nota ?? '' }}
+                                                Nota Bon {{ $counter }} <!-- Tampilkan teks dinamis -->
+                                            </td>
+                                            <td class="td"
+                                                style="text-align: right; padding-right: 9px; font-size: 13px;">
+                                                {{ number_format($nota->nominal_nota ?? 0, 0, ',', '.') }} -
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $counter++; // Increment penghitung
+                                        @endphp
+                                    @endforeach
+
+                                    <tr>
+                                        <td colspan="4" style="padding: 0px;"></td>
+                                        <td style="padding: 0px;">
+                                            <hr style="border-top: 0.1px solid black; margin: 1px 0;">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="text-align: right; padding: 0px; font-size: 13px;">
+                                            Sisa Transfer
+                                        </td>
+                                        <td class="td"
+                                            style="text-align: right; padding-right: 16px; font-size: 13px;">
+                                            {{ number_format($cetakpdf->grand_total, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
                     <table class="tdd" cellpadding="10" cellspacing="0" style="margin: 0 auto;">
                         <tr>
                             <td style="text-align: center;">
