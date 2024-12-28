@@ -54,6 +54,8 @@ class Pengambilan_do extends Model
         'status_penerimaansj',
         'penerima_sj',
         'akses_spk',
+        'waktu_upload_mt',
+        'waktu_upload_bk',
         'tanggal',
         'tanggal_awal',
         'tanggal_akhir',
