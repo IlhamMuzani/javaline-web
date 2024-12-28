@@ -134,6 +134,9 @@ class KendaraanController extends Controller
                 'status_olimesin' => 'belum penggantian',
                 'status_oligardan' => 'belum penggantian',
                 'status_olitransmisi' => 'belum penggantian',
+                'target_olimesin' => '13000',
+                'target_olitransmisi' => '50000',
+                'target_oligardan' => '50000',
                 'qrcode_kendaraan' => 'https://javaline.id/kendaraan/' . $kode,
                 'tanggal' => Carbon::now('Asia/Jakarta'),
                 'tanggal_awal' => $tanggal,
@@ -325,6 +328,9 @@ class KendaraanController extends Controller
         $kendaraan->divisi_id = $request->divisi_id;
         $kendaraan->user_id = $request->user_id;
         $kendaraan->km = $request->km;
+        $kendaraan->target_olimesin = $request->target_olimesin;
+        $kendaraan->target_olitransmisi = $request->target_olitransmisi;
+        $kendaraan->target_oligardan = $request->target_oligardan;
         $kendaraan->gambar_barcodesolar = $namaGambar;
         $kendaraan->gambar_stnk = $namaGambarstnk;
         $kendaraan->tanggal = Carbon::now('Asia/Jakarta');
