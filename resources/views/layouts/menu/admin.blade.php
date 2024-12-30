@@ -1863,6 +1863,7 @@
         request()->is('admin/laporan_pelepasanban*') ||
         request()->is('admin/laporan_pelunasanhutang*') ||
         request()->is('admin/laporan_pemasanganpart*') ||
+        request()->is('admin/laporan-pemasanganaki*') ||
         request()->is('admin/laporan_penggantianoli*') ||
         request()->is('admin/laporan_updatekm*') ||
         request()->is('admin/laporan_statusperjalanan*') ||
@@ -1900,6 +1901,7 @@
             request()->is('admin/laporan_pelepasanban*') ||
             request()->is('admin/laporan_pelunasanhutang*') ||
             request()->is('admin/laporan_pemasanganpart*') ||
+            request()->is('admin/laporan-pemasanganaki*') ||
             request()->is('admin/laporan_penggantianoli*') ||
             request()->is('admin/laporan_updatekm*') ||
             request()->is('admin/laporan_statusperjalanan*') ||
@@ -1987,6 +1989,15 @@
                 class="nav-link {{ request()->is('admin/laporan_pemasanganpart*') ? 'active' : '' }}">
                 <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
                 <p style="font-size: 14px;">Laporan Pemasangan Part</p>
+            </a>
+        </li>
+    @endif
+    @if (auth()->check() && auth()->user()->menu['laporan pemasangan part'])
+        <li class="nav-item">
+            <a href="{{ url('admin/laporan-pemasanganaki') }}"
+                class="nav-link {{ request()->is('admin/laporan-pemasanganaki*') ? 'active' : '' }}">
+                <i class="far fa-circle nav-icon" style="font-size: 12px;"></i>
+                <p style="font-size: 14px;">Laporan Pemasangan AKI</p>
             </a>
         </li>
     @endif

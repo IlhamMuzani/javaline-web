@@ -1023,20 +1023,21 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('laporan-monitoringsjglobal', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'indexglobal']);
     Route::get('print-monitoringsjglobal', [\App\Http\Controllers\Admin\LaporanmonitoringsjController::class, 'print_monitoringsjglobal']);
 
-    Route::resource('pembelian-aki', \App\Http\Controllers\Admin\PembelianakiController::class);
-
-
+    
+    
     Route::get('postingfilterpenerimaanpusat', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanpusat']);
     Route::get('unpostfilterpenerimaanpusat', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'unpostfilterpenerimaanpusat']);
     Route::resource('penerimaansuratjalanpusat', \App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class);
     Route::get('penerimaansuratjalanpusat/unpostpenerimaansuratpusat/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'unpostpenerimaansuratpusat']);
     Route::get('penerimaansuratjalanpusat/postingpenerimaansuratpusat/{id}', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingpenerimaansuratpusat']);
-
+    
     Route::get('postingfilterpenerimaanfrangki', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanfrangki']);
     Route::get('postingfilterpenerimaankuswanto', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaankuswanto']);
     Route::get('postingfilterpenerimaantohirin', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaantohirin']);
     Route::get('postingfilterpenerimaanishak', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanishak']);
     Route::get('postingfilterpenerimaanniam', [\App\Http\Controllers\Admin\PenerimaansuratjalanpusatController::class, 'postingfilterpenerimaanniam']);
+    
+    Route::resource('pembelian-aki', \App\Http\Controllers\Admin\PembelianakiController::class);
     Route::get('pembelian-aki/cetak-pdf/{id}', [\App\Http\Controllers\Admin\PembelianakiController::class, 'cetakpdf']);
     Route::resource('inquery-pembelianaki', \App\Http\Controllers\Admin\InqueryPembelianAkiController::class);
     Route::get('inquery-pembelianaki/unpostpembelianaki/{id}', [\App\Http\Controllers\Admin\InqueryPembelianAkiController::class, 'unpostpembelianaki'])->name('unpostpembelianaki');
@@ -1060,4 +1061,7 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     Route::get('cetak_memoekspedisinominalfilter', [\App\Http\Controllers\Admin\InqueryMemoekspedisiController::class, 'cetak_memoekspedisinominalfilter']);
     Route::get('cetak_memoborongnominalfilter', [\App\Http\Controllers\Admin\InqueryMemoborongController::class, 'cetak_memoborongnominalfilter']);
     Route::get('cetak_memotambahannominalfilter', [\App\Http\Controllers\Admin\InqueryMemotambahanController::class, 'cetak_memotambahannominalfilter']);
+
+    Route::get('laporan-pemasanganaki', [\App\Http\Controllers\Admin\LaporanpemasanganakiController::class, 'index']);
+    Route::get('print-pemasanganaki', [\App\Http\Controllers\Admin\LaporanpemasanganakiController::class, 'print_pemasanganaki']);
 });

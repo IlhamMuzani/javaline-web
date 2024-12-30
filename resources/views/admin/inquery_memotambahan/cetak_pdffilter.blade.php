@@ -252,10 +252,10 @@
                                 {{ $item->satuans }}
                             </td>
                             <td class="td" style="text-align: right; padding: 0px; font-size: 13px;">
-                                {{ number_format($item->hargasatuan, 2, ',', '.') }}
+                                {{ number_format($item->hargasatuan, 0, ',', '.') }}
                             </td>
                             <td class="td" style="text-align: right; padding-right: 17px; font-size: 13px;">
-                                {{ number_format($item->nominal_tambahan, 2, ',', '.') }}
+                                {{ number_format($item->nominal_tambahan, 0, ',', '.') }}
                             </td>
                         </tr>
                         @php
@@ -270,7 +270,7 @@
                 <table style="width: 100%; border-top: 0.5px solid black; margin-bottom:5px;">
                     <tr>
                         <td style="text-align: right; padding-right: 17px;font-size: 13px;">
-                            {{ number_format($totalRuteSum, 2, ',', '.') }}
+                            {{ number_format($totalRuteSum, 0, ',', '.') }}
                         </td>
                     </tr>
                 </table>
