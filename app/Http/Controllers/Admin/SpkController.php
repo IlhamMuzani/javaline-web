@@ -327,22 +327,38 @@ class SpkController extends Controller
 
     public function kode()
     {
-        $lastBarang = Spk::where('kode_spk', 'like', 'SPK%')->latest()->first();
-        $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
-        $currentMonth = date('m');
-        if (!$lastBarang || $currentMonth != $lastMonth) {
-            $num = 1;
-        } else {
+        // Ambil kode SPK terakhir yang sesuai format 'OA%'
+        $lastBarang = Spk::where('kode_spk', 'like', 'OA%')->orderBy('id', 'desc')->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_spk;
-            $parts = explode('/', $lastCode);
-            $lastNum = end($parts);
-            $num = (int) $lastNum + 1;
+
+            // Pastikan kode terakhir sesuai dengan format OA[YYYYMMDD][NNNN]
+            if (preg_match('/^OA(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        $formattedNum = sprintf("%03s", $num);
-        $prefix = 'SPK';
-        $tahun = date('y');
-        $tanggal = date('dm');
-        $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru
+        $prefix = 'OA';
+        $tanggal = date('ymd'); // Format ymd (tahun, bulan, tanggal)
+        $newCode = $prefix . $tanggal . $formattedNum;
+
         return $newCode;
     }
 
