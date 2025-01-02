@@ -73,30 +73,40 @@ class TarifasuransiController extends Controller
 
     public function kode()
     {
-        // Ambil tarif_asuransi terakhir yang kodenya dimulai dengan 'HS'
-        $lastBarang = Tarif_asuransi::where('kode_tarif', 'LIKE', 'TA%')->latest('id')->first();
+        // Ambil kode memo terakhir yang sesuai format 'FK%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Tarif_asuransi::where('kode_tarif', 'like', 'FK%')
+            ->orderBy('id', 'desc')
+            ->first();
 
-        // Jika tidak ada tarif_asuransi dalam database dengan awalan 'HS'
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
-            // Ambil kode tarif_asuransi terakhir
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_tarif;
 
-            // Ambil angka setelah awalan 'TF'
-            $num = (int) substr($lastCode, 2) + 1;
+            // Pastikan kode terakhir sesuai dengan format FK[YYYYMMDD][NNNN]C
+            if (preg_match('/^FK(\d{6})(\d{4})C$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
 
-        // Format nomor dengan panjang 6 digit (misalnya, 000001)
-        $formattedNum = sprintf("%06s", $num);
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
 
-        // Tentukan awalan kode
-        $prefix = 'TA';
+        // Buat kode baru dengan tambahan huruf C di belakang
+        $prefix = 'FK';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'C'; // Format akhir kode memo
 
-        // Gabungkan awalan dengan nomor yang diformat untuk mendapatkan kode baru
-        $newCode = $prefix . $formattedNum;
-
-        return $newCode;
+        return $kodeMemo;
     }
 
     public function edit($id)

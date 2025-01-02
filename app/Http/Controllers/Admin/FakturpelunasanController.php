@@ -90,7 +90,7 @@ class FakturpelunasanController extends Controller
             }
         }
 
-        if ($request->has('nota_return_id') || $request->has('faktur_id') ||$request->has('kode_fakturekspedisi') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
+        if ($request->has('nota_return_id') || $request->has('faktur_id') || $request->has('kode_fakturekspedisi') || $request->has('kode_potongan') || $request->has('keterangan_potongan') || $request->has('nominal_potongan')) {
             for ($i = 0; $i < count($request->nota_return_id); $i++) {
                 if (empty($request->nota_return_id[$i])  && empty($request->faktur_id[$i]) && empty($request->kode_fakturekspedisi[$i]) && empty($request->potongan_memo_id[$i]) && empty($request->kode_potongan[$i]) && empty($request->keterangan_potongan[$i]) && empty($request->nominal_potongan[$i])) {
                     continue;
@@ -221,7 +221,7 @@ class FakturpelunasanController extends Controller
             $faktur = Faktur_ekspedisi::find($detailPelunasan->faktur_ekspedisi_id);
 
             if ($faktur) {
-                $faktur->update(['status_pelunasan' =>'aktif', 'status' => 'selesai']);
+                $faktur->update(['status_pelunasan' => 'aktif', 'status' => 'selesai']);
                 $spk = Spk::find($faktur->spk_id);
                 if ($spk) {
                     $spk->update(['status_spk' => 'pelunasan']);
@@ -276,26 +276,48 @@ class FakturpelunasanController extends Controller
 
     public function kode()
     {
-        $lastBarang = Faktur_pelunasan::latest()->first();
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
-            $lastCode = $lastBarang->kode_pelunasan;
-            $num = (int) substr($lastCode, strlen('LP')) + 1;
-        }
-        $formattedNum = sprintf("%06s", $num);
-        $prefix = 'LP';
-        $newCode = $prefix . $formattedNum;
-        return $newCode;
-    }
+        // Ambil kode memo terakhir yang sesuai format 'FJ%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Faktur_pelunasan::where('kode_pelunasan', 'like', 'FJ%')
+            ->orderBy('id', 'desc')
+            ->first();
 
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
+            $lastCode = $lastBarang->kode_pelunasan;
+
+            // Pastikan kode terakhir sesuai dengan format FJ[YYYYMMDD][NNNN]A
+            if (preg_match('/^FJ(\d{6})(\d{4})A$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
+        }
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru dengan tambahan huruf A di belakang
+        $prefix = 'FJ';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'A'; // Format akhir kode memo
+
+        return $kodeMemo;
+    }
 
     public function show($id)
     {
         $cetakpdf = Faktur_pelunasan::where('id', $id)->first();
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
         $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $cetakpdf->id)->get();
-        
+
         return view('admin.faktur_pelunasan.show', compact('cetakpdf', 'details', 'detailreturns'));
     }
 
@@ -305,7 +327,7 @@ class FakturpelunasanController extends Controller
         $details = Detail_pelunasan::where('faktur_pelunasan_id', $cetakpdf->id)->get();
         $detailreturns = Detail_pelunasanreturn::where('faktur_pelunasan_id', $cetakpdf->id)->get();
 
-        $pdf = PDF::loadView('admin.faktur_pelunasan.cetak_pdf', compact('detailreturns','cetakpdf', 'details'));
+        $pdf = PDF::loadView('admin.faktur_pelunasan.cetak_pdf', compact('detailreturns', 'cetakpdf', 'details'));
         $pdf->setPaper('letter', 'portrait');
         return $pdf->stream('Faktur_Pelunasan.pdf');
     }

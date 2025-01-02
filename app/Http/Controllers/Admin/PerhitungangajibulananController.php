@@ -413,31 +413,40 @@ class PerhitungangajibulananController extends Controller
 
     public function kode()
     {
-        // Mengambil kode terbaru dari database dengan awalan 'MP'
-        $lastBarang = Perhitungan_gajikaryawan::where('kode_gaji', 'like', 'GJB%')->latest()->first();
+        // Ambil kode memo terakhir yang sesuai format 'FC%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Perhitungan_gajikaryawan::where('kode_gaji', 'like', 'FC%')
+            ->orderBy('id', 'desc')
+            ->first();
 
-        // Jika tidak ada kode sebelumnya, mulai dengan 1
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
-            // Jika ada kode sebelumnya, ambil nomor terakhir
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_gaji;
 
-            // Ambil nomor dari kode terakhir, tanpa awalan 'MP', lalu tambahkan 1
-            $num = (int) substr($lastCode, strlen('GJB')) + 1;
+            // Pastikan kode terakhir sesuai dengan format FC[YYYYMMDD][NNNN]B
+            if (preg_match('/^FC(\d{6})(\d{4})B$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
 
-        // Format nomor dengan leading zeros sebanyak 6 digit
-        $formattedNum = sprintf("%06s", $num);
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
 
-        // Awalan untuk kode baru
-        $prefix = 'GJB';
+        // Buat kode baru dengan tambahan huruf B di belakang
+        $prefix = 'FC';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'B'; // Format akhir kode memo
 
-        // Buat kode baru dengan menggabungkan awalan dan nomor yang diformat
-        $newCode = $prefix . $formattedNum;
-
-        // Kembalikan kode
-        return $newCode;
+        return $kodeMemo;
     }
 
     // public function kodegaji()

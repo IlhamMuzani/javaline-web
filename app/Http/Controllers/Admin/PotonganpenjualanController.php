@@ -86,23 +86,38 @@ class PotonganpenjualanController extends Controller
 
     public function kode()
     {
-        // Dapatkan kode barang terakhir
-        $lastBarang = Potongan_penjualan::latest()->first();
-        // Jika tidak ada barang dalam database
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
-            // Dapatkan nomor dari kode barang terakhir dan tambahkan 1
+        // Ambil kode SPK terakhir yang sesuai format 'FQ%'
+        $lastBarang = Potongan_penjualan::where('kode_potongan', 'like', 'FQ%')->orderBy('id', 'desc')->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_potongan;
-            // Ambil angka setelah huruf dengan membuang karakter awalan
-            $num = (int) substr($lastCode, strlen('PP')) + 1;
+
+            // Pastikan kode terakhir sesuai dengan format FQ[YYYYMMDD][NNNN]
+            if (preg_match('/^FQ(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        // Format nomor dengan panjang 6 digit (mis. 000001)
-        $formattedNum = sprintf("%06s", $num);
-        // Kode awalan
-        $prefix = 'PP';
-        // Gabungkan kode awalan dengan nomor yang diformat
-        $newCode = $prefix . $formattedNum;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru
+        $prefix = 'FQ';
+        $tanggal = date('ymd'); // Format ymd (tahun, bulan, tanggal)
+        $newCode = $prefix . $tanggal . $formattedNum;
+
         return $newCode;
     }
 }

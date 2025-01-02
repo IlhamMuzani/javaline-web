@@ -92,19 +92,40 @@ class PengambilanasuransiController extends Controller
 
     public function kode()
     {
-        $lastBarang = Pengeluaran_asuransi::latest()->first();
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
+        // Ambil kode SPK terakhir yang sesuai format 'FV%'
+        $lastBarang = Pengeluaran_asuransi::where('kode_pengambilanasuransi', 'like', 'FV%')->orderBy('id', 'desc')->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_pengambilanasuransi;
-            $num = (int) substr($lastCode, strlen('PA')) + 1;
+
+            // Pastikan kode terakhir sesuai dengan format FV[YYYYMMDD][NNNN]
+            if (preg_match('/^FV(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        $formattedNum = sprintf("%06s", $num);
-        $prefix = 'PA';
-        $newCode = $prefix . $formattedNum;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru
+        $prefix = 'FV';
+        $tanggal = date('ymd'); // Format ymd (tahun, bulan, tanggal)
+        $newCode = $prefix . $tanggal . $formattedNum;
+
         return $newCode;
     }
-
     public function cetakpdf($id)
     {
         $cetakpdf = Pengeluaran_asuransi::where('id', $id)->first();

@@ -137,17 +137,40 @@ class FakturpelunasanpartController extends Controller
 
     public function kode()
     {
-        $lastBarang = Faktur_pelunasanpart::latest()->first();
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
+        // Ambil kode memo terakhir yang sesuai format 'FJ%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Faktur_pelunasanpart::where('kode_pelunasanpart', 'like', 'FJ%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_pelunasanpart;
-            $num = (int) substr($lastCode, strlen('LS')) + 1;
+
+            // Pastikan kode terakhir sesuai dengan format FJ[YYYYMMDD][NNNN]C
+            if (preg_match('/^FJ(\d{6})(\d{4})C$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        $formattedNum = sprintf("%06s", $num);
-        $prefix = 'LS';
-        $newCode = $prefix . $formattedNum;
-        return $newCode;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru dengan tambahan huruf C di belakang
+        $prefix = 'FJ';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'C'; // Format akhir kode memo
+
+        return $kodeMemo;
     }
 
     public function show($id)

@@ -78,7 +78,7 @@ class BuktipotongController extends Controller
             } else {
                 $namaGambarfaktur = $detail->gambar_buktifaktur;
             }
-            
+
             $detail->update([
                 'gambar_buktifaktur' => $namaGambarfaktur,
                 'nomor_buktifaktur' => $nomorBuktiFaktur,
@@ -180,22 +180,38 @@ class BuktipotongController extends Controller
 
     public function kode()
     {
-        $lastBarang = Bukti_potongpajak::where('kode_bukti', 'like', 'BPP%')->latest()->first();
-        $lastMonth = $lastBarang ? date('m', strtotime($lastBarang->created_at)) : null;
-        $currentMonth = date('m');
-        if (!$lastBarang || $currentMonth != $lastMonth) {
-            $num = 1;
-        } else {
+        $lastBarang = Bukti_potongpajak::where('kode_bukti', 'like', 'FR%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_bukti;
-            $parts = explode('/', $lastCode);
-            $lastNum = end($parts);
-            $num = (int) $lastNum + 1;
+
+            // Pastikan kode terakhir sesuai dengan format FR[YYYYMMDD][NNNN]
+            if (preg_match('/^FR(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        $formattedNum = sprintf("%03s", $num);
-        $prefix = 'BPP';
-        $tahun = date('y');
-        $tanggal = date('dm');
-        $newCode = $prefix . "/" . $tanggal . $tahun . "/" . $formattedNum;
-        return $newCode;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru tanpa huruf B di belakang
+        $prefix = 'FR';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum; // Format akhir kode memo
+
+        return $kodeMemo;
     }
 }
