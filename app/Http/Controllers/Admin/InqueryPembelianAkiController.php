@@ -134,6 +134,10 @@ class InqueryPembelianAkiController extends Controller
         $transaksi->update([
             'supplier_id' => $request->supplier_id,
             'grand_total' => str_replace(',', '.', str_replace('.', '', $request->grand_total)),
+            'qty_akibekas' => $request->qty_akibekas,
+            'harga_akibekas' => str_replace(',', '.', str_replace('.', '', $request->harga_akibekas)),
+            'total_akibekas' => str_replace(',', '.', str_replace('.', '', $request->total_akibekas)),
+            'total_harga' => str_replace(',', '.', str_replace('.', '', $request->total_harga)),
             'status' => 'posting',
         ]);
 

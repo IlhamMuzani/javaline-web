@@ -26,6 +26,10 @@ class Pembelian_aki extends Model
         'status',
         'status_pelunasan',
         'grand_total',
+        'qty_akibekas',
+        'harga_akibekas',
+        'total_akibekas',
+        'total_harga',
         'status_notif',
 
     ];

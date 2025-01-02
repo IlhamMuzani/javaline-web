@@ -315,13 +315,50 @@
             <td colspan="6" style="padding: 0px;"></td>
         </tr>
         <tr>
-            <td colspan="6"
-                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">Sub
+            <td colspan="4"
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
                 Total
                 Rp.
             </td>
             <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
                 {{ number_format($totalHarga, 2, ',', '.') }}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4"
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
+                Aki Bekas
+                Rp.
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+                {{ $cetakpdf->qty_akibekas }} x
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+                {{ number_format($cetakpdf->harga_akibekas, 0, ',', '.') }}
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+                {{ number_format($cetakpdf->total_akibekas, 2, ',', '.') }}
+            </td>
+        </tr>
+        <tr style="border-bottom: 1px solid black;">
+            <td colspan="7" style="padding: 0px;"></td>
+        </tr>
+        <tr>
+            <td colspan="4"
+                style="text-align: right; font-weight: bold; margin-top:5px; margin-bottom:5px; font-size: 13px;">
+                Grand Total
+                Rp.
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+            </td>
+            <td class="td" style="text-align: right; font-weight: bold; font-size: 13px;">
+                {{ number_format($cetakpdf->total_harga, 2, ',', '.') }}
             </td>
         </tr>
     </table>

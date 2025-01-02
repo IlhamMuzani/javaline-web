@@ -183,9 +183,37 @@
                         </table>
                     </div>
                     <div style="margin-right: 20px; margin-left:20px" class="form-group">
-                        <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
+                        <label style="font-size:14px" class="mt-3" for="nopol"> Total</label>
                         <input style="font-size:14px" type="text" class="form-control text-right" id="grand_total"
                             name="grand_total" readonly placeholder="" value="{{ old('grand_total') }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div style="margin-right: 20px; margin-left:20px" class="form-group">
+                                <input style="font-size:14px" type="text" class="form-control" id="qty_akibekas"
+                                    onkeypress="return /[0-9.]/.test(event.key)" name="qty_akibekas"
+                                    placeholder="qty aki bekas" value="{{ old('qty_akibekas') }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="margin-right: 20px; margin-left:20px" class="form-group">
+                                <input style="font-size:14px" type="text" class="form-control" id="harga_akibekas"
+                                    onkeypress="return /[0-9.]/.test(event.key)" name="harga_akibekas"
+                                    placeholder="harga aki bekas" value="{{ old('harga_akibekas') }}">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="margin-right: 20px; margin-left:20px" class="form-group">
+                                <input style="font-size:14px" type="text" class="form-control text-right"
+                                    id="total_akibekas" name="total_akibekas" readonly placeholder="total"
+                                    value="{{ old('total_akibekas') }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-right: 20px; margin-left:20px" class="form-group">
+                        <label style="font-size:14px" class="mt-3" for="nopol">Grand Total</label>
+                        <input style="font-size:14px" type="text" class="form-control text-right" id="total_harga"
+                            name="total_harga" readonly placeholder="" value="{{ old('total_harga') }}">
                     </div>
                     <div class="card-footer text-right">
                         <button type="reset" class="btn btn-secondary" id="btnReset">Reset</button>
@@ -369,22 +397,23 @@
         function updateGrandTotal() {
             var grandTotal = 0;
 
-            // Loop through all elements with name "nominal_tambahan[]"
+            // Loop through all elements with name "harga"
             $('input[name^="harga"]').each(function() {
                 var nominalValue = parseFloat($(this).val().replace(/\./g, '').replace(',', '.')) || 0;
                 grandTotal += nominalValue;
             });
-            // $('#sub_total').val(grandTotal.toLocaleString('id-ID'));
-            // $('#pph2').val(pph2Value.toLocaleString('id-ID'));
+            var qtyAkibekas = parseFloat($('#qty_akibekas').val().replace('.', ',').replace(/\./g, '').replace(',', '.')) ||
+                0;
+            var priceAkibekas = parseFloat($('#harga_akibekas').val().replace(/\./g, '').replace(',', '.')) || 0;
+            var totalAkibekas = qtyAkibekas * priceAkibekas;
             $('#grand_total').val(formatRupiah(grandTotal));
-            console.log(grandTotal);
+            $('#total_akibekas').val(formatRupiah(totalAkibekas));
+            var totalHarga = grandTotal - totalAkibekas;
+            $('#total_harga').val(formatRupiah(totalHarga));
         }
-
-        $('body').on('input', 'input[name^="harga"]', function() {
+        $('body').on('input', 'input[name^="harga"], #qty_akibekas, #harga_akibekas', function() {
             updateGrandTotal();
         });
-
-        // Panggil fungsi saat halaman dimuat untuk menginisialisasi grand total
         $(document).ready(function() {
             updateGrandTotal();
         });
@@ -392,6 +421,7 @@
         function formatRupiah(value) {
             return value.toLocaleString('id-ID');
         }
-
     </script>
+
+
 @endsection
