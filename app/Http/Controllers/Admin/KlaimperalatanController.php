@@ -250,22 +250,42 @@ class KlaimperalatanController extends Controller
 
     public function kode()
     {
-        $pemasangan = Klaim_peralatan::all();
-        if ($pemasangan->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Klaim_peralatan::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+        // Ambil kode memo terakhir yang sesuai format 'FP%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Klaim_peralatan::where('kode_klaim', 'like', 'FP%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
+            $lastCode = $lastBarang->kode_klaim;
+
+            // Pastikan kode terakhir sesuai dengan format FP[YYYYMMDD][NNNN]A
+            if (preg_match('/^FP(\d{6})(\d{4})A$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
 
-        $data = 'AKP';
-        $kode_pemasangan = $data . $num;
-        return $kode_pemasangan;
-    }
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
 
+        // Buat kode baru dengan tambahan huruf A di belakang
+        $prefix = 'FP';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'A'; // Format akhir kode memo
+
+        return $kodeMemo;
+    }
+    
     public function destroy($id)
     {
         // Mencari data berdasarkan klaim_peralatan_id

@@ -426,20 +426,39 @@ class PenggantianOliController extends Controller
 
     public function kode()
     {
-        $penggantian = Penggantian_oli::all();
-        if ($penggantian->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Penggantian_oli::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+        // Ambil kode SPK terakhir yang sesuai format 'OD%'
+        $lastBarang = Penggantian_oli::where('kode_penggantianoli', 'like', 'OD%')->orderBy('id', 'desc')->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
+            $lastCode = $lastBarang->kode_penggantianoli;
+
+            // Pastikan kode terakhir sesuai dengan format OD[YYYYMMDD][NNNN]
+            if (preg_match('/^OD(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
 
-        $data = 'AQ';
-        $kode_penggantian = $data . $num;
-        return $kode_penggantian;
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru
+        $prefix = 'OD';
+        $tanggal = date('ymd'); // Format ymd (tahun, bulan, tanggal)
+        $newCode = $prefix . $tanggal . $formattedNum;
+
+        return $newCode;
     }
 
     public function checkpostoli($id)

@@ -124,16 +124,38 @@ class PelepasanbanController extends Controller
 
     public function kode()
     {
-        $lastBarang = Pelepasan_ban::latest()->first();
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
+        // Ambil kode SPK terakhir yang sesuai format 'OC%'
+        $lastBarang = Pelepasan_ban::where('kode_pelepasan', 'like', 'OC%')->orderBy('id', 'desc')->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_pelepasan;
-            $num = (int) substr($lastCode, strlen('AW')) + 1;
+
+            // Pastikan kode terakhir sesuai dengan format OC[YYYYMMDD][NNNN]
+            if (preg_match('/^OC(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        $formattedNum = sprintf("%06s", $num);
-        $prefix = 'AW';
-        $newCode = $prefix . $formattedNum;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru
+        $prefix = 'OC';
+        $tanggal = date('ymd'); // Format ymd (tahun, bulan, tanggal)
+        $newCode = $prefix . $tanggal . $formattedNum;
+
         return $newCode;
     }
 
@@ -259,8 +281,8 @@ class PelepasanbanController extends Controller
 
             // Ambil semua data km_ban yang diurutkan berdasarkan waktu atau ID
             $kmBanRecords = Km_ban::where('ban_id', $ban->id)
-            ->orderBy('created_at', 'desc')
-            ->get();
+                ->orderBy('created_at', 'desc')
+                ->get();
 
             // Ambil umur_ban terakhir kedua
             $umurBanTerakhirKedua = $kmBanRecords->skip(1)->first();
@@ -4574,16 +4596,39 @@ class PelepasanbanController extends Controller
 
     public function kodeklaimban()
     {
-        $lastBarang = Klaim_ban::latest()->first();
-        if (!$lastBarang) {
-            $num = 1;
-        } else {
+        // Ambil kode memo terakhir yang sesuai format 'FP%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Klaim_ban::where('kode_klaimban', 'like', 'FP%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
             $lastCode = $lastBarang->kode_klaimban;
-            $num = (int) substr($lastCode, strlen('KB')) + 1;
+
+            // Pastikan kode terakhir sesuai dengan format FP[YYYYMMDD][NNNN]B
+            if (preg_match('/^FP(\d{6})(\d{4})B$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
-        $formattedNum = sprintf("%06s", $num);
-        $prefix = 'KB';
-        $newCode = $prefix . $formattedNum;
-        return $newCode;
+
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru dengan tambahan huruf B di belakang
+        $prefix = 'FP';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'B'; // Format akhir kode memo
+
+        return $kodeMemo;
     }
 }

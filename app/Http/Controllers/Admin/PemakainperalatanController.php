@@ -197,22 +197,40 @@ class PemakainperalatanController extends Controller
 
     public function kode()
     {
-        $pemasangan = Pemakaian_peralatan::all();
-        if ($pemasangan->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Pemakaian_peralatan::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+        // Ambil kode SPK terakhir yang sesuai format 'OF%'
+        $lastBarang = Pemakaian_peralatan::where('kode_pemakaian', 'like', 'OF%')->orderBy('id', 'desc')->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
+            $lastCode = $lastBarang->kode_pemakaian;
+
+            // Pastikan kode terakhir sesuai dengan format OF[YYYYMMDD][NNNN]
+            if (preg_match('/^OF(\d{6})(\d{4})$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
 
-        $data = 'APR';
-        $kode_pemasangan = $data . $num;
-        return $kode_pemasangan;
-    }
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
 
+        // Buat kode baru
+        $prefix = 'OF';
+        $tanggal = date('ymd'); // Format ymd (tahun, bulan, tanggal)
+        $newCode = $prefix . $tanggal . $formattedNum;
+
+        return $newCode;
+    }
     public function destroy($id)
     {
         // Mencari data berdasarkan pemakaian_peralatan_id

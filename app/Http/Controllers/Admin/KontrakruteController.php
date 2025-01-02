@@ -144,10 +144,10 @@ class KontrakruteController extends Controller
             $num = 1;
         } else {
             $lastCode = $lastBarang->kode_kontrak;
-            $num = (int) substr($lastCode, strlen('KR')) + 1;
+            $num = (int) substr($lastCode, strlen('OG')) + 1;
         }
         $formattedNum = sprintf("%06s", $num);
-        $prefix = 'KR';
+        $prefix = 'OG';
         $newCode = $prefix . $formattedNum;
         return $newCode;
     }

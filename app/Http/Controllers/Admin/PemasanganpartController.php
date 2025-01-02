@@ -165,20 +165,40 @@ class PemasanganpartController extends Controller
 
     public function kode()
     {
-        $pemasangan = Pemasangan_part::all();
-        if ($pemasangan->isEmpty()) {
-            $num = "000001";
-        } else {
-            $id = Pemasangan_part::getId();
-            foreach ($id as $value);
-            $idlm = $value->id;
-            $idbr = $idlm + 1;
-            $num = sprintf("%06s", $idbr);
+        // Ambil kode memo terakhir yang sesuai format 'OB%' dan kategori 'Memo Perjalanan'
+        $lastBarang = Pemasangan_part::where('kode_pemasanganpart', 'like', 'OB%')
+            ->orderBy('id', 'desc')
+            ->first();
+
+        // Inisialisasi nomor urut
+        $num = 1;
+
+        // Jika ada kode terakhir, proses untuk mendapatkan nomor urut
+        if ($lastBarang) {
+            $lastCode = $lastBarang->kode_pemasanganpart;
+
+            // Pastikan kode terakhir sesuai dengan format OB[YYYYMMDD][NNNN]B
+            if (preg_match('/^OB(\d{6})(\d{4})B$/', $lastCode, $matches)) {
+                $lastDate = $matches[1]; // Bagian tanggal: ymd (contoh: 241125)
+                $lastMonth = substr($lastDate, 2, 2); // Ambil bulan dari tanggal (contoh: 11)
+                $currentMonth = date('m'); // Bulan saat ini
+
+                if ($lastMonth === $currentMonth) {
+                    // Jika bulan sama, tambahkan nomor urut
+                    $lastNum = (int)$matches[2]; // Bagian nomor urut (contoh: 0001)
+                    $num = $lastNum + 1;
+                }
+            }
         }
 
-        $data = 'AP';
-        $kode_pemasangan = $data . $num;
-        return $kode_pemasangan;
+        // Formatkan nomor urut menjadi 4 digit
+        $formattedNum = sprintf("%04s", $num);
+
+        // Buat kode baru dengan tambahan huruf B di belakang
+        $prefix = 'OB';
+        $kodeMemo = $prefix . date('ymd') . $formattedNum . 'B'; // Format akhir kode memo
+
+        return $kodeMemo;
     }
 
     public function destroy($id)
