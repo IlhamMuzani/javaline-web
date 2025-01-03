@@ -51,11 +51,11 @@
                 <div class="card-header">
                     <h3 class="card-title">Data Aki</h3>
                     <div class="float-right">
-                        @if (auth()->check() && auth()->user()->fitur['ban create'])
+                        {{-- @if (auth()->check() && auth()->user()->fitur['ban create'])
                             <a href="{{ url('admin/aki/create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i> Tambah
                             </a>
-                        @endif
+                        @endif --}}
                     </div>
                 </div>
                 <!-- /.card-header -->
