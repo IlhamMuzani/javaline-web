@@ -42,15 +42,20 @@ class Laporanstnk extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    public static function getId()
-    {
-        return $getId = DB::table('laporanstnks')->orderBy('id', 'DESC')->take(1)->get();
-    }
-
-
+    
     public function stnk()
     {
         return $this->belongsTo(Stnk::class);
     }
+
+    public function pengeluaran_kaskecil()
+    {
+        return $this->hasOne(Pengeluaran_kaskecil::class, 'laporanstnk_id', 'id');
+    }
+    
+    public static function getId()
+    {
+        return $getId = DB::table('laporanstnks')->orderBy('id', 'DESC')->take(1)->get();
+    }
+    
 }

@@ -297,6 +297,15 @@ class InqueryMemoborongspkController extends Controller
                 ->with('data_pembelians4', $data_pembelians4);
         }
 
+        $nama_driver = $request->nama_driver;
+        $nama_sopirarray = $request->nama_drivernota[0];
+
+        if ($nama_sopirarray != null) {
+            if ($nama_driver != $nama_sopirarray) {
+                return back()->with('erorrss', 'Gagal menyimpan, nota tidak cocok.');
+            }
+        }
+
         $deposit = $request->depositsopir;
 
         if (!is_numeric($deposit)) {

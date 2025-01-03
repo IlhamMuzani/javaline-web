@@ -212,6 +212,15 @@ class InqueryMemotambahanController extends Controller
                 ->with('data_pembeliansnota', $data_pembeliansnota);
         }
 
+        $nama_driver = $request->nama_driversa;
+        $nama_sopirarray = $request->nama_drivernota[0];
+
+        if ($nama_sopirarray != null) {
+            if ($nama_driver != $nama_sopirarray) {
+                return back()->with('erorrss', 'Gagal menyimpan, nota tidak cocok.');
+            }
+        }
+
         $tanggal1 = Carbon::now('Asia/Jakarta');
         $format_tanggal = $tanggal1->format('d F Y');
 

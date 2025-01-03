@@ -351,6 +351,15 @@ class InqueryMemoekspedisispkController extends Controller
                 ->with('data_pembeliansnota', $data_pembeliansnota);
         }
 
+        $nama_driver = $request->nama_driver;
+        $nama_sopirarray = $request->nama_drivernota[0];
+
+        if ($nama_sopirarray != null) {
+            if ($nama_driver != $nama_sopirarray) {
+                return back()->with('erorrss', 'Gagal menyimpan, nota tidak cocok.');
+            }
+        }
+
         $kendaraan = Kendaraan::findOrFail($request->kendaraan_id);
         $kendaraan->update([
             'km' => $request->km_awal

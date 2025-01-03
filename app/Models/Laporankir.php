@@ -44,14 +44,18 @@ class Laporankir extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function getId()
+    public function pengeluaran_kaskecil()
     {
-        return $getId = DB::table('laporankirs')->orderBy('id', 'DESC')->take(1)->get();
+        return $this->hasOne(Pengeluaran_kaskecil::class, 'laporankir_id', 'id');
     }
-
+    
     public function nokir()
     {
         return $this->belongsTo(Nokir::class);
     }
-
+    
+    public static function getId()
+    {
+        return $getId = DB::table('laporankirs')->orderBy('id', 'DESC')->take(1)->get();
+    }
 }
