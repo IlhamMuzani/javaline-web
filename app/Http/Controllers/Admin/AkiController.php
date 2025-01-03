@@ -72,24 +72,16 @@ class AkiController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'ukuran_id' => 'required',
-                'kondisi_ban' => 'required',
-                'merek_id' => 'required',
-                'typeban_id' => 'required',
+                'kondisi_aki' => 'required',
+                'merek_aki_id' => 'required',
                 'no_seri' => 'required',
                 'harga' => 'required',
-                'umur_ban' => 'required',
-                'target_km_ban' => 'nullable',
             ],
             [
-                'no_seri.required' => 'Masukan no seri ban',
-                'merek_id.required' => 'Masukan merek ban',
-                'typeban_id.required' => 'Masukkan Type ban',
-                'ukuran_ban.required' => 'Ukuran ban',
-                'kondisi_ban.required' => 'Pilih kondisi ban',
-                'harga.required' => 'Masukan harga satuan ban',
-                'umur_ban.required' => 'Masukan umur ban',
-                // 'target_km_ban.required' => 'Masukan target km',
+                'no_seri.required' => 'Masukan no seri aki',
+                'merek_aki_id.required' => 'Masukan merek aki',
+                'kondisi_aki.required' => 'Pilih kondisi aki',
+                'harga.required' => 'harga aki',
             ]
         );
 
@@ -103,23 +95,23 @@ class AkiController extends Controller
         Aki::create(array_merge(
             $request->all(),
             [
-                'kode_ban' => $this->kode(),
-                'qrcode_ban' => 'https://javaline.id/ban/' . $kode,
+                'kode_aki' => $this->kode(),
+                'qrcode_aki' => 'https://javaline.id/aki/' . $kode,
                 'status' => 'stok',
                 'tanggal_awal' => Carbon::now('Asia/Jakarta'),
 
             ]
         ));
-        return redirect('admin/ban')->with('success', 'Berhasil menambahkan ban');
+        return redirect('admin/aki')->with('success', 'Berhasil menambahkan aki');
     }
 
     public function cetakpdf($id)
     {
         $akis = Aki::find($id);
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('admin.ban.cetak_pdf', compact('akis'));
+        $pdf->loadView('admin.aki.cetak_pdf', compact('akis'));
         $pdf->setPaper('letter', 'potrait');
-        return $pdf->stream('QrCodeBan.pdf');
+        return $pdf->stream('QrCodeAki.pdf');
     }
 
     public function cetak_pdffilter(Request $request)
@@ -131,7 +123,7 @@ class AkiController extends Controller
         $akis = Aki::whereIn('id', $selectedIds)->orderBy('id', 'DESC')->get();
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('admin.ban.cetak_pdffilter', compact('akis'));
+        $pdf->loadView('admin.aki.cetak_pdffilter', compact('akis'));
         $pdf->setPaper([0, 0, 612, 48], 'portrait'); // 612x396 piksel setara dengan 8.5x5.5 inci
 
         return $pdf->stream('SelectedBans.pdf');
@@ -150,9 +142,9 @@ class AkiController extends Controller
             $num = sprintf("%06s", $idbr);
         }
 
-        $data = 'JL';
-        $kode_ban = $data . $num;
-        return $kode_ban;
+        $data = 'SA';
+        $kode_aki = $data . $num;
+        return $kode_aki;
     }
 
     public function show($id)
@@ -182,11 +174,9 @@ class AkiController extends Controller
     {
         if (auth()->check() && auth()->user()->menu['ban']) {
 
-            $ukurans = Ukuran::all();
             $mereks = Merek_aki::all();
-            $typebans = Typeban::all();
-            $ban = Aki::where('id', $id)->first();
-            return view('admin/ban.update', compact('ukurans', 'mereks', 'ban', 'typebans'));
+            $aki = Aki::where('id', $id)->first();
+            return view('admin/aki.update', compact('mereks', 'aki'));
         } else {
             return back()->with('error', array('Anda tidak memiliki akses'));
         }
@@ -197,24 +187,16 @@ class AkiController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
+                'kondisi_aki' => 'required',
+                'merek_aki_id' => 'required',
                 'no_seri' => 'required',
-                'ukuran_id' => 'required',
-                'merek_id' => 'required',
-                'typeban_id' => 'required',
-                'kondisi_ban' => 'required',
                 'harga' => 'required',
-                'umur_ban' => 'required',
-                'target_km_ban' => 'nullable',
             ],
             [
-                'no_seri.required' => 'Masukan no seri ban',
-                'merek_id.required' => 'Masukan merek ban',
-                'typeban_id.required' => 'Masukkan type ban',
-                'ukuran_id.required' => 'Masukkan ukuran ban',
-                'kondisi_ban.required' => 'Pilih kondisi ban',
-                'harga.required' => 'Masukan harga satuan ban',
-                'umur_ban.required' => 'Masukan umur ban',
-                // 'target_km_ban.required' => 'Masukan target km',
+                'no_seri.required' => 'Masukan no seri aki',
+                'merek_aki_id.required' => 'Masukan merek aki',
+                'kondisi_aki.required' => 'Pilih kondisi aki',
+                'harga.required' => 'harga aki',
             ]
         );
 
@@ -233,18 +215,13 @@ class AkiController extends Controller
         }
 
         $ban->no_seri = $request->no_seri;
-        $ban->merek_id = $request->merek_id;
-        $ban->typeban_id = $request->typeban_id;
-        $ban->ukuran_id = $request->ukuran_id;
-        $ban->kondisi_ban = $request->kondisi_ban;
+        $ban->merek_aki_id = $request->merek_aki_id;
+        $ban->kondisi_aki = $request->kondisi_aki;
         $ban->harga = $request->harga;
-        $ban->umur_ban = $request->umur_ban;
-        $ban->target_km_ban = $request->target_km_ban;
-        $ban->tanggal_awal = Carbon::now('Asia/Jakarta');
 
         $ban->save();
 
-        return redirect('admin/ban')->with('success', 'Berhasil memperbarui ban');
+        return redirect('admin/aki')->with('success', 'Berhasil memperbarui aki');
     }
 
     public function destroy($id)
