@@ -3,7 +3,7 @@
         <tr>
             <th>P</th>
 
-            <th>{{ str_replace('-', '', $perhitungan_gaji->tanggal_awal) }}</th>
+            <th>{{ now()->format('Ymd') }}</th>
 
             <th>1390088880046</th>
 

@@ -3,7 +3,7 @@
         <tr>
             <th>P</th>
 
-            <th>{{ str_replace('-', '', $nota_bon->first()->tanggal_awal) }}</th>
+            <th>{{ now()->format('Ymd') }}</th>
 
             <th>1390088880046</th>
 
